@@ -1,6 +1,6 @@
 use bevy::prelude::{
-  Color, 
-  // Vec2,
+    Color,
+    // Vec2,
 };
 
 pub const NORMAL_BUTTON: Color = Color::rgb(0.15, 0.15, 0.15);
