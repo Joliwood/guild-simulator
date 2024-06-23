@@ -8,7 +8,7 @@ use bevy::prelude::*;
 /// - `asset_server`: Bevy's asset server (at this moment, only fonts)
 pub fn ui_setup(asset_server: Res<AssetServer>, mut commands: Commands) {
     let image_handle = asset_server.load("images/desktop.png");
-    let wood_color = Color::rgba(193.0 / 255.0, 154.0 / 255.0, 107.0 / 255.0, 1.0);
+    let wood_color = Color::srgba(193.0 / 255.0, 154.0 / 255.0, 107.0 / 255.0, 1.0);
 
     // At this moment, Bevy render doesn't support camelCase img
     println!("Loaded image handle: {:?}", image_handle);
@@ -63,7 +63,7 @@ pub fn ui_setup(asset_server: Res<AssetServer>, mut commands: Commands) {
                         ..default()
                     },
                     border_color: BorderColor(Color::BLACK),
-                    background_color: NORMAL_BUTTON.into(),
+                    image: UiImage::default().with_color(NORMAL_BUTTON),
                     ..default()
                 })
                 .with_children(|settings_button| {

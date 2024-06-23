@@ -3,6 +3,8 @@ name = "guild_simulator"
 version = "0.1.0"
 edition = "2021"
 
+# ![feature(diagnostic_namespace)]
+
 # Enable a small amount of optimization in debug mode
 [profile.dev]
 opt-level = 1
@@ -12,9 +14,8 @@ opt-level = 1
 opt-level = 3
 
 [dependencies]
-# Dynamic linking must be removed on build release
-bevy = { version = "0.13.0", features = ["dynamic_linking"] }
-bevy-inspector-egui = "0.23.2"
+bevy = "0.14.0-rc.3"
+bevy-inspector-egui = "0.24.0"
 bevy-settings = "0.5.0"
 bevy_animation = "0.13.0"
 bevy_editor_pls = "0.8.1"
