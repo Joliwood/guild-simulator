@@ -46,7 +46,7 @@ fn main() -> AppExit {
             // EditorPlugin::default(),
         ))
         // Background color
-        .insert_resource(ClearColor(Color::rgb(0.9, 0.9, 0.9)))
+        .insert_resource(ClearColor(Color::srgb(0.9, 0.9, 0.9)))
         .insert_resource(PlayerStats::default())
         .add_systems(
             Startup,
