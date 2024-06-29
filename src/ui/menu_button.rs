@@ -19,10 +19,11 @@ pub fn menu_button(
         if let Ok(mut text) = text_query.get_mut(children[0]) {
             match *interaction {
                 Interaction::Pressed => {
+                    println!("Button pressed");
                     text.sections[0].value = "O".to_string();
                     player_stats.increment_golds(1);
                     *color = PRESSED_BUTTON.into();
-                    border_color.0 = Color::RED;
+                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
                 }
                 Interaction::Hovered => {
                     text.sections[0].value = "H".to_string();

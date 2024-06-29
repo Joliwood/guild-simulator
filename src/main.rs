@@ -6,8 +6,8 @@ mod systems;
 mod ui;
 
 // ! Make crash the UI
-// use bevy_editor_pls::prelude::*;
 use bevy::prelude::*;
+// use bevy_editor_pls::prelude::*;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 
 #[derive(Component)]
@@ -38,7 +38,7 @@ impl Default for PlayerStats {
     }
 }
 
-fn main() {
+fn main() -> AppExit {
     App::new()
         .add_plugins((
             DefaultPlugins,
@@ -46,7 +46,7 @@ fn main() {
             // EditorPlugin::default(),
         ))
         // Background color
-        .insert_resource(ClearColor(Color::rgb(0.9, 0.9, 0.9)))
+        .insert_resource(ClearColor(Color::srgb(0.9, 0.9, 0.9)))
         .insert_resource(PlayerStats::default())
         .add_systems(
             Startup,
@@ -61,10 +61,10 @@ fn main() {
             Update,
             (
                 ui::menu_button::menu_button,
-                bevy::window::close_on_esc,
+                // systems::experimental::close_on_esc::close_on_esc,
                 systems::inputs::mouse_click_system::mouse_click_system,
                 systems::updates::update_gold_counter::update_gold_counter,
             ),
         )
-        .run();
+        .run()
 }
