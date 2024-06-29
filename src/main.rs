@@ -6,8 +6,8 @@ mod systems;
 mod ui;
 
 // ! Make crash the UI
-// use bevy_editor_pls::prelude::*;
 use bevy::prelude::*;
+// use bevy_editor_pls::prelude::*;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 
 #[derive(Component)]
