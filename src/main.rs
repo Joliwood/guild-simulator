@@ -55,6 +55,7 @@ fn main() -> AppExit {
                 systems::camera::camera_setup::camera_setup,
                 ui::gold_counter::gold_counter,
                 ui::ui_setup::ui_setup,
+                systems::inputs::mouse_systems::mouse_init,
             ),
         )
         .add_systems(
@@ -62,7 +63,7 @@ fn main() -> AppExit {
             (
                 ui::menu_button::menu_button,
                 // systems::experimental::close_on_esc::close_on_esc,
-                systems::inputs::mouse_click_system::mouse_click_system,
+                systems::inputs::mouse_systems::mouse_click_system,
                 systems::updates::update_gold_counter::update_gold_counter,
             ),
         )

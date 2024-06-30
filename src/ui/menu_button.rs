@@ -1,5 +1,5 @@
 use crate::{systems::constants::*, PlayerStats};
-use bevy::prelude::*;
+use bevy::{prelude::*, window::CursorGrabMode};
 
 pub fn menu_button(
     mut interaction_query: Query<
@@ -13,7 +13,10 @@ pub fn menu_button(
     >,
     mut text_query: Query<&mut Text>,
     mut player_stats: ResMut<PlayerStats>,
+    mut windows: Query<&mut Window>,
 ) {
+    let mut window = windows.single_mut();
+
     for (interaction, mut color, mut border_color, children) in &mut interaction_query {
         // Safely get the child text component
         if let Ok(mut text) = text_query.get_mut(children[0]) {
@@ -29,11 +32,13 @@ pub fn menu_button(
                     text.sections[0].value = "H".to_string();
                     *color = HOVERED_BUTTON.into();
                     border_color.0 = Color::WHITE;
+                    window.cursor.icon = CursorIcon::Grab;
                 }
                 Interaction::None => {
                     text.sections[0].value = "X".to_string();
                     *color = NORMAL_BUTTON.into();
                     border_color.0 = Color::BLACK;
+                    window.cursor.icon = CursorIcon::Pointer;
                 }
             }
         }
