@@ -1,4 +1,5 @@
-use crate::{systems::constants::*, GoldCountText};
+use crate::structs::GoldCountText;
+use crate::systems::constants::*;
 use bevy::prelude::*;
 
 /// All the UI logic and components will be setup here

@@ -1,5 +1,6 @@
-use crate::{systems::constants::*, PlayerStats};
-use bevy::{prelude::*, window::CursorGrabMode};
+use crate::structs::PlayerStats;
+use crate::systems::constants::*;
+use bevy::prelude::*;
 
 pub fn menu_button(
     mut interaction_query: Query<

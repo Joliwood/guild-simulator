@@ -2,6 +2,8 @@
 // #![allow(clippy::type_complexity)]
 
 mod audio;
+mod enums;
+mod structs;
 mod systems;
 mod ui;
 
@@ -9,34 +11,7 @@ mod ui;
 use bevy::prelude::*;
 // use bevy_editor_pls::prelude::*;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
-
-#[derive(Component)]
-struct GoldCountText;
-
-#[derive(Resource)]
-struct PlayerStats {
-    golds: i32,
-    // troups_count: i32,
-}
-
-impl PlayerStats {
-    pub fn increment_golds(&mut self, amount: i32) {
-        println!(
-            "Incrementing golds by {} for a total of : {}",
-            amount, self.golds,
-        );
-        self.golds += amount;
-    }
-}
-
-impl Default for PlayerStats {
-    fn default() -> Self {
-        Self {
-            golds: 5,
-            // troups_count: 0,
-        }
-    }
-}
+use structs::PlayerStats;
 
 fn main() -> AppExit {
     App::new()

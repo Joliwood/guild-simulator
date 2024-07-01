@@ -1,4 +1,4 @@
-use crate::{GoldCountText, PlayerStats};
+use crate::structs::{GoldCountText, PlayerStats};
 use bevy::prelude::*;
 
 pub fn gold_counter(

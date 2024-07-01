@@ -1,9 +1,8 @@
+use crate::structs::{GoldCountText, PlayerStats};
 use bevy::{
     prelude::{Query, Res, With},
     text::Text,
 };
-
-use crate::{GoldCountText, PlayerStats};
 
 pub fn update_gold_counter(
     player_stats: Res<PlayerStats>,
