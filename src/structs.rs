@@ -4,6 +4,9 @@ use crate::enums::RoomEnum;
 use bevy::prelude::{Component, Resource};
 
 #[derive(Component)]
+pub struct UniqueId(pub String);
+
+#[derive(Component)]
 pub struct GoldCountText;
 
 #[derive(Resource)]

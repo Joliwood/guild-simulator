@@ -1,5 +1,5 @@
-use crate::structs::GoldCountText;
-use crate::systems::constants::*;
+use crate::structs::{GoldCountText, UniqueId};
+use crate::systems::systems_constants::*;
 use bevy::prelude::*;
 
 /// All the UI logic and components will be setup here
@@ -9,8 +9,6 @@ use bevy::prelude::*;
 /// - `asset_server`: Bevy's asset server (at this moment, only fonts)
 pub fn ui_setup(asset_server: Res<AssetServer>, mut commands: Commands) {
     let image_handle = asset_server.load("images/desktop.png");
-    let wood_color = Color::srgba(193.0 / 255.0, 154.0 / 255.0, 107.0 / 255.0, 1.0);
-
     // At this moment, Bevy render doesn't support camelCase img
     println!("Loaded image handle: {:?}", image_handle);
 
@@ -24,25 +22,17 @@ pub fn ui_setup(asset_server: Res<AssetServer>, mut commands: Commands) {
                 justify_content: JustifyContent::FlexEnd,
                 ..default()
             },
-            // Temporary background color
-            background_color: wood_color.into(),
             ..default()
         })
+        // Image background node
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
                 .spawn(ImageBundle {
                     image: image_handle.clone().into(),
                     style: Style {
-                        // The position absolute make the gold counter visible (z-index)
                         position_type: PositionType::Absolute,
                         width: Val::Percent(100.0),
-                        height: Val::Percent(90.0),
-                        margin: UiRect {
-                            left: Val::Percent(5.0),
-                            right: Val::Px(0.0),
-                            top: Val::Px(0.0),
-                            bottom: Val::Px(0.0),
-                        },
+                        height: Val::Percent(100.0),
                         align_self: AlignSelf::Center,
                         justify_self: JustifySelf::Center,
                         ..default()
@@ -51,6 +41,7 @@ pub fn ui_setup(asset_server: Res<AssetServer>, mut commands: Commands) {
                 })
                 .insert(GoldCountText);
         })
+        // Menu button node
         .with_children(|settings_button: &mut ChildBuilder| {
             settings_button
                 .spawn(ButtonBundle {
@@ -67,6 +58,8 @@ pub fn ui_setup(asset_server: Res<AssetServer>, mut commands: Commands) {
                     image: UiImage::default().with_color(NORMAL_BUTTON),
                     ..default()
                 })
+                .insert(UniqueId("menu_button_id".to_string()))
+                // Text inside the button
                 .with_children(|settings_button| {
                     settings_button.spawn(TextBundle::from_section(
                         "X",

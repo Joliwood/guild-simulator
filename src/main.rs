@@ -30,6 +30,9 @@ fn main() -> AppExit {
                 systems::camera::camera_setup::camera_setup,
                 ui::gold_counter::gold_counter,
                 ui::ui_setup::ui_setup,
+                ui::room::room_nodes::room_interface_text,
+                ui::room::room_nodes::room_left_arrow,
+                ui::room::room_nodes::room_right_arrow,
                 systems::inputs::mouse_systems::mouse_init,
             ),
         )

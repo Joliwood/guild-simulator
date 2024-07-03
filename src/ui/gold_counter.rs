@@ -1,5 +1,7 @@
-use crate::structs::{GoldCountText, PlayerStats};
+use crate::structs::{GoldCountText, PlayerStats, UniqueId};
 use bevy::prelude::*;
+
+use super::ui_constants::WOOD_COLOR;
 
 pub fn gold_counter(
     asset_server: Res<AssetServer>,
@@ -9,16 +11,17 @@ pub fn gold_counter(
     commands
         .spawn(NodeBundle {
             style: Style {
-                // The position absolute make the gold counter visible (z-index)
                 display: Display::Flex,
-                row_gap: Val::Px(10.0),
-                align_items: AlignItems::Center,
-                width: Val::Percent(100.0),
+                align_content: AlignContent::Center,
+                justify_content: JustifyContent::Center,
+                width: Val::Auto,
                 height: Val::Px(36.0),
                 ..default()
             },
+            background_color: BackgroundColor(WOOD_COLOR),
             ..default()
         })
+        // Gold icon
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
                 .spawn(ImageBundle {
@@ -27,14 +30,15 @@ pub fn gold_counter(
                         // The position absolute make the gold counter visible (z-index)
                         width: Val::Px(24.0),
                         height: Val::Px(24.0),
-                        // align_self: AlignSelf::Center,
-                        // justify_self: JustifySelf::Center,
+                        align_self: AlignSelf::Center,
+                        justify_self: JustifySelf::Center,
                         ..default()
                     },
                     ..default()
                 })
                 .insert(GoldCountText);
         })
+        // Gold counter text
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
                 .spawn(TextBundle {
@@ -48,6 +52,6 @@ pub fn gold_counter(
                     ),
                     ..default()
                 })
-                .insert(GoldCountText);
+                .insert((GoldCountText, UniqueId("gold_counter_text_id".to_string())));
         });
 }
