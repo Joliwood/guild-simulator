@@ -1,11 +1,12 @@
 use bevy::prelude::*;
 
 use crate::{
+    enums::RoomEnum,
     structs::{PlayerStats, UniqueId},
     systems::systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
 };
 
-pub fn menu_button(
+pub fn mouse_interaction_updates(
     mut interaction_query: Query<
         (
             &Interaction,
@@ -47,6 +48,27 @@ pub fn menu_button(
                         border_color.0 = Color::BLACK;
                         window.cursor.icon = CursorIcon::Pointer;
                     }
+                }
+            }
+        }
+
+        if unique_id.0 == "room_right_arrow_id" {
+            // Safely get the child text component
+            match *interaction {
+                Interaction::Pressed => {
+                    println!("Right arrow pressed");
+                    player_stats.room = RoomEnum::Barrack;
+                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
+                }
+                Interaction::Hovered => {
+                    border_color.0 = Color::WHITE;
+                    *color = HOVERED_BUTTON.into();
+                    window.cursor.icon = CursorIcon::Grab;
+                }
+                Interaction::None => {
+                    border_color.0 = Color::BLACK;
+                    *color = NORMAL_BUTTON.into();
+                    window.cursor.icon = CursorIcon::Pointer;
                 }
             }
         }

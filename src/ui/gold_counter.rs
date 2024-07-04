@@ -23,20 +23,18 @@ pub fn gold_counter(
         })
         // Gold icon
         .with_children(|ui_container: &mut ChildBuilder| {
-            ui_container
-                .spawn(ImageBundle {
-                    image: asset_server.load("images/gold.png").into(),
-                    style: Style {
-                        // The position absolute make the gold counter visible (z-index)
-                        width: Val::Px(24.0),
-                        height: Val::Px(24.0),
-                        align_self: AlignSelf::Center,
-                        justify_self: JustifySelf::Center,
-                        ..default()
-                    },
+            ui_container.spawn(ImageBundle {
+                image: asset_server.load("images/gold.png").into(),
+                style: Style {
+                    // The position absolute make the gold counter visible (z-index)
+                    width: Val::Px(24.0),
+                    height: Val::Px(24.0),
+                    align_self: AlignSelf::Center,
+                    justify_self: JustifySelf::Center,
                     ..default()
-                })
-                .insert(GoldCountText);
+                },
+                ..default()
+            });
         })
         // Gold counter text
         .with_children(|ui_container: &mut ChildBuilder| {

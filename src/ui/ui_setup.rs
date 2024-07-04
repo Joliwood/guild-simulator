@@ -1,4 +1,4 @@
-use crate::structs::{GoldCountText, UniqueId};
+use crate::structs::UniqueId;
 use crate::systems::systems_constants::*;
 use bevy::prelude::*;
 
@@ -8,9 +8,9 @@ use bevy::prelude::*;
 /// - `commands`: Bevy's commands
 /// - `asset_server`: Bevy's asset server (at this moment, only fonts)
 pub fn ui_setup(asset_server: Res<AssetServer>, mut commands: Commands) {
-    let image_handle = asset_server.load("images/desktop.png");
+    // let image_handle = asset_server.load("images/desktop.png");
     // At this moment, Bevy render doesn't support camelCase img
-    println!("Loaded image handle: {:?}", image_handle);
+    // println!("Loaded image handle: {:?}", image_handle);
 
     commands
         // Global UI container (100% screen)
@@ -25,22 +25,20 @@ pub fn ui_setup(asset_server: Res<AssetServer>, mut commands: Commands) {
             ..default()
         })
         // Image background node
-        .with_children(|ui_container: &mut ChildBuilder| {
-            ui_container
-                .spawn(ImageBundle {
-                    image: image_handle.clone().into(),
-                    style: Style {
-                        position_type: PositionType::Absolute,
-                        width: Val::Percent(100.0),
-                        height: Val::Percent(100.0),
-                        align_self: AlignSelf::Center,
-                        justify_self: JustifySelf::Center,
-                        ..default()
-                    },
-                    ..default()
-                })
-                .insert(GoldCountText);
-        })
+        // .with_children(|ui_container: &mut ChildBuilder| {
+        //     ui_container.spawn(ImageBundle {
+        //         image: image_handle.clone().into(),
+        //         style: Style {
+        //             position_type: PositionType::Absolute,
+        //             width: Val::Percent(100.0),
+        //             height: Val::Percent(100.0),
+        //             align_self: AlignSelf::Center,
+        //             justify_self: JustifySelf::Center,
+        //             ..default()
+        //         },
+        //         ..default()
+        //     });
+        // })
         // Menu button node
         .with_children(|settings_button: &mut ChildBuilder| {
             settings_button

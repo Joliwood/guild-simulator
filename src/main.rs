@@ -28,21 +28,21 @@ fn main() -> AppExit {
             (
                 audio::audio_source::audio_source,
                 systems::camera::camera_setup::camera_setup,
-                ui::gold_counter::gold_counter,
-                ui::ui_setup::ui_setup,
-                ui::room::room_nodes::room_interface_text,
-                ui::room::room_nodes::room_left_arrow,
-                ui::room::room_nodes::room_right_arrow,
                 systems::inputs::mouse_systems::mouse_init,
+                ui::buttons::room_right_arrow_button::room_right_arrow_button,
+                ui::buttons::room_left_arrow_button::room_left_arrow_button,
+                ui::gold_counter::gold_counter,
+                ui::ui_room_text::room_interface_text,
+                ui::ui_setup::ui_setup,
             ),
         )
         .add_systems(
             Update,
             (
-                ui::menu_button::menu_button,
-                // systems::experimental::close_on_esc::close_on_esc,
                 systems::inputs::mouse_systems::mouse_click_system,
                 systems::updates::update_gold_counter::update_gold_counter,
+                // systems::updates::update_room_arrows::update_room_arrows,
+                ui::buttons::buttons_updates::mouse_interaction_updates,
             ),
         )
         .run()
