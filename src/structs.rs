@@ -9,6 +9,9 @@ pub struct UniqueId(pub String);
 #[derive(Component)]
 pub struct GoldCountText;
 
+#[derive(Component)]
+pub struct PlayerStatsRoomText;
+
 #[derive(Resource)]
 pub struct PlayerStats {
     pub golds: i32,

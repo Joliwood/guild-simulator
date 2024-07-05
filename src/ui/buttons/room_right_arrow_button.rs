@@ -35,6 +35,7 @@ pub fn room_right_arrow_button(
                     image: UiImage::default().with_color(NORMAL_BUTTON),
                     ..default()
                 })
+                // Unique ID which will serve the hover / click button
                 .insert(UniqueId("room_right_arrow_id".to_string()))
                 .with_children(|ui_container: &mut ChildBuilder| {
                     ui_container.spawn(TextBundle::from_section(

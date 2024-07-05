@@ -9,6 +9,6 @@ pub fn update_gold_counter(
     mut query: Query<&mut Text, With<GoldCountText>>,
 ) {
     for mut text in query.iter_mut() {
-        text.sections[0].value = format!("Golds: {}", player_stats.golds);
+        text.sections[0].value = format!("{}", player_stats.golds);
     }
 }

@@ -32,7 +32,7 @@ fn main() -> AppExit {
                 ui::buttons::room_right_arrow_button::room_right_arrow_button,
                 ui::buttons::room_left_arrow_button::room_left_arrow_button,
                 ui::gold_counter::gold_counter,
-                ui::ui_room_text::room_interface_text,
+                ui::room_interface_text::room_interface_text,
                 ui::ui_setup::ui_setup,
             ),
         )
@@ -41,7 +41,7 @@ fn main() -> AppExit {
             (
                 systems::inputs::mouse_systems::mouse_click_system,
                 systems::updates::update_gold_counter::update_gold_counter,
-                // systems::updates::update_room_arrows::update_room_arrows,
+                systems::updates::update_room_interface_text::update_room_interface_text,
                 ui::buttons::buttons_updates::mouse_interaction_updates,
             ),
         )

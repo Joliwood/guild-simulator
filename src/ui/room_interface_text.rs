@@ -1,5 +1,5 @@
 use crate::{
-    structs::{PlayerStats, UniqueId},
+    structs::{PlayerStats, PlayerStatsRoomText, UniqueId},
     ui::ui_constants::WOOD_COLOR,
 };
 use bevy::prelude::*;
@@ -29,18 +29,22 @@ pub fn room_interface_text(
             ..default()
         })
         // Room text
-        .insert(UniqueId("room_interface_text_id".to_string()))
         .with_children(|ui_container: &mut ChildBuilder| {
-            ui_container.spawn(TextBundle {
-                text: Text::from_section(
-                    format! {"{:?}", player_stats.room},
-                    TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                        font_size: 40.0,
-                        color: Color::BLACK,
-                    },
-                ),
-                ..default()
-            });
+            ui_container
+                .spawn(TextBundle {
+                    text: Text::from_section(
+                        format! {"{:?}", player_stats.room},
+                        TextStyle {
+                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font_size: 40.0,
+                            color: Color::BLACK,
+                        },
+                    ),
+                    ..default()
+                })
+                .insert((
+                    PlayerStatsRoomText,
+                    UniqueId("room_interface_text_id".to_string()),
+                ));
         });
 }

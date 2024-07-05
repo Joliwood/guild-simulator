@@ -56,7 +56,10 @@ pub fn mouse_interaction_updates(
             // Safely get the child text component
             match *interaction {
                 Interaction::Pressed => {
-                    println!("Right arrow pressed");
+                    println!(
+                        "Right arrow pressed, now the room is {:?}",
+                        player_stats.room
+                    );
                     player_stats.room = RoomEnum::Barrack;
                     border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
                 }
