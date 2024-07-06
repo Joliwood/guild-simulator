@@ -1,10 +1,9 @@
-use bevy::prelude::*;
-
 use crate::{
     enums::RoomEnum,
     structs::{PlayerStats, UniqueId},
     systems::systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
 };
+use bevy::prelude::*;
 
 pub fn mouse_interaction_updates(
     mut interaction_query: Query<
@@ -56,11 +55,11 @@ pub fn mouse_interaction_updates(
             // Safely get the child text component
             match *interaction {
                 Interaction::Pressed => {
+                    player_stats.room = RoomEnum::Barrack;
                     println!(
                         "Right arrow pressed, now the room is {:?}",
                         player_stats.room
                     );
-                    player_stats.room = RoomEnum::Barrack;
                     border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
                 }
                 Interaction::Hovered => {

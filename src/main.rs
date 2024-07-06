@@ -9,19 +9,16 @@ mod ui;
 
 // ! Make crash the UI
 use bevy::prelude::*;
-// use bevy_editor_pls::prelude::*;
-// use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use structs::PlayerStats;
 
 fn main() -> AppExit {
     App::new()
         .add_plugins((
             DefaultPlugins,
-            // WorldInspectorPlugin::new(),
-            // EditorPlugin::default(),
+            WorldInspectorPlugin::new(),
+            //     WorldInspectorPlugin::new(),
         ))
-        // Background color
-        .insert_resource(ClearColor(Color::srgb(0.9, 0.9, 0.9)))
         .insert_resource(PlayerStats::default())
         .add_systems(
             Startup,
@@ -33,7 +30,7 @@ fn main() -> AppExit {
                 ui::buttons::room_left_arrow_button::room_left_arrow_button,
                 ui::gold_counter::gold_counter,
                 ui::room_interface_text::room_interface_text,
-                ui::ui_setup::ui_setup,
+                ui::rooms::room_setup::room_setup,
             ),
         )
         .add_systems(
@@ -42,7 +39,9 @@ fn main() -> AppExit {
                 systems::inputs::mouse_systems::mouse_click_system,
                 systems::updates::update_gold_counter::update_gold_counter,
                 systems::updates::update_room_interface_text::update_room_interface_text,
+                systems::updates::update_room::update_room,
                 ui::buttons::buttons_updates::mouse_interaction_updates,
+                // systems::updates::update_room_children::update_room_children,
             ),
         )
         .run()

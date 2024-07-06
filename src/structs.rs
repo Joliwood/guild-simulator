@@ -1,16 +1,22 @@
 #![allow(dead_code)]
 
 use crate::enums::RoomEnum;
-use bevy::prelude::{Component, Resource};
+use bevy::{
+    ecs::component::Tick,
+    prelude::{Component, DetectChanges, Resource},
+};
 
 #[derive(Component)]
 pub struct UniqueId(pub String);
 
 #[derive(Component)]
-pub struct GoldCountText;
+pub struct GoldCountTrigger;
 
 #[derive(Component)]
-pub struct PlayerStatsRoomText;
+pub struct PlayerStatsRoomTrigger;
+
+#[derive(Component)]
+pub struct ResetRoomTrigger;
 
 #[derive(Resource)]
 pub struct PlayerStats {
@@ -36,5 +42,19 @@ impl Default for PlayerStats {
             troups_count: 0,
             room: RoomEnum::Office,
         }
+    }
+}
+
+impl DetectChanges for PlayerStats {
+    fn is_added(&self) -> bool {
+        false
+    }
+
+    fn last_changed(&self) -> Tick {
+        return Tick::new(1);
+    }
+
+    fn is_changed(&self) -> bool {
+        true
     }
 }

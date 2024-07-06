@@ -1,6 +1,8 @@
 use bevy::prelude::*;
 
-use crate::ui::ui_constants::WOOD_COLOR;
+use crate::{
+    structs::UniqueId, systems::systems_constants::NORMAL_BUTTON, ui::ui_constants::WOOD_COLOR,
+};
 
 pub fn room_left_arrow_button(
     asset_server: Res<AssetServer>,
@@ -29,17 +31,25 @@ pub fn room_left_arrow_button(
             background_color: BackgroundColor(WOOD_COLOR),
             ..default()
         })
-        .with_children(|ui_container: &mut ChildBuilder| {
-            ui_container.spawn(TextBundle {
-                text: Text::from_section(
-                    format! {"<"},
-                    TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                        font_size: 40.0,
-                        color: Color::BLACK,
-                    },
-                ),
-                ..default()
-            });
+        .with_children(|settings_button: &mut ChildBuilder| {
+            settings_button
+                .spawn(ButtonBundle {
+                    style: Style { ..default() },
+                    border_color: BorderColor(Color::BLACK),
+                    image: UiImage::default().with_color(NORMAL_BUTTON),
+                    ..default()
+                })
+                // Unique ID which will serve the hover / click button
+                .insert(UniqueId("room_left_arrow_id".to_string()))
+                .with_children(|ui_container: &mut ChildBuilder| {
+                    ui_container.spawn(TextBundle::from_section(
+                        "<",
+                        TextStyle {
+                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font_size: 40.0,
+                            color: Color::srgb(0.9, 0.9, 0.9),
+                        },
+                    ));
+                });
         });
 }

@@ -1,5 +1,5 @@
 use crate::{
-    structs::{PlayerStats, PlayerStatsRoomText, UniqueId},
+    structs::{PlayerStats, PlayerStatsRoomTrigger},
     ui::ui_constants::WOOD_COLOR,
 };
 use bevy::prelude::*;
@@ -42,9 +42,6 @@ pub fn room_interface_text(
                     ),
                     ..default()
                 })
-                .insert((
-                    PlayerStatsRoomText,
-                    UniqueId("room_interface_text_id".to_string()),
-                ));
+                .insert(PlayerStatsRoomTrigger);
         });
 }

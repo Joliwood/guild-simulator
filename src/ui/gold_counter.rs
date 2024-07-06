@@ -1,4 +1,4 @@
-use crate::structs::{GoldCountText, PlayerStats, UniqueId};
+use crate::structs::{GoldCountTrigger, PlayerStats};
 use bevy::prelude::*;
 
 use super::ui_constants::WOOD_COLOR;
@@ -50,6 +50,6 @@ pub fn gold_counter(
                     ),
                     ..default()
                 })
-                .insert((GoldCountText, UniqueId("gold_counter_text_id".to_string())));
+                .insert(GoldCountTrigger);
         });
 }

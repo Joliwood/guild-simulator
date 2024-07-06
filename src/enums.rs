@@ -1,5 +1,7 @@
 #![allow(dead_code)]
 
+use bevy::{ecs::component::Tick, prelude::DetectChanges};
+
 pub enum TroopEnum {
     Archer,
     Mage,
@@ -20,4 +22,18 @@ pub enum RoomEnum {
     CommandRoom,
     Office,
     Store,
+}
+
+impl DetectChanges for RoomEnum {
+    fn is_added(&self) -> bool {
+        true
+    }
+
+    fn last_changed(&self) -> Tick {
+        return Tick::new(1);
+    }
+
+    fn is_changed(&self) -> bool {
+        true
+    }
 }

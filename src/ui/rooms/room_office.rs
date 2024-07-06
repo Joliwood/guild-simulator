@@ -1,30 +1,13 @@
-use crate::enums::RoomEnum;
-use crate::structs::{PlayerStats, UniqueId};
-use crate::systems::systems_constants::*;
+use crate::{
+    structs::{PlayerStatsRoomTrigger, ResetRoomTrigger, UniqueId},
+    systems::systems_constants::NORMAL_BUTTON,
+};
 use bevy::prelude::*;
 
-/// All the UI logic and components will be setup here
-///
-/// # Parameters
-/// - `commands`: Bevy's commands
-/// - `asset_server`: Bevy's asset server (at this moment, only fonts)
-pub fn ui_setup(
-    asset_server: Res<AssetServer>,
-    mut commands: Commands,
-    player_stats: Res<PlayerStats>,
-) {
-    let image_handle: Handle<Image>;
-
-    if player_stats.room == RoomEnum::Office {
-        image_handle = asset_server.load("images/desktop.png");
-    } else if player_stats.room == RoomEnum::Barrack {
-        image_handle = asset_server.load("images/armory_barrack.png");
-    } else {
-        image_handle = asset_server.load("images/store.png");
-    };
+pub fn room_office(asset_server: &Res<AssetServer>, commands: &mut Commands) {
+    let imager_handler: Handle<Image> = asset_server.load("images/office.png");
 
     commands
-        // Global UI container (100% screen)
         .spawn(NodeBundle {
             style: Style {
                 width: Val::Percent(100.0),
@@ -35,14 +18,16 @@ pub fn ui_setup(
             },
             ..default()
         })
+        .insert(ResetRoomTrigger)
         // Image background node
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn(ImageBundle {
-                image: image_handle.into(),
+                image: imager_handler.into(),
                 style: Style {
                     position_type: PositionType::Absolute,
                     width: Val::Percent(80.0),
                     height: Val::Percent(80.0),
+                    display: Display::Flex,
                     ..default()
                 },
                 ..default()
