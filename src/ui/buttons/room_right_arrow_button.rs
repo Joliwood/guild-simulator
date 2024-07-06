@@ -1,9 +1,7 @@
 use bevy::prelude::*;
 
 use crate::{
-    structs::{ResetRoomTrigger, UniqueId},
-    systems::systems_constants::NORMAL_BUTTON,
-    ui::ui_constants::WOOD_COLOR,
+    structs::UniqueId, systems::systems_constants::NORMAL_BUTTON, ui::ui_constants::WOOD_COLOR,
 };
 
 pub fn room_right_arrow_button(
@@ -38,10 +36,7 @@ pub fn room_right_arrow_button(
                     ..default()
                 })
                 // Unique ID which will serve the hover / click button
-                .insert((
-                    UniqueId("room_right_arrow_id".to_string()),
-                    // ResetRoomTrigger,
-                ))
+                .insert(UniqueId("room_right_arrow_id".to_string()))
                 .with_children(|ui_container: &mut ChildBuilder| {
                     ui_container.spawn(TextBundle::from_section(
                         ">",

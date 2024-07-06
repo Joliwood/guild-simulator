@@ -1,4 +1,4 @@
-use crate::structs::{PlayerStatsRoomTrigger, ResetRoomTrigger};
+use crate::structs::ResetRoomTrigger;
 use bevy::prelude::*;
 
 pub fn room_store(asset_server: &Res<AssetServer>, commands: &mut Commands) {

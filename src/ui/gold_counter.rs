@@ -1,7 +1,6 @@
+use super::ui_constants::WOOD_COLOR;
 use crate::structs::{GoldCountTrigger, PlayerStats};
 use bevy::prelude::*;
-
-use super::ui_constants::WOOD_COLOR;
 
 pub fn gold_counter(
     asset_server: Res<AssetServer>,

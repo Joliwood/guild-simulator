@@ -6,6 +6,7 @@ mod enums;
 mod structs;
 mod systems;
 mod ui;
+mod utils;
 
 // ! Make crash the UI
 use bevy::prelude::*;
@@ -41,7 +42,6 @@ fn main() -> AppExit {
                 systems::updates::update_room_interface_text::update_room_interface_text,
                 systems::updates::update_room::update_room,
                 ui::buttons::buttons_updates::mouse_interaction_updates,
-                // systems::updates::update_room_children::update_room_children,
             ),
         )
         .run()

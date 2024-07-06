@@ -1,9 +1,12 @@
 use crate::{
-    enums::RoomEnum,
+    enums::{RoomDirectionEnum, RoomEnum},
     structs::{PlayerStats, UniqueId},
     systems::systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
+    utils::get_new_room,
 };
 use bevy::prelude::*;
+
+// TODO - Rename and place in correct structure this updaters
 
 pub fn mouse_interaction_updates(
     mut interaction_query: Query<
@@ -55,7 +58,33 @@ pub fn mouse_interaction_updates(
             // Safely get the child text component
             match *interaction {
                 Interaction::Pressed => {
-                    player_stats.room = RoomEnum::Barrack;
+                    player_stats.room = get_new_room(&player_stats, RoomDirectionEnum::Right)
+                        .expect("Expected a valid RoomEnum for right arrow press");
+                    println!(
+                        "Right arrow pressed, now the room is {:?}",
+                        player_stats.room
+                    );
+                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
+                }
+                Interaction::Hovered => {
+                    border_color.0 = Color::WHITE;
+                    *color = HOVERED_BUTTON.into();
+                    window.cursor.icon = CursorIcon::Grab;
+                }
+                Interaction::None => {
+                    border_color.0 = Color::BLACK;
+                    *color = NORMAL_BUTTON.into();
+                    window.cursor.icon = CursorIcon::Pointer;
+                }
+            }
+        }
+
+        if unique_id.0 == "room_left_arrow_id" {
+            // Safely get the child text component
+            match *interaction {
+                Interaction::Pressed => {
+                    player_stats.room = get_new_room(&player_stats, RoomDirectionEnum::Left)
+                        .expect("Expected a valid RoomEnum for right arrow press");
                     println!(
                         "Right arrow pressed, now the room is {:?}",
                         player_stats.room

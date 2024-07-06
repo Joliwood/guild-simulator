@@ -1,5 +1,5 @@
 use crate::{
-    structs::{PlayerStatsRoomTrigger, ResetRoomTrigger, UniqueId},
+    structs::{ResetRoomTrigger, UniqueId},
     systems::systems_constants::NORMAL_BUTTON,
 };
 use bevy::prelude::*;
