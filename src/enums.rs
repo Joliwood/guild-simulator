@@ -7,7 +7,7 @@ pub enum TroopEnum {
     Warrior,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 /// # Where the player is
 /// ## (the player can navigate between rooms with arrows) :
 ///

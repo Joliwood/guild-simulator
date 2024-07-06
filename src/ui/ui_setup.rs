@@ -1,4 +1,5 @@
-use crate::structs::UniqueId;
+use crate::enums::RoomEnum;
+use crate::structs::{PlayerStats, UniqueId};
 use crate::systems::systems_constants::*;
 use bevy::prelude::*;
 
@@ -7,10 +8,20 @@ use bevy::prelude::*;
 /// # Parameters
 /// - `commands`: Bevy's commands
 /// - `asset_server`: Bevy's asset server (at this moment, only fonts)
-pub fn ui_setup(asset_server: Res<AssetServer>, mut commands: Commands) {
-    // let image_handle = asset_server.load("images/desktop.png");
-    // At this moment, Bevy render doesn't support camelCase img
-    // println!("Loaded image handle: {:?}", image_handle);
+pub fn ui_setup(
+    asset_server: Res<AssetServer>,
+    mut commands: Commands,
+    player_stats: Res<PlayerStats>,
+) {
+    let image_handle: Handle<Image>;
+
+    if player_stats.room == RoomEnum::Office {
+        image_handle = asset_server.load("images/desktop.png");
+    } else if player_stats.room == RoomEnum::Barrack {
+        image_handle = asset_server.load("images/armory_barrack.png");
+    } else {
+        image_handle = asset_server.load("images/store.png");
+    };
 
     commands
         // Global UI container (100% screen)
@@ -18,27 +29,25 @@ pub fn ui_setup(asset_server: Res<AssetServer>, mut commands: Commands) {
             style: Style {
                 width: Val::Percent(100.0),
                 height: Val::Percent(100.0),
-                align_items: AlignItems::FlexStart,
-                justify_content: JustifyContent::FlexEnd,
+                align_items: AlignItems::Center,
+                justify_content: JustifyContent::Center,
                 ..default()
             },
             ..default()
         })
         // Image background node
-        // .with_children(|ui_container: &mut ChildBuilder| {
-        //     ui_container.spawn(ImageBundle {
-        //         image: image_handle.clone().into(),
-        //         style: Style {
-        //             position_type: PositionType::Absolute,
-        //             width: Val::Percent(100.0),
-        //             height: Val::Percent(100.0),
-        //             align_self: AlignSelf::Center,
-        //             justify_self: JustifySelf::Center,
-        //             ..default()
-        //         },
-        //         ..default()
-        //     });
-        // })
+        .with_children(|ui_container: &mut ChildBuilder| {
+            ui_container.spawn(ImageBundle {
+                image: image_handle.into(),
+                style: Style {
+                    position_type: PositionType::Absolute,
+                    width: Val::Percent(80.0),
+                    height: Val::Percent(80.0),
+                    ..default()
+                },
+                ..default()
+            });
+        })
         // Menu button node
         .with_children(|settings_button: &mut ChildBuilder| {
             settings_button
