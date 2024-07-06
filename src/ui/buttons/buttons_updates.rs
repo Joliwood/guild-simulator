@@ -1,5 +1,5 @@
 use crate::{
-    enums::{RoomDirectionEnum, RoomEnum},
+    enums::RoomDirectionEnum,
     structs::{PlayerStats, UniqueId},
     systems::systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     utils::get_new_room,
@@ -58,12 +58,10 @@ pub fn mouse_interaction_updates(
             // Safely get the child text component
             match *interaction {
                 Interaction::Pressed => {
-                    player_stats.room = get_new_room(&player_stats, RoomDirectionEnum::Right)
-                        .expect("Expected a valid RoomEnum for right arrow press");
-                    println!(
-                        "Right arrow pressed, now the room is {:?}",
-                        player_stats.room
-                    );
+                    if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Right) {
+                        player_stats.room = new_room;
+                    }
+                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
                     border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
                 }
                 Interaction::Hovered => {
@@ -83,12 +81,9 @@ pub fn mouse_interaction_updates(
             // Safely get the child text component
             match *interaction {
                 Interaction::Pressed => {
-                    player_stats.room = get_new_room(&player_stats, RoomDirectionEnum::Left)
-                        .expect("Expected a valid RoomEnum for right arrow press");
-                    println!(
-                        "Right arrow pressed, now the room is {:?}",
-                        player_stats.room
-                    );
+                    if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Left) {
+                        player_stats.room = new_room;
+                    }
                     border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
                 }
                 Interaction::Hovered => {
