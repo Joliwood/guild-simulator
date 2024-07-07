@@ -15,9 +15,9 @@ pub fn room_interface_text(
             style: Style {
                 // The position absolute make the gold counter visible (z-index)
                 position_type: PositionType::Absolute,
+                right: Val::Px(0.0),
                 top: Val::Px(0.0),
                 display: Display::Flex,
-                margin: UiRect::all(Val::Auto),
                 padding: UiRect::all(Val::Px(10.0)),
                 row_gap: Val::Px(10.0),
                 align_items: AlignItems::Center,

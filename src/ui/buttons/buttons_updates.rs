@@ -1,5 +1,5 @@
 use crate::{
-    enums::RoomDirectionEnum,
+    enums::{RoomDirectionEnum, RoomEnum},
     structs::{PlayerStats, UniqueId},
     systems::systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     utils::get_new_room,
@@ -97,6 +97,102 @@ pub fn mouse_interaction_updates(
                     window.cursor.icon = CursorIcon::Pointer;
                 }
             }
+        }
+
+        if unique_id.0 == "room_top_arrow_id" {
+            // Safely get the child text component
+            match *interaction {
+                Interaction::Pressed => {
+                    if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Top) {
+                        player_stats.room = new_room;
+                    }
+                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
+                }
+                Interaction::Hovered => {
+                    border_color.0 = Color::WHITE;
+                    *color = HOVERED_BUTTON.into();
+                    window.cursor.icon = CursorIcon::Grab;
+                }
+                Interaction::None => {
+                    border_color.0 = Color::BLACK;
+                    *color = NORMAL_BUTTON.into();
+                    window.cursor.icon = CursorIcon::Pointer;
+                }
+            }
+        }
+
+        if unique_id.0 == "room_bottom_arrow_id" {
+            // Safely get the child text component
+            match *interaction {
+                Interaction::Pressed => {
+                    if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Bottom) {
+                        player_stats.room = new_room;
+                    }
+                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
+                }
+                Interaction::Hovered => {
+                    border_color.0 = Color::WHITE;
+                    *color = HOVERED_BUTTON.into();
+                    window.cursor.icon = CursorIcon::Grab;
+                }
+                Interaction::None => {
+                    border_color.0 = Color::BLACK;
+                    *color = NORMAL_BUTTON.into();
+                    window.cursor.icon = CursorIcon::Pointer;
+                }
+            }
+        }
+    }
+}
+
+pub fn buttons_disable_updates(
+    player_stats: Res<PlayerStats>,
+    mut query: Query<(&mut Style, &UniqueId)>,
+) {
+    for (mut style, unique_id) in query.iter_mut() {
+        match player_stats.room {
+            RoomEnum::Office => match unique_id.0.as_str() {
+                "room_top_arrow_id" => {
+                    style.display = Display::None;
+                }
+                _ => style.display = Display::Flex,
+            },
+            RoomEnum::Barrack => match unique_id.0.as_str() {
+                "room_right_arrow_id" => {
+                    style.display = Display::None;
+                }
+                "room_top_arrow_id" => {
+                    style.display = Display::None;
+                }
+                "room_bottom_arrow_id" => {
+                    style.display = Display::None;
+                }
+                _ => style.display = Display::Flex,
+            },
+            RoomEnum::Store => match unique_id.0.as_str() {
+                "room_left_arrow_id" => {
+                    style.display = Display::None;
+                }
+                "room_top_arrow_id" => {
+                    style.display = Display::None;
+                }
+                "room_bottom_arrow_id" => {
+                    style.display = Display::None;
+                }
+                _ => style.display = Display::Flex,
+            },
+            RoomEnum::CommandRoom => match unique_id.0.as_str() {
+                "room_right_arrow_id" => {
+                    style.display = Display::None;
+                }
+                "room_left_arrow_id" => {
+                    style.display = Display::None;
+                }
+                "room_bottom_arrow_id" => {
+                    style.display = Display::None;
+                }
+                _ => style.display = Display::Flex,
+            },
         }
     }
 }

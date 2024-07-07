@@ -1,7 +1,10 @@
 use crate::{
     enums::RoomEnum,
     structs::{PlayerStats, ResetRoomTrigger},
-    ui::rooms::{room_barrack::room_barrack, room_office::room_office, room_store::room_store},
+    ui::rooms::{
+        room_barrack::room_barrack, room_command_room::room_command_room, room_office::room_office,
+        room_store::room_store,
+    },
 };
 use bevy::prelude::*;
 
@@ -29,7 +32,7 @@ pub fn update_room(
             RoomEnum::Office => room_office(&asset_server, &mut commands),
             RoomEnum::Barrack => room_barrack(&asset_server, &mut commands),
             RoomEnum::Store => room_store(&asset_server, &mut commands),
-            RoomEnum::CommandRoom => todo!("Implement CommandRoom"),
+            RoomEnum::CommandRoom => room_command_room(&asset_server, &mut commands),
         }
     }
 }
