@@ -1,9 +1,10 @@
 #![allow(dead_code)]
 
-pub enum TroopEnum {
-    Archer,
+#[derive(Debug, PartialEq)]
+pub enum RecruitEnum {
+    Hunter,
     Mage,
-    Thief,
+    Rogue,
     Warrior,
 }
 

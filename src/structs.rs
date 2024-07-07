@@ -1,9 +1,9 @@
 #![allow(dead_code)]
 
-use crate::enums::RoomEnum;
+use crate::enums::{RecruitEnum, RoomEnum};
 use bevy::{
     ecs::component::Tick,
-    prelude::{Component, DetectChanges, Resource},
+    prelude::{Component, Resource},
 };
 
 #[derive(Component)]
@@ -21,7 +21,7 @@ pub struct ResetRoomTrigger;
 #[derive(Resource)]
 pub struct PlayerStats {
     pub golds: i32,
-    pub troups_count: i32,
+    pub recruits: Vec<RecruitStats>,
     pub room: RoomEnum,
 }
 
@@ -33,19 +33,7 @@ impl PlayerStats {
         );
         self.golds += amount;
     }
-}
 
-impl Default for PlayerStats {
-    fn default() -> Self {
-        Self {
-            golds: 5,
-            troups_count: 0,
-            room: RoomEnum::Office,
-        }
-    }
-}
-
-impl DetectChanges for PlayerStats {
     fn is_added(&self) -> bool {
         false
     }
@@ -57,4 +45,25 @@ impl DetectChanges for PlayerStats {
     fn is_changed(&self) -> bool {
         true
     }
+}
+
+impl Default for PlayerStats {
+    fn default() -> Self {
+        Self {
+            golds: 5,
+            room: RoomEnum::Office,
+            recruits: vec![],
+        }
+    }
+}
+
+#[derive(Debug, Component)]
+pub struct RecruitStats {
+    pub class: RecruitEnum,
+    pub endurance: u16,
+    pub experience: u32,
+    pub intelligence: u16,
+    pub level: u8,
+    pub max_experience: u32,
+    pub strength: u16,
 }

@@ -33,6 +33,7 @@ fn main() -> AppExit {
                 ui::interface::gold_counter::gold_counter,
                 ui::interface::room_interface_text::room_interface_text,
                 ui::rooms::room_setup::room_setup,
+                systems::recruits::recruit_setup::recruit_setup,
             ),
         )
         .add_systems(
