@@ -1,2 +1,2 @@
-pub mod recruit_setup;
-pub mod spawn_new_recruit;
+pub mod hire_new_recruits;
+pub mod hiring_setup;
