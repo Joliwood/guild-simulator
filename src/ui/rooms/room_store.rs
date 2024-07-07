@@ -1,4 +1,4 @@
-use crate::structs::ResetRoomTrigger;
+use crate::{structs::ResetRoomTrigger, ui::styles::node_container_style::node_container_style};
 use bevy::prelude::*;
 
 pub fn room_store(asset_server: &Res<AssetServer>, commands: &mut Commands) {
@@ -6,13 +6,7 @@ pub fn room_store(asset_server: &Res<AssetServer>, commands: &mut Commands) {
 
     commands
         .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                align_items: AlignItems::Center,
-                justify_content: JustifyContent::Center,
-                ..default()
-            },
+            style: node_container_style(),
             ..default()
         })
         .insert(ResetRoomTrigger)

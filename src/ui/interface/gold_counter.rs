@@ -1,5 +1,7 @@
-use super::ui_constants::WOOD_COLOR;
-use crate::structs::{GoldCountTrigger, PlayerStats};
+use crate::{
+    structs::{GoldCountTrigger, PlayerStats},
+    ui::ui_constants::WOOD_COLOR,
+};
 use bevy::prelude::*;
 
 pub fn gold_counter(

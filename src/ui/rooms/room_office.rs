@@ -1,6 +1,6 @@
 use crate::{
-    structs::{ResetRoomTrigger, UniqueId},
-    systems::systems_constants::NORMAL_BUTTON,
+    structs::ResetRoomTrigger,
+    ui::{buttons::gold_button::gold_button, styles::node_container_style::node_container_style},
 };
 use bevy::prelude::*;
 
@@ -9,13 +9,7 @@ pub fn room_office(asset_server: &Res<AssetServer>, commands: &mut Commands) {
 
     commands
         .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(100.0),
-                height: Val::Percent(100.0),
-                align_items: AlignItems::Center,
-                justify_content: JustifyContent::Center,
-                ..default()
-            },
+            style: node_container_style(),
             ..default()
         })
         .insert(ResetRoomTrigger)
@@ -35,32 +29,6 @@ pub fn room_office(asset_server: &Res<AssetServer>, commands: &mut Commands) {
         })
         // Menu button node
         .with_children(|settings_button: &mut ChildBuilder| {
-            settings_button
-                .spawn(ButtonBundle {
-                    style: Style {
-                        margin: UiRect::all(Val::Px(10.0)),
-                        width: Val::Px(40.0),
-                        height: Val::Px(40.0),
-                        border: UiRect::all(Val::Px(5.0)),
-                        justify_content: JustifyContent::Center,
-                        align_items: AlignItems::Center,
-                        ..default()
-                    },
-                    border_color: BorderColor(Color::BLACK),
-                    image: UiImage::default().with_color(NORMAL_BUTTON),
-                    ..default()
-                })
-                .insert(UniqueId("menu_button_id".to_string()))
-                // Text inside the button
-                .with_children(|settings_button| {
-                    settings_button.spawn(TextBundle::from_section(
-                        "X",
-                        TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                            font_size: 40.0,
-                            color: Color::srgb(0.9, 0.9, 0.9),
-                        },
-                    ));
-                });
+            gold_button(asset_server, settings_button);
         });
 }

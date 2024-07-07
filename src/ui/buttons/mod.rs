@@ -1,2 +1,2 @@
-pub mod buttons_updates;
+pub mod gold_button;
 pub mod room_arrows;

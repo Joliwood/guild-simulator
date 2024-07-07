@@ -6,8 +6,6 @@ use crate::{
 };
 use bevy::prelude::*;
 
-// TODO - Rename and place in correct structure this updaters
-
 pub fn mouse_interaction_updates(
     mut interaction_query: Query<
         (
@@ -22,7 +20,7 @@ pub fn mouse_interaction_updates(
     mut text_query: Query<&mut Text>,
     mut player_stats: ResMut<PlayerStats>,
     mut windows: Query<&mut Window>,
-) {
+) -> () {
     let mut window = windows.single_mut();
 
     // Directly filter the interaction query by UniqueId
@@ -145,10 +143,15 @@ pub fn mouse_interaction_updates(
     }
 }
 
+/// Disable the buttons that are not needed in the current room
+///
+/// # Parameters
+/// - `player_stats`: Check of the player room
+/// - `query`: What we will change (first arg) in a specific UniqId (second arg)
 pub fn buttons_disable_updates(
     player_stats: Res<PlayerStats>,
     mut query: Query<(&mut Style, &UniqueId)>,
-) {
+) -> () {
     for (mut style, unique_id) in query.iter_mut() {
         match player_stats.room {
             RoomEnum::Office => match unique_id.0.as_str() {
