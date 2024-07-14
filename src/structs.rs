@@ -2,7 +2,7 @@
 
 use crate::enums::{RecruitEnum, RoomEnum};
 use bevy::{
-    prelude::{Component, Resource},
+    prelude::{Component, Event, Resource},
     state::state::States,
 };
 use uuid::Uuid;
@@ -48,8 +48,20 @@ pub struct RecruitStats {
     pub strength: u16,
 }
 
-#[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
-pub struct SelectedRecruit(pub RecruitStats);
+#[derive(Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
+pub struct SelectedRecruit(pub Option<RecruitStats>);
+
+#[derive(Resource, Debug, Event)]
+pub struct SelectRecruitEvent(pub Uuid);
+
+impl Default for SelectedRecruit {
+    fn default() -> Self {
+        Self(None)
+    }
+}
+
+#[derive(Component)]
+pub struct SelectedRecruitTrigger;
 
 // --- Implementations --- //
 

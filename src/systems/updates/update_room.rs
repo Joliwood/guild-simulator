@@ -1,6 +1,6 @@
 use crate::{
     enums::RoomEnum,
-    structs::{PlayerStats, RecruitsTrigger, ResetRoomTrigger},
+    structs::{PlayerStats, RecruitsTrigger, ResetRoomTrigger, SelectedRecruit},
     ui::rooms::{
         room_barrack::room_barrack, room_command_room::room_command_room, room_office::room_office,
         room_store::room_store,
@@ -20,6 +20,7 @@ pub fn update_room(
     player_stats: Res<PlayerStats>,
     mut commands: Commands,
     query: Query<Entity, With<ResetRoomTrigger>>,
+    selected_recruit: Res<SelectedRecruit>,
 ) {
     if player_stats.is_changed() {
         // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed
@@ -31,7 +32,12 @@ pub fn update_room(
         // Spawn new room based on player_stats
         match player_stats.room {
             RoomEnum::Office => room_office(&asset_server, &mut commands),
-            RoomEnum::Barrack => room_barrack(&asset_server, &mut commands, &player_stats),
+            RoomEnum::Barrack => room_barrack(
+                &asset_server,
+                &mut commands,
+                &player_stats,
+                &selected_recruit,
+            ),
             RoomEnum::Store => room_store(&asset_server, &mut commands),
             RoomEnum::CommandRoom => room_command_room(&asset_server, &mut commands),
         }

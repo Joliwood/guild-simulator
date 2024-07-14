@@ -1,6 +1,6 @@
 use crate::{
     enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
-    structs::{PlayerStats, RecruitStats, UniqueId},
+    structs::{PlayerStats, RecruitStats, SelectRecruitEvent, SelectedRecruit, UniqueId},
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
@@ -163,17 +163,103 @@ pub fn mouse_interaction_updates(
             }
         }
 
-        if unique_id.0 == "recruit_buttons" {
-            match *interaction {
-                Interaction::Pressed => {}
-                Interaction::Hovered => {
-                    window.cursor.icon = CursorIcon::Pointer;
-                    *color = HOVERED_BUTTON.into();
+        // if unique_id.0 == "recruit_buttons" {
+        //     match *interaction {
+        //         Interaction::Pressed => {}
+        //         Interaction::Hovered => {
+        //             window.cursor.icon = CursorIcon::Pointer;
+        //             *color = HOVERED_BUTTON.into();
+        //         }
+        //         Interaction::None => {
+        //             window.cursor.icon = CursorIcon::Grab;
+        //             *color = BackgroundColor(WOOD_COLOR)
+        //         }
+        //     }
+        // }
+    }
+}
+
+// pub fn select_recruit_button(
+//     mut interaction_query: Query<
+//         (
+//             &Interaction,
+//             &mut BackgroundColor,
+//             &mut BorderColor,
+//             &Children,
+//             &UniqueId,
+//         ),
+//         Changed<Interaction>,
+//     >,
+//     mut windows: Query<&mut Window>,
+// ) {
+//     let mut window = windows.single_mut();
+
+//     for (interaction, mut color, mut border_color, children, unique_id) in &mut interaction_query {
+//         if unique_id.0 == "recruit_buttons" {
+//             match *interaction {
+//                 Interaction::Pressed => {
+//                     println!("Button pressed");
+//                 }
+//                 Interaction::Hovered => {
+//                     window.cursor.icon = CursorIcon::Pointer;
+//                     *color = HOVERED_BUTTON.into();
+//                 }
+//                 Interaction::None => {
+//                     window.cursor.icon = CursorIcon::Grab;
+//                     *color = BackgroundColor(WOOD_COLOR);
+//                 }
+//             }
+//         }
+//     }
+// }
+// WIP
+pub fn select_recruit_button(
+    mut interaction_query: Query<
+        (
+            &Interaction,
+            &mut BackgroundColor,
+            &mut BorderColor,
+            &Children,
+            &UniqueId,
+        ),
+        Changed<Interaction>,
+    >,
+    mut windows: Query<&mut Window>,
+    mut event_writer: EventWriter<SelectRecruitEvent>,
+    player_stats: Res<PlayerStats>,
+    mut selected_recruit: ResMut<SelectedRecruit>,
+) {
+    let mut window = windows.single_mut();
+
+    for (interaction, mut color, mut border_color, children, unique_id) in &mut interaction_query {
+        match *interaction {
+            Interaction::Pressed => {
+                if unique_id.0.starts_with("recruit_button_") {
+                    let recruit_id = unique_id.0.strip_prefix("recruit_button_").unwrap();
+                    if let Ok(recruit_id) = Uuid::parse_str(recruit_id) {
+                        event_writer.send(SelectRecruitEvent(recruit_id));
+                    }
+
+                    let recruit_selected = player_stats
+                        .recruits
+                        .iter()
+                        .find(|recruit| recruit.id.to_string() == recruit_id);
+
+                    selected_recruit.0 = recruit_selected.cloned();
+
+                    println!(
+                        "\n Button pressed on the recruit with the id : {:?}\n",
+                        recruit_selected
+                    );
                 }
-                Interaction::None => {
-                    window.cursor.icon = CursorIcon::Grab;
-                    *color = BackgroundColor(WOOD_COLOR)
-                }
+            }
+            Interaction::Hovered => {
+                window.cursor.icon = CursorIcon::Pointer;
+                *color = HOVERED_BUTTON.into();
+            }
+            Interaction::None => {
+                window.cursor.icon = CursorIcon::Grab;
+                *color = BackgroundColor(WOOD_COLOR);
             }
         }
     }
