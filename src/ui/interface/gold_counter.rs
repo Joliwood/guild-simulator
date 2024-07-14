@@ -1,5 +1,6 @@
 use crate::{
-    structs::{GoldCountTrigger, PlayerStats},
+    structs::{GoldCountTrigger, PlayerStats, UniqueId},
+    systems::systems_constants::NORMAL_BUTTON,
     ui::ui_constants::WOOD_COLOR,
 };
 use bevy::prelude::*;
@@ -52,5 +53,30 @@ pub fn gold_counter(
                     ..default()
                 })
                 .insert(GoldCountTrigger);
+        })
+        .with_children(|ui_container: &mut ChildBuilder| {
+            ui_container
+                .spawn(ButtonBundle {
+                    style: Style {
+                        display: Display::Flex,
+                        justify_content: JustifyContent::Center,
+                        width: Val::Percent(100.0),
+                        ..default()
+                    },
+                    // border_color: BorderColor(Color::BLACK),
+                    image: UiImage::default().with_color(NORMAL_BUTTON),
+                    ..default()
+                })
+                .insert(UniqueId("waz".to_string()))
+                .with_children(|ui_container: &mut ChildBuilder| {
+                    ui_container.spawn(TextBundle::from_section(
+                        "Buy",
+                        TextStyle {
+                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font_size: 20.0,
+                            color: Color::BLACK,
+                        },
+                    ));
+                });
         });
 }

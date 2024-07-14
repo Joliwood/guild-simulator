@@ -10,9 +10,9 @@ use uuid::Uuid;
 ///
 /// Only with first recruits, the stats will be fixed
 /// The others recruted will have random stats
-pub fn hiring_setup(player_stats: ResMut<PlayerStats>) {
+pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
     println!(
-        "We are ready to hire some recruits ! {}",
+        "We are ready to hire some recruits! Currently, we have {} recruits.",
         player_stats.recruits.len()
     );
 
@@ -39,7 +39,7 @@ pub fn hiring_setup(player_stats: ResMut<PlayerStats>) {
         },
     ];
 
-    hire_new_recruits(player_stats, new_recruits);
+    hire_new_recruits(&mut player_stats, new_recruits);
 
-    println!("Recruits are ready !");
+    println!("Recruits are ready!");
 }

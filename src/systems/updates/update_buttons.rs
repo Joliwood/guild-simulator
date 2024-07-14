@@ -1,10 +1,14 @@
 use crate::{
-    enums::{RoomDirectionEnum, RoomEnum},
-    structs::{PlayerStats, UniqueId},
-    systems::systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
+    enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
+    structs::{PlayerStats, RecruitStats, UniqueId},
+    systems::{
+        recruits::hire_new_recruits::hire_new_recruits,
+        systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
+    },
     utils::get_new_room,
 };
 use bevy::prelude::*;
+use uuid::Uuid;
 
 pub fn mouse_interaction_updates(
     mut interaction_query: Query<
@@ -20,7 +24,7 @@ pub fn mouse_interaction_updates(
     mut text_query: Query<&mut Text>,
     mut player_stats: ResMut<PlayerStats>,
     mut windows: Query<&mut Window>,
-) -> () {
+) {
     let mut window = windows.single_mut();
 
     // Directly filter the interaction query by UniqueId
@@ -34,7 +38,7 @@ pub fn mouse_interaction_updates(
                         text.sections[0].value = "O".to_string();
                         player_stats.increment_golds(1);
                         *color = PRESSED_BUTTON.into();
-                        border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
+                        border_color.0 = Color::srgba(255.0, 0.0, 0.0, 1.0);
                     }
                     Interaction::Hovered => {
                         text.sections[0].value = "H".to_string();
@@ -53,14 +57,12 @@ pub fn mouse_interaction_updates(
         }
 
         if unique_id.0 == "room_right_arrow_id" {
-            // Safely get the child text component
             match *interaction {
                 Interaction::Pressed => {
                     if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Right) {
                         player_stats.room = new_room;
                     }
-                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
-                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
+                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 1.0);
                 }
                 Interaction::Hovered => {
                     border_color.0 = Color::WHITE;
@@ -76,13 +78,12 @@ pub fn mouse_interaction_updates(
         }
 
         if unique_id.0 == "room_left_arrow_id" {
-            // Safely get the child text component
             match *interaction {
                 Interaction::Pressed => {
                     if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Left) {
                         player_stats.room = new_room;
                     }
-                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
+                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 1.0);
                 }
                 Interaction::Hovered => {
                     border_color.0 = Color::WHITE;
@@ -98,13 +99,12 @@ pub fn mouse_interaction_updates(
         }
 
         if unique_id.0 == "room_top_arrow_id" {
-            // Safely get the child text component
             match *interaction {
                 Interaction::Pressed => {
                     if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Top) {
                         player_stats.room = new_room;
                     }
-                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
+                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 1.0);
                 }
                 Interaction::Hovered => {
                     border_color.0 = Color::WHITE;
@@ -120,13 +120,12 @@ pub fn mouse_interaction_updates(
         }
 
         if unique_id.0 == "room_bottom_arrow_id" {
-            // Safely get the child text component
             match *interaction {
                 Interaction::Pressed => {
                     if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Bottom) {
                         player_stats.room = new_room;
                     }
-                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 255.0);
+                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 1.0);
                 }
                 Interaction::Hovered => {
                     border_color.0 = Color::WHITE;
@@ -140,6 +139,28 @@ pub fn mouse_interaction_updates(
                 }
             }
         }
+
+        let new_recruits = vec![RecruitStats {
+            id: Uuid::new_v4(),
+            class: RecruitEnum::Rogue,
+            endurance: 5,
+            experience: 0,
+            intelligence: 12,
+            level: 1,
+            max_experience: 100,
+            strength: 2,
+        }];
+
+        if unique_id.0 == "waz" {
+            match *interaction {
+                Interaction::Pressed => {
+                    println!("let's recruit a rogue now!");
+                    hire_new_recruits(player_stats.as_mut(), new_recruits);
+                }
+                Interaction::Hovered => {}
+                Interaction::None => {}
+            }
+        }
     }
 }
 
@@ -151,7 +172,7 @@ pub fn mouse_interaction_updates(
 pub fn buttons_disable_updates(
     player_stats: Res<PlayerStats>,
     mut query: Query<(&mut Style, &UniqueId)>,
-) -> () {
+) {
     for (mut style, unique_id) in query.iter_mut() {
         match player_stats.room {
             RoomEnum::Office => match unique_id.0.as_str() {
