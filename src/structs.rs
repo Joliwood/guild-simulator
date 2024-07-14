@@ -48,6 +48,9 @@ pub struct RecruitStats {
     pub strength: u16,
 }
 
+#[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
+pub struct SelectedRecruit(pub RecruitStats);
+
 // --- Implementations --- //
 
 impl PlayerStats {
@@ -64,7 +67,7 @@ impl Default for PlayerStats {
     fn default() -> Self {
         Self {
             golds: 5,
-            room: RoomEnum::Office,
+            room: RoomEnum::Barrack,
             recruits: vec![],
         }
     }

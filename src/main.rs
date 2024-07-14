@@ -9,12 +9,15 @@ mod ui;
 mod utils;
 
 use bevy::prelude::*;
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
+// use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use structs::PlayerStats;
 
 fn main() -> AppExit {
     App::new()
-        .add_plugins((DefaultPlugins, WorldInspectorPlugin::new()))
+        .add_plugins((
+            DefaultPlugins,
+            //  WorldInspectorPlugin::new()
+        ))
         .insert_resource(PlayerStats::default())
         .add_systems(
             Startup,

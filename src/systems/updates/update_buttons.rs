@@ -5,6 +5,7 @@ use crate::{
         recruits::hire_new_recruits::hire_new_recruits,
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     },
+    ui::ui_constants::WOOD_COLOR,
     utils::get_new_room,
 };
 use bevy::prelude::*;
@@ -44,13 +45,13 @@ pub fn mouse_interaction_updates(
                         text.sections[0].value = "H".to_string();
                         *color = HOVERED_BUTTON.into();
                         border_color.0 = Color::WHITE;
-                        window.cursor.icon = CursorIcon::Grab;
+                        window.cursor.icon = CursorIcon::Pointer;
                     }
                     Interaction::None => {
                         text.sections[0].value = "X".to_string();
                         *color = NORMAL_BUTTON.into();
                         border_color.0 = Color::BLACK;
-                        window.cursor.icon = CursorIcon::Pointer;
+                        window.cursor.icon = CursorIcon::Grab;
                     }
                 }
             }
@@ -67,12 +68,12 @@ pub fn mouse_interaction_updates(
                 Interaction::Hovered => {
                     border_color.0 = Color::WHITE;
                     *color = HOVERED_BUTTON.into();
-                    window.cursor.icon = CursorIcon::Grab;
+                    window.cursor.icon = CursorIcon::Pointer;
                 }
                 Interaction::None => {
                     border_color.0 = Color::BLACK;
                     *color = NORMAL_BUTTON.into();
-                    window.cursor.icon = CursorIcon::Pointer;
+                    window.cursor.icon = CursorIcon::Grab;
                 }
             }
         }
@@ -88,12 +89,12 @@ pub fn mouse_interaction_updates(
                 Interaction::Hovered => {
                     border_color.0 = Color::WHITE;
                     *color = HOVERED_BUTTON.into();
-                    window.cursor.icon = CursorIcon::Grab;
+                    window.cursor.icon = CursorIcon::Pointer;
                 }
                 Interaction::None => {
                     border_color.0 = Color::BLACK;
                     *color = NORMAL_BUTTON.into();
-                    window.cursor.icon = CursorIcon::Pointer;
+                    window.cursor.icon = CursorIcon::Grab;
                 }
             }
         }
@@ -109,12 +110,12 @@ pub fn mouse_interaction_updates(
                 Interaction::Hovered => {
                     border_color.0 = Color::WHITE;
                     *color = HOVERED_BUTTON.into();
-                    window.cursor.icon = CursorIcon::Grab;
+                    window.cursor.icon = CursorIcon::Pointer;
                 }
                 Interaction::None => {
                     border_color.0 = Color::BLACK;
                     *color = NORMAL_BUTTON.into();
-                    window.cursor.icon = CursorIcon::Pointer;
+                    window.cursor.icon = CursorIcon::Grab;
                 }
             }
         }
@@ -130,12 +131,12 @@ pub fn mouse_interaction_updates(
                 Interaction::Hovered => {
                     border_color.0 = Color::WHITE;
                     *color = HOVERED_BUTTON.into();
-                    window.cursor.icon = CursorIcon::Grab;
+                    window.cursor.icon = CursorIcon::Pointer;
                 }
                 Interaction::None => {
                     border_color.0 = Color::BLACK;
                     *color = NORMAL_BUTTON.into();
-                    window.cursor.icon = CursorIcon::Pointer;
+                    window.cursor.icon = CursorIcon::Grab;
                 }
             }
         }
@@ -159,6 +160,20 @@ pub fn mouse_interaction_updates(
                 }
                 Interaction::Hovered => {}
                 Interaction::None => {}
+            }
+        }
+
+        if unique_id.0 == "recruit_buttons" {
+            match *interaction {
+                Interaction::Pressed => {}
+                Interaction::Hovered => {
+                    window.cursor.icon = CursorIcon::Pointer;
+                    *color = HOVERED_BUTTON.into();
+                }
+                Interaction::None => {
+                    window.cursor.icon = CursorIcon::Grab;
+                    *color = BackgroundColor(WOOD_COLOR)
+                }
             }
         }
     }
