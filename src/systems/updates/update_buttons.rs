@@ -30,7 +30,7 @@ pub fn mouse_interaction_updates(
             if let Ok(mut text) = text_query.get_mut(children[0]) {
                 match *interaction {
                     Interaction::Pressed => {
-                        println!("Button pressed");
+                        // println!("Button pressed");
                         text.sections[0].value = "O".to_string();
                         player_stats.increment_golds(1);
                         *color = PRESSED_BUTTON.into();

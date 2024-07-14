@@ -44,3 +44,11 @@ pub fn get_new_room(
         },
     }
 }
+
+pub fn increment_golds(player_stats: &mut ResMut<PlayerStats>, amount: i32) {
+    println!(
+        "Incrementing golds by {} for a total of : {}",
+        amount, player_stats.golds,
+    );
+    player_stats.golds += amount;
+}

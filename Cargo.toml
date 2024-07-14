@@ -19,3 +19,4 @@ bevy-inspector-egui  = { git = "https://github.com/jakobhellermann/bevy-inspecto
 bevy-settings = "0.6.0"
 bevy_editor_pls = "0.8.1"
 rand_core = "0.6.4"
+uuid = "1.10.0"

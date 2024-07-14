@@ -8,17 +8,13 @@ mod systems;
 mod ui;
 mod utils;
 
-// ! Make crash the UI
 use bevy::prelude::*;
-// use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use structs::PlayerStats;
 
 fn main() -> AppExit {
     App::new()
-        .add_plugins((
-            DefaultPlugins,
-            // WorldInspectorPlugin::new(),
-        ))
+        .add_plugins((DefaultPlugins, WorldInspectorPlugin::new()))
         .insert_resource(PlayerStats::default())
         .add_systems(
             Startup,
@@ -45,6 +41,7 @@ fn main() -> AppExit {
                 systems::updates::update_room::update_room,
                 systems::updates::update_buttons::mouse_interaction_updates,
                 systems::updates::update_buttons::buttons_disable_updates,
+                // systems::updates::update_recruits::update_recruits,
             ),
         )
         .run()

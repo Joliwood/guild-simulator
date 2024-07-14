@@ -4,6 +4,7 @@ use crate::{
     systems::recruits::hire_new_recruits::hire_new_recruits,
 };
 use bevy::prelude::*;
+use uuid::Uuid;
 
 /// Initialization of the player's recruits
 ///
@@ -17,6 +18,7 @@ pub fn hiring_setup(player_stats: ResMut<PlayerStats>) {
 
     let new_recruits = vec![
         RecruitStats {
+            id: Uuid::new_v4(),
             class: RecruitEnum::Warrior,
             endurance: 10,
             experience: 0,
@@ -26,6 +28,7 @@ pub fn hiring_setup(player_stats: ResMut<PlayerStats>) {
             strength: 10,
         },
         RecruitStats {
+            id: Uuid::new_v4(),
             class: RecruitEnum::Mage,
             endurance: 5,
             experience: 0,
