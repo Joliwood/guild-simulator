@@ -1,10 +1,6 @@
 // Exemple of a clippy rule for all this file
 // #![allow(clippy::type_complexity)]
 
-// extern crate pretty_env_logger;
-// #[macro_use]
-// extern crate log;
-
 mod audio;
 mod enums;
 mod structs;
@@ -17,12 +13,11 @@ use bevy::prelude::*;
 use structs::{PlayerStats, SelectedRecruit};
 
 fn main() -> AppExit {
-    // pretty_env_logger::init();
     App::new()
-        .add_plugins((
+        .add_plugins(
             DefaultPlugins,
-            //  WorldInspectorPlugin::new()
-        ))
+            // WorldInspectorPlugin::new())
+        )
         .insert_resource(PlayerStats::default())
         .insert_resource(SelectedRecruit::default())
         .add_systems(

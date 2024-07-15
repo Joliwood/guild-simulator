@@ -1,6 +1,6 @@
 use crate::{
     enums::{RoomDirectionEnum, RoomEnum},
-    structs::{PlayerStats, RecruitStats, SelectedRecruit},
+    structs::PlayerStats,
 };
 use bevy::prelude::ResMut;
 
@@ -44,10 +44,10 @@ pub fn get_new_room(
     }
 }
 
-pub fn increment_golds(player_stats: &mut ResMut<PlayerStats>, amount: i32) {
-    player_stats.golds += amount;
-}
+// pub fn increment_golds(player_stats: &mut ResMut<PlayerStats>, amount: i32) {
+//     player_stats.golds += amount;
+// }
 
-pub fn select_recruit(mut selected_recruit: ResMut<SelectedRecruit>, recruit: RecruitStats) {
-    selected_recruit.0 = Some(recruit);
-}
+// pub fn select_recruit(mut selected_recruit: ResMut<SelectedRecruit>, recruit: RecruitStats) {
+//     selected_recruit.0 = Some(recruit);
+// }
