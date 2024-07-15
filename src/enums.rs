@@ -1,15 +1,20 @@
 #![allow(dead_code)]
 
-pub enum TroopEnum {
-    Archer,
+use bevy::{prelude::Component, state::state::States};
+use std::fmt::{self, Display};
+
+#[derive(Debug, PartialEq, Clone, Eq, Hash)]
+pub enum RecruitEnum {
+    Hunter,
     Mage,
-    Thief,
+    Rogue,
     Warrior,
 }
 
-#[derive(Debug, PartialEq)]
-/// # Where the player is
-/// ## (the player can navigate between rooms with arrows) :
+// #[derive(Component, Debug, PartialEq)]
+#[derive(Clone, Eq, PartialEq, Debug, Hash, Default, States, Component)]
+///  Where the player is
+///  (the player can navigate between rooms with arrows) :
 ///
 /// - Office : Main place, at our desk with a top view
 /// - Store : The counter when player can buy stuff from a marchand (once at a time, with a CD), or sell stuff
@@ -18,6 +23,7 @@ pub enum TroopEnum {
 pub enum RoomEnum {
     Barrack,
     CommandRoom,
+    #[default]
     Office,
     Store,
 }
@@ -28,4 +34,16 @@ pub enum RoomDirectionEnum {
     Left,
     Right,
     Top,
+}
+
+impl Display for RoomEnum {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{:?}", self)
+    }
+}
+
+impl Display for RecruitEnum {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "{:?}", self)
+    }
 }

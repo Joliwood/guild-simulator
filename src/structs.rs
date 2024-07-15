@@ -1,15 +1,12 @@
-#![allow(dead_code)]
+// #![allow(dead_code)]
 
-use crate::enums::RoomEnum;
-use bevy::{
-    ecs::component::Tick,
-    prelude::{Component, DetectChanges, Resource},
-};
+use crate::enums::{RecruitEnum, RoomEnum};
+use bevy::prelude::{Component, Resource};
+use uuid::Uuid;
 
-#[derive(Component)]
-pub struct UniqueId(pub String);
+// --- Triggers --- //
 
-#[derive(Component)]
+#[derive(Resource, Component)]
 pub struct GoldCountTrigger;
 
 #[derive(Component)]
@@ -18,19 +15,49 @@ pub struct PlayerStatsRoomTrigger;
 #[derive(Component)]
 pub struct ResetRoomTrigger;
 
-#[derive(Resource)]
+#[derive(Component)]
+pub struct PlayerStatsRecruitsTrigger;
+
+#[derive(Component)]
+pub struct SelectedRecruitTrigger;
+
+// --- Definition of structs --- //
+
+#[derive(Component)]
+pub struct UniqueId(pub String);
+
+#[derive(Component, Resource)]
 pub struct PlayerStats {
     pub golds: i32,
-    pub troups_count: i32,
+    pub recruits: Vec<RecruitStats>,
     pub room: RoomEnum,
+}
+
+#[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
+pub struct RecruitStats {
+    pub id: Uuid,
+    pub class: RecruitEnum,
+    pub endurance: u16,
+    pub experience: u32,
+    pub intelligence: u16,
+    pub level: u8,
+    pub max_experience: u32,
+    pub strength: u16,
+}
+
+#[derive(Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
+pub struct SelectedRecruit(pub Option<RecruitStats>);
+
+// --- Implementations --- //
+
+impl Default for SelectedRecruit {
+    fn default() -> Self {
+        Self(None)
+    }
 }
 
 impl PlayerStats {
     pub fn increment_golds(&mut self, amount: i32) {
-        println!(
-            "Incrementing golds by {} for a total of : {}",
-            amount, self.golds,
-        );
         self.golds += amount;
     }
 }
@@ -38,23 +65,9 @@ impl PlayerStats {
 impl Default for PlayerStats {
     fn default() -> Self {
         Self {
-            golds: 5,
-            troups_count: 0,
+            golds: 0,
             room: RoomEnum::Office,
+            recruits: vec![],
         }
-    }
-}
-
-impl DetectChanges for PlayerStats {
-    fn is_added(&self) -> bool {
-        false
-    }
-
-    fn last_changed(&self) -> Tick {
-        return Tick::new(1);
-    }
-
-    fn is_changed(&self) -> bool {
-        true
     }
 }
