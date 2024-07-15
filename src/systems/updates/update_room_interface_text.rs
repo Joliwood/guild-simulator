@@ -1,5 +1,6 @@
 use crate::structs::{PlayerStats, PlayerStatsRoomTrigger};
 use bevy::{
+    log::error,
     prelude::{DetectChanges, Query, Res, With},
     text::Text,
 };
@@ -15,7 +16,7 @@ pub fn update_room_interface_text(
 ) -> () {
     if player_stats.is_changed() {
         for mut text in query.iter_mut() {
-            println!("we are changing text in update room interface text only normally");
+            error!("we are changing text in update room interface text only normally");
             text.sections[0].value = format!("{:?}", player_stats.room);
         }
     }

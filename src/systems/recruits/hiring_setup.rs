@@ -36,5 +36,5 @@ pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
 
     hire_new_recruits(&mut player_stats, new_recruits);
 
-    println!("Recruits are ready!");
+    info!("Recruits are ready!");
 }

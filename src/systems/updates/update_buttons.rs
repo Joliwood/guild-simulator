@@ -1,6 +1,6 @@
 use crate::{
     enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
-    structs::{PlayerStats, PlayerStatsGoldsTrigger, RecruitStats, SelectedRecruit, UniqueId},
+    structs::{PlayerStats, RecruitStats, SelectedRecruit, UniqueId},
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
@@ -35,7 +35,6 @@ pub fn mouse_interaction_updates(
             if let Ok(mut text) = text_query.get_mut(children[0]) {
                 match *interaction {
                     Interaction::Pressed => {
-                        // println!("Button pressed");
                         text.sections[0].value = "O".to_string();
                         player_stats.increment_golds(1);
                         *color = PRESSED_BUTTON.into();
@@ -155,7 +154,7 @@ pub fn mouse_interaction_updates(
         if unique_id.0 == "waz" {
             match *interaction {
                 Interaction::Pressed => {
-                    println!("let's recruit a rogue now!");
+                    info!("let's recruit a rogue now!");
                     hire_new_recruits(player_stats.as_mut(), new_recruits);
                 }
                 Interaction::Hovered => {}
@@ -188,7 +187,7 @@ pub fn select_recruit_button(
 
                     selected_recruit.0 = recruit_selected.cloned();
 
-                    println!(
+                    info!(
                         "\n Button pressed on the recruit with the id : {:?}\n",
                         recruit_selected
                     );

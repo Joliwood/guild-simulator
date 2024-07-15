@@ -14,7 +14,7 @@ pub fn room_barrack(
     selected_recruit: &Res<SelectedRecruit>,
 ) {
     let image_handle: Handle<Image> = asset_server.load("images/barrack.png");
-    print!("Selected recruit: {:?}", selected_recruit.0);
+    info!("Selected recruit: {:?}", selected_recruit.0);
 
     commands
         .spawn(NodeBundle {

@@ -21,9 +21,6 @@ pub struct PlayerStatsRecruitsTrigger;
 #[derive(Component)]
 pub struct SelectedRecruitTrigger;
 
-#[derive(Resource)]
-pub struct PlayerStatsGoldsTrigger;
-
 // --- Definition of structs --- //
 
 #[derive(Component)]

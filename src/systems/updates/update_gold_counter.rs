@@ -1,5 +1,6 @@
 use crate::structs::{GoldCountTrigger, PlayerStats};
 use bevy::{
+    log::info,
     prelude::{DetectChanges, Query, Res, With},
     text::Text,
 };
@@ -15,7 +16,7 @@ pub fn update_gold_counter(
 ) -> () {
     if player_stats.is_changed() {
         for mut text in query.iter_mut() {
-            println!("MOAR GOLDS");
+            info!("MOAR GOLDS");
             text.sections[0].value = format!("{}", player_stats.golds);
         }
     }

@@ -6,7 +6,7 @@ use bevy::{
     // window::CursorGrabMode,
 };
 
-/// This system prints messages when you press or release the left mouse button:
+/// This system log messages when you press or release the left mouse button:
 pub fn mouse_click_system(
     mouse_button_input: Res<ButtonInput<MouseButton>>,
     mut windows: Query<&mut Window>,
