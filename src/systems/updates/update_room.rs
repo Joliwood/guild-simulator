@@ -22,7 +22,7 @@ pub fn update_room(
     query: Query<Entity, With<ResetRoomTrigger>>,
     selected_recruit: Res<SelectedRecruit>,
 ) {
-    if player_stats.is_changed() {
+    if player_stats.is_changed() || selected_recruit.is_changed() {
         // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed
         for entity in query.iter() {
             println!("PlayerStats has changed");

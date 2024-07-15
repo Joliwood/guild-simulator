@@ -153,23 +153,171 @@ pub fn room_barrack(
                 })
                 .insert(SelectedRecruitTrigger)
                 // All infos of the selected button
+                // .with_children(|right_container| {
+                //     right_container.spawn(TextBundle {
+                //         text: Text::from_section(
+                //             // format!("Selected recruit: {:?}", player_stats.recruits.len()),
+                //             format!("Selected recruit: {:?}", selected_recruit),
+                //             TextStyle {
+                //                 font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                //                 font_size: 20.0,
+                //                 color: Color::BLACK,
+                //             },
+                //         ),
+                //         style: Style {
+                //             margin: UiRect::all(Val::Px(10.0)),
+                //             ..default()
+                //         },
+                //         ..default()
+                //     });
+                // });
+                // WIP
                 .with_children(|right_container| {
-                    right_container.spawn(TextBundle {
-                        text: Text::from_section(
-                            // format!("Selected recruit: {:?}", player_stats.recruits.len()),
-                            format!("Selected recruit: {:?}", selected_recruit),
-                            TextStyle {
-                                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                font_size: 20.0,
-                                color: Color::BLACK,
+                    if let Some(recruit) = &selected_recruit.0 {
+                        right_container.spawn(TextBundle {
+                            text: Text::from_section(
+                                format!("ID: {:?}", recruit.id),
+                                TextStyle {
+                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font_size: 20.0,
+                                    color: Color::BLACK,
+                                },
+                            ),
+                            style: Style {
+                                margin: UiRect::all(Val::Px(10.0)),
+                                ..default()
                             },
-                        ),
-                        style: Style {
-                            margin: UiRect::all(Val::Px(10.0)),
                             ..default()
-                        },
-                        ..default()
-                    });
+                        });
+
+                        right_container.spawn(TextBundle {
+                            text: Text::from_section(
+                                format!("Class: {:?}", recruit.class),
+                                TextStyle {
+                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font_size: 20.0,
+                                    color: Color::BLACK,
+                                },
+                            ),
+                            style: Style {
+                                margin: UiRect::all(Val::Px(10.0)),
+                                ..default()
+                            },
+                            ..default()
+                        });
+
+                        right_container.spawn(TextBundle {
+                            text: Text::from_section(
+                                format!("Endurance: {:?}", recruit.endurance),
+                                TextStyle {
+                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font_size: 20.0,
+                                    color: Color::BLACK,
+                                },
+                            ),
+                            style: Style {
+                                margin: UiRect::all(Val::Px(10.0)),
+                                ..default()
+                            },
+                            ..default()
+                        });
+
+                        right_container.spawn(TextBundle {
+                            text: Text::from_section(
+                                format!("Experience: {:?}", recruit.experience),
+                                TextStyle {
+                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font_size: 20.0,
+                                    color: Color::BLACK,
+                                },
+                            ),
+                            style: Style {
+                                margin: UiRect::all(Val::Px(10.0)),
+                                ..default()
+                            },
+                            ..default()
+                        });
+
+                        right_container.spawn(TextBundle {
+                            text: Text::from_section(
+                                format!("Intelligence: {:?}", recruit.intelligence),
+                                TextStyle {
+                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font_size: 20.0,
+                                    color: Color::BLACK,
+                                },
+                            ),
+                            style: Style {
+                                margin: UiRect::all(Val::Px(10.0)),
+                                ..default()
+                            },
+                            ..default()
+                        });
+
+                        right_container.spawn(TextBundle {
+                            text: Text::from_section(
+                                format!("Level: {:?}", recruit.level),
+                                TextStyle {
+                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font_size: 20.0,
+                                    color: Color::BLACK,
+                                },
+                            ),
+                            style: Style {
+                                margin: UiRect::all(Val::Px(10.0)),
+                                ..default()
+                            },
+                            ..default()
+                        });
+
+                        right_container.spawn(TextBundle {
+                            text: Text::from_section(
+                                format!("Max Experience: {:?}", recruit.max_experience),
+                                TextStyle {
+                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font_size: 20.0,
+                                    color: Color::BLACK,
+                                },
+                            ),
+                            style: Style {
+                                margin: UiRect::all(Val::Px(10.0)),
+                                ..default()
+                            },
+                            ..default()
+                        });
+
+                        right_container.spawn(TextBundle {
+                            text: Text::from_section(
+                                format!("Strength: {:?}", recruit.strength),
+                                TextStyle {
+                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font_size: 20.0,
+                                    color: Color::BLACK,
+                                },
+                            ),
+                            style: Style {
+                                margin: UiRect::all(Val::Px(10.0)),
+                                ..default()
+                            },
+                            ..default()
+                        });
+                    } else {
+                        right_container.spawn(TextBundle {
+                            text: Text::from_section(
+                                "No recruit selected".to_string(),
+                                TextStyle {
+                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font_size: 20.0,
+                                    color: Color::BLACK,
+                                },
+                            ),
+                            style: Style {
+                                margin: UiRect::all(Val::Px(10.0)),
+                                ..default()
+                            },
+                            ..default()
+                        });
+                    }
                 });
         });
 }

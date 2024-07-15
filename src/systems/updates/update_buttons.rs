@@ -6,7 +6,7 @@ use crate::{
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     },
     ui::ui_constants::WOOD_COLOR,
-    utils::get_new_room,
+    utils::{get_new_room, select_recruit},
 };
 use bevy::prelude::*;
 use uuid::Uuid;
@@ -246,6 +246,7 @@ pub fn select_recruit_button(
                         .find(|recruit| recruit.id.to_string() == recruit_id);
 
                     selected_recruit.0 = recruit_selected.cloned();
+                    // select_recruit(selected_recruit, recruit_selected.unwrap().clone());
 
                     println!(
                         "\n Button pressed on the recruit with the id : {:?}\n",
