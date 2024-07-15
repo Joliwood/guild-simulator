@@ -47,6 +47,7 @@ fn main() -> AppExit {
                 systems::updates::update_buttons::mouse_interaction_updates,
                 systems::updates::update_buttons::buttons_disable_updates,
                 systems::updates::update_buttons::select_recruit_button,
+                systems::updates::update_recruit_infos::update_recruit_infos,
             ),
         )
         .run()
