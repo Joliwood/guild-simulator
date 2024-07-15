@@ -1,15 +1,12 @@
-#![allow(dead_code)]
+// #![allow(dead_code)]
 
 use crate::enums::{RecruitEnum, RoomEnum};
-use bevy::{
-    prelude::{Component, Event, Resource},
-    state::state::States,
-};
+use bevy::prelude::{Component, Resource};
 use uuid::Uuid;
 
 // --- Triggers --- //
 
-#[derive(Component)]
+#[derive(Resource, Component)]
 pub struct GoldCountTrigger;
 
 #[derive(Component)]
@@ -22,7 +19,10 @@ pub struct ResetRoomTrigger;
 pub struct PlayerStatsRecruitsTrigger;
 
 #[derive(Component)]
-pub struct RecruitsTrigger;
+pub struct SelectedRecruitTrigger;
+
+#[derive(Resource)]
+pub struct PlayerStatsGoldsTrigger;
 
 // --- Definition of structs --- //
 
@@ -51,8 +51,7 @@ pub struct RecruitStats {
 #[derive(Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct SelectedRecruit(pub Option<RecruitStats>);
 
-#[derive(Resource, Debug, Event)]
-pub struct SelectRecruitEvent(pub Uuid);
+// --- Implementations --- //
 
 impl Default for SelectedRecruit {
     fn default() -> Self {
@@ -60,17 +59,8 @@ impl Default for SelectedRecruit {
     }
 }
 
-#[derive(Component)]
-pub struct SelectedRecruitTrigger;
-
-// --- Implementations --- //
-
 impl PlayerStats {
     pub fn increment_golds(&mut self, amount: i32) {
-        println!(
-            "Incrementing golds by {} for a total of : {}",
-            amount, self.golds,
-        );
         self.golds += amount;
     }
 }
@@ -78,8 +68,8 @@ impl PlayerStats {
 impl Default for PlayerStats {
     fn default() -> Self {
         Self {
-            golds: 5,
-            room: RoomEnum::Barrack,
+            golds: 0,
+            room: RoomEnum::Office,
             recruits: vec![],
         }
     }

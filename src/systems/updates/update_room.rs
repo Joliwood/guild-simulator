@@ -1,6 +1,6 @@
 use crate::{
     enums::RoomEnum,
-    structs::{PlayerStats, RecruitsTrigger, ResetRoomTrigger, SelectedRecruit},
+    structs::{PlayerStats, ResetRoomTrigger, SelectedRecruit},
     ui::rooms::{
         room_barrack::room_barrack, room_command_room::room_command_room, room_office::room_office,
         room_store::room_store,

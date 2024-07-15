@@ -10,7 +10,7 @@ mod utils;
 
 use bevy::prelude::*;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use structs::{PlayerStats, SelectRecruitEvent, SelectedRecruit};
+use structs::{GoldCountTrigger, PlayerStats, PlayerStatsGoldsTrigger, SelectedRecruit};
 
 fn main() -> AppExit {
     App::new()
@@ -18,9 +18,9 @@ fn main() -> AppExit {
             DefaultPlugins,
             //  WorldInspectorPlugin::new()
         ))
-        .add_event::<SelectRecruitEvent>()
         .insert_resource(PlayerStats::default())
         .insert_resource(SelectedRecruit::default())
+        // .insert_resource(PlayerStatsGoldsTrigger::default())
         .add_systems(
             Startup,
             (

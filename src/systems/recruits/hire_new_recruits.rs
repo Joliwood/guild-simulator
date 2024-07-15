@@ -7,11 +7,6 @@ pub fn hire_new_recruits(player_stats: &mut PlayerStats, new_recruits: Vec<Recru
         player_stats.recruits.push(recruit);
     }
 
-    println!(
-        "Recruits are ready! {:?} recruits are ready to fight!",
-        player_stats.recruits
-    );
-
     if player_stats.recruits.len() == recruits_number {
         return true;
     } else {

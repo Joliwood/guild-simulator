@@ -1,10 +1,8 @@
-use bevy::prelude::ResMut;
-use uuid::Uuid;
-
 use crate::{
     enums::{RoomDirectionEnum, RoomEnum},
     structs::{PlayerStats, RecruitStats, SelectedRecruit},
 };
+use bevy::prelude::ResMut;
 
 /// Determines the new room based on the given direction and current player stats.
 ///
@@ -47,10 +45,6 @@ pub fn get_new_room(
 }
 
 pub fn increment_golds(player_stats: &mut ResMut<PlayerStats>, amount: i32) {
-    println!(
-        "Incrementing golds by {} for a total of : {}",
-        amount, player_stats.golds,
-    );
     player_stats.golds += amount;
 }
 

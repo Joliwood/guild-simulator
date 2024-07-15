@@ -11,11 +11,6 @@ use uuid::Uuid;
 /// Only with first recruits, the stats will be fixed
 /// The others recruted will have random stats
 pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
-    println!(
-        "We are ready to hire some recruits! Currently, we have {} recruits.",
-        player_stats.recruits.len()
-    );
-
     let new_recruits = vec![
         RecruitStats {
             id: Uuid::new_v4(),
