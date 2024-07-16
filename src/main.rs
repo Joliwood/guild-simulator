@@ -9,17 +9,17 @@ mod ui;
 mod utils;
 
 use bevy::prelude::*;
-// use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use structs::{PlayerStats, SelectedRecruit};
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use structs::{Missions, ModalVisible, PlayerStats, SelectedMission, SelectedRecruit};
 
 fn main() -> AppExit {
     App::new()
-        .add_plugins(
-            DefaultPlugins,
-            // WorldInspectorPlugin::new())
-        )
+        .add_plugins((DefaultPlugins, WorldInspectorPlugin::new()))
         .insert_resource(PlayerStats::default())
+        .insert_resource(Missions::default())
         .insert_resource(SelectedRecruit::default())
+        .insert_resource(SelectedMission::default())
+        .insert_resource(ModalVisible(false))
         .add_systems(
             Startup,
             (
@@ -46,7 +46,9 @@ fn main() -> AppExit {
                 systems::updates::update_buttons::mouse_interaction_updates,
                 systems::updates::update_buttons::buttons_disable_updates,
                 systems::updates::update_buttons::select_recruit_button,
+                systems::updates::update_buttons::select_mission_button,
                 systems::updates::update_recruit_infos::update_recruit_infos,
+                ui::modals::mission_details_modal::display_mission_modal,
             ),
         )
         .run()

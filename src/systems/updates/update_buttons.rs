@@ -1,6 +1,9 @@
 use crate::{
     enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
-    structs::{PlayerStats, RecruitStats, SelectedRecruit, UniqueId},
+    structs::{
+        Missions, ModalVisible, PlayerStats, RecruitStats, SelectedMission, SelectedRecruit,
+        UniqueId,
+    },
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
@@ -176,30 +179,64 @@ pub fn select_recruit_button(
     let mut window = windows.single_mut();
 
     for (interaction, mut color, unique_id) in &mut interaction_query {
-        match *interaction {
-            Interaction::Pressed => {
-                if unique_id.0.starts_with("recruit_button_") {
-                    let recruit_id = unique_id.0.strip_prefix("recruit_button_").unwrap();
-                    let recruit_selected = player_stats
-                        .recruits
-                        .iter()
-                        .find(|recruit| recruit.id.to_string() == recruit_id);
+        if unique_id.0.starts_with("recruit_button_") {
+            match *interaction {
+                Interaction::Pressed => {
+                    if unique_id.0.starts_with("recruit_button_") {
+                        let recruit_id = unique_id.0.strip_prefix("recruit_button_").unwrap();
+                        let recruit_selected = player_stats
+                            .recruits
+                            .iter()
+                            .find(|recruit| recruit.id.to_string() == recruit_id);
 
-                    selected_recruit.0 = recruit_selected.cloned();
+                        selected_recruit.0 = recruit_selected.cloned();
 
-                    info!(
-                        "\n Button pressed on the recruit with the id : {:?}\n",
-                        recruit_selected
-                    );
+                        info!(
+                            "\n Button pressed on the recruit with the id : {:?}\n",
+                            recruit_selected
+                        );
+                    }
+                }
+                Interaction::Hovered => {
+                    window.cursor.icon = CursorIcon::Pointer;
+                    *color = HOVERED_BUTTON.into();
+                }
+                Interaction::None => {
+                    window.cursor.icon = CursorIcon::Default;
+                    *color = BackgroundColor(WOOD_COLOR);
                 }
             }
-            Interaction::Hovered => {
-                window.cursor.icon = CursorIcon::Pointer;
-                *color = HOVERED_BUTTON.into();
-            }
-            Interaction::None => {
-                window.cursor.icon = CursorIcon::Default;
-                *color = BackgroundColor(WOOD_COLOR);
+        }
+    }
+}
+
+pub fn select_mission_button(
+    mut interaction_query: Query<
+        (&Interaction, &mut BackgroundColor, &UniqueId),
+        Changed<Interaction>,
+    >,
+    mut windows: Query<&mut Window>,
+    player_stats: Res<PlayerStats>,
+    missions: Res<Missions>,
+    mut selected_mission: ResMut<SelectedMission>,
+    mut modal_visible: ResMut<ModalVisible>,
+) {
+    let mut window = windows.single_mut();
+
+    for (interaction, mut color, unique_id) in &mut interaction_query {
+        if unique_id.0 == "select_mission_button" {
+            match *interaction {
+                Interaction::Pressed => {
+                    modal_visible.0 = true;
+                }
+                Interaction::Hovered => {
+                    window.cursor.icon = CursorIcon::Pointer;
+                    *color = HOVERED_BUTTON.into();
+                }
+                Interaction::None => {
+                    window.cursor.icon = CursorIcon::Default;
+                    *color = NORMAL_BUTTON.into();
+                }
             }
         }
     }
