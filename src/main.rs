@@ -14,7 +14,11 @@ use structs::{Missions, ModalVisible, PlayerStats, SelectedMission, SelectedRecr
 
 fn main() -> AppExit {
     App::new()
-        .add_plugins((DefaultPlugins, WorldInspectorPlugin::new()))
+        .add_plugins((
+            DefaultPlugins,
+            // Desactivate on testing
+            WorldInspectorPlugin::new(),
+        ))
         .insert_resource(PlayerStats::default())
         .insert_resource(Missions::default())
         .insert_resource(SelectedRecruit::default())

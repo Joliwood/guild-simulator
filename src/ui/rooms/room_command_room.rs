@@ -23,10 +23,11 @@ pub fn room_command_room(
                 image: image_handler.into(),
                 style: Style {
                     position_type: PositionType::Absolute,
-                    width: Val::Percent(80.0),
-                    height: Val::Percent(80.0),
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
                     ..default()
                 },
+                z_index: ZIndex::Global(-1),
                 ..default()
             });
 
@@ -48,7 +49,7 @@ pub fn room_command_room(
                     })
                     .insert((
                         SelectedMissionTrigger,
-                        UniqueId("select_mission_button".to_string()),
+                        UniqueId(format!("select_mission_button_{}", mission.id)),
                     ))
                     .with_children(|button| {
                         button.spawn(TextBundle {

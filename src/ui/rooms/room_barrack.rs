@@ -24,9 +24,10 @@ pub fn room_barrack(
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Stretch,
                 margin: UiRect::all(Val::Auto),
-                height: Val::Percent(90.0),
+                height: Val::Percent(100.0),
                 ..node_container_style()
             },
+            z_index: ZIndex::Global(-1),
             ..default()
         })
         .insert(ResetRoomTrigger)
@@ -152,26 +153,6 @@ pub fn room_barrack(
                     });
                 })
                 .insert(SelectedRecruitTrigger)
-                // All infos of the selected button
-                // .with_children(|right_container| {
-                //     right_container.spawn(TextBundle {
-                //         text: Text::from_section(
-                //             // format!("Selected recruit: {:?}", player_stats.recruits.len()),
-                //             format!("Selected recruit: {:?}", selected_recruit),
-                //             TextStyle {
-                //                 font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                //                 font_size: 20.0,
-                //                 color: Color::BLACK,
-                //             },
-                //         ),
-                //         style: Style {
-                //             margin: UiRect::all(Val::Px(10.0)),
-                //             ..default()
-                //         },
-                //         ..default()
-                //     });
-                // });
-                // WIP
                 .with_children(|right_container| {
                     if let Some(recruit) = &selected_recruit.0 {
                         right_container.spawn(TextBundle {

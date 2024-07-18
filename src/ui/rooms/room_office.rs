@@ -19,11 +19,12 @@ pub fn room_office(asset_server: &Res<AssetServer>, commands: &mut Commands) {
                 image: imager_handler.into(),
                 style: Style {
                     position_type: PositionType::Absolute,
-                    width: Val::Percent(80.0),
-                    height: Val::Percent(80.0),
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
                     display: Display::Flex,
                     ..default()
                 },
+                z_index: ZIndex::Global(-1),
                 ..default()
             });
         })

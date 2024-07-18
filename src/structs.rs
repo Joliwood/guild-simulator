@@ -24,6 +24,9 @@ pub struct SelectedRecruitTrigger;
 #[derive(Component)]
 pub struct SelectedMissionTrigger;
 
+#[derive(Component)]
+pub struct ModalContentTrigger;
+
 // --- Definition of structs --- //
 
 #[derive(Component, Resource)]
@@ -70,6 +73,8 @@ pub struct Ennemy {
 pub struct Missions(pub Vec<Mission>);
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct Mission {
+    pub id: Uuid,
+    pub name: String,
     pub level: u8,
     pub ennemy: Ennemy,
 }
@@ -108,6 +113,8 @@ impl Default for Missions {
     fn default() -> Self {
         Self(vec![
             Mission {
+                id: Uuid::new_v4(),
+                name: "Mission 1".to_string(),
                 level: 1,
                 ennemy: Ennemy {
                     endurance: 10,
@@ -118,6 +125,8 @@ impl Default for Missions {
                 },
             },
             Mission {
+                id: Uuid::new_v4(),
+                name: "Mission 2".to_string(),
                 level: 2,
                 ennemy: Ennemy {
                     endurance: 15,
@@ -128,6 +137,8 @@ impl Default for Missions {
                 },
             },
             Mission {
+                id: Uuid::new_v4(),
+                name: "Mission 3".to_string(),
                 level: 3,
                 ennemy: Ennemy {
                     endurance: 20,

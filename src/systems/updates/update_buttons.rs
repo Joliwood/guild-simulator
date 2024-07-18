@@ -28,6 +28,7 @@ pub fn mouse_interaction_updates(
     mut text_query: Query<&mut Text>,
     mut player_stats: ResMut<PlayerStats>,
     mut windows: Query<&mut Window>,
+    mut modal_visible: ResMut<ModalVisible>,
 ) {
     let mut window = windows.single_mut();
 
@@ -107,6 +108,7 @@ pub fn mouse_interaction_updates(
                     if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Top) {
                         player_stats.room = new_room;
                     }
+                    modal_visible.0 = false;
                     border_color.0 = Color::srgba(255.0, 0.0, 0.0, 1.0);
                 }
                 Interaction::Hovered => {
@@ -182,20 +184,18 @@ pub fn select_recruit_button(
         if unique_id.0.starts_with("recruit_button_") {
             match *interaction {
                 Interaction::Pressed => {
-                    if unique_id.0.starts_with("recruit_button_") {
-                        let recruit_id = unique_id.0.strip_prefix("recruit_button_").unwrap();
-                        let recruit_selected = player_stats
-                            .recruits
-                            .iter()
-                            .find(|recruit| recruit.id.to_string() == recruit_id);
+                    let recruit_id = unique_id.0.strip_prefix("recruit_button_").unwrap();
+                    let recruit_selected = player_stats
+                        .recruits
+                        .iter()
+                        .find(|recruit| recruit.id.to_string() == recruit_id);
 
-                        selected_recruit.0 = recruit_selected.cloned();
+                    selected_recruit.0 = recruit_selected.cloned();
 
-                        info!(
-                            "\n Button pressed on the recruit with the id : {:?}\n",
-                            recruit_selected
-                        );
-                    }
+                    info!(
+                        "\n Button pressed on the recruit with the id : {:?}\n",
+                        recruit_selected
+                    );
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;
@@ -224,9 +224,18 @@ pub fn select_mission_button(
     let mut window = windows.single_mut();
 
     for (interaction, mut color, unique_id) in &mut interaction_query {
-        if unique_id.0 == "select_mission_button" {
+        if unique_id.0.starts_with("select_mission_button_") {
             match *interaction {
                 Interaction::Pressed => {
+                    let mission_id = unique_id.0.strip_prefix("select_mission_button_").unwrap();
+
+                    // Search the mission by id in the player_disponible missions
+                    selected_mission.0 = missions
+                        .0
+                        .iter()
+                        .find(|mission| mission.id.to_string() == mission_id)
+                        .cloned();
+
                     modal_visible.0 = true;
                 }
                 Interaction::Hovered => {
