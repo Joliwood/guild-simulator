@@ -1,14 +1,20 @@
-use crate::{systems::systems_constants::NORMAL_BUTTON, ui::ui_constants::WOOD_COLOR};
-use bevy::prelude::*;
+use crate::{
+    systems::systems_constants::NORMAL_BUTTON,
+    ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
+};
+use bevy::{asset::LoadedFolder, prelude::*, render::texture::ImageSampler};
 
 pub enum CustomButton {
     Primary,
     GoldButton,
     RoomArrow,
+    SquareIcon,
 }
 
 impl CustomButton {
-    pub fn bundle(&self, asset_server: &Res<AssetServer>) -> ButtonBundle {
+    pub fn bundle(&self, asset_server: &Res<AssetServer>, image_assets: MyAssets) -> ButtonBundle {
+        // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
+
         match self {
             CustomButton::Primary => ButtonBundle {
                 style: Style {
@@ -33,12 +39,31 @@ impl CustomButton {
                     align_items: AlignItems::Center,
                     ..default()
                 },
-                border_color: BorderColor(Color::BLACK),
+                // border_color: BorderColor(Color::BLACK),
                 border_radius: BorderRadius::MAX,
                 // Test for insert image asset for button
                 // image: UiImage::new(asset_server.load("../assets/images/cursors/cursor_grab.png")),
+                // image: UiImage::new(image_assets.test_button),
                 ..Default::default()
             },
+            // .with_children(|parent: &mut ChildBuilder| {
+            //     parent.spawn((
+            //         SpriteBundle {
+            //             texture: image_assets.test_button.clone(),
+            //             transform: Transform {
+            //                 translation: Vec3::new(200.0, 100.0, 0.0),
+            //                 scale: Vec3::splat(0.2),
+            //                 ..default()
+            //             },
+            //             ..default()
+            //         },
+            //         TextureAtlas {
+            //             layout: texture_atlas_layout.clone(),
+            //             index: 5,
+            //         },
+            //     ));
+            // }),
+            // image_assets
             CustomButton::RoomArrow => ButtonBundle {
                 style: Style {
                     display: Display::Flex,
@@ -46,6 +71,20 @@ impl CustomButton {
                     width: Val::Percent(100.0),
                     ..default()
                 },
+                border_color: BorderColor(Color::BLACK),
+                image: UiImage::default().with_color(NORMAL_BUTTON),
+                ..default()
+            },
+            CustomButton::SquareIcon => ButtonBundle {
+                style: Style {
+                    display: Display::Flex,
+                    justify_content: JustifyContent::Center,
+                    width: Val::Px(50.0),
+                    aspect_ratio: Some(1.0),
+                    ..default()
+                },
+                border_radius: BorderRadius::all(Val::Px(10.)),
+                background_color: BackgroundColor(WOOD_COLOR),
                 border_color: BorderColor(Color::BLACK),
                 image: UiImage::default().with_color(NORMAL_BUTTON),
                 ..default()

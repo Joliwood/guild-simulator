@@ -10,8 +10,10 @@ mod ui;
 mod utils;
 
 use bevy::prelude::*;
+use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use structs::{Missions, ModalVisible, PlayerStats, SelectedMission, SelectedRecruit};
+use structs::{MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit};
+use ui::interface::gold_counter::MyAssets;
 
 fn main() -> AppExit {
     App::new()
@@ -24,7 +26,8 @@ fn main() -> AppExit {
         .insert_resource(Missions::default())
         .insert_resource(SelectedRecruit::default())
         .insert_resource(SelectedMission::default())
-        .insert_resource(ModalVisible(false))
+        .insert_resource(MissionModalVisible(false))
+        .init_collection::<MyAssets>()
         .add_systems(
             Startup,
             (

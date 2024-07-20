@@ -1,17 +1,18 @@
 use crate::{
-    structs::{ModalContentTrigger, ModalVisible, PlayerStats, SelectedMission, UniqueId},
+    structs::{MissionModalVisible, ModalContentTrigger, PlayerStats, SelectedMission, UniqueId},
     styles::CustomButton,
-    ui::ui_constants::WOOD_COLOR,
+    ui::interface::gold_counter::MyAssets,
 };
 use bevy::{asset::AssetServer, prelude::*};
 
 pub fn display_mission_modal(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    modal_visible: Res<ModalVisible>,
+    modal_visible: Res<MissionModalVisible>,
     query: Query<Entity, With<ModalContentTrigger>>,
     player_stats: Res<PlayerStats>,
     selected_mission: Res<SelectedMission>,
+    image_assets: Res<MyAssets>,
 ) {
     // Despawn existing modals
     if modal_visible.is_changed() && !modal_visible.0 {
@@ -66,10 +67,31 @@ pub fn display_mission_modal(
                         ..default()
                     });
 
+                    // Close button to close the modal
+                    parent
+                        .spawn(CustomButton::SquareIcon.bundle(&asset_server, image_assets.clone()))
+                        .insert(UniqueId("close_mission_modal".to_string()))
+                        // TODO WIP - Fix !
+                        .with_children(|button| {
+                            button.spawn(TextBundle {
+                                text: Text::from_section(
+                                    "Close",
+                                    TextStyle {
+                                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                        font_size: 20.0,
+                                        color: Color::BLACK,
+                                    },
+                                ),
+                                ..default()
+                            });
+                        });
+
                     // Left side to select which recruit to assign to which mission
                     for recruit in player_stats.recruits.iter() {
                         parent
-                            .spawn(CustomButton::Primary.bundle(&asset_server))
+                            .spawn(
+                                CustomButton::Primary.bundle(&asset_server, image_assets.clone()),
+                            )
                             .insert(UniqueId(format!(
                                 "assign_recruit_to_mission_{}",
                                 recruit.id

@@ -4,12 +4,36 @@ use crate::{
     ui::ui_constants::WOOD_COLOR,
 };
 use bevy::prelude::*;
+use bevy_asset_loader::asset_collection::AssetCollection;
+
+#[derive(AssetCollection, Resource)]
+pub struct MyAssets {
+    #[asset(path = "images/ui/buttons_atlas.png")]
+    pub test_button: Handle<Image>,
+    #[asset(texture_atlas_layout(tile_size_x = 2000, tile_size_y = 2000, columns = 4, rows = 4))]
+    pub test_button_layout: Handle<TextureAtlasLayout>,
+}
+
+impl Clone for MyAssets {
+    fn clone(&self) -> Self {
+        MyAssets {
+            test_button: self.test_button.clone(),
+            test_button_layout: self.test_button_layout.clone(),
+        }
+    }
+}
 
 pub fn gold_counter(
     asset_server: Res<AssetServer>,
     mut commands: Commands,
     player_stats: Res<PlayerStats>,
+    image_assets: Res<MyAssets>,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
+    // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
+    let layout = TextureAtlasLayout::from_grid(UVec2::splat(500), 4, 4, None, None);
+    let texture_atlas_layout = texture_atlas_layouts.add(layout);
+
     commands
         .spawn(NodeBundle {
             style: Style {
@@ -20,6 +44,7 @@ pub fn gold_counter(
                 height: Val::Px(36.0),
                 ..default()
             },
+            // z_index: ZIndex::Global(3),
             background_color: BackgroundColor(WOOD_COLOR),
             ..default()
         })
@@ -27,7 +52,7 @@ pub fn gold_counter(
         // Gold icon
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn(ImageBundle {
-                image: asset_server.load("images/gold.png").into(),
+                image: asset_server.load("images/ui/gold.png").into(),
                 style: Style {
                     // The position absolute make the gold counter visible (z-index)
                     width: Val::Px(24.0),
@@ -39,8 +64,26 @@ pub fn gold_counter(
                 ..default()
             });
         })
+        // ! WIP - The only sprite bundle that works
+        .with_children(|ui_container: &mut ChildBuilder| {
+            ui_container.spawn((
+                SpriteBundle {
+                    texture: image_assets.test_button.clone(),
+                    transform: Transform {
+                        translation: Vec3::new(100.0, 0.0, 0.0),
+                        scale: Vec3::splat(0.2),
+                        ..default()
+                    },
+                    ..default()
+                },
+                TextureAtlas {
+                    layout: texture_atlas_layout.clone(),
+                    index: 15,
+                },
+            ));
+        })
         .insert(Name::new("Gold icon"))
-        // Gold counter text
+        // Gold counter texté
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
                 .spawn(TextBundle {

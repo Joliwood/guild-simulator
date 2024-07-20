@@ -1,10 +1,18 @@
 use crate::{
     structs::ResetRoomTrigger,
-    ui::{buttons::gold_button::gold_button, styles::node_container_style::node_container_style},
+    ui::{
+        buttons::gold_button::gold_button, interface::gold_counter::MyAssets,
+        styles::node_container_style::node_container_style,
+    },
 };
 use bevy::prelude::*;
 
-pub fn room_office(asset_server: &Res<AssetServer>, commands: &mut Commands) {
+pub fn room_office(
+    asset_server: &Res<AssetServer>,
+    commands: &mut Commands,
+    image_assets: Res<MyAssets>,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+) {
     let imager_handler: Handle<Image> = asset_server.load("images/office.png");
 
     commands
@@ -20,8 +28,8 @@ pub fn room_office(asset_server: &Res<AssetServer>, commands: &mut Commands) {
                 image: imager_handler.into(),
                 style: Style {
                     position_type: PositionType::Absolute,
-                    width: Val::Percent(100.0),
-                    height: Val::Percent(100.0),
+                    width: Val::Percent(1.0),
+                    height: Val::Percent(1.0),
                     display: Display::Flex,
                     ..default()
                 },
@@ -31,6 +39,11 @@ pub fn room_office(asset_server: &Res<AssetServer>, commands: &mut Commands) {
         })
         // Menu button node
         .with_children(|settings_button: &mut ChildBuilder| {
-            gold_button(asset_server, settings_button);
+            gold_button(
+                asset_server,
+                settings_button,
+                image_assets,
+                texture_atlas_layouts,
+            );
         });
 }

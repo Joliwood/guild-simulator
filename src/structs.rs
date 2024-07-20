@@ -1,7 +1,16 @@
 // #![allow(dead_code)]
 
 use crate::enums::{RecruitEnum, RoomEnum};
-use bevy::prelude::{Component, Resource};
+use bevy::prelude::*;
+use bevy::sprite::TextureAtlas;
+use bevy::{
+    asset::Handle,
+    prelude::{Component, Resource},
+    render::texture::Image,
+    sprite::TextureAtlasLayout,
+};
+use bevy_asset_loader::asset_collection::AssetCollection;
+use bevy_asset_loader::prelude::*;
 use uuid::Uuid;
 
 // --- Triggers --- //
@@ -30,7 +39,7 @@ pub struct ModalContentTrigger;
 // --- Definition of structs --- //
 
 #[derive(Component, Resource)]
-pub struct ModalVisible(pub bool);
+pub struct MissionModalVisible(pub bool);
 
 #[derive(Component)]
 pub struct UniqueId(pub String);
@@ -103,7 +112,7 @@ impl Default for PlayerStats {
     fn default() -> Self {
         Self {
             golds: 0,
-            room: RoomEnum::CommandRoom,
+            room: RoomEnum::Office,
             recruits: vec![],
         }
     }
