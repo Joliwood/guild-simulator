@@ -36,19 +36,16 @@ pub fn mouse_interaction_updates(
             // Safely get the child text component
             match *interaction {
                 Interaction::Pressed => {
-                    // text.sections[0].value = "O".to_string();
                     player_stats.increment_golds(1);
                     *color = PRESSED_BUTTON.into();
                     border_color.0 = WOOD_COLOR;
                 }
                 Interaction::Hovered => {
-                    // text.sections[0].value = "H".to_string();
                     *color = HOVERED_BUTTON.into();
                     border_color.0 = Color::WHITE;
                     window.cursor.icon = CursorIcon::Pointer;
                 }
                 Interaction::None => {
-                    // text.sections[0].value = "X".to_string();
                     *color = NORMAL_BUTTON.into();
                     border_color.0 = Color::BLACK;
                     window.cursor.icon = CursorIcon::Default;
@@ -276,8 +273,6 @@ pub fn assign_recruit_to_mission(
                         .iter()
                         .find(|mission| mission.id.to_string() == mission_id)
                         .cloned();
-
-                    modal_visible.0 = false;
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;
@@ -286,6 +281,43 @@ pub fn assign_recruit_to_mission(
                 Interaction::None => {
                     window.cursor.icon = CursorIcon::Default;
                     *color = BackgroundColor(WOOD_COLOR);
+                }
+            }
+        }
+    }
+}
+
+pub fn close_mission_modal(
+    mut interaction_query: Query<
+        (
+            &Interaction,
+            &mut BackgroundColor,
+            &UniqueId,
+            &mut BorderColor,
+        ),
+        Changed<Interaction>,
+    >,
+    mut windows: Query<&mut Window>,
+    mut modal_visible: ResMut<MissionModalVisible>,
+) {
+    let mut window = windows.single_mut();
+
+    for (interaction, mut color, unique_id, mut border_color) in &mut interaction_query {
+        if unique_id.0.starts_with("close_mission_modal") {
+            match *interaction {
+                Interaction::Pressed => {
+                    modal_visible.0 = false;
+                    border_color.0 = WOOD_COLOR;
+                }
+                Interaction::Hovered => {
+                    window.cursor.icon = CursorIcon::Pointer;
+                    *color = HOVERED_BUTTON.into();
+                    border_color.0 = Color::WHITE;
+                }
+                Interaction::None => {
+                    window.cursor.icon = CursorIcon::Default;
+                    *color = BackgroundColor(WOOD_COLOR);
+                    border_color.0 = Color::BLACK;
                 }
             }
         }

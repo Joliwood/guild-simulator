@@ -1,7 +1,7 @@
 use crate::{
     structs::{MissionModalVisible, ModalContentTrigger, PlayerStats, SelectedMission, UniqueId},
     styles::CustomButton,
-    ui::interface::gold_counter::MyAssets,
+    ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
 };
 use bevy::{asset::AssetServer, prelude::*};
 
@@ -13,7 +13,19 @@ pub fn display_mission_modal(
     player_stats: Res<PlayerStats>,
     selected_mission: Res<SelectedMission>,
     image_assets: Res<MyAssets>,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
+    // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
+    let texture_handle = asset_server.load("images/ui/buttons_atlas.png");
+    let layout = TextureAtlasLayout::from_grid(
+        UVec2::new(5436, 3809),
+        5,
+        6,
+        Some(UVec2::new(0, 0)),
+        Some(UVec2::new(0, 0)),
+    );
+    let texture_atlas_layout = texture_atlas_layouts.add(layout);
+
     // Despawn existing modals
     if modal_visible.is_changed() && !modal_visible.0 {
         for entity in query.iter() {
@@ -34,9 +46,11 @@ pub fn display_mission_modal(
                         height: Val::Percent(80.0),
                         margin: UiRect::all(Val::Auto),
                         padding: UiRect::all(Val::Px(20.0)),
+                        border: UiRect::all(Val::Px(3.0)),
                         ..default()
                     },
                     border_radius: BorderRadius::all(Val::Px(20.0)),
+                    border_color: BorderColor(Color::BLACK),
                     background_color: BackgroundColor(Color::srgb_u8(32, 33, 36)),
                     z_index: ZIndex::Global(1),
                     ..default()
@@ -69,19 +83,34 @@ pub fn display_mission_modal(
 
                     // Close button to close the modal
                     parent
-                        .spawn(CustomButton::SquareIcon.bundle(&asset_server, image_assets.clone()))
+                        .spawn((
+                            ButtonBundle {
+                                style: Style {
+                                    position_type: PositionType::Absolute,
+                                    right: Val::Px(10.),
+                                    top: Val::Px(10.),
+                                    margin: UiRect::all(Val::Px(10.)),
+                                    width: Val::Px(40.),
+                                    height: Val::Px(40.),
+                                    border: UiRect::all(Val::Px(3.)),
+                                    ..default()
+                                },
+                                image: texture_handle.clone().into(),
+                                border_color: BorderColor(WOOD_COLOR),
+                                border_radius: BorderRadius::all(Val::Px(10.)),
+                                ..default()
+                            },
+                            TextureAtlas {
+                                index: 16,
+                                layout: texture_atlas_layout.clone(),
+                            },
+                        ))
+                        // .spawn(CustomButton::SquareIcon.bundle(&asset_server, image_assets.clone()))
                         .insert(UniqueId("close_mission_modal".to_string()))
                         // TODO WIP - Fix !
                         .with_children(|button| {
                             button.spawn(TextBundle {
-                                text: Text::from_section(
-                                    "Close",
-                                    TextStyle {
-                                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                        font_size: 20.0,
-                                        color: Color::BLACK,
-                                    },
-                                ),
+                                text: Text::from_section("", TextStyle { ..default() }),
                                 ..default()
                             });
                         });

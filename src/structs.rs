@@ -103,7 +103,7 @@ impl Default for PlayerStats {
     fn default() -> Self {
         Self {
             golds: 0,
-            room: RoomEnum::Office,
+            room: RoomEnum::CommandRoom,
             recruits: vec![],
         }
     }

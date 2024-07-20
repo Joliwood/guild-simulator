@@ -1,5 +1,4 @@
 use crate::structs::UniqueId;
-use crate::ui::ui_constants::WOOD_COLOR;
 use bevy::prelude::*;
 
 pub fn gold_button(
@@ -32,12 +31,10 @@ pub fn gold_button(
                     width: Val::Px(60.),
                     height: Val::Px(60.),
                     border: UiRect::all(Val::Px(3.)),
-                    // justify_content: JustifyContent::Center,
-                    // align_items: AlignItems::Center,
                     ..default()
                 },
                 image: texture_handle.clone().into(),
-                border_color: BorderColor(WOOD_COLOR),
+                border_color: BorderColor(Color::BLACK),
                 border_radius: BorderRadius::all(Val::Px(10.)),
                 ..default()
             },
