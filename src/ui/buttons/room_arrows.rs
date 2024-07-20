@@ -1,9 +1,5 @@
+use crate::{structs::UniqueId, styles::CustomButton, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
-
-use crate::{
-    structs::UniqueId, styles::CustomButton, systems::systems_constants::NORMAL_BUTTON,
-    ui::interface::gold_counter::MyAssets,
-};
 
 pub fn room_left_arrow_button(
     asset_server: Res<AssetServer>,

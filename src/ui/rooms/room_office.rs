@@ -24,8 +24,8 @@ pub fn room_office(
                 image: imager_handler.into(),
                 style: Style {
                     position_type: PositionType::Absolute,
-                    width: Val::Percent(1.0),
-                    height: Val::Percent(1.0),
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
                     display: Display::Flex,
                     ..default()
                 },
