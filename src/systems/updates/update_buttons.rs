@@ -20,7 +20,6 @@ pub fn mouse_interaction_updates(
             &Interaction,
             &mut BackgroundColor,
             &mut BorderColor,
-            &Children,
             &UniqueId,
         ),
         Changed<Interaction>,
@@ -32,7 +31,7 @@ pub fn mouse_interaction_updates(
     let mut window = windows.single_mut();
 
     // Directly filter the interaction query by UniqueId
-    for (interaction, mut color, mut border_color, children, unique_id) in &mut interaction_query {
+    for (interaction, mut color, mut border_color, unique_id) in &mut interaction_query {
         if unique_id.0 == "menu_button_id" {
             // Safely get the child text component
             match *interaction {

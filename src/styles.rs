@@ -2,13 +2,14 @@ use crate::{
     systems::systems_constants::NORMAL_BUTTON,
     ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
 };
-use bevy::{asset::LoadedFolder, prelude::*, render::texture::ImageSampler};
+use bevy::prelude::*;
 
 pub enum CustomButton {
     Primary,
     GoldButton,
     RoomArrow,
     SquareIcon,
+    EarnGold,
 }
 
 impl CustomButton {
@@ -46,23 +47,6 @@ impl CustomButton {
                 // image: UiImage::new(image_assets.test_button),
                 ..Default::default()
             },
-            // .with_children(|parent: &mut ChildBuilder| {
-            //     parent.spawn((
-            //         SpriteBundle {
-            //             texture: image_assets.test_button.clone(),
-            //             transform: Transform {
-            //                 translation: Vec3::new(200., 100., 0.),
-            //                 scale: Vec3::splat(0.2),
-            //                 ..default()
-            //             },
-            //             ..default()
-            //         },
-            //         TextureAtlas {
-            //             layout: texture_atlas_layout.clone(),
-            //             index: 5,
-            //         },
-            //     ));
-            // }),
             // image_assets
             CustomButton::RoomArrow => ButtonBundle {
                 style: Style {
@@ -87,6 +71,21 @@ impl CustomButton {
                 background_color: BackgroundColor(WOOD_COLOR),
                 border_color: BorderColor(Color::BLACK),
                 image: UiImage::default().with_color(NORMAL_BUTTON),
+                ..default()
+            },
+            CustomButton::EarnGold => ButtonBundle {
+                style: Style {
+                    margin: UiRect::all(Val::Px(10.)),
+                    width: Val::Px(60.),
+                    height: Val::Px(60.),
+                    border: UiRect::all(Val::Px(3.)),
+                    // justify_content: JustifyContent::Center,
+                    // align_items: AlignItems::Center,
+                    ..default()
+                },
+                image: image_assets.test_button.clone().into(),
+                border_color: BorderColor(WOOD_COLOR),
+                border_radius: BorderRadius::all(Val::Px(10.)),
                 ..default()
             },
         }

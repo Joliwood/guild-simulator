@@ -1,13 +1,10 @@
 use crate::structs::UniqueId;
-use crate::styles::CustomButton;
-use crate::ui::interface::gold_counter::MyAssets;
 use crate::ui::ui_constants::WOOD_COLOR;
 use bevy::prelude::*;
 
 pub fn gold_button(
     asset_server: &Res<AssetServer>,
     commands: &mut ChildBuilder,
-    image_assets: Res<MyAssets>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
@@ -22,7 +19,12 @@ pub fn gold_button(
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
 
     commands
-        // .spawn(CustomButton::GoldButton.bundle(&asset_server, image_assets.clone()))
+        // TODO - Create an exportable generic button with assets
+        // .spawn(generate_textural_button(
+        //     Some(CustomButton::EarnGold),
+        //     &image_assets,
+        //     &asset_server,
+        // ))
         .spawn((
             ButtonBundle {
                 style: Style {

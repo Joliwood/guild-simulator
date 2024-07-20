@@ -26,7 +26,7 @@ pub fn update_room(
     selected_recruit: Res<SelectedRecruit>,
     missions: Res<Missions>,
     image_assets: Res<MyAssets>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     if player_stats.is_changed() || selected_recruit.is_changed() {
         // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed
@@ -37,12 +37,7 @@ pub fn update_room(
 
         // Spawn new room based on player_stats
         match player_stats.room {
-            RoomEnum::Office => room_office(
-                &asset_server,
-                &mut commands,
-                image_assets,
-                texture_atlas_layouts,
-            ),
+            RoomEnum::Office => room_office(&asset_server, &mut commands, texture_atlas_layouts),
             RoomEnum::Barrack => room_barrack(
                 &asset_server,
                 &mut commands,

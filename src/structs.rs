@@ -1,16 +1,7 @@
 // #![allow(dead_code)]
 
 use crate::enums::{RecruitEnum, RoomEnum};
-use bevy::prelude::*;
-use bevy::sprite::TextureAtlas;
-use bevy::{
-    asset::Handle,
-    prelude::{Component, Resource},
-    render::texture::Image,
-    sprite::TextureAtlasLayout,
-};
-use bevy_asset_loader::asset_collection::AssetCollection;
-use bevy_asset_loader::prelude::*;
+use bevy::prelude::{Component, Resource};
 use uuid::Uuid;
 
 // --- Triggers --- //
