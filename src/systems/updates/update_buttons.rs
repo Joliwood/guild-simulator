@@ -169,6 +169,7 @@ pub fn mouse_interaction_updates(
     }
 }
 
+/// Select the recruit when the button is pressed
 pub fn select_recruit_button(
     mut interaction_query: Query<
         (&Interaction, &mut BackgroundColor, &UniqueId),
@@ -216,7 +217,48 @@ pub fn select_mission_button(
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
-    player_stats: Res<PlayerStats>,
+    missions: Res<Missions>,
+    mut selected_mission: ResMut<SelectedMission>,
+    mut modal_visible: ResMut<ModalVisible>,
+) {
+    let mut window = windows.single_mut();
+    if !modal_visible.0 {
+        for (interaction, mut color, unique_id) in &mut interaction_query {
+            if unique_id.0.starts_with("select_mission_button_") {
+                match *interaction {
+                    Interaction::Pressed => {
+                        let mission_id =
+                            unique_id.0.strip_prefix("select_mission_button_").unwrap();
+
+                        // Search the mission by id in the player_disponible missions
+                        selected_mission.0 = missions
+                            .0
+                            .iter()
+                            .find(|mission| mission.id.to_string() == mission_id)
+                            .cloned();
+
+                        modal_visible.0 = true;
+                    }
+                    Interaction::Hovered => {
+                        window.cursor.icon = CursorIcon::Pointer;
+                        *color = HOVERED_BUTTON.into();
+                    }
+                    Interaction::None => {
+                        window.cursor.icon = CursorIcon::Default;
+                        *color = NORMAL_BUTTON.into();
+                    }
+                }
+            }
+        }
+    }
+}
+
+pub fn assign_recruit_to_mission(
+    mut interaction_query: Query<
+        (&Interaction, &mut BackgroundColor, &UniqueId),
+        Changed<Interaction>,
+    >,
+    mut windows: Query<&mut Window>,
     missions: Res<Missions>,
     mut selected_mission: ResMut<SelectedMission>,
     mut modal_visible: ResMut<ModalVisible>,
@@ -224,10 +266,13 @@ pub fn select_mission_button(
     let mut window = windows.single_mut();
 
     for (interaction, mut color, unique_id) in &mut interaction_query {
-        if unique_id.0.starts_with("select_mission_button_") {
+        if unique_id.0.starts_with("assign_recruit_to_mission_") {
             match *interaction {
                 Interaction::Pressed => {
-                    let mission_id = unique_id.0.strip_prefix("select_mission_button_").unwrap();
+                    let mission_id = unique_id
+                        .0
+                        .strip_prefix("assign_recruit_to_mission_")
+                        .unwrap();
 
                     // Search the mission by id in the player_disponible missions
                     selected_mission.0 = missions
@@ -236,7 +281,7 @@ pub fn select_mission_button(
                         .find(|mission| mission.id.to_string() == mission_id)
                         .cloned();
 
-                    modal_visible.0 = true;
+                    modal_visible.0 = false;
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;
@@ -244,7 +289,7 @@ pub fn select_mission_button(
                 }
                 Interaction::None => {
                     window.cursor.icon = CursorIcon::Default;
-                    *color = NORMAL_BUTTON.into();
+                    *color = BackgroundColor(WOOD_COLOR);
                 }
             }
         }

@@ -3,6 +3,7 @@ use crate::{
         PlayerStats, PlayerStatsRecruitsTrigger, ResetRoomTrigger, SelectedRecruit,
         SelectedRecruitTrigger, UniqueId,
     },
+    styles::CustomButton,
     ui::{styles::node_container_style::node_container_style, ui_constants::WOOD_COLOR},
 };
 use bevy::prelude::*;
@@ -61,21 +62,10 @@ pub fn room_barrack(
                         ..default()
                     });
 
+                    // Barrack room > left container > recruit buttons
                     for recruit in player_stats.recruits.iter() {
                         left_container
-                            .spawn(ButtonBundle {
-                                style: Style {
-                                    border: UiRect::all(Val::Px(5.0)),
-                                    width: Val::Px(150.0),
-                                    height: Val::Px(65.0),
-                                    justify_content: JustifyContent::Center,
-                                    align_items: AlignItems::Center,
-                                    ..default()
-                                },
-                                border_radius: BorderRadius::MAX,
-                                background_color: BackgroundColor(WOOD_COLOR),
-                                ..default()
-                            })
+                            .spawn(CustomButton::Primary.bundle(&asset_server))
                             .insert((
                                 UniqueId(format!("recruit_button_{}", recruit.id)),
                                 SelectedRecruitTrigger,
@@ -120,6 +110,7 @@ pub fn room_barrack(
                             ..default()
                         },
                         background_color: BackgroundColor(Color::srgb(0.8, 0.8, 0.8)),
+                        border_radius: BorderRadius::all(Val::Px(20.0)),
                         ..default()
                     });
                 })

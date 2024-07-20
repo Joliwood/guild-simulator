@@ -4,12 +4,13 @@
 mod audio;
 mod enums;
 mod structs;
+mod styles;
 mod systems;
 mod ui;
 mod utils;
 
 use bevy::prelude::*;
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
+// use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use structs::{Missions, ModalVisible, PlayerStats, SelectedMission, SelectedRecruit};
 
 fn main() -> AppExit {
@@ -17,7 +18,7 @@ fn main() -> AppExit {
         .add_plugins((
             DefaultPlugins,
             // Desactivate on testing
-            WorldInspectorPlugin::new(),
+            // WorldInspectorPlugin::new(),
         ))
         .insert_resource(PlayerStats::default())
         .insert_resource(Missions::default())
@@ -51,6 +52,7 @@ fn main() -> AppExit {
                 systems::updates::update_buttons::buttons_disable_updates,
                 systems::updates::update_buttons::select_recruit_button,
                 systems::updates::update_buttons::select_mission_button,
+                systems::updates::update_buttons::assign_recruit_to_mission,
                 systems::updates::update_recruit_infos::update_recruit_infos,
                 ui::modals::mission_details_modal::display_mission_modal,
             ),

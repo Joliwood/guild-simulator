@@ -1,5 +1,6 @@
 use crate::{
     structs::{ModalContentTrigger, ModalVisible, PlayerStats, SelectedMission, UniqueId},
+    styles::CustomButton,
     ui::ui_constants::WOOD_COLOR,
 };
 use bevy::{asset::AssetServer, prelude::*};
@@ -13,8 +14,10 @@ pub fn display_mission_modal(
     selected_mission: Res<SelectedMission>,
 ) {
     // Despawn existing modals
-    for entity in query.iter() {
-        commands.entity(entity).despawn_recursive();
+    if modal_visible.is_changed() && !modal_visible.0 {
+        for entity in query.iter() {
+            commands.entity(entity).despawn_recursive();
+        }
     }
 
     if modal_visible.is_changed() && modal_visible.0 {
@@ -23,14 +26,16 @@ pub fn display_mission_modal(
                 .spawn(NodeBundle {
                     style: Style {
                         position_type: PositionType::Absolute,
-                        align_self: AlignSelf::Center,
+                        align_items: AlignItems::Center,
                         flex_direction: FlexDirection::Column,
                         justify_content: JustifyContent::Center,
                         width: Val::Percent(70.0),
                         height: Val::Percent(80.0),
                         margin: UiRect::all(Val::Auto),
+                        padding: UiRect::all(Val::Px(20.0)),
                         ..default()
                     },
+                    border_radius: BorderRadius::all(Val::Px(20.0)),
                     background_color: BackgroundColor(Color::srgb_u8(32, 33, 36)),
                     z_index: ZIndex::Global(1),
                     ..default()
@@ -64,18 +69,7 @@ pub fn display_mission_modal(
                     // Left side to select which recruit to assign to which mission
                     for recruit in player_stats.recruits.iter() {
                         parent
-                            .spawn(ButtonBundle {
-                                style: Style {
-                                    border: UiRect::all(Val::Px(5.0)),
-                                    width: Val::Px(150.0),
-                                    height: Val::Px(65.0),
-                                    justify_content: JustifyContent::Center,
-                                    align_items: AlignItems::Center,
-                                    ..default()
-                                },
-                                background_color: BackgroundColor(WOOD_COLOR),
-                                ..default()
-                            })
+                            .spawn(CustomButton::Primary.bundle(&asset_server))
                             .insert(UniqueId(format!(
                                 "assign_recruit_to_mission_{}",
                                 recruit.id

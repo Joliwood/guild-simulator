@@ -1,5 +1,6 @@
 use crate::{
-    structs::{Ennemy, Mission, Missions, ResetRoomTrigger, SelectedMissionTrigger, UniqueId},
+    structs::{Missions, ResetRoomTrigger, SelectedMissionTrigger, UniqueId},
+    styles::CustomButton,
     ui::{styles::node_container_style::node_container_style, ui_constants::WOOD_COLOR},
 };
 use bevy::prelude::*;
@@ -16,39 +17,26 @@ pub fn room_command_room(
             style: node_container_style(),
             ..default()
         })
+        .insert(Name::new("Command room"))
         .insert(ResetRoomTrigger)
         // Image background node
         .with_children(|ui_container: &mut ChildBuilder| {
-            ui_container
-                .spawn(ImageBundle {
-                    image: image_handler.into(),
-                    style: Style {
-                        position_type: PositionType::Absolute,
-                        width: Val::Percent(100.0),
-                        height: Val::Percent(100.0),
-                        ..default()
-                    },
-                    z_index: ZIndex::Global(-1),
+            ui_container.spawn(ImageBundle {
+                image: image_handler.into(),
+                style: Style {
+                    position_type: PositionType::Absolute,
+                    width: Val::Percent(100.0),
+                    height: Val::Percent(100.0),
                     ..default()
-                })
-                .insert(Name::new("Command room"));
+                },
+                z_index: ZIndex::Global(-1),
+                ..default()
+            });
 
             // Generate buttons for each mission
             for (index, mission) in missions.0.iter().enumerate() {
                 ui_container
-                    .spawn(ButtonBundle {
-                        style: Style {
-                            border: UiRect::all(Val::Px(5.0)),
-                            width: Val::Px(150.0),
-                            height: Val::Px(65.0),
-                            justify_content: JustifyContent::Center,
-                            align_items: AlignItems::Center,
-                            ..default()
-                        },
-                        border_radius: BorderRadius::MAX,
-                        background_color: BackgroundColor(WOOD_COLOR),
-                        ..default()
-                    })
+                    .spawn(CustomButton::Primary.bundle(&asset_server))
                     .insert((
                         SelectedMissionTrigger,
                         UniqueId(format!("select_mission_button_{}", mission.id)),
