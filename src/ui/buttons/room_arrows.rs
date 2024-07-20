@@ -23,6 +23,7 @@ pub fn room_left_arrow_button(asset_server: Res<AssetServer>, mut commands: Comm
             },
             ..default()
         })
+        .insert(Name::new("Room left arrow button"))
         .with_children(|settings_button: &mut ChildBuilder| {
             settings_button
                 .spawn(ButtonBundle {
@@ -68,6 +69,7 @@ pub fn room_right_arrow_button(asset_server: Res<AssetServer>, mut commands: Com
             },
             ..default()
         })
+        .insert(Name::new("Room right arrow button"))
         .with_children(|settings_button: &mut ChildBuilder| {
             settings_button
                 .spawn(ButtonBundle {
@@ -113,6 +115,7 @@ pub fn room_bottom_arrow_button(asset_server: Res<AssetServer>, mut commands: Co
             },
             ..default()
         })
+        .insert(Name::new("Room bottom arrow button"))
         .with_children(|settings_button: &mut ChildBuilder| {
             settings_button
                 .spawn(ButtonBundle {
@@ -158,6 +161,7 @@ pub fn room_top_arrow_button(asset_server: Res<AssetServer>, mut commands: Comma
             },
             ..default()
         })
+        .insert(Name::new("Room top arrow button"))
         .with_children(|settings_button: &mut ChildBuilder| {
             settings_button
                 .spawn(ButtonBundle {

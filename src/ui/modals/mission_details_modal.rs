@@ -35,6 +35,7 @@ pub fn display_mission_modal(
                     z_index: ZIndex::Global(1),
                     ..default()
                 })
+                .insert(Name::new("Mission details modal"))
                 .insert(ModalContentTrigger)
                 .with_children(|parent| {
                     parent.spawn(TextBundle {

@@ -12,6 +12,7 @@ pub fn room_office(asset_server: &Res<AssetServer>, commands: &mut Commands) {
             style: node_container_style(),
             ..default()
         })
+        .insert(Name::new("Office room"))
         .insert(ResetRoomTrigger)
         // Image background node
         .with_children(|ui_container: &mut ChildBuilder| {

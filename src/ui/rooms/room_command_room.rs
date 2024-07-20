@@ -19,17 +19,19 @@ pub fn room_command_room(
         .insert(ResetRoomTrigger)
         // Image background node
         .with_children(|ui_container: &mut ChildBuilder| {
-            ui_container.spawn(ImageBundle {
-                image: image_handler.into(),
-                style: Style {
-                    position_type: PositionType::Absolute,
-                    width: Val::Percent(100.0),
-                    height: Val::Percent(100.0),
+            ui_container
+                .spawn(ImageBundle {
+                    image: image_handler.into(),
+                    style: Style {
+                        position_type: PositionType::Absolute,
+                        width: Val::Percent(100.0),
+                        height: Val::Percent(100.0),
+                        ..default()
+                    },
+                    z_index: ZIndex::Global(-1),
                     ..default()
-                },
-                z_index: ZIndex::Global(-1),
-                ..default()
-            });
+                })
+                .insert(Name::new("Command room"));
 
             // Generate buttons for each mission
             for (index, mission) in missions.0.iter().enumerate() {

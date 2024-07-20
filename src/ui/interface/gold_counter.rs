@@ -23,6 +23,7 @@ pub fn gold_counter(
             background_color: BackgroundColor(WOOD_COLOR),
             ..default()
         })
+        .insert(Name::new("Gold counter"))
         // Gold icon
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn(ImageBundle {
@@ -38,6 +39,7 @@ pub fn gold_counter(
                 ..default()
             });
         })
+        .insert(Name::new("Gold icon"))
         // Gold counter text
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
@@ -52,7 +54,8 @@ pub fn gold_counter(
                     ),
                     ..default()
                 })
-                .insert(GoldCountTrigger);
+                .insert(GoldCountTrigger)
+                .insert(Name::new("Gold counter text"));
         })
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
@@ -63,10 +66,10 @@ pub fn gold_counter(
                         width: Val::Percent(100.0),
                         ..default()
                     },
-                    // border_color: BorderColor(Color::BLACK),
                     image: UiImage::default().with_color(NORMAL_BUTTON),
                     ..default()
                 })
+                .insert(Name::new("Hire recruit button"))
                 .insert(UniqueId("waz".to_string()))
                 .with_children(|ui_container: &mut ChildBuilder| {
                     ui_container.spawn(TextBundle::from_section(

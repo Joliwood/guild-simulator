@@ -30,6 +30,7 @@ pub fn room_barrack(
             z_index: ZIndex::Global(-1),
             ..default()
         })
+        .insert(Name::new("Room barrack"))
         .insert(ResetRoomTrigger)
         .insert(PlayerStatsRecruitsTrigger)
         // Left container
@@ -46,6 +47,7 @@ pub fn room_barrack(
                     },
                     ..default()
                 })
+                .insert(Name::new("Barrack > left container"))
                 .with_children(|left_container| {
                     // Background image
                     left_container.spawn(ImageBundle {
@@ -59,38 +61,6 @@ pub fn room_barrack(
                         ..default()
                     });
 
-                    // Left side: list of recruit buttons
-                    // for recruit in player_stats.recruits.iter() {
-                    //     left_container
-                    //         .spawn(ButtonBundle {
-                    //             style: Style {
-                    //                 border: UiRect::all(Val::Px(5.0)),
-                    //                 width: Val::Px(150.0),
-                    //                 height: Val::Px(65.0),
-                    //                 justify_content: JustifyContent::Center,
-                    //                 align_items: AlignItems::Center,
-                    //                 ..default()
-                    //             },
-                    //             border_radius: BorderRadius::MAX,
-                    //             background_color: BackgroundColor(WOOD_COLOR),
-                    //             ..default()
-                    //         })
-                    //         .insert(UniqueId("recruit_buttons".to_string()))
-                    //         .with_children(|button| {
-                    //             button.spawn(TextBundle {
-                    //                 text: Text::from_section(
-                    //                     &recruit.class.to_string(),
-                    //                     TextStyle {
-                    //                         font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                    //                         font_size: 20.0,
-                    //                         color: Color::BLACK,
-                    //                     },
-                    //                 ),
-                    //                 ..default()
-                    //             });
-                    //         });
-                    // }
-                    // WIP
                     for recruit in player_stats.recruits.iter() {
                         left_container
                             .spawn(ButtonBundle {
@@ -139,6 +109,7 @@ pub fn room_barrack(
                     },
                     ..default()
                 })
+                .insert(Name::new("Barrack > right container"))
                 .with_children(|right_container| {
                     right_container.spawn(NodeBundle {
                         style: Style {

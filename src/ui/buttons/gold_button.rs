@@ -19,6 +19,7 @@ pub fn gold_button(asset_server: &Res<AssetServer>, commands: &mut ChildBuilder)
             image: UiImage::default().with_color(NORMAL_BUTTON),
             ..default()
         })
+        .insert(Name::new("Gold button"))
         .insert(UniqueId("menu_button_id".to_string()))
         // Text inside the button
         .with_children(|settings_button| {
