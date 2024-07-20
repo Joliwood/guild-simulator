@@ -11,7 +11,7 @@ mod utils;
 
 use bevy::prelude::*;
 use bevy_asset_loader::asset_collection::AssetCollectionApp;
-// use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use structs::{MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit};
 use ui::interface::gold_counter::MyAssets;
 
@@ -20,7 +20,7 @@ fn main() -> AppExit {
         .add_plugins((
             DefaultPlugins,
             // Desactivate on testing
-            // WorldInspectorPlugin::new(),
+            WorldInspectorPlugin::new(),
         ))
         .insert_resource(PlayerStats::default())
         .insert_resource(Missions::default())

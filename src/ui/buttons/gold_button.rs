@@ -12,7 +12,13 @@ pub fn gold_button(
 ) {
     // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
     let texture_handle = asset_server.load("images/ui/buttons_atlas.png");
-    let layout = TextureAtlasLayout::from_grid(UVec2::splat(500), 4, 4, None, None);
+    let layout = TextureAtlasLayout::from_grid(
+        UVec2::new(5436, 3809),
+        5,
+        6,
+        Some(UVec2::new(0, 0)),
+        Some(UVec2::new(0, 0)),
+    );
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
 
     commands
@@ -20,21 +26,21 @@ pub fn gold_button(
         .spawn((
             ButtonBundle {
                 style: Style {
-                    margin: UiRect::all(Val::Px(10.0)),
-                    width: Val::Px(60.0),
-                    height: Val::Px(60.0),
-                    border: UiRect::all(Val::Px(5.0)),
-                    justify_content: JustifyContent::Center,
-                    align_items: AlignItems::Center,
+                    margin: UiRect::all(Val::Px(10.)),
+                    width: Val::Px(60.),
+                    height: Val::Px(60.),
+                    border: UiRect::all(Val::Px(3.)),
+                    // justify_content: JustifyContent::Center,
+                    // align_items: AlignItems::Center,
                     ..default()
                 },
                 image: texture_handle.clone().into(),
-                border_color: BorderColor(Color::BLACK),
-                border_radius: BorderRadius::MAX,
+                border_color: BorderColor(WOOD_COLOR),
+                border_radius: BorderRadius::all(Val::Px(10.)),
                 ..default()
             },
             TextureAtlas {
-                index: 11,
+                index: 25,
                 layout: texture_atlas_layout.clone(),
             },
         ))
@@ -46,7 +52,7 @@ pub fn gold_button(
                 "",
                 TextStyle {
                     font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                    font_size: 40.0,
+                    font_size: 40.,
                     color: Color::srgb(0.9, 0.9, 0.9),
                 },
             ));

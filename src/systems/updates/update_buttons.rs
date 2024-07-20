@@ -40,7 +40,7 @@ pub fn mouse_interaction_updates(
                     // text.sections[0].value = "O".to_string();
                     player_stats.increment_golds(1);
                     *color = PRESSED_BUTTON.into();
-                    border_color.0 = Color::srgba(255.0, 0.0, 0.0, 1.0);
+                    border_color.0 = WOOD_COLOR;
                 }
                 Interaction::Hovered => {
                     // text.sections[0].value = "H".to_string();

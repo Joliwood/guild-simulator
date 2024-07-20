@@ -18,9 +18,9 @@ impl CustomButton {
         match self {
             CustomButton::Primary => ButtonBundle {
                 style: Style {
-                    border: UiRect::all(Val::Px(5.0)),
-                    width: Val::Px(150.0),
-                    height: Val::Px(65.0),
+                    border: UiRect::all(Val::Px(5.)),
+                    width: Val::Px(150.),
+                    height: Val::Px(65.),
                     justify_content: JustifyContent::Center,
                     align_items: AlignItems::Center,
                     ..default()
@@ -31,10 +31,10 @@ impl CustomButton {
             },
             CustomButton::GoldButton => ButtonBundle {
                 style: Style {
-                    margin: UiRect::all(Val::Px(10.0)),
-                    width: Val::Px(60.0),
-                    height: Val::Px(60.0),
-                    border: UiRect::all(Val::Px(5.0)),
+                    margin: UiRect::all(Val::Px(10.)),
+                    width: Val::Px(60.),
+                    height: Val::Px(60.),
+                    border: UiRect::all(Val::Px(5.)),
                     justify_content: JustifyContent::Center,
                     align_items: AlignItems::Center,
                     ..default()
@@ -51,7 +51,7 @@ impl CustomButton {
             //         SpriteBundle {
             //             texture: image_assets.test_button.clone(),
             //             transform: Transform {
-            //                 translation: Vec3::new(200.0, 100.0, 0.0),
+            //                 translation: Vec3::new(200., 100., 0.),
             //                 scale: Vec3::splat(0.2),
             //                 ..default()
             //             },
@@ -68,7 +68,7 @@ impl CustomButton {
                 style: Style {
                     display: Display::Flex,
                     justify_content: JustifyContent::Center,
-                    width: Val::Percent(100.0),
+                    width: Val::Percent(100.),
                     ..default()
                 },
                 border_color: BorderColor(Color::BLACK),
@@ -79,8 +79,8 @@ impl CustomButton {
                 style: Style {
                     display: Display::Flex,
                     justify_content: JustifyContent::Center,
-                    width: Val::Px(50.0),
-                    aspect_ratio: Some(1.0),
+                    width: Val::Px(50.),
+                    aspect_ratio: Some(1.),
                     ..default()
                 },
                 border_radius: BorderRadius::all(Val::Px(10.)),
