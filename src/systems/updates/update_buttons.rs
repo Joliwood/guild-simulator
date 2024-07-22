@@ -9,7 +9,7 @@ use crate::{
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     },
     ui::ui_constants::WOOD_COLOR,
-    utils::get_new_room,
+    utils::{get_global_points, get_new_room, get_victory_percentage},
 };
 use bevy::prelude::*;
 use uuid::Uuid;
@@ -204,6 +204,11 @@ pub fn select_recruit_button(
     }
 }
 
+/// Select the mission when the button is pressed
+///
+/// - 1 - We get the ID from the unique id inserted in the node button
+/// - 2 - We assign with this ID the selected mission
+/// - 3 - We open de details mission modal
 pub fn select_mission_button(
     mut interaction_query: Query<
         (&Interaction, &mut BackgroundColor, &UniqueId),
@@ -246,12 +251,22 @@ pub fn select_mission_button(
     }
 }
 
+/// On arrive ici en cliquant dans la modal mission sur la recruit
+///
+/// - 1 - On retrouve l'id de la recruit directement
+/// - 2 - On vient modifier la selected mission pour lui assigner l'id de la recruit
+/// - 3 - On va chercher la recrue avec son id fourni dans la selected mission
+/// - 4 - On calcule le score global de la recrue
+/// - 5 - On calcule le score global de l'ennemi de la selected mission
+/// - 6 - On calcule le % de victoire
+/// - 7 - On update la selected mission avec le % de victoire
 pub fn assign_recruit_to_mission(
     mut interaction_query: Query<
         (&Interaction, &mut BackgroundColor, &UniqueId),
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
+    player_stats: Res<PlayerStats>,
     mut selected_mission: ResMut<SelectedMission>,
 ) {
     let mut window = windows.single_mut();
@@ -260,20 +275,41 @@ pub fn assign_recruit_to_mission(
         if unique_id.0.starts_with("assign_recruit_to_mission_") {
             match *interaction {
                 Interaction::Pressed => {
-                    // WIP
-                    //
-                    // On arrive ici en cliquant dans la modal mission sur la recruit
-                    //
-                    // 1 - On retrouve l'id de la recruit directement
-                    // 2 - On vient modifier la selected mission pour lui assigner l'id de la recruit
-
+                    // - 1 - //
                     let recruit_id = unique_id
                         .0
                         .strip_prefix("assign_recruit_to_mission_")
                         .unwrap();
 
-                    // Search the mission by id in the player_disponible missions
+                    // - 2 - //
                     selected_mission.recruit_id = Some(Uuid::parse_str(recruit_id).unwrap());
+
+                    // - 3 - //
+                    let recruit_selected = player_stats
+                        .recruits
+                        .iter()
+                        .find(|recruit| recruit.id.to_string() == recruit_id);
+
+                    // - 4 - //
+                    let recruit_global_points = get_global_points(
+                        recruit_selected.unwrap().strength,
+                        recruit_selected.unwrap().endurance,
+                        recruit_selected.unwrap().intelligence,
+                    );
+
+                    // - 5 - //
+                    let ennemy = &selected_mission.mission.as_ref().unwrap().ennemy;
+                    let ennemy_global_points =
+                        get_global_points(ennemy.strength, ennemy.endurance, ennemy.intelligence);
+
+                    // - 6 - //
+                    let victory_percentage =
+                        get_victory_percentage(recruit_global_points, ennemy_global_points);
+
+                    let victory_percentage_rounded: u32 = victory_percentage.round() as u32;
+
+                    // - 7 - //
+                    selected_mission.percent_of_victory = Some(victory_percentage_rounded);
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;

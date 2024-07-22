@@ -22,7 +22,10 @@ pub struct PlayerStatsRecruitsTrigger;
 pub struct SelectedRecruitTrigger;
 
 #[derive(Component)]
-pub struct SelectedMissionTrigger;
+pub struct SelectedMissionRecruitIdTrigger;
+
+#[derive(Component)]
+pub struct SelectedMissionPercentOfVictoryTrigger;
 
 #[derive(Component)]
 pub struct ModalContentTrigger;
@@ -61,6 +64,7 @@ pub struct SelectedRecruit(pub Option<RecruitStats>);
 pub struct SelectedMission {
     pub mission: Option<Mission>,
     pub recruit_id: Option<Uuid>,
+    pub percent_of_victory: Option<u32>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Component, Resource)]
@@ -96,6 +100,7 @@ impl Default for SelectedMission {
         Self {
             mission: None,
             recruit_id: None,
+            percent_of_victory: None,
         }
     }
 }

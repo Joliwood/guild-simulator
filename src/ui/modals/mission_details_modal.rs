@@ -1,7 +1,7 @@
 use crate::{
     structs::{
         MissionModalVisible, ModalContentTrigger, PlayerStats, SelectedMission,
-        SelectedMissionTrigger, UniqueId,
+        SelectedMissionPercentOfVictoryTrigger, SelectedMissionRecruitIdTrigger, UniqueId,
     },
     styles::CustomButton,
     ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
@@ -208,7 +208,25 @@ pub fn display_mission_modal(
                                             ),
                                             ..default()
                                         })
-                                        .insert(SelectedMissionTrigger);
+                                        .insert(SelectedMissionRecruitIdTrigger);
+
+                                    parent
+                                        .spawn(TextBundle {
+                                            text: Text::from_section(
+                                                format!(
+                                                    "{:?}",
+                                                    selected_mission.percent_of_victory
+                                                ),
+                                                TextStyle {
+                                                    font: asset_server
+                                                        .load("fonts/FiraSans-Bold.ttf"),
+                                                    font_size: 20.0,
+                                                    color: Color::WHITE,
+                                                },
+                                            ),
+                                            ..default()
+                                        })
+                                        .insert(SelectedMissionPercentOfVictoryTrigger);
 
                                     // Button inside the middle container
                                     parent

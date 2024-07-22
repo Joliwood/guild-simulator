@@ -59,7 +59,8 @@ fn main() -> AppExit {
                 systems::updates::update_buttons::close_mission_modal,
                 systems::updates::update_buttons::start_mission_button,
                 systems::updates::update_recruit_infos::update_recruit_infos,
-                systems::updates::update_selected_recruit::update_recruit_infos,
+                systems::updates::update_selected_recruit::update_selected_mission_recruit_id,
+                systems::updates::update_selected_recruit::update_update_selected_mission_percentage_of_victory,
                 ui::modals::mission_details_modal::display_mission_modal,
             ),
         )
