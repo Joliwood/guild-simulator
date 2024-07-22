@@ -224,7 +224,7 @@ pub fn select_mission_button(
                             unique_id.0.strip_prefix("select_mission_button_").unwrap();
 
                         // Search the mission by id in the player_disponible missions
-                        selected_mission.0 = missions
+                        selected_mission.mission = missions
                             .0
                             .iter()
                             .find(|mission| mission.id.to_string() == mission_id)
@@ -252,9 +252,7 @@ pub fn assign_recruit_to_mission(
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
-    missions: Res<Missions>,
     mut selected_mission: ResMut<SelectedMission>,
-    mut modal_visible: ResMut<MissionModalVisible>,
 ) {
     let mut window = windows.single_mut();
 
@@ -262,17 +260,20 @@ pub fn assign_recruit_to_mission(
         if unique_id.0.starts_with("assign_recruit_to_mission_") {
             match *interaction {
                 Interaction::Pressed => {
-                    let mission_id = unique_id
+                    // WIP
+                    //
+                    // On arrive ici en cliquant dans la modal mission sur la recruit
+                    //
+                    // 1 - On retrouve l'id de la recruit directement
+                    // 2 - On vient modifier la selected mission pour lui assigner l'id de la recruit
+
+                    let recruit_id = unique_id
                         .0
                         .strip_prefix("assign_recruit_to_mission_")
                         .unwrap();
 
                     // Search the mission by id in the player_disponible missions
-                    selected_mission.0 = missions
-                        .0
-                        .iter()
-                        .find(|mission| mission.id.to_string() == mission_id)
-                        .cloned();
+                    selected_mission.recruit_id = Some(Uuid::parse_str(recruit_id).unwrap());
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;
@@ -318,6 +319,38 @@ pub fn close_mission_modal(
                     window.cursor.icon = CursorIcon::Default;
                     *color = BackgroundColor(WOOD_COLOR);
                     border_color.0 = Color::BLACK;
+                }
+            }
+        }
+    }
+}
+
+pub fn start_mission_button(
+    mut interaction_query: Query<
+        (&Interaction, &mut BackgroundColor, &UniqueId),
+        Changed<Interaction>,
+    >,
+    mut windows: Query<&mut Window>,
+    mut selected_mission: ResMut<SelectedMission>,
+) {
+    let mut window = windows.single_mut();
+
+    for (interaction, mut color, unique_id) in &mut interaction_query {
+        // TODO - Start the mission with provided id of mission + recruit (not disponible)
+        if selected_mission.recruit_id != None {
+            if unique_id.0.starts_with("start_mission") {
+                match *interaction {
+                    Interaction::Pressed => {
+                        info!("Start the mission with the id : {:?}", unique_id.0);
+                    }
+                    Interaction::Hovered => {
+                        window.cursor.icon = CursorIcon::Pointer;
+                        *color = HOVERED_BUTTON.into();
+                    }
+                    Interaction::None => {
+                        window.cursor.icon = CursorIcon::Default;
+                        *color = BackgroundColor(WOOD_COLOR);
+                    }
                 }
             }
         }

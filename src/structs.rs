@@ -58,10 +58,14 @@ pub struct RecruitStats {
 pub struct SelectedRecruit(pub Option<RecruitStats>);
 
 #[derive(Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
-pub struct SelectedMission(pub Option<Mission>);
+pub struct SelectedMission {
+    pub mission: Option<Mission>,
+    pub recruit_id: Option<Uuid>,
+}
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Component, Resource)]
 pub struct Ennemy {
+    pub name: String,
     pub endurance: u16,
     pub experience: u32,
     pub intelligence: u16,
@@ -89,7 +93,10 @@ impl Default for SelectedRecruit {
 
 impl Default for SelectedMission {
     fn default() -> Self {
-        Self(None)
+        Self {
+            mission: None,
+            recruit_id: None,
+        }
     }
 }
 
@@ -117,6 +124,7 @@ impl Default for Missions {
                 name: "Mission 1".to_string(),
                 level: 1,
                 ennemy: Ennemy {
+                    name: "Ennemy 1".to_string(),
                     endurance: 10,
                     experience: 0,
                     intelligence: 5,
@@ -129,6 +137,7 @@ impl Default for Missions {
                 name: "Mission 2".to_string(),
                 level: 2,
                 ennemy: Ennemy {
+                    name: "Ennemy 2".to_string(),
                     endurance: 15,
                     experience: 0,
                     intelligence: 7,
@@ -141,6 +150,7 @@ impl Default for Missions {
                 name: "Mission 3".to_string(),
                 level: 3,
                 ennemy: Ennemy {
+                    name: "Ennemy 3".to_string(),
                     endurance: 20,
                     experience: 0,
                     intelligence: 10,
