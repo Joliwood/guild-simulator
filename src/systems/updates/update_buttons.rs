@@ -9,7 +9,9 @@ use crate::{
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     },
     ui::ui_constants::WOOD_COLOR,
-    utils::{get_global_points, get_new_room, get_victory_percentage},
+    utils::{
+        get_global_points, get_new_room, get_victory_percentage, get_xp_earned, is_mission_success,
+    },
 };
 use bevy::prelude::*;
 use uuid::Uuid;
@@ -366,6 +368,7 @@ pub fn start_mission_button(
         (&Interaction, &mut BackgroundColor, &UniqueId),
         Changed<Interaction>,
     >,
+    mut player_stats: ResMut<PlayerStats>,
     mut windows: Query<&mut Window>,
     mut selected_mission: ResMut<SelectedMission>,
 ) {
@@ -378,6 +381,29 @@ pub fn start_mission_button(
                 match *interaction {
                     Interaction::Pressed => {
                         info!("Start the mission with the id : {:?}", unique_id.0);
+                        info!(
+                            "There is this amount of % to win this mission : {:?}",
+                            selected_mission.percent_of_victory.as_ref().unwrap()
+                        );
+                        let percent_of_victory =
+                            selected_mission.percent_of_victory.unwrap() as f32;
+                        let is_mission_sucess = is_mission_success(percent_of_victory);
+                        if is_mission_sucess {
+                            info!("The mission is a success !",);
+                            let mission_ennemy_level =
+                                selected_mission.mission.as_ref().unwrap().level;
+                            let xp_earned = get_xp_earned(mission_ennemy_level);
+                            let recruit_id = selected_mission.recruit_id.unwrap();
+
+                            player_stats
+                                .recruits
+                                .iter_mut()
+                                .find(|recruit| recruit.id == recruit_id)
+                                .unwrap()
+                                .experience += xp_earned;
+                        } else {
+                            info!("The mission is a failure !");
+                        }
                     }
                     Interaction::Hovered => {
                         window.cursor.icon = CursorIcon::Pointer;

@@ -95,6 +95,26 @@ pub fn get_victory_percentage(recruit_global_points: u16, enemy_global_points: u
     }
 }
 
+/// Use the % of victory to randomly determine if the mission is a success or a failure
+///
+/// ## Parameters
+/// - `percent_of_victory`: The % of victory of the mission (0 to 100)
+///
+/// It will generate a random number between 0 and 1 and compare it to the % of victory divided by 100
+pub fn is_mission_success(percent_of_victory: f32) -> bool {
+    let random_number: f32 = rand::random();
+    return random_number <= percent_of_victory / 100.;
+}
+
+/// Get the xp earned on a mission based on the level of the ennemy
+///
+/// This function will can be upgraded to the recruit level, here some futur examples :
+/// - recruit level < 5 ennemy level -> / 10 xp
+/// - recruit level > 3 ennemy level -> x3 xp
+pub fn get_xp_earned(level: u8) -> u32 {
+    return (level * 10).into();
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

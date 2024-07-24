@@ -37,7 +37,8 @@ pub fn update_update_selected_mission_percentage_of_victory(
             selected_mission
         );
         for mut text in query.iter_mut() {
-            text.sections[0].value = format!("{:?}", selected_mission.percent_of_victory.unwrap());
+            text.sections[0].value =
+                format!("{:?} %", selected_mission.percent_of_victory.unwrap());
         }
     }
 }
