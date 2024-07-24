@@ -1,12 +1,17 @@
 use crate::{
     enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
-    structs::{PlayerStats, RecruitStats, SelectedRecruit, UniqueId},
+    structs::{
+        MissionModalVisible, Missions, PlayerStats, RecruitStats, SelectedMission, SelectedRecruit,
+        UniqueId,
+    },
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     },
     ui::ui_constants::WOOD_COLOR,
-    utils::get_new_room,
+    utils::{
+        get_global_points, get_new_room, get_victory_percentage, get_xp_earned, is_mission_success,
+    },
 };
 use bevy::prelude::*;
 use uuid::Uuid;
@@ -17,41 +22,35 @@ pub fn mouse_interaction_updates(
             &Interaction,
             &mut BackgroundColor,
             &mut BorderColor,
-            &Children,
             &UniqueId,
         ),
         Changed<Interaction>,
     >,
-    mut text_query: Query<&mut Text>,
     mut player_stats: ResMut<PlayerStats>,
     mut windows: Query<&mut Window>,
+    mut modal_visible: ResMut<MissionModalVisible>,
 ) {
     let mut window = windows.single_mut();
 
     // Directly filter the interaction query by UniqueId
-    for (interaction, mut color, mut border_color, children, unique_id) in &mut interaction_query {
+    for (interaction, mut color, mut border_color, unique_id) in &mut interaction_query {
         if unique_id.0 == "menu_button_id" {
             // Safely get the child text component
-            if let Ok(mut text) = text_query.get_mut(children[0]) {
-                match *interaction {
-                    Interaction::Pressed => {
-                        text.sections[0].value = "O".to_string();
-                        player_stats.increment_golds(1);
-                        *color = PRESSED_BUTTON.into();
-                        border_color.0 = Color::srgba(255.0, 0.0, 0.0, 1.0);
-                    }
-                    Interaction::Hovered => {
-                        text.sections[0].value = "H".to_string();
-                        *color = HOVERED_BUTTON.into();
-                        border_color.0 = Color::WHITE;
-                        window.cursor.icon = CursorIcon::Pointer;
-                    }
-                    Interaction::None => {
-                        text.sections[0].value = "X".to_string();
-                        *color = NORMAL_BUTTON.into();
-                        border_color.0 = Color::BLACK;
-                        window.cursor.icon = CursorIcon::Default;
-                    }
+            match *interaction {
+                Interaction::Pressed => {
+                    player_stats.increment_golds(1);
+                    *color = PRESSED_BUTTON.into();
+                    border_color.0 = WOOD_COLOR;
+                }
+                Interaction::Hovered => {
+                    *color = HOVERED_BUTTON.into();
+                    border_color.0 = Color::WHITE;
+                    window.cursor.icon = CursorIcon::Pointer;
+                }
+                Interaction::None => {
+                    *color = NORMAL_BUTTON.into();
+                    border_color.0 = Color::BLACK;
+                    window.cursor.icon = CursorIcon::Default;
                 }
             }
         }
@@ -104,6 +103,7 @@ pub fn mouse_interaction_updates(
                     if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Top) {
                         player_stats.room = new_room;
                     }
+                    modal_visible.0 = false;
                     border_color.0 = Color::srgba(255.0, 0.0, 0.0, 1.0);
                 }
                 Interaction::Hovered => {
@@ -164,6 +164,7 @@ pub fn mouse_interaction_updates(
     }
 }
 
+/// Select the recruit when the button is pressed
 pub fn select_recruit_button(
     mut interaction_query: Query<
         (&Interaction, &mut BackgroundColor, &UniqueId),
@@ -176,9 +177,9 @@ pub fn select_recruit_button(
     let mut window = windows.single_mut();
 
     for (interaction, mut color, unique_id) in &mut interaction_query {
-        match *interaction {
-            Interaction::Pressed => {
-                if unique_id.0.starts_with("recruit_button_") {
+        if unique_id.0.starts_with("recruit_button_") {
+            match *interaction {
+                Interaction::Pressed => {
                     let recruit_id = unique_id.0.strip_prefix("recruit_button_").unwrap();
                     let recruit_selected = player_stats
                         .recruits
@@ -192,15 +193,262 @@ pub fn select_recruit_button(
                         recruit_selected
                     );
                 }
+                Interaction::Hovered => {
+                    window.cursor.icon = CursorIcon::Pointer;
+                    *color = HOVERED_BUTTON.into();
+                }
+                Interaction::None => {
+                    window.cursor.icon = CursorIcon::Default;
+                    *color = BackgroundColor(WOOD_COLOR);
+                }
             }
-            Interaction::Hovered => {
-                window.cursor.icon = CursorIcon::Pointer;
-                *color = HOVERED_BUTTON.into();
+        }
+    }
+}
+
+/// Select the mission when the button is pressed
+///
+/// - 1 - We get the ID from the unique id inserted in the node button
+/// - 2 - We assign with this ID the selected mission
+/// - 3 - We open de details mission modal
+pub fn select_mission_button(
+    mut interaction_query: Query<
+        (&Interaction, &mut BackgroundColor, &UniqueId),
+        Changed<Interaction>,
+    >,
+    mut windows: Query<&mut Window>,
+    missions: Res<Missions>,
+    mut selected_mission: ResMut<SelectedMission>,
+    mut modal_visible: ResMut<MissionModalVisible>,
+) {
+    let mut window = windows.single_mut();
+    if !modal_visible.0 {
+        for (interaction, mut color, unique_id) in &mut interaction_query {
+            if unique_id.0.starts_with("select_mission_button_") {
+                match *interaction {
+                    Interaction::Pressed => {
+                        let mission_id =
+                            unique_id.0.strip_prefix("select_mission_button_").unwrap();
+
+                        // Search the mission by id in the player_disponible missions
+                        selected_mission.mission = missions
+                            .0
+                            .iter()
+                            .find(|mission| mission.id.to_string() == mission_id)
+                            .cloned();
+
+                        modal_visible.0 = true;
+                    }
+                    Interaction::Hovered => {
+                        window.cursor.icon = CursorIcon::Pointer;
+                        *color = HOVERED_BUTTON.into();
+                    }
+                    Interaction::None => {
+                        window.cursor.icon = CursorIcon::Default;
+                        *color = NORMAL_BUTTON.into();
+                    }
+                }
             }
-            Interaction::None => {
-                window.cursor.icon = CursorIcon::Default;
-                *color = BackgroundColor(WOOD_COLOR);
+        }
+    }
+}
+
+/// On arrive ici en cliquant dans la modal mission sur la recruit
+///
+/// - 1 - On retrouve l'id de la recruit directement
+/// - 2 - On vient modifier la selected mission pour lui assigner l'id de la recruit
+/// - 3 - On va chercher la recrue avec son id fourni dans la selected mission
+/// - 4 - On calcule le score global de la recrue
+/// - 5 - On calcule le score global de l'ennemi de la selected mission
+/// - 6 - On calcule le % de victoire
+/// - 7 - On update la selected mission avec le % de victoire
+pub fn assign_recruit_to_mission(
+    mut interaction_query: Query<
+        (&Interaction, &mut BackgroundColor, &UniqueId),
+        Changed<Interaction>,
+    >,
+    mut windows: Query<&mut Window>,
+    player_stats: Res<PlayerStats>,
+    mut selected_mission: ResMut<SelectedMission>,
+) {
+    let mut window = windows.single_mut();
+
+    for (interaction, mut color, unique_id) in &mut interaction_query {
+        if unique_id.0.starts_with("assign_recruit_to_mission_") {
+            match *interaction {
+                Interaction::Pressed => {
+                    // - 1 - //
+                    let recruit_id = unique_id
+                        .0
+                        .strip_prefix("assign_recruit_to_mission_")
+                        .unwrap();
+
+                    // - 2 - //
+                    selected_mission.recruit_id = Some(Uuid::parse_str(recruit_id).unwrap());
+
+                    // - 3 - //
+                    let recruit_selected = player_stats
+                        .recruits
+                        .iter()
+                        .find(|recruit| recruit.id.to_string() == recruit_id);
+
+                    // - 4 - //
+                    let recruit_global_points = get_global_points(
+                        recruit_selected.unwrap().strength,
+                        recruit_selected.unwrap().endurance,
+                        recruit_selected.unwrap().intelligence,
+                    );
+
+                    // - 5 - //
+                    let ennemy = &selected_mission.mission.as_ref().unwrap().ennemy;
+                    let ennemy_global_points =
+                        get_global_points(ennemy.strength, ennemy.endurance, ennemy.intelligence);
+
+                    // - 6 - //
+                    let victory_percentage =
+                        get_victory_percentage(recruit_global_points, ennemy_global_points);
+
+                    let victory_percentage_rounded: u32 = victory_percentage.round() as u32;
+
+                    // - 7 - //
+                    selected_mission.percent_of_victory = Some(victory_percentage_rounded);
+                }
+                Interaction::Hovered => {
+                    window.cursor.icon = CursorIcon::Pointer;
+                    *color = HOVERED_BUTTON.into();
+                }
+                Interaction::None => {
+                    window.cursor.icon = CursorIcon::Default;
+                    *color = BackgroundColor(WOOD_COLOR);
+                }
             }
+        }
+    }
+}
+
+pub fn close_mission_modal(
+    mut interaction_query: Query<
+        (
+            &Interaction,
+            &mut BackgroundColor,
+            &UniqueId,
+            &mut BorderColor,
+        ),
+        Changed<Interaction>,
+    >,
+    mut windows: Query<&mut Window>,
+    mut modal_visible: ResMut<MissionModalVisible>,
+) {
+    let mut window = windows.single_mut();
+
+    for (interaction, mut color, unique_id, mut border_color) in &mut interaction_query {
+        if unique_id.0.starts_with("close_mission_modal") {
+            match *interaction {
+                Interaction::Pressed => {
+                    modal_visible.0 = false;
+                    border_color.0 = WOOD_COLOR;
+                }
+                Interaction::Hovered => {
+                    window.cursor.icon = CursorIcon::Pointer;
+                    *color = HOVERED_BUTTON.into();
+                    border_color.0 = Color::WHITE;
+                }
+                Interaction::None => {
+                    window.cursor.icon = CursorIcon::Default;
+                    *color = BackgroundColor(WOOD_COLOR);
+                    border_color.0 = Color::BLACK;
+                }
+            }
+        }
+    }
+}
+
+pub fn start_mission_button(
+    mut interaction_query: Query<
+        (&Interaction, &mut BackgroundColor, &UniqueId),
+        Changed<Interaction>,
+    >,
+    mut player_stats: ResMut<PlayerStats>,
+    mut windows: Query<&mut Window>,
+    mut selected_mission: ResMut<SelectedMission>,
+) {
+    let mut window = windows.single_mut();
+
+    for (interaction, mut color, unique_id) in &mut interaction_query {
+        // TODO - Start the mission with provided id of mission + recruit (not disponible)
+        if selected_mission.recruit_id != None {
+            if unique_id.0.starts_with("start_mission") {
+                match *interaction {
+                    Interaction::Pressed => {
+                        info!("Start the mission with the id : {:?}", unique_id.0);
+                        info!(
+                            "There is this amount of % to win this mission : {:?}",
+                            selected_mission.percent_of_victory.as_ref().unwrap()
+                        );
+                        let percent_of_victory =
+                            selected_mission.percent_of_victory.unwrap() as f32;
+                        let is_mission_sucess = is_mission_success(percent_of_victory);
+                        if is_mission_sucess {
+                            info!("The mission is a success !",);
+                            let mission_ennemy_level =
+                                selected_mission.mission.as_ref().unwrap().level;
+                            let xp_earned = get_xp_earned(mission_ennemy_level);
+                            let gold_earned = (mission_ennemy_level * 10) as i32;
+                            let recruit_id = selected_mission.recruit_id.unwrap();
+
+                            // Update the recruit with the new xp and gold
+                            let recruit = player_stats
+                                .recruits
+                                .iter_mut()
+                                .find(|recruit| recruit.id == recruit_id)
+                                .unwrap();
+
+                            recruit.experience += xp_earned;
+                            player_stats.increment_golds(gold_earned);
+                        } else {
+                            info!("The mission is a failure !");
+                        }
+                    }
+                    Interaction::Hovered => {
+                        window.cursor.icon = CursorIcon::Pointer;
+                        *color = HOVERED_BUTTON.into();
+                    }
+                    Interaction::None => {
+                        window.cursor.icon = CursorIcon::Default;
+                        *color = BackgroundColor(WOOD_COLOR);
+                    }
+                }
+            }
+        }
+    }
+}
+
+pub fn move_room_from_keyboard(
+    mut player_stats: ResMut<PlayerStats>,
+    keyboard_input: Res<ButtonInput<KeyCode>>,
+) {
+    if keyboard_input.just_pressed(KeyCode::KeyD) {
+        info!("Right arrow pressed");
+        if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Right) {
+            player_stats.room = new_room;
+        }
+    }
+
+    if keyboard_input.just_pressed(KeyCode::KeyA) {
+        if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Left) {
+            player_stats.room = new_room;
+        }
+    }
+
+    if keyboard_input.just_pressed(KeyCode::KeyW) {
+        if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Top) {
+            player_stats.room = new_room;
+        }
+    }
+
+    if keyboard_input.just_pressed(KeyCode::KeyS) {
+        if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Bottom) {
+            player_stats.room = new_room;
         }
     }
 }

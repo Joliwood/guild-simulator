@@ -28,6 +28,7 @@ pub fn room_interface_text(
             background_color: BackgroundColor(WOOD_COLOR),
             ..default()
         })
+        .insert(Name::new("Room interface text"))
         // Room text
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container

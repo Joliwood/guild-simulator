@@ -1,8 +1,11 @@
+use crate::{structs::UniqueId, styles::CustomButton, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
 
-use crate::{structs::UniqueId, systems::systems_constants::NORMAL_BUTTON};
-
-pub fn room_left_arrow_button(asset_server: Res<AssetServer>, mut commands: Commands) {
+pub fn room_left_arrow_button(
+    asset_server: Res<AssetServer>,
+    mut commands: Commands,
+    image_assets: Res<MyAssets>,
+) {
     commands
         .spawn(NodeBundle {
             style: Style {
@@ -23,19 +26,10 @@ pub fn room_left_arrow_button(asset_server: Res<AssetServer>, mut commands: Comm
             },
             ..default()
         })
+        .insert(Name::new("Room left arrow button"))
         .with_children(|settings_button: &mut ChildBuilder| {
             settings_button
-                .spawn(ButtonBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        justify_content: JustifyContent::Center,
-                        width: Val::Percent(100.0),
-                        ..default()
-                    },
-                    // border_color: BorderColor(Color::BLACK),
-                    image: UiImage::default().with_color(NORMAL_BUTTON),
-                    ..default()
-                })
+                .spawn(CustomButton::RoomArrow.bundle(&asset_server, image_assets.clone()))
                 // Unique ID which will serve the hover / click button
                 .insert(UniqueId("room_left_arrow_id".to_string()))
                 .with_children(|ui_container: &mut ChildBuilder| {
@@ -51,7 +45,11 @@ pub fn room_left_arrow_button(asset_server: Res<AssetServer>, mut commands: Comm
         });
 }
 
-pub fn room_right_arrow_button(asset_server: Res<AssetServer>, mut commands: Commands) {
+pub fn room_right_arrow_button(
+    asset_server: Res<AssetServer>,
+    mut commands: Commands,
+    image_assets: Res<MyAssets>,
+) {
     commands
         .spawn(NodeBundle {
             style: Style {
@@ -68,19 +66,10 @@ pub fn room_right_arrow_button(asset_server: Res<AssetServer>, mut commands: Com
             },
             ..default()
         })
+        .insert(Name::new("Room right arrow button"))
         .with_children(|settings_button: &mut ChildBuilder| {
             settings_button
-                .spawn(ButtonBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        justify_content: JustifyContent::Center,
-                        width: Val::Percent(100.0),
-                        ..default()
-                    },
-                    border_color: BorderColor(Color::BLACK),
-                    image: UiImage::default().with_color(NORMAL_BUTTON),
-                    ..default()
-                })
+                .spawn(CustomButton::RoomArrow.bundle(&asset_server, image_assets.clone()))
                 // Unique ID which will serve the hover / click button
                 .insert(UniqueId("room_right_arrow_id".to_string()))
                 .with_children(|ui_container: &mut ChildBuilder| {
@@ -96,7 +85,11 @@ pub fn room_right_arrow_button(asset_server: Res<AssetServer>, mut commands: Com
         });
 }
 
-pub fn room_bottom_arrow_button(asset_server: Res<AssetServer>, mut commands: Commands) {
+pub fn room_bottom_arrow_button(
+    asset_server: Res<AssetServer>,
+    mut commands: Commands,
+    image_assets: Res<MyAssets>,
+) {
     commands
         .spawn(NodeBundle {
             style: Style {
@@ -113,19 +106,10 @@ pub fn room_bottom_arrow_button(asset_server: Res<AssetServer>, mut commands: Co
             },
             ..default()
         })
+        .insert(Name::new("Room bottom arrow button"))
         .with_children(|settings_button: &mut ChildBuilder| {
             settings_button
-                .spawn(ButtonBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        justify_content: JustifyContent::Center,
-                        width: Val::Percent(100.0),
-                        ..default()
-                    },
-                    border_color: BorderColor(Color::BLACK),
-                    image: UiImage::default().with_color(NORMAL_BUTTON),
-                    ..default()
-                })
+                .spawn(CustomButton::RoomArrow.bundle(&asset_server, image_assets.clone()))
                 // Unique ID which will serve the hover / click button
                 .insert(UniqueId("room_bottom_arrow_id".to_string()))
                 .with_children(|ui_container: &mut ChildBuilder| {
@@ -141,7 +125,11 @@ pub fn room_bottom_arrow_button(asset_server: Res<AssetServer>, mut commands: Co
         });
 }
 
-pub fn room_top_arrow_button(asset_server: Res<AssetServer>, mut commands: Commands) {
+pub fn room_top_arrow_button(
+    asset_server: Res<AssetServer>,
+    mut commands: Commands,
+    image_assets: Res<MyAssets>,
+) {
     commands
         .spawn(NodeBundle {
             style: Style {
@@ -158,19 +146,10 @@ pub fn room_top_arrow_button(asset_server: Res<AssetServer>, mut commands: Comma
             },
             ..default()
         })
+        .insert(Name::new("Room top arrow button"))
         .with_children(|settings_button: &mut ChildBuilder| {
             settings_button
-                .spawn(ButtonBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        justify_content: JustifyContent::Center,
-                        width: Val::Percent(100.0),
-                        ..default()
-                    },
-                    border_color: BorderColor(Color::BLACK),
-                    image: UiImage::default().with_color(NORMAL_BUTTON),
-                    ..default()
-                })
+                .spawn(CustomButton::RoomArrow.bundle(&asset_server, image_assets.clone()))
                 // Unique ID which will serve the hover / click button
                 .insert(UniqueId("room_top_arrow_id".to_string()))
                 .with_children(|ui_container: &mut ChildBuilder| {

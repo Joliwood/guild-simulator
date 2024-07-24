@@ -4,22 +4,30 @@
 mod audio;
 mod enums;
 mod structs;
+mod styles;
 mod systems;
 mod ui;
 mod utils;
 
 use bevy::prelude::*;
+use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use structs::{PlayerStats, SelectedRecruit};
+use structs::{MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit};
+use ui::interface::gold_counter::MyAssets;
 
 fn main() -> AppExit {
     App::new()
-        .add_plugins(
+        .add_plugins((
             DefaultPlugins,
-            // WorldInspectorPlugin::new())
-        )
+            // Desactivate on testing
+            // WorldInspectorPlugin::new(),
+        ))
         .insert_resource(PlayerStats::default())
+        .insert_resource(Missions::default())
         .insert_resource(SelectedRecruit::default())
+        .insert_resource(SelectedMission::default())
+        .insert_resource(MissionModalVisible(false))
+        .init_collection::<MyAssets>()
         .add_systems(
             Startup,
             (
@@ -39,6 +47,7 @@ fn main() -> AppExit {
         .add_systems(
             Update,
             (
+                systems::updates::update_buttons::move_room_from_keyboard,
                 systems::inputs::mouse_systems::mouse_click_system,
                 systems::updates::update_gold_counter::update_gold_counter,
                 systems::updates::update_room_interface_text::update_room_interface_text,
@@ -46,7 +55,14 @@ fn main() -> AppExit {
                 systems::updates::update_buttons::mouse_interaction_updates,
                 systems::updates::update_buttons::buttons_disable_updates,
                 systems::updates::update_buttons::select_recruit_button,
+                systems::updates::update_buttons::select_mission_button,
+                systems::updates::update_buttons::assign_recruit_to_mission,
+                systems::updates::update_buttons::close_mission_modal,
+                systems::updates::update_buttons::start_mission_button,
                 systems::updates::update_recruit_infos::update_recruit_infos,
+                systems::updates::update_selected_recruit::update_selected_mission_recruit_id,
+                systems::updates::update_selected_recruit::update_update_selected_mission_percentage_of_victory,
+                ui::modals::mission_details_modal::display_mission_modal,
             ),
         )
         .run()

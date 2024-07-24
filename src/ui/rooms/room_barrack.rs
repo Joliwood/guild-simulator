@@ -3,7 +3,8 @@ use crate::{
         PlayerStats, PlayerStatsRecruitsTrigger, ResetRoomTrigger, SelectedRecruit,
         SelectedRecruitTrigger, UniqueId,
     },
-    ui::{styles::node_container_style::node_container_style, ui_constants::WOOD_COLOR},
+    styles::CustomButton,
+    ui::{interface::gold_counter::MyAssets, styles::node_container_style::node_container_style},
 };
 use bevy::prelude::*;
 
@@ -12,6 +13,7 @@ pub fn room_barrack(
     commands: &mut Commands,
     player_stats: &Res<PlayerStats>,
     selected_recruit: &Res<SelectedRecruit>,
+    image_assets: MyAssets,
 ) {
     let image_handle: Handle<Image> = asset_server.load("images/barrack.png");
     info!("Selected recruit: {:?}", selected_recruit.0);
@@ -24,11 +26,13 @@ pub fn room_barrack(
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Stretch,
                 margin: UiRect::all(Val::Auto),
-                height: Val::Percent(90.0),
+                height: Val::Percent(100.0),
                 ..node_container_style()
             },
+            z_index: ZIndex::Global(-1),
             ..default()
         })
+        .insert(Name::new("Room barrack"))
         .insert(ResetRoomTrigger)
         .insert(PlayerStatsRecruitsTrigger)
         // Left container
@@ -45,6 +49,7 @@ pub fn room_barrack(
                     },
                     ..default()
                 })
+                .insert(Name::new("Barrack > left container"))
                 .with_children(|left_container| {
                     // Background image
                     left_container.spawn(ImageBundle {
@@ -58,53 +63,12 @@ pub fn room_barrack(
                         ..default()
                     });
 
-                    // Left side: list of recruit buttons
-                    // for recruit in player_stats.recruits.iter() {
-                    //     left_container
-                    //         .spawn(ButtonBundle {
-                    //             style: Style {
-                    //                 border: UiRect::all(Val::Px(5.0)),
-                    //                 width: Val::Px(150.0),
-                    //                 height: Val::Px(65.0),
-                    //                 justify_content: JustifyContent::Center,
-                    //                 align_items: AlignItems::Center,
-                    //                 ..default()
-                    //             },
-                    //             border_radius: BorderRadius::MAX,
-                    //             background_color: BackgroundColor(WOOD_COLOR),
-                    //             ..default()
-                    //         })
-                    //         .insert(UniqueId("recruit_buttons".to_string()))
-                    //         .with_children(|button| {
-                    //             button.spawn(TextBundle {
-                    //                 text: Text::from_section(
-                    //                     &recruit.class.to_string(),
-                    //                     TextStyle {
-                    //                         font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                    //                         font_size: 20.0,
-                    //                         color: Color::BLACK,
-                    //                     },
-                    //                 ),
-                    //                 ..default()
-                    //             });
-                    //         });
-                    // }
-                    // WIP
+                    // Barrack room > left container > recruit buttons
                     for recruit in player_stats.recruits.iter() {
                         left_container
-                            .spawn(ButtonBundle {
-                                style: Style {
-                                    border: UiRect::all(Val::Px(5.0)),
-                                    width: Val::Px(150.0),
-                                    height: Val::Px(65.0),
-                                    justify_content: JustifyContent::Center,
-                                    align_items: AlignItems::Center,
-                                    ..default()
-                                },
-                                border_radius: BorderRadius::MAX,
-                                background_color: BackgroundColor(WOOD_COLOR),
-                                ..default()
-                            })
+                            .spawn(
+                                CustomButton::Primary.bundle(&asset_server, image_assets.clone()),
+                            )
                             .insert((
                                 UniqueId(format!("recruit_button_{}", recruit.id)),
                                 SelectedRecruitTrigger,
@@ -138,6 +102,7 @@ pub fn room_barrack(
                     },
                     ..default()
                 })
+                .insert(Name::new("Barrack > right container"))
                 .with_children(|right_container| {
                     right_container.spawn(NodeBundle {
                         style: Style {
@@ -148,30 +113,11 @@ pub fn room_barrack(
                             ..default()
                         },
                         background_color: BackgroundColor(Color::srgb(0.8, 0.8, 0.8)),
+                        border_radius: BorderRadius::all(Val::Px(20.0)),
                         ..default()
                     });
                 })
                 .insert(SelectedRecruitTrigger)
-                // All infos of the selected button
-                // .with_children(|right_container| {
-                //     right_container.spawn(TextBundle {
-                //         text: Text::from_section(
-                //             // format!("Selected recruit: {:?}", player_stats.recruits.len()),
-                //             format!("Selected recruit: {:?}", selected_recruit),
-                //             TextStyle {
-                //                 font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                //                 font_size: 20.0,
-                //                 color: Color::BLACK,
-                //             },
-                //         ),
-                //         style: Style {
-                //             margin: UiRect::all(Val::Px(10.0)),
-                //             ..default()
-                //         },
-                //         ..default()
-                //     });
-                // });
-                // WIP
                 .with_children(|right_container| {
                     if let Some(recruit) = &selected_recruit.0 {
                         right_container.spawn(TextBundle {
@@ -222,21 +168,23 @@ pub fn room_barrack(
                             ..default()
                         });
 
-                        right_container.spawn(TextBundle {
-                            text: Text::from_section(
-                                format!("Experience: {:?}", recruit.experience),
-                                TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                    font_size: 20.0,
-                                    color: Color::BLACK,
+                        right_container
+                            .spawn(TextBundle {
+                                text: Text::from_section(
+                                    format!("Experience: {:?}", recruit.experience),
+                                    TextStyle {
+                                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                        font_size: 20.0,
+                                        color: Color::BLACK,
+                                    },
+                                ),
+                                style: Style {
+                                    margin: UiRect::all(Val::Px(10.0)),
+                                    ..default()
                                 },
-                            ),
-                            style: Style {
-                                margin: UiRect::all(Val::Px(10.0)),
                                 ..default()
-                            },
-                            ..default()
-                        });
+                            })
+                            .insert(SelectedRecruitTrigger);
 
                         right_container.spawn(TextBundle {
                             text: Text::from_section(
