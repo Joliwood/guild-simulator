@@ -42,312 +42,349 @@ pub fn display_mission_modal(
                 .spawn(NodeBundle {
                     style: Style {
                         position_type: PositionType::Absolute,
-                        align_items: AlignItems::Center,
-                        flex_direction: FlexDirection::Column,
-                        justify_content: JustifyContent::Center,
-                        row_gap: Val::Px(10.0),
-                        width: Val::Percent(70.0),
-                        height: Val::Percent(80.0),
-                        margin: UiRect::all(Val::Auto),
-                        padding: UiRect::all(Val::Px(20.0)),
-                        border: UiRect::all(Val::Px(3.0)),
+                        width: Val::Percent(100.0),
+                        height: Val::Percent(100.0),
                         ..default()
                     },
-                    border_radius: BorderRadius::all(Val::Px(20.0)),
-                    border_color: BorderColor(Color::BLACK),
-                    background_color: BackgroundColor(Color::srgb_u8(32, 33, 36)),
-                    z_index: ZIndex::Global(1),
+                    background_color: if modal_visible.0 {
+                        BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.8))
+                    } else {
+                        BackgroundColor(Color::NONE)
+                    },
                     ..default()
                 })
-                .insert(Name::new("Mission details modal"))
                 .insert(ModalContentTrigger)
                 .with_children(|parent| {
                     parent
-                        .spawn(TextBundle {
-                            text: Text::from_section(
-                                format!("Mission Details -> {:?}", mission.name),
-                                TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                    font_size: 40.0,
-                                    color: Color::WHITE,
-                                },
-                            ),
-                            ..default()
-                        })
-                        .insert(Name::new("Mission details modal > title"));
-
-                    // Close button to close the modal
-                    parent
-                        .spawn((
-                            ButtonBundle {
-                                style: Style {
-                                    position_type: PositionType::Absolute,
-                                    right: Val::Px(10.),
-                                    top: Val::Px(10.),
-                                    margin: UiRect::all(Val::Px(10.)),
-                                    width: Val::Px(40.),
-                                    height: Val::Px(40.),
-                                    border: UiRect::all(Val::Px(3.)),
-                                    ..default()
-                                },
-                                image: texture_handle.clone().into(),
-                                border_color: BorderColor(WOOD_COLOR),
-                                border_radius: BorderRadius::all(Val::Px(10.)),
-                                ..default()
-                            },
-                            TextureAtlas {
-                                index: 16,
-                                layout: texture_atlas_layout.clone(),
-                            },
-                        ))
-                        // .spawn(CustomButton::SquareIcon.bundle(&asset_server, image_assets.clone()))
-                        .insert(UniqueId("close_mission_modal".to_string()))
-                        // TODO WIP - Fix !
-                        .with_children(|button| {
-                            button.spawn(TextBundle {
-                                text: Text::from_section("", TextStyle { ..default() }),
-                                ..default()
-                            });
-                        });
-
-                    // Main container
-                    parent
                         .spawn(NodeBundle {
                             style: Style {
-                                flex_direction: FlexDirection::Row,
-                                justify_content: JustifyContent::SpaceBetween,
-                                column_gap: Val::Px(10.0),
-                                width: Val::Percent(100.0),
-                                height: Val::Percent(100.0),
+                                position_type: PositionType::Absolute,
+                                align_items: AlignItems::Center,
+                                flex_direction: FlexDirection::Column,
+                                justify_content: JustifyContent::Center,
+                                row_gap: Val::Px(10.0),
+                                width: Val::Percent(70.0),
+                                height: Val::Percent(80.0),
+                                margin: UiRect::all(Val::Auto),
+                                padding: UiRect::all(Val::Px(20.0)),
+                                border: UiRect::all(Val::Px(3.0)),
                                 ..default()
                             },
+                            border_radius: BorderRadius::all(Val::Px(20.0)),
+                            border_color: BorderColor(Color::BLACK),
+                            background_color: BackgroundColor(Color::srgb_u8(32, 33, 36)),
+                            z_index: ZIndex::Global(1),
                             ..default()
                         })
+                        .insert(Name::new("Mission details modal"))
+                        .insert(ModalContentTrigger)
                         .with_children(|parent| {
-                            // Left container
                             parent
-                                .spawn(NodeBundle {
-                                    style: Style {
-                                        flex_direction: FlexDirection::Column,
-                                        justify_content: JustifyContent::FlexStart,
-                                        align_items: AlignItems::Center,
-                                        width: Val::Percent(30.0),
-                                        border: UiRect::all(Val::Px(2.0)),
-                                        ..default()
-                                    },
-                                    border_color: BorderColor(Color::WHITE),
+                                .spawn(TextBundle {
+                                    text: Text::from_section(
+                                        format!("Mission Details -> {:?}", mission.name),
+                                        TextStyle {
+                                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                            font_size: 40.0,
+                                            color: Color::WHITE,
+                                        },
+                                    ),
                                     ..default()
                                 })
-                                .with_children(|parent| {
-                                    // Recruits
-                                    for recruit in player_stats.recruits.iter() {
-                                        parent
-                                            .spawn(
-                                                CustomButton::Primary
-                                                    .bundle(&asset_server, image_assets.clone()),
-                                            )
-                                            .insert(UniqueId(format!(
-                                                "assign_recruit_to_mission_{}",
-                                                recruit.id
-                                            )))
-                                            .with_children(|button| {
-                                                button.spawn(TextBundle {
-                                                    text: Text::from_section(
-                                                        &recruit.class.to_string(),
-                                                        TextStyle {
-                                                            font: asset_server
-                                                                .load("fonts/FiraSans-Bold.ttf"),
-                                                            font_size: 20.0,
-                                                            color: Color::BLACK,
-                                                        },
-                                                    ),
-                                                    ..default()
-                                                });
-                                            });
-                                    }
-                                });
+                                .insert(Name::new("Mission details modal > title"));
 
-                            // Middle container
+                            // Close button to close the modal
                             parent
-                                .spawn(NodeBundle {
-                                    style: Style {
-                                        flex_direction: FlexDirection::Column,
-                                        justify_content: JustifyContent::Center,
-                                        align_items: AlignItems::Center,
-                                        width: Val::Percent(40.0),
-                                        border: UiRect::all(Val::Px(2.0)),
+                                .spawn((
+                                    ButtonBundle {
+                                        style: Style {
+                                            position_type: PositionType::Absolute,
+                                            right: Val::Px(10.),
+                                            top: Val::Px(10.),
+                                            margin: UiRect::all(Val::Px(10.)),
+                                            width: Val::Px(40.),
+                                            height: Val::Px(40.),
+                                            border: UiRect::all(Val::Px(3.)),
+                                            ..default()
+                                        },
+                                        image: texture_handle.clone().into(),
+                                        border_color: BorderColor(WOOD_COLOR),
+                                        border_radius: BorderRadius::all(Val::Px(10.)),
                                         ..default()
                                     },
-                                    border_color: BorderColor(Color::WHITE),
-                                    ..default()
-                                })
-                                .with_children(|parent| {
-                                    // Middle content
-                                    parent.spawn(TextBundle {
-                                        text: Text::from_section(
-                                            "Mission middle \n Assigned recruit :",
-                                            TextStyle {
-                                                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                                font_size: 20.0,
-                                                color: Color::WHITE,
-                                            },
-                                        ),
+                                    TextureAtlas {
+                                        index: 16,
+                                        layout: texture_atlas_layout.clone(),
+                                    },
+                                ))
+                                // .spawn(CustomButton::SquareIcon.bundle(&asset_server, image_assets.clone()))
+                                .insert(UniqueId("close_mission_modal".to_string()))
+                                // TODO WIP - Fix !
+                                .with_children(|button| {
+                                    button.spawn(TextBundle {
+                                        text: Text::from_section("", TextStyle { ..default() }),
                                         ..default()
                                     });
+                                });
 
+                            // Main container
+                            parent
+                                .spawn(NodeBundle {
+                                    style: Style {
+                                        flex_direction: FlexDirection::Row,
+                                        justify_content: JustifyContent::SpaceBetween,
+                                        column_gap: Val::Px(10.0),
+                                        width: Val::Percent(100.0),
+                                        height: Val::Percent(100.0),
+                                        ..default()
+                                    },
+                                    ..default()
+                                })
+                                .with_children(|parent| {
+                                    // Left container
                                     parent
-                                        .spawn(TextBundle {
-                                            text: Text::from_section(
-                                                format!("{:?}", selected_mission.recruit_id),
-                                                TextStyle {
-                                                    font: asset_server
-                                                        .load("fonts/FiraSans-Bold.ttf"),
-                                                    font_size: 20.0,
-                                                    color: Color::WHITE,
-                                                },
-                                            ),
+                                        .spawn(NodeBundle {
+                                            style: Style {
+                                                flex_direction: FlexDirection::Column,
+                                                justify_content: JustifyContent::FlexStart,
+                                                align_items: AlignItems::Center,
+                                                width: Val::Percent(30.0),
+                                                border: UiRect::all(Val::Px(2.0)),
+                                                ..default()
+                                            },
+                                            border_color: BorderColor(Color::WHITE),
                                             ..default()
                                         })
-                                        .insert(SelectedMissionRecruitIdTrigger);
+                                        .with_children(|parent| {
+                                            // Recruits
+                                            for recruit in player_stats.recruits.iter() {
+                                                parent
+                                                    .spawn(CustomButton::Primary.bundle(
+                                                        &asset_server,
+                                                        image_assets.clone(),
+                                                    ))
+                                                    .insert(UniqueId(format!(
+                                                        "assign_recruit_to_mission_{}",
+                                                        recruit.id
+                                                    )))
+                                                    .with_children(|button| {
+                                                        button.spawn(TextBundle {
+                                                            text: Text::from_section(
+                                                                &recruit.class.to_string(),
+                                                                TextStyle {
+                                                                    font: asset_server.load(
+                                                                        "fonts/FiraSans-Bold.ttf",
+                                                                    ),
+                                                                    font_size: 20.0,
+                                                                    color: Color::BLACK,
+                                                                },
+                                                            ),
+                                                            ..default()
+                                                        });
+                                                    });
+                                            }
+                                        });
 
+                                    // Middle container
                                     parent
-                                        .spawn(TextBundle {
-                                            text: Text::from_section(
-                                                format!(
-                                                    "{:?}",
-                                                    selected_mission.percent_of_victory
-                                                ),
-                                                TextStyle {
-                                                    font: asset_server
-                                                        .load("fonts/FiraSans-Bold.ttf"),
-                                                    font_size: 20.0,
-                                                    color: Color::WHITE,
-                                                },
-                                            ),
+                                        .spawn(NodeBundle {
+                                            style: Style {
+                                                flex_direction: FlexDirection::Column,
+                                                justify_content: JustifyContent::Center,
+                                                align_items: AlignItems::Center,
+                                                width: Val::Percent(40.0),
+                                                border: UiRect::all(Val::Px(2.0)),
+                                                ..default()
+                                            },
+                                            border_color: BorderColor(Color::WHITE),
                                             ..default()
                                         })
-                                        .insert(SelectedMissionPercentOfVictoryTrigger);
-
-                                    // Button inside the middle container
-                                    parent
-                                        .spawn(
-                                            CustomButton::Primary
-                                                .bundle(&asset_server, image_assets.clone()),
-                                        )
-                                        .insert(UniqueId("start_mission".to_string()))
-                                        .with_children(|button| {
-                                            button.spawn(TextBundle {
+                                        .with_children(|parent| {
+                                            // Middle content
+                                            parent.spawn(TextBundle {
                                                 text: Text::from_section(
-                                                    "Start the mission",
+                                                    "Mission middle \n Assigned recruit :",
                                                     TextStyle {
                                                         font: asset_server
                                                             .load("fonts/FiraSans-Bold.ttf"),
                                                         font_size: 20.0,
-                                                        color: Color::BLACK,
+                                                        color: Color::WHITE,
                                                     },
                                                 ),
                                                 ..default()
                                             });
+
+                                            parent
+                                                .spawn(TextBundle {
+                                                    text: Text::from_section(
+                                                        format!(
+                                                            "{:?}",
+                                                            selected_mission.recruit_id
+                                                        ),
+                                                        TextStyle {
+                                                            font: asset_server
+                                                                .load("fonts/FiraSans-Bold.ttf"),
+                                                            font_size: 20.0,
+                                                            color: Color::WHITE,
+                                                        },
+                                                    ),
+                                                    ..default()
+                                                })
+                                                .insert(SelectedMissionRecruitIdTrigger);
+
+                                            parent
+                                                .spawn(TextBundle {
+                                                    text: Text::from_section(
+                                                        format!(
+                                                            "{:?}",
+                                                            selected_mission.percent_of_victory
+                                                        ),
+                                                        TextStyle {
+                                                            font: asset_server
+                                                                .load("fonts/FiraSans-Bold.ttf"),
+                                                            font_size: 20.0,
+                                                            color: Color::WHITE,
+                                                        },
+                                                    ),
+                                                    ..default()
+                                                })
+                                                .insert(SelectedMissionPercentOfVictoryTrigger);
+
+                                            // Button inside the middle container
+                                            parent
+                                                .spawn(
+                                                    CustomButton::Primary.bundle(
+                                                        &asset_server,
+                                                        image_assets.clone(),
+                                                    ),
+                                                )
+                                                .insert(UniqueId("start_mission".to_string()))
+                                                .with_children(|button| {
+                                                    button.spawn(TextBundle {
+                                                        text: Text::from_section(
+                                                            "Start the mission",
+                                                            TextStyle {
+                                                                font: asset_server.load(
+                                                                    "fonts/FiraSans-Bold.ttf",
+                                                                ),
+                                                                font_size: 20.0,
+                                                                color: Color::BLACK,
+                                                            },
+                                                        ),
+                                                        ..default()
+                                                    });
+                                                });
                                         });
-                                });
 
-                            // Right container
-                            parent
-                                .spawn(NodeBundle {
-                                    style: Style {
-                                        flex_direction: FlexDirection::Column,
-                                        justify_content: JustifyContent::FlexStart,
-                                        align_items: AlignItems::Center,
-                                        width: Val::Percent(30.0),
-                                        border: UiRect::all(Val::Px(2.0)),
-                                        ..default()
-                                    },
-                                    border_color: BorderColor(Color::WHITE),
-                                    ..default()
-                                })
-                                .with_children(|parent| {
-                                    // Right content
-                                    parent.spawn(TextBundle {
-                                        text: Text::from_section(
-                                            format!(
-                                                "Ennemy for this mission -> {:?}",
-                                                mission.ennemy.name
-                                            ),
-                                            TextStyle {
-                                                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                                font_size: 20.0,
-                                                color: Color::WHITE,
+                                    // Right container
+                                    parent
+                                        .spawn(NodeBundle {
+                                            style: Style {
+                                                flex_direction: FlexDirection::Column,
+                                                justify_content: JustifyContent::FlexStart,
+                                                align_items: AlignItems::Center,
+                                                width: Val::Percent(30.0),
+                                                border: UiRect::all(Val::Px(2.0)),
+                                                ..default()
                                             },
-                                        ),
-                                        ..default()
-                                    });
-
-                                    parent.spawn(TextBundle {
-                                        text: Text::from_section(
-                                            format!("Strength: {:?}", mission.ennemy.strength),
-                                            TextStyle {
-                                                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                                font_size: 20.0,
-                                                color: Color::WHITE,
-                                            },
-                                        ),
-                                        style: Style {
-                                            margin: UiRect::all(Val::Px(10.0)),
+                                            border_color: BorderColor(Color::WHITE),
                                             ..default()
-                                        },
-                                        ..default()
-                                    });
+                                        })
+                                        .with_children(|parent| {
+                                            // Right content
+                                            parent.spawn(TextBundle {
+                                                text: Text::from_section(
+                                                    format!(
+                                                        "Ennemy for this mission -> {:?}",
+                                                        mission.ennemy.name
+                                                    ),
+                                                    TextStyle {
+                                                        font: asset_server
+                                                            .load("fonts/FiraSans-Bold.ttf"),
+                                                        font_size: 20.0,
+                                                        color: Color::WHITE,
+                                                    },
+                                                ),
+                                                ..default()
+                                            });
 
-                                    parent.spawn(TextBundle {
-                                        text: Text::from_section(
-                                            format!("Endurance: {:?}", mission.ennemy.endurance),
-                                            TextStyle {
-                                                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                                font_size: 20.0,
-                                                color: Color::WHITE,
-                                            },
-                                        ),
-                                        style: Style {
-                                            margin: UiRect::all(Val::Px(10.0)),
-                                            ..default()
-                                        },
-                                        ..default()
-                                    });
+                                            parent.spawn(TextBundle {
+                                                text: Text::from_section(
+                                                    format!(
+                                                        "Strength: {:?}",
+                                                        mission.ennemy.strength
+                                                    ),
+                                                    TextStyle {
+                                                        font: asset_server
+                                                            .load("fonts/FiraSans-Bold.ttf"),
+                                                        font_size: 20.0,
+                                                        color: Color::WHITE,
+                                                    },
+                                                ),
+                                                style: Style {
+                                                    margin: UiRect::all(Val::Px(10.0)),
+                                                    ..default()
+                                                },
+                                                ..default()
+                                            });
 
-                                    parent.spawn(TextBundle {
-                                        text: Text::from_section(
-                                            format!(
-                                                "Intelligence: {:?}",
-                                                mission.ennemy.intelligence
-                                            ),
-                                            TextStyle {
-                                                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                                font_size: 20.0,
-                                                color: Color::WHITE,
-                                            },
-                                        ),
-                                        style: Style {
-                                            margin: UiRect::all(Val::Px(10.0)),
-                                            ..default()
-                                        },
-                                        ..default()
-                                    });
+                                            parent.spawn(TextBundle {
+                                                text: Text::from_section(
+                                                    format!(
+                                                        "Endurance: {:?}",
+                                                        mission.ennemy.endurance
+                                                    ),
+                                                    TextStyle {
+                                                        font: asset_server
+                                                            .load("fonts/FiraSans-Bold.ttf"),
+                                                        font_size: 20.0,
+                                                        color: Color::WHITE,
+                                                    },
+                                                ),
+                                                style: Style {
+                                                    margin: UiRect::all(Val::Px(10.0)),
+                                                    ..default()
+                                                },
+                                                ..default()
+                                            });
 
-                                    parent.spawn(TextBundle {
-                                        text: Text::from_section(
-                                            format!("Level: {:?}", mission.ennemy.level),
-                                            TextStyle {
-                                                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                                font_size: 20.0,
-                                                color: Color::WHITE,
-                                            },
-                                        ),
-                                        style: Style {
-                                            margin: UiRect::all(Val::Px(10.0)),
-                                            ..default()
-                                        },
-                                        ..default()
-                                    });
+                                            parent.spawn(TextBundle {
+                                                text: Text::from_section(
+                                                    format!(
+                                                        "Intelligence: {:?}",
+                                                        mission.ennemy.intelligence
+                                                    ),
+                                                    TextStyle {
+                                                        font: asset_server
+                                                            .load("fonts/FiraSans-Bold.ttf"),
+                                                        font_size: 20.0,
+                                                        color: Color::WHITE,
+                                                    },
+                                                ),
+                                                style: Style {
+                                                    margin: UiRect::all(Val::Px(10.0)),
+                                                    ..default()
+                                                },
+                                                ..default()
+                                            });
+
+                                            parent.spawn(TextBundle {
+                                                text: Text::from_section(
+                                                    format!("Level: {:?}", mission.ennemy.level),
+                                                    TextStyle {
+                                                        font: asset_server
+                                                            .load("fonts/FiraSans-Bold.ttf"),
+                                                        font_size: 20.0,
+                                                        color: Color::WHITE,
+                                                    },
+                                                ),
+                                                style: Style {
+                                                    margin: UiRect::all(Val::Px(10.0)),
+                                                    ..default()
+                                                },
+                                                ..default()
+                                            });
+                                        });
                                 });
                         });
                 });
