@@ -47,6 +47,7 @@ fn main() -> AppExit {
         .add_systems(
             Update,
             (
+                systems::updates::update_buttons::move_room_from_keyboard,
                 systems::inputs::mouse_systems::mouse_click_system,
                 systems::updates::update_gold_counter::update_gold_counter,
                 systems::updates::update_room_interface_text::update_room_interface_text,

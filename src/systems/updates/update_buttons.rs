@@ -393,14 +393,18 @@ pub fn start_mission_button(
                             let mission_ennemy_level =
                                 selected_mission.mission.as_ref().unwrap().level;
                             let xp_earned = get_xp_earned(mission_ennemy_level);
+                            let gold_earned = (mission_ennemy_level * 10) as i32;
                             let recruit_id = selected_mission.recruit_id.unwrap();
 
-                            player_stats
+                            // Update the recruit with the new xp and gold
+                            let recruit = player_stats
                                 .recruits
                                 .iter_mut()
                                 .find(|recruit| recruit.id == recruit_id)
-                                .unwrap()
-                                .experience += xp_earned;
+                                .unwrap();
+
+                            recruit.experience += xp_earned;
+                            player_stats.increment_golds(gold_earned);
                         } else {
                             info!("The mission is a failure !");
                         }
@@ -415,6 +419,36 @@ pub fn start_mission_button(
                     }
                 }
             }
+        }
+    }
+}
+
+pub fn move_room_from_keyboard(
+    mut player_stats: ResMut<PlayerStats>,
+    keyboard_input: Res<ButtonInput<KeyCode>>,
+) {
+    if keyboard_input.just_pressed(KeyCode::KeyD) {
+        info!("Right arrow pressed");
+        if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Right) {
+            player_stats.room = new_room;
+        }
+    }
+
+    if keyboard_input.just_pressed(KeyCode::KeyA) {
+        if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Left) {
+            player_stats.room = new_room;
+        }
+    }
+
+    if keyboard_input.just_pressed(KeyCode::KeyW) {
+        if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Top) {
+            player_stats.room = new_room;
+        }
+    }
+
+    if keyboard_input.just_pressed(KeyCode::KeyS) {
+        if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Bottom) {
+            player_stats.room = new_room;
         }
     }
 }

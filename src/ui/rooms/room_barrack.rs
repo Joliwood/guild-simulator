@@ -168,21 +168,23 @@ pub fn room_barrack(
                             ..default()
                         });
 
-                        right_container.spawn(TextBundle {
-                            text: Text::from_section(
-                                format!("Experience: {:?}", recruit.experience),
-                                TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                    font_size: 20.0,
-                                    color: Color::BLACK,
+                        right_container
+                            .spawn(TextBundle {
+                                text: Text::from_section(
+                                    format!("Experience: {:?}", recruit.experience),
+                                    TextStyle {
+                                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                        font_size: 20.0,
+                                        color: Color::BLACK,
+                                    },
+                                ),
+                                style: Style {
+                                    margin: UiRect::all(Val::Px(10.0)),
+                                    ..default()
                                 },
-                            ),
-                            style: Style {
-                                margin: UiRect::all(Val::Px(10.0)),
                                 ..default()
-                            },
-                            ..default()
-                        });
+                            })
+                            .insert(SelectedRecruitTrigger);
 
                         right_container.spawn(TextBundle {
                             text: Text::from_section(
