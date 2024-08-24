@@ -1,6 +1,6 @@
 use crate::{
     enums::{RoomDirectionEnum, RoomEnum},
-    structs::PlayerStats,
+    structs::general_structs::PlayerStats,
 };
 use bevy::prelude::ResMut;
 

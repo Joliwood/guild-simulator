@@ -1,4 +1,4 @@
-use crate::structs::{PlayerStats, RecruitStats};
+use crate::structs::general_structs::{PlayerStats, RecruitStats};
 
 pub fn hire_new_recruits(player_stats: &mut PlayerStats, new_recruits: Vec<RecruitStats>) -> bool {
     let recruits_number = player_stats.recruits.len();

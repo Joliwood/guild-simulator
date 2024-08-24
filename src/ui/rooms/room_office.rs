@@ -1,5 +1,5 @@
 use crate::{
-    structs::ResetRoomTrigger,
+    structs::trigger_structs::ResetRoomTrigger,
     ui::{buttons::gold_button::gold_button, styles::node_container_style::node_container_style},
 };
 use bevy::prelude::*;

@@ -1,7 +1,7 @@
 use crate::{
     structs::{
-        PlayerStats, PlayerStatsRecruitsTrigger, ResetRoomTrigger, SelectedRecruit,
-        SelectedRecruitTrigger, UniqueId,
+        general_structs::{PlayerStats, SelectedRecruit, UniqueId},
+        trigger_structs::{PlayerStatsRecruitsTrigger, ResetRoomTrigger, SelectedRecruitTrigger},
     },
     styles::CustomButton,
     ui::{interface::gold_counter::MyAssets, styles::node_container_style::node_container_style},

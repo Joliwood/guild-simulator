@@ -1,36 +1,6 @@
-// #![allow(dead_code)]
-
 use crate::enums::{RecruitEnum, RoomEnum};
 use bevy::prelude::{Component, Resource};
 use uuid::Uuid;
-
-// --- Triggers --- //
-
-#[derive(Resource, Component)]
-pub struct GoldCountTrigger;
-
-#[derive(Component)]
-pub struct PlayerStatsRoomTrigger;
-
-#[derive(Component)]
-pub struct ResetRoomTrigger;
-
-#[derive(Component)]
-pub struct PlayerStatsRecruitsTrigger;
-
-#[derive(Component)]
-pub struct SelectedRecruitTrigger;
-
-#[derive(Component)]
-pub struct SelectedMissionRecruitIdTrigger;
-
-#[derive(Component)]
-pub struct SelectedMissionPercentOfVictoryTrigger;
-
-#[derive(Component)]
-pub struct ModalContentTrigger;
-
-// --- Definition of structs --- //
 
 #[derive(Component, Resource)]
 pub struct MissionModalVisible(pub bool);

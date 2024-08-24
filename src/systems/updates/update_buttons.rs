@@ -1,6 +1,6 @@
 use crate::{
     enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
-    structs::{
+    structs::general_structs::{
         MissionModalVisible, Missions, PlayerStats, RecruitStats, SelectedMission, SelectedRecruit,
         UniqueId,
     },

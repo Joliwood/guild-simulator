@@ -1,7 +1,10 @@
 use crate::{
     structs::{
-        MissionModalVisible, ModalContentTrigger, PlayerStats, SelectedMission,
-        SelectedMissionPercentOfVictoryTrigger, SelectedMissionRecruitIdTrigger, UniqueId,
+        general_structs::{MissionModalVisible, PlayerStats, SelectedMission, UniqueId},
+        trigger_structs::{
+            ModalContentTrigger, SelectedMissionPercentOfVictoryTrigger,
+            SelectedMissionRecruitIdTrigger,
+        },
     },
     styles::CustomButton,
     ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},

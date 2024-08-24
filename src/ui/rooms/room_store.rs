@@ -1,4 +1,7 @@
-use crate::{structs::ResetRoomTrigger, ui::styles::node_container_style::node_container_style};
+use crate::{
+    structs::trigger_structs::ResetRoomTrigger,
+    ui::styles::node_container_style::node_container_style,
+};
 use bevy::prelude::*;
 
 pub fn room_store(asset_server: &Res<AssetServer>, commands: &mut Commands) {

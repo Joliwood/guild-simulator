@@ -1,4 +1,4 @@
-use crate::structs::{GoldCountTrigger, PlayerStats};
+use crate::structs::{general_structs::PlayerStats, trigger_structs::GoldCountTrigger};
 use bevy::{
     prelude::{DetectChanges, Query, Res, With},
     text::Text,

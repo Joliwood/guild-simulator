@@ -1,6 +1,9 @@
 use crate::{
     enums::RoomEnum,
-    structs::{Missions, PlayerStats, ResetRoomTrigger, SelectedRecruit},
+    structs::{
+        general_structs::{Missions, PlayerStats, SelectedRecruit},
+        trigger_structs::ResetRoomTrigger,
+    },
     ui::{
         interface::gold_counter::MyAssets,
         rooms::{

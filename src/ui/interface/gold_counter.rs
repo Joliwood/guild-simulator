@@ -1,5 +1,8 @@
 use crate::{
-    structs::{GoldCountTrigger, PlayerStats, UniqueId},
+    structs::{
+        general_structs::{PlayerStats, UniqueId},
+        trigger_structs::GoldCountTrigger,
+    },
     systems::systems_constants::NORMAL_BUTTON,
     ui::ui_constants::WOOD_COLOR,
 };

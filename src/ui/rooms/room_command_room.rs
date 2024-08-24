@@ -1,5 +1,8 @@
 use crate::{
-    structs::{Missions, ResetRoomTrigger, UniqueId},
+    structs::{
+        general_structs::{Missions, UniqueId},
+        trigger_structs::ResetRoomTrigger,
+    },
     styles::CustomButton,
     ui::{interface::gold_counter::MyAssets, styles::node_container_style::node_container_style},
 };

@@ -1,6 +1,6 @@
 use crate::{
-    structs::{PlayerStats, PlayerStatsRoomTrigger},
-    ui::ui_constants::WOOD_COLOR,
+    structs::{general_structs::PlayerStats, trigger_structs::PlayerStatsRoomTrigger},
+    ui::{styles::node_container_style::room_interface_text_style, ui_constants::WOOD_COLOR},
 };
 use bevy::prelude::*;
 
@@ -13,17 +13,7 @@ pub fn room_interface_text(
         // Container
         .spawn(NodeBundle {
             style: Style {
-                // The position absolute make the gold counter visible (z-index)
-                position_type: PositionType::Absolute,
-                right: Val::Px(0.0),
-                top: Val::Px(0.0),
-                display: Display::Flex,
-                padding: UiRect::all(Val::Px(10.0)),
-                row_gap: Val::Px(10.0),
-                align_items: AlignItems::Center,
-                width: Val::Auto,
-                height: Val::Px(36.0),
-                ..default()
+                ..room_interface_text_style()
             },
             background_color: BackgroundColor(WOOD_COLOR),
             ..default()

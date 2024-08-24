@@ -1,4 +1,4 @@
-use crate::structs::{SelectedRecruit, SelectedRecruitTrigger};
+use crate::structs::{general_structs::SelectedRecruit, trigger_structs::SelectedRecruitTrigger};
 use bevy::{
     prelude::{Query, Res, With},
     text::Text,
