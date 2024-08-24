@@ -6,12 +6,14 @@ use bevy::prelude::ResMut;
 
 /// Determines the new room based on the given direction and current player stats.
 ///
-/// # Parameters
+/// ## Parameters
 /// - `player_stats`: The current player stats containing the current room.
 /// - `direction`: The direction in which the room change is requested.
 ///
-/// # Returns
+/// ## Returns
 /// The new room enum corresponding to the direction.
+///
+/// ## Permanently the store room has been removed for V0
 pub fn get_new_room(
     player_stats: &ResMut<PlayerStats>,
     direction: RoomDirectionEnum,
@@ -19,7 +21,8 @@ pub fn get_new_room(
     match player_stats.room {
         RoomEnum::Office => match direction {
             RoomDirectionEnum::Right => Some(RoomEnum::Barrack),
-            RoomDirectionEnum::Left => Some(RoomEnum::Store),
+            // RoomDirectionEnum::Left => Some(RoomEnum::Store),
+            RoomDirectionEnum::Left => None,
             RoomDirectionEnum::Bottom => Some(RoomEnum::CommandRoom),
             RoomDirectionEnum::Top => None,
         },

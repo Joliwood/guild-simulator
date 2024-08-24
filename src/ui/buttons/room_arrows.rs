@@ -15,6 +15,8 @@ pub fn room_left_arrow_button(
     commands
         .spawn(NodeBundle {
             style: Style {
+                // Permanently removed for V0
+                display: Display::None,
                 left: Val::Px(0.0),
                 ..room_arrow_button_style()
             },
