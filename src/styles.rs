@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use crate::{
     systems::systems_constants::NORMAL_BUTTON,
     ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},

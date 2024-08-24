@@ -78,7 +78,7 @@ pub fn gold_counter(
             ));
         })
         .insert(Name::new("Gold icon"))
-        // Gold counter texté
+        // Gold counter text
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
                 .spawn(TextBundle {
