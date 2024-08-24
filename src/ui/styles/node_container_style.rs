@@ -28,3 +28,42 @@ pub fn room_interface_text_style() -> Style {
         ..default()
     }
 }
+
+pub fn room_arrow_button_style() -> Style {
+    Style {
+        position_type: PositionType::Absolute,
+        display: Display::Flex,
+        margin: UiRect::all(Val::Auto),
+        align_items: AlignItems::Center,
+        width: Val::Px(36.0),
+        height: Val::Px(36.0),
+        ..default()
+    }
+}
+
+pub fn basic_button_style() -> Style {
+    Style {
+        display: Display::Flex,
+        align_content: AlignContent::Center,
+        justify_content: JustifyContent::Center,
+        width: Val::Auto,
+        height: Val::Px(36.0),
+        ..default()
+    }
+}
+
+pub fn mission_details_modal_container() -> Style {
+    Style {
+        position_type: PositionType::Absolute,
+        align_items: AlignItems::Center,
+        flex_direction: FlexDirection::Column,
+        justify_content: JustifyContent::Center,
+        row_gap: Val::Px(10.0),
+        width: Val::Percent(70.0),
+        height: Val::Percent(80.0),
+        margin: UiRect::all(Val::Auto),
+        padding: UiRect::all(Val::Px(20.0)),
+        border: UiRect::all(Val::Px(3.0)),
+        ..default()
+    }
+}

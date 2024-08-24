@@ -7,9 +7,14 @@ use crate::{
         },
     },
     styles::CustomButton,
-    ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
+    ui::{
+        interface::gold_counter::MyAssets,
+        styles::node_container_style::mission_details_modal_container, ui_constants::WOOD_COLOR,
+    },
 };
 use bevy::{asset::AssetServer, prelude::*};
+
+// TODO - Need SOC for each child a separate file + folder with all childrens in
 
 pub fn display_mission_modal(
     mut commands: Commands,
@@ -60,19 +65,7 @@ pub fn display_mission_modal(
                 .with_children(|parent| {
                     parent
                         .spawn(NodeBundle {
-                            style: Style {
-                                position_type: PositionType::Absolute,
-                                align_items: AlignItems::Center,
-                                flex_direction: FlexDirection::Column,
-                                justify_content: JustifyContent::Center,
-                                row_gap: Val::Px(10.0),
-                                width: Val::Percent(70.0),
-                                height: Val::Percent(80.0),
-                                margin: UiRect::all(Val::Auto),
-                                padding: UiRect::all(Val::Px(20.0)),
-                                border: UiRect::all(Val::Px(3.0)),
-                                ..default()
-                            },
+                            style: mission_details_modal_container(),
                             border_radius: BorderRadius::all(Val::Px(20.0)),
                             border_color: BorderColor(Color::BLACK),
                             background_color: BackgroundColor(Color::srgb_u8(32, 33, 36)),

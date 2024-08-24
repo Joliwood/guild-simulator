@@ -12,9 +12,7 @@ pub fn room_interface_text(
     commands
         // Container
         .spawn(NodeBundle {
-            style: Style {
-                ..room_interface_text_style()
-            },
+            style: room_interface_text_style(),
             background_color: BackgroundColor(WOOD_COLOR),
             ..default()
         })
