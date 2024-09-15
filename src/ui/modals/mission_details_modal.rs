@@ -193,7 +193,7 @@ pub fn display_mission_modal(
                                     spawn_middle_container(
                                         parent,
                                         &asset_server,
-                                        first_image_asset,
+                                        &image_assets,
                                         player_stats,
                                     )
 

@@ -28,7 +28,7 @@ pub fn update_room(
     query: Query<Entity, With<ResetRoomTrigger>>,
     selected_recruit: Res<SelectedRecruit>,
     missions: Res<Missions>,
-    image_assets: Res<MyAssets>,
+    image_assets: &Res<MyAssets>,
     texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     if player_stats.is_changed() || selected_recruit.is_changed() {
@@ -46,11 +46,11 @@ pub fn update_room(
                 &mut commands,
                 &player_stats,
                 &selected_recruit,
-                image_assets.clone(),
+                &image_assets,
             ),
             RoomEnum::Store => room_store(&asset_server, &mut commands),
             RoomEnum::CommandRoom => {
-                room_command_room(&asset_server, &mut commands, missions, image_assets)
+                room_command_room(&asset_server, &mut commands, missions, &image_assets)
             }
         }
     }

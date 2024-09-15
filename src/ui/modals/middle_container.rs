@@ -9,7 +9,7 @@ use bevy::prelude::*;
 pub fn spawn_middle_container(
     parent: &mut ChildBuilder,
     asset_server: &Res<AssetServer>,
-    image_assets: Res<MyAssets>,
+    image_assets: &Res<MyAssets>,
     player_stats: Res<PlayerStats>,
 ) {
     parent
@@ -29,7 +29,7 @@ pub fn spawn_middle_container(
             // Recruits
             for recruit in player_stats.recruits.iter() {
                 parent
-                    .spawn(CustomButton::Primary.bundle(asset_server, image_assets.clone()))
+                    .spawn(CustomButton::Primary.bundle(asset_server, image_assets))
                     .insert(UniqueId(format!(
                         "assign_recruit_to_mission_{}",
                         recruit.id
