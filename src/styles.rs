@@ -17,7 +17,7 @@ pub enum CustomButton {
 impl CustomButton {
     pub fn bundle(
         &self,
-        asset_server: &Res<AssetServer>,
+        _asset_server: &Res<AssetServer>,
         image_assets: &Res<MyAssets>,
     ) -> ButtonBundle {
         // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
