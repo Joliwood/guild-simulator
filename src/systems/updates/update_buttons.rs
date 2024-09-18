@@ -468,6 +468,10 @@ pub fn buttons_disable_updates(
                 "room_top_arrow_id" => {
                     style.display = Display::None;
                 }
+                // WIP - Desactivated for a V0
+                "room_left_arrow_id" => {
+                    style.display = Display::None;
+                }
                 _ => style.display = Display::Flex,
             },
             RoomEnum::Barrack => match unique_id.0.as_str() {
