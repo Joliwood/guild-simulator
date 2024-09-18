@@ -22,7 +22,9 @@ pub fn room_interface_text(
             ui_container
                 .spawn(TextBundle {
                     text: Text::from_section(
-                        format! {"{:?}", player_stats.room},
+                        format! {"{gold_counter} | Guild level : {guild_level}",
+                        gold_counter = player_stats.golds,
+                        guild_level = player_stats.guild_level},
                         TextStyle {
                             font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                             font_size: 40.0,

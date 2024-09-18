@@ -83,7 +83,7 @@ pub fn gold_counter(
             ui_container
                 .spawn(TextBundle {
                     text: Text::from_section(
-                        format! {"{gold_counter}", gold_counter = player_stats.golds},
+                        format! {"Guild level : {} | {gold_counter}", player_stats.guild_level, gold_counter = player_stats.golds},
                         TextStyle {
                             font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                             font_size: 40.0,

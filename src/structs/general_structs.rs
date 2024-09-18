@@ -101,6 +101,25 @@ impl PlayerStats {
     }
 }
 
+impl RecruitStats {
+    pub fn gain_xp(&mut self, xp: u32) {
+        self.experience += xp;
+
+        // Reset the experience with left experience after leveling up
+        // Then level up
+        if self.experience >= self.max_experience {
+            self.experience -= self.max_experience;
+            self.level_up();
+        }
+    }
+
+    pub fn level_up(&mut self) {
+        self.level += 1;
+        // Set the max experience to the current experience * 2
+        self.max_experience *= 2;
+    }
+}
+
 impl Default for PlayerStats {
     fn default() -> Self {
         Self {
