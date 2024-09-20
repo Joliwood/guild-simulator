@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use crate::{
     systems::systems_constants::NORMAL_BUTTON,
     ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
@@ -46,7 +44,6 @@ impl CustomButton {
                     align_items: AlignItems::Center,
                     ..default()
                 },
-                // border_color: BorderColor(Color::BLACK),
                 border_radius: BorderRadius::MAX,
                 // Test for insert image asset for button
                 // image: UiImage::new(asset_server.load("../assets/images/cursors/cursor_grab.png")),
@@ -85,8 +82,6 @@ impl CustomButton {
                     width: Val::Px(60.),
                     height: Val::Px(60.),
                     border: UiRect::all(Val::Px(3.)),
-                    // justify_content: JustifyContent::Center,
-                    // align_items: AlignItems::Center,
                     ..default()
                 },
                 image: image_assets.test_button.clone().into(),

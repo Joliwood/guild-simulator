@@ -6,7 +6,6 @@ mod enums;
 mod structs;
 mod styles;
 mod systems;
-mod traits;
 mod ui;
 mod utils;
 

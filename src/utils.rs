@@ -47,14 +47,6 @@ pub fn get_new_room(
     }
 }
 
-// pub fn increment_golds(player_stats: &mut ResMut<PlayerStats>, amount: i32) {
-//     player_stats.golds += amount;
-// }
-
-// pub fn select_recruit(mut selected_recruit: ResMut<SelectedRecruit>, recruit: RecruitStats) {
-//     selected_recruit.0 = Some(recruit);
-// }
-
 /// Calculates the total points of a recruit based on its strength, endurance
 /// and intelligence.
 ///
@@ -64,17 +56,11 @@ pub fn get_global_points(strength: u16, endurance: u16, intelligence: u16) -> u1
     return strength + endurance + intelligence;
 }
 
-/// Calculates the victory percentage of a mission based on the global points
+/// ## Calculates the victory percentage of a mission based on the global points
 ///
-/// ## Description FR
-/// - Si la recrue a 2 fois moins de points que l'ennemi, il a 0% de chance de gagner
-/// - Si la recrue a 2 fois plus de points que l'ennemi, il a 100% de chance de gagner
-/// - Si la recrue a autant de points que l'ennemi, il a 50% de chance de gagner
-///
-/// ## Description EN
-/// - If the recruit has half as many points as the enemy, they have a 0% chance of winning.
-/// - If the recruit has twice as many points as the enemy, they have a 100% chance of winning.
-/// - If the recruit has the same number of points as the enemy, they have a 50% chance of winning.
+/// - If recruit points = ennemy points / 2 => 0%.
+/// - If recruit points = ennemy points x 2 => 100%.
+/// - If recruits points  = ennemy points => 50%.
 ///
 /// ## Returns
 /// The victory percentage of the mission.
