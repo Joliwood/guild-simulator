@@ -8,9 +8,16 @@ pub struct MissionModalVisible(pub bool);
 #[derive(Component)]
 pub struct UniqueId(pub String);
 
+pub struct Item {
+    pub name: String,
+    pub quantity: u32,
+    // Any other fields you need...
+}
+
 #[derive(Component, Resource)]
 pub struct PlayerStats {
     pub experience: u32,
+    pub inventory: Option<Vec<Item>>,
     pub golds: i32,
     pub guild_level: i8,
     pub max_experience: u32,
@@ -123,12 +130,22 @@ impl RecruitStats {
 impl Default for PlayerStats {
     fn default() -> Self {
         Self {
+            inventory: Some(vec![
+                Item {
+                    name: "Potion".to_string(),
+                    quantity: 5,
+                },
+                Item {
+                    name: "Elixir".to_string(),
+                    quantity: 2,
+                },
+            ]),
             experience: 0,
             golds: 0,
             guild_level: 1,
             max_experience: 100,
             recruits: vec![],
-            room: RoomEnum::CommandRoom,
+            room: RoomEnum::Barrack,
         }
     }
 }
