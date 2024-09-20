@@ -1,6 +1,9 @@
 use crate::{
     enums::RoomEnum,
-    structs::{Missions, PlayerStats, ResetRoomTrigger, SelectedRecruit},
+    structs::{
+        general_structs::{Missions, PlayerStats, SelectedRecruit},
+        trigger_structs::ResetRoomTrigger,
+    },
     ui::{
         interface::gold_counter::MyAssets,
         rooms::{
@@ -43,11 +46,11 @@ pub fn update_room(
                 &mut commands,
                 &player_stats,
                 &selected_recruit,
-                image_assets.clone(),
+                &image_assets,
             ),
             RoomEnum::Store => room_store(&asset_server, &mut commands),
             RoomEnum::CommandRoom => {
-                room_command_room(&asset_server, &mut commands, missions, image_assets)
+                room_command_room(&asset_server, &mut commands, missions, &image_assets)
             }
         }
     }

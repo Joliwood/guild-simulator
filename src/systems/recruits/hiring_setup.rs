@@ -1,6 +1,6 @@
 use crate::{
     enums::RecruitEnum,
-    structs::{PlayerStats, RecruitStats},
+    structs::general_structs::{PlayerStats, RecruitStats},
     systems::recruits::hire_new_recruits::hire_new_recruits,
 };
 use bevy::prelude::*;

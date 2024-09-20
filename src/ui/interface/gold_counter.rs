@@ -1,7 +1,10 @@
 use crate::{
-    structs::{GoldCountTrigger, PlayerStats, UniqueId},
+    structs::{
+        general_structs::{PlayerStats, UniqueId},
+        trigger_structs::GoldCountTrigger,
+    },
     systems::systems_constants::NORMAL_BUTTON,
-    ui::ui_constants::WOOD_COLOR,
+    ui::{styles::node_container_style::basic_button_style, ui_constants::WOOD_COLOR},
 };
 use bevy::prelude::*;
 use bevy_asset_loader::asset_collection::AssetCollection;
@@ -36,15 +39,7 @@ pub fn gold_counter(
 
     commands
         .spawn(NodeBundle {
-            style: Style {
-                display: Display::Flex,
-                align_content: AlignContent::Center,
-                justify_content: JustifyContent::Center,
-                width: Val::Auto,
-                height: Val::Px(36.0),
-                ..default()
-            },
-            // z_index: ZIndex::Global(3),
+            style: basic_button_style(),
             background_color: BackgroundColor(WOOD_COLOR),
             ..default()
         })
@@ -83,12 +78,12 @@ pub fn gold_counter(
             ));
         })
         .insert(Name::new("Gold icon"))
-        // Gold counter texté
+        // Gold counter text
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
                 .spawn(TextBundle {
                     text: Text::from_section(
-                        format! {"{gold_counter}", gold_counter = player_stats.golds},
+                        format! {"Guild level : {} | {gold_counter}", player_stats.guild_level, gold_counter = player_stats.golds},
                         TextStyle {
                             font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                             font_size: 40.0,

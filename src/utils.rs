@@ -1,17 +1,19 @@
 use crate::{
     enums::{RoomDirectionEnum, RoomEnum},
-    structs::PlayerStats,
+    structs::general_structs::PlayerStats,
 };
 use bevy::prelude::ResMut;
 
 /// Determines the new room based on the given direction and current player stats.
 ///
-/// # Parameters
+/// ## Parameters
 /// - `player_stats`: The current player stats containing the current room.
 /// - `direction`: The direction in which the room change is requested.
 ///
-/// # Returns
+/// ## Returns
 /// The new room enum corresponding to the direction.
+///
+/// ## Permanently the store room has been removed for V0
 pub fn get_new_room(
     player_stats: &ResMut<PlayerStats>,
     direction: RoomDirectionEnum,
@@ -19,7 +21,8 @@ pub fn get_new_room(
     match player_stats.room {
         RoomEnum::Office => match direction {
             RoomDirectionEnum::Right => Some(RoomEnum::Barrack),
-            RoomDirectionEnum::Left => Some(RoomEnum::Store),
+            // RoomDirectionEnum::Left => Some(RoomEnum::Store),
+            RoomDirectionEnum::Left => None,
             RoomDirectionEnum::Bottom => Some(RoomEnum::CommandRoom),
             RoomDirectionEnum::Top => None,
         },
@@ -44,14 +47,6 @@ pub fn get_new_room(
     }
 }
 
-// pub fn increment_golds(player_stats: &mut ResMut<PlayerStats>, amount: i32) {
-//     player_stats.golds += amount;
-// }
-
-// pub fn select_recruit(mut selected_recruit: ResMut<SelectedRecruit>, recruit: RecruitStats) {
-//     selected_recruit.0 = Some(recruit);
-// }
-
 /// Calculates the total points of a recruit based on its strength, endurance
 /// and intelligence.
 ///
@@ -61,12 +56,11 @@ pub fn get_global_points(strength: u16, endurance: u16, intelligence: u16) -> u1
     return strength + endurance + intelligence;
 }
 
-/// Calculates the victory percentage of a mission based on the global points
+/// ## Calculates the victory percentage of a mission based on the global points
 ///
-/// ## Description
-/// - Si la recrue a 2 fois moins de points que l'ennemi, il a 0% de chance de gagner
-/// - Si la recrue a 2 fois plus de points que l'ennemi, il a 100% de chance de gagner
-/// - Si la recrue a autant de points que l'ennemi, il a 50% de chance de gagner
+/// - If recruit points = ennemy points / 2 => 0%.
+/// - If recruit points = ennemy points x 2 => 100%.
+/// - If recruits points  = ennemy points => 50%.
 ///
 /// ## Returns
 /// The victory percentage of the mission.

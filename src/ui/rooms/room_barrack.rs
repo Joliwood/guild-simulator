@@ -1,7 +1,7 @@
 use crate::{
     structs::{
-        PlayerStats, PlayerStatsRecruitsTrigger, ResetRoomTrigger, SelectedRecruit,
-        SelectedRecruitTrigger, UniqueId,
+        general_structs::{PlayerStats, SelectedRecruit, UniqueId},
+        trigger_structs::{PlayerStatsRecruitsTrigger, ResetRoomTrigger, SelectedRecruitTrigger},
     },
     styles::CustomButton,
     ui::{interface::gold_counter::MyAssets, styles::node_container_style::node_container_style},
@@ -13,7 +13,7 @@ pub fn room_barrack(
     commands: &mut Commands,
     player_stats: &Res<PlayerStats>,
     selected_recruit: &Res<SelectedRecruit>,
-    image_assets: MyAssets,
+    image_assets: &Res<MyAssets>,
 ) {
     let image_handle: Handle<Image> = asset_server.load("images/barrack.png");
     info!("Selected recruit: {:?}", selected_recruit.0);
@@ -66,9 +66,7 @@ pub fn room_barrack(
                     // Barrack room > left container > recruit buttons
                     for recruit in player_stats.recruits.iter() {
                         left_container
-                            .spawn(
-                                CustomButton::Primary.bundle(&asset_server, image_assets.clone()),
-                            )
+                            .spawn(CustomButton::Primary.bundle(&asset_server, image_assets))
                             .insert((
                                 UniqueId(format!("recruit_button_{}", recruit.id)),
                                 SelectedRecruitTrigger,

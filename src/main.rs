@@ -11,8 +11,11 @@ mod utils;
 
 use bevy::prelude::*;
 use bevy_asset_loader::asset_collection::AssetCollectionApp;
-// use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use structs::{MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit};
+use structs::general_structs::{
+    MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit,
+};
+// use bevy_inspector_egui::quick::WorldInspectorPlugin;x
+// use structs::{MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit};
 use ui::interface::gold_counter::MyAssets;
 
 fn main() -> AppExit {

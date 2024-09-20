@@ -1,4 +1,4 @@
-use crate::structs::UniqueId;
+use crate::structs::general_structs::UniqueId;
 use bevy::prelude::*;
 
 pub fn gold_button(
