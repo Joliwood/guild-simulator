@@ -1,0 +1,32 @@
+Scrolls(
+    items: [
+        Scroll(
+            name: "Scroll of Wisdom",
+            intelligence: 10,
+            quantity: 5,
+        ),
+        Scroll(
+            name: "Scroll of Power",
+            strength: 15,
+            intelligence: 5,
+            quantity: 3,
+        ),
+        Scroll(
+            name: "Scroll of Endurance",
+            endurance: 8,
+            quantity: 2,
+        ),
+        Scroll(
+            name: "Scroll of Speed",
+            endurance: 12,
+            intelligence: 8,
+            quantity: 4,
+        ),
+        Scroll(
+            name: "Scroll of the Ancients",
+            intelligence: 20,
+            strength: 10,
+            quantity: 1,
+        ),
+    ],
+)

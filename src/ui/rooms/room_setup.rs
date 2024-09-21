@@ -1,6 +1,6 @@
 use bevy::{
     asset::{AssetServer, Assets},
-    prelude::{info, Commands, Res, ResMut},
+    prelude::{Commands, Res, ResMut},
     sprite::TextureAtlasLayout,
 };
 
@@ -19,5 +19,4 @@ pub fn room_setup(
     texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     room_office(&asset_server, &mut commands, texture_atlas_layouts);
-    info!("On commence avec la room office");
 }

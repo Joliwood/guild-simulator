@@ -109,6 +109,23 @@ pub fn get_xp_earned(level: u8) -> u32 {
     return (level * 10).into();
 }
 
+pub fn format_ron_equipments_for_display(ron_data: &str) -> String {
+    // Use a regex to format the RON output
+    let formatted = ron_data
+        .replace(":", ": ")
+        .replace("),", "},")
+        .replace(")", "}")
+        .replace("Armors(", "  {")
+        .replace("Armors(", "{")
+        .replace("items:", "\"items\":")
+        .replace("Weapon(", "  {")
+        .replace("Weapons(", "  {")
+        .replace("Weapons(", "{")
+        .replace("Weapons(", "{");
+
+    formatted
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

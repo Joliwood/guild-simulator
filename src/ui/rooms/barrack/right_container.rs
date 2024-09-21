@@ -11,8 +11,8 @@ pub fn spawn_right_container(
         .spawn(NodeBundle {
             style: Style {
                 flex_direction: FlexDirection::Column,
-                justify_content: JustifyContent::FlexStart,
-                align_items: AlignItems::FlexStart,
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
                 width: Val::Percent(30.0),
                 height: Val::Percent(100.0),
                 margin: UiRect::all(Val::Px(5.0)),
@@ -24,12 +24,12 @@ pub fn spawn_right_container(
         })
         .with_children(|parent| {
             // Check if the inventory is available (Some)
-            if let Some(inventory) = &player_stats.inventory {
+            if &player_stats.inventory.len() > &0 {
                 // Iterate over the player's inventory and display each item
-                for item in inventory.iter() {
+                for item in player_stats.inventory.iter() {
                     parent.spawn(TextBundle {
                         text: Text::from_section(
-                            format!("{} x{}", item.name, item.quantity),
+                            format! {"{:?}", item},
                             TextStyle {
                                 font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                                 font_size: 20.0,

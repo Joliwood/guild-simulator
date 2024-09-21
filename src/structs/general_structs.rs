@@ -1,5 +1,17 @@
-use crate::enums::{RecruitEnum, RoomEnum};
-use bevy::prelude::{Component, Resource};
+#![allow(dead_code, unused_imports)]
+use super::equipments::{Item, Weapon};
+use crate::{
+    enums::{RecruitEnum, RoomEnum},
+    structs::equipments::Weapons,
+    utils::format_ron_equipments_for_display,
+};
+use bevy::{
+    log::info,
+    prelude::{Component, Resource},
+};
+use ron::de::from_str;
+use serde::Deserialize;
+use std::fs;
 use uuid::Uuid;
 
 #[derive(Component, Resource)]
@@ -8,16 +20,10 @@ pub struct MissionModalVisible(pub bool);
 #[derive(Component)]
 pub struct UniqueId(pub String);
 
-pub struct Item {
-    pub name: String,
-    pub quantity: u32,
-    // Any other fields you need...
-}
-
 #[derive(Component, Resource)]
 pub struct PlayerStats {
     pub experience: u32,
-    pub inventory: Option<Vec<Item>>,
+    pub inventory: Vec<Item>,
     pub golds: i32,
     pub guild_level: i8,
     pub max_experience: u32,
@@ -127,19 +133,34 @@ impl RecruitStats {
     }
 }
 
+fn load_weapon_by_id(id: u32) -> Option<Weapon> {
+    let weapons_data = fs::read_to_string("src/data/equipments/weapons.ron")
+        .expect("Failed to read the RON file.");
+
+    let weapons: Weapons = from_str(&weapons_data).expect("Failed to deserialize RON data.");
+
+    if let Some(weapon) = weapons.items.iter().find(|weapon| weapon.id == id) {
+        info!("Weapon with id = {}: {:?}", id, weapon);
+        return Some(weapon.clone());
+    } else {
+        info!("Weapon with id = {} not found.", id);
+        return None;
+    }
+}
+
 impl Default for PlayerStats {
     fn default() -> Self {
+        let mut inventory = vec![];
+        let first_weapon = load_weapon_by_id(1);
+
+        if let Some(first_weapon) = first_weapon {
+            inventory.push(Item::Weapon(first_weapon));
+        }
+
+        // info!("--------------> : {:?}", first_weapon);
+
         Self {
-            inventory: Some(vec![
-                Item {
-                    name: "Potion".to_string(),
-                    quantity: 5,
-                },
-                Item {
-                    name: "Elixir".to_string(),
-                    quantity: 2,
-                },
-            ]),
+            inventory,
             experience: 0,
             golds: 0,
             guild_level: 1,

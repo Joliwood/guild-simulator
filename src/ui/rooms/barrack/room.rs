@@ -31,7 +31,7 @@ pub fn spawn_room_barrack(
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Stretch,
                 margin: UiRect::all(Val::Auto),
-                height: Val::Percent(100.0),
+                height: Val::Percent(90.0),
                 ..node_container_style()
             },
             z_index: ZIndex::Global(-1),

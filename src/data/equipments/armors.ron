@@ -1,0 +1,28 @@
+Armors(
+    items: [
+        Armor(
+            name: "Shield of Courage",
+            endurance: 30,
+        ),
+        Armor(
+            name: "Helmet of the Guardian",
+            endurance: 20,
+            intelligence: 5,
+        ),
+        Armor(
+            name: "Breastplate of the Dragon",
+            endurance: 35,
+            strength: 10,
+        ),
+        Armor(
+            name: "Gauntlets of Power",
+            endurance: 15,
+            strength: 12,
+        ),
+        Armor(
+            name: "Boots of Swiftness",
+            endurance: 18,
+            intelligence: 3,
+        ),
+    ],
+)

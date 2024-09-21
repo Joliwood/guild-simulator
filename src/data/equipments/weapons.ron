@@ -1,0 +1,39 @@
+Weapons(
+    items: [
+        (
+            endurance: Some(5),
+            id: 1,
+            intelligence: None,
+            name: "Sword of Valor",
+            strength: Some(20),
+        ),
+        (
+            endurance: None,
+            id: 2,
+            intelligence: None,
+            name: "Axe of Fury",
+            strength: Some(25),
+        ),
+        (
+            endurance: None,
+            id: 3,
+            intelligence: Some(5),
+            name: "Spear of Destiny",
+            strength: Some(15),
+        ),
+        (
+            endurance: None,
+            id: 4,
+            intelligence: Some(8),
+            name: "Bow of the Eagle",
+            strength: Some(18),
+        ),
+        (
+            endurance: None,
+            id: 5,
+            intelligence: None,
+            name: "Mace of the Thunder",
+            strength: Some(22),
+        ),
+    ],
+)

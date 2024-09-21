@@ -1,3 +1,4 @@
+#![allow(unused_mut)]
 use crate::{
     enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
     structs::general_structs::{
