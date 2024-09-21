@@ -6,6 +6,7 @@ Weapons(
             intelligence: None,
             name: "Sword of Valor",
             strength: Some(20),
+            image_atlas_index: 1
         ),
         (
             endurance: None,
@@ -13,6 +14,7 @@ Weapons(
             intelligence: None,
             name: "Axe of Fury",
             strength: Some(25),
+            image_atlas_index: 2
         ),
         (
             endurance: None,
@@ -20,6 +22,7 @@ Weapons(
             intelligence: Some(5),
             name: "Spear of Destiny",
             strength: Some(15),
+            image_atlas_index: 3
         ),
         (
             endurance: None,
@@ -27,6 +30,7 @@ Weapons(
             intelligence: Some(8),
             name: "Bow of the Eagle",
             strength: Some(18),
+            image_atlas_index: 4
         ),
         (
             endurance: None,
@@ -34,6 +38,7 @@ Weapons(
             intelligence: None,
             name: "Mace of the Thunder",
             strength: Some(22),
+            image_atlas_index: 5
         ),
     ],
 )

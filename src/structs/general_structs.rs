@@ -133,7 +133,7 @@ impl RecruitStats {
     }
 }
 
-fn load_weapon_by_id(id: u32) -> Option<Weapon> {
+fn load_weapon_by_id(id: u16) -> Option<Weapon> {
     let weapons_data = fs::read_to_string("src/data/equipments/weapons.ron")
         .expect("Failed to read the RON file.");
 
@@ -152,9 +152,14 @@ impl Default for PlayerStats {
     fn default() -> Self {
         let mut inventory = vec![];
         let first_weapon = load_weapon_by_id(1);
+        let second_weapon = load_weapon_by_id(5);
 
         if let Some(first_weapon) = first_weapon {
             inventory.push(Item::Weapon(first_weapon));
+        }
+
+        if let Some(second_weapon) = second_weapon {
+            inventory.push(Item::Weapon(second_weapon));
         }
 
         // info!("--------------> : {:?}", first_weapon);

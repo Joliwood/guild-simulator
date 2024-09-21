@@ -5,34 +5,37 @@ use serde::Deserialize;
 pub enum Item {
     Weapon(Weapon),
     Armor(Armor),
-    Scroll(Scroll, u32),
+    Scroll(Scroll, u16),
 }
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Weapon {
-    pub id: u32,
+    pub endurance: Option<u32>,
+    pub id: u16,
+    pub image_atlas_index: u16,
+    pub intelligence: Option<u32>,
     pub name: String,
     pub strength: Option<u32>,
-    pub endurance: Option<u32>,
-    pub intelligence: Option<u32>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Armor {
-    pub id: u32,
+    pub endurance: Option<u32>,
+    pub id: u16,
+    pub image_atlas_index: u16,
+    pub intelligence: Option<u32>,
     pub name: String,
     pub strength: Option<u32>,
-    pub endurance: Option<u32>,
-    pub intelligence: Option<u32>,
 }
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Scroll {
-    pub id: u32,
+    pub endurance: Option<u32>,
+    pub id: u16,
+    pub image_atlas_index: u16,
+    pub intelligence: Option<u32>,
     pub name: String,
     pub strength: Option<u32>,
-    pub endurance: Option<u32>,
-    pub intelligence: Option<u32>,
 }
 
 #[derive(Debug, Deserialize)]

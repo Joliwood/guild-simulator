@@ -47,6 +47,7 @@ pub fn update_room(
                 &player_stats,
                 &selected_recruit,
                 &image_assets,
+                texture_atlas_layouts,
             ),
             RoomEnum::Store => room_store(&asset_server, &mut commands),
             RoomEnum::CommandRoom => {

@@ -20,6 +20,7 @@ pub fn spawn_room_barrack(
     player_stats: &Res<PlayerStats>,
     selected_recruit: &Res<SelectedRecruit>,
     image_assets: &Res<MyAssets>,
+    texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     info!("Selected recruit: {:?}", selected_recruit.0);
 
@@ -44,6 +45,6 @@ pub fn spawn_room_barrack(
         .with_children(|parent| {
             spawn_left_container(parent, asset_server, player_stats, image_assets);
             spawn_middle_container(parent, asset_server, selected_recruit);
-            spawn_right_container(parent, asset_server, player_stats);
+            spawn_right_container(parent, asset_server, player_stats, texture_atlas_layouts);
         });
 }
