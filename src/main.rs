@@ -11,12 +11,13 @@ mod utils;
 
 use bevy::prelude::*;
 use bevy_asset_loader::asset_collection::AssetCollectionApp;
+use pyri_tooltip::prelude::*;
 use structs::general_structs::{
     MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit,
 };
+use ui::interface::gold_counter::MyAssets;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;x
 // use structs::{MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit};
-use ui::interface::gold_counter::MyAssets;
 
 fn main() -> AppExit {
     App::new()
@@ -24,6 +25,7 @@ fn main() -> AppExit {
             DefaultPlugins,
             // Desactivate on testing
             // WorldInspectorPlugin::new(),
+            TooltipPlugin::default(),
         ))
         .insert_resource(PlayerStats::default())
         .insert_resource(Missions::default())
@@ -62,6 +64,7 @@ fn main() -> AppExit {
                 systems::updates::update_buttons::assign_recruit_to_mission,
                 systems::updates::update_buttons::close_mission_modal,
                 systems::updates::update_buttons::start_mission_button,
+                systems::updates::update_buttons::select_item_in_inventory,
                 systems::updates::update_recruit_infos::update_recruit_infos,
                 systems::updates::update_selected_recruit::update_selected_mission_recruit_id,
                 systems::updates::update_selected_recruit::update_update_selected_mission_percentage_of_victory,

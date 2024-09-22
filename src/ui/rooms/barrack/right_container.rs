@@ -1,5 +1,9 @@
-use crate::structs::{equipments::Item, general_structs::PlayerStats};
+use crate::structs::{
+    equipments::Item,
+    general_structs::{PlayerStats, UniqueId},
+};
 use bevy::prelude::*;
+use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn spawn_right_container(
     parent: &mut ChildBuilder,
@@ -45,24 +49,54 @@ pub fn spawn_right_container(
                         Item::Scroll(scroll, _) => scroll.image_atlas_index,
                     };
 
-                    parent.spawn((
-                        ButtonBundle {
-                            style: Style {
-                                width: Val::Px(60.),
-                                height: Val::Px(60.),
-                                border: UiRect::all(Val::Px(3.)),
+                    let item_id = match item {
+                        Item::Weapon(weapon) => weapon.id,
+                        Item::Armor(armor) => armor.id,
+                        Item::Scroll(scroll, _) => scroll.id,
+                    };
+
+                    let tooltip_text = match item {
+                        Item::Weapon(weapon) => {
+                            let mut description = format!("Weapon: {}", weapon.name);
+
+                            if let Some(endurance) = weapon.endurance {
+                                description.push_str(&format!("\nEndurance: {}", endurance));
+                            }
+                            if let Some(strength) = weapon.strength {
+                                description.push_str(&format!("\nStrength: {}", strength));
+                            }
+                            if let Some(intelligence) = weapon.intelligence {
+                                description.push_str(&format!("\nIntelligence: {}", intelligence));
+                            }
+
+                            description
+                        }
+                        Item::Armor(armor) => format!("Armor: {}", armor.name),
+                        Item::Scroll(scroll, _) => format!("Scroll: {}", scroll.name),
+                    };
+
+                    parent
+                        .spawn((
+                            ButtonBundle {
+                                style: Style {
+                                    width: Val::Px(60.),
+                                    height: Val::Px(60.),
+                                    border: UiRect::all(Val::Px(3.)),
+                                    ..default()
+                                },
+                                image: texture_handle.clone().into(),
+                                border_color: BorderColor(Color::BLACK),
+                                border_radius: BorderRadius::all(Val::Px(10.)),
                                 ..default()
                             },
-                            image: texture_handle.clone().into(),
-                            border_color: BorderColor(Color::BLACK),
-                            border_radius: BorderRadius::all(Val::Px(10.)),
-                            ..default()
-                        },
-                        TextureAtlas {
-                            index: image_atlas_index.into(),
-                            layout: texture_atlas_layout.clone(),
-                        },
-                    ));
+                            TextureAtlas {
+                                index: image_atlas_index.into(),
+                                layout: texture_atlas_layout.clone(),
+                            },
+                            Tooltip::cursor(tooltip_text.to_string())
+                                .with_activation(TooltipActivation::IMMEDIATE),
+                        ))
+                        .insert(UniqueId(format!("item_in_inventory_{}", item_id)));
                 }
             } else {
                 // Display a message if the inventory is None
