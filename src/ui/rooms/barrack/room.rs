@@ -22,7 +22,8 @@ pub fn spawn_room_barrack(
     image_assets: &Res<MyAssets>,
     texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    info!("Selected recruit: {:?}", selected_recruit.0);
+    let background_image_handle: Handle<Image> =
+        asset_server.load("images/rooms/barrack/room_barrack_background.png");
 
     commands
         .spawn(NodeBundle {
@@ -32,7 +33,6 @@ pub fn spawn_room_barrack(
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Stretch,
                 margin: UiRect::all(Val::Auto),
-                height: Val::Percent(90.0),
                 ..node_container_style()
             },
             z_index: ZIndex::Global(-1),
@@ -43,6 +43,17 @@ pub fn spawn_room_barrack(
         .insert(PlayerStatsRecruitsTrigger)
         // WIP - Spawn the left container
         .with_children(|parent| {
+            parent.spawn(ImageBundle {
+                style: Style {
+                    position_type: PositionType::Absolute,
+                    top: Val::Px(0.0),
+                    height: Val::Vh(100.),
+                    ..default()
+                },
+                image: background_image_handle.into(),
+                ..default()
+            });
+
             spawn_left_container(parent, asset_server, player_stats, image_assets);
             spawn_middle_container(parent, asset_server, selected_recruit);
             spawn_right_container(parent, asset_server, player_stats, texture_atlas_layouts);

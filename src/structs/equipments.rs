@@ -15,6 +15,7 @@ pub struct Weapon {
     pub image_atlas_index: u16,
     pub intelligence: Option<u32>,
     pub name: String,
+    pub price: u16,
     pub strength: Option<u32>,
 }
 
@@ -25,6 +26,7 @@ pub struct Armor {
     pub image_atlas_index: u16,
     pub intelligence: Option<u32>,
     pub name: String,
+    pub price: u16,
     pub strength: Option<u32>,
 }
 
@@ -35,6 +37,7 @@ pub struct Scroll {
     pub image_atlas_index: u16,
     pub intelligence: Option<u32>,
     pub name: String,
+    pub price: u16,
     pub strength: Option<u32>,
 }
 

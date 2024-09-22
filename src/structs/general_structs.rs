@@ -23,10 +23,11 @@ pub struct UniqueId(pub String);
 #[derive(Component, Resource)]
 pub struct PlayerStats {
     pub experience: u32,
-    pub inventory: Vec<Item>,
     pub golds: i32,
     pub guild_level: i8,
+    pub inventory: Vec<Item>,
     pub max_experience: u32,
+    pub max_inventory_size: usize,
     pub recruits: Vec<RecruitStats>,
     pub room: RoomEnum,
 }
@@ -162,14 +163,13 @@ impl Default for PlayerStats {
             inventory.push(Item::Weapon(second_weapon));
         }
 
-        // info!("--------------> : {:?}", first_weapon);
-
         Self {
-            inventory,
             experience: 0,
             golds: 0,
             guild_level: 1,
+            inventory,
             max_experience: 100,
+            max_inventory_size: 20,
             recruits: vec![],
             room: RoomEnum::Barrack,
         }

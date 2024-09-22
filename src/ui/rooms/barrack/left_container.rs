@@ -25,7 +25,7 @@ pub fn spawn_left_container(
                 flex_direction: FlexDirection::Column,
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
-                width: Val::Percent(30.0),
+                width: Val::Percent(25.0),
                 ..default()
             },
             ..default()

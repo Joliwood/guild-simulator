@@ -531,10 +531,10 @@ pub fn select_item_in_inventory(
     let mut window = windows.single_mut();
 
     for (interaction, mut color, unique_id, mut border_color) in &mut interaction_query {
-        if unique_id.0.starts_with("item_in_inventory_") {
-            let item_id = unique_id.0.strip_prefix("item_in_inventory_").unwrap();
+        if unique_id.0 == "item_in_inventory" {
+            // let item_id = unique_id.0.strip_prefix("item_in_inventory_").unwrap();
 
-            let tooltip_text = format!("Item with id : {}", item_id);
+            // let tooltip_text = format!("Item with id : {}", item_id);
 
             match *interaction {
                 Interaction::Pressed => {
@@ -544,7 +544,7 @@ pub fn select_item_in_inventory(
                     window.cursor.icon = CursorIcon::Pointer;
                     *color = HOVERED_BUTTON.into();
                     border_color.0 = Color::WHITE;
-                    Tooltip::cursor(tooltip_text.to_string());
+                    // Tooltip::cursor(tooltip_text.to_string());
                 }
                 Interaction::None => {
                     window.cursor.icon = CursorIcon::Default;
