@@ -15,7 +15,7 @@ pub fn spawn_left_container(
     player_stats: &Res<PlayerStats>,
     image_assets: &Res<MyAssets>,
 ) {
-    let image_handle: Handle<Image> = asset_server.load("images/barrack.png");
+    let image_handle: Handle<Image> = asset_server.load("images/rooms/barrack/barrack.png");
 
     parent
         // Left container

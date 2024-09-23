@@ -1,6 +1,9 @@
-use crate::structs::{
-    equipments::Item,
-    general_structs::{PlayerStats, UniqueId},
+use crate::{
+    structs::{
+        equipments::Item,
+        general_structs::{PlayerStats, UniqueId},
+    },
+    ui::ui_constants::{ARMOR_PATH, SCROLL_PATH, WEAPON_PATH},
 };
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
@@ -11,21 +14,10 @@ fn spawn_inventory(
     asset_server: &Res<AssetServer>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let layout = TextureAtlasLayout::from_grid(
-        UVec2::new(2900, 400),
-        6,
-        1,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
-
     let inventory_size = player_stats.max_inventory_size;
     let columns = 4;
-    let texture_handle_weapons: Handle<Image> =
-        asset_server.load("images/equipments/weapons_atlas.png");
     let texture_handle_empty_slot: Handle<Image> =
         asset_server.load("images/equipments/empty_inventory_slot.png");
-    let texture_atlas_layout = texture_atlas_layouts.add(layout);
 
     // Create a parent node for the inventory grid
     parent
@@ -57,7 +49,6 @@ fn spawn_inventory(
 
                         if index < inventory_size {
                             if index < player_stats.inventory.len() {
-                                // Spawn item button
                                 let item = &player_stats.inventory[index];
                                 let image_atlas_index = match item {
                                     Item::Weapon(weapon) => weapon.image_atlas_index,
@@ -65,16 +56,35 @@ fn spawn_inventory(
                                     Item::Scroll(scroll, _) => scroll.image_atlas_index,
                                 };
 
-                                // WIP
-                                // let item_id = match item {
-                                //     Item::Weapon(weapon) => weapon.id,
-                                //     Item::Armor(armor) => armor.id,
-                                //     Item::Scroll(scroll, _) => scroll.id,
-                                // };
+                                let atlas_path = match item {
+                                    Item::Weapon(_) => WEAPON_PATH,
+                                    Item::Armor(_) => ARMOR_PATH,
+                                    Item::Scroll(_, _) => SCROLL_PATH,
+                                };
+
+                                let layout = match item {
+                                    Item::Weapon(_) | Item::Armor(_) => {
+                                        TextureAtlasLayout::from_grid(
+                                            UVec2::new(2900, 400),
+                                            6,
+                                            1,
+                                            Some(UVec2::new(0, 0)),
+                                            Some(UVec2::new(0, 0)),
+                                        )
+                                    }
+                                    Item::Scroll(_, _) => TextureAtlasLayout::from_grid(
+                                        UVec2::new(4320, 1080),
+                                        4,
+                                        1,
+                                        Some(UVec2::new(0, 0)),
+                                        Some(UVec2::new(0, 0)),
+                                    ),
+                                };
 
                                 let tooltip_text = match item {
                                     Item::Weapon(weapon) => {
                                         let mut description = format!("{}\n", weapon.name);
+
                                         if let Some(endurance) = weapon.endurance {
                                             description
                                                 .push_str(&format!("\nEndurance: {}", endurance));
@@ -89,46 +99,87 @@ fn spawn_inventory(
                                                 intelligence
                                             ));
                                         }
-                                        description
-                                            .push_str(&format!("\nPrice: {} golds", weapon.price));
+                                        description.push_str(&format!("\nPrice: {}", weapon.price));
+
                                         description
                                     }
                                     Item::Armor(armor) => format!("Armor: {}", armor.name),
-                                    Item::Scroll(scroll, _) => format!("Scroll: {}", scroll.name),
+                                    Item::Scroll(scroll, quantity) => {
+                                        let mut description = format!("{}\n", scroll.name);
+
+                                        if let Some(endurance) = scroll.endurance {
+                                            description
+                                                .push_str(&format!("\nEndurance: {}", endurance));
+                                        }
+                                        if let Some(strength) = scroll.strength {
+                                            description
+                                                .push_str(&format!("\nStrength: {}", strength));
+                                        }
+                                        if let Some(intelligence) = scroll.intelligence {
+                                            description.push_str(&format!(
+                                                "\nIntelligence: {}",
+                                                intelligence
+                                            ));
+                                        }
+                                        description.push_str(&format!("\nQuantity: {}", quantity));
+                                        description.push_str(&format!("\nPrice: {}", scroll.price));
+
+                                        description
+                                    }
                                 };
 
+                                // Spawn button for the item
                                 row_builder
                                     .spawn((
                                         ButtonBundle {
                                             style: Style {
-                                                // width: Val::Percent(100. / columns as f32),
                                                 width: Val::Px(60.),
                                                 height: Val::Px(60.),
-                                                // aspect_ratio: Some(1.),
                                                 border: UiRect::all(Val::Px(3.)),
                                                 margin: UiRect::all(Val::Px(5.)),
                                                 ..default()
                                             },
-                                            image: texture_handle_weapons.clone().into(),
+                                            image: asset_server.load(atlas_path).clone().into(),
                                             border_color: BorderColor(Color::BLACK),
                                             border_radius: BorderRadius::all(Val::Px(10.)),
                                             ..default()
                                         },
                                         TextureAtlas {
                                             index: image_atlas_index.into(),
-                                            layout: texture_atlas_layout.clone(),
+                                            layout: texture_atlas_layouts.add(layout),
                                         },
                                         Tooltip::cursor(tooltip_text.to_string())
                                             .with_activation(TooltipActivation::IMMEDIATE),
                                     ))
-                                    .insert(UniqueId(format!("item_in_inventory")));
+                                    .insert(UniqueId(format!("item_in_inventory")))
+                                    .with_children(|button| {
+                                        // If the item is a scroll, add a count indicator inside the button
+                                        if let Item::Scroll(_, count) = item {
+                                            button.spawn(TextBundle {
+                                                text: Text::from_section(
+                                                    format!("x{}", count),
+                                                    TextStyle {
+                                                        font: asset_server
+                                                            .load("fonts/FiraSans-Bold.ttf"),
+                                                        font_size: 14.0,
+                                                        color: Color::WHITE,
+                                                    },
+                                                ),
+                                                style: Style {
+                                                    position_type: PositionType::Absolute,
+                                                    bottom: Val::Px(0.0),
+                                                    right: Val::Px(5.0),
+                                                    ..default()
+                                                },
+                                                ..default()
+                                            });
+                                        }
+                                    });
                             } else {
                                 // Spawn empty inventory slot
                                 row_builder
                                     .spawn(ButtonBundle {
                                         style: Style {
-                                            // width: Val::Percent(100. / columns as f32),
-                                            // aspect_ratio: Some(1.),
                                             width: Val::Px(60.),
                                             height: Val::Px(60.),
                                             border: UiRect::all(Val::Px(3.)),
@@ -180,8 +231,6 @@ pub fn spawn_right_container(
                 padding: UiRect::all(Val::Px(10.0)),
                 ..default()
             },
-            // WIP
-            // background_color: BackgroundColor(Color::srgb(0.5, 0.5, 0.5)),
             ..default()
         })
         .with_children(|parent| {
@@ -194,7 +243,6 @@ pub fn spawn_right_container(
                         width: Val::Percent(100.0),
                         ..default()
                     },
-                    // background_color: BackgroundColor(Color::WHITE),
                     ..default()
                 })
                 .with_children(|button_row| {

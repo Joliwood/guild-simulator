@@ -45,3 +45,8 @@ pub struct Scroll {
 pub struct Weapons {
     pub items: Vec<Weapon>,
 }
+
+#[derive(Debug, Deserialize)]
+pub struct Scrolls {
+    pub items: Vec<Scroll>,
+}

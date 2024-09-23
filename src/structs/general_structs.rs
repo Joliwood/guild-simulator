@@ -1,5 +1,5 @@
 #![allow(dead_code, unused_imports)]
-use super::equipments::{Item, Weapon};
+use super::equipments::{Item, Scroll, Scrolls, Weapon};
 use crate::{
     enums::{RecruitEnum, RoomEnum},
     structs::equipments::Weapons,
@@ -149,11 +149,28 @@ fn load_weapon_by_id(id: u16) -> Option<Weapon> {
     }
 }
 
+fn load_scroll_by_id(id: u16) -> Option<Scroll> {
+    let scrolls_data = fs::read_to_string("src/data/equipments/scrolls.ron")
+        .expect("Failed to read the RON file.");
+
+    let scrolls: Scrolls = from_str(&scrolls_data).expect("Failed to deserialize RON data.");
+
+    if let Some(scroll) = scrolls.items.iter().find(|scroll| scroll.id == id) {
+        info!("Scroll with id = {}: {:?}", id, scroll);
+        return Some(scroll.clone());
+    } else {
+        info!("Scroll with id = {} not found.", id);
+        return None;
+    }
+}
+
 impl Default for PlayerStats {
     fn default() -> Self {
         let mut inventory = vec![];
         let first_weapon = load_weapon_by_id(1);
         let second_weapon = load_weapon_by_id(5);
+        let first_scroll = load_scroll_by_id(1);
+        let second_scroll = load_scroll_by_id(3);
 
         if let Some(first_weapon) = first_weapon {
             inventory.push(Item::Weapon(first_weapon));
@@ -161,6 +178,14 @@ impl Default for PlayerStats {
 
         if let Some(second_weapon) = second_weapon {
             inventory.push(Item::Weapon(second_weapon));
+        }
+
+        if let Some(first_scroll) = first_scroll {
+            inventory.push(Item::Scroll(first_scroll, 1));
+        }
+
+        if let Some(second_scroll) = second_scroll {
+            inventory.push(Item::Scroll(second_scroll, 4));
         }
 
         Self {
