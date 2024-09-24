@@ -1,3 +1,4 @@
+use super::right_container::spawn_right_container::spawn_right_container;
 use crate::{
     structs::{
         general_structs::{PlayerStats, SelectedRecruit},
@@ -8,12 +9,10 @@ use crate::{
         rooms::barrack::{
             left_container::spawn_left_container, middle_container::spawn_middle_container,
         },
-        styles::node_container_style::node_container_style,
+        styles::containers_styles::node_container_style,
     },
 };
 use bevy::prelude::*;
-
-use super::right_container::spawn_right_container;
 
 pub fn spawn_room_barrack(
     asset_server: &Res<AssetServer>,

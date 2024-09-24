@@ -1,10 +1,10 @@
 use crate::{
+    custom_components::CustomButton,
     structs::{
         general_structs::{Missions, UniqueId},
         trigger_structs::ResetRoomTrigger,
     },
-    styles::CustomButton,
-    ui::{interface::gold_counter::MyAssets, styles::node_container_style::node_container_style},
+    ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
 };
 use bevy::prelude::*;
 

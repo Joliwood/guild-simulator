@@ -3,7 +3,7 @@ use crate::{
         general_structs::{PlayerStats, UniqueId},
         trigger_structs::SelectedRecruitTrigger,
     },
-    styles::CustomButton,
+    custom_components::CustomButton,
     ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;

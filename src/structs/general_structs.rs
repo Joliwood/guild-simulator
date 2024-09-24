@@ -168,7 +168,7 @@ impl Default for PlayerStats {
     fn default() -> Self {
         let mut inventory = vec![];
         let first_weapon = load_weapon_by_id(1);
-        let second_weapon = load_weapon_by_id(5);
+        let second_weapon = load_weapon_by_id(4);
         let first_scroll = load_scroll_by_id(1);
         let second_scroll = load_scroll_by_id(3);
 
@@ -185,7 +185,7 @@ impl Default for PlayerStats {
         }
 
         if let Some(second_scroll) = second_scroll {
-            inventory.push(Item::Scroll(second_scroll, 4));
+            inventory.push(Item::Scroll(second_scroll, 3));
         }
 
         Self {

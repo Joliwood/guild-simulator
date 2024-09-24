@@ -1,8 +1,9 @@
 use crate::{
     enums::{RoomDirectionEnum, RoomEnum},
-    structs::general_structs::PlayerStats,
+    structs::{equipments::Item, general_structs::PlayerStats},
+    ui::ui_constants::{ARMOR_PATH, SCROLL_PATH, WEAPON_PATH},
 };
-use bevy::prelude::ResMut;
+use bevy::{math::UVec2, prelude::ResMut, sprite::TextureAtlasLayout};
 
 /// Determines the new room based on the given direction and current player stats.
 ///
@@ -124,6 +125,92 @@ pub fn format_ron_equipments_for_display(ron_data: &str) -> String {
         .replace("Weapons(", "{");
 
     formatted
+}
+
+/// Get the image atlas index of an item
+///
+/// Has to be updated each time the design will evolve
+pub fn get_item_image_atlas_index(item: &Item) -> u16 {
+    return match item {
+        Item::Weapon(weapon) => weapon.image_atlas_index,
+        Item::Armor(armor) => armor.image_atlas_index,
+        Item::Scroll(scroll, _) => scroll.image_atlas_index,
+    };
+}
+
+/// Get the path of the image atlas of an item
+///
+/// Has to be updated each time the design will evolve
+pub fn get_item_atlas_path(item: &Item) -> String {
+    return match item {
+        Item::Weapon(_) => WEAPON_PATH.to_string(),
+        Item::Armor(_) => ARMOR_PATH.to_string(),
+        Item::Scroll(_, _) => SCROLL_PATH.to_string(),
+    };
+}
+
+/// Get the layout of the image atlas of an item
+///
+/// Has to be updated each time the design will evolve
+pub fn get_item_layout(item: &Item) -> TextureAtlasLayout {
+    return match item {
+        Item::Weapon(_) | Item::Armor(_) => TextureAtlasLayout::from_grid(
+            UVec2::new(2900, 400),
+            6,
+            1,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+        Item::Scroll(_, _) => TextureAtlasLayout::from_grid(
+            UVec2::new(4320, 1080),
+            4,
+            1,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+    };
+}
+
+/// Get the tooltip description of an item
+///
+/// For now, only supports texts
+pub fn get_item_tooltip_description(item: &Item) -> String {
+    return match item {
+        Item::Weapon(weapon) => {
+            let mut description = format!("{}\n", weapon.name);
+
+            if let Some(endurance) = weapon.endurance {
+                description.push_str(&format!("\nEndurance: {}", endurance));
+            }
+            if let Some(strength) = weapon.strength {
+                description.push_str(&format!("\nStrength: {}", strength));
+            }
+            if let Some(intelligence) = weapon.intelligence {
+                description.push_str(&format!("\nIntelligence: {}", intelligence));
+            }
+            description.push_str(&format!("\nPrice: {}", weapon.price));
+
+            description
+        }
+        Item::Armor(armor) => format!("Armor: {}", armor.name),
+        Item::Scroll(scroll, quantity) => {
+            let mut description = format!("{}\n", scroll.name);
+
+            if let Some(endurance) = scroll.endurance {
+                description.push_str(&format!("\nEndurance: {}", endurance));
+            }
+            if let Some(strength) = scroll.strength {
+                description.push_str(&format!("\nStrength: {}", strength));
+            }
+            if let Some(intelligence) = scroll.intelligence {
+                description.push_str(&format!("\nIntelligence: {}", intelligence));
+            }
+            description.push_str(&format!("\nQuantity: {}", quantity));
+            description.push_str(&format!("\nPrice: {}", scroll.price));
+
+            description
+        }
+    };
 }
 
 #[cfg(test)]

@@ -1,11 +1,11 @@
 use crate::{
+    custom_components::CustomButton,
     structs::{
         general_structs::{SelectedMission, UniqueId},
         trigger_structs::{
             SelectedMissionPercentOfVictoryTrigger, SelectedMissionRecruitIdTrigger,
         },
     },
-    styles::CustomButton,
     ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;

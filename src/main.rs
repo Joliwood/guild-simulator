@@ -4,7 +4,7 @@
 mod audio;
 mod enums;
 mod structs;
-mod styles;
+mod custom_components;
 mod systems;
 mod ui;
 mod utils;
