@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 use bevy::{prelude::Component, state::state::States};
+use serde::Deserialize;
 use std::fmt::{self, Display};
 
 #[derive(Debug, PartialEq, Clone, Eq, Hash)]
@@ -46,4 +47,11 @@ impl Display for RecruitEnum {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{:?}", self)
     }
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub enum ItemRaretyEnum {
+    Common,
+    UnCommon,
+    Rare,
 }

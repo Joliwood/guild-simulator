@@ -15,7 +15,6 @@ use crate::{
     },
 };
 use bevy::prelude::*;
-use pyri_tooltip::Tooltip;
 use uuid::Uuid;
 
 pub fn mouse_interaction_updates(

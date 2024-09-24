@@ -8,7 +8,6 @@ Scrolls(
             name: "Scroll of Wisdom",
             price: 50,
             strength: None,
-            // quantity: 5,
         ),
         Scroll(
             endurance: None,
@@ -18,7 +17,6 @@ Scrolls(
             name: "Scroll of Power",
             price: 25,
             strength: Some(15),
-            // quantity: 3,
         ),
         Scroll(
             endurance: Some(8),
@@ -28,7 +26,6 @@ Scrolls(
             name: "Scroll of Endurance",
             price: 75,
             strength: None,
-            // quantity: 2,
         ),
         Scroll(
             endurance: Some(12),
@@ -38,7 +35,6 @@ Scrolls(
             name: "Scroll of Speed",
             price: 40,
             strength: None,
-            // quantity: 4,
         ),
         Scroll(
             endurance: None,
@@ -48,7 +44,6 @@ Scrolls(
             name: "Scroll of the Ancients",
             price: 100,
             strength: Some(10),
-            // quantity: 1,
         ),
     ],
 )

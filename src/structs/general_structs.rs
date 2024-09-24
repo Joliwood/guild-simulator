@@ -1,5 +1,5 @@
 #![allow(dead_code, unused_imports)]
-use super::equipments::{Item, Scroll, Scrolls, Weapon};
+use super::equipments::{Armor, Armors, Item, Scroll, Scrolls, Weapon};
 use crate::{
     enums::{RecruitEnum, RoomEnum},
     structs::equipments::Weapons,
@@ -164,13 +164,30 @@ fn load_scroll_by_id(id: u16) -> Option<Scroll> {
     }
 }
 
+fn load_armor_by_id(id: u16) -> Option<Armor> {
+    let armors_data =
+        fs::read_to_string("src/data/equipments/armors.ron").expect("Failed to read the RON file.");
+
+    let armors: Armors = from_str(&armors_data).expect("Failed to deserialize RON data.");
+
+    if let Some(armor) = armors.items.iter().find(|armor| armor.id == id) {
+        info!("Armor with id = {}: {:?}", id, armor);
+        return Some(armor.clone());
+    } else {
+        info!("Armor with id = {} not found.", id);
+        return None;
+    }
+}
+
 impl Default for PlayerStats {
     fn default() -> Self {
         let mut inventory = vec![];
         let first_weapon = load_weapon_by_id(1);
-        let second_weapon = load_weapon_by_id(4);
+        let second_weapon = load_weapon_by_id(3);
+        let second_same_weapon = load_weapon_by_id(3);
         let first_scroll = load_scroll_by_id(1);
         let second_scroll = load_scroll_by_id(3);
+        let first_armor = load_armor_by_id(2);
 
         if let Some(first_weapon) = first_weapon {
             inventory.push(Item::Weapon(first_weapon));
@@ -180,12 +197,20 @@ impl Default for PlayerStats {
             inventory.push(Item::Weapon(second_weapon));
         }
 
+        if let Some(second_same_weapon) = second_same_weapon {
+            inventory.push(Item::Weapon(second_same_weapon));
+        }
+
         if let Some(first_scroll) = first_scroll {
             inventory.push(Item::Scroll(first_scroll, 1));
         }
 
         if let Some(second_scroll) = second_scroll {
             inventory.push(Item::Scroll(second_scroll, 3));
+        }
+
+        if let Some(first_armor) = first_armor {
+            inventory.push(Item::Armor(first_armor));
         }
 
         Self {

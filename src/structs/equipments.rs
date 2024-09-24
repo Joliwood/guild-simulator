@@ -1,6 +1,8 @@
 #![allow(dead_code)]
 use serde::Deserialize;
 
+use crate::enums::ItemRaretyEnum;
+
 #[derive(Debug, Clone, Deserialize)]
 pub enum Item {
     Weapon(Weapon),
@@ -17,6 +19,7 @@ pub struct Weapon {
     pub name: String,
     pub price: u16,
     pub strength: Option<u32>,
+    pub rarety: ItemRaretyEnum,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -28,6 +31,7 @@ pub struct Armor {
     pub name: String,
     pub price: u16,
     pub strength: Option<u32>,
+    pub rarety: ItemRaretyEnum,
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -49,4 +53,9 @@ pub struct Weapons {
 #[derive(Debug, Deserialize)]
 pub struct Scrolls {
     pub items: Vec<Scroll>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct Armors {
+    pub items: Vec<Armor>,
 }

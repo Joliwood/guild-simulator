@@ -1,22 +1,24 @@
 Armors(
     items: [
         Armor(
-            endurance: None,
             endurance: Some(30),
             id: 1,
             image_atlas_index: 1,
             intelligence: None,
             name: "Shield of Courage",
             price: 50,
+            rarety: Common,
+            strength: None,
         ),
         Armor(
             endurance: Some(20),
             id: 2,
             image_atlas_index: 2,
-            intelligence: None,
             intelligence: Some(5),
             name: "Helmet of the Guardian",
             price: 30,
+            rarety: Common,
+            strengh: None,
         ),
         Armor(
             endurance: Some(35),
@@ -25,6 +27,7 @@ Armors(
             intelligence: None,
             name: "Breastplate of the Dragon",
             price: 75,
+            rarety: UnCommon,
             strength: Some(10),
         ),
         Armor(
@@ -34,6 +37,7 @@ Armors(
             intelligence: None,
             name: "Gauntlets of Power",
             price: 40,
+            rarety: UnCommon,
             strength: Some(12),
         ),
         Armor(
@@ -43,6 +47,7 @@ Armors(
             intelligence: Some(3),
             name: "Boots of Swiftness",
             price: 25,
+            rarety: Rare,
             strength: None,
         ),
     ],

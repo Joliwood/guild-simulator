@@ -29,6 +29,8 @@ pub fn spawn_inventory(
                 flex_direction: FlexDirection::Column,
                 align_items: AlignItems::Center,
                 width: Val::Percent(100.0),
+                height: Val::Px(350.),
+                overflow: Overflow::clip(),
                 ..default()
             },
             ..default()

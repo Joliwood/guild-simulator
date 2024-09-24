@@ -7,6 +7,7 @@ Weapons(
             intelligence: None,
             name: "Sword of Valor",
             price: 100,
+            rarety: Common,
             strength: Some(20),
         ),
         (
@@ -16,6 +17,7 @@ Weapons(
             intelligence: None,
             name: "Axe of Fury",
             price: 25,
+            rarety: Common,
             strength: Some(25),
         ),
         (
@@ -25,6 +27,7 @@ Weapons(
             intelligence: Some(5),
             name: "Spear of Destiny",
             price: 50,
+            rarety: Common,
             strength: Some(15),
         ),
         (
@@ -34,6 +37,7 @@ Weapons(
             intelligence: Some(8),
             name: "Bow of the Eagle",
             price: 75,
+            rarety: Common,
             strength: Some(18),
         ),
         (
@@ -43,6 +47,7 @@ Weapons(
             intelligence: None,
             name: "Mace of the Thunder",
             price: 125,
+            rarety: UnCommon,
             strength: Some(22),
         ),
     ],

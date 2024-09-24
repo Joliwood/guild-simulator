@@ -2,21 +2,21 @@
 // #![allow(clippy::type_complexity)]
 
 mod audio;
+mod custom_components;
 mod enums;
 mod structs;
-mod custom_components;
 mod systems;
 mod ui;
 mod utils;
 
 use bevy::prelude::*;
 use bevy_asset_loader::asset_collection::AssetCollectionApp;
+// use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
 use structs::general_structs::{
     MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit,
 };
 use ui::interface::gold_counter::MyAssets;
-// use bevy_inspector_egui::quick::WorldInspectorPlugin;x
 // use structs::{MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit};
 
 fn main() -> AppExit {
