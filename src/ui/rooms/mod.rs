@@ -1,4 +1,12 @@
-pub mod room_barrack;
+pub mod barrack {
+    pub mod left_container;
+    pub mod middle_container;
+    pub mod right_container {
+        pub mod spawn_inventory;
+        pub mod spawn_right_container;
+    }
+    pub mod room;
+}
 pub mod room_command_room;
 pub mod room_office;
 pub mod room_setup;

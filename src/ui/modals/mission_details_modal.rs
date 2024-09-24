@@ -10,7 +10,7 @@ use crate::{
     },
     ui::{
         interface::gold_counter::MyAssets,
-        styles::node_container_style::mission_details_modal_container, ui_constants::WOOD_COLOR,
+        styles::containers_styles::mission_details_modal_container, ui_constants::WOOD_COLOR,
     },
 };
 use bevy::{asset::AssetServer, prelude::*};

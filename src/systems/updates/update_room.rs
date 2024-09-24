@@ -7,7 +7,7 @@ use crate::{
     ui::{
         interface::gold_counter::MyAssets,
         rooms::{
-            room_barrack::room_barrack, room_command_room::room_command_room,
+            barrack::room::spawn_room_barrack, room_command_room::room_command_room,
             room_office::room_office, room_store::room_store,
         },
     },
@@ -41,12 +41,13 @@ pub fn update_room(
         // Spawn new room based on player_stats
         match player_stats.room {
             RoomEnum::Office => room_office(&asset_server, &mut commands, texture_atlas_layouts),
-            RoomEnum::Barrack => room_barrack(
+            RoomEnum::Barrack => spawn_room_barrack(
                 &asset_server,
                 &mut commands,
                 &player_stats,
                 &selected_recruit,
                 &image_assets,
+                texture_atlas_layouts,
             ),
             RoomEnum::Store => room_store(&asset_server, &mut commands),
             RoomEnum::CommandRoom => {

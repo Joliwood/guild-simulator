@@ -1,8 +1,9 @@
 use crate::{
     enums::{RoomDirectionEnum, RoomEnum},
-    structs::general_structs::PlayerStats,
+    structs::{equipments::Item, general_structs::PlayerStats},
+    ui::ui_constants::{ARMOR_PATH, SCROLL_PATH, WEAPON_PATH},
 };
-use bevy::prelude::ResMut;
+use bevy::{math::UVec2, prelude::ResMut, sprite::TextureAtlasLayout};
 
 /// Determines the new room based on the given direction and current player stats.
 ///
@@ -107,6 +108,149 @@ pub fn is_mission_success(percent_of_victory: f32) -> bool {
 /// - recruit level > 3 ennemy level -> x3 xp
 pub fn get_xp_earned(level: u8) -> u32 {
     return (level * 10).into();
+}
+
+pub fn format_ron_equipments_for_display(ron_data: &str) -> String {
+    // Use a regex to format the RON output
+    let formatted = ron_data
+        .replace(":", ": ")
+        .replace("),", "},")
+        .replace(")", "}")
+        .replace("Armors(", "  {")
+        .replace("Armors(", "{")
+        .replace("items:", "\"items\":")
+        .replace("Weapon(", "  {")
+        .replace("Weapons(", "  {")
+        .replace("Weapons(", "{")
+        .replace("Weapons(", "{");
+
+    formatted
+}
+
+/// Get the image atlas index of an item
+///
+/// Has to be updated each time the design will evolve
+pub fn get_item_image_atlas_index(item: &Item) -> u16 {
+    return match item {
+        Item::Weapon(weapon) => weapon.image_atlas_index,
+        Item::Armor(armor) => armor.image_atlas_index,
+        Item::Scroll(scroll, _) => scroll.image_atlas_index,
+    };
+}
+
+/// Get the path of the image atlas of an item
+///
+/// Has to be updated each time the design will evolve
+pub fn get_item_atlas_path(item: &Item) -> String {
+    return match item {
+        Item::Weapon(_) => WEAPON_PATH.to_string(),
+        Item::Armor(_) => ARMOR_PATH.to_string(),
+        Item::Scroll(_, _) => SCROLL_PATH.to_string(),
+    };
+}
+
+/// Get the layout of the image atlas of an item
+///
+/// Has to be updated each time the design will evolve
+pub fn get_item_layout(item: &Item) -> TextureAtlasLayout {
+    return match item {
+        Item::Weapon(_) => TextureAtlasLayout::from_grid(
+            UVec2::new(2900, 400),
+            6,
+            1,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+        Item::Armor(_) => TextureAtlasLayout::from_grid(
+            UVec2::new(1600, 400),
+            4,
+            1,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+        Item::Scroll(_, _) => TextureAtlasLayout::from_grid(
+            UVec2::new(4320, 1080),
+            4,
+            1,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+    };
+}
+
+/// Get the tooltip description of an item
+///
+/// For now, only supports texts
+pub fn get_item_tooltip_description(item: &Item) -> String {
+    return match item {
+        Item::Weapon(weapon) => {
+            let mut description = format!("{}\n", weapon.name);
+            let price_range = calculate_price_range(weapon.price);
+
+            if let Some(endurance) = weapon.endurance {
+                description.push_str(&format!("\nEndurance: {}", endurance));
+            }
+            if let Some(strength) = weapon.strength {
+                description.push_str(&format!("\nStrength: {}", strength));
+            }
+            if let Some(intelligence) = weapon.intelligence {
+                description.push_str(&format!("\nIntelligence: {}", intelligence));
+            }
+            description.push_str(&format!(
+                "\n\nPrice: {} to {} G",
+                price_range.0, price_range.1
+            ));
+
+            description
+        }
+        Item::Armor(armor) => {
+            let mut description = format!("{}\n", armor.name);
+            let price_range = calculate_price_range(armor.price);
+
+            if let Some(endurance) = armor.endurance {
+                description.push_str(&format!("\nEndurance: {}", endurance));
+            }
+            if let Some(strength) = armor.strength {
+                description.push_str(&format!("\nStrength: {}", strength));
+            }
+            if let Some(intelligence) = armor.intelligence {
+                description.push_str(&format!("\nIntelligence: {}", intelligence));
+            }
+            description.push_str(&format!(
+                "\n\nPrice: {} to {} G",
+                price_range.0, price_range.1
+            ));
+
+            description
+        }
+        Item::Scroll(scroll, quantity) => {
+            let mut description = format!("{}\n", scroll.name);
+
+            if let Some(endurance) = scroll.endurance {
+                description.push_str(&format!("\nEndurance: {}", endurance));
+            }
+            if let Some(strength) = scroll.strength {
+                description.push_str(&format!("\nStrength: {}", strength));
+            }
+            if let Some(intelligence) = scroll.intelligence {
+                description.push_str(&format!("\nIntelligence: {}", intelligence));
+            }
+            description.push_str(&format!("\nQuantity: {}", quantity));
+            description.push_str(&format!("\n\nPrice: {} G", scroll.price));
+
+            description
+        }
+    };
+}
+
+/// Calculate the price range of an item based on its price
+///
+/// The item will can be sold more or less depending on merchant affinities
+pub fn calculate_price_range(price: u16) -> (u16, u16) {
+    let lower_range = (price as f32 * 0.95) as u16;
+    let upper_range = (price as f32 * 1.05) as u16;
+
+    (lower_range, upper_range)
 }
 
 #[cfg(test)]

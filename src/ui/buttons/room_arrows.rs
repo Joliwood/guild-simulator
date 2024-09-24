@@ -1,8 +1,8 @@
 use crate::{
     structs::general_structs::UniqueId,
-    styles::CustomButton,
+    custom_components::CustomButton,
     ui::{
-        interface::gold_counter::MyAssets, styles::node_container_style::room_arrow_button_style,
+        interface::gold_counter::MyAssets, styles::containers_styles::room_arrow_button_style,
     },
 };
 use bevy::prelude::*;

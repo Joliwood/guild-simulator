@@ -4,7 +4,7 @@ use crate::{
         trigger_structs::GoldCountTrigger,
     },
     systems::systems_constants::NORMAL_BUTTON,
-    ui::{styles::node_container_style::basic_button_style, ui_constants::WOOD_COLOR},
+    ui::{styles::containers_styles::basic_button_style, ui_constants::WOOD_COLOR},
 };
 use bevy::prelude::*;
 use bevy_asset_loader::asset_collection::AssetCollection;

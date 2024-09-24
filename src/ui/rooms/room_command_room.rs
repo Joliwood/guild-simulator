@@ -1,10 +1,10 @@
 use crate::{
+    custom_components::CustomButton,
     structs::{
         general_structs::{Missions, UniqueId},
         trigger_structs::ResetRoomTrigger,
     },
-    styles::CustomButton,
-    ui::{interface::gold_counter::MyAssets, styles::node_container_style::node_container_style},
+    ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
 };
 use bevy::prelude::*;
 
@@ -41,7 +41,7 @@ pub fn room_command_room(
             for (index, mission) in missions.0.iter().enumerate() {
                 ui_container
                     .spawn(CustomButton::Primary.bundle(&asset_server, image_assets))
-                    .insert((UniqueId(format!("select_mission_button_{}", mission.id)),))
+                    .insert(UniqueId(format!("select_mission_button_{}", mission.id)))
                     .with_children(|button| {
                         button.spawn(TextBundle {
                             text: Text::from_section(

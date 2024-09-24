@@ -1,6 +1,6 @@
 use crate::{
     structs::trigger_structs::ResetRoomTrigger,
-    ui::styles::node_container_style::node_container_style,
+    ui::styles::containers_styles::node_container_style,
 };
 use bevy::prelude::*;
 

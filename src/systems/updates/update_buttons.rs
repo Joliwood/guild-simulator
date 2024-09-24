@@ -1,3 +1,4 @@
+#![allow(unused_mut)]
 use crate::{
     enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
     structs::general_structs::{
@@ -510,6 +511,46 @@ pub fn buttons_disable_updates(
                 }
                 _ => style.display = Display::Flex,
             },
+        }
+    }
+}
+
+pub fn select_item_in_inventory(
+    mut interaction_query: Query<
+        (
+            &Interaction,
+            &mut BackgroundColor,
+            &UniqueId,
+            &mut BorderColor,
+        ),
+        Changed<Interaction>,
+    >,
+    mut windows: Query<&mut Window>,
+) {
+    let mut window = windows.single_mut();
+
+    for (interaction, mut color, unique_id, mut border_color) in &mut interaction_query {
+        if unique_id.0 == "item_in_inventory" {
+            // let item_id = unique_id.0.strip_prefix("item_in_inventory_").unwrap();
+
+            // let tooltip_text = format!("Item with id : {}", item_id);
+
+            match *interaction {
+                Interaction::Pressed => {
+                    border_color.0 = WOOD_COLOR;
+                }
+                Interaction::Hovered => {
+                    window.cursor.icon = CursorIcon::Pointer;
+                    *color = HOVERED_BUTTON.into();
+                    border_color.0 = Color::WHITE;
+                    // Tooltip::cursor(tooltip_text.to_string());
+                }
+                Interaction::None => {
+                    window.cursor.icon = CursorIcon::Default;
+                    *color = BackgroundColor(WOOD_COLOR);
+                    border_color.0 = Color::BLACK;
+                }
+            }
         }
     }
 }
