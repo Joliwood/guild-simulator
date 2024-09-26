@@ -17,6 +17,7 @@ use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
 use structs::general_structs::{
     MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit, ToastQueue,
+    UniqueId,
 };
 use ui::interface::gold_counter::MyAssets;
 // use structs::{MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit};
@@ -43,7 +44,7 @@ fn main() -> AppExit {
         .insert_resource(SelectedMission::default())
         .insert_resource(MissionModalVisible(false))
         .insert_resource(ToastQueue {
-            toasts: VecDeque::new(),
+            toasts: Vec::new(),
             max_toasts: 3,
         })
         .init_collection::<MyAssets>()
@@ -97,16 +98,29 @@ struct Toast;
 
 fn handle_toast_interaction(
     mut commands: Commands,
-    mut interaction_query: Query<(Entity, &Interaction), (Changed<Interaction>, With<Toast>)>,
+    mut interaction_query: Query<
+        (Entity, &Interaction, &UniqueId),
+        (Changed<Interaction>, With<Toast>),
+    >,
     mut toast_queue: ResMut<ToastQueue>,
     mut query: Query<&mut Style, With<Toast>>,
 ) {
     // Handle interaction: when a toast is clicked, remove it
-    for (entity, interaction) in interaction_query.iter_mut() {
+    for (entity, interaction, unique_id) in interaction_query.iter_mut() {
         if *interaction == Interaction::Pressed {
-            info!("Toast clicked");
+            let unique_id_mega_id = unique_id.0.clone();
+            let toast_id = entity.index();
+            info!("Toast {} clicked", toast_id);
+            info!("Toast queue: {:?}", toast_queue.toasts);
+            info!("unique_id_mega_id: {:?}", unique_id_mega_id);
+
             // Remove the toast from the queue
-            toast_queue.toasts.retain(|&e| e != entity);
+            // toast_queue.toasts.retain(|&e| e != entity);
+            if let Ok(index) = unique_id_mega_id.parse::<usize>() {
+                toast_queue.toasts.remove(index);
+            } else {
+                error!("Failed to parse unique_id_mega_id: {}", unique_id_mega_id);
+            }
             commands.entity(entity).despawn_recursive();
 
             // Update positions of remaining toasts
@@ -139,11 +153,11 @@ fn spawn_toast_on_keypress(
 
     if keyboard_input.just_pressed(KeyCode::KeyF) {
         // If there are already 3 toasts, remove the oldest one
-        if toast_queue.toasts.len() >= toast_queue.max_toasts {
-            if let Some(oldest_toast) = toast_queue.toasts.pop_front() {
-                commands.entity(oldest_toast).despawn_recursive();
-            }
-        }
+        // if toast_queue.toasts.len() >= toast_queue.max_toasts {
+        //     if let Some(oldest_toast) = toast_queue.toasts.pop_front() {
+        //         commands.entity(oldest_toast).despawn_recursive();
+        //     }
+        // }
 
         // Spawn a new toast notification
         let toast = commands
@@ -184,12 +198,12 @@ fn spawn_toast_on_keypress(
                         Tooltip::cursor("Mission finished !\n\n Go check out your rapports")
                             .with_activation(TooltipActivation::IMMEDIATE),
                     ))
-                    .insert(Toast);
+                    .insert((Toast, UniqueId(toast_queue.toasts.len().to_string())));
             })
             .id();
 
         // Add the new toast to the queue
-        toast_queue.toasts.push_back(toast);
+        toast_queue.toasts.push(toast);
 
         // Update positions of all toasts
         for (i, &toast) in toast_queue.toasts.iter().enumerate() {

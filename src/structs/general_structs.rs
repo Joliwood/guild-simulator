@@ -17,7 +17,7 @@ use uuid::Uuid;
 // WIP
 #[derive(Resource)]
 pub struct ToastQueue {
-    pub toasts: VecDeque<Entity>,
+    pub toasts: Vec<Entity>,
     pub max_toasts: usize,
 }
 
