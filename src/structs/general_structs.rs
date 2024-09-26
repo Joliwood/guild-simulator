@@ -7,12 +7,19 @@ use crate::{
 };
 use bevy::{
     log::info,
-    prelude::{Component, Resource},
+    prelude::{Component, Entity, Resource},
 };
 use ron::de::from_str;
 use serde::Deserialize;
-use std::fs;
+use std::{collections::VecDeque, fs};
 use uuid::Uuid;
+
+// WIP
+#[derive(Resource)]
+pub struct ToastQueue {
+    pub toasts: VecDeque<Entity>,
+    pub max_toasts: usize,
+}
 
 #[derive(Component, Resource)]
 pub struct MissionModalVisible(pub bool);
