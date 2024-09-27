@@ -9,7 +9,7 @@ mod systems;
 mod ui;
 mod utils;
 
-use bevy::{prelude::*, reflect::NamedField};
+use bevy::prelude::*;
 use bevy_asset_loader::asset_collection::AssetCollectionApp;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
@@ -79,9 +79,8 @@ fn main() -> AppExit {
                 systems::updates::update_selected_recruit::update_selected_mission_recruit_id,
                 systems::updates::update_selected_recruit::update_update_selected_mission_percentage_of_victory,
                 ui::modals::mission_details_modal::display_mission_modal,
-                handle_toast_interaction,
                 spawn_or_update_toast,
-                delete_toast,
+                delete_toast_on_click,
             ),
         )
         .run()
@@ -92,29 +91,8 @@ struct MissionNotificationTrigger;
 #[derive(Component)]
 struct NotificationToast; // Component to identify the toast notification entity
 
-// This function handles the interaction (click) on the notification toast
-fn handle_toast_interaction(
-    mut commands: Commands,
-    mut interaction_query: Query<
-        (Entity, &Interaction),
-        (Changed<Interaction>, With<MissionNotificationTrigger>),
-    >,
+fn delete_toast_on_click(
     mut mission_notifications_number: ResMut<MissionNotificationsNumber>,
-) {
-    // If the button is pressed, remove the toast and display the notification number
-    for (entity, interaction) in interaction_query.iter_mut() {
-        if *interaction == Interaction::Pressed {
-            // Remove the toast
-            // commands.entity(entity).despawn_recursive();
-
-            // Increment the notification number when clicked
-            mission_notifications_number.0 = 0;
-        }
-    }
-}
-
-fn delete_toast(
-    mission_notifications_number: ResMut<MissionNotificationsNumber>,
     mut commands: Commands,
     query: Query<Entity, With<NotificationToastTrigger>>,
     mut interaction_query: Query<
@@ -124,11 +102,12 @@ fn delete_toast(
 ) {
     for (_entity, interaction) in interaction_query.iter_mut() {
         if *interaction == Interaction::Pressed {
-            if mission_notifications_number.is_changed() {
-                for entity in query.iter() {
-                    commands.entity(entity).despawn_recursive();
-                }
+            // if mission_notifications_number.is_changed() {
+            for entity in query.iter() {
+                commands.entity(entity).despawn_recursive();
             }
+            mission_notifications_number.0 = 0;
+            // }
         }
     }
 }
@@ -140,11 +119,9 @@ fn spawn_or_update_toast(
     mut commands: Commands,
     keyboard_input: Res<ButtonInput<KeyCode>>,
     asset_server: Res<AssetServer>,
+    query: Query<Entity, With<NotificationToastTrigger>>,
     mut mission_notifications_number: ResMut<MissionNotificationsNumber>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
-    // Query for existing notification toast
-    // toast_query: Query<(&NotificationToast, &Text, Entity)>,
-    // all_toasts_query: NotificationToastTrigger,
 ) {
     let texture_handle: Handle<Image> = asset_server.load("images/ui/notification_atlas.png");
     let layout = TextureAtlasLayout::from_grid(
@@ -158,7 +135,9 @@ fn spawn_or_update_toast(
 
     if keyboard_input.just_pressed(KeyCode::KeyF) {
         // We reset the node before to spawn a new one
-        // delete_toast(&mut commands, all_toasts_query);
+        for entity in query.iter() {
+            commands.entity(entity).despawn_recursive();
+        }
 
         // if mission_notifications_number.0 == 0 {
         // If no toast exists, create a new one
@@ -228,13 +207,6 @@ fn spawn_or_update_toast(
             "Spawned new toast with number: {}",
             mission_notifications_number.0
         );
-        // } else {
-        //     // If a toast already exists, update the existing `Text`
-        //     for (_toast, mut text) in toast_query.iter_mut() {
-        //         // Update the content of the `Text` component
-        //         text.sections[0].value = format!("x {}", mission_notifications_number.0);
-        //     }
-        // }
 
         // Increment the mission notification number for the next toast
         mission_notifications_number.0 += 1;
