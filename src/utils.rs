@@ -253,6 +253,24 @@ pub fn calculate_price_range(price: u16) -> (u16, u16) {
     (lower_range, upper_range)
 }
 
+pub fn get_mission_notification_tooltip_text(completed_mission_number: u8) -> String {
+    let mission_word = if completed_mission_number > 1 {
+        "missions"
+    } else {
+        "mission"
+    };
+
+    format!(
+        "You have completed {} {}.
+
+You should check out your mission
+reports in your office.
+
+Click to dismiss.",
+        completed_mission_number, mission_word
+    )
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

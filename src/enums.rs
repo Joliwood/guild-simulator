@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use bevy::{prelude::Component, state::state::States};
+use bevy::{color::Color, prelude::Component, state::state::States};
 use serde::Deserialize;
 use std::fmt::{self, Display};
 
@@ -71,6 +71,29 @@ impl SoundEnum {
             SoundEnum::PaperTouch => "sounds/paper_touch.ogg",
             SoundEnum::EquipmentEquip => "sounds/equipment_equip.ogg",
             SoundEnum::BookThrowDown => "sounds/book_throw_down.ogg",
+        }
+    }
+}
+
+#[derive(Debug)]
+pub enum ColorPaletteEnum {
+    Danger,
+    DarkBrown,
+    Info,
+    Primary,
+    Success,
+    Warning,
+}
+
+impl ColorPaletteEnum {
+    pub fn as_color(&self) -> Color {
+        match *self {
+            ColorPaletteEnum::Danger => Color::srgb(0.9, 0.1, 0.1),
+            ColorPaletteEnum::DarkBrown => Color::srgb(0.13, 0.11, 0.09),
+            ColorPaletteEnum::Info => Color::srgb(0.2, 0.7, 0.9),
+            ColorPaletteEnum::Primary => Color::srgb(0.1, 0.2, 0.8),
+            ColorPaletteEnum::Success => Color::srgb(0.1, 0.8, 0.1),
+            ColorPaletteEnum::Warning => Color::srgb(0.9, 0.7, 0.0),
         }
     }
 }

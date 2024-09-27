@@ -1,10 +1,11 @@
 use crate::{
     audio::play_sound::play_sound,
-    enums::SoundEnum,
+    enums::{ColorPaletteEnum, SoundEnum},
     structs::{
         general_structs::MissionNotificationsNumber,
         trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
     },
+    utils::get_mission_notification_tooltip_text,
 };
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
@@ -54,9 +55,18 @@ pub fn spawn_or_update_notification(
                     .spawn((
                         ButtonBundle {
                             style: Style {
+                                display: Display::Flex,
+                                align_items: AlignItems::Center,
+                                justify_content: JustifyContent::Center,
                                 width: Val::Px(60.),
                                 height: Val::Px(60.),
-                                margin: UiRect::all(Val::Px(5.)),
+                                // margin: UiRect::all(Val::Px(5.)),
+                                padding: UiRect {
+                                    left: Val::Px(10.),
+                                    right: Val::ZERO,
+                                    top: Val::ZERO,
+                                    bottom: Val::ZERO,
+                                },
                                 ..default()
                             },
                             image: texture_handle.clone().into(),
@@ -72,20 +82,19 @@ pub fn spawn_or_update_notification(
                             index: 0,
                             layout: texture_atlas_layout.clone(),
                         },
-                        Tooltip::cursor(format!(
-                            "Mission finished! Notifications: {}",
-                            mission_notifications_number.0
+                        Tooltip::cursor(get_mission_notification_tooltip_text(
+                            mission_notifications_number.0 + 1,
                         ))
                         .with_activation(TooltipActivation::IMMEDIATE), // Display the current number in the tooltip
                     ))
                     .insert(MissionNotificationTrigger)
                     .with_children(|parent| {
                         parent.spawn((TextBundle::from_section(
-                            format!("x {}", mission_notifications_number.0),
+                            format!("x{}", mission_notifications_number.0 + 1),
                             TextStyle {
                                 font: asset_server.clone().load("fonts/FiraSans-Bold.ttf"),
-                                font_size: 40.,
-                                color: Color::srgb(0.9, 0.9, 0.9),
+                                font_size: 25.,
+                                color: ColorPaletteEnum::DarkBrown.as_color(),
                             },
                         ),));
                     });
