@@ -55,3 +55,22 @@ pub enum ItemRaretyEnum {
     UnCommon,
     Rare,
 }
+
+#[derive(Debug, Clone)]
+pub enum SoundEnum {
+    BookThrowDown,
+    EquipmentEquip,
+    PaperTouch,
+    SimpleHolidaysV3,
+}
+
+impl SoundEnum {
+    pub fn get_path(&self) -> &'static str {
+        match self {
+            SoundEnum::SimpleHolidaysV3 => "sounds/Simple-Holidays-V3.ogg",
+            SoundEnum::PaperTouch => "sounds/paper_touch.ogg",
+            SoundEnum::EquipmentEquip => "sounds/equipment_equip.ogg",
+            SoundEnum::BookThrowDown => "sounds/book_throw_down.ogg",
+        }
+    }
+}

@@ -1,6 +1,10 @@
-use crate::structs::{
-    general_structs::MissionNotificationsNumber,
-    trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
+use crate::{
+    audio::play_sound::play_sound,
+    enums::SoundEnum,
+    structs::{
+        general_structs::MissionNotificationsNumber,
+        trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
+    },
 };
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
@@ -28,6 +32,8 @@ pub fn spawn_or_update_notification(
         for entity in query.iter() {
             commands.entity(entity).despawn_recursive();
         }
+
+        play_sound(&asset_server, &mut commands, SoundEnum::PaperTouch);
 
         // If no toast exists, create a new one
         commands
@@ -77,7 +83,7 @@ pub fn spawn_or_update_notification(
                         parent.spawn((TextBundle::from_section(
                             format!("x {}", mission_notifications_number.0),
                             TextStyle {
-                                font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                font: asset_server.clone().load("fonts/FiraSans-Bold.ttf"),
                                 font_size: 40.,
                                 color: Color::srgb(0.9, 0.9, 0.9),
                             },
