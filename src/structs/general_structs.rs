@@ -16,10 +16,7 @@ use uuid::Uuid;
 
 // WIP
 #[derive(Resource)]
-pub struct ToastQueue {
-    pub toasts: Vec<Entity>,
-    pub max_toasts: usize,
-}
+pub struct MissionNotificationsNumber(pub u8);
 
 #[derive(Component, Resource)]
 pub struct MissionModalVisible(pub bool);
