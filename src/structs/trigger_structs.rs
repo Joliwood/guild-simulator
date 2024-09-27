@@ -23,3 +23,9 @@ pub struct SelectedMissionPercentOfVictoryTrigger;
 
 #[derive(Component)]
 pub struct ModalContentTrigger;
+
+#[derive(Component)]
+pub struct MissionNotificationTrigger;
+
+#[derive(Debug, Component)]
+pub struct NotificationToastTrigger;

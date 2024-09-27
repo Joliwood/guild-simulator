@@ -11,14 +11,13 @@ mod utils;
 
 use bevy::prelude::*;
 use bevy_asset_loader::asset_collection::AssetCollectionApp;
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
+// use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
 use structs::general_structs::{
     MissionModalVisible, MissionNotificationsNumber, Missions, PlayerStats, SelectedMission,
     SelectedRecruit,
 };
 use ui::interface::gold_counter::MyAssets;
-// use structs::{MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, SystemSet)]
 pub struct MySystems;
@@ -31,7 +30,7 @@ fn main() -> AppExit {
         .add_plugins((
             DefaultPlugins,
             // Desactivate on testing
-            WorldInspectorPlugin::new(),
+            // WorldInspectorPlugin::new(),
             TooltipPlugin::default(),
             // AlertsPlugin::new(),
         ))
@@ -78,137 +77,10 @@ fn main() -> AppExit {
                 systems::updates::update_recruit_infos::update_recruit_infos,
                 systems::updates::update_selected_recruit::update_selected_mission_recruit_id,
                 systems::updates::update_selected_recruit::update_update_selected_mission_percentage_of_victory,
+                systems::updates::delete_notifications_on_click::delete_notifications_on_click,
+                ui::interface::notifications::spawn_or_update_notification::spawn_or_update_notification,
                 ui::modals::mission_details_modal::display_mission_modal,
-                spawn_or_update_toast,
-                delete_toast_on_click,
             ),
         )
         .run()
-}
-#[derive(Component)]
-struct MissionNotificationTrigger;
-
-#[derive(Component)]
-struct NotificationToast; // Component to identify the toast notification entity
-
-fn delete_toast_on_click(
-    mut mission_notifications_number: ResMut<MissionNotificationsNumber>,
-    mut commands: Commands,
-    query: Query<Entity, With<NotificationToastTrigger>>,
-    mut interaction_query: Query<
-        (Entity, &Interaction),
-        (Changed<Interaction>, With<MissionNotificationTrigger>),
-    >,
-) {
-    for (_entity, interaction) in interaction_query.iter_mut() {
-        if *interaction == Interaction::Pressed {
-            // if mission_notifications_number.is_changed() {
-            for entity in query.iter() {
-                commands.entity(entity).despawn_recursive();
-            }
-            mission_notifications_number.0 = 0;
-            // }
-        }
-    }
-}
-
-#[derive(Debug, Component)]
-struct NotificationToastTrigger;
-
-fn spawn_or_update_toast(
-    mut commands: Commands,
-    keyboard_input: Res<ButtonInput<KeyCode>>,
-    asset_server: Res<AssetServer>,
-    query: Query<Entity, With<NotificationToastTrigger>>,
-    mut mission_notifications_number: ResMut<MissionNotificationsNumber>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
-) {
-    let texture_handle: Handle<Image> = asset_server.load("images/ui/notification_atlas.png");
-    let layout = TextureAtlasLayout::from_grid(
-        UVec2::new(200, 50),
-        4,
-        1,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
-    let texture_atlas_layout = texture_atlas_layouts.add(layout);
-
-    if keyboard_input.just_pressed(KeyCode::KeyF) {
-        // We reset the node before to spawn a new one
-        for entity in query.iter() {
-            commands.entity(entity).despawn_recursive();
-        }
-
-        // if mission_notifications_number.0 == 0 {
-        // If no toast exists, create a new one
-        commands
-            .spawn(NodeBundle {
-                style: Style {
-                    position_type: PositionType::Absolute,
-                    width: Val::Px(60.),
-                    height: Val::Px(60.),
-                    right: Val::Px(0.),
-                    top: Val::Px(120.),
-                    ..default()
-                },
-                ..default()
-            })
-            .insert((
-                Name::new("TO DELETE BROO"),
-                NotificationToast,
-                NotificationToastTrigger,
-            )) // Mark this entity as a toast notification
-            .with_children(|parent| {
-                parent
-                    .spawn((
-                        ButtonBundle {
-                            style: Style {
-                                width: Val::Px(60.),
-                                height: Val::Px(60.),
-                                margin: UiRect::all(Val::Px(5.)),
-                                ..default()
-                            },
-                            image: texture_handle.clone().into(),
-                            border_radius: BorderRadius {
-                                top_left: Val::Px(10.),
-                                top_right: Val::ZERO,
-                                bottom_left: Val::Px(10.),
-                                bottom_right: Val::ZERO,
-                            },
-                            ..default()
-                        },
-                        TextureAtlas {
-                            index: 0,
-                            layout: texture_atlas_layout.clone(),
-                        },
-                        Tooltip::cursor(format!(
-                            "Mission finished! Notifications: {}",
-                            mission_notifications_number.0
-                        ))
-                        .with_activation(TooltipActivation::IMMEDIATE), // Display the current number in the tooltip
-                    ))
-                    .insert(MissionNotificationTrigger)
-                    .with_children(|parent| {
-                        parent.spawn((
-                            TextBundle::from_section(
-                                format!("x {}", mission_notifications_number.0),
-                                TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                    font_size: 40.,
-                                    color: Color::srgb(0.9, 0.9, 0.9),
-                                },
-                            ),
-                            NotificationToast, // Make sure the `Text` belongs to the toast
-                        ));
-                    });
-            });
-
-        info!(
-            "Spawned new toast with number: {}",
-            mission_notifications_number.0
-        );
-
-        // Increment the mission notification number for the next toast
-        mission_notifications_number.0 += 1;
-    }
 }
