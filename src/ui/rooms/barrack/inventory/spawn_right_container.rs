@@ -10,7 +10,7 @@ pub fn spawn_right_container(
     parent: &mut ChildBuilder,
     asset_server: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let texture_test: Handle<Image> = asset_server.load("images/ui/art_v0_buttons.png");
     let layout_test = TextureAtlasLayout::from_grid(

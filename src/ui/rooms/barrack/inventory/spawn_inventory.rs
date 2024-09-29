@@ -15,7 +15,7 @@ pub fn spawn_inventory(
     parent: &mut ChildBuilder,
     player_stats: &Res<PlayerStats>,
     asset_server: &Res<AssetServer>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let inventory_size = player_stats.max_inventory_size;
     let columns = 4;

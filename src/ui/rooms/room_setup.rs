@@ -16,7 +16,7 @@ use crate::ui::rooms::room_office::room_office;
 pub fn room_setup(
     asset_server: Res<AssetServer>,
     mut commands: Commands,
-    texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     room_office(&asset_server, &mut commands, texture_atlas_layouts);
 }
