@@ -5,7 +5,7 @@ pub fn recruit_frame(
     parent: &mut ChildBuilder,
     asset_server: &Res<AssetServer>,
     selected_recruit: &Res<SelectedRecruit>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let frame_image_handle: Handle<Image> =
         asset_server.load("images/rooms/barrack/recruit_frame.png");

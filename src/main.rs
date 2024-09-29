@@ -55,7 +55,6 @@ fn main() -> AppExit {
                 ui::interface::room_interface_text::room_interface_text,
                 ui::rooms::room_setup::room_setup,
                 systems::recruits::hiring_setup::hiring_setup,
-                // ui::interface::toasts::notification_toast::notification_toast,
             ),
         )
         .add_systems(

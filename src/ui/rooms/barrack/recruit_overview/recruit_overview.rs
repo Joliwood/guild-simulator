@@ -7,7 +7,7 @@ pub fn recruit_overview(
     parent: &mut ChildBuilder,
     asset_server: &Res<AssetServer>,
     selected_recruit: &Res<SelectedRecruit>,
-    texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // Right container: recruit info
     parent

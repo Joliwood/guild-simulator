@@ -4,7 +4,7 @@ use bevy::prelude::*;
 pub fn gold_button(
     asset_server: &Res<AssetServer>,
     commands: &mut ChildBuilder,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
     let texture_handle = asset_server.load("images/ui/buttons_atlas.png");

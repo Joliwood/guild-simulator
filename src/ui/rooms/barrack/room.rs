@@ -21,7 +21,7 @@ pub fn spawn_room_barrack(
     player_stats: &Res<PlayerStats>,
     selected_recruit: &Res<SelectedRecruit>,
     image_assets: &Res<MyAssets>,
-    texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let background_image_handle: Handle<Image> =
         asset_server.load("images/rooms/barrack/barrack_background.png");
