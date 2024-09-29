@@ -39,6 +39,7 @@ pub fn spawn_right_container(
             },
             ..default()
         })
+        .insert(Name::new("Room barrack > inventory"))
         .with_children(|parent| {
             // Create a row for the filter buttons
             parent

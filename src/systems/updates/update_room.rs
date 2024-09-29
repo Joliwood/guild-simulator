@@ -7,7 +7,7 @@ use crate::{
     ui::{
         interface::gold_counter::MyAssets,
         rooms::{
-            barrack::room::spawn_room_barrack, room_command_room::room_command_room,
+            barrack::barrack_room::spawn_room_barrack, room_command_room::room_command_room,
             room_office::room_office, room_store::room_store,
         },
     },

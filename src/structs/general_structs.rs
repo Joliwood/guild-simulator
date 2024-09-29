@@ -45,6 +45,7 @@ pub struct RecruitStats {
     pub intelligence: u16,
     pub level: u8,
     pub max_experience: u32,
+    pub name: String,
     pub strength: u16,
 }
 

@@ -9,7 +9,7 @@ pub mod barrack {
         pub mod recruit_infos;
         pub mod recruit_overview;
     }
-    pub mod room;
+    pub mod barrack_room;
 }
 pub mod room_command_room;
 pub mod room_office;

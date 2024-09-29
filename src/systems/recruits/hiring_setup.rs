@@ -13,23 +13,25 @@ use uuid::Uuid;
 pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
     let new_recruits = vec![
         RecruitStats {
-            id: Uuid::new_v4(),
             class: RecruitEnum::Warrior,
             endurance: 10,
             experience: 0,
+            id: Uuid::new_v4(),
             intelligence: 5,
             level: 1,
             max_experience: 100,
+            name: "Warzazat".to_string(),
             strength: 10,
         },
         RecruitStats {
-            id: Uuid::new_v4(),
             class: RecruitEnum::Mage,
             endurance: 5,
             experience: 0,
+            id: Uuid::new_v4(),
             intelligence: 12,
             level: 1,
             max_experience: 100,
+            name: "Wagaly".to_string(),
             strength: 2,
         },
     ];

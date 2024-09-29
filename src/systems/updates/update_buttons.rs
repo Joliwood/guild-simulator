@@ -142,6 +142,7 @@ pub fn mouse_interaction_updates(
         }
 
         let new_recruits = vec![RecruitStats {
+            name: "Random noob".to_string(),
             id: Uuid::new_v4(),
             class: RecruitEnum::Rogue,
             endurance: 5,

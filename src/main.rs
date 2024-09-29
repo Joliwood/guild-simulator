@@ -11,7 +11,7 @@ mod utils;
 
 use bevy::prelude::*;
 use bevy_asset_loader::asset_collection::AssetCollectionApp;
-// use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
 use structs::general_structs::{
     MissionModalVisible, MissionNotificationsNumber, Missions, PlayerStats, SelectedMission,
@@ -30,7 +30,7 @@ fn main() -> AppExit {
         .add_plugins((
             DefaultPlugins,
             // Desactivate on testing
-            // WorldInspectorPlugin::new(),
+            WorldInspectorPlugin::new(),
             TooltipPlugin::default(),
             // AlertsPlugin::new(),
         ))
