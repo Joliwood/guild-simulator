@@ -7,12 +7,16 @@ use crate::{
 };
 use bevy::{
     log::info,
-    prelude::{Component, Resource},
+    prelude::{Component, Entity, Resource},
 };
 use ron::de::from_str;
 use serde::Deserialize;
-use std::fs;
+use std::{collections::VecDeque, fs};
 use uuid::Uuid;
+
+// WIP
+#[derive(Resource)]
+pub struct MissionNotificationsNumber(pub u8);
 
 #[derive(Component, Resource)]
 pub struct MissionModalVisible(pub bool);
@@ -221,7 +225,7 @@ impl Default for PlayerStats {
             max_experience: 100,
             max_inventory_size: 20,
             recruits: vec![],
-            room: RoomEnum::Barrack,
+            room: RoomEnum::Office,
         }
     }
 }

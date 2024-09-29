@@ -14,10 +14,16 @@ use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
 use structs::general_structs::{
-    MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit,
+    MissionModalVisible, MissionNotificationsNumber, Missions, PlayerStats, SelectedMission,
+    SelectedRecruit,
 };
 use ui::interface::gold_counter::MyAssets;
-// use structs::{MissionModalVisible, Missions, PlayerStats, SelectedMission, SelectedRecruit};
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, SystemSet)]
+pub struct MySystems;
+
+#[derive(Component)]
+pub struct AlertButton;
 
 fn main() -> AppExit {
     App::new()
@@ -26,12 +32,14 @@ fn main() -> AppExit {
             // Desactivate on testing
             // WorldInspectorPlugin::new(),
             TooltipPlugin::default(),
+            // AlertsPlugin::new(),
         ))
         .insert_resource(PlayerStats::default())
         .insert_resource(Missions::default())
         .insert_resource(SelectedRecruit::default())
         .insert_resource(SelectedMission::default())
         .insert_resource(MissionModalVisible(false))
+        .insert_resource(MissionNotificationsNumber(0))
         .init_collection::<MyAssets>()
         .add_systems(
             Startup,
@@ -47,6 +55,7 @@ fn main() -> AppExit {
                 ui::interface::room_interface_text::room_interface_text,
                 ui::rooms::room_setup::room_setup,
                 systems::recruits::hiring_setup::hiring_setup,
+                // ui::interface::toasts::notification_toast::notification_toast,
             ),
         )
         .add_systems(
@@ -68,6 +77,8 @@ fn main() -> AppExit {
                 systems::updates::update_recruit_infos::update_recruit_infos,
                 systems::updates::update_selected_recruit::update_selected_mission_recruit_id,
                 systems::updates::update_selected_recruit::update_update_selected_mission_percentage_of_victory,
+                systems::updates::delete_notifications_on_click::delete_notifications_on_click,
+                ui::interface::notifications::spawn_or_update_notification::spawn_or_update_notification,
                 ui::modals::mission_details_modal::display_mission_modal,
             ),
         )
