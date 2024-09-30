@@ -11,7 +11,8 @@ use crate::{
     },
     ui::ui_constants::WOOD_COLOR,
     utils::{
-        get_global_points, get_new_room, get_victory_percentage, get_xp_earned, is_mission_success,
+        equip_recruit_inventory, get_global_points, get_new_room, get_victory_percentage,
+        get_xp_earned, is_mission_success,
     },
 };
 use bevy::prelude::*;
@@ -529,18 +530,27 @@ pub fn select_item_in_inventory(
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
+    mut selected_recruit: ResMut<SelectedRecruit>,
+    mut player_stats: ResMut<PlayerStats>,
 ) {
     let mut window = windows.single_mut();
 
     for (interaction, mut color, unique_id, mut border_color) in &mut interaction_query {
-        if unique_id.0 == "item_in_inventory" {
-            // let item_id = unique_id.0.strip_prefix("item_in_inventory_").unwrap();
+        if unique_id.0.starts_with("item_in_inventory_") {
+            let item_id = unique_id.0.strip_prefix("item_in_inventory_").unwrap();
+            // Check the item_id is not empty
+            if item_id.is_empty() {
+                continue;
+            }
+
+            let item = PlayerStats::find_item_by_id(&player_stats, item_id.parse().unwrap());
 
             // let tooltip_text = format!("Item with id : {}", item_id);
 
             match *interaction {
                 Interaction::Pressed => {
                     border_color.0 = WOOD_COLOR;
+                    equip_recruit_inventory(&mut selected_recruit, item, &mut player_stats);
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;

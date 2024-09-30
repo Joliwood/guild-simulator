@@ -272,7 +272,7 @@ pub fn spawn_left_container(
                                                 image: texture_handle_empty_slot.clone().into(),
                                                 ..default()
                                             })
-                                            .insert(UniqueId(format!("item_in_inventory")));
+                                            .insert(UniqueId(format!("item_in_inventory_")));
 
                                         // Armor button
                                         top_container
@@ -288,7 +288,7 @@ pub fn spawn_left_container(
                                                 image: texture_handle_empty_slot.clone().into(),
                                                 ..default()
                                             })
-                                            .insert(UniqueId(format!("item_in_inventory")));
+                                            .insert(UniqueId(format!("item_in_inventory_")));
                                     });
 
                                 // Bottom container for scrolls
@@ -319,7 +319,7 @@ pub fn spawn_left_container(
                                                 image: texture_handle_empty_slot.clone().into(),
                                                 ..default()
                                             })
-                                            .insert(UniqueId(format!("item_in_inventory")));
+                                            .insert(UniqueId(format!("item_in_inventory_")));
 
                                         // Second scroll button
                                         bottom_container
@@ -335,7 +335,7 @@ pub fn spawn_left_container(
                                                 image: texture_handle_empty_slot.clone().into(),
                                                 ..default()
                                             })
-                                            .insert(UniqueId(format!("item_in_inventory")));
+                                            .insert(UniqueId(format!("item_in_inventory_")));
 
                                         // Third scroll button
                                         bottom_container
@@ -351,7 +351,7 @@ pub fn spawn_left_container(
                                                 image: texture_handle_empty_slot.clone().into(),
                                                 ..default()
                                             })
-                                            .insert(UniqueId(format!("item_in_inventory")));
+                                            .insert(UniqueId(format!("item_in_inventory_")));
                                     });
                             });
                     });

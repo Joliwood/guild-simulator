@@ -93,7 +93,7 @@ pub fn recruit_infos(
                                     image: texture_handle_empty_slot.clone().into(),
                                     ..default()
                                 })
-                                .insert(UniqueId(format!("item_in_inventory")));
+                                .insert(UniqueId(format!("item_in_inventory_")));
                         });
 
                     // Right column (Armor)
@@ -132,7 +132,7 @@ pub fn recruit_infos(
                                     image: texture_handle_empty_slot.clone().into(),
                                     ..default()
                                 })
-                                .insert(UniqueId(format!("item_in_inventory")));
+                                .insert(UniqueId(format!("item_in_inventory_")));
                         });
                 });
 
@@ -192,7 +192,7 @@ pub fn recruit_infos(
                                     image: texture_handle_empty_slot.clone().into(),
                                     ..default()
                                 })
-                                .insert(UniqueId(format!("item_in_inventory")));
+                                .insert(UniqueId(format!("item_in_inventory_")));
 
                             // Second button
                             button_row
@@ -209,7 +209,7 @@ pub fn recruit_infos(
                                     image: texture_handle_empty_slot.clone().into(),
                                     ..default()
                                 })
-                                .insert(UniqueId(format!("item_in_inventory")));
+                                .insert(UniqueId(format!("item_in_inventory_")));
 
                             // Third button
                             button_row
@@ -226,7 +226,7 @@ pub fn recruit_infos(
                                     image: texture_handle_empty_slot.clone().into(),
                                     ..default()
                                 })
-                                .insert(UniqueId(format!("item_in_inventory")));
+                                .insert(UniqueId(format!("item_in_inventory_")));
                         });
                 });
         });

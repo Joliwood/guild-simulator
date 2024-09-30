@@ -24,7 +24,7 @@ pub struct MissionModalVisible(pub bool);
 #[derive(Component)]
 pub struct UniqueId(pub String);
 
-#[derive(Component, Resource)]
+#[derive(Component, Resource, Clone)]
 pub struct PlayerStats {
     pub experience: u32,
     pub golds: i32,
@@ -136,6 +136,17 @@ impl PlayerStats {
         self.guild_level += 1;
         // Set the max experience to the current experience * 2
         self.max_experience *= 2;
+    }
+
+    pub fn find_item_by_id(&self, id: u16) -> Option<Item> {
+        self.inventory
+            .iter()
+            .find(|item| match item {
+                Item::Armor(armor) => armor.id == id,
+                Item::Scroll(scroll, _) => scroll.id == id,
+                Item::Weapon(weapon) => weapon.id == id,
+            })
+            .cloned()
     }
 }
 

@@ -319,6 +319,44 @@ pub fn get_selected_recruit(selected_recruit: &Res<SelectedRecruit>) -> RecruitS
     }
 }
 
+// pub inventory: Vec<Item, Global>
+
+pub fn equip_recruit_inventory(
+    selected_recruit: &mut ResMut<SelectedRecruit>,
+    item: Option<Item>,
+    player_stats: &mut ResMut<PlayerStats>,
+) -> bool {
+    match item {
+        Some(Item::Weapon(weapon)) => {
+            // Add the weapon to the selected recruit inventory weapon slot
+            // + Delete from the player_stat inventory
+
+            let recruit_actual_weapon = selected_recruit
+                .0
+                .as_ref()
+                .unwrap()
+                .recruit_inventory
+                .weapon
+                .iter()
+                .find(|w| w.id == weapon.id);
+
+            if !recruit_actual_weapon.is_some() {
+                selected_recruit
+                    .0
+                    .as_mut()
+                    .unwrap()
+                    .recruit_inventory
+                    .weapon = Some(weapon);
+            }
+        }
+        Some(Item::Armor(armor)) => {}
+        Some(Item::Scroll(scroll, quantity)) => {}
+        None => {}
+    }
+
+    return false;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
