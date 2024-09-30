@@ -15,16 +15,16 @@ pub fn recruit_overview(
             style: Style {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,
-                row_gap: Val::Px(20.),
-                width: Val::Px(200.),
+                align_items: AlignItems::Center,
+                row_gap: Val::Px(5.),
+                // width: Val::Px(200.),
+                width: Val::Auto,
                 margin: UiRect {
                     left: Val::Px(50.),
                     right: Val::Px(50.),
-                    top: Val::Px(50.),
+                    top: Val::Px(35.),
                     bottom: Val::ZERO,
                 },
-                // justify_content: JustifyContent::Center,
-                // align_items: AlignItems::Center,
                 ..default()
             },
             ..default()

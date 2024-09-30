@@ -1,9 +1,17 @@
 use crate::{
-    enums::{RoomDirectionEnum, RoomEnum},
-    structs::{equipments::Item, general_structs::PlayerStats},
+    enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
+    structs::{
+        equipments::Item,
+        general_structs::{PlayerStats, RecruitStats, SelectedRecruit},
+    },
     ui::ui_constants::{ARMOR_PATH, SCROLL_PATH, WEAPON_PATH},
 };
-use bevy::{math::UVec2, prelude::ResMut, sprite::TextureAtlasLayout};
+use bevy::{
+    math::UVec2,
+    prelude::{Res, ResMut},
+    sprite::TextureAtlasLayout,
+};
+use uuid::Uuid;
 
 /// Determines the new room based on the given direction and current player stats.
 ///
@@ -269,6 +277,39 @@ reports in your office.
 Click to dismiss.",
         completed_mission_number, mission_word
     )
+}
+
+pub fn get_selected_recruit(selected_recruit: &Res<SelectedRecruit>) -> RecruitStats {
+    match selected_recruit.0 {
+        Some(_) => {
+            return RecruitStats {
+                class: selected_recruit.0.as_ref().unwrap().class.clone(),
+                endurance: selected_recruit.0.as_ref().unwrap().endurance,
+                experience: selected_recruit.0.as_ref().unwrap().experience,
+                id: selected_recruit.0.as_ref().unwrap().id,
+                image_atlas_index: selected_recruit.0.as_ref().unwrap().image_atlas_index,
+                intelligence: selected_recruit.0.as_ref().unwrap().intelligence,
+                level: selected_recruit.0.as_ref().unwrap().level,
+                max_experience: selected_recruit.0.as_ref().unwrap().max_experience,
+                name: selected_recruit.0.as_ref().unwrap().name.clone(),
+                strength: selected_recruit.0.as_ref().unwrap().strength,
+            };
+        }
+        None => {
+            return RecruitStats {
+                class: RecruitEnum::Warrior,
+                endurance: 0,
+                experience: 0,
+                id: Uuid::new_v4(),
+                image_atlas_index: 0,
+                intelligence: 0,
+                level: 0,
+                max_experience: 0,
+                name: "No recruit selected".to_string(),
+                strength: 0,
+            };
+        }
+    }
 }
 
 #[cfg(test)]

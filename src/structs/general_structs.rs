@@ -42,6 +42,7 @@ pub struct RecruitStats {
     pub endurance: u16,
     pub experience: u32,
     pub id: Uuid,
+    pub image_atlas_index: u16,
     pub intelligence: u16,
     pub level: u8,
     pub max_experience: u32,

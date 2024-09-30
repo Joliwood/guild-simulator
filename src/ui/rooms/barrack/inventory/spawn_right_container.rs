@@ -1,8 +1,10 @@
 use crate::{
+    enums::ColorPaletteEnum,
     structs::general_structs::{PlayerStats, UniqueId},
     ui::styles::buttons_styles::inventory_filter_button_style,
 };
 use bevy::prelude::*;
+use bevy_inspector_egui::egui::Margin;
 
 use super::spawn_inventory::spawn_inventory;
 
@@ -22,25 +24,39 @@ pub fn spawn_right_container(
     );
     let texture_atlas_layout_test = texture_atlas_layouts.add(layout_test);
 
+    let texture_handle_inventory_container: Handle<Image> =
+        asset_server.load("images/rooms/barrack/inventory_container.png");
+
     // Container for the inventory
     parent
-        .spawn(NodeBundle {
+        .spawn(ImageBundle {
+            image: texture_handle_inventory_container.into(),
             style: Style {
                 display: Display::Flex,
+                align_self: AlignSelf::Center,
                 flex_direction: FlexDirection::Column,
                 justify_content: JustifyContent::Center,
                 column_gap: Val::Px(10.0),
                 align_items: AlignItems::Center,
-                width: Val::Percent(25.0),
-                height: Val::Percent(100.0),
-                margin: UiRect::all(Val::Px(5.0)),
-                padding: UiRect::all(Val::Px(10.0)),
+                width: Val::Auto,
+                height: Val::Auto,
+                // margin: UiRect::all(Val::Px(5.0)),
+                padding: UiRect::all(Val::Px(15.0)),
                 ..default()
             },
             ..default()
         })
         .insert(Name::new("Room barrack > inventory"))
         .with_children(|parent| {
+            parent.spawn(TextBundle::from_section(
+                "Inventory",
+                TextStyle {
+                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                    font_size: 30.,
+                    color: ColorPaletteEnum::DarkBrown.as_color(),
+                },
+            ));
+
             // Create a row for the filter buttons
             parent
                 .spawn(NodeBundle {

@@ -1,55 +1,5 @@
-use crate::{
-    enums::RecruitEnum,
-    structs::{
-        general_structs::{RecruitStats, SelectedRecruit},
-        trigger_structs::SelectedRecruitTrigger,
-    },
-};
+use crate::{structs::general_structs::SelectedRecruit, utils::get_selected_recruit};
 use bevy::prelude::*;
-use uuid::Uuid;
-
-// #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
-// pub struct RecruitStats {
-//     pub class: RecruitEnum,
-//     pub endurance: u16,
-//     pub experience: u32,
-//     pub id: Uuid,
-//     pub intelligence: u16,
-//     pub level: u8,
-//     pub max_experience: u32,
-//     pub strength: u16,
-// }
-
-pub fn get_selected_recruit(selected_recruit: &Res<SelectedRecruit>) -> RecruitStats {
-    match selected_recruit.0 {
-        Some(_) => {
-            return RecruitStats {
-                class: selected_recruit.0.as_ref().unwrap().class.clone(),
-                endurance: selected_recruit.0.as_ref().unwrap().endurance,
-                experience: selected_recruit.0.as_ref().unwrap().experience,
-                id: selected_recruit.0.as_ref().unwrap().id,
-                intelligence: selected_recruit.0.as_ref().unwrap().intelligence,
-                level: selected_recruit.0.as_ref().unwrap().level,
-                max_experience: selected_recruit.0.as_ref().unwrap().max_experience,
-                name: selected_recruit.0.as_ref().unwrap().name.clone(),
-                strength: selected_recruit.0.as_ref().unwrap().strength,
-            };
-        }
-        None => {
-            return RecruitStats {
-                class: RecruitEnum::Warrior,
-                endurance: 0,
-                experience: 0,
-                id: Uuid::new_v4(),
-                intelligence: 0,
-                level: 0,
-                max_experience: 0,
-                name: "No recruit selected".to_string(),
-                strength: 0,
-            };
-        }
-    }
-}
 
 pub fn recruit_frame(
     parent: &mut ChildBuilder,
@@ -77,7 +27,6 @@ pub fn recruit_frame(
         .spawn(ImageBundle {
             image: frame_image_handle.into(),
             style: Style {
-                // position_type: PositionType::Absolute,
                 width: Val::Px(200.),
                 height: Val::Px(350.),
                 ..default()
@@ -123,7 +72,7 @@ pub fn recruit_frame(
                     ..default()
                 },
                 TextureAtlas {
-                    index: 0,
+                    index: selected_recruit_data.image_atlas_index.into(),
                     layout: recruit_texture_atlas_layout.clone(),
                 },
             ));
