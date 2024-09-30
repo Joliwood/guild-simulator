@@ -48,7 +48,7 @@ pub fn recruit_infos(
                     style: Style {
                         display: Display::Flex,
                         flex_direction: FlexDirection::Row,
-                        justify_content: JustifyContent::Center,
+                        justify_content: JustifyContent::SpaceEvenly,
                         align_items: AlignItems::Center,
                         width: Val::Percent(100.),
                         height: Val::Percent(50.),
@@ -93,7 +93,7 @@ pub fn recruit_infos(
                                     image: texture_handle_empty_slot.clone().into(),
                                     ..default()
                                 })
-                                .insert(UniqueId(format!("weapon_button")));
+                                .insert(UniqueId(format!("item_in_inventory")));
                         });
 
                     // Right column (Armor)
@@ -132,7 +132,7 @@ pub fn recruit_infos(
                                     image: texture_handle_empty_slot.clone().into(),
                                     ..default()
                                 })
-                                .insert(UniqueId(format!("armor_button")));
+                                .insert(UniqueId(format!("item_in_inventory")));
                         });
                 });
 

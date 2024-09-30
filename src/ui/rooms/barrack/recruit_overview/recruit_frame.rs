@@ -9,12 +9,12 @@ pub fn recruit_frame(
 ) {
     let frame_image_handle: Handle<Image> =
         asset_server.load("images/rooms/barrack/recruit_frame.png");
-    let recruit_handle_frame: Handle<Image> =
+    let recruit_image_handle: Handle<Image> =
         asset_server.load("images/recruits/recruit_picture_atlas.png");
 
     let recruit_layout = TextureAtlasLayout::from_grid(
         UVec2::new(800, 200),
-        4,
+        5,
         1,
         Some(UVec2::new(0, 0)),
         Some(UVec2::new(0, 0)),
@@ -61,7 +61,7 @@ pub fn recruit_frame(
 
             parent.spawn((
                 ImageBundle {
-                    image: recruit_handle_frame.into(),
+                    image: recruit_image_handle.into(),
                     style: Style {
                         position_type: PositionType::Absolute,
                         width: Val::Percent(100.),

@@ -38,9 +38,8 @@ pub fn spawn_right_container(
                 justify_content: JustifyContent::Center,
                 column_gap: Val::Px(10.0),
                 align_items: AlignItems::Center,
-                width: Val::Auto,
-                height: Val::Auto,
-                // margin: UiRect::all(Val::Px(5.0)),
+                width: Val::Px(400.),
+                height: Val::Px(450.),
                 padding: UiRect::all(Val::Px(15.0)),
                 ..default()
             },

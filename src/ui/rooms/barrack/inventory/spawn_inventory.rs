@@ -18,7 +18,7 @@ pub fn spawn_inventory(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let inventory_size = player_stats.max_inventory_size;
-    let columns = 4;
+    let columns = 5;
     let texture_handle_empty_slot: Handle<Image> =
         asset_server.load("images/equipments/empty_inventory_slot.png");
 

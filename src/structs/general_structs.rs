@@ -225,7 +225,7 @@ impl Default for PlayerStats {
             guild_level: 1,
             inventory,
             max_experience: 100,
-            max_inventory_size: 20,
+            max_inventory_size: 50,
             recruits: vec![],
             room: RoomEnum::Barrack,
         }

@@ -1,19 +1,16 @@
+use super::{
+    inventory::spawn_right_container::spawn_right_container,
+    recruit_overview::recruit_overview::recruit_overview,
+    recruits_list::left_container::spawn_left_container,
+};
 use crate::{
     structs::{
         general_structs::{PlayerStats, SelectedRecruit},
         trigger_structs::{PlayerStatsRecruitsTrigger, ResetRoomTrigger},
     },
-    ui::{
-        interface::gold_counter::MyAssets, rooms::barrack::left_container::spawn_left_container,
-        styles::containers_styles::node_container_style,
-    },
+    ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
 };
 use bevy::prelude::*;
-
-use super::{
-    inventory::spawn_right_container::spawn_right_container,
-    recruit_overview::recruit_overview::recruit_overview,
-};
 
 pub fn spawn_room_barrack(
     asset_server: &Res<AssetServer>,
@@ -55,7 +52,13 @@ pub fn spawn_room_barrack(
                 ..default()
             });
 
-            spawn_left_container(parent, asset_server, player_stats, image_assets);
+            spawn_left_container(
+                parent,
+                asset_server,
+                player_stats,
+                image_assets,
+                texture_atlas_layouts,
+            );
             recruit_overview(
                 parent,
                 asset_server,

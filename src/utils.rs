@@ -301,11 +301,11 @@ pub fn get_selected_recruit(selected_recruit: &Res<SelectedRecruit>) -> RecruitS
                 endurance: 0,
                 experience: 0,
                 id: Uuid::new_v4(),
-                image_atlas_index: 0,
+                image_atlas_index: 4,
                 intelligence: 0,
                 level: 0,
                 max_experience: 0,
-                name: "No recruit selected".to_string(),
+                name: "".to_string(),
                 strength: 0,
             };
         }
