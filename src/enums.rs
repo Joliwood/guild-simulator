@@ -49,7 +49,7 @@ impl Display for RecruitEnum {
     }
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub enum ItemRaretyEnum {
     Common,
     UnCommon,

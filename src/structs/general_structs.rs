@@ -36,8 +36,26 @@ pub struct PlayerStats {
     pub room: RoomEnum,
 }
 
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+pub struct RecruitInventory {
+    pub armor: Option<Armor>,
+    pub weapon: Option<Weapon>,
+    pub scrolls: Vec<Scroll>,
+}
+
+impl RecruitInventory {
+    pub fn generate_empty_inventory() -> Self {
+        Self {
+            armor: None,
+            weapon: None,
+            scrolls: vec![],
+        }
+    }
+}
+
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct RecruitStats {
+    pub recruit_inventory: RecruitInventory,
     pub class: RecruitEnum,
     pub endurance: u16,
     pub experience: u32,

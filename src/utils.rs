@@ -2,7 +2,7 @@ use crate::{
     enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
     structs::{
         equipments::Item,
-        general_structs::{PlayerStats, RecruitStats, SelectedRecruit},
+        general_structs::{PlayerStats, RecruitInventory, RecruitStats, SelectedRecruit},
     },
     ui::ui_constants::{ARMOR_PATH, SCROLL_PATH, WEAPON_PATH},
 };
@@ -283,6 +283,12 @@ pub fn get_selected_recruit(selected_recruit: &Res<SelectedRecruit>) -> RecruitS
     match selected_recruit.0 {
         Some(_) => {
             return RecruitStats {
+                recruit_inventory: selected_recruit
+                    .0
+                    .as_ref()
+                    .unwrap()
+                    .recruit_inventory
+                    .clone(),
                 class: selected_recruit.0.as_ref().unwrap().class.clone(),
                 endurance: selected_recruit.0.as_ref().unwrap().endurance,
                 experience: selected_recruit.0.as_ref().unwrap().experience,
@@ -297,6 +303,7 @@ pub fn get_selected_recruit(selected_recruit: &Res<SelectedRecruit>) -> RecruitS
         }
         None => {
             return RecruitStats {
+                recruit_inventory: RecruitInventory::generate_empty_inventory(),
                 class: RecruitEnum::Warrior,
                 endurance: 0,
                 experience: 0,

@@ -2,8 +2,8 @@
 use crate::{
     enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
     structs::general_structs::{
-        MissionModalVisible, Missions, PlayerStats, RecruitStats, SelectedMission, SelectedRecruit,
-        UniqueId,
+        MissionModalVisible, Missions, PlayerStats, RecruitInventory, RecruitStats,
+        SelectedMission, SelectedRecruit, UniqueId,
     },
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
@@ -142,6 +142,7 @@ pub fn mouse_interaction_updates(
         }
 
         let new_recruits = vec![RecruitStats {
+            recruit_inventory: RecruitInventory::generate_empty_inventory(),
             class: RecruitEnum::Rogue,
             endurance: 5,
             experience: 0,

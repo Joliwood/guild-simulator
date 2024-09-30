@@ -1,6 +1,6 @@
 use crate::{
     enums::RecruitEnum,
-    structs::general_structs::{PlayerStats, RecruitStats},
+    structs::general_structs::{PlayerStats, RecruitInventory, RecruitStats},
     systems::recruits::hire_new_recruits::hire_new_recruits,
 };
 use bevy::prelude::*;
@@ -13,6 +13,7 @@ use uuid::Uuid;
 pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
     let new_recruits = vec![
         RecruitStats {
+            recruit_inventory: RecruitInventory::generate_empty_inventory(),
             class: RecruitEnum::Warrior,
             endurance: 10,
             experience: 0,
@@ -25,6 +26,7 @@ pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
             strength: 10,
         },
         RecruitStats {
+            recruit_inventory: RecruitInventory::generate_empty_inventory(),
             class: RecruitEnum::Mage,
             endurance: 5,
             experience: 0,
