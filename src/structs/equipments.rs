@@ -1,9 +1,10 @@
 #![allow(dead_code)]
+use bevy::prelude::Component;
 use serde::Deserialize;
 
 use crate::enums::ItemRaretyEnum;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Component, PartialEq, Eq, Hash)]
 pub enum Item {
     Weapon(Weapon),
     Armor(Armor),

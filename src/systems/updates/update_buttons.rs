@@ -1,9 +1,12 @@
 #![allow(unused_mut)]
 use crate::{
     enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
-    structs::general_structs::{
-        MissionModalVisible, Missions, PlayerStats, RecruitInventory, RecruitStats,
-        SelectedMission, SelectedRecruit, UniqueId,
+    structs::{
+        equipments::Item,
+        general_structs::{
+            MissionModalVisible, Missions, PlayerStats, RecruitInventory, RecruitStats,
+            SelectedMission, SelectedRecruit, UniqueId,
+        },
     },
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
@@ -526,6 +529,7 @@ pub fn select_item_in_inventory(
             &mut BackgroundColor,
             &UniqueId,
             &mut BorderColor,
+            &Item,
         ),
         Changed<Interaction>,
     >,
@@ -535,17 +539,9 @@ pub fn select_item_in_inventory(
 ) {
     let mut window = windows.single_mut();
 
-    for (interaction, mut color, unique_id, mut border_color) in &mut interaction_query {
-        if unique_id.0.starts_with("item_in_inventory_") {
-            let item_id = unique_id.0.strip_prefix("item_in_inventory_").unwrap();
-            // Check the item_id is not empty
-            if item_id.is_empty() {
-                continue;
-            }
-
-            let item = PlayerStats::find_item_by_id(&player_stats, item_id.parse().unwrap());
-
-            // let tooltip_text = format!("Item with id : {}", item_id);
+    for (interaction, mut color, unique_id, mut border_color, item) in &mut interaction_query {
+        if unique_id.0 == "item_in_inventory" {
+            // let item_id = unique_id.0.strip_prefix("item_in_inventory").unwrap();
 
             match *interaction {
                 Interaction::Pressed => {
@@ -556,7 +552,6 @@ pub fn select_item_in_inventory(
                     window.cursor.icon = CursorIcon::Pointer;
                     *color = HOVERED_BUTTON.into();
                     border_color.0 = Color::WHITE;
-                    // Tooltip::cursor(tooltip_text.to_string());
                 }
                 Interaction::None => {
                     window.cursor.icon = CursorIcon::Default;
@@ -566,4 +561,14 @@ pub fn select_item_in_inventory(
             }
         }
     }
+}
+
+pub fn delete_item_from_player_inventory(player_stats: &mut PlayerStats, item: &Item) {
+    let item_index = player_stats
+        .inventory
+        .iter()
+        .position(|x| x == item)
+        .unwrap();
+
+    player_stats.inventory.remove(item_index);
 }

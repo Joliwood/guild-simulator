@@ -7,6 +7,8 @@ use crate::{
 };
 use bevy::prelude::*;
 
+use super::weapon_button::weapon_button;
+
 pub fn recruit_infos(
     parent: &mut ChildBuilder,
     asset_server: &Res<AssetServer>,
@@ -26,7 +28,6 @@ pub fn recruit_infos(
                 flex_direction: FlexDirection::Column,
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
-                // width: Val::Percent(100.0),
                 width: Val::Auto,
                 height: Val::Auto,
                 padding: UiRect {
@@ -78,22 +79,28 @@ pub fn recruit_infos(
                                 },
                             ));
 
-                            // Weapon button
-                            weapon_column
-                                .spawn(ButtonBundle {
-                                    style: Style {
-                                        width: Val::Px(60.),
-                                        height: Val::Px(60.),
-                                        border: UiRect::all(Val::Px(3.)),
-                                        margin: UiRect::all(Val::Px(5.)),
-                                        ..default()
-                                    },
-                                    border_color: BorderColor(Color::BLACK),
-                                    border_radius: BorderRadius::all(Val::Px(10.)),
-                                    image: texture_handle_empty_slot.clone().into(),
-                                    ..default()
-                                })
-                                .insert(UniqueId(format!("item_in_inventory_")));
+                            weapon_button(
+                                weapon_column,
+                                asset_server,
+                                selected_recruit,
+                                texture_atlas_layouts,
+                            );
+                            // // Weapon button
+                            // weapon_column
+                            //     .spawn(ButtonBundle {
+                            //         style: Style {
+                            //             width: Val::Px(60.),
+                            //             height: Val::Px(60.),
+                            //             border: UiRect::all(Val::Px(3.)),
+                            //             margin: UiRect::all(Val::Px(5.)),
+                            //             ..default()
+                            //         },
+                            //         border_color: BorderColor(Color::BLACK),
+                            //         border_radius: BorderRadius::all(Val::Px(10.)),
+                            //         image: texture_handle_empty_slot.clone().into(),
+                            //         ..default()
+                            //     })
+                            //     .insert(UniqueId(format!("item_in_inventory")));
                         });
 
                     // Right column (Armor)
@@ -132,7 +139,7 @@ pub fn recruit_infos(
                                     image: texture_handle_empty_slot.clone().into(),
                                     ..default()
                                 })
-                                .insert(UniqueId(format!("item_in_inventory_")));
+                                .insert(UniqueId(format!("item_in_inventory")));
                         });
                 });
 
@@ -192,7 +199,7 @@ pub fn recruit_infos(
                                     image: texture_handle_empty_slot.clone().into(),
                                     ..default()
                                 })
-                                .insert(UniqueId(format!("item_in_inventory_")));
+                                .insert(UniqueId(format!("item_in_inventory")));
 
                             // Second button
                             button_row
@@ -209,7 +216,7 @@ pub fn recruit_infos(
                                     image: texture_handle_empty_slot.clone().into(),
                                     ..default()
                                 })
-                                .insert(UniqueId(format!("item_in_inventory_")));
+                                .insert(UniqueId(format!("item_in_inventory")));
 
                             // Third button
                             button_row
@@ -226,7 +233,7 @@ pub fn recruit_infos(
                                     image: texture_handle_empty_slot.clone().into(),
                                     ..default()
                                 })
-                                .insert(UniqueId(format!("item_in_inventory_")));
+                                .insert(UniqueId(format!("item_in_inventory")));
                         });
                 });
         });

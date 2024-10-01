@@ -83,7 +83,7 @@ pub fn spawn_right_container(
                                 layout: texture_atlas_layout_test.clone(),
                             },
                         ))
-                        .insert(UniqueId(format!("item_in_inventory_")))
+                        .insert(UniqueId(format!("item_in_inventory")))
                         .with_children(|b| {
                             b.spawn(TextBundle::from_section(
                                 "All",
@@ -110,7 +110,7 @@ pub fn spawn_right_container(
                                 layout: texture_atlas_layout_test.clone(),
                             },
                         ))
-                        .insert(UniqueId("item_in_inventory_".to_string()))
+                        .insert(UniqueId("item_in_inventory".to_string()))
                         .with_children(|b| {
                             b.spawn(TextBundle::from_section(
                                 "Weapons",
@@ -137,7 +137,7 @@ pub fn spawn_right_container(
                                 layout: texture_atlas_layout_test.clone(),
                             },
                         ))
-                        .insert(UniqueId("item_in_inventory_".to_string()))
+                        .insert(UniqueId("item_in_inventory".to_string()))
                         .with_children(|b| {
                             b.spawn(TextBundle::from_section(
                                 "Armors",
@@ -164,7 +164,7 @@ pub fn spawn_right_container(
                                 layout: texture_atlas_layout_test.clone(),
                             },
                         ))
-                        .insert(UniqueId(format!("item_in_inventory_")))
+                        .insert(UniqueId(format!("item_in_inventory")))
                         .with_children(|b| {
                             b.spawn(TextBundle::from_section(
                                 "Scrolls",

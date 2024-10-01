@@ -8,7 +8,12 @@ pub mod barrack {
     }
     pub mod recruit_overview {
         pub mod recruit_frame;
-        pub mod recruit_infos;
+        pub mod recruit_infos {
+            pub mod armor_button;
+            pub mod recruit_infos;
+            pub mod scroll_button;
+            pub mod weapon_button;
+        }
         pub mod recruit_overview;
     }
     pub mod barrack_room;

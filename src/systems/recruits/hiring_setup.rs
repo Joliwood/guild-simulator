@@ -1,6 +1,9 @@
 use crate::{
     enums::RecruitEnum,
-    structs::general_structs::{PlayerStats, RecruitInventory, RecruitStats},
+    structs::{
+        equipments::Weapon,
+        general_structs::{load_weapon_by_id, PlayerStats, RecruitInventory, RecruitStats},
+    },
     systems::recruits::hire_new_recruits::hire_new_recruits,
 };
 use bevy::prelude::*;
@@ -11,9 +14,14 @@ use uuid::Uuid;
 /// Only with first recruits, the stats will be fixed
 /// The others recruted will have random stats
 pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
+    let first_weapon = load_weapon_by_id(1);
     let new_recruits = vec![
         RecruitStats {
-            recruit_inventory: RecruitInventory::generate_empty_inventory(),
+            recruit_inventory: RecruitInventory {
+                armor: None,
+                weapon: first_weapon,
+                scrolls: vec![],
+            },
             class: RecruitEnum::Warrior,
             endurance: 10,
             experience: 0,

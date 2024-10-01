@@ -51,6 +51,14 @@ impl RecruitInventory {
             scrolls: vec![],
         }
     }
+
+    pub fn get_weapon(&self) -> Option<Weapon> {
+        if let Some(weapon) = &self.weapon {
+            return Some(weapon.clone());
+        }
+
+        None
+    }
 }
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
@@ -106,6 +114,16 @@ impl Default for SelectedRecruit {
     }
 }
 
+impl SelectedRecruit {
+    pub fn get_inventory(&self) -> RecruitInventory {
+        if let Some(recruit) = &self.0 {
+            return recruit.recruit_inventory.clone();
+        }
+
+        RecruitInventory::generate_empty_inventory()
+    }
+}
+
 impl Default for SelectedMission {
     fn default() -> Self {
         Self {
@@ -139,14 +157,15 @@ impl PlayerStats {
     }
 
     pub fn find_item_by_id(&self, id: u16) -> Option<Item> {
-        self.inventory
-            .iter()
-            .find(|item| match item {
-                Item::Armor(armor) => armor.id == id,
-                Item::Scroll(scroll, _) => scroll.id == id,
-                Item::Weapon(weapon) => weapon.id == id,
-            })
-            .cloned()
+        if let Some(item) = self.inventory.iter().find(|item| match item {
+            Item::Weapon(weapon) => weapon.id == id,
+            Item::Armor(armor) => armor.id == id,
+            Item::Scroll(scroll, _) => scroll.id == id,
+        }) {
+            return Some(item.clone());
+        }
+
+        None
     }
 }
 
@@ -167,9 +186,39 @@ impl RecruitStats {
         // Set the max experience to the current experience * 2
         self.max_experience *= 2;
     }
+
+    // pub fn get_weapon(&self) -> Option<Weapon> {
+    //     if let Some(weapon) = &self.recruit_inventory.weapon {
+    //         return Some(weapon.clone());
+    //     }
+
+    //     None
+    // }
+
+    pub fn get_item(&self, item: Item) -> Option<Item> {
+        match item {
+            Item::Weapon(weapon) => {
+                if let Some(weapon) = &self.recruit_inventory.weapon {
+                    return Some(Item::Weapon(weapon.clone()));
+                }
+            }
+            Item::Armor(armor) => {
+                if let Some(armor) = &self.recruit_inventory.armor {
+                    return Some(Item::Armor(armor.clone()));
+                }
+            }
+            Item::Scroll(scroll, _) => {
+                if let Some(scroll) = self.recruit_inventory.scrolls.first() {
+                    return Some(Item::Scroll(scroll.clone(), 1));
+                }
+            }
+        }
+
+        None
+    }
 }
 
-fn load_weapon_by_id(id: u16) -> Option<Weapon> {
+pub fn load_weapon_by_id(id: u16) -> Option<Weapon> {
     let weapons_data = fs::read_to_string("src/data/equipments/weapons.ron")
         .expect("Failed to read the RON file.");
 
@@ -184,7 +233,7 @@ fn load_weapon_by_id(id: u16) -> Option<Weapon> {
     }
 }
 
-fn load_scroll_by_id(id: u16) -> Option<Scroll> {
+pub fn load_scroll_by_id(id: u16) -> Option<Scroll> {
     let scrolls_data = fs::read_to_string("src/data/equipments/scrolls.ron")
         .expect("Failed to read the RON file.");
 
@@ -199,7 +248,7 @@ fn load_scroll_by_id(id: u16) -> Option<Scroll> {
     }
 }
 
-fn load_armor_by_id(id: u16) -> Option<Armor> {
+pub fn load_armor_by_id(id: u16) -> Option<Armor> {
     let armors_data =
         fs::read_to_string("src/data/equipments/armors.ron").expect("Failed to read the RON file.");
 

@@ -1,7 +1,7 @@
 use crate::structs::{general_structs::SelectedRecruit, trigger_structs::SelectedRecruitTrigger};
 use bevy::prelude::*;
 
-use super::{recruit_frame::recruit_frame, recruit_infos::recruit_infos};
+use super::{recruit_frame::recruit_frame, recruit_infos::recruit_infos::recruit_infos};
 
 pub fn recruit_overview(
     parent: &mut ChildBuilder,

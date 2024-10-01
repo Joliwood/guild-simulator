@@ -4,9 +4,11 @@ use crate::{
         equipments::Item,
         general_structs::{PlayerStats, RecruitInventory, RecruitStats, SelectedRecruit},
     },
+    systems::updates::update_buttons::delete_item_from_player_inventory,
     ui::ui_constants::{ARMOR_PATH, SCROLL_PATH, WEAPON_PATH},
 };
 use bevy::{
+    log::info,
     math::UVec2,
     prelude::{Res, ResMut},
     sprite::TextureAtlasLayout,
@@ -323,35 +325,54 @@ pub fn get_selected_recruit(selected_recruit: &Res<SelectedRecruit>) -> RecruitS
 
 pub fn equip_recruit_inventory(
     selected_recruit: &mut ResMut<SelectedRecruit>,
-    item: Option<Item>,
+    item: &Item,
     player_stats: &mut ResMut<PlayerStats>,
 ) -> bool {
     match item {
-        Some(Item::Weapon(weapon)) => {
+        Item::Weapon(weapon) => {
             // Add the weapon to the selected recruit inventory weapon slot
             // + Delete from the player_stat inventory
 
-            let recruit_actual_weapon = selected_recruit
-                .0
-                .as_ref()
-                .unwrap()
-                .recruit_inventory
-                .weapon
-                .iter()
-                .find(|w| w.id == weapon.id);
+            let selected_recruit_inventory: RecruitInventory = selected_recruit.get_inventory();
+            let selected_recruit_weapon = selected_recruit_inventory.weapon;
 
-            if !recruit_actual_weapon.is_some() {
+            // WIP -> Doens't work
+            // let recruit_actual_weapon = selected_recruit
+            //     .0
+            //     .as_ref()
+            //     .unwrap()
+            //     .recruit_inventory
+            //     .weapon
+            //     .iter()
+            //     .find(|w| w.id == weapon.id);
+
+            info!("recruit_actual_weapon: {:?}", selected_recruit_weapon);
+            // -> Retourne none même si l'unité à un item de base dans son équipement
+
+            // if !recruit_actual_weapon.is_some() {
+            //     selected_recruit
+            //         .0
+            //         .as_mut()
+            //         .unwrap()
+            //         .recruit_inventory
+            //         .weapon = Some(weapon);
+            // }
+            if selected_recruit_weapon.is_none() {
                 selected_recruit
                     .0
                     .as_mut()
                     .unwrap()
                     .recruit_inventory
-                    .weapon = Some(weapon);
+                    .weapon = Some(weapon.clone());
+
+                delete_item_from_player_inventory(player_stats, item);
+
+                return true;
             }
+            info!("=========>  {:?}", selected_recruit);
         }
-        Some(Item::Armor(armor)) => {}
-        Some(Item::Scroll(scroll, quantity)) => {}
-        None => {}
+        Item::Armor(armor) => {}
+        Item::Scroll(scroll, quantity) => {}
     }
 
     return false;

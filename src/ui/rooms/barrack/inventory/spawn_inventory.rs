@@ -87,10 +87,8 @@ pub fn spawn_inventory(
                                         Tooltip::cursor(tooltip_text.to_string())
                                             .with_activation(TooltipActivation::IMMEDIATE),
                                     ))
-                                    .insert(UniqueId(format!(
-                                        "item_in_inventory_{}",
-                                        player_inventory_item_index
-                                    )))
+                                    .insert(UniqueId("item_in_inventory".to_string()))
+                                    .insert(item.clone())
                                     .with_children(|button| {
                                         // If the item is a scroll, add a count indicator inside the button
                                         if let Item::Scroll(_, count) = item {
@@ -130,7 +128,7 @@ pub fn spawn_inventory(
                                         image: texture_handle_empty_slot.clone().into(),
                                         ..default()
                                     })
-                                    .insert(UniqueId(format!("item_in_inventory_0")));
+                                    .insert(UniqueId(format!("item_in_inventory0")));
                             }
                         }
                     }
