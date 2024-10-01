@@ -347,8 +347,10 @@ pub fn equip_recruit_inventory(
                 if selected_recruit_weapon.is_some() {
                     let selected_recruit_item =
                         Item::Weapon(selected_recruit_weapon.clone().unwrap());
-                    player_stats.equip_item_to_recruit(selected_recruit_id.unwrap(), item);
                     player_stats.add_item(selected_recruit_item);
+                    player_stats.equip_item_to_recruit(selected_recruit_id.unwrap(), item);
+                    selected_recruit.0 =
+                        player_stats.get_recruit_by_id(selected_recruit_id.unwrap());
                     return delete_item_from_player_inventory(player_stats, item);
                 }
             }

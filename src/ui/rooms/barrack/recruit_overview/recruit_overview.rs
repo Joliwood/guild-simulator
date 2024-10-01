@@ -1,9 +1,13 @@
-use crate::structs::{general_structs::SelectedRecruit, trigger_structs::SelectedRecruitTrigger};
+use crate::structs::{
+    general_structs::{PlayerStats, SelectedRecruit},
+    trigger_structs::SelectedRecruitTrigger,
+};
 use bevy::prelude::*;
 
 use super::{recruit_frame::recruit_frame, recruit_infos::recruit_infos::recruit_infos};
 
 pub fn recruit_overview(
+    player_stats: &Res<PlayerStats>,
     parent: &mut ChildBuilder,
     asset_server: &Res<AssetServer>,
     selected_recruit: &Res<SelectedRecruit>,
@@ -45,6 +49,7 @@ pub fn recruit_overview(
                 asset_server,
                 selected_recruit,
                 texture_atlas_layouts,
+                player_stats,
             )
         });
 }

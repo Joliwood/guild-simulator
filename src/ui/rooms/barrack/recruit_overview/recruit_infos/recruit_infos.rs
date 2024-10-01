@@ -1,7 +1,7 @@
 use crate::{
     enums::ColorPaletteEnum,
     structs::{
-        general_structs::{SelectedRecruit, UniqueId},
+        general_structs::{PlayerStats, SelectedRecruit, UniqueId},
         trigger_structs::SelectedRecruitTrigger,
     },
 };
@@ -14,6 +14,7 @@ pub fn recruit_infos(
     asset_server: &Res<AssetServer>,
     selected_recruit: &Res<SelectedRecruit>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
+    player_stats: &Res<PlayerStats>,
 ) {
     let frame_image_handle: Handle<Image> =
         asset_server.load("images/rooms/barrack/recruit_infos.png");
@@ -80,6 +81,7 @@ pub fn recruit_infos(
                             ));
 
                             weapon_button(
+                                player_stats,
                                 weapon_column,
                                 asset_server,
                                 selected_recruit,

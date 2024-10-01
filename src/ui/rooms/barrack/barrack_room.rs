@@ -61,6 +61,7 @@ pub fn spawn_room_barrack(
                 selected_recruit,
             );
             recruit_overview(
+                player_stats,
                 parent,
                 asset_server,
                 selected_recruit,

@@ -263,23 +263,6 @@ pub fn spawn_left_container(
                                         ..default()
                                     })
                                     .with_children(|top_container| {
-                                        // Weapon button
-                                        // top_container
-                                        //     .spawn(ButtonBundle {
-                                        //         style: Style {
-                                        //             width: Val::Px(40.),
-                                        //             height: Val::Px(40.),
-                                        //             border: UiRect::all(Val::Px(3.)),
-                                        //             ..default()
-                                        //         },
-                                        //         border_color: BorderColor(Color::BLACK),
-                                        //         border_radius: BorderRadius::all(Val::Px(10.)),
-                                        //         image: texture_handle_empty_slot.clone().into(),
-                                        //         ..default()
-                                        //     })
-                                        //     .insert(UniqueId(format!("item_in_inventory")));
-
-                                        // NEW - Weapon button
                                         weapon_button(
                                             top_container,
                                             asset_server,
