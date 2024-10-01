@@ -122,6 +122,20 @@ impl SelectedRecruit {
 
         RecruitInventory::generate_empty_inventory()
     }
+
+    pub fn get_id(&self) -> Option<Uuid> {
+        if let Some(recruit) = &self.0 {
+            return Some(recruit.id);
+        }
+
+        None
+    }
+
+    pub fn equip_weapon(&mut self, weapon: Weapon) {
+        if let Some(recruit) = &mut self.0 {
+            recruit.recruit_inventory.weapon = Some(weapon);
+        }
+    }
 }
 
 impl Default for SelectedMission {
@@ -166,6 +180,28 @@ impl PlayerStats {
         }
 
         None
+    }
+
+    pub fn add_item(&mut self, item: Item) {
+        self.inventory.push(item);
+    }
+
+    pub fn get_recruit_by_id(&self, id: Uuid) -> Option<RecruitStats> {
+        if let Some(recruit) = self.recruits.iter().find(|recruit| recruit.id == id) {
+            return Some(recruit.clone());
+        }
+
+        None
+    }
+
+    pub fn equip_item_to_recruit(&mut self, recruit_id: Uuid, item: &Item) {
+        if let Some(recruit) = self
+            .recruits
+            .iter_mut()
+            .find(|recruit| recruit.id == recruit_id)
+        {
+            recruit.equip_item(&item);
+        }
     }
 }
 
@@ -215,6 +251,20 @@ impl RecruitStats {
         }
 
         None
+    }
+
+    pub fn equip_item(&mut self, item: &Item) {
+        match item {
+            Item::Weapon(weapon) => {
+                self.recruit_inventory.weapon = Some(weapon.clone());
+            }
+            Item::Armor(armor) => {
+                self.recruit_inventory.armor = Some(armor.clone());
+            }
+            Item::Scroll(scroll, _) => {
+                self.recruit_inventory.scrolls.push(scroll.clone());
+            }
+        }
     }
 }
 

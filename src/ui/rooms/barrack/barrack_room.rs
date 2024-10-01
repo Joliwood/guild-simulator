@@ -58,6 +58,7 @@ pub fn spawn_room_barrack(
                 player_stats,
                 image_assets,
                 texture_atlas_layouts,
+                selected_recruit,
             );
             recruit_overview(
                 parent,

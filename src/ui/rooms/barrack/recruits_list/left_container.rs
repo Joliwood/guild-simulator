@@ -5,7 +5,10 @@ use crate::{
         general_structs::{PlayerStats, SelectedRecruit, UniqueId},
         trigger_structs::SelectedRecruitTrigger,
     },
-    ui::interface::gold_counter::MyAssets,
+    ui::{
+        interface::gold_counter::MyAssets,
+        rooms::barrack::recruits_list::weapon_button::weapon_button,
+    },
     utils::get_selected_recruit,
 };
 use bevy::prelude::*;
@@ -17,6 +20,7 @@ pub fn spawn_left_container(
     player_stats: &Res<PlayerStats>,
     image_assets: &Res<MyAssets>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
+    selected_recruit: &Res<SelectedRecruit>,
 ) {
     let inventory_container_image_handle: Handle<Image> =
         asset_server.load("images/rooms/barrack/inventory_container.png");
@@ -90,8 +94,9 @@ pub fn spawn_left_container(
                         ..default()
                     })
                     .insert((
-                        UniqueId(format!("recruit_button_{}", recruit.id)),
+                        UniqueId("recruit_button".to_string()),
                         SelectedRecruitTrigger,
+                        recruit.clone(),
                     ))
                     .with_children(|button| {
                         // Recruit portrait image (left-most side)
@@ -259,20 +264,28 @@ pub fn spawn_left_container(
                                     })
                                     .with_children(|top_container| {
                                         // Weapon button
-                                        top_container
-                                            .spawn(ButtonBundle {
-                                                style: Style {
-                                                    width: Val::Px(40.),
-                                                    height: Val::Px(40.),
-                                                    border: UiRect::all(Val::Px(3.)),
-                                                    ..default()
-                                                },
-                                                border_color: BorderColor(Color::BLACK),
-                                                border_radius: BorderRadius::all(Val::Px(10.)),
-                                                image: texture_handle_empty_slot.clone().into(),
-                                                ..default()
-                                            })
-                                            .insert(UniqueId(format!("item_in_inventory")));
+                                        // top_container
+                                        //     .spawn(ButtonBundle {
+                                        //         style: Style {
+                                        //             width: Val::Px(40.),
+                                        //             height: Val::Px(40.),
+                                        //             border: UiRect::all(Val::Px(3.)),
+                                        //             ..default()
+                                        //         },
+                                        //         border_color: BorderColor(Color::BLACK),
+                                        //         border_radius: BorderRadius::all(Val::Px(10.)),
+                                        //         image: texture_handle_empty_slot.clone().into(),
+                                        //         ..default()
+                                        //     })
+                                        //     .insert(UniqueId(format!("item_in_inventory")));
+
+                                        // NEW - Weapon button
+                                        weapon_button(
+                                            top_container,
+                                            asset_server,
+                                            recruit,
+                                            texture_atlas_layouts,
+                                        );
 
                                         // Armor button
                                         top_container

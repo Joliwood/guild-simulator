@@ -1,6 +1,7 @@
 pub mod barrack {
     pub mod recruits_list {
         pub mod left_container;
+        pub mod weapon_button;
     }
     pub mod inventory {
         pub mod spawn_inventory;

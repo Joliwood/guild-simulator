@@ -18,7 +18,7 @@ use crate::{
         get_xp_earned, is_mission_success,
     },
 };
-use bevy::prelude::*;
+use bevy::{app::DynEq, prelude::*};
 use uuid::Uuid;
 
 pub fn mouse_interaction_updates(
@@ -175,7 +175,7 @@ pub fn mouse_interaction_updates(
 /// Select the recruit when the button is pressed
 pub fn select_recruit_button(
     mut interaction_query: Query<
-        (&Interaction, &mut BackgroundColor, &UniqueId),
+        (&Interaction, &mut BackgroundColor, &UniqueId, &RecruitStats),
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
@@ -184,22 +184,11 @@ pub fn select_recruit_button(
 ) {
     let mut window = windows.single_mut();
 
-    for (interaction, mut color, unique_id) in &mut interaction_query {
-        if unique_id.0.starts_with("recruit_button_") {
+    for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
+        if unique_id.0 == "recruit_button" {
             match *interaction {
                 Interaction::Pressed => {
-                    let recruit_id = unique_id.0.strip_prefix("recruit_button_").unwrap();
-                    let recruit_selected = player_stats
-                        .recruits
-                        .iter()
-                        .find(|recruit| recruit.id.to_string() == recruit_id);
-
-                    selected_recruit.0 = recruit_selected.cloned();
-
-                    info!(
-                        "\n Button pressed on the recruit with the id : {:?}\n",
-                        recruit_selected
-                    );
+                    selected_recruit.0 = Some(recruit.clone());
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;
@@ -541,8 +530,6 @@ pub fn select_item_in_inventory(
 
     for (interaction, mut color, unique_id, mut border_color, item) in &mut interaction_query {
         if unique_id.0 == "item_in_inventory" {
-            // let item_id = unique_id.0.strip_prefix("item_in_inventory").unwrap();
-
             match *interaction {
                 Interaction::Pressed => {
                     border_color.0 = WOOD_COLOR;

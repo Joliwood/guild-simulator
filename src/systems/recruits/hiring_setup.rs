@@ -1,9 +1,6 @@
 use crate::{
     enums::RecruitEnum,
-    structs::{
-        equipments::Weapon,
-        general_structs::{load_weapon_by_id, PlayerStats, RecruitInventory, RecruitStats},
-    },
+    structs::general_structs::{load_weapon_by_id, PlayerStats, RecruitInventory, RecruitStats},
     systems::recruits::hire_new_recruits::hire_new_recruits,
 };
 use bevy::prelude::*;
