@@ -361,7 +361,7 @@ pub fn equip_recruit_inventory(
 
             return false;
         }
-        Item::Armor(armor) => {
+        Item::Armor(_armor) => {
             let selected_recruit_inventory: RecruitInventory = selected_recruit.get_inventory();
             let selected_recruit_armor = selected_recruit_inventory.armor;
             let selected_recruit_id = selected_recruit.get_id();
@@ -389,7 +389,28 @@ pub fn equip_recruit_inventory(
 
             return false;
         }
-        Item::Scroll(scroll, quantity) => return false,
+        Item::Scroll(scroll, _quantity) => {
+            let selected_recruit_inventory: RecruitInventory = selected_recruit.get_inventory();
+            let selected_recruit_scrolls = selected_recruit_inventory.scrolls;
+
+            if selected_recruit_scrolls.len() == 3 {
+                return false;
+            }
+
+            let selected_recruit_id = selected_recruit.get_id();
+            let scroll_id = scroll.id;
+
+            if selected_recruit_id.is_some() {
+                player_stats.equip_item_to_recruit(selected_recruit_id.unwrap(), item);
+
+                selected_recruit.0 = player_stats.get_recruit_by_id(selected_recruit_id.unwrap());
+
+                player_stats.remove_one_scroll_from_inventory(scroll_id);
+                return true;
+            }
+
+            return false;
+        }
     }
 }
 

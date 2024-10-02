@@ -213,6 +213,21 @@ impl PlayerStats {
             recruit.gain_xp(xp);
         }
     }
+
+    pub fn remove_one_scroll_from_inventory(&mut self, scroll_id: u16) {
+        if let Some(scroll_index) = self.inventory.iter().position(|item| match item {
+            Item::Scroll(scroll, _) => scroll.id == scroll_id,
+            _ => false,
+        }) {
+            if let Item::Scroll(_scroll, quantity) = &mut self.inventory[scroll_index] {
+                if *quantity > 1 {
+                    *quantity -= 1;
+                } else {
+                    self.inventory.remove(scroll_index);
+                }
+            }
+        }
+    }
 }
 
 impl RecruitStats {
