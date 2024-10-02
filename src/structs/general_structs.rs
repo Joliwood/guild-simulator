@@ -250,27 +250,19 @@ impl RecruitStats {
         self.max_experience *= 2;
     }
 
-    // pub fn get_weapon(&self) -> Option<Weapon> {
-    //     if let Some(weapon) = &self.recruit_inventory.weapon {
-    //         return Some(weapon.clone());
-    //     }
-
-    //     None
-    // }
-
     pub fn get_item(&self, item: Item) -> Option<Item> {
         match item {
-            Item::Weapon(weapon) => {
+            Item::Weapon(_weapon) => {
                 if let Some(weapon) = &self.recruit_inventory.weapon {
                     return Some(Item::Weapon(weapon.clone()));
                 }
             }
-            Item::Armor(armor) => {
+            Item::Armor(_armor) => {
                 if let Some(armor) = &self.recruit_inventory.armor {
                     return Some(Item::Armor(armor.clone()));
                 }
             }
-            Item::Scroll(scroll, _) => {
+            Item::Scroll(_scroll, _) => {
                 if let Some(scroll) = self.recruit_inventory.scrolls.first() {
                     return Some(Item::Scroll(scroll.clone(), 1));
                 }
@@ -292,6 +284,78 @@ impl RecruitStats {
                 self.recruit_inventory.scrolls.push(scroll.clone());
             }
         }
+    }
+
+    pub fn get_additional_strength_from_items(&self) -> u32 {
+        let mut additional_strength = 0;
+
+        if let Some(weapon) = &self.recruit_inventory.weapon {
+            if let Some(strength) = weapon.strength {
+                additional_strength += strength;
+            }
+        }
+
+        if let Some(armor) = &self.recruit_inventory.armor {
+            if let Some(strength) = armor.strength {
+                additional_strength += strength;
+            }
+        }
+
+        for scroll in &self.recruit_inventory.scrolls {
+            if let Some(strength) = scroll.strength {
+                additional_strength += strength;
+            }
+        }
+
+        additional_strength
+    }
+
+    pub fn get_additional_endurance_from_items(&self) -> u32 {
+        let mut additional_endurance = 0;
+
+        if let Some(weapon) = &self.recruit_inventory.weapon {
+            if let Some(endurance) = weapon.endurance {
+                additional_endurance += endurance;
+            }
+        }
+
+        if let Some(armor) = &self.recruit_inventory.armor {
+            if let Some(endurance) = armor.endurance {
+                additional_endurance += endurance;
+            }
+        }
+
+        for scroll in &self.recruit_inventory.scrolls {
+            if let Some(endurance) = scroll.endurance {
+                additional_endurance += endurance;
+            }
+        }
+
+        additional_endurance
+    }
+
+    pub fn get_additional_intelligence_from_items(&self) -> u32 {
+        let mut additional_intelligence = 0;
+
+        if let Some(weapon) = &self.recruit_inventory.weapon {
+            if let Some(intelligence) = weapon.intelligence {
+                additional_intelligence += intelligence;
+            }
+        }
+
+        if let Some(armor) = &self.recruit_inventory.armor {
+            if let Some(intelligence) = armor.intelligence {
+                additional_intelligence += intelligence;
+            }
+        }
+
+        for scroll in &self.recruit_inventory.scrolls {
+            if let Some(intelligence) = scroll.intelligence {
+                additional_intelligence += intelligence;
+            }
+        }
+
+        additional_intelligence
     }
 }
 

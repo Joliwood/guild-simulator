@@ -15,6 +15,11 @@ use crate::{
 };
 use bevy::prelude::*;
 
+use super::{
+    recruit_endurance::recruit_endurance, recruit_intelligence::recruit_intelligence,
+    recruit_strength::recruit_strength,
+};
+
 /// Spawns the left container, displaying the player's recruits.
 pub fn spawn_left_container(
     parent: &mut ChildBuilder,
@@ -87,7 +92,12 @@ pub fn spawn_left_container(
                             width: Val::Percent(100.0),
                             height: Val::Px(100.0),
                             margin: UiRect::all(Val::Px(5.0)),
-                            padding: UiRect::all(Val::Px(10.0)),
+                            padding: UiRect {
+                                top: Val::Px(15.),
+                                bottom: Val::Px(15.),
+                                left: Val::Px(7.),
+                                right: Val::Px(7.),
+                            },
                             border: UiRect::all(Val::Px(2.0)),
                             ..default()
                         },
@@ -107,7 +117,12 @@ pub fn spawn_left_container(
                                 style: Style {
                                     width: Val::Px(80.0),
                                     height: Val::Px(80.0),
-                                    margin: UiRect::all(Val::Px(10.0)),
+                                    margin: UiRect {
+                                        top: Val::Px(0.),
+                                        bottom: Val::Px(0.),
+                                        left: Val::Px(5.),
+                                        right: Val::Px(10.),
+                                    },
                                     overflow: Overflow {
                                         x: OverflowAxis::Hidden,
                                         y: OverflowAxis::Hidden,
@@ -146,7 +161,11 @@ pub fn spawn_left_container(
                                     flex_direction: FlexDirection::Column,
                                     align_items: AlignItems::FlexStart,
                                     row_gap: Val::Px(5.0),
-                                    width: Val::Px(120.0),
+                                    width: Val::Px(90.0),
+                                    overflow: Overflow {
+                                        x: OverflowAxis::Hidden,
+                                        y: OverflowAxis::Hidden,
+                                    },
                                     margin: UiRect::all(Val::Px(5.0)),
                                     ..default()
                                 },
@@ -189,7 +208,7 @@ pub fn spawn_left_container(
                             .spawn(NodeBundle {
                                 style: Style {
                                     flex_direction: FlexDirection::Column,
-                                    width: Val::Px(100.0),
+                                    width: Val::Px(120.0),
                                     margin: UiRect::all(Val::Px(5.0)),
                                     ..default()
                                 },
@@ -209,32 +228,57 @@ pub fn spawn_left_container(
                                     },
                                 ));
 
-                                stats_container.spawn(TextBundle::from_section(
-                                    format!("STR: {}", recruit.strength),
-                                    TextStyle {
-                                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                        font_size: 14.0,
-                                        color: ColorPaletteEnum::DarkBrown.as_color(),
-                                    },
-                                ));
+                                let get_additional_strength_from_items =
+                                    recruit.get_additional_strength_from_items();
 
-                                stats_container.spawn(TextBundle::from_section(
-                                    format!("ARM: {}", recruit.endurance),
-                                    TextStyle {
-                                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                        font_size: 14.0,
-                                        color: ColorPaletteEnum::DarkBrown.as_color(),
-                                    },
-                                ));
+                                // let additional_strength_text =
+                                //     if get_additional_strength_from_items > 0 {
+                                //         format!(" (+{})", get_additional_strength_from_items)
+                                //     } else {
+                                //         String::new()
+                                //     };
 
-                                stats_container.spawn(TextBundle::from_section(
-                                    format!("INT: {}", recruit.intelligence),
-                                    TextStyle {
-                                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                        font_size: 14.0,
-                                        color: ColorPaletteEnum::DarkBrown.as_color(),
-                                    },
-                                ));
+                                recruit_strength(
+                                    // TODO - Fix common type for stats
+                                    stats_container,
+                                    recruit.strength.into(),
+                                    get_additional_strength_from_items,
+                                    &asset_server,
+                                );
+
+                                // stats_container.spawn(TextBundle::from_section(
+                                //     format!("ARM: {}", recruit.endurance),
+                                //     TextStyle {
+                                //         font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                //         font_size: 14.0,
+                                //         color: ColorPaletteEnum::DarkBrown.as_color(),
+                                //     },
+                                // ));
+
+                                recruit_endurance(
+                                    stats_container,
+                                    // TODO - Fix common type for stats
+                                    recruit.endurance.into(),
+                                    recruit.get_additional_endurance_from_items(),
+                                    &asset_server,
+                                );
+
+                                // stats_container.spawn(TextBundle::from_section(
+                                //     format!("INT: {}", recruit.intelligence),
+                                //     TextStyle {
+                                //         font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                //         font_size: 14.0,
+                                //         color: ColorPaletteEnum::DarkBrown.as_color(),
+                                //     },
+                                // ));
+
+                                recruit_intelligence(
+                                    stats_container,
+                                    // TODO - Fix common type for stats
+                                    recruit.intelligence.into(),
+                                    recruit.get_additional_intelligence_from_items(),
+                                    &asset_server,
+                                );
                             });
 
                         button
@@ -294,54 +338,6 @@ pub fn spawn_left_container(
                                         ..default()
                                     })
                                     .with_children(|bottom_container| {
-                                        // // First scroll button
-                                        // bottom_container
-                                        //     .spawn(ButtonBundle {
-                                        //         style: Style {
-                                        //             width: Val::Px(40.),
-                                        //             height: Val::Px(40.),
-                                        //             border: UiRect::all(Val::Px(3.)),
-                                        //             ..default()
-                                        //         },
-                                        //         border_color: BorderColor(Color::BLACK),
-                                        //         border_radius: BorderRadius::all(Val::Px(10.)),
-                                        //         image: texture_handle_empty_slot.clone().into(),
-                                        //         ..default()
-                                        //     })
-                                        //     .insert(UniqueId(format!("item_in_inventory")));
-
-                                        // // Second scroll button
-                                        // bottom_container
-                                        //     .spawn(ButtonBundle {
-                                        //         style: Style {
-                                        //             width: Val::Px(40.),
-                                        //             height: Val::Px(40.),
-                                        //             border: UiRect::all(Val::Px(3.)),
-                                        //             ..default()
-                                        //         },
-                                        //         border_color: BorderColor(Color::BLACK),
-                                        //         border_radius: BorderRadius::all(Val::Px(10.)),
-                                        //         image: texture_handle_empty_slot.clone().into(),
-                                        //         ..default()
-                                        //     })
-                                        //     .insert(UniqueId(format!("item_in_inventory")));
-
-                                        // // Third scroll button
-                                        // bottom_container
-                                        //     .spawn(ButtonBundle {
-                                        //         style: Style {
-                                        //             width: Val::Px(40.),
-                                        //             height: Val::Px(40.),
-                                        //             border: UiRect::all(Val::Px(3.)),
-                                        //             ..default()
-                                        //         },
-                                        //         border_color: BorderColor(Color::BLACK),
-                                        //         border_radius: BorderRadius::all(Val::Px(10.)),
-                                        //         image: texture_handle_empty_slot.clone().into(),
-                                        //         ..default()
-                                        //     })
-                                        //     .insert(UniqueId(format!("item_in_inventory")));
-
                                         scroll_button(
                                             player_stats,
                                             bottom_container,
