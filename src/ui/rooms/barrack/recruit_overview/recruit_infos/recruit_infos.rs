@@ -1,13 +1,12 @@
 use crate::{
     enums::ColorPaletteEnum,
-    structs::{
-        general_structs::{PlayerStats, SelectedRecruit, UniqueId},
-        trigger_structs::SelectedRecruitTrigger,
-    },
+    structs::general_structs::{PlayerStats, SelectedRecruit},
 };
 use bevy::prelude::*;
 
-use super::{armor_button::armor_button, weapon_button::weapon_button};
+use super::{
+    armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
+};
 
 pub fn recruit_infos(
     parent: &mut ChildBuilder,
@@ -18,8 +17,6 @@ pub fn recruit_infos(
 ) {
     let frame_image_handle: Handle<Image> =
         asset_server.load("images/rooms/barrack/recruit_infos.png");
-    let texture_handle_empty_slot: Handle<Image> =
-        asset_server.load("images/equipments/empty_inventory_slot.png");
 
     parent
         .spawn(ImageBundle {
@@ -87,22 +84,6 @@ pub fn recruit_infos(
                                 selected_recruit,
                                 texture_atlas_layouts,
                             );
-                            // // Weapon button
-                            // weapon_column
-                            //     .spawn(ButtonBundle {
-                            //         style: Style {
-                            //             width: Val::Px(60.),
-                            //             height: Val::Px(60.),
-                            //             border: UiRect::all(Val::Px(3.)),
-                            //             margin: UiRect::all(Val::Px(5.)),
-                            //             ..default()
-                            //         },
-                            //         border_color: BorderColor(Color::BLACK),
-                            //         border_radius: BorderRadius::all(Val::Px(10.)),
-                            //         image: texture_handle_empty_slot.clone().into(),
-                            //         ..default()
-                            //     })
-                            //     .insert(UniqueId(format!("item_in_inventory")));
                         });
 
                     // Right column (Armor)
@@ -133,23 +114,6 @@ pub fn recruit_infos(
                                 selected_recruit,
                                 texture_atlas_layouts,
                             );
-
-                            // // Armor button
-                            // armor_column
-                            //     .spawn(ButtonBundle {
-                            //         style: Style {
-                            //             width: Val::Px(60.),
-                            //             height: Val::Px(60.),
-                            //             border: UiRect::all(Val::Px(3.)),
-                            //             margin: UiRect::all(Val::Px(5.)),
-                            //             ..default()
-                            //         },
-                            //         border_color: BorderColor(Color::BLACK),
-                            //         border_radius: BorderRadius::all(Val::Px(10.)),
-                            //         image: texture_handle_empty_slot.clone().into(),
-                            //         ..default()
-                            //     })
-                            //     .insert(UniqueId(format!("item_in_inventory")));
                         });
                 });
 
@@ -163,7 +127,6 @@ pub fn recruit_infos(
                         justify_content: JustifyContent::Start,
                         width: Val::Percent(100.),
                         height: Val::Percent(50.),
-                        // margin: UiRect::all(Val::Px(5.)),
                         ..default()
                     },
                     ..default()
@@ -193,57 +156,33 @@ pub fn recruit_infos(
                             },
                             ..default()
                         })
-                        .with_children(|button_row| {
-                            // First button
-                            button_row
-                                .spawn(ButtonBundle {
-                                    style: Style {
-                                        width: Val::Px(60.),
-                                        height: Val::Px(60.),
-                                        border: UiRect::all(Val::Px(3.)),
-                                        margin: UiRect::all(Val::Px(5.)),
-                                        ..default()
-                                    },
-                                    border_color: BorderColor(Color::BLACK),
-                                    border_radius: BorderRadius::all(Val::Px(10.)),
-                                    image: texture_handle_empty_slot.clone().into(),
-                                    ..default()
-                                })
-                                .insert(UniqueId(format!("item_in_inventory")));
+                        .with_children(|scrolls_row| {
+                            scroll_button(
+                                player_stats,
+                                scrolls_row,
+                                asset_server,
+                                selected_recruit,
+                                texture_atlas_layouts,
+                                0,
+                            );
 
-                            // Second button
-                            button_row
-                                .spawn(ButtonBundle {
-                                    style: Style {
-                                        width: Val::Px(60.),
-                                        height: Val::Px(60.),
-                                        border: UiRect::all(Val::Px(3.)),
-                                        margin: UiRect::all(Val::Px(5.)),
-                                        ..default()
-                                    },
-                                    border_color: BorderColor(Color::BLACK),
-                                    border_radius: BorderRadius::all(Val::Px(10.)),
-                                    image: texture_handle_empty_slot.clone().into(),
-                                    ..default()
-                                })
-                                .insert(UniqueId(format!("item_in_inventory")));
+                            scroll_button(
+                                player_stats,
+                                scrolls_row,
+                                asset_server,
+                                selected_recruit,
+                                texture_atlas_layouts,
+                                1,
+                            );
 
-                            // Third button
-                            button_row
-                                .spawn(ButtonBundle {
-                                    style: Style {
-                                        width: Val::Px(60.),
-                                        height: Val::Px(60.),
-                                        border: UiRect::all(Val::Px(3.)),
-                                        margin: UiRect::all(Val::Px(5.)),
-                                        ..default()
-                                    },
-                                    border_color: BorderColor(Color::BLACK),
-                                    border_radius: BorderRadius::all(Val::Px(10.)),
-                                    image: texture_handle_empty_slot.clone().into(),
-                                    ..default()
-                                })
-                                .insert(UniqueId(format!("item_in_inventory")));
+                            scroll_button(
+                                player_stats,
+                                scrolls_row,
+                                asset_server,
+                                selected_recruit,
+                                texture_atlas_layouts,
+                                2,
+                            );
                         });
                 });
         });

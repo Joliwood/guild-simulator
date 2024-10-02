@@ -7,7 +7,9 @@ use crate::{
     },
     ui::{
         interface::gold_counter::MyAssets,
-        rooms::barrack::recruits_list::{armor_button::armor_button, weapon_button::weapon_button},
+        rooms::barrack::recruits_list::{
+            armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
+        },
     },
     utils::get_selected_recruit,
 };
@@ -292,53 +294,80 @@ pub fn spawn_left_container(
                                         ..default()
                                     })
                                     .with_children(|bottom_container| {
-                                        // First scroll button
-                                        bottom_container
-                                            .spawn(ButtonBundle {
-                                                style: Style {
-                                                    width: Val::Px(40.),
-                                                    height: Val::Px(40.),
-                                                    border: UiRect::all(Val::Px(3.)),
-                                                    ..default()
-                                                },
-                                                border_color: BorderColor(Color::BLACK),
-                                                border_radius: BorderRadius::all(Val::Px(10.)),
-                                                image: texture_handle_empty_slot.clone().into(),
-                                                ..default()
-                                            })
-                                            .insert(UniqueId(format!("item_in_inventory")));
+                                        // // First scroll button
+                                        // bottom_container
+                                        //     .spawn(ButtonBundle {
+                                        //         style: Style {
+                                        //             width: Val::Px(40.),
+                                        //             height: Val::Px(40.),
+                                        //             border: UiRect::all(Val::Px(3.)),
+                                        //             ..default()
+                                        //         },
+                                        //         border_color: BorderColor(Color::BLACK),
+                                        //         border_radius: BorderRadius::all(Val::Px(10.)),
+                                        //         image: texture_handle_empty_slot.clone().into(),
+                                        //         ..default()
+                                        //     })
+                                        //     .insert(UniqueId(format!("item_in_inventory")));
 
-                                        // Second scroll button
-                                        bottom_container
-                                            .spawn(ButtonBundle {
-                                                style: Style {
-                                                    width: Val::Px(40.),
-                                                    height: Val::Px(40.),
-                                                    border: UiRect::all(Val::Px(3.)),
-                                                    ..default()
-                                                },
-                                                border_color: BorderColor(Color::BLACK),
-                                                border_radius: BorderRadius::all(Val::Px(10.)),
-                                                image: texture_handle_empty_slot.clone().into(),
-                                                ..default()
-                                            })
-                                            .insert(UniqueId(format!("item_in_inventory")));
+                                        // // Second scroll button
+                                        // bottom_container
+                                        //     .spawn(ButtonBundle {
+                                        //         style: Style {
+                                        //             width: Val::Px(40.),
+                                        //             height: Val::Px(40.),
+                                        //             border: UiRect::all(Val::Px(3.)),
+                                        //             ..default()
+                                        //         },
+                                        //         border_color: BorderColor(Color::BLACK),
+                                        //         border_radius: BorderRadius::all(Val::Px(10.)),
+                                        //         image: texture_handle_empty_slot.clone().into(),
+                                        //         ..default()
+                                        //     })
+                                        //     .insert(UniqueId(format!("item_in_inventory")));
 
-                                        // Third scroll button
-                                        bottom_container
-                                            .spawn(ButtonBundle {
-                                                style: Style {
-                                                    width: Val::Px(40.),
-                                                    height: Val::Px(40.),
-                                                    border: UiRect::all(Val::Px(3.)),
-                                                    ..default()
-                                                },
-                                                border_color: BorderColor(Color::BLACK),
-                                                border_radius: BorderRadius::all(Val::Px(10.)),
-                                                image: texture_handle_empty_slot.clone().into(),
-                                                ..default()
-                                            })
-                                            .insert(UniqueId(format!("item_in_inventory")));
+                                        // // Third scroll button
+                                        // bottom_container
+                                        //     .spawn(ButtonBundle {
+                                        //         style: Style {
+                                        //             width: Val::Px(40.),
+                                        //             height: Val::Px(40.),
+                                        //             border: UiRect::all(Val::Px(3.)),
+                                        //             ..default()
+                                        //         },
+                                        //         border_color: BorderColor(Color::BLACK),
+                                        //         border_radius: BorderRadius::all(Val::Px(10.)),
+                                        //         image: texture_handle_empty_slot.clone().into(),
+                                        //         ..default()
+                                        //     })
+                                        //     .insert(UniqueId(format!("item_in_inventory")));
+
+                                        scroll_button(
+                                            player_stats,
+                                            bottom_container,
+                                            asset_server,
+                                            recruit,
+                                            texture_atlas_layouts,
+                                            0,
+                                        );
+
+                                        scroll_button(
+                                            player_stats,
+                                            bottom_container,
+                                            asset_server,
+                                            recruit,
+                                            texture_atlas_layouts,
+                                            1,
+                                        );
+
+                                        scroll_button(
+                                            player_stats,
+                                            bottom_container,
+                                            asset_server,
+                                            recruit,
+                                            texture_atlas_layouts,
+                                            2,
+                                        );
                                     });
                             });
                     });
