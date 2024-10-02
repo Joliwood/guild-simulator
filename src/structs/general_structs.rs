@@ -203,11 +203,23 @@ impl PlayerStats {
             recruit.equip_item(&item);
         }
     }
+
+    pub fn gain_xp_to_recruit(&mut self, recruit_id: Uuid, xp: u32) {
+        if let Some(recruit) = self
+            .recruits
+            .iter_mut()
+            .find(|recruit| recruit.id == recruit_id)
+        {
+            recruit.gain_xp(xp);
+        }
+    }
 }
 
 impl RecruitStats {
     pub fn gain_xp(&mut self, xp: u32) {
         self.experience += xp;
+
+        info!("==> WE GAIN XP: {}", xp);
 
         // Reset the experience with left experience after leveling up
         // Then level up
@@ -321,7 +333,9 @@ impl Default for PlayerStats {
         let second_same_weapon = load_weapon_by_id(3);
         let first_scroll = load_scroll_by_id(1);
         let second_scroll = load_scroll_by_id(3);
-        let first_armor = load_armor_by_id(2);
+        let first_armor = load_armor_by_id(3);
+        let second_armor = load_armor_by_id(1);
+        let second_same_armor = load_armor_by_id(1);
 
         if let Some(first_weapon) = first_weapon {
             inventory.push(Item::Weapon(first_weapon));
@@ -345,6 +359,14 @@ impl Default for PlayerStats {
 
         if let Some(first_armor) = first_armor {
             inventory.push(Item::Armor(first_armor));
+        }
+
+        if let Some(second_armor) = second_armor {
+            inventory.push(Item::Armor(second_armor));
+        }
+
+        if let Some(second_same_armor) = second_same_armor {
+            inventory.push(Item::Armor(second_same_armor));
         }
 
         Self {

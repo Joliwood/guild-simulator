@@ -11,7 +11,7 @@ use crate::{
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
 
-pub fn weapon_button(
+pub fn armor_button(
     top_container: &mut ChildBuilder,
     asset_server: &Res<AssetServer>,
     recruit_stats: &RecruitStats,
@@ -21,9 +21,9 @@ pub fn weapon_button(
         asset_server.load("images/equipments/empty_inventory_slot.png");
 
     let recruit_stats_inventory = recruit_stats.recruit_inventory.clone();
-    let recruit_stats_weapon = recruit_stats_inventory.weapon;
-    if let Some(recruit_stats_weapon) = recruit_stats_weapon {
-        let item = Item::Weapon(recruit_stats_weapon);
+    let recruit_stats_armor = recruit_stats_inventory.armor;
+    if let Some(recruit_stats_armor) = recruit_stats_armor {
+        let item = Item::Armor(recruit_stats_armor);
         let item_image_atlas_index = get_item_image_atlas_index(&item);
         let item_atlas_path = get_item_atlas_path(&item);
         let layout = get_item_layout(&item);
@@ -52,7 +52,7 @@ pub fn weapon_button(
             ))
             .insert(UniqueId(format!("item_in_inventory")));
     } else {
-        // Empty weapon button
+        // Empty armor button
         top_container
             .spawn(ButtonBundle {
                 style: Style {

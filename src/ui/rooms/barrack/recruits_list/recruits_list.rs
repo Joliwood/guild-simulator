@@ -7,7 +7,7 @@ use crate::{
     },
     ui::{
         interface::gold_counter::MyAssets,
-        rooms::barrack::recruits_list::weapon_button::weapon_button,
+        rooms::barrack::recruits_list::{armor_button::armor_button, weapon_button::weapon_button},
     },
     utils::get_selected_recruit,
 };
@@ -271,20 +271,26 @@ pub fn spawn_left_container(
                                         );
 
                                         // Armor button
-                                        top_container
-                                            .spawn(ButtonBundle {
-                                                style: Style {
-                                                    width: Val::Px(40.),
-                                                    height: Val::Px(40.),
-                                                    border: UiRect::all(Val::Px(3.)),
-                                                    ..default()
-                                                },
-                                                border_color: BorderColor(Color::BLACK),
-                                                border_radius: BorderRadius::all(Val::Px(10.)),
-                                                image: texture_handle_empty_slot.clone().into(),
-                                                ..default()
-                                            })
-                                            .insert(UniqueId(format!("item_in_inventory")));
+                                        // top_container
+                                        //     .spawn(ButtonBundle {
+                                        //         style: Style {
+                                        //             width: Val::Px(40.),
+                                        //             height: Val::Px(40.),
+                                        //             border: UiRect::all(Val::Px(3.)),
+                                        //             ..default()
+                                        //         },
+                                        //         border_color: BorderColor(Color::BLACK),
+                                        //         border_radius: BorderRadius::all(Val::Px(10.)),
+                                        //         image: texture_handle_empty_slot.clone().into(),
+                                        //         ..default()
+                                        //     })
+                                        //     .insert(UniqueId(format!("item_in_inventory")));
+                                        armor_button(
+                                            top_container,
+                                            asset_server,
+                                            recruit,
+                                            texture_atlas_layouts,
+                                        );
                                     });
 
                                 // Bottom container for scrolls

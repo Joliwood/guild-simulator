@@ -325,9 +325,9 @@ pub fn equip_recruit_inventory(
     selected_recruit: &mut ResMut<SelectedRecruit>,
     item: &Item,
     player_stats: &mut ResMut<PlayerStats>,
-) {
+) -> bool {
     match item {
-        Item::Weapon(weapon) => {
+        Item::Weapon(_weapon) => {
             // Add the weapon to the selected recruit inventory weapon slot
             // + Delete from the player_stat inventory
 
@@ -341,7 +341,10 @@ pub fn equip_recruit_inventory(
             if selected_recruit_id.is_some() {
                 if selected_recruit_weapon.is_none() {
                     player_stats.equip_item_to_recruit(selected_recruit_id.unwrap(), item);
-                    return delete_item_from_player_inventory(player_stats, item);
+                    selected_recruit.0 =
+                        player_stats.get_recruit_by_id(selected_recruit_id.unwrap());
+                    delete_item_from_player_inventory(player_stats, item);
+                    return true;
                 }
 
                 if selected_recruit_weapon.is_some() {
@@ -351,16 +354,42 @@ pub fn equip_recruit_inventory(
                     player_stats.equip_item_to_recruit(selected_recruit_id.unwrap(), item);
                     selected_recruit.0 =
                         player_stats.get_recruit_by_id(selected_recruit_id.unwrap());
-                    return delete_item_from_player_inventory(player_stats, item);
+                    delete_item_from_player_inventory(player_stats, item);
+                    return true;
                 }
             }
 
-            // selected_recruit.equip_weapon(weapon.clone());
-            // player_stats.add_item(item.clone());
-            // return delete_item_from_player_inventory(player_stats, item);
+            return false;
         }
-        Item::Armor(armor) => {}
-        Item::Scroll(scroll, quantity) => {}
+        Item::Armor(armor) => {
+            let selected_recruit_inventory: RecruitInventory = selected_recruit.get_inventory();
+            let selected_recruit_armor = selected_recruit_inventory.armor;
+            let selected_recruit_id = selected_recruit.get_id();
+
+            if selected_recruit_id.is_some() {
+                if selected_recruit_armor.is_none() {
+                    player_stats.equip_item_to_recruit(selected_recruit_id.unwrap(), item);
+                    selected_recruit.0 =
+                        player_stats.get_recruit_by_id(selected_recruit_id.unwrap());
+                    delete_item_from_player_inventory(player_stats, item);
+                    return true;
+                }
+
+                if selected_recruit_armor.is_some() {
+                    let selected_recruit_item =
+                        Item::Armor(selected_recruit_armor.clone().unwrap());
+                    player_stats.add_item(selected_recruit_item);
+                    player_stats.equip_item_to_recruit(selected_recruit_id.unwrap(), item);
+                    selected_recruit.0 =
+                        player_stats.get_recruit_by_id(selected_recruit_id.unwrap());
+                    delete_item_from_player_inventory(player_stats, item);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        Item::Scroll(scroll, quantity) => return false,
     }
 }
 

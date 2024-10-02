@@ -28,8 +28,6 @@ pub fn weapon_button(
     let texture_handle_empty_slot: Handle<Image> =
         asset_server.load("images/equipments/empty_inventory_slot.png");
 
-    info!("===================> weapon_button");
-
     let recruit_id = selected_recruit.get_id();
 
     if recruit_id.is_none() {

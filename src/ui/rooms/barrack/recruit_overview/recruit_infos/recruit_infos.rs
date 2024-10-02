@@ -7,7 +7,7 @@ use crate::{
 };
 use bevy::prelude::*;
 
-use super::weapon_button::weapon_button;
+use super::{armor_button::armor_button, weapon_button::weapon_button};
 
 pub fn recruit_infos(
     parent: &mut ChildBuilder,
@@ -126,22 +126,30 @@ pub fn recruit_infos(
                                 },
                             ));
 
-                            // Armor button
-                            armor_column
-                                .spawn(ButtonBundle {
-                                    style: Style {
-                                        width: Val::Px(60.),
-                                        height: Val::Px(60.),
-                                        border: UiRect::all(Val::Px(3.)),
-                                        margin: UiRect::all(Val::Px(5.)),
-                                        ..default()
-                                    },
-                                    border_color: BorderColor(Color::BLACK),
-                                    border_radius: BorderRadius::all(Val::Px(10.)),
-                                    image: texture_handle_empty_slot.clone().into(),
-                                    ..default()
-                                })
-                                .insert(UniqueId(format!("item_in_inventory")));
+                            armor_button(
+                                player_stats,
+                                armor_column,
+                                asset_server,
+                                selected_recruit,
+                                texture_atlas_layouts,
+                            );
+
+                            // // Armor button
+                            // armor_column
+                            //     .spawn(ButtonBundle {
+                            //         style: Style {
+                            //             width: Val::Px(60.),
+                            //             height: Val::Px(60.),
+                            //             border: UiRect::all(Val::Px(3.)),
+                            //             margin: UiRect::all(Val::Px(5.)),
+                            //             ..default()
+                            //         },
+                            //         border_color: BorderColor(Color::BLACK),
+                            //         border_radius: BorderRadius::all(Val::Px(10.)),
+                            //         image: texture_handle_empty_slot.clone().into(),
+                            //         ..default()
+                            //     })
+                            //     .insert(UniqueId(format!("item_in_inventory")));
                         });
                 });
 

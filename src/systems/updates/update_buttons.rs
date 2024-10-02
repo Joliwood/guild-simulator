@@ -1,6 +1,7 @@
 #![allow(unused_mut)]
 use crate::{
-    enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
+    audio::play_sound::play_sound,
+    enums::{RecruitEnum, RoomDirectionEnum, RoomEnum, SoundEnum},
     structs::{
         equipments::Item,
         general_structs::{
@@ -377,9 +378,8 @@ pub fn start_mission_button(
             if unique_id.0.starts_with("start_mission") {
                 match *interaction {
                     Interaction::Pressed => {
-                        info!("Start the mission with the id : {:?}", unique_id.0);
                         info!(
-                            "There is this amount of % to win this mission : {:?}",
+                            "% of win is : {:?}",
                             selected_mission.percent_of_victory.as_ref().unwrap()
                         );
                         let percent_of_victory =
@@ -393,14 +393,7 @@ pub fn start_mission_button(
                             let gold_earned = (mission_ennemy_level * 10) as i32;
                             let recruit_id = selected_mission.recruit_id.unwrap();
 
-                            // Update the recruit with the new xp and gold
-                            let recruit = player_stats
-                                .recruits
-                                .iter_mut()
-                                .find(|recruit| recruit.id == recruit_id)
-                                .unwrap();
-
-                            recruit.experience += xp_earned;
+                            player_stats.gain_xp_to_recruit(recruit_id, xp_earned);
                             player_stats.increment_golds(gold_earned);
                         } else {
                             info!("The mission is a failure !");
@@ -512,6 +505,8 @@ pub fn buttons_disable_updates(
 }
 
 pub fn select_item_in_inventory(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
     mut interaction_query: Query<
         (
             &Interaction,
@@ -533,7 +528,11 @@ pub fn select_item_in_inventory(
             match *interaction {
                 Interaction::Pressed => {
                     border_color.0 = WOOD_COLOR;
-                    equip_recruit_inventory(&mut selected_recruit, item, &mut player_stats);
+                    let is_recruit_equiped =
+                        equip_recruit_inventory(&mut selected_recruit, item, &mut player_stats);
+                    if is_recruit_equiped == true {
+                        play_sound(&asset_server, &mut commands, SoundEnum::EquipWeapon);
+                    }
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;

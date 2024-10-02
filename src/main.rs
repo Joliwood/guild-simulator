@@ -17,10 +17,7 @@ use structs::general_structs::{
     MissionModalVisible, MissionNotificationsNumber, Missions, PlayerStats, SelectedMission,
     SelectedRecruit, UniqueId,
 };
-use ui::{
-    interface::gold_counter::MyAssets,
-    rooms::barrack::recruits_list::weapon_button::update_weapon_button,
-};
+use ui::interface::gold_counter::MyAssets;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, SystemSet)]
 pub struct MySystems;
@@ -82,53 +79,7 @@ fn main() -> AppExit {
                 systems::updates::delete_notifications_on_click::delete_notifications_on_click,
                 ui::interface::notifications::spawn_or_update_notification::spawn_or_update_notification,
                 ui::modals::mission_details_modal::display_mission_modal,
-                // update_weapon_ui_on_player_stats_change,
             ),
         )
         .run()
 }
-
-// pub fn update_weapon_ui_on_player_stats_change(
-//     mut commands: Commands,
-//     player_stats: Res<PlayerStats>,
-//     selected_recruit: Res<SelectedRecruit>,
-//     asset_server: Res<AssetServer>,
-//     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
-//     mut weapon_button_query: Query<(Entity, &UniqueId), With<Button>>,
-//     parent_query: Query<Entity, With<Parent>>, // The container holding the buttons
-// ) {
-//     // Only proceed if the PlayerStats resource has changed.
-//     if !player_stats.is_changed() {
-//         return;
-//     }
-
-//     // Find the selected recruit and, if it exists, update the weapon button.
-//     if let Some(selected_recruit_stats) = &selected_recruit.0 {
-//         let recruit_id = selected_recruit_stats.id.to_string();
-
-//         // Loop through all weapon buttons to find the one belonging to the selected recruit.
-//         for (entity, unique_id) in &mut weapon_button_query {
-//             if unique_id.0.starts_with("item_in_inventory_") {
-//                 if let Some(current_recruit_id) = unique_id.0.strip_prefix("item_in_inventory_") {
-//                     if current_recruit_id == recruit_id {
-//                         // Despawn the current button so we can recreate it.
-//                         commands.entity(entity).despawn_recursive();
-
-//                         // Get the parent entity to add a new button.
-//                         if let Ok(parent_entity) = parent_query.get(entity) {
-//                             // Add the updated button for the selected recruit's weapon.
-//                             commands.entity(parent_entity).with_children(|parent| {
-//                                 update_weapon_button(
-//                                     parent,
-//                                     &asset_server,
-//                                     selected_recruit_stats,
-//                                     &mut texture_atlas_layouts,
-//                                 );
-//                             });
-//                         }
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }

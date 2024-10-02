@@ -59,7 +59,10 @@ pub enum ItemRaretyEnum {
 #[derive(Debug, Clone)]
 pub enum SoundEnum {
     BookThrowDown,
+    EquipArmor,
     EquipmentEquip,
+    EquipScroll,
+    EquipWeapon,
     PaperTouch,
     SimpleHolidaysV3,
 }
@@ -67,10 +70,13 @@ pub enum SoundEnum {
 impl SoundEnum {
     pub fn get_path(&self) -> &'static str {
         match self {
-            SoundEnum::SimpleHolidaysV3 => "sounds/Simple-Holidays-V3.ogg",
-            SoundEnum::PaperTouch => "sounds/paper_touch.ogg",
-            SoundEnum::EquipmentEquip => "sounds/equipment_equip.ogg",
             SoundEnum::BookThrowDown => "sounds/book_throw_down.ogg",
+            SoundEnum::EquipArmor => "sounds/equip_armor.ogg",
+            SoundEnum::EquipmentEquip => "sounds/equipment_equip.ogg",
+            SoundEnum::EquipScroll => "sounds/equip_scroll.ogg",
+            SoundEnum::EquipWeapon => "sounds/equip_weapon.ogg",
+            SoundEnum::PaperTouch => "sounds/paper_touch.ogg",
+            SoundEnum::SimpleHolidaysV3 => "sounds/Simple-Holidays-V3.ogg",
         }
     }
 }
