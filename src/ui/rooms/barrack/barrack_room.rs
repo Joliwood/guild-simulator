@@ -6,7 +6,7 @@ use super::{
 use crate::{
     structs::{
         general_structs::{PlayerStats, SelectedRecruit},
-        trigger_structs::{PlayerStatsRecruitsTrigger, ResetRoomTrigger},
+        trigger_structs::ResetRoomTrigger,
     },
     ui::styles::containers_styles::node_container_style,
 };
@@ -37,7 +37,6 @@ pub fn spawn_room_barrack(
         })
         .insert(Name::new("Room barrack"))
         .insert(ResetRoomTrigger)
-        .insert(PlayerStatsRecruitsTrigger)
         // WIP - Spawn the left container
         .with_children(|parent| {
             parent.spawn(ImageBundle {

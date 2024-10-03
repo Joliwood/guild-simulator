@@ -107,6 +107,23 @@ pub struct Ennemy {
 
 #[derive(Component, Resource)]
 pub struct Missions(pub Vec<Mission>);
+
+impl Missions {
+    pub fn get_mission_by_id(&self, id: Uuid) -> Option<Mission> {
+        if let Some(mission) = self.0.iter().find(|mission| mission.id == id) {
+            return Some(mission.clone());
+        }
+
+        None
+    }
+
+    pub fn assign_recruit_id_to_mission(&mut self, mission_id: Uuid, recruit_id: Uuid) {
+        if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
+            mission.assign_recruit_by_id(recruit_id);
+        }
+    }
+}
+
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct Mission {
     pub days: u8,
@@ -129,6 +146,7 @@ impl Mission {
 
     pub fn assign_recruit_by_id(&mut self, recruit_id: Uuid) {
         self.recruit_send = Some(recruit_id);
+        info!("WIKWKKWKWKWKWWKWKWKWKK: {:?}", self);
     }
 }
 
@@ -527,7 +545,7 @@ impl Default for PlayerStats {
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![],
-            room: RoomEnum::Barrack,
+            room: RoomEnum::CommandRoom,
         }
     }
 }
@@ -568,12 +586,12 @@ impl Default for Missions {
                 },
             },
             Mission {
-                days_left: None,
+                days_left: Some(1),
                 days: 2,
                 id: Uuid::new_v4(),
                 level: 3,
                 name: "Mission 3".to_string(),
-                recruit_send: None,
+                recruit_send: Some(Uuid::new_v4()),
                 ennemy: Ennemy {
                     endurance: 20,
                     experience: 0,

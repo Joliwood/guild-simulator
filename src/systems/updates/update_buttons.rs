@@ -5,8 +5,8 @@ use crate::{
     structs::{
         equipments::Item,
         general_structs::{
-            load_scroll_by_id, MissionModalVisible, Missions, PlayerStats, RecruitInventory,
-            RecruitStats, SelectedMission, SelectedRecruit, UniqueId,
+            load_scroll_by_id, Mission, MissionModalVisible, Missions, PlayerStats,
+            RecruitInventory, RecruitStats, SelectedMission, SelectedRecruit, UniqueId,
         },
     },
     systems::{
@@ -215,7 +215,7 @@ pub fn select_recruit_button(
 /// - 3 - We open de details mission modal
 pub fn select_mission_button(
     mut interaction_query: Query<
-        (&Interaction, &mut BackgroundColor, &UniqueId),
+        (&Interaction, &mut BackgroundColor, &UniqueId, &Mission),
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
@@ -225,7 +225,7 @@ pub fn select_mission_button(
 ) {
     let mut window = windows.single_mut();
     if !modal_visible.0 {
-        for (interaction, mut color, unique_id) in &mut interaction_query {
+        for (interaction, mut color, unique_id, mission) in &mut interaction_query {
             if unique_id.0.starts_with("select_mission_button_") {
                 match *interaction {
                     Interaction::Pressed => {
@@ -242,6 +242,7 @@ pub fn select_mission_button(
                         modal_visible.0 = true;
                     }
                     Interaction::Hovered => {
+                        info!("--------------------- {:?}", mission);
                         window.cursor.icon = CursorIcon::Pointer;
                         *color = HOVERED_BUTTON.into();
                     }
@@ -314,6 +315,8 @@ pub fn assign_recruit_to_mission(
 
                     // - 7 - //
                     selected_mission.percent_of_victory = Some(victory_percentage_rounded);
+
+                    // We must update the mission
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;
@@ -344,7 +347,7 @@ pub fn close_mission_modal(
     let mut window = windows.single_mut();
 
     for (interaction, mut color, unique_id, mut border_color) in &mut interaction_query {
-        if unique_id.0.starts_with("close_mission_modal") {
+        if unique_id.0 == "close_mission_modal" || unique_id.0 == "start_mission" {
             match *interaction {
                 Interaction::Pressed => {
                     modal_visible.0 = false;
@@ -370,6 +373,7 @@ pub fn start_mission_button(
         (&Interaction, &mut BackgroundColor, &UniqueId),
         Changed<Interaction>,
     >,
+    mut missions: ResMut<Missions>,
     mut player_stats: ResMut<PlayerStats>,
     mut windows: Query<&mut Window>,
     mut selected_mission: ResMut<SelectedMission>,
@@ -379,7 +383,7 @@ pub fn start_mission_button(
     for (interaction, mut color, unique_id) in &mut interaction_query {
         // TODO - Start the mission with provided id of mission + recruit (not disponible)
         if selected_mission.recruit_id != None {
-            if unique_id.0.starts_with("start_mission") {
+            if unique_id.0 == "start_mission" {
                 match *interaction {
                     Interaction::Pressed => {
                         info!(
@@ -398,11 +402,28 @@ pub fn start_mission_button(
                         );
 
                         let mission = selected_mission.get_mission();
+
                         if mission.is_none() {
                             return;
                         }
 
-                        mission.unwrap().assign_recruit_by_id(recruit_id.unwrap());
+                        missions
+                            .assign_recruit_id_to_mission(mission.unwrap().id, recruit_id.unwrap());
+
+                        // let mission = selected_mission.get_mission();
+
+                        // TESTTTT ->
+                        // let mission =
+                        //     missions.get_mission_by_id(selected_mission.get_mission().unwrap().id);
+
+                        // if mission.is_none() {
+                        //     return;
+                        // }
+
+                        // info!("the recruit id is {}", recruit_id.unwrap());
+                        // info!("the mission is {:?}", mission);
+                        // mission.unwrap().assign_recruit_by_id(recruit_id.unwrap());
+                        // TESTTTT ->
 
                         // Update the mission to put it in state "in progress"
 

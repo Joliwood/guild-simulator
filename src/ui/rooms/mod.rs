@@ -24,7 +24,9 @@ pub mod barrack {
     }
     pub mod barrack_room;
 }
-pub mod room_command_room;
+pub mod command_room {
+    pub mod room_command_room;
+}
 pub mod room_office;
 pub mod room_setup;
 pub mod room_store;

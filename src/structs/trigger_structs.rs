@@ -10,9 +10,6 @@ pub struct PlayerStatsRoomTrigger;
 pub struct ResetRoomTrigger;
 
 #[derive(Component)]
-pub struct PlayerStatsRecruitsTrigger;
-
-#[derive(Component)]
 pub struct SelectedRecruitTrigger;
 
 #[derive(Component)]

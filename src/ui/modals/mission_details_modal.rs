@@ -5,7 +5,7 @@ use super::{
 
 use crate::{
     structs::{
-        general_structs::{MissionModalVisible, PlayerStats, SelectedMission, UniqueId},
+        general_structs::{MissionModalVisible, Missions, PlayerStats, SelectedMission, UniqueId},
         trigger_structs::ModalContentTrigger,
     },
     ui::{
@@ -24,6 +24,7 @@ pub fn display_mission_modal(
     selected_mission: Res<SelectedMission>,
     image_assets: Res<MyAssets>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    missions: Res<Missions>,
 ) {
     // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
     let texture_handle = asset_server.load("images/ui/buttons_atlas.png");
@@ -148,6 +149,7 @@ pub fn display_mission_modal(
                                         &asset_server,
                                         &image_assets,
                                         &selected_mission,
+                                        missions,
                                     );
 
                                     spawn_right_container(parent, &asset_server, mission);
