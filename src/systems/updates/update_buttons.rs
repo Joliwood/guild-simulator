@@ -531,7 +531,17 @@ pub fn select_item_in_inventory(
                     let is_recruit_equiped =
                         equip_recruit_inventory(&mut selected_recruit, item, &mut player_stats);
                     if is_recruit_equiped == true {
-                        play_sound(&asset_server, &mut commands, SoundEnum::EquipWeapon);
+                        match item {
+                            Item::Armor(_) => {
+                                play_sound(&asset_server, &mut commands, SoundEnum::EquipArmor);
+                            }
+                            Item::Scroll(_, __) => {
+                                play_sound(&asset_server, &mut commands, SoundEnum::EquipScroll);
+                            }
+                            Item::Weapon(_) => {
+                                play_sound(&asset_server, &mut commands, SoundEnum::EquipWeapon);
+                            }
+                        }
                     }
                 }
                 Interaction::Hovered => {
