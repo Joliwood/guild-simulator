@@ -5,8 +5,8 @@ use crate::{
     structs::{
         equipments::Item,
         general_structs::{
-            MissionModalVisible, Missions, PlayerStats, RecruitInventory, RecruitStats,
-            SelectedMission, SelectedRecruit, UniqueId,
+            load_scroll_by_id, MissionModalVisible, Missions, PlayerStats, RecruitInventory,
+            RecruitStats, SelectedMission, SelectedRecruit, UniqueId,
         },
     },
     systems::{
@@ -19,7 +19,7 @@ use crate::{
         get_xp_earned, is_mission_success,
     },
 };
-use bevy::{app::DynEq, prelude::*};
+use bevy::prelude::*;
 use uuid::Uuid;
 
 pub fn mouse_interaction_updates(
@@ -165,6 +165,10 @@ pub fn mouse_interaction_updates(
                 Interaction::Pressed => {
                     info!("let's recruit a rogue now!");
                     hire_new_recruits(player_stats.as_mut(), new_recruits);
+                    let new_item = load_scroll_by_id(2);
+                    if let Some(item) = new_item {
+                        player_stats.add_item(Item::Scroll(item, 1));
+                    }
                 }
                 Interaction::Hovered => {}
                 Interaction::None => {}
@@ -180,7 +184,6 @@ pub fn select_recruit_button(
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
-    player_stats: Res<PlayerStats>,
     mut selected_recruit: ResMut<SelectedRecruit>,
 ) {
     let mut window = windows.single_mut();

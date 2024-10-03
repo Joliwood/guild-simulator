@@ -1,17 +1,12 @@
 use crate::{
-    custom_components::CustomButton,
     enums::ColorPaletteEnum,
     structs::{
-        general_structs::{PlayerStats, SelectedRecruit, UniqueId},
+        general_structs::{PlayerStats, UniqueId},
         trigger_structs::SelectedRecruitTrigger,
     },
-    ui::{
-        interface::gold_counter::MyAssets,
-        rooms::barrack::recruits_list::{
-            armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
-        },
+    ui::rooms::barrack::recruits_list::{
+        armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
     },
-    utils::get_selected_recruit,
 };
 use bevy::prelude::*;
 
@@ -25,18 +20,13 @@ pub fn spawn_left_container(
     parent: &mut ChildBuilder,
     asset_server: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
-    image_assets: &Res<MyAssets>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
-    selected_recruit: &Res<SelectedRecruit>,
 ) {
     let inventory_container_image_handle: Handle<Image> =
         asset_server.load("images/rooms/barrack/inventory_container.png");
 
     let recruit_image_handle: Handle<Image> =
         asset_server.load("images/recruits/recruit_picture_atlas.png");
-
-    let texture_handle_empty_slot: Handle<Image> =
-        asset_server.load("images/equipments/empty_inventory_slot.png");
 
     let recruit_layout = TextureAtlasLayout::from_grid(
         UVec2::new(800, 200),
@@ -231,13 +221,6 @@ pub fn spawn_left_container(
                                 let get_additional_strength_from_items =
                                     recruit.get_additional_strength_from_items();
 
-                                // let additional_strength_text =
-                                //     if get_additional_strength_from_items > 0 {
-                                //         format!(" (+{})", get_additional_strength_from_items)
-                                //     } else {
-                                //         String::new()
-                                //     };
-
                                 recruit_strength(
                                     // TODO - Fix common type for stats
                                     stats_container,
@@ -246,15 +229,6 @@ pub fn spawn_left_container(
                                     &asset_server,
                                 );
 
-                                // stats_container.spawn(TextBundle::from_section(
-                                //     format!("ARM: {}", recruit.endurance),
-                                //     TextStyle {
-                                //         font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                //         font_size: 14.0,
-                                //         color: ColorPaletteEnum::DarkBrown.as_color(),
-                                //     },
-                                // ));
-
                                 recruit_endurance(
                                     stats_container,
                                     // TODO - Fix common type for stats
@@ -262,15 +236,6 @@ pub fn spawn_left_container(
                                     recruit.get_additional_endurance_from_items(),
                                     &asset_server,
                                 );
-
-                                // stats_container.spawn(TextBundle::from_section(
-                                //     format!("INT: {}", recruit.intelligence),
-                                //     TextStyle {
-                                //         font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                                //         font_size: 14.0,
-                                //         color: ColorPaletteEnum::DarkBrown.as_color(),
-                                //     },
-                                // ));
 
                                 recruit_intelligence(
                                     stats_container,

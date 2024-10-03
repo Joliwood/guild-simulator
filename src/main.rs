@@ -15,7 +15,7 @@ use bevy_asset_loader::asset_collection::AssetCollectionApp;
 use pyri_tooltip::prelude::*;
 use structs::general_structs::{
     MissionModalVisible, MissionNotificationsNumber, Missions, PlayerStats, SelectedMission,
-    SelectedRecruit, UniqueId,
+    SelectedRecruit,
 };
 use ui::interface::gold_counter::MyAssets;
 

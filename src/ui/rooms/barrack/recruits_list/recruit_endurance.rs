@@ -25,7 +25,7 @@ pub fn recruit_endurance(
             style: TextStyle {
                 font: base_font.clone(),
                 font_size: 14.0,
-                color: Color::srgb(0.0, 107.0 / 255.0, 29.0 / 255.0), // Using your custom green color
+                color: Color::srgb(0.0, 107.0 / 255.0, 29.0 / 255.0),
             },
         }
     } else {

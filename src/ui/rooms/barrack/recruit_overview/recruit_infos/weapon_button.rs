@@ -1,7 +1,7 @@
 use crate::{
     structs::{
-        equipments::{Item, Weapon},
-        general_structs::{PlayerStats, RecruitStats, SelectedRecruit, UniqueId},
+        equipments::Item,
+        general_structs::{PlayerStats, SelectedRecruit, UniqueId},
     },
     utils::{
         get_item_atlas_path, get_item_image_atlas_index, get_item_layout,
@@ -10,13 +10,6 @@ use crate::{
 };
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
-
-// #[derive(Debug, Clone, Deserialize, Component)]
-// pub enum Item {
-//     Weapon(Weapon),
-//     Armor(Armor),
-//     Scroll(Scroll, u16),
-// }
 
 pub fn weapon_button(
     player_stats: &Res<PlayerStats>,
@@ -52,7 +45,6 @@ pub fn weapon_button(
 
     let recruit = player_stats.get_recruit_by_id(recruit_id.unwrap()).unwrap();
 
-    // let recruit_inventory = SelectedRecruit::get_inventory(&selected_recruit);
     let recruit_inventory = recruit.recruit_inventory;
     let recruit_weapon = recruit_inventory.weapon;
     if let Some(recruit_weapon) = recruit_weapon {

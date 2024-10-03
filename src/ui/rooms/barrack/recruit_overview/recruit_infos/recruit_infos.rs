@@ -1,12 +1,11 @@
+use super::{
+    armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
+};
 use crate::{
     enums::ColorPaletteEnum,
     structs::general_structs::{PlayerStats, SelectedRecruit},
 };
 use bevy::prelude::*;
-
-use super::{
-    armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
-};
 
 pub fn recruit_infos(
     parent: &mut ChildBuilder,

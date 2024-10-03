@@ -1,20 +1,17 @@
-#![allow(dead_code, unused_imports)]
+#![allow(dead_code)]
 use super::equipments::{Armor, Armors, Item, Scroll, Scrolls, Weapon};
 use crate::{
     enums::{RecruitEnum, RoomEnum},
     structs::equipments::Weapons,
-    utils::format_ron_equipments_for_display,
 };
 use bevy::{
     log::info,
-    prelude::{Component, Entity, Resource},
+    prelude::{Component, Resource},
 };
 use ron::de::from_str;
-use serde::Deserialize;
-use std::{collections::VecDeque, fs};
+use std::fs;
 use uuid::Uuid;
 
-// WIP
 #[derive(Resource)]
 pub struct MissionNotificationsNumber(pub u8);
 
@@ -183,7 +180,32 @@ impl PlayerStats {
     }
 
     pub fn add_item(&mut self, item: Item) {
-        self.inventory.push(item);
+        match item {
+            Item::Scroll(scroll, quantity) => {
+                let scroll_id = scroll.id;
+                if self.inventory.iter().any(|item| match item {
+                    Item::Scroll(scroll, _) => scroll.id == scroll_id,
+                    _ => false,
+                }) {
+                    self.inventory.iter_mut().for_each(|item| match item {
+                        Item::Scroll(scroll, q) => {
+                            if scroll.id == scroll_id {
+                                *q += quantity;
+                            }
+                        }
+                        _ => {}
+                    });
+                } else {
+                    self.inventory.push(Item::Scroll(scroll, quantity));
+                }
+            }
+            _ => {
+                if self.inventory.len() < self.max_inventory_size {
+                    self.inventory.push(item);
+                }
+            }
+        }
+        // self.inventory.push(item);
     }
 
     pub fn get_recruit_by_id(&self, id: Uuid) -> Option<RecruitStats> {

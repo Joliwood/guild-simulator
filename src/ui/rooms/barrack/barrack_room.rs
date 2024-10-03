@@ -8,7 +8,7 @@ use crate::{
         general_structs::{PlayerStats, SelectedRecruit},
         trigger_structs::{PlayerStatsRecruitsTrigger, ResetRoomTrigger},
     },
-    ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
+    ui::styles::containers_styles::node_container_style,
 };
 use bevy::prelude::*;
 
@@ -17,7 +17,6 @@ pub fn spawn_room_barrack(
     commands: &mut Commands,
     player_stats: &Res<PlayerStats>,
     selected_recruit: &Res<SelectedRecruit>,
-    image_assets: &Res<MyAssets>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let background_image_handle: Handle<Image> =
@@ -52,14 +51,7 @@ pub fn spawn_room_barrack(
                 ..default()
             });
 
-            spawn_left_container(
-                parent,
-                asset_server,
-                player_stats,
-                image_assets,
-                texture_atlas_layouts,
-                selected_recruit,
-            );
+            spawn_left_container(parent, asset_server, player_stats, texture_atlas_layouts);
             recruit_overview(
                 player_stats,
                 parent,

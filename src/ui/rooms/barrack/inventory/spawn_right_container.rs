@@ -1,12 +1,10 @@
+use super::spawn_inventory::spawn_inventory;
 use crate::{
     enums::ColorPaletteEnum,
     structs::general_structs::{PlayerStats, UniqueId},
     ui::styles::buttons_styles::inventory_filter_button_style,
 };
 use bevy::prelude::*;
-use bevy_inspector_egui::egui::Margin;
-
-use super::spawn_inventory::spawn_inventory;
 
 pub fn spawn_right_container(
     parent: &mut ChildBuilder,

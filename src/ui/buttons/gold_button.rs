@@ -18,12 +18,6 @@ pub fn gold_button(
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
 
     commands
-        // TODO - Create an exportable generic button with assets
-        // .spawn(generate_textural_button(
-        //     Some(CustomButton::EarnGold),
-        //     &image_assets,
-        //     &asset_server,
-        // ))
         .spawn((
             ButtonBundle {
                 style: Style {

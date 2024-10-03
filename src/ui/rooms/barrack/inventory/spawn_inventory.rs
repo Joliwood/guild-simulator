@@ -59,7 +59,6 @@ pub fn spawn_inventory(
                                 let item_atlas_path = get_item_atlas_path(item);
                                 let layout = get_item_layout(item);
                                 let tooltip_text = get_item_tooltip_description(item);
-                                let player_inventory_item_index = index;
 
                                 // Spawn button for the item
                                 row_builder
