@@ -1,7 +1,7 @@
 #![allow(unused_mut)]
 use crate::{
     audio::play_sound::play_sound,
-    enums::{RecruitEnum, RoomDirectionEnum, RoomEnum, SoundEnum},
+    enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum, SoundEnum},
     structs::{
         equipments::Item,
         general_structs::{
@@ -147,7 +147,6 @@ pub fn mouse_interaction_updates(
         }
 
         let new_recruits = vec![RecruitStats {
-            recruit_inventory: RecruitInventory::generate_empty_inventory(),
             class: RecruitEnum::Rogue,
             endurance: 5,
             experience: 0,
@@ -157,6 +156,8 @@ pub fn mouse_interaction_updates(
             level: 1,
             max_experience: 100,
             name: "Random noob".to_string(),
+            recruit_inventory: RecruitInventory::generate_empty_inventory(),
+            state: RecruitStateEnum::Available,
             strength: 2,
         }];
 

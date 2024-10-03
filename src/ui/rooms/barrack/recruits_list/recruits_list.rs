@@ -39,28 +39,28 @@ pub fn spawn_left_container(
         texture_atlas_layouts.add(recruit_layout);
 
     parent
-        // Left container
         .spawn(NodeBundle {
             style: Style {
                 display: Display::Flex,
                 align_self: AlignSelf::Center,
                 flex_direction: FlexDirection::Column,
-                justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
                 width: Val::Px(400.),
                 height: Val::Px(450.),
                 padding: UiRect::all(Val::Px(15.0)),
-                overflow: Overflow::clip(),
+                // overflow: Overflow::clip(),
                 ..default()
             },
             ..default()
         })
-        .insert(Name::new("Barrack > left container"))
+        .insert(Name::new("Barrack > Recruits list"))
         .with_children(|left_container| {
             // Background image
             left_container.spawn(ImageBundle {
                 image: inventory_container_image_handle.into(),
                 style: Style {
+                    display: Display::Flex,
+                    top: Val::Px(0.),
                     position_type: PositionType::Absolute,
                     width: Val::Percent(100.0),
                     height: Val::Percent(100.0),
@@ -81,7 +81,7 @@ pub fn spawn_left_container(
                             justify_content: JustifyContent::SpaceBetween,
                             width: Val::Percent(100.0),
                             height: Val::Px(100.0),
-                            margin: UiRect::all(Val::Px(5.0)),
+                            // margin: UiRect::all(Val::Px(5.0)),
                             padding: UiRect {
                                 top: Val::Px(15.),
                                 bottom: Val::Px(15.),

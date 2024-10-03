@@ -103,3 +103,11 @@ impl ColorPaletteEnum {
         }
     }
 }
+
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
+pub enum RecruitStateEnum {
+    Available,
+    InMission,
+    InRecuperation,
+    Injured,
+}

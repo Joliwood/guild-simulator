@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 use super::equipments::{Armor, Armors, Item, Scroll, Scrolls, Weapon};
 use crate::{
-    enums::{RecruitEnum, RoomEnum},
+    enums::{RecruitEnum, RecruitStateEnum, RoomEnum},
     structs::equipments::Weapons,
 };
 use bevy::{
@@ -23,6 +23,7 @@ pub struct UniqueId(pub String);
 
 #[derive(Component, Resource, Clone)]
 pub struct PlayerStats {
+    pub day: u16,
     pub experience: u32,
     pub golds: i32,
     pub guild_level: i8,
@@ -60,7 +61,6 @@ impl RecruitInventory {
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct RecruitStats {
-    pub recruit_inventory: RecruitInventory,
     pub class: RecruitEnum,
     pub endurance: u16,
     pub experience: u32,
@@ -70,6 +70,8 @@ pub struct RecruitStats {
     pub level: u8,
     pub max_experience: u32,
     pub name: String,
+    pub recruit_inventory: RecruitInventory,
+    pub state: RecruitStateEnum,
     pub strength: u16,
 }
 
@@ -97,6 +99,7 @@ pub struct Ennemy {
 pub struct Missions(pub Vec<Mission>);
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct Mission {
+    pub days: u8,
     pub ennemy: Ennemy,
     pub id: Uuid,
     pub level: u8,
@@ -471,6 +474,7 @@ impl Default for PlayerStats {
         }
 
         Self {
+            day: 1,
             experience: 0,
             golds: 0,
             guild_level: 1,
@@ -488,6 +492,7 @@ impl Default for Missions {
         Self(vec![
             Mission {
                 id: Uuid::new_v4(),
+                days: 1,
                 name: "Mission 1".to_string(),
                 level: 1,
                 ennemy: Ennemy {
@@ -500,6 +505,7 @@ impl Default for Missions {
                 },
             },
             Mission {
+                days: 1,
                 id: Uuid::new_v4(),
                 name: "Mission 2".to_string(),
                 level: 2,
@@ -513,6 +519,7 @@ impl Default for Missions {
                 },
             },
             Mission {
+                days: 2,
                 id: Uuid::new_v4(),
                 name: "Mission 3".to_string(),
                 level: 3,

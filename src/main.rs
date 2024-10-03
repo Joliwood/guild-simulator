@@ -79,6 +79,7 @@ fn main() -> AppExit {
                 systems::updates::delete_notifications_on_click::delete_notifications_on_click,
                 ui::interface::notifications::spawn_or_update_notification::spawn_or_update_notification,
                 ui::modals::mission_details_modal::display_mission_modal,
+                systems::updates::sleep_button_system::sleep_button_system,
             ),
         )
         .run()

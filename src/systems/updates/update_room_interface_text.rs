@@ -16,9 +16,9 @@ pub fn update_room_interface_text(
     if player_stats.is_changed() {
         for mut text in query.iter_mut() {
             text.sections[0].value = format!(
-                "Workforce : {} | {:?}",
+                "Nb of recruits : {} | Day {:?}",
                 player_stats.recruits.len(),
-                player_stats.room
+                player_stats.day
             );
         }
     }

@@ -1,5 +1,5 @@
 use crate::{
-    enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
+    enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
     structs::{
         equipments::Item,
         general_structs::{PlayerStats, RecruitInventory, RecruitStats, SelectedRecruit},
@@ -120,6 +120,7 @@ pub fn get_xp_earned(level: u8) -> u32 {
     return (level * 10).into();
 }
 
+#[allow(dead_code)]
 pub fn format_ron_equipments_for_display(ron_data: &str) -> String {
     // Use a regex to format the RON output
     let formatted = ron_data
@@ -285,6 +286,7 @@ pub fn get_selected_recruit(selected_recruit: &Res<SelectedRecruit>) -> RecruitS
     match selected_recruit.0 {
         Some(_) => {
             return RecruitStats {
+                state: selected_recruit.0.as_ref().unwrap().state.clone(),
                 recruit_inventory: selected_recruit
                     .0
                     .as_ref()
@@ -305,7 +307,6 @@ pub fn get_selected_recruit(selected_recruit: &Res<SelectedRecruit>) -> RecruitS
         }
         None => {
             return RecruitStats {
-                recruit_inventory: RecruitInventory::generate_empty_inventory(),
                 class: RecruitEnum::Warrior,
                 endurance: 0,
                 experience: 0,
@@ -315,6 +316,8 @@ pub fn get_selected_recruit(selected_recruit: &Res<SelectedRecruit>) -> RecruitS
                 level: 0,
                 max_experience: 0,
                 name: "".to_string(),
+                recruit_inventory: RecruitInventory::generate_empty_inventory(),
+                state: RecruitStateEnum::Available,
                 strength: 0,
             };
         }

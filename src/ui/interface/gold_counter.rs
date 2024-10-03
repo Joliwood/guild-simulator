@@ -1,7 +1,7 @@
 use crate::{
     structs::{
         general_structs::{PlayerStats, UniqueId},
-        trigger_structs::GoldCountTrigger,
+        trigger_structs::{GoldCountTrigger, SleepButtonTrigger},
     },
     systems::systems_constants::NORMAL_BUTTON,
     ui::{styles::containers_styles::basic_button_style, ui_constants::WOOD_COLOR},
@@ -112,6 +112,33 @@ pub fn gold_counter(
                 .with_children(|ui_container: &mut ChildBuilder| {
                     ui_container.spawn(TextBundle::from_section(
                         "Buy",
+                        TextStyle {
+                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font_size: 20.0,
+                            color: Color::BLACK,
+                        },
+                    ));
+                });
+
+                // Sleep button
+                ui_container
+                .spawn(ButtonBundle {
+                    style: Style {
+                        display: Display::Flex,
+                        justify_content: JustifyContent::Center,
+                        width: Val::Percent(100.0),
+                        ..default()
+                    },
+                    image: UiImage::default().with_color(NORMAL_BUTTON),
+                    ..default()
+                })
+                .insert((
+                    Name::new("Dev sleep button"),
+                    SleepButtonTrigger
+                ))
+                .with_children(|ui_container: &mut ChildBuilder| {
+                    ui_container.spawn(TextBundle::from_section(
+                        "Sleep",
                         TextStyle {
                             font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                             font_size: 20.0,
