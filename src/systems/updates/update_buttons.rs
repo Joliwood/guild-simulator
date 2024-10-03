@@ -257,6 +257,7 @@ pub fn select_mission_button(
 
 /// On arrive ici en cliquant dans la modal mission sur la recruit
 ///
+/// Deprecated
 /// - 1 - On retrouve l'id de la recruit directement
 /// - 2 - On vient modifier la selected mission pour lui assigner l'id de la recruit
 /// - 3 - On va chercher la recrue avec son id fourni dans la selected mission
@@ -294,12 +295,11 @@ pub fn assign_recruit_to_mission(
                         .iter()
                         .find(|recruit| recruit.id.to_string() == recruit_id);
 
-                    // - 4 - //
-                    let recruit_global_points = get_global_points(
-                        recruit_selected.unwrap().strength,
-                        recruit_selected.unwrap().endurance,
-                        recruit_selected.unwrap().intelligence,
-                    );
+                    if recruit_selected.is_none() {
+                        return;
+                    }
+
+                    let recruit_global_points = recruit_selected.unwrap().get_total_merged_stats();
 
                     // - 5 - //
                     let ennemy = &selected_mission.mission.as_ref().unwrap().ennemy;
@@ -308,7 +308,7 @@ pub fn assign_recruit_to_mission(
 
                     // - 6 - //
                     let victory_percentage =
-                        get_victory_percentage(recruit_global_points, ennemy_global_points);
+                        get_victory_percentage(recruit_global_points as u16, ennemy_global_points);
 
                     let victory_percentage_rounded: u32 = victory_percentage.round() as u32;
 
@@ -386,22 +386,43 @@ pub fn start_mission_button(
                             "% of win is : {:?}",
                             selected_mission.percent_of_victory.as_ref().unwrap()
                         );
-                        let percent_of_victory =
-                            selected_mission.percent_of_victory.unwrap() as f32;
-                        let is_mission_sucess = is_mission_success(percent_of_victory);
-                        if is_mission_sucess {
-                            info!("The mission is a success !",);
-                            let mission_ennemy_level =
-                                selected_mission.mission.as_ref().unwrap().level;
-                            let xp_earned = get_xp_earned(mission_ennemy_level);
-                            let gold_earned = (mission_ennemy_level * 10) as i32;
-                            let recruit_id = selected_mission.recruit_id.unwrap();
 
-                            player_stats.gain_xp_to_recruit(recruit_id, xp_earned);
-                            player_stats.increment_golds(gold_earned);
-                        } else {
-                            info!("The mission is a failure !");
+                        let recruit_id = selected_mission.recruit_id;
+                        if recruit_id.is_none() {
+                            return;
                         }
+
+                        player_stats.update_state_of_recruit(
+                            recruit_id.unwrap(),
+                            RecruitStateEnum::InMission,
+                        );
+
+                        let mission = selected_mission.get_mission();
+                        if mission.is_none() {
+                            return;
+                        }
+
+                        mission.unwrap().assign_recruit_by_id(recruit_id.unwrap());
+
+                        // Update the mission to put it in state "in progress"
+
+                        // --- OLD CODE --- //
+                        // let percent_of_victory =
+                        //     selected_mission.percent_of_victory.unwrap() as f32;
+                        // let is_mission_sucess = is_mission_success(percent_of_victory);
+                        // if is_mission_sucess {
+                        //     info!("The mission is a success !",);
+                        //     let mission_ennemy_level =
+                        //         selected_mission.mission.as_ref().unwrap().level;
+                        //     let xp_earned = get_xp_earned(mission_ennemy_level);
+                        //     let gold_earned = (mission_ennemy_level * 10) as i32;
+                        //     let recruit_id = selected_mission.recruit_id.unwrap();
+
+                        //     player_stats.gain_xp_to_recruit(recruit_id, xp_earned);
+                        //     player_stats.increment_golds(gold_earned);
+                        // } else {
+                        //     info!("The mission is a failure !");
+                        // }
                     }
                     Interaction::Hovered => {
                         window.cursor.icon = CursorIcon::Pointer;

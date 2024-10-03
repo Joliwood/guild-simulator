@@ -85,6 +85,16 @@ pub struct SelectedMission {
     pub recruit_id: Option<Uuid>,
 }
 
+impl SelectedMission {
+    pub fn get_mission(&self) -> Option<Mission> {
+        if let Some(mission) = &self.mission {
+            return Some(mission.clone());
+        }
+
+        None
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Component, Resource)]
 pub struct Ennemy {
     pub endurance: u16,
@@ -104,6 +114,22 @@ pub struct Mission {
     pub id: Uuid,
     pub level: u8,
     pub name: String,
+    pub recruit_send: Option<Uuid>,
+    pub days_left: Option<u8>,
+}
+
+impl Mission {
+    pub fn decrement_days_left(&mut self) {
+        if let Some(days_left) = &mut self.days_left {
+            if *days_left > 0 {
+                *days_left -= 1;
+            }
+        }
+    }
+
+    pub fn assign_recruit_by_id(&mut self, recruit_id: Uuid) {
+        self.recruit_send = Some(recruit_id);
+    }
 }
 
 // --- Implementations --- //
@@ -253,6 +279,16 @@ impl PlayerStats {
             }
         }
     }
+
+    pub fn update_state_of_recruit(&mut self, recruit_id: Uuid, state: RecruitStateEnum) {
+        if let Some(recruit) = self
+            .recruits
+            .iter_mut()
+            .find(|recruit| recruit.id == recruit_id)
+        {
+            recruit.state = state;
+        }
+    }
 }
 
 impl RecruitStats {
@@ -382,6 +418,15 @@ impl RecruitStats {
 
         additional_intelligence
     }
+
+    pub fn get_total_merged_stats(&self) -> u32 {
+        return self.strength as u32
+            + self.get_additional_strength_from_items()
+            + self.endurance as u32
+            + self.get_additional_endurance_from_items()
+            + self.intelligence as u32
+            + self.get_additional_intelligence_from_items();
+    }
 }
 
 pub fn load_weapon_by_id(id: u16) -> Option<Weapon> {
@@ -491,10 +536,12 @@ impl Default for Missions {
     fn default() -> Self {
         Self(vec![
             Mission {
-                id: Uuid::new_v4(),
+                days_left: None,
                 days: 1,
-                name: "Mission 1".to_string(),
+                id: Uuid::new_v4(),
                 level: 1,
+                name: "Mission 1".to_string(),
+                recruit_send: None,
                 ennemy: Ennemy {
                     endurance: 10,
                     experience: 0,
@@ -505,10 +552,12 @@ impl Default for Missions {
                 },
             },
             Mission {
+                days_left: None,
                 days: 1,
                 id: Uuid::new_v4(),
-                name: "Mission 2".to_string(),
                 level: 2,
+                name: "Mission 2".to_string(),
+                recruit_send: None,
                 ennemy: Ennemy {
                     endurance: 15,
                     experience: 0,
@@ -519,10 +568,12 @@ impl Default for Missions {
                 },
             },
             Mission {
+                days_left: None,
                 days: 2,
                 id: Uuid::new_v4(),
-                name: "Mission 3".to_string(),
                 level: 3,
+                name: "Mission 3".to_string(),
+                recruit_send: None,
                 ennemy: Ennemy {
                     endurance: 20,
                     experience: 0,
