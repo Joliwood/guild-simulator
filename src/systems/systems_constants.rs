@@ -1,7 +1,4 @@
-use bevy::prelude::{
-    Color,
-    // Vec2,
-};
+use bevy::prelude::Color;
 
 pub const NORMAL_BUTTON: Color = Color::srgb(0.15, 0.15, 0.15);
 pub const HOVERED_BUTTON: Color = Color::srgb(0.25, 0.25, 0.25);

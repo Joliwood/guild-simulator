@@ -1,16 +1,16 @@
-#![allow(dead_code)]
+use bevy::prelude::Component;
 use serde::Deserialize;
 
 use crate::enums::ItemRaretyEnum;
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Component, PartialEq, Eq, Hash)]
 pub enum Item {
     Weapon(Weapon),
     Armor(Armor),
     Scroll(Scroll, u16),
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub struct Weapon {
     pub endurance: Option<u32>,
     pub id: u16,
@@ -22,7 +22,7 @@ pub struct Weapon {
     pub rarety: ItemRaretyEnum,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub struct Armor {
     pub endurance: Option<u32>,
     pub id: u16,
@@ -34,7 +34,7 @@ pub struct Armor {
     pub rarety: ItemRaretyEnum,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub struct Scroll {
     pub endurance: Option<u32>,
     pub id: u16,

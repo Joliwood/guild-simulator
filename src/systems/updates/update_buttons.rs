@@ -1,9 +1,13 @@
 #![allow(unused_mut)]
 use crate::{
-    enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
-    structs::general_structs::{
-        MissionModalVisible, Missions, PlayerStats, RecruitStats, SelectedMission, SelectedRecruit,
-        UniqueId,
+    audio::play_sound::play_sound,
+    enums::{RecruitEnum, RoomDirectionEnum, RoomEnum, SoundEnum},
+    structs::{
+        equipments::Item,
+        general_structs::{
+            load_scroll_by_id, MissionModalVisible, Missions, PlayerStats, RecruitInventory,
+            RecruitStats, SelectedMission, SelectedRecruit, UniqueId,
+        },
     },
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
@@ -11,7 +15,8 @@ use crate::{
     },
     ui::ui_constants::WOOD_COLOR,
     utils::{
-        get_global_points, get_new_room, get_victory_percentage, get_xp_earned, is_mission_success,
+        equip_recruit_inventory, get_global_points, get_new_room, get_victory_percentage,
+        get_xp_earned, is_mission_success,
     },
 };
 use bevy::prelude::*;
@@ -142,13 +147,16 @@ pub fn mouse_interaction_updates(
         }
 
         let new_recruits = vec![RecruitStats {
-            id: Uuid::new_v4(),
+            recruit_inventory: RecruitInventory::generate_empty_inventory(),
             class: RecruitEnum::Rogue,
             endurance: 5,
             experience: 0,
+            id: Uuid::new_v4(),
+            image_atlas_index: 3,
             intelligence: 12,
             level: 1,
             max_experience: 100,
+            name: "Random noob".to_string(),
             strength: 2,
         }];
 
@@ -157,6 +165,10 @@ pub fn mouse_interaction_updates(
                 Interaction::Pressed => {
                     info!("let's recruit a rogue now!");
                     hire_new_recruits(player_stats.as_mut(), new_recruits);
+                    let new_item = load_scroll_by_id(2);
+                    if let Some(item) = new_item {
+                        player_stats.add_item(Item::Scroll(item, 1));
+                    }
                 }
                 Interaction::Hovered => {}
                 Interaction::None => {}
@@ -168,31 +180,19 @@ pub fn mouse_interaction_updates(
 /// Select the recruit when the button is pressed
 pub fn select_recruit_button(
     mut interaction_query: Query<
-        (&Interaction, &mut BackgroundColor, &UniqueId),
+        (&Interaction, &mut BackgroundColor, &UniqueId, &RecruitStats),
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
-    player_stats: Res<PlayerStats>,
     mut selected_recruit: ResMut<SelectedRecruit>,
 ) {
     let mut window = windows.single_mut();
 
-    for (interaction, mut color, unique_id) in &mut interaction_query {
-        if unique_id.0.starts_with("recruit_button_") {
+    for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
+        if unique_id.0 == "recruit_button" {
             match *interaction {
                 Interaction::Pressed => {
-                    let recruit_id = unique_id.0.strip_prefix("recruit_button_").unwrap();
-                    let recruit_selected = player_stats
-                        .recruits
-                        .iter()
-                        .find(|recruit| recruit.id.to_string() == recruit_id);
-
-                    selected_recruit.0 = recruit_selected.cloned();
-
-                    info!(
-                        "\n Button pressed on the recruit with the id : {:?}\n",
-                        recruit_selected
-                    );
+                    selected_recruit.0 = Some(recruit.clone());
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;
@@ -381,9 +381,8 @@ pub fn start_mission_button(
             if unique_id.0.starts_with("start_mission") {
                 match *interaction {
                     Interaction::Pressed => {
-                        info!("Start the mission with the id : {:?}", unique_id.0);
                         info!(
-                            "There is this amount of % to win this mission : {:?}",
+                            "% of win is : {:?}",
                             selected_mission.percent_of_victory.as_ref().unwrap()
                         );
                         let percent_of_victory =
@@ -397,14 +396,7 @@ pub fn start_mission_button(
                             let gold_earned = (mission_ennemy_level * 10) as i32;
                             let recruit_id = selected_mission.recruit_id.unwrap();
 
-                            // Update the recruit with the new xp and gold
-                            let recruit = player_stats
-                                .recruits
-                                .iter_mut()
-                                .find(|recruit| recruit.id == recruit_id)
-                                .unwrap();
-
-                            recruit.experience += xp_earned;
+                            player_stats.gain_xp_to_recruit(recruit_id, xp_earned);
                             player_stats.increment_golds(gold_earned);
                         } else {
                             info!("The mission is a failure !");
@@ -516,34 +508,49 @@ pub fn buttons_disable_updates(
 }
 
 pub fn select_item_in_inventory(
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
     mut interaction_query: Query<
         (
             &Interaction,
             &mut BackgroundColor,
             &UniqueId,
             &mut BorderColor,
+            &Item,
         ),
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
+    mut selected_recruit: ResMut<SelectedRecruit>,
+    mut player_stats: ResMut<PlayerStats>,
 ) {
     let mut window = windows.single_mut();
 
-    for (interaction, mut color, unique_id, mut border_color) in &mut interaction_query {
+    for (interaction, mut color, unique_id, mut border_color, item) in &mut interaction_query {
         if unique_id.0 == "item_in_inventory" {
-            // let item_id = unique_id.0.strip_prefix("item_in_inventory_").unwrap();
-
-            // let tooltip_text = format!("Item with id : {}", item_id);
-
             match *interaction {
                 Interaction::Pressed => {
                     border_color.0 = WOOD_COLOR;
+                    let is_recruit_equiped =
+                        equip_recruit_inventory(&mut selected_recruit, item, &mut player_stats);
+                    if is_recruit_equiped == true {
+                        match item {
+                            Item::Armor(_) => {
+                                play_sound(&asset_server, &mut commands, SoundEnum::EquipArmor);
+                            }
+                            Item::Scroll(_, __) => {
+                                play_sound(&asset_server, &mut commands, SoundEnum::EquipScroll);
+                            }
+                            Item::Weapon(_) => {
+                                play_sound(&asset_server, &mut commands, SoundEnum::EquipWeapon);
+                            }
+                        }
+                    }
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;
                     *color = HOVERED_BUTTON.into();
                     border_color.0 = Color::WHITE;
-                    // Tooltip::cursor(tooltip_text.to_string());
                 }
                 Interaction::None => {
                     window.cursor.icon = CursorIcon::Default;
@@ -553,4 +560,14 @@ pub fn select_item_in_inventory(
             }
         }
     }
+}
+
+pub fn delete_item_from_player_inventory(player_stats: &mut PlayerStats, item: &Item) {
+    let item_index = player_stats
+        .inventory
+        .iter()
+        .position(|x| x == item)
+        .unwrap();
+
+    player_stats.inventory.remove(item_index);
 }

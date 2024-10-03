@@ -15,10 +15,10 @@ pub fn spawn_inventory(
     parent: &mut ChildBuilder,
     player_stats: &Res<PlayerStats>,
     asset_server: &Res<AssetServer>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let inventory_size = player_stats.max_inventory_size;
-    let columns = 4;
+    let columns = 5;
     let texture_handle_empty_slot: Handle<Image> =
         asset_server.load("images/equipments/empty_inventory_slot.png");
 
@@ -86,7 +86,8 @@ pub fn spawn_inventory(
                                         Tooltip::cursor(tooltip_text.to_string())
                                             .with_activation(TooltipActivation::IMMEDIATE),
                                     ))
-                                    .insert(UniqueId(format!("item_in_inventory")))
+                                    .insert(UniqueId("item_in_inventory".to_string()))
+                                    .insert(item.clone())
                                     .with_children(|button| {
                                         // If the item is a scroll, add a count indicator inside the button
                                         if let Item::Scroll(_, count) = item {
@@ -126,7 +127,7 @@ pub fn spawn_inventory(
                                         image: texture_handle_empty_slot.clone().into(),
                                         ..default()
                                     })
-                                    .insert(UniqueId(format!("item_in_inventory")));
+                                    .insert(UniqueId(format!("item_in_inventory0")));
                             }
                         }
                     }

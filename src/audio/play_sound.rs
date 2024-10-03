@@ -7,14 +7,14 @@ use bevy::{
 
 pub fn play_sound(asset_server: &Res<AssetServer>, commands: &mut Commands, asset: SoundEnum) {
     let path: &str = asset.get_path();
-    commands.spawn(AudioBundle {
+    commands.spawn((AudioBundle {
         source: asset_server.load(path),
         settings: PlaybackSettings {
-            mode: PlaybackMode::Once,
+            mode: PlaybackMode::Despawn,
             volume: Volume::new(0.1),
             speed: 1.0,
             ..Default::default()
         },
         ..default()
-    });
+    },));
 }

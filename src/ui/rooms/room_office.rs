@@ -7,7 +7,7 @@ use bevy::prelude::*;
 pub fn room_office(
     asset_server: &Res<AssetServer>,
     commands: &mut Commands,
-    texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let imager_handler: Handle<Image> = asset_server.load("images/office.png");
 

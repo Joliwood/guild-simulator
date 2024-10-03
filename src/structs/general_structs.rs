@@ -1,20 +1,17 @@
-#![allow(dead_code, unused_imports)]
+#![allow(dead_code)]
 use super::equipments::{Armor, Armors, Item, Scroll, Scrolls, Weapon};
 use crate::{
     enums::{RecruitEnum, RoomEnum},
     structs::equipments::Weapons,
-    utils::format_ron_equipments_for_display,
 };
 use bevy::{
     log::info,
-    prelude::{Component, Entity, Resource},
+    prelude::{Component, Resource},
 };
 use ron::de::from_str;
-use serde::Deserialize;
-use std::{collections::VecDeque, fs};
+use std::fs;
 use uuid::Uuid;
 
-// WIP
 #[derive(Resource)]
 pub struct MissionNotificationsNumber(pub u8);
 
@@ -24,7 +21,7 @@ pub struct MissionModalVisible(pub bool);
 #[derive(Component)]
 pub struct UniqueId(pub String);
 
-#[derive(Component, Resource)]
+#[derive(Component, Resource, Clone)]
 pub struct PlayerStats {
     pub experience: u32,
     pub golds: i32,
@@ -36,15 +33,43 @@ pub struct PlayerStats {
     pub room: RoomEnum,
 }
 
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+pub struct RecruitInventory {
+    pub armor: Option<Armor>,
+    pub weapon: Option<Weapon>,
+    pub scrolls: Vec<Scroll>,
+}
+
+impl RecruitInventory {
+    pub fn generate_empty_inventory() -> Self {
+        Self {
+            armor: None,
+            weapon: None,
+            scrolls: vec![],
+        }
+    }
+
+    pub fn get_weapon(&self) -> Option<Weapon> {
+        if let Some(weapon) = &self.weapon {
+            return Some(weapon.clone());
+        }
+
+        None
+    }
+}
+
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct RecruitStats {
+    pub recruit_inventory: RecruitInventory,
     pub class: RecruitEnum,
     pub endurance: u16,
     pub experience: u32,
     pub id: Uuid,
+    pub image_atlas_index: u16,
     pub intelligence: u16,
     pub level: u8,
     pub max_experience: u32,
+    pub name: String,
     pub strength: u16,
 }
 
@@ -86,6 +111,30 @@ impl Default for SelectedRecruit {
     }
 }
 
+impl SelectedRecruit {
+    pub fn get_inventory(&self) -> RecruitInventory {
+        if let Some(recruit) = &self.0 {
+            return recruit.recruit_inventory.clone();
+        }
+
+        RecruitInventory::generate_empty_inventory()
+    }
+
+    pub fn get_id(&self) -> Option<Uuid> {
+        if let Some(recruit) = &self.0 {
+            return Some(recruit.id);
+        }
+
+        None
+    }
+
+    pub fn equip_weapon(&mut self, weapon: Weapon) {
+        if let Some(recruit) = &mut self.0 {
+            recruit.recruit_inventory.weapon = Some(weapon);
+        }
+    }
+}
+
 impl Default for SelectedMission {
     fn default() -> Self {
         Self {
@@ -117,11 +166,97 @@ impl PlayerStats {
         // Set the max experience to the current experience * 2
         self.max_experience *= 2;
     }
+
+    pub fn find_item_by_id(&self, id: u16) -> Option<Item> {
+        if let Some(item) = self.inventory.iter().find(|item| match item {
+            Item::Weapon(weapon) => weapon.id == id,
+            Item::Armor(armor) => armor.id == id,
+            Item::Scroll(scroll, _) => scroll.id == id,
+        }) {
+            return Some(item.clone());
+        }
+
+        None
+    }
+
+    pub fn add_item(&mut self, item: Item) {
+        match item {
+            Item::Scroll(scroll, quantity) => {
+                let scroll_id = scroll.id;
+                if self.inventory.iter().any(|item| match item {
+                    Item::Scroll(scroll, _) => scroll.id == scroll_id,
+                    _ => false,
+                }) {
+                    self.inventory.iter_mut().for_each(|item| match item {
+                        Item::Scroll(scroll, q) => {
+                            if scroll.id == scroll_id {
+                                *q += quantity;
+                            }
+                        }
+                        _ => {}
+                    });
+                } else {
+                    self.inventory.push(Item::Scroll(scroll, quantity));
+                }
+            }
+            _ => {
+                if self.inventory.len() < self.max_inventory_size {
+                    self.inventory.push(item);
+                }
+            }
+        }
+        // self.inventory.push(item);
+    }
+
+    pub fn get_recruit_by_id(&self, id: Uuid) -> Option<RecruitStats> {
+        if let Some(recruit) = self.recruits.iter().find(|recruit| recruit.id == id) {
+            return Some(recruit.clone());
+        }
+
+        None
+    }
+
+    pub fn equip_item_to_recruit(&mut self, recruit_id: Uuid, item: &Item) {
+        if let Some(recruit) = self
+            .recruits
+            .iter_mut()
+            .find(|recruit| recruit.id == recruit_id)
+        {
+            recruit.equip_item(&item);
+        }
+    }
+
+    pub fn gain_xp_to_recruit(&mut self, recruit_id: Uuid, xp: u32) {
+        if let Some(recruit) = self
+            .recruits
+            .iter_mut()
+            .find(|recruit| recruit.id == recruit_id)
+        {
+            recruit.gain_xp(xp);
+        }
+    }
+
+    pub fn remove_one_scroll_from_inventory(&mut self, scroll_id: u16) {
+        if let Some(scroll_index) = self.inventory.iter().position(|item| match item {
+            Item::Scroll(scroll, _) => scroll.id == scroll_id,
+            _ => false,
+        }) {
+            if let Item::Scroll(_scroll, quantity) = &mut self.inventory[scroll_index] {
+                if *quantity > 1 {
+                    *quantity -= 1;
+                } else {
+                    self.inventory.remove(scroll_index);
+                }
+            }
+        }
+    }
 }
 
 impl RecruitStats {
     pub fn gain_xp(&mut self, xp: u32) {
         self.experience += xp;
+
+        info!("==> WE GAIN XP: {}", xp);
 
         // Reset the experience with left experience after leveling up
         // Then level up
@@ -136,9 +271,117 @@ impl RecruitStats {
         // Set the max experience to the current experience * 2
         self.max_experience *= 2;
     }
+
+    pub fn get_item(&self, item: Item) -> Option<Item> {
+        match item {
+            Item::Weapon(_weapon) => {
+                if let Some(weapon) = &self.recruit_inventory.weapon {
+                    return Some(Item::Weapon(weapon.clone()));
+                }
+            }
+            Item::Armor(_armor) => {
+                if let Some(armor) = &self.recruit_inventory.armor {
+                    return Some(Item::Armor(armor.clone()));
+                }
+            }
+            Item::Scroll(_scroll, _) => {
+                if let Some(scroll) = self.recruit_inventory.scrolls.first() {
+                    return Some(Item::Scroll(scroll.clone(), 1));
+                }
+            }
+        }
+
+        None
+    }
+
+    pub fn equip_item(&mut self, item: &Item) {
+        match item {
+            Item::Weapon(weapon) => {
+                self.recruit_inventory.weapon = Some(weapon.clone());
+            }
+            Item::Armor(armor) => {
+                self.recruit_inventory.armor = Some(armor.clone());
+            }
+            Item::Scroll(scroll, _) => {
+                self.recruit_inventory.scrolls.push(scroll.clone());
+            }
+        }
+    }
+
+    pub fn get_additional_strength_from_items(&self) -> u32 {
+        let mut additional_strength = 0;
+
+        if let Some(weapon) = &self.recruit_inventory.weapon {
+            if let Some(strength) = weapon.strength {
+                additional_strength += strength;
+            }
+        }
+
+        if let Some(armor) = &self.recruit_inventory.armor {
+            if let Some(strength) = armor.strength {
+                additional_strength += strength;
+            }
+        }
+
+        for scroll in &self.recruit_inventory.scrolls {
+            if let Some(strength) = scroll.strength {
+                additional_strength += strength;
+            }
+        }
+
+        additional_strength
+    }
+
+    pub fn get_additional_endurance_from_items(&self) -> u32 {
+        let mut additional_endurance = 0;
+
+        if let Some(weapon) = &self.recruit_inventory.weapon {
+            if let Some(endurance) = weapon.endurance {
+                additional_endurance += endurance;
+            }
+        }
+
+        if let Some(armor) = &self.recruit_inventory.armor {
+            if let Some(endurance) = armor.endurance {
+                additional_endurance += endurance;
+            }
+        }
+
+        for scroll in &self.recruit_inventory.scrolls {
+            if let Some(endurance) = scroll.endurance {
+                additional_endurance += endurance;
+            }
+        }
+
+        additional_endurance
+    }
+
+    pub fn get_additional_intelligence_from_items(&self) -> u32 {
+        let mut additional_intelligence = 0;
+
+        if let Some(weapon) = &self.recruit_inventory.weapon {
+            if let Some(intelligence) = weapon.intelligence {
+                additional_intelligence += intelligence;
+            }
+        }
+
+        if let Some(armor) = &self.recruit_inventory.armor {
+            if let Some(intelligence) = armor.intelligence {
+                additional_intelligence += intelligence;
+            }
+        }
+
+        for scroll in &self.recruit_inventory.scrolls {
+            if let Some(intelligence) = scroll.intelligence {
+                additional_intelligence += intelligence;
+            }
+        }
+
+        additional_intelligence
+    }
 }
 
-fn load_weapon_by_id(id: u16) -> Option<Weapon> {
+pub fn load_weapon_by_id(id: u16) -> Option<Weapon> {
     let weapons_data = fs::read_to_string("src/data/equipments/weapons.ron")
         .expect("Failed to read the RON file.");
 
@@ -153,7 +396,7 @@ fn load_weapon_by_id(id: u16) -> Option<Weapon> {
     }
 }
 
-fn load_scroll_by_id(id: u16) -> Option<Scroll> {
+pub fn load_scroll_by_id(id: u16) -> Option<Scroll> {
     let scrolls_data = fs::read_to_string("src/data/equipments/scrolls.ron")
         .expect("Failed to read the RON file.");
 
@@ -168,7 +411,7 @@ fn load_scroll_by_id(id: u16) -> Option<Scroll> {
     }
 }
 
-fn load_armor_by_id(id: u16) -> Option<Armor> {
+pub fn load_armor_by_id(id: u16) -> Option<Armor> {
     let armors_data =
         fs::read_to_string("src/data/equipments/armors.ron").expect("Failed to read the RON file.");
 
@@ -191,7 +434,9 @@ impl Default for PlayerStats {
         let second_same_weapon = load_weapon_by_id(3);
         let first_scroll = load_scroll_by_id(1);
         let second_scroll = load_scroll_by_id(3);
-        let first_armor = load_armor_by_id(2);
+        let first_armor = load_armor_by_id(3);
+        let second_armor = load_armor_by_id(1);
+        let second_same_armor = load_armor_by_id(1);
 
         if let Some(first_weapon) = first_weapon {
             inventory.push(Item::Weapon(first_weapon));
@@ -217,15 +462,23 @@ impl Default for PlayerStats {
             inventory.push(Item::Armor(first_armor));
         }
 
+        if let Some(second_armor) = second_armor {
+            inventory.push(Item::Armor(second_armor));
+        }
+
+        if let Some(second_same_armor) = second_same_armor {
+            inventory.push(Item::Armor(second_same_armor));
+        }
+
         Self {
             experience: 0,
             golds: 0,
             guild_level: 1,
             inventory,
             max_experience: 100,
-            max_inventory_size: 20,
+            max_inventory_size: 50,
             recruits: vec![],
-            room: RoomEnum::Office,
+            room: RoomEnum::Barrack,
         }
     }
 }
