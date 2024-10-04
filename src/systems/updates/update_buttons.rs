@@ -190,18 +190,36 @@ pub fn select_recruit_button(
     let mut window = windows.single_mut();
 
     for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
+        let recruit_state = recruit.clone().state;
         if unique_id.0 == "recruit_button" {
-            match *interaction {
-                Interaction::Pressed => {
-                    selected_recruit.0 = Some(recruit.clone());
+            if recruit_state != RecruitStateEnum::InMission {
+                match *interaction {
+                    Interaction::Pressed => {
+                        selected_recruit.0 = Some(recruit.clone());
+                    }
+                    Interaction::Hovered => {
+                        window.cursor.icon = CursorIcon::Pointer;
+                        *color = HOVERED_BUTTON.into();
+                    }
+                    Interaction::None => {
+                        window.cursor.icon = CursorIcon::Default;
+                        *color = BackgroundColor(WOOD_COLOR);
+                    }
                 }
-                Interaction::Hovered => {
-                    window.cursor.icon = CursorIcon::Pointer;
-                    *color = HOVERED_BUTTON.into();
-                }
-                Interaction::None => {
-                    window.cursor.icon = CursorIcon::Default;
-                    *color = BackgroundColor(WOOD_COLOR);
+            } else {
+                match *interaction {
+                    // Interaction::Pressed => {
+                    //     selected_recruit.0 = Some(recruit.clone());
+                    // }
+                    // Interaction::Hovered => {
+                    //     window.cursor.icon = CursorIcon::Pointer;
+                    //     *color = HOVERED_BUTTON.into();
+                    // }
+                    Interaction::None => {
+                        window.cursor.icon = CursorIcon::Default;
+                        *color = BackgroundColor(WOOD_COLOR);
+                    }
+                    _ => {}
                 }
             }
         }
@@ -410,24 +428,8 @@ pub fn start_mission_button(
                         missions
                             .assign_recruit_id_to_mission(mission.unwrap().id, recruit_id.unwrap());
 
-                        // let mission = selected_mission.get_mission();
-
-                        // TESTTTT ->
-                        // let mission =
-                        //     missions.get_mission_by_id(selected_mission.get_mission().unwrap().id);
-
-                        // if mission.is_none() {
-                        //     return;
-                        // }
-
-                        // info!("the recruit id is {}", recruit_id.unwrap());
-                        // info!("the mission is {:?}", mission);
-                        // mission.unwrap().assign_recruit_by_id(recruit_id.unwrap());
-                        // TESTTTT ->
-
-                        // Update the mission to put it in state "in progress"
-
-                        // --- OLD CODE --- //
+                        // ! --- OLD CODE --- //
+                        // ! --- Keep for next feature mission V2 --- //
                         // let percent_of_victory =
                         //     selected_mission.percent_of_victory.unwrap() as f32;
                         // let is_mission_sucess = is_mission_success(percent_of_victory);
