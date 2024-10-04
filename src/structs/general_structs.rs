@@ -113,7 +113,6 @@ impl Missions {
         if let Some(mission) = self.0.iter().find(|mission| mission.id == id) {
             return Some(mission.clone());
         }
-
         None
     }
 
@@ -128,6 +127,39 @@ impl Missions {
             mission.decrement_days_left();
         }
     }
+
+    pub fn attribute_days_left_to_mission(&mut self, mission_id: Uuid) {
+        if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
+            mission.attribute_days_left();
+        }
+    }
+
+    pub fn is_mission_over(&self, mission_id: Uuid) -> bool {
+        if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
+            return mission.days_left.is_none();
+        }
+        false
+    }
+
+    pub fn get_recruit_id_send_by_mission_id(&self, mission_id: Uuid) -> Option<Uuid> {
+        if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
+            return mission.recruit_send;
+        }
+        None
+    }
+
+    pub fn desassign_recruit_to_mission(&mut self, mission_id: Uuid) {
+        if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
+            mission.desassign_recruit();
+        }
+    }
+
+    pub fn get_mission_enemmy_level_by_id(&self, mission_id: Uuid) -> Option<u8> {
+        if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
+            return Some(mission.ennemy.level);
+        }
+        None
+    }
 }
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
@@ -138,7 +170,6 @@ pub struct Mission {
     pub level: u8,
     pub name: String,
     pub recruit_send: Option<Uuid>,
-    // WIP MAX - Keep the days_left but the duration will be set without option
     pub days_left: Option<u8>,
 }
 
@@ -146,13 +177,16 @@ impl Mission {
     pub fn decrement_days_left(&mut self) {
         if let Some(days_left) = &mut self.days_left {
             if *days_left == 1 {
-                self.days_left = None;
-                self.desassign_recruit();
-                return;
+                return self.days_left = None;
+                // WIP - To clean when it will be ok
+                //     self.desassign_recruit();
+                //     return;
             }
             if *days_left > 0 {
                 return *days_left -= 1;
             }
+
+            // self.days_left = None;
         }
     }
 
@@ -162,6 +196,10 @@ impl Mission {
 
     pub fn desassign_recruit(&mut self) {
         self.recruit_send = None;
+    }
+
+    pub fn attribute_days_left(&mut self) {
+        self.days_left = Some(self.days);
     }
 }
 
@@ -604,7 +642,7 @@ impl Default for Missions {
                 id: Uuid::new_v4(),
                 level: 3,
                 name: "Mission 3".to_string(),
-                recruit_send: Some(Uuid::new_v4()),
+                recruit_send: None,
                 ennemy: Ennemy {
                     endurance: 20,
                     experience: 0,

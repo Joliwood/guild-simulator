@@ -429,8 +429,14 @@ pub fn start_mission_button(
                             return;
                         }
 
-                        missions
-                            .assign_recruit_id_to_mission(mission.unwrap().id, recruit_id.unwrap());
+                        missions.assign_recruit_id_to_mission(
+                            mission.clone().unwrap().id,
+                            recruit_id.unwrap(),
+                        );
+
+                        missions.attribute_days_left_to_mission(mission.unwrap().id);
+
+                        // mission.unwrap().attribute_days_left();
 
                         // ! --- OLD CODE --- //
                         // ! --- Keep for next feature mission V2 --- //

@@ -28,7 +28,7 @@ pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
                 weapon: first_weapon,
                 scrolls: vec![],
             },
-            state: RecruitStateEnum::InMission,
+            state: RecruitStateEnum::Available,
             strength: 10,
         },
         RecruitStats {

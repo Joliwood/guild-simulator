@@ -2,7 +2,9 @@ use crate::{
     enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
     structs::{
         equipments::Item,
-        general_structs::{PlayerStats, RecruitInventory, RecruitStats, SelectedRecruit},
+        general_structs::{
+            Missions, PlayerStats, RecruitInventory, RecruitStats, SelectedMission, SelectedRecruit,
+        },
     },
     systems::updates::update_buttons::delete_item_from_player_inventory,
     ui::ui_constants::{ARMOR_PATH, SCROLL_PATH, WEAPON_PATH},
@@ -414,6 +416,46 @@ pub fn equip_recruit_inventory(
 
             return false;
         }
+    }
+}
+
+pub fn finish_mission(
+    player_stats: &mut ResMut<PlayerStats>,
+    mission_id: Uuid,
+    missions: &mut Missions,
+    percent_of_victory: f32,
+) {
+    let recruit_id = missions.get_recruit_id_send_by_mission_id(mission_id);
+    // info!(
+    //     "The mission {} is over, the recruit {:?} is back",
+    //     mission_id, recruit
+    // );
+    if recruit_id.is_none() {
+        return;
+    }
+    player_stats.update_state_of_recruit(recruit_id.unwrap(), RecruitStateEnum::Available);
+    missions.desassign_recruit_to_mission(mission_id);
+
+    // ! --- OLD CODE --- //
+    // ! --- Keep for next feature mission V2 --- //
+    // let percent_of_victory = selected_mission.percent_of_victory.unwrap() as f32;
+    let is_mission_sucess = is_mission_success(percent_of_victory);
+    if is_mission_sucess {
+        info!("The mission is a success !",);
+        // let mission_ennemy_level = selected_mission.mission.as_ref().unwrap().level;
+        let mission_ennemy_level = missions.get_mission_enemmy_level_by_id(mission_id);
+        if mission_ennemy_level.is_none() {
+            return;
+        }
+
+        let xp_earned = get_xp_earned(mission_ennemy_level.unwrap());
+        let gold_earned = (mission_ennemy_level.unwrap() * 10) as i32;
+        // let recruit_id = selected_mission.recruit_id.unwrap();
+
+        player_stats.gain_xp_to_recruit(recruit_id.unwrap(), xp_earned);
+        player_stats.increment_golds(gold_earned);
+    } else {
+        info!("The mission is a failure !");
     }
 }
 
