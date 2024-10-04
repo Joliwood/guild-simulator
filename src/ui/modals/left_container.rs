@@ -30,10 +30,10 @@ pub fn spawn_left_container(
             for recruit in player_stats.recruits.iter() {
                 parent
                     .spawn(CustomButton::Primary.bundle(asset_server, image_assets))
-                    .insert(UniqueId(format!(
-                        "assign_recruit_to_mission_{}",
-                        recruit.id
-                    )))
+                    .insert((
+                        UniqueId(format!("assign_recruit_to_mission")),
+                        recruit.clone(),
+                    ))
                     .with_children(|button| {
                         button.spawn(TextBundle {
                             text: Text::from_section(

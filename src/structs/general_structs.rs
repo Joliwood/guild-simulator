@@ -105,7 +105,7 @@ pub struct Ennemy {
     pub strength: u16,
 }
 
-#[derive(Component, Resource)]
+#[derive(Debug, Component, Resource)]
 pub struct Missions(pub Vec<Mission>);
 
 impl Missions {
@@ -122,6 +122,12 @@ impl Missions {
             mission.assign_recruit_by_id(recruit_id);
         }
     }
+
+    pub fn decrement_days_left_by_mission_id(&mut self, mission_id: Uuid) {
+        if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
+            mission.decrement_days_left();
+        }
+    }
 }
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
@@ -132,21 +138,30 @@ pub struct Mission {
     pub level: u8,
     pub name: String,
     pub recruit_send: Option<Uuid>,
+    // WIP MAX - Keep the days_left but the duration will be set without option
     pub days_left: Option<u8>,
 }
 
 impl Mission {
     pub fn decrement_days_left(&mut self) {
         if let Some(days_left) = &mut self.days_left {
+            if *days_left == 1 {
+                self.days_left = None;
+                self.desassign_recruit();
+                return;
+            }
             if *days_left > 0 {
-                *days_left -= 1;
+                return *days_left -= 1;
             }
         }
     }
 
     pub fn assign_recruit_by_id(&mut self, recruit_id: Uuid) {
         self.recruit_send = Some(recruit_id);
-        info!("WIKWKKWKWKWKWWKWKWKWKK: {:?}", self);
+    }
+
+    pub fn desassign_recruit(&mut self) {
+        self.recruit_send = None;
     }
 }
 
@@ -312,8 +327,6 @@ impl PlayerStats {
 impl RecruitStats {
     pub fn gain_xp(&mut self, xp: u32) {
         self.experience += xp;
-
-        info!("==> WE GAIN XP: {}", xp);
 
         // Reset the experience with left experience after leveling up
         // Then level up
@@ -545,7 +558,7 @@ impl Default for PlayerStats {
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![],
-            room: RoomEnum::Barrack,
+            room: RoomEnum::CommandRoom,
         }
     }
 }
