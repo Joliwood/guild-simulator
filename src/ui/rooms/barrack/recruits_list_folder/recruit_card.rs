@@ -4,7 +4,7 @@ use super::{
 };
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
-    structs::general_structs::{PlayerStats, RecruitStats, UniqueId},
+    structs::{general_structs::UniqueId, player_stats::PlayerStats, recruits::RecruitStats},
     ui::{
         interface::gold_counter::MyAssets,
         rooms::barrack::recruits_list_folder::{

@@ -2,10 +2,10 @@ use super::{
     left_container::spawn_left_container, middle_container::spawn_middle_container,
     right_container::spawn_right_container,
 };
-
 use crate::{
     structs::{
-        general_structs::{MissionModalVisible, Missions, PlayerStats, SelectedMission, UniqueId},
+        general_structs::{MissionModalVisible, Missions, SelectedMission, UniqueId},
+        player_stats::PlayerStats,
         trigger_structs::ModalContentTrigger,
     },
     ui::{

@@ -1,6 +1,6 @@
 use super::{recruit_frame::recruit_frame, recruit_infos_folder::recruit_infos::recruit_infos};
 use crate::{
-    structs::general_structs::{PlayerStats, SelectedRecruit},
+    structs::{player_stats::PlayerStats, recruits::SelectedRecruit},
     ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;

@@ -5,9 +5,10 @@ use crate::{
     structs::{
         equipments::Item,
         general_structs::{
-            load_scroll, Mission, MissionModalVisible, Missions, PlayerStats, RecruitInventory,
-            RecruitStats, SelectedMission, SelectedRecruit, UniqueId,
+            load_scroll, Mission, MissionModalVisible, Missions, SelectedMission, UniqueId,
         },
+        player_stats::PlayerStats,
+        recruits::{RecruitInventory, RecruitStats, SelectedRecruit},
     },
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
@@ -397,6 +398,22 @@ pub fn start_mission_button(
                     if recruit_id.is_none() {
                         return;
                     }
+
+                    player_stats
+                        .update_state_of_recruit(recruit_id.unwrap(), RecruitStateEnum::InMission);
+
+                    let mission = selected_mission.get_mission();
+
+                    if mission.is_none() {
+                        return;
+                    }
+
+                    missions.assign_recruit_id_to_mission(
+                        mission.clone().unwrap().id,
+                        recruit_id.unwrap(),
+                    );
+
+                    missions.attribute_days_left_to_mission(mission.unwrap().id);
 
                     player_stats
                         .update_state_of_recruit(recruit_id.unwrap(), RecruitStateEnum::InMission);

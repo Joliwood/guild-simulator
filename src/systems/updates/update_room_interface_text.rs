@@ -1,4 +1,4 @@
-use crate::structs::{general_structs::PlayerStats, trigger_structs::PlayerStatsRoomTrigger};
+use crate::structs::{player_stats::PlayerStats, trigger_structs::PlayerStatsRoomTrigger};
 use bevy::{
     prelude::{DetectChanges, Query, Res, With},
     text::Text,

@@ -1,10 +1,6 @@
-use bevy::{
-    asset::Assets,
-    prelude::{Commands, Res, ResMut},
-    sprite::TextureAtlasLayout,
-};
-
-use crate::ui::{interface::gold_counter::MyAssets, rooms::room_office::room_office};
+use super::office::room_office::room_office;
+use crate::ui::interface::gold_counter::MyAssets;
+use bevy::prelude::{Commands, Res};
 
 /// # All the UI logic and components will be setup here
 ///
@@ -13,10 +9,6 @@ use crate::ui::{interface::gold_counter::MyAssets, rooms::room_office::room_offi
 /// ## Parameters
 /// - `commands`: Bevy's commands
 /// - `my_assets`: Bevy's asset server
-pub fn room_setup(
-    my_assets: Res<MyAssets>,
-    mut commands: Commands,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
-) {
-    room_office(&my_assets, &mut commands, &mut texture_atlas_layouts);
+pub fn room_setup(my_assets: Res<MyAssets>, mut commands: Commands) {
+    room_office(&my_assets, &mut commands);
 }

@@ -2,7 +2,8 @@ use crate::{
     enums::SoundEnum,
     structs::{
         equipments::Item,
-        general_structs::{PlayerStats, UniqueId},
+        general_structs::UniqueId,
+        player_stats::PlayerStats,
         trigger_structs::{GoldCountTrigger, SleepButtonTrigger},
     },
     systems::systems_constants::NORMAL_BUTTON,
@@ -52,6 +53,16 @@ pub struct MyAssets {
     // --- Rooms > Office ---//
     #[asset(path = "images/office.png")]
     pub office: Handle<Image>,
+    #[asset(path = "images/rooms/office/office_background.png")]
+    pub office_background: Handle<Image>,
+    #[asset(path = "images/rooms/office/desk.png")]
+    pub desk: Handle<Image>,
+    #[asset(path = "images/rooms/office/mission_notification_document.png")]
+    pub mission_notification_document: Handle<Image>,
+    #[asset(path = "images/rooms/office/recap_guild_scroll.png")]
+    pub recap_guild_scroll: Handle<Image>,
+    #[asset(path = "images/rooms/office/talents_on_desk.png")]
+    pub talents_on_desk: Handle<Image>,
 
     // --- Rooms > Command room --- //
     #[asset(path = "images/command_room.png")]

@@ -17,9 +17,10 @@ use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
-use structs::general_structs::{
-    MissionModalVisible, MissionNotificationsNumber, Missions, PlayerStats, SelectedMission,
-    SelectedRecruit,
+use structs::{
+    general_structs::{MissionModalVisible, MissionNotificationsNumber, Missions, SelectedMission},
+    player_stats::PlayerStats,
+    recruits::SelectedRecruit,
 };
 use ui::interface::gold_counter::MyAssets;
 
@@ -81,8 +82,8 @@ fn main() -> AppExit {
                 systems::updates::update_room::update_room,
                 systems::updates::update_buttons::mouse_interaction_updates,
                 systems::updates::update_buttons::buttons_disable_updates,
-                systems::updates::update_buttons::select_recruit_button,
-                systems::updates::update_buttons::select_mission_button,
+                systems::updates::barrack::select_recruit_button::select_recruit_button,
+                systems::updates::command_room::select_mission_button::select_mission_button,
                 systems::updates::update_buttons::assign_recruit_to_mission,
                 systems::updates::update_buttons::close_mission_modal,
                 systems::updates::update_buttons::start_mission_button,
@@ -93,6 +94,7 @@ fn main() -> AppExit {
                 ui::interface::notifications::spawn_or_update_notification::spawn_or_update_notification,
                 ui::modals::mission_details_modal::display_mission_modal,
                 systems::updates::sleep_button_system::sleep_button_system,
+                systems::updates::office::update_mission_report::update_mission_report,
             ),
         )
         .run()

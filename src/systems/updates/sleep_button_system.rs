@@ -2,7 +2,8 @@ use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
     structs::{
-        general_structs::{Missions, PlayerStats, SelectedMission},
+        general_structs::{Missions, SelectedMission},
+        player_stats::PlayerStats,
         trigger_structs::SleepButtonTrigger,
     },
     ui::interface::gold_counter::MyAssets,
@@ -24,25 +25,6 @@ pub fn sleep_button_system(
             player_stats.day += 1;
             play_sound(&my_assets, &mut commands, SoundEnum::KeysRemovedFromDoor);
             play_sound(&my_assets, &mut commands, SoundEnum::CockrelMorning);
-
-            // ! --- OLD CODE --- //
-            // ! --- Keep for next feature mission V2 --- //
-            // let percent_of_victory =
-            //     selected_mission.percent_of_victory.unwrap() as f32;
-            // let is_mission_sucess = is_mission_success(percent_of_victory);
-            // if is_mission_sucess {
-            //     info!("The mission is a success !",);
-            //     let mission_ennemy_level =
-            //         selected_mission.mission.as_ref().unwrap().level;
-            //     let xp_earned = get_xp_earned(mission_ennemy_level);
-            //     let gold_earned = (mission_ennemy_level * 10) as i32;
-            //     let recruit_id = selected_mission.recruit_id.unwrap();
-
-            //     player_stats.gain_xp_to_recruit(recruit_id, xp_earned);
-            //     player_stats.increment_golds(gold_earned);
-            // } else {
-            //     info!("The mission is a failure !");
-            // }
 
             // We iterate on every missions to decrement the days left for every mission that days_left.is_some()
             let mission_ids: Vec<_> = missions
@@ -68,18 +50,6 @@ pub fn sleep_button_system(
                         &mut missions,
                         percent_of_victory.unwrap() as f32,
                     );
-                    // let recruit_id = missions.get_recruit_id_send_by_mission_id(mission_id);
-                    // // info!(
-                    // //     "The mission {} is over, the recruit {:?} is back",
-                    // //     mission_id, recruit
-                    // // );
-                    // if recruit_id.is_none() {
-                    //     continue;
-                    // }
-                    // player_stats
-                    //     .update_state_of_recruit(recruit_id.unwrap(), RecruitStateEnum::Available);
-                    // missions.desassign_recruit_to_mission(mission_id);
-                    // let percent_of_victory = selected_mission.percent_of_victory.unwrap() as f32;
                 }
             }
         }
