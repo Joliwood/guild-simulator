@@ -1,14 +1,18 @@
-use crate::{
-    structs::trigger_structs::ResetRoomTrigger, ui::styles::containers_styles::node_container_style,
-};
-use bevy::prelude::*;
-
 use super::{
     mission_report_documents::mission_report_documents, recap_guild_scroll::recap_guild_scroll,
     talents_on_desk::talents_on_desk,
 };
+use crate::{
+    structs::{missions::MissionReports, trigger_structs::ResetRoomTrigger},
+    ui::styles::containers_styles::node_container_style,
+};
+use bevy::prelude::*;
 
-pub fn room_office(asset_server: &Res<AssetServer>, commands: &mut Commands) {
+pub fn room_office(
+    asset_server: &Res<AssetServer>,
+    commands: &mut Commands,
+    mission_reports: ResMut<MissionReports>,
+) {
     let background_handle: Handle<Image> =
         asset_server.load("images/rooms/office/office_room_background.png");
     let desk_image_handler: Handle<Image> = asset_server.load("images/rooms/office/desk.png");
@@ -52,7 +56,11 @@ pub fn room_office(asset_server: &Res<AssetServer>, commands: &mut Commands) {
                         })
                         // Adding child nodes with different positions
                         .with_children(|elements_on_desk: &mut ChildBuilder| {
-                            mission_report_documents(&asset_server, elements_on_desk);
+                            mission_report_documents(
+                                &asset_server,
+                                elements_on_desk,
+                                mission_reports,
+                            );
                             recap_guild_scroll(&asset_server, elements_on_desk);
                             talents_on_desk(&asset_server, elements_on_desk);
                         });
