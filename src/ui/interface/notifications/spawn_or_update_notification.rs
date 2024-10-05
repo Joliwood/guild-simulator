@@ -2,7 +2,7 @@ use crate::{
     audio::play_sound::play_sound,
     enums::{ColorPaletteEnum, SoundEnum},
     structs::{
-        general_structs::MissionNotificationsNumber,
+        missions::MissionReports,
         trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
     },
     ui::interface::gold_counter::MyAssets,
@@ -27,85 +27,71 @@ pub fn spawn_or_update_notification(
         Some(UVec2::new(0, 0)),
     );
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
+    let mission_notifications_number = mission_reports.0.len();
 
-    if keyboard_input.just_pressed(KeyCode::KeyF) {
-        // We reset the node before to spawn a new one
-        for entity in query.iter() {
-            commands.entity(entity).despawn_recursive();
-        }
+    play_sound(asset_server, commands, SoundEnum::PaperTouch);
 
-        play_sound(&my_assets, &mut commands, SoundEnum::PaperTouch);
-
-        // If no toast exists, create a new one
-        commands
-            .spawn(NodeBundle {
-                style: Style {
-                    position_type: PositionType::Absolute,
-                    width: Val::Px(60.),
-                    height: Val::Px(60.),
-                    right: Val::Px(0.),
-                    top: Val::Px(120.),
-                    ..default()
-                },
+    // Create a new notification node
+    commands
+        .spawn(NodeBundle {
+            style: Style {
+                position_type: PositionType::Absolute,
+                width: Val::Px(40.),
+                height: Val::Px(40.),
+                right: Val::Px(0.),
+                top: Val::Px(120.),
                 ..default()
-            })
-            .insert(NotificationToastTrigger)
-            .with_children(|parent| {
-                parent
-                    .spawn((
-                        ButtonBundle {
-                            style: Style {
-                                display: Display::Flex,
-                                align_items: AlignItems::Center,
-                                justify_content: JustifyContent::Center,
-                                width: Val::Px(60.),
-                                height: Val::Px(60.),
-                                // margin: UiRect::all(Val::Px(5.)),
-                                padding: UiRect {
-                                    left: Val::Px(10.),
-                                    right: Val::ZERO,
-                                    top: Val::ZERO,
-                                    bottom: Val::ZERO,
-                                },
-                                ..default()
-                            },
-                            image: my_assets.notification_atlas.clone().into(),
-                            border_radius: BorderRadius {
-                                top_left: Val::Px(10.),
-                                top_right: Val::ZERO,
-                                bottom_left: Val::Px(10.),
-                                bottom_right: Val::ZERO,
+            },
+            ..default()
+        })
+        .insert(Name::new("---> Notification toast"))
+        .insert(NotificationToastTrigger)
+        .with_children(|parent| {
+            parent
+                .spawn((
+                    ButtonBundle {
+                        style: Style {
+                            display: Display::Flex,
+                            align_items: AlignItems::Center,
+                            justify_content: JustifyContent::Center,
+                            width: Val::Px(40.),
+                            height: Val::Px(40.),
+                            padding: UiRect {
+                                left: Val::Px(10.),
+                                right: Val::ZERO,
+                                top: Val::ZERO,
+                                bottom: Val::ZERO,
                             },
                             ..default()
                         },
-                        TextureAtlas {
-                            index: 0,
-                            layout: texture_atlas_layout.clone(),
+                        image: texture_handle.clone().into(),
+                        border_radius: BorderRadius {
+                            top_left: Val::Px(10.),
+                            top_right: Val::ZERO,
+                            bottom_left: Val::Px(10.),
+                            bottom_right: Val::ZERO,
                         },
-                        Tooltip::cursor(get_mission_notification_tooltip_text(
-                            mission_notifications_number.0 + 1,
-                        ))
-                        .with_activation(TooltipActivation::IMMEDIATE), // Display the current number in the tooltip
+                        ..default()
+                    },
+                    TextureAtlas {
+                        index: 0,
+                        layout: texture_atlas_layout.clone(),
+                    },
+                    Tooltip::cursor(get_mission_notification_tooltip_text(
+                        mission_notifications_number as u8,
                     ))
-                    .insert(MissionNotificationTrigger)
-                    .with_children(|parent| {
-                        parent.spawn((TextBundle::from_section(
-                            format!("x{}", mission_notifications_number.0 + 1),
-                            TextStyle {
-                                font: my_assets.fira_sans_bold.clone(),
-                                font_size: 25.,
-                                color: ColorPaletteEnum::DarkBrown.as_color(),
-                            },
-                        ),));
-                    });
-            });
-
-        info!(
-            "Spawned new toast with number: {}",
-            mission_notifications_number.0
-        );
-
-        // Increment the mission notification number for the next toast
-        mission_notifications_number.0 += 1;
-    }
+                    .with_activation(TooltipActivation::IMMEDIATE),
+                ))
+                .insert(MissionNotificationTrigger)
+                .with_children(|parent| {
+                    parent.spawn(TextBundle::from_section(
+                        format!("x{}", mission_notifications_number),
+                        TextStyle {
+                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font_size: 25.,
+                            color: ColorPaletteEnum::DarkBrown.as_color(),
+                        },
+                    ));
+                });
+        });
 }

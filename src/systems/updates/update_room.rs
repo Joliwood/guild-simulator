@@ -1,7 +1,9 @@
 use crate::{
     enums::RoomEnum,
     structs::{
-        missions::Missions, player_stats::PlayerStats, recruits::SelectedRecruit,
+        missions::{MissionReports, Missions},
+        player_stats::PlayerStats,
+        recruits::SelectedRecruit,
         trigger_structs::ResetRoomTrigger,
     },
     ui::{
@@ -31,6 +33,7 @@ pub fn update_room(
     selected_recruit: Res<SelectedRecruit>,
     missions: Res<Missions>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    mission_reports: ResMut<MissionReports>,
 ) {
     if player_stats.is_changed() || selected_recruit.is_changed() {
         // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed

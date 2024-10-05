@@ -4,7 +4,7 @@ use crate::{
     structs::{
         missions::{MissionReports, Missions},
         player_stats::PlayerStats,
-        trigger_structs::SleepButtonTrigger,
+        trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
     },
     ui::interface::gold_counter::MyAssets,
     utils::finish_mission,
@@ -18,6 +18,8 @@ pub fn sleep_button_system(
     my_assets: Res<MyAssets>,
     mut missions: ResMut<Missions>,
     mut mission_reports: ResMut<MissionReports>,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    query: Query<Entity, With<NotificationToastTrigger>>,
 ) {
     for (interaction, _button) in interaction_query.iter_mut() {
         if let Interaction::Pressed = *interaction {
@@ -34,15 +36,12 @@ pub fn sleep_button_system(
                 .map(|mission| mission.id)
                 .collect();
             for mission_id in mission_ids {
-                // info!("WE ARE BEFORE");
                 missions.decrement_days_left_by_mission_id(mission_id);
                 let is_mission_over = missions.is_mission_over(mission_id);
-                // info!("WE ARE AFTER : {}", is_mission_over);
                 if is_mission_over {
                     let percent_of_victory =
                         missions.get_percent_of_victory_by_mission_id(mission_id);
 
-                    // let percent_of_victory = selected_mission.percent_of_victory;
                     if percent_of_victory.is_none() {
                         continue;
                     }
@@ -58,6 +57,16 @@ pub fn sleep_button_system(
                         &mut missions,
                         percent_of_victory.unwrap() as f32,
                         &mut mission_reports,
+                    );
+
+                    for entity in query.iter() {
+                        commands.entity(entity).despawn_recursive();
+                    }
+                    spawn_or_update_notification(
+                        &mut commands,
+                        &asset_server,
+                        &mut mission_reports,
+                        &mut texture_atlas_layouts,
                     );
                 }
             }

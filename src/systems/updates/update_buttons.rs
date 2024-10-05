@@ -316,7 +316,6 @@ pub fn assign_recruit_to_mission(
                             return;
                         }
 
-                        // We must update the mission
                         missions.attribute_percent_of_victory_to_mission(
                             mission.unwrap().id,
                             victory_percentage_rounded,

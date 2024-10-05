@@ -15,7 +15,7 @@ mod utils;
 
 use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_asset_loader::asset_collection::AssetCollectionApp;
-// use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
 use structs::{
     general_structs::{MissionModalVisible, MissionNotificationsNumber},
@@ -47,7 +47,7 @@ fn main() -> AppExit {
                 ..default()
             }),
             // Desactivate on testing
-            // WorldInspectorPlugin::new(),
+            WorldInspectorPlugin::new(),
             TooltipPlugin::default(),
         ))
         .insert_resource(PlayerStats::default())
@@ -70,7 +70,6 @@ fn main() -> AppExit {
                 ui::buttons::room_arrows::room_top_arrow_button,
                 ui::interface::gold_counter::gold_counter,
                 ui::interface::room_interface_text::room_interface_text,
-                ui::rooms::room_setup::room_setup,
                 systems::recruits::hiring_setup::hiring_setup,
             ),
         )
@@ -93,7 +92,6 @@ fn main() -> AppExit {
                 systems::updates::command_room::update_selected_recruit::update_selected_mission_recruit_id,
                 systems::updates::command_room::update_selected_recruit::update_update_selected_mission_percentage_of_victory,
                 systems::updates::interfaces::delete_notifications_on_click::delete_notifications_on_click,
-                ui::interface::notifications::spawn_or_update_notification::spawn_or_update_notification,
                 ui::modals::mission_details_modal::display_mission_modal,
                 systems::updates::interfaces::sleep_button_system::sleep_button_system,
                 systems::updates::office::update_mission_report::update_mission_report,
