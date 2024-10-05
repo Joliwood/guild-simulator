@@ -1,6 +1,6 @@
 use super::{
     mission_report_documents::mission_report_documents, recap_guild_scroll::recap_guild_scroll,
-    talents_on_desk::talents_on_desk,
+    set_of_keys::set_of_keys, talents_on_desk::talents_on_desk,
 };
 use crate::{
     structs::{missions::MissionReports, trigger_structs::ResetRoomTrigger},
@@ -63,6 +63,7 @@ pub fn room_office(
                             );
                             recap_guild_scroll(&asset_server, elements_on_desk);
                             talents_on_desk(&asset_server, elements_on_desk);
+                            set_of_keys(asset_server, elements_on_desk);
                         });
                 });
         });

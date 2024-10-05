@@ -15,7 +15,7 @@ mod utils;
 
 use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_asset_loader::asset_collection::AssetCollectionApp;
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
+// use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
 use structs::{
     general_structs::{MissionModalVisible, MissionNotificationsNumber},
@@ -47,7 +47,7 @@ fn main() -> AppExit {
                 ..default()
             }),
             // Desactivate on testing
-            WorldInspectorPlugin::new(),
+            // WorldInspectorPlugin::new(),
             TooltipPlugin::default(),
         ))
         .insert_resource(PlayerStats::default())

@@ -217,31 +217,31 @@ pub fn gold_counter(
                     ));
                 });
 
-                // Sleep button
-                ui_container
-                .spawn(ButtonBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        justify_content: JustifyContent::Center,
-                        width: Val::Percent(100.0),
-                        ..default()
-                    },
-                    image: UiImage::default().with_color(NORMAL_BUTTON),
-                    ..default()
-                })
-                .insert((
-                    Name::new("Dev sleep button"),
-                    SleepButtonTrigger
-                ))
-                .with_children(|ui_container: &mut ChildBuilder| {
-                    ui_container.spawn(TextBundle::from_section(
-                        "Sleep",
-                        TextStyle {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 20.0,
-                            color: Color::BLACK,
-                        },
-                    ));
-                });
+                // // Sleep button
+                // ui_container
+                // .spawn(ButtonBundle {
+                //     style: Style {
+                //         display: Display::Flex,
+                //         justify_content: JustifyContent::Center,
+                //         width: Val::Percent(100.0),
+                //         ..default()
+                //     },
+                //     image: UiImage::default().with_color(NORMAL_BUTTON),
+                //     ..default()
+                // })
+                // .insert((
+                //     Name::new("Dev sleep button"),
+                //     SleepButtonTrigger
+                // ))
+                // .with_children(|ui_container: &mut ChildBuilder| {
+                //     ui_container.spawn(TextBundle::from_section(
+                //         "Sleep",
+                //         TextStyle {
+                //             font: my_assets.fira_sans_bold.clone(),
+                //             font_size: 20.0,
+                //             color: Color::BLACK,
+                //         },
+                //     ));
+                // });
         });
 }
