@@ -1,8 +1,5 @@
 use crate::{
-    structs::{
-        equipments::Item,
-        general_structs::{PlayerStats, UniqueId},
-    },
+    structs::{equipments::Item, general_structs::UniqueId, player_stats::PlayerStats},
     utils::{
         get_item_atlas_path, get_item_image_atlas_index, get_item_layout,
         get_item_tooltip_description,

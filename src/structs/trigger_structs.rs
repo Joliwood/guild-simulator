@@ -26,3 +26,6 @@ pub struct NotificationToastTrigger;
 
 #[derive(Debug, Component)]
 pub struct SleepButtonTrigger;
+
+#[derive(Debug, Component)]
+pub struct MissionReport;

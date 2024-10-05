@@ -1,6 +1,10 @@
 use crate::{
     enums::{RecruitEnum, RecruitStateEnum},
-    structs::general_structs::{load_weapon_by_id, PlayerStats, RecruitInventory, RecruitStats},
+    structs::{
+        general_structs::load_weapon_by_id,
+        player_stats::PlayerStats,
+        recruits::{RecruitInventory, RecruitStats},
+    },
     systems::recruits::hire_new_recruits::hire_new_recruits,
 };
 use bevy::prelude::*;

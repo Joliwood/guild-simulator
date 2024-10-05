@@ -5,9 +5,10 @@ use crate::{
     structs::{
         equipments::Item,
         general_structs::{
-            load_scroll_by_id, Mission, MissionModalVisible, Missions, PlayerStats,
-            RecruitInventory, RecruitStats, SelectedMission, SelectedRecruit, UniqueId,
+            load_scroll_by_id, MissionModalVisible, Missions, SelectedMission, UniqueId,
         },
+        player_stats::PlayerStats,
+        recruits::{RecruitInventory, RecruitStats, SelectedRecruit},
     },
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
@@ -175,101 +176,6 @@ pub fn mouse_interaction_updates(
     }
 }
 
-/// Select the recruit when the button is pressed
-pub fn select_recruit_button(
-    mut interaction_query: Query<
-        (&Interaction, &mut BackgroundColor, &UniqueId, &RecruitStats),
-        Changed<Interaction>,
-    >,
-    mut windows: Query<&mut Window>,
-    mut selected_recruit: ResMut<SelectedRecruit>,
-) {
-    let mut window = windows.single_mut();
-
-    for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
-        let recruit_state = recruit.clone().state;
-        if unique_id.0 == "recruit_button" {
-            if recruit_state != RecruitStateEnum::InMission {
-                match *interaction {
-                    Interaction::Pressed => {
-                        selected_recruit.0 = Some(recruit.clone());
-                    }
-                    Interaction::Hovered => {
-                        window.cursor.icon = CursorIcon::Pointer;
-                        *color = HOVERED_BUTTON.into();
-                    }
-                    Interaction::None => {
-                        window.cursor.icon = CursorIcon::Default;
-                        *color = BackgroundColor(WOOD_COLOR);
-                    }
-                }
-            } else {
-                match *interaction {
-                    // Interaction::Pressed => {
-                    //     selected_recruit.0 = Some(recruit.clone());
-                    // }
-                    // Interaction::Hovered => {
-                    //     window.cursor.icon = CursorIcon::Pointer;
-                    //     *color = HOVERED_BUTTON.into();
-                    // }
-                    Interaction::None => {
-                        window.cursor.icon = CursorIcon::Default;
-                        *color = BackgroundColor(WOOD_COLOR);
-                    }
-                    _ => {}
-                }
-            }
-        }
-    }
-}
-
-/// Select the mission when the button is pressed
-///
-/// - 1 - We get the ID from the unique id inserted in the node button
-/// - 2 - We assign with this ID the selected mission
-/// - 3 - We open de details mission modal
-pub fn select_mission_button(
-    mut interaction_query: Query<
-        (&Interaction, &mut BackgroundColor, &UniqueId, &Mission),
-        Changed<Interaction>,
-    >,
-    mut windows: Query<&mut Window>,
-    missions: Res<Missions>,
-    mut selected_mission: ResMut<SelectedMission>,
-    mut modal_visible: ResMut<MissionModalVisible>,
-) {
-    let mut window = windows.single_mut();
-    if !modal_visible.0 {
-        for (interaction, mut color, unique_id, _mission) in &mut interaction_query {
-            if unique_id.0.starts_with("select_mission_button_") {
-                match *interaction {
-                    Interaction::Pressed => {
-                        let mission_id =
-                            unique_id.0.strip_prefix("select_mission_button_").unwrap();
-
-                        // Search the mission by id in the player_disponible missions
-                        selected_mission.mission = missions
-                            .0
-                            .iter()
-                            .find(|mission| mission.id.to_string() == mission_id)
-                            .cloned();
-
-                        modal_visible.0 = true;
-                    }
-                    Interaction::Hovered => {
-                        window.cursor.icon = CursorIcon::Pointer;
-                        *color = HOVERED_BUTTON.into();
-                    }
-                    Interaction::None => {
-                        window.cursor.icon = CursorIcon::Default;
-                        *color = NORMAL_BUTTON.into();
-                    }
-                }
-            }
-        }
-    }
-}
-
 /// On arrive ici en cliquant dans la modal mission sur la recruit
 ///
 /// Deprecated
@@ -432,27 +338,6 @@ pub fn start_mission_button(
                         );
 
                         missions.attribute_days_left_to_mission(mission.unwrap().id);
-
-                        // mission.unwrap().attribute_days_left();
-
-                        // ! --- OLD CODE --- //
-                        // ! --- Keep for next feature mission V2 --- //
-                        // let percent_of_victory =
-                        //     selected_mission.percent_of_victory.unwrap() as f32;
-                        // let is_mission_sucess = is_mission_success(percent_of_victory);
-                        // if is_mission_sucess {
-                        //     info!("The mission is a success !",);
-                        //     let mission_ennemy_level =
-                        //         selected_mission.mission.as_ref().unwrap().level;
-                        //     let xp_earned = get_xp_earned(mission_ennemy_level);
-                        //     let gold_earned = (mission_ennemy_level * 10) as i32;
-                        //     let recruit_id = selected_mission.recruit_id.unwrap();
-
-                        //     player_stats.gain_xp_to_recruit(recruit_id, xp_earned);
-                        //     player_stats.increment_golds(gold_earned);
-                        // } else {
-                        //     info!("The mission is a failure !");
-                        // }
                     }
                     Interaction::Hovered => {
                         window.cursor.icon = CursorIcon::Pointer;

@@ -5,3 +5,7 @@ pub mod update_gold_counter;
 pub mod update_room;
 pub mod update_room_interface_text;
 pub mod update_selected_recruit;
+
+pub mod barrack;
+pub mod command_room;
+pub mod office;

@@ -1,6 +1,6 @@
 use crate::{
     custom_components::CustomButton,
-    structs::general_structs::{PlayerStats, UniqueId},
+    structs::{general_structs::UniqueId, player_stats::PlayerStats},
     ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;

@@ -1,5 +1,5 @@
 use crate::{
-    structs::{general_structs::PlayerStats, trigger_structs::PlayerStatsRoomTrigger},
+    structs::{player_stats::PlayerStats, trigger_structs::PlayerStatsRoomTrigger},
     ui::{styles::containers_styles::room_interface_text_style, ui_constants::WOOD_COLOR},
 };
 use bevy::prelude::*;

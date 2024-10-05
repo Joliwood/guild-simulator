@@ -1,4 +1,4 @@
-use crate::{structs::general_structs::SelectedRecruit, utils::get_selected_recruit};
+use crate::{structs::recruits::SelectedRecruit, utils::get_selected_recruit};
 use bevy::prelude::*;
 
 pub fn recruit_frame(

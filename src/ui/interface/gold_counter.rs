@@ -1,6 +1,7 @@
 use crate::{
     structs::{
-        general_structs::{PlayerStats, UniqueId},
+        general_structs::UniqueId,
+        player_stats::PlayerStats,
         trigger_structs::{GoldCountTrigger, SleepButtonTrigger},
     },
     systems::systems_constants::NORMAL_BUTTON,

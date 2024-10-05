@@ -1,5 +1,5 @@
 use super::{recruit_frame::recruit_frame, recruit_infos::recruit_infos::recruit_infos};
-use crate::structs::general_structs::{PlayerStats, SelectedRecruit};
+use crate::structs::{player_stats::PlayerStats, recruits::SelectedRecruit};
 use bevy::prelude::*;
 
 pub fn recruit_overview(
