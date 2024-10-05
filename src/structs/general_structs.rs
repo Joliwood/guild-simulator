@@ -178,15 +178,10 @@ impl Mission {
         if let Some(days_left) = &mut self.days_left {
             if *days_left == 1 {
                 return self.days_left = None;
-                // WIP - To clean when it will be ok
-                //     self.desassign_recruit();
-                //     return;
             }
             if *days_left > 0 {
                 return *days_left -= 1;
             }
-
-            // self.days_left = None;
         }
     }
 

@@ -14,10 +14,7 @@ use crate::{
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     },
     ui::ui_constants::WOOD_COLOR,
-    utils::{
-        equip_recruit_inventory, get_global_points, get_new_room, get_victory_percentage,
-        get_xp_earned, is_mission_success,
-    },
+    utils::{equip_recruit_inventory, get_global_points, get_new_room, get_victory_percentage},
 };
 use bevy::prelude::*;
 use uuid::Uuid;

@@ -1,6 +1,6 @@
 use crate::{
     audio::play_sound::play_sound,
-    enums::{RecruitStateEnum, SoundEnum},
+    enums::SoundEnum,
     structs::{
         general_structs::{Missions, PlayerStats, SelectedMission},
         trigger_structs::SleepButtonTrigger,

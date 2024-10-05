@@ -37,7 +37,6 @@ pub fn spawn_room_barrack(
         })
         .insert(Name::new("Room barrack"))
         .insert(ResetRoomTrigger)
-        // WIP - Spawn the left container
         .with_children(|parent| {
             parent.spawn(ImageBundle {
                 style: Style {

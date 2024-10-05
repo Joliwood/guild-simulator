@@ -14,8 +14,8 @@ use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
 use structs::general_structs::{
-    Mission, MissionModalVisible, MissionNotificationsNumber, Missions, PlayerStats,
-    SelectedMission, SelectedRecruit,
+    MissionModalVisible, MissionNotificationsNumber, Missions, PlayerStats, SelectedMission,
+    SelectedRecruit,
 };
 use ui::interface::gold_counter::MyAssets;
 
@@ -79,21 +79,7 @@ fn main() -> AppExit {
                 ui::interface::notifications::spawn_or_update_notification::spawn_or_update_notification,
                 ui::modals::mission_details_modal::display_mission_modal,
                 systems::updates::sleep_button_system::sleep_button_system,
-                // update_mission_button_system,
             ),
         )
         .run()
 }
-
-// pub fn update_mission_button_system(
-//     mut interaction_query: Query<(&Interaction, &Mission), (Changed<Interaction>, With<Button>)>,
-// ) {
-//     for (interaction, mission) in &mut interaction_query {
-//         if let Interaction::Pressed = *interaction {
-//             info!(
-//                 "Mission button clicked: Mission ID {}, Level {}",
-//                 mission.id, mission.level
-//             );
-//         }
-//     }
-// }
