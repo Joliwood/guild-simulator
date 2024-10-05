@@ -35,7 +35,7 @@ pub fn update_room(
     missions: Res<Missions>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     mission_reports: ResMut<MissionReports>,
-    mission_report_modal_visibility: ResMut<MissionReportsModalVisible>,
+    mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
 ) {
     if player_stats.is_changed() || selected_recruit.is_changed() {
         // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed
@@ -50,7 +50,7 @@ pub fn update_room(
                 &asset_server,
                 &mut commands,
                 mission_reports,
-                mission_report_modal_visibility,
+                mission_reports_modal_visibility,
             ),
             RoomEnum::Barrack => spawn_room_barrack(
                 &my_assets,

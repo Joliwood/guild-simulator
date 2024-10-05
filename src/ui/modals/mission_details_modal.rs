@@ -19,8 +19,8 @@ use bevy::prelude::*;
 #[allow(clippy::too_many_arguments)]
 pub fn display_mission_modal(
     mut commands: Commands,
-    my_assets: Res<MyAssets>,
-    modal_visible: Res<MissionModalVisible>,
+    asset_server: Res<AssetServer>,
+    mission_modal_visibility: Res<MissionModalVisible>,
     query: Query<Entity, With<MissionModalContentTrigger>>,
     player_stats: Res<PlayerStats>,
     selected_mission: Res<SelectedMission>,
@@ -39,13 +39,13 @@ pub fn display_mission_modal(
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
 
     // Despawn existing modals
-    if modal_visible.is_changed() && !modal_visible.0 {
+    if mission_modal_visibility.is_changed() && !mission_modal_visibility.0 {
         for entity in query.iter() {
             commands.entity(entity).despawn_recursive();
         }
     }
 
-    if modal_visible.is_changed() && modal_visible.0 {
+    if mission_modal_visibility.is_changed() && mission_modal_visibility.0 {
         if let Some(mission) = &selected_mission.mission {
             commands
                 .spawn(NodeBundle {
@@ -55,7 +55,7 @@ pub fn display_mission_modal(
                         height: Val::Percent(100.0),
                         ..default()
                     },
-                    background_color: if modal_visible.0 {
+                    background_color: if mission_modal_visibility.0 {
                         BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.8))
                     } else {
                         BackgroundColor(Color::NONE)
