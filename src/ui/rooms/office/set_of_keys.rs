@@ -6,7 +6,7 @@ pub fn set_of_keys(asset_server: &Res<AssetServer>, elements_on_desk: &mut Child
         asset_server.load("images/rooms/office/set_of_keys.png");
 
     elements_on_desk
-        .spawn((ButtonBundle {
+        .spawn(ButtonBundle {
             style: Style {
                 display: Display::Flex,
                 justify_content: JustifyContent::Center,
@@ -18,7 +18,7 @@ pub fn set_of_keys(asset_server: &Res<AssetServer>, elements_on_desk: &mut Child
                 ..default()
             },
             ..default()
-        },))
+        })
         .insert(SleepButtonTrigger)
         .with_children(|sleep_button| {
             sleep_button.spawn(ImageBundle {

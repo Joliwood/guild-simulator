@@ -32,7 +32,7 @@ pub fn sleep_button_system(
             let mission_ids: Vec<_> = missions
                 .0
                 .iter()
-                .filter(|mission| mission.days_left.is_some()) // Only keep missions where recruit_send is Some
+                .filter(|mission| mission.days_left.is_some())
                 .map(|mission| mission.id)
                 .collect();
             for mission_id in mission_ids {

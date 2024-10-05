@@ -20,10 +20,10 @@ pub fn select_mission_button(
     mut windows: Query<&mut Window>,
     missions: Res<Missions>,
     mut selected_mission: ResMut<SelectedMission>,
-    mut modal_visible: ResMut<MissionModalVisible>,
+    mut mission_modal_visibility: ResMut<MissionModalVisible>,
 ) {
     let mut window = windows.single_mut();
-    if !modal_visible.0 {
+    if !mission_modal_visibility.0 {
         for (interaction, mut color, unique_id, _mission) in &mut interaction_query {
             if unique_id.0.starts_with("select_mission_button_") {
                 match *interaction {
@@ -38,7 +38,7 @@ pub fn select_mission_button(
                             .find(|mission| mission.id.to_string() == mission_id)
                             .cloned();
 
-                        modal_visible.0 = true;
+                        mission_modal_visibility.0 = true;
                     }
                     Interaction::Hovered => {
                         window.cursor.icon = CursorIcon::Pointer;
