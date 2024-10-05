@@ -119,7 +119,7 @@ pub struct Ennemy {
 //         false
 //     }
 
-//     pub fn get_recruit_id_send_by_mission_id(&self, mission_id: Uuid) -> Option<Uuid> {
+//     pub fn get_recruit_send_id_by_mission_id(&self, mission_id: Uuid) -> Option<Uuid> {
 //         if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
 //             return mission.recruit_send;
 //         }

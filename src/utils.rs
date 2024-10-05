@@ -2,7 +2,7 @@ use crate::{
     enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
     structs::{
         equipments::Item,
-        missions::Missions,
+        missions::{MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
         recruits::{RecruitInventory, RecruitStats, SelectedRecruit},
     },
@@ -407,8 +407,9 @@ pub fn finish_mission(
     mission_id: Uuid,
     missions: &mut Missions,
     percent_of_victory: f32,
+    mission_reports: &mut ResMut<MissionReports>,
 ) {
-    let recruit_id = missions.get_recruit_id_send_by_mission_id(mission_id);
+    let recruit_id = missions.get_recruit_send_id_by_mission_id(mission_id);
     if recruit_id.is_none() {
         return;
     }
@@ -416,20 +417,33 @@ pub fn finish_mission(
     missions.desassign_recruit_to_mission(mission_id);
 
     let is_mission_sucess = is_mission_success(percent_of_victory);
+    let mission_ennemy_level = missions.get_mission_enemmy_level_by_id(mission_id);
+    if mission_ennemy_level.is_none() {
+        return;
+    }
+
+    let mut new_mission_report = MissionReport {
+        recruit_id: recruit_id.unwrap(),
+        mission_id,
+        success: is_mission_sucess,
+        experience_gained: None,
+        golds_gained: None,
+    };
+
     if is_mission_sucess {
-        let mission_ennemy_level = missions.get_mission_enemmy_level_by_id(mission_id);
-        if mission_ennemy_level.is_none() {
-            return;
-        }
-
         let xp_earned = get_xp_earned(mission_ennemy_level.unwrap());
-        let gold_earned = (mission_ennemy_level.unwrap() * 10) as i32;
-
         player_stats.gain_xp_to_recruit(recruit_id.unwrap(), xp_earned);
+        new_mission_report.experience_gained = Some(xp_earned);
+
+        let gold_earned = (mission_ennemy_level.unwrap() * 10) as i32;
         player_stats.increment_golds(gold_earned);
+        new_mission_report.golds_gained = Some(gold_earned);
     } else {
         info!("The mission is a failure !");
     }
+
+    // Create a new mission_report
+    mission_reports.add_mission_report(new_mission_report);
 }
 
 #[cfg(test)]

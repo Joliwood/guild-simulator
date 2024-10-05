@@ -19,7 +19,7 @@ use bevy_asset_loader::asset_collection::AssetCollectionApp;
 use pyri_tooltip::prelude::*;
 use structs::{
     general_structs::{MissionModalVisible, MissionNotificationsNumber},
-    missions::{Missions, SelectedMission},
+    missions::{MissionReports, Missions, SelectedMission},
     player_stats::PlayerStats,
     recruits::SelectedRecruit,
 };
@@ -51,6 +51,7 @@ fn main() -> AppExit {
             TooltipPlugin::default(),
         ))
         .insert_resource(PlayerStats::default())
+        .insert_resource(MissionReports::default())
         .insert_resource(Missions::default())
         .insert_resource(SelectedRecruit::default())
         .insert_resource(SelectedMission::default())
