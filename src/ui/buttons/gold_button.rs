@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 use crate::structs::general_structs::UniqueId;
 use bevy::prelude::*;
 

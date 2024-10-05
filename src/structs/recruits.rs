@@ -1,14 +1,6 @@
-use super::equipments::{Armor, Armors, Item, Scroll, Scrolls, Weapon};
-use crate::{
-    enums::{RecruitEnum, RecruitStateEnum},
-    structs::equipments::Weapons,
-};
-use bevy::{
-    log::info,
-    prelude::{Component, Resource},
-};
-use ron::de::from_str;
-use std::fs;
+use super::equipments::{Armor, Item, Scroll, Weapon};
+use crate::enums::{RecruitEnum, RecruitStateEnum};
+use bevy::prelude::{Component, Resource};
 use uuid::Uuid;
 
 #[derive(Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
