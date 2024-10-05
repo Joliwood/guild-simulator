@@ -1,5 +1,5 @@
 use crate::structs::{
-    general_structs::SelectedMission,
+    missions::SelectedMission,
     trigger_structs::{SelectedMissionPercentOfVictoryTrigger, SelectedMissionRecruitIdTrigger},
 };
 use bevy::{

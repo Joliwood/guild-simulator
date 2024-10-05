@@ -1,5 +1,6 @@
-use crate::structs::general_structs::Mission;
 use bevy::prelude::*;
+
+use crate::structs::missions::Mission;
 
 /// Spawns the left container, displaying the player's recruits.
 pub fn spawn_right_container(

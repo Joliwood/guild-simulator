@@ -1,5 +1,8 @@
 use crate::{
-    structs::general_structs::{Mission, MissionModalVisible, Missions, SelectedMission, UniqueId},
+    structs::{
+        general_structs::{MissionModalVisible, UniqueId},
+        missions::{Mission, Missions, SelectedMission},
+    },
     systems::systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON},
 };
 use bevy::prelude::*;

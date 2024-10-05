@@ -1,7 +1,7 @@
 use crate::{
     enums::RoomEnum,
     structs::{
-        general_structs::Missions, player_stats::PlayerStats, recruits::SelectedRecruit,
+        missions::Missions, player_stats::PlayerStats, recruits::SelectedRecruit,
         trigger_structs::ResetRoomTrigger,
     },
     ui::{

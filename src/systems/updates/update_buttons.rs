@@ -4,9 +4,8 @@ use crate::{
     enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum, SoundEnum},
     structs::{
         equipments::Item,
-        general_structs::{
-            load_scroll_by_id, MissionModalVisible, Missions, SelectedMission, UniqueId,
-        },
+        general_structs::{load_scroll_by_id, MissionModalVisible, UniqueId},
+        missions::{Missions, SelectedMission},
         player_stats::PlayerStats,
         recruits::{RecruitInventory, RecruitStats, SelectedRecruit},
     },
