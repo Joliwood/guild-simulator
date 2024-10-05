@@ -2,7 +2,7 @@ use crate::{
     enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
     structs::{
         equipments::Item,
-        general_structs::Missions,
+        missions::Missions,
         player_stats::PlayerStats,
         recruits::{RecruitInventory, RecruitStats, SelectedRecruit},
     },

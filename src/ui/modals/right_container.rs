@@ -1,3 +1,4 @@
+use crate::structs::missions::Mission;
 use crate::{structs::general_structs::Mission, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
 

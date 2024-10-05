@@ -4,7 +4,8 @@ use super::{
 };
 use crate::{
     structs::{
-        general_structs::{MissionModalVisible, Missions, SelectedMission, UniqueId},
+        general_structs::{MissionModalVisible, UniqueId},
+        missions::{Missions, SelectedMission},
         player_stats::PlayerStats,
         trigger_structs::ModalContentTrigger,
     },

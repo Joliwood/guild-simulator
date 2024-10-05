@@ -18,7 +18,8 @@ use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
 use structs::{
-    general_structs::{MissionModalVisible, MissionNotificationsNumber, Missions, SelectedMission},
+    general_structs::{MissionModalVisible, MissionNotificationsNumber},
+    missions::{Missions, SelectedMission},
     player_stats::PlayerStats,
     recruits::SelectedRecruit,
 };
@@ -77,8 +78,8 @@ fn main() -> AppExit {
             (
                 systems::updates::update_buttons::move_room_from_keyboard,
                 systems::inputs::mouse_systems::mouse_click_system,
-                systems::updates::update_gold_counter::update_gold_counter,
-                systems::updates::update_room_interface_text::update_room_interface_text,
+                systems::updates::interfaces::update_gold_counter::update_gold_counter,
+                systems::updates::interfaces::update_room_interface_text::update_room_interface_text,
                 systems::updates::update_room::update_room,
                 systems::updates::update_buttons::mouse_interaction_updates,
                 systems::updates::update_buttons::buttons_disable_updates,
@@ -88,12 +89,12 @@ fn main() -> AppExit {
                 systems::updates::update_buttons::close_mission_modal,
                 systems::updates::update_buttons::start_mission_button,
                 systems::updates::update_buttons::select_item_in_inventory,
-                systems::updates::update_selected_recruit::update_selected_mission_recruit_id,
-                systems::updates::update_selected_recruit::update_update_selected_mission_percentage_of_victory,
-                systems::updates::delete_notifications_on_click::delete_notifications_on_click,
+                systems::updates::command_room::update_selected_recruit::update_selected_mission_recruit_id,
+                systems::updates::command_room::update_selected_recruit::update_update_selected_mission_percentage_of_victory,
+                systems::updates::interfaces::delete_notifications_on_click::delete_notifications_on_click,
                 ui::interface::notifications::spawn_or_update_notification::spawn_or_update_notification,
                 ui::modals::mission_details_modal::display_mission_modal,
-                systems::updates::sleep_button_system::sleep_button_system,
+                systems::updates::interfaces::sleep_button_system::sleep_button_system,
                 systems::updates::office::update_mission_report::update_mission_report,
             ),
         )

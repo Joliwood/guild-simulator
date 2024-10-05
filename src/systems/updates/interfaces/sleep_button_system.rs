@@ -2,7 +2,7 @@ use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
     structs::{
-        general_structs::{Missions, SelectedMission},
+        missions::{Missions, SelectedMission},
         player_stats::PlayerStats,
         trigger_structs::SleepButtonTrigger,
     },
@@ -18,6 +18,7 @@ pub fn sleep_button_system(
     my_assets: Res<MyAssets>,
     mut missions: ResMut<Missions>,
     selected_mission: Res<SelectedMission>,
+    // mission_reports: Res<MissionReports>,
 ) {
     for (interaction, _button) in interaction_query.iter_mut() {
         if let Interaction::Pressed = *interaction {
@@ -50,6 +51,8 @@ pub fn sleep_button_system(
                         &mut missions,
                         percent_of_victory.unwrap() as f32,
                     );
+
+                    // Create a new mission_report
                 }
             }
         }
