@@ -28,7 +28,8 @@ pub fn mission_report_documents(
             },
             ..default()
         })
-        .insert(MissionReportButtonTrigger)
+        // .insert(MissionReportButtonTrigger)
+        .insert(MissionReport)
         .with_children(|mission_report_button| {
             mission_report_button
                 .spawn(ImageBundle {
@@ -43,7 +44,7 @@ pub fn mission_report_documents(
                     },
                     ..default()
                 })
-                .insert(MissionReport)
+                // .insert(MissionReport)
                 .insert(Interaction::default())
                 .with_children(|parent| {
                     if mission_reports_number > 0 {

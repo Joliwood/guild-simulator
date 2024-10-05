@@ -18,7 +18,7 @@ pub fn room_office(
     asset_server: &Res<AssetServer>,
     commands: &mut Commands,
     mission_reports: ResMut<MissionReports>,
-    mission_report_modal_visibility: ResMut<MissionReportsModalVisible>,
+    mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
 ) {
     let background_handle: Handle<Image> =
         asset_server.load("images/rooms/office/office_room_background.png");
@@ -71,14 +71,13 @@ pub fn room_office(
                             recap_guild_scroll(&asset_server, elements_on_desk);
                             talents_on_desk(&asset_server, elements_on_desk);
                             set_of_keys(asset_server, elements_on_desk);
-
-                            if mission_report_modal_visibility.0 == true {
-                                mission_report_modal(
-                                    elements_on_desk,
-                                    asset_server,
-                                    mission_report_modal_visibility,
-                                );
-                            }
+                            // if mission_reports_modal_visibility.0 == true {
+                            //     mission_report_modal(
+                            //         elements_on_desk,
+                            //         asset_server,
+                            //         // mission_reports_modal_visibility,
+                            //     );
+                            // }
                         });
                 });
         });
