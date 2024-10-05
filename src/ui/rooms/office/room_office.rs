@@ -71,13 +71,6 @@ pub fn room_office(
                             recap_guild_scroll(&asset_server, elements_on_desk);
                             talents_on_desk(&asset_server, elements_on_desk);
                             set_of_keys(asset_server, elements_on_desk);
-                            // if mission_reports_modal_visibility.0 == true {
-                            //     mission_report_modal(
-                            //         elements_on_desk,
-                            //         asset_server,
-                            //         // mission_reports_modal_visibility,
-                            //     );
-                            // }
                         });
                 });
         });

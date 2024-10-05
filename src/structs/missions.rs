@@ -25,6 +25,13 @@ impl MissionReports {
     pub fn add_mission_report(&mut self, report: MissionReport) {
         self.0.push(report);
     }
+
+    pub fn get_last_mission_report(&self) -> Option<MissionReport> {
+        if let Some(report) = self.0.last() {
+            return Some(report.clone());
+        }
+        None
+    }
 }
 
 #[derive(Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
