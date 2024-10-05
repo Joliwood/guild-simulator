@@ -3,6 +3,9 @@ use uuid::Uuid;
 
 use super::general_structs::Ennemy;
 
+#[derive(Debug, Component, Resource)]
+pub struct MissionReports(pub Vec<MissionReport>);
+
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct MissionReport {
     pub recruit_id: Uuid,
@@ -10,6 +13,18 @@ pub struct MissionReport {
     pub success: bool,
     pub experience_gained: Option<u32>,
     pub golds_gained: Option<i32>,
+}
+
+impl Default for MissionReports {
+    fn default() -> Self {
+        Self(vec![])
+    }
+}
+
+impl MissionReports {
+    pub fn add_mission_report(&mut self, report: MissionReport) {
+        self.0.push(report);
+    }
 }
 
 #[derive(Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
@@ -65,7 +80,7 @@ impl Missions {
         false
     }
 
-    pub fn get_recruit_id_send_by_mission_id(&self, mission_id: Uuid) -> Option<Uuid> {
+    pub fn get_recruit_send_id_by_mission_id(&self, mission_id: Uuid) -> Option<Uuid> {
         if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
             return mission.recruit_send;
         }
@@ -84,17 +99,35 @@ impl Missions {
         }
         None
     }
+
+    pub fn get_percent_of_victory_by_mission_id(&self, mission_id: Uuid) -> Option<u32> {
+        if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
+            return mission.percent_of_victory;
+        }
+        None
+    }
+
+    pub fn attribute_percent_of_victory_to_mission(
+        &mut self,
+        mission_id: Uuid,
+        percent_of_victory: u32,
+    ) {
+        if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
+            mission.percent_of_victory = Some(percent_of_victory);
+        }
+    }
 }
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct Mission {
+    pub days_left: Option<u8>,
     pub days: u8,
     pub ennemy: Ennemy,
     pub id: Uuid,
     pub level: u8,
     pub name: String,
+    pub percent_of_victory: Option<u32>,
     pub recruit_send: Option<Uuid>,
-    pub days_left: Option<u8>,
 }
 
 impl Mission {
@@ -141,6 +174,7 @@ impl Default for Missions {
                 id: Uuid::new_v4(),
                 level: 1,
                 name: "Mission 1".to_string(),
+                percent_of_victory: None,
                 recruit_send: None,
                 ennemy: Ennemy {
                     endurance: 10,
@@ -157,6 +191,7 @@ impl Default for Missions {
                 id: Uuid::new_v4(),
                 level: 2,
                 name: "Mission 2".to_string(),
+                percent_of_victory: None,
                 recruit_send: None,
                 ennemy: Ennemy {
                     endurance: 15,
@@ -173,6 +208,7 @@ impl Default for Missions {
                 id: Uuid::new_v4(),
                 level: 3,
                 name: "Mission 3".to_string(),
+                percent_of_victory: None,
                 recruit_send: None,
                 ennemy: Ennemy {
                     endurance: 20,

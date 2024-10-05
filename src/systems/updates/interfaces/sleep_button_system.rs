@@ -2,7 +2,7 @@ use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
     structs::{
-        missions::{Missions, SelectedMission},
+        missions::{MissionReports, Missions},
         player_stats::PlayerStats,
         trigger_structs::SleepButtonTrigger,
     },
@@ -16,8 +16,7 @@ pub fn sleep_button_system(
     mut player_stats: ResMut<PlayerStats>,
     asset_server: Res<AssetServer>,
     mut missions: ResMut<Missions>,
-    selected_mission: Res<SelectedMission>,
-    // mission_reports: Res<MissionReports>,
+    mut mission_reports: ResMut<MissionReports>,
 ) {
     for (interaction, _button) in interaction_query.iter_mut() {
         if let Interaction::Pressed = *interaction {
@@ -39,8 +38,16 @@ pub fn sleep_button_system(
                 let is_mission_over = missions.is_mission_over(mission_id);
                 // info!("WE ARE AFTER : {}", is_mission_over);
                 if is_mission_over {
-                    let percent_of_victory = selected_mission.percent_of_victory;
+                    let percent_of_victory =
+                        missions.get_percent_of_victory_by_mission_id(mission_id);
+
+                    // let percent_of_victory = selected_mission.percent_of_victory;
                     if percent_of_victory.is_none() {
+                        continue;
+                    }
+
+                    let recruit_id = missions.get_recruit_send_id_by_mission_id(mission_id);
+                    if recruit_id.is_none() {
                         continue;
                     }
 
@@ -49,9 +56,8 @@ pub fn sleep_button_system(
                         mission_id,
                         &mut missions,
                         percent_of_victory.unwrap() as f32,
+                        &mut mission_reports,
                     );
-
-                    // Create a new mission_report
                 }
             }
         }

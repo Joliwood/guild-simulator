@@ -176,15 +176,6 @@ pub fn mouse_interaction_updates(
 }
 
 /// On arrive ici en cliquant dans la modal mission sur la recruit
-///
-/// Deprecated
-/// - 1 - On retrouve l'id de la recruit directement
-/// - 2 - On vient modifier la selected mission pour lui assigner l'id de la recruit
-/// - 3 - On va chercher la recrue avec son id fourni dans la selected mission
-/// - 4 - On calcule le score global de la recrue
-/// - 5 - On calcule le score global de l'ennemi de la selected mission
-/// - 6 - On calcule le % de victoire
-/// - 7 - On update la selected mission avec le % de victoire
 pub fn assign_recruit_to_mission(
     mut interaction_query: Query<
         (&Interaction, &mut BackgroundColor, &UniqueId, &RecruitStats),
@@ -193,6 +184,7 @@ pub fn assign_recruit_to_mission(
     mut windows: Query<&mut Window>,
     player_stats: Res<PlayerStats>,
     mut selected_mission: ResMut<SelectedMission>,
+    mut missions: ResMut<Missions>,
 ) {
     let mut window = windows.single_mut();
 
@@ -201,13 +193,10 @@ pub fn assign_recruit_to_mission(
             if recruit.state != RecruitStateEnum::InMission {
                 match *interaction {
                     Interaction::Pressed => {
-                        // - 1 - //
                         let recruit_id = recruit.id;
 
-                        // - 2 - //
                         selected_mission.recruit_id = Some(recruit_id);
 
-                        // - 3 - //
                         let recruit_selected = player_stats
                             .recruits
                             .iter()
@@ -220,7 +209,6 @@ pub fn assign_recruit_to_mission(
                         let recruit_global_points =
                             recruit_selected.unwrap().get_total_merged_stats();
 
-                        // - 5 - //
                         let ennemy = &selected_mission.mission.as_ref().unwrap().ennemy;
                         let ennemy_global_points = get_global_points(
                             ennemy.strength,
@@ -228,7 +216,6 @@ pub fn assign_recruit_to_mission(
                             ennemy.intelligence,
                         );
 
-                        // - 6 - //
                         let victory_percentage = get_victory_percentage(
                             recruit_global_points as u16,
                             ennemy_global_points,
@@ -236,10 +223,18 @@ pub fn assign_recruit_to_mission(
 
                         let victory_percentage_rounded: u32 = victory_percentage.round() as u32;
 
-                        // - 7 - //
                         selected_mission.percent_of_victory = Some(victory_percentage_rounded);
 
+                        let mission = selected_mission.mission.as_ref();
+                        if mission.is_none() {
+                            return;
+                        }
+
                         // We must update the mission
+                        missions.attribute_percent_of_victory_to_mission(
+                            mission.unwrap().id,
+                            victory_percentage_rounded,
+                        );
                     }
                     Interaction::Hovered => {
                         window.cursor.icon = CursorIcon::Pointer;
