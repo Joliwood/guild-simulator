@@ -1,17 +1,32 @@
-use crate::{structs::trigger_structs::MissionReport, systems::systems_constants::HOVERED_BUTTON};
+use crate::{
+    structs::{
+        general_structs::MissionReportsModalVisible, missions::MissionReports,
+        trigger_structs::MissionReport,
+    },
+    systems::systems_constants::HOVERED_BUTTON,
+};
 use bevy::prelude::*;
 
-pub fn update_mission_report(
+pub fn toggle_mission_reports(
     mut query: Query<
         (&Interaction, &mut Style, &mut BackgroundColor),
         (Changed<Interaction>, With<MissionReport>),
     >,
     mut windows: Query<&mut Window>,
+    mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
+    mission_reports: Res<MissionReports>,
 ) {
     let mut window = windows.single_mut();
 
     for (interaction, mut style, mut color) in query.iter_mut() {
         match *interaction {
+            Interaction::Pressed => {
+                let mission_reports_number = mission_reports.0.len();
+                if mission_reports_number > 0 {
+                    mission_reports_modal_visibility.0 = true;
+                }
+                info!("CLICKED");
+            }
             Interaction::Hovered => {
                 window.cursor.icon = CursorIcon::Pointer;
                 *color = HOVERED_BUTTON.into();
@@ -30,7 +45,6 @@ pub fn update_mission_report(
                 *color = Color::NONE.into();
                 style.border = UiRect::default();
             }
-            _ => {}
         }
     }
 }

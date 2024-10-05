@@ -3,8 +3,14 @@ use super::{
     set_of_keys::set_of_keys, talents_on_desk::talents_on_desk,
 };
 use crate::{
-    structs::{missions::MissionReports, trigger_structs::ResetRoomTrigger},
-    ui::styles::containers_styles::node_container_style,
+    structs::{
+        general_structs::MissionReportsModalVisible, missions::MissionReports,
+        trigger_structs::ResetRoomTrigger,
+    },
+    ui::{
+        modals::mission_report_modal::mission_report_modal,
+        styles::containers_styles::node_container_style,
+    },
 };
 use bevy::prelude::*;
 
@@ -12,6 +18,7 @@ pub fn room_office(
     asset_server: &Res<AssetServer>,
     commands: &mut Commands,
     mission_reports: ResMut<MissionReports>,
+    mission_report_modal_visibility: ResMut<MissionReportsModalVisible>,
 ) {
     let background_handle: Handle<Image> =
         asset_server.load("images/rooms/office/office_room_background.png");
@@ -64,6 +71,14 @@ pub fn room_office(
                             recap_guild_scroll(&asset_server, elements_on_desk);
                             talents_on_desk(&asset_server, elements_on_desk);
                             set_of_keys(asset_server, elements_on_desk);
+
+                            if mission_report_modal_visibility.0 == true {
+                                mission_report_modal(
+                                    elements_on_desk,
+                                    asset_server,
+                                    mission_report_modal_visibility,
+                                );
+                            }
                         });
                 });
         });

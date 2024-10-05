@@ -7,7 +7,7 @@ use crate::{
         general_structs::{MissionModalVisible, UniqueId},
         missions::{Missions, SelectedMission},
         player_stats::PlayerStats,
-        trigger_structs::ModalContentTrigger,
+        trigger_structs::MissionModalContentTrigger,
     },
     ui::{
         interface::gold_counter::MyAssets,
@@ -21,7 +21,7 @@ pub fn display_mission_modal(
     mut commands: Commands,
     my_assets: Res<MyAssets>,
     modal_visible: Res<MissionModalVisible>,
-    query: Query<Entity, With<ModalContentTrigger>>,
+    query: Query<Entity, With<MissionModalContentTrigger>>,
     player_stats: Res<PlayerStats>,
     selected_mission: Res<SelectedMission>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
@@ -62,7 +62,7 @@ pub fn display_mission_modal(
                     },
                     ..default()
                 })
-                .insert(ModalContentTrigger)
+                .insert(MissionModalContentTrigger)
                 .with_children(|parent| {
                     parent
                         .spawn(NodeBundle {
@@ -74,7 +74,7 @@ pub fn display_mission_modal(
                             ..default()
                         })
                         .insert(Name::new("Mission details modal"))
-                        .insert(ModalContentTrigger)
+                        .insert(MissionModalContentTrigger)
                         .with_children(|parent| {
                             parent
                                 .spawn(TextBundle {

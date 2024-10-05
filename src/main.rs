@@ -18,7 +18,9 @@ use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
 use structs::{
-    general_structs::{MissionModalVisible, MissionNotificationsNumber},
+    general_structs::{
+        MissionModalVisible, MissionNotificationsNumber, MissionReportsModalVisible,
+    },
     missions::{MissionReports, Missions, SelectedMission},
     player_stats::PlayerStats,
     recruits::SelectedRecruit,
@@ -56,6 +58,7 @@ fn main() -> AppExit {
         .insert_resource(SelectedRecruit::default())
         .insert_resource(SelectedMission::default())
         .insert_resource(MissionModalVisible(false))
+        .insert_resource(MissionReportsModalVisible(false))
         .insert_resource(MissionNotificationsNumber(0))
         .init_collection::<MyAssets>()
         .add_systems(
@@ -94,7 +97,7 @@ fn main() -> AppExit {
                 systems::updates::interfaces::delete_notifications_on_click::delete_notifications_on_click,
                 ui::modals::mission_details_modal::display_mission_modal,
                 systems::updates::interfaces::sleep_button_system::sleep_button_system,
-                systems::updates::office::update_mission_report::update_mission_report,
+                systems::updates::office::toggle_mission_reports::toggle_mission_reports,
             ),
         )
         .run()
