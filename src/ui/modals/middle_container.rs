@@ -1,7 +1,7 @@
 use crate::{
     custom_components::CustomButton,
     structs::{
-        general_structs::{SelectedMission, UniqueId},
+        general_structs::{Missions, SelectedMission, UniqueId},
         trigger_structs::{
             SelectedMissionPercentOfVictoryTrigger, SelectedMissionRecruitIdTrigger,
         },
@@ -16,6 +16,7 @@ pub fn spawn_middle_container(
     asset_server: &Res<AssetServer>,
     image_assets: &Res<MyAssets>,
     selected_mission: &Res<SelectedMission>,
+    _missions: Res<Missions>,
 ) {
     parent
         .spawn(NodeBundle {

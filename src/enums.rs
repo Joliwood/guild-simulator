@@ -59,10 +59,12 @@ pub enum ItemRaretyEnum {
 #[derive(Debug, Clone)]
 pub enum SoundEnum {
     BookThrowDown,
+    CockrelMorning,
     EquipArmor,
     EquipmentEquip,
     EquipScroll,
     EquipWeapon,
+    KeysRemovedFromDoor,
     PaperTouch,
     SimpleHolidaysV3,
 }
@@ -71,10 +73,12 @@ impl SoundEnum {
     pub fn get_path(&self) -> &'static str {
         match self {
             SoundEnum::BookThrowDown => "sounds/book_throw_down.ogg",
+            SoundEnum::CockrelMorning => "sounds/cockrel_morning.ogg",
             SoundEnum::EquipArmor => "sounds/equip_armor.ogg",
             SoundEnum::EquipmentEquip => "sounds/equipment_equip.ogg",
             SoundEnum::EquipScroll => "sounds/equip_scroll.ogg",
             SoundEnum::EquipWeapon => "sounds/equip_weapon.ogg",
+            SoundEnum::KeysRemovedFromDoor => "sounds/keys_removed_from_door.ogg",
             SoundEnum::PaperTouch => "sounds/paper_touch.ogg",
             SoundEnum::SimpleHolidaysV3 => "sounds/Simple-Holidays-V3.ogg",
         }
@@ -102,4 +106,12 @@ impl ColorPaletteEnum {
             ColorPaletteEnum::Warning => Color::srgb(0.9, 0.7, 0.0),
         }
     }
+}
+
+#[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
+pub enum RecruitStateEnum {
+    Available,
+    InMission,
+    InRecuperation,
+    Injured,
 }

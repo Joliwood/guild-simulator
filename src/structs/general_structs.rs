@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 use super::equipments::{Armor, Armors, Item, Scroll, Scrolls, Weapon};
 use crate::{
-    enums::{RecruitEnum, RoomEnum},
+    enums::{RecruitEnum, RecruitStateEnum, RoomEnum},
     structs::equipments::Weapons,
 };
 use bevy::{
@@ -23,6 +23,7 @@ pub struct UniqueId(pub String);
 
 #[derive(Component, Resource, Clone)]
 pub struct PlayerStats {
+    pub day: u16,
     pub experience: u32,
     pub golds: i32,
     pub guild_level: i8,
@@ -60,7 +61,6 @@ impl RecruitInventory {
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct RecruitStats {
-    pub recruit_inventory: RecruitInventory,
     pub class: RecruitEnum,
     pub endurance: u16,
     pub experience: u32,
@@ -70,6 +70,8 @@ pub struct RecruitStats {
     pub level: u8,
     pub max_experience: u32,
     pub name: String,
+    pub recruit_inventory: RecruitInventory,
+    pub state: RecruitStateEnum,
     pub strength: u16,
 }
 
@@ -83,6 +85,16 @@ pub struct SelectedMission {
     pub recruit_id: Option<Uuid>,
 }
 
+impl SelectedMission {
+    pub fn get_mission(&self) -> Option<Mission> {
+        if let Some(mission) = &self.mission {
+            return Some(mission.clone());
+        }
+
+        None
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Component, Resource)]
 pub struct Ennemy {
     pub endurance: u16,
@@ -93,14 +105,97 @@ pub struct Ennemy {
     pub strength: u16,
 }
 
-#[derive(Component, Resource)]
+#[derive(Debug, Component, Resource)]
 pub struct Missions(pub Vec<Mission>);
+
+impl Missions {
+    pub fn get_mission_by_id(&self, id: Uuid) -> Option<Mission> {
+        if let Some(mission) = self.0.iter().find(|mission| mission.id == id) {
+            return Some(mission.clone());
+        }
+        None
+    }
+
+    pub fn assign_recruit_id_to_mission(&mut self, mission_id: Uuid, recruit_id: Uuid) {
+        if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
+            mission.assign_recruit_by_id(recruit_id);
+        }
+    }
+
+    pub fn decrement_days_left_by_mission_id(&mut self, mission_id: Uuid) {
+        if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
+            mission.decrement_days_left();
+        }
+    }
+
+    pub fn attribute_days_left_to_mission(&mut self, mission_id: Uuid) {
+        if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
+            mission.attribute_days_left();
+        }
+    }
+
+    pub fn is_mission_over(&self, mission_id: Uuid) -> bool {
+        if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
+            return mission.days_left.is_none();
+        }
+        false
+    }
+
+    pub fn get_recruit_id_send_by_mission_id(&self, mission_id: Uuid) -> Option<Uuid> {
+        if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
+            return mission.recruit_send;
+        }
+        None
+    }
+
+    pub fn desassign_recruit_to_mission(&mut self, mission_id: Uuid) {
+        if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
+            mission.desassign_recruit();
+        }
+    }
+
+    pub fn get_mission_enemmy_level_by_id(&self, mission_id: Uuid) -> Option<u8> {
+        if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
+            return Some(mission.ennemy.level);
+        }
+        None
+    }
+}
+
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct Mission {
+    pub days: u8,
     pub ennemy: Ennemy,
     pub id: Uuid,
     pub level: u8,
     pub name: String,
+    pub recruit_send: Option<Uuid>,
+    pub days_left: Option<u8>,
+}
+
+impl Mission {
+    pub fn decrement_days_left(&mut self) {
+        if let Some(days_left) = &mut self.days_left {
+            if *days_left == 1 {
+                return self.days_left = None;
+            }
+            if *days_left > 0 {
+                return *days_left -= 1;
+            }
+        }
+    }
+
+    pub fn assign_recruit_by_id(&mut self, recruit_id: Uuid) {
+        self.recruit_send = Some(recruit_id);
+    }
+
+    pub fn desassign_recruit(&mut self) {
+        self.recruit_send = None;
+    }
+
+    pub fn attribute_days_left(&mut self) {
+        self.days_left = Some(self.days);
+    }
 }
 
 // --- Implementations --- //
@@ -250,13 +345,21 @@ impl PlayerStats {
             }
         }
     }
+
+    pub fn update_state_of_recruit(&mut self, recruit_id: Uuid, state: RecruitStateEnum) {
+        if let Some(recruit) = self
+            .recruits
+            .iter_mut()
+            .find(|recruit| recruit.id == recruit_id)
+        {
+            recruit.state = state;
+        }
+    }
 }
 
 impl RecruitStats {
     pub fn gain_xp(&mut self, xp: u32) {
         self.experience += xp;
-
-        info!("==> WE GAIN XP: {}", xp);
 
         // Reset the experience with left experience after leveling up
         // Then level up
@@ -379,6 +482,15 @@ impl RecruitStats {
 
         additional_intelligence
     }
+
+    pub fn get_total_merged_stats(&self) -> u32 {
+        return self.strength as u32
+            + self.get_additional_strength_from_items()
+            + self.endurance as u32
+            + self.get_additional_endurance_from_items()
+            + self.intelligence as u32
+            + self.get_additional_intelligence_from_items();
+    }
 }
 
 pub fn load_weapon_by_id(id: u16) -> Option<Weapon> {
@@ -471,6 +583,7 @@ impl Default for PlayerStats {
         }
 
         Self {
+            day: 1,
             experience: 0,
             golds: 0,
             guild_level: 1,
@@ -478,7 +591,7 @@ impl Default for PlayerStats {
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![],
-            room: RoomEnum::Barrack,
+            room: RoomEnum::CommandRoom,
         }
     }
 }
@@ -487,9 +600,12 @@ impl Default for Missions {
     fn default() -> Self {
         Self(vec![
             Mission {
+                days_left: None,
+                days: 1,
                 id: Uuid::new_v4(),
-                name: "Mission 1".to_string(),
                 level: 1,
+                name: "Mission 1".to_string(),
+                recruit_send: None,
                 ennemy: Ennemy {
                     endurance: 10,
                     experience: 0,
@@ -500,9 +616,12 @@ impl Default for Missions {
                 },
             },
             Mission {
+                days_left: None,
+                days: 1,
                 id: Uuid::new_v4(),
-                name: "Mission 2".to_string(),
                 level: 2,
+                name: "Mission 2".to_string(),
+                recruit_send: None,
                 ennemy: Ennemy {
                     endurance: 15,
                     experience: 0,
@@ -513,9 +632,12 @@ impl Default for Missions {
                 },
             },
             Mission {
+                days_left: Some(1),
+                days: 2,
                 id: Uuid::new_v4(),
-                name: "Mission 3".to_string(),
                 level: 3,
+                name: "Mission 3".to_string(),
+                recruit_send: None,
                 ennemy: Ennemy {
                     endurance: 20,
                     experience: 0,

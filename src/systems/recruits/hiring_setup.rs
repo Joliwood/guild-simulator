@@ -1,5 +1,5 @@
 use crate::{
-    enums::RecruitEnum,
+    enums::{RecruitEnum, RecruitStateEnum},
     structs::general_structs::{load_weapon_by_id, PlayerStats, RecruitInventory, RecruitStats},
     systems::recruits::hire_new_recruits::hire_new_recruits,
 };
@@ -14,11 +14,6 @@ pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
     let first_weapon = load_weapon_by_id(1);
     let new_recruits = vec![
         RecruitStats {
-            recruit_inventory: RecruitInventory {
-                armor: None,
-                weapon: first_weapon,
-                scrolls: vec![],
-            },
             class: RecruitEnum::Warrior,
             endurance: 10,
             experience: 0,
@@ -28,10 +23,15 @@ pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
             level: 1,
             max_experience: 100,
             name: "Warzazat".to_string(),
+            recruit_inventory: RecruitInventory {
+                armor: None,
+                weapon: first_weapon,
+                scrolls: vec![],
+            },
+            state: RecruitStateEnum::Available,
             strength: 10,
         },
         RecruitStats {
-            recruit_inventory: RecruitInventory::generate_empty_inventory(),
             class: RecruitEnum::Mage,
             endurance: 5,
             experience: 0,
@@ -41,6 +41,8 @@ pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
             level: 1,
             max_experience: 100,
             name: "Wagaly".to_string(),
+            recruit_inventory: RecruitInventory::generate_empty_inventory(),
+            state: RecruitStateEnum::Available,
             strength: 2,
         },
     ];

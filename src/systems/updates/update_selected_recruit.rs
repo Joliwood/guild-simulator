@@ -3,7 +3,6 @@ use crate::structs::{
     trigger_structs::{SelectedMissionPercentOfVictoryTrigger, SelectedMissionRecruitIdTrigger},
 };
 use bevy::{
-    log::info,
     prelude::{DetectChanges, Query, Res, With},
     text::Text,
 };
@@ -18,10 +17,6 @@ pub fn update_selected_mission_recruit_id(
     mut query: Query<&mut Text, With<SelectedMissionRecruitIdTrigger>>,
 ) -> () {
     if selected_mission.is_changed() {
-        info!(
-            "the recruit assigned to the selected mission is now : {:?}",
-            selected_mission
-        );
         for mut text in query.iter_mut() {
             text.sections[0].value = format!("{:?}", selected_mission.recruit_id);
         }
@@ -33,10 +28,6 @@ pub fn update_update_selected_mission_percentage_of_victory(
     mut query: Query<&mut Text, With<SelectedMissionPercentOfVictoryTrigger>>,
 ) -> () {
     if selected_mission.is_changed() {
-        info!(
-            "the recruit assigned to the selected mission is now : {:?}%",
-            selected_mission
-        );
         for mut text in query.iter_mut() {
             text.sections[0].value = format!("{:?} %", selected_mission.percent_of_victory);
         }

@@ -7,8 +7,9 @@ use crate::{
     ui::{
         interface::gold_counter::MyAssets,
         rooms::{
-            barrack::barrack_room::spawn_room_barrack, room_command_room::room_command_room,
-            room_office::room_office, room_store::room_store,
+            barrack::barrack_room::spawn_room_barrack,
+            command_room::room_command_room::room_command_room, room_office::room_office,
+            room_store::room_store,
         },
     },
 };
@@ -34,7 +35,7 @@ pub fn update_room(
     if player_stats.is_changed() || selected_recruit.is_changed() {
         // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed
         for entity in query.iter() {
-            info!("PlayerStats has changed");
+            info!("PlayerStats or SelectedRecruit has changed");
             commands.entity(entity).despawn_recursive();
         }
 

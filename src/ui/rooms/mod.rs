@@ -1,6 +1,7 @@
 pub mod barrack {
     pub mod recruits_list {
         pub mod armor_button;
+        pub mod recruit_card;
         pub mod recruit_endurance;
         pub mod recruit_intelligence;
         pub mod recruit_strength;
@@ -24,7 +25,9 @@ pub mod barrack {
     }
     pub mod barrack_room;
 }
-pub mod room_command_room;
+pub mod command_room {
+    pub mod room_command_room;
+}
 pub mod room_office;
 pub mod room_setup;
 pub mod room_store;

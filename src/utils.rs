@@ -1,8 +1,8 @@
 use crate::{
-    enums::{RecruitEnum, RoomDirectionEnum, RoomEnum},
+    enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
     structs::{
         equipments::Item,
-        general_structs::{PlayerStats, RecruitInventory, RecruitStats, SelectedRecruit},
+        general_structs::{Missions, PlayerStats, RecruitInventory, RecruitStats, SelectedRecruit},
     },
     systems::updates::update_buttons::delete_item_from_player_inventory,
     ui::ui_constants::{ARMOR_PATH, SCROLL_PATH, WEAPON_PATH},
@@ -120,6 +120,7 @@ pub fn get_xp_earned(level: u8) -> u32 {
     return (level * 10).into();
 }
 
+#[allow(dead_code)]
 pub fn format_ron_equipments_for_display(ron_data: &str) -> String {
     // Use a regex to format the RON output
     let formatted = ron_data
@@ -285,6 +286,7 @@ pub fn get_selected_recruit(selected_recruit: &Res<SelectedRecruit>) -> RecruitS
     match selected_recruit.0 {
         Some(_) => {
             return RecruitStats {
+                state: selected_recruit.0.as_ref().unwrap().state.clone(),
                 recruit_inventory: selected_recruit
                     .0
                     .as_ref()
@@ -305,7 +307,6 @@ pub fn get_selected_recruit(selected_recruit: &Res<SelectedRecruit>) -> RecruitS
         }
         None => {
             return RecruitStats {
-                recruit_inventory: RecruitInventory::generate_empty_inventory(),
                 class: RecruitEnum::Warrior,
                 endurance: 0,
                 experience: 0,
@@ -315,6 +316,8 @@ pub fn get_selected_recruit(selected_recruit: &Res<SelectedRecruit>) -> RecruitS
                 level: 0,
                 max_experience: 0,
                 name: "".to_string(),
+                recruit_inventory: RecruitInventory::generate_empty_inventory(),
+                state: RecruitStateEnum::Available,
                 strength: 0,
             };
         }
@@ -334,9 +337,6 @@ pub fn equip_recruit_inventory(
             let selected_recruit_inventory: RecruitInventory = selected_recruit.get_inventory();
             let selected_recruit_weapon = selected_recruit_inventory.weapon;
             let selected_recruit_id = selected_recruit.get_id();
-
-            info!("recruit_actual_weapon: {:?}", selected_recruit_weapon);
-            // -> Retourne none même si l'unité à un item de base dans son équipement
 
             if selected_recruit_id.is_some() {
                 if selected_recruit_weapon.is_none() {
@@ -411,6 +411,36 @@ pub fn equip_recruit_inventory(
 
             return false;
         }
+    }
+}
+
+pub fn finish_mission(
+    player_stats: &mut ResMut<PlayerStats>,
+    mission_id: Uuid,
+    missions: &mut Missions,
+    percent_of_victory: f32,
+) {
+    let recruit_id = missions.get_recruit_id_send_by_mission_id(mission_id);
+    if recruit_id.is_none() {
+        return;
+    }
+    player_stats.update_state_of_recruit(recruit_id.unwrap(), RecruitStateEnum::Available);
+    missions.desassign_recruit_to_mission(mission_id);
+
+    let is_mission_sucess = is_mission_success(percent_of_victory);
+    if is_mission_sucess {
+        let mission_ennemy_level = missions.get_mission_enemmy_level_by_id(mission_id);
+        if mission_ennemy_level.is_none() {
+            return;
+        }
+
+        let xp_earned = get_xp_earned(mission_ennemy_level.unwrap());
+        let gold_earned = (mission_ennemy_level.unwrap() * 10) as i32;
+
+        player_stats.gain_xp_to_recruit(recruit_id.unwrap(), xp_earned);
+        player_stats.increment_golds(gold_earned);
+    } else {
+        info!("The mission is a failure !");
     }
 }
 
