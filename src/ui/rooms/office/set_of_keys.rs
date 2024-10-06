@@ -11,7 +11,9 @@ pub fn set_of_keys(asset_server: &Res<AssetServer>, elements_on_desk: &mut Child
                 display: Display::Flex,
                 justify_content: JustifyContent::Center,
                 position_type: PositionType::Absolute,
-                top: Val::Px(280.),
+                // Futur position when talents will be disponible
+                // top: Val::Px(280.),
+                top: Val::Px(50.),
                 right: Val::Px(50.),
                 width: Val::Px(100.),
                 height: Val::Px(100.),

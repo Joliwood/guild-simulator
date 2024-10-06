@@ -13,6 +13,7 @@ pub struct MissionReport {
     pub success: bool,
     pub experience_gained: Option<u32>,
     pub golds_gained: Option<i32>,
+    pub percent_of_victory: u32,
 }
 
 impl Default for MissionReports {
@@ -184,6 +185,7 @@ impl Default for Missions {
                 percent_of_victory: None,
                 recruit_send: None,
                 ennemy: Ennemy {
+                    image_atlas_index: 5,
                     endurance: 10,
                     experience: 0,
                     intelligence: 5,
@@ -201,6 +203,7 @@ impl Default for Missions {
                 percent_of_victory: None,
                 recruit_send: None,
                 ennemy: Ennemy {
+                    image_atlas_index: 4,
                     endurance: 15,
                     experience: 0,
                     intelligence: 7,
@@ -218,6 +221,7 @@ impl Default for Missions {
                 percent_of_victory: None,
                 recruit_send: None,
                 ennemy: Ennemy {
+                    image_atlas_index: 3,
                     endurance: 20,
                     experience: 0,
                     intelligence: 10,
