@@ -1,10 +1,7 @@
 use crate::{structs::trigger_structs::MissionReport, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
 
-use crate::structs::{
-    missions::MissionReports,
-    trigger_structs::{MissionReport, MissionReportButtonTrigger},
-};
+use crate::structs::{missions::MissionReports, trigger_structs::MissionReport};
 
 pub fn mission_report_documents(
     asset_server: &Res<AssetServer>,
@@ -19,37 +16,37 @@ pub fn mission_report_documents(
 
     let mission_reports_number = mission_reports.0.len();
 
-    elements_on_desk
-        .spawn(ImageBundle {
-            image: my_assets.mission_notification_document.clone().into(),
-            style: Style {
-                position_type: PositionType::Absolute,
-                left: Val::Px(50.),
-                top: Val::Px(50.),
-                ..default()
-            },
-            ..default()
-        })
-        // .insert(MissionReportButtonTrigger)
-        .insert(MissionReport)
-        .with_children(|mission_report_button| {
-            mission_report_button
-                .spawn(ImageBundle {
-                    image: mission_report_documents_image.into(),
-                    style: Style {
-                        display: Display::Flex,
-                        align_items: AlignItems::Center,
-                        justify_content: JustifyContent::Center,
-                        width: Val::Px(150.),
-                        height: Val::Px(133. + 66.5),
-                        ..default()
-                    },
+    if mission_reports_number > 0 {
+        elements_on_desk
+            .spawn(ButtonBundle {
+                style: Style {
+                    position_type: PositionType::Absolute,
+                    left: Val::Px(50.),
+                    top: Val::Px(50.),
                     ..default()
-                })
-                // .insert(MissionReport)
-                .insert(Interaction::default())
-                .with_children(|parent| {
-                    if mission_reports_number > 0 {
+                },
+                ..default()
+            })
+            // .insert(MissionReportButtonTrigger)
+            .insert(MissionReport)
+            .with_children(|mission_report_button| {
+                mission_report_button
+                    .spawn(ImageBundle {
+                        image: mission_report_documents_image.into(),
+                        style: Style {
+                            display: Display::Flex,
+                            align_items: AlignItems::Center,
+                            justify_content: JustifyContent::Center,
+                            width: Val::Px(150.),
+                            height: Val::Px(133. + 66.5),
+                            ..default()
+                        },
+                        ..default()
+                    })
+                    // .insert(MissionReport)
+                    .insert(Interaction::default())
+                    .with_children(|parent| {
+                        // if mission_reports_number > 0 {
                         parent
                             .spawn(ImageBundle {
                                 image: token_image.into(),
@@ -75,7 +72,7 @@ pub fn mission_report_documents(
                                     },
                                 ));
                             });
-                    }
-                });
-        });
+                    });
+            });
+    }
 }

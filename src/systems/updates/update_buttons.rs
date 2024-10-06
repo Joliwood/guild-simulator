@@ -32,7 +32,8 @@ pub fn mouse_interaction_updates(
     >,
     mut player_stats: ResMut<PlayerStats>,
     mut windows: Query<&mut Window>,
-    mut modal_visible: ResMut<MissionModalVisible>,
+    mut mission_modal_visibility: ResMut<MissionModalVisible>,
+    mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
 ) {
     let mut window = windows.single_mut();
 
@@ -62,7 +63,12 @@ pub fn mouse_interaction_updates(
         if unique_id.0 == "room_right_arrow_id" {
             match *interaction {
                 Interaction::Pressed => {
-                    if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Right) {
+                    if let Some(new_room) = get_new_room(
+                        &player_stats,
+                        RoomDirectionEnum::Right,
+                        &mut mission_modal_visibility,
+                        &mut mission_reports_modal_visibility,
+                    ) {
                         player_stats.room = new_room;
                     }
                     border_color.0 = Color::srgba(255.0, 0.0, 0.0, 1.0);
@@ -83,7 +89,12 @@ pub fn mouse_interaction_updates(
         if unique_id.0 == "room_left_arrow_id" {
             match *interaction {
                 Interaction::Pressed => {
-                    if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Left) {
+                    if let Some(new_room) = get_new_room(
+                        &player_stats,
+                        RoomDirectionEnum::Left,
+                        &mut mission_modal_visibility,
+                        &mut mission_reports_modal_visibility,
+                    ) {
                         player_stats.room = new_room;
                     }
                     border_color.0 = Color::srgba(255.0, 0.0, 0.0, 1.0);
@@ -104,10 +115,15 @@ pub fn mouse_interaction_updates(
         if unique_id.0 == "room_top_arrow_id" {
             match *interaction {
                 Interaction::Pressed => {
-                    if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Top) {
+                    if let Some(new_room) = get_new_room(
+                        &player_stats,
+                        RoomDirectionEnum::Top,
+                        &mut mission_modal_visibility,
+                        &mut mission_reports_modal_visibility,
+                    ) {
                         player_stats.room = new_room;
                     }
-                    modal_visible.0 = false;
+                    // mission_modal_visibility.0 = false;
                     border_color.0 = Color::srgba(255.0, 0.0, 0.0, 1.0);
                 }
                 Interaction::Hovered => {
@@ -126,7 +142,12 @@ pub fn mouse_interaction_updates(
         if unique_id.0 == "room_bottom_arrow_id" {
             match *interaction {
                 Interaction::Pressed => {
-                    if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Bottom) {
+                    if let Some(new_room) = get_new_room(
+                        &player_stats,
+                        RoomDirectionEnum::Bottom,
+                        &mut mission_modal_visibility,
+                        &mut mission_reports_modal_visibility,
+                    ) {
                         player_stats.room = new_room;
                     }
                     border_color.0 = Color::srgba(255.0, 0.0, 0.0, 1.0);
@@ -473,28 +494,50 @@ pub fn start_mission_button(
 pub fn move_room_from_keyboard(
     mut player_stats: ResMut<PlayerStats>,
     keyboard_input: Res<ButtonInput<KeyCode>>,
+    mut mission_modal_visibility: ResMut<MissionModalVisible>,
+    mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
 ) {
     if keyboard_input.just_pressed(KeyCode::KeyD) {
         info!("Right arrow pressed");
-        if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Right) {
+        if let Some(new_room) = get_new_room(
+            &player_stats,
+            RoomDirectionEnum::Right,
+            &mut mission_modal_visibility,
+            &mut mission_reports_modal_visibility,
+        ) {
             player_stats.room = new_room;
         }
     }
 
     if keyboard_input.just_pressed(KeyCode::KeyA) {
-        if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Left) {
+        if let Some(new_room) = get_new_room(
+            &player_stats,
+            RoomDirectionEnum::Left,
+            &mut mission_modal_visibility,
+            &mut mission_reports_modal_visibility,
+        ) {
             player_stats.room = new_room;
         }
     }
 
     if keyboard_input.just_pressed(KeyCode::KeyW) {
-        if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Top) {
+        if let Some(new_room) = get_new_room(
+            &player_stats,
+            RoomDirectionEnum::Top,
+            &mut mission_modal_visibility,
+            &mut mission_reports_modal_visibility,
+        ) {
             player_stats.room = new_room;
         }
     }
 
     if keyboard_input.just_pressed(KeyCode::KeyS) {
-        if let Some(new_room) = get_new_room(&player_stats, RoomDirectionEnum::Bottom) {
+        if let Some(new_room) = get_new_room(
+            &player_stats,
+            RoomDirectionEnum::Bottom,
+            &mut mission_modal_visibility,
+            &mut mission_reports_modal_visibility,
+        ) {
             player_stats.room = new_room;
         }
     }

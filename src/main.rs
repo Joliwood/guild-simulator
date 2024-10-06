@@ -96,7 +96,7 @@ fn main() -> AppExit {
                 systems::updates::command_room::update_selected_recruit::update_update_selected_mission_percentage_of_victory,
                 systems::updates::interfaces::delete_notifications_on_click::delete_notifications_on_click,
                 ui::modals::mission_details_modal::display_mission_modal,
-                ui::modals::mission_report_modal::mission_report_modal,
+                ui::modals::mission_report_modal::mission_report_modal::mission_report_modal,
                 systems::updates::interfaces::sleep_button_system::sleep_button_system,
                 systems::updates::office::toggle_mission_reports::toggle_mission_reports,
             ),

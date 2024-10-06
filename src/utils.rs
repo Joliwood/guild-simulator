@@ -2,6 +2,7 @@ use crate::{
     enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
     structs::{
         equipments::Item,
+        general_structs::{MissionModalVisible, MissionReportsModalVisible},
         missions::{MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
         recruits::{RecruitInventory, RecruitStats, SelectedRecruit},
@@ -29,7 +30,13 @@ use uuid::Uuid;
 pub fn get_new_room(
     player_stats: &ResMut<PlayerStats>,
     direction: RoomDirectionEnum,
+    mission_modal_visibility: &mut ResMut<MissionModalVisible>,
+    mission_reports_modal_visibility: &mut ResMut<MissionReportsModalVisible>,
 ) -> Option<RoomEnum> {
+    // Close any open modals
+    mission_modal_visibility.0 = false;
+    mission_reports_modal_visibility.0 = false;
+
     match player_stats.room {
         RoomEnum::Office => match direction {
             RoomDirectionEnum::Right => Some(RoomEnum::Barrack),
@@ -423,6 +430,7 @@ pub fn finish_mission(
     }
 
     let mut new_mission_report = MissionReport {
+        percent_of_victory: percent_of_victory as u32,
         recruit_id: recruit_id.unwrap(),
         mission_id,
         success: is_mission_sucess,

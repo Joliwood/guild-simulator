@@ -84,6 +84,7 @@ pub struct Ennemy {
     pub level: u8,
     pub name: String,
     pub strength: u16,
+    pub image_atlas_index: u16,
 }
 
 // #[derive(Debug, Component, Resource)]

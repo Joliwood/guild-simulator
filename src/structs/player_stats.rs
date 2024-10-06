@@ -114,7 +114,7 @@ impl Default for PlayerStats {
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![],
-            room: RoomEnum::Office,
+            room: RoomEnum::CommandRoom,
         }
     }
 }
