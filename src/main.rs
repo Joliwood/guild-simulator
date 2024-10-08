@@ -1,5 +1,6 @@
 // Exemple of a clippy rule for all this file
-// #![allow(clippy::type_complexity)]
+#![allow(clippy::needless_return)]
+#![allow(clippy::type_complexity)]
 
 mod audio;
 mod custom_components;
