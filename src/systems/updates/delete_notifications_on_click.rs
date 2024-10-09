@@ -1,6 +1,6 @@
 use crate::{
-    audio::play_sound::play_sound,
-    enums::SoundEnum,
+    // audio::play_sound::play_sound,
+    // enums::SoundEnum,
     structs::{
         general_structs::MissionNotificationsNumber,
         trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
@@ -20,14 +20,14 @@ pub fn delete_notifications_on_click(
         (Entity, &Interaction),
         (Changed<Interaction>, With<MissionNotificationTrigger>),
     >,
-    asset_server: Res<AssetServer>,
+    _asset_server: Res<AssetServer>,
 ) {
     for (_entity, interaction) in interaction_query.iter_mut() {
         if *interaction == Interaction::Pressed {
             for entity in query.iter() {
                 commands.entity(entity).despawn_recursive();
             }
-            play_sound(&asset_server, &mut commands, SoundEnum::BookThrowDown);
+            // play_sound(&asset_server, &mut commands, SoundEnum::BookThrowDown);
             mission_notifications_number.0 = 0;
         }
     }

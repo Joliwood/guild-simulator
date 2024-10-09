@@ -1,7 +1,7 @@
 #![allow(unused_mut)]
 use crate::{
-    audio::play_sound::play_sound,
-    enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum, SoundEnum},
+    // audio::play_sound::play_sound,
+    enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
     structs::{
         equipments::Item,
         general_structs::{
@@ -519,8 +519,8 @@ pub fn buttons_disable_updates(
 }
 
 pub fn select_item_in_inventory(
-    mut commands: Commands,
-    asset_server: Res<AssetServer>,
+    mut _commands: Commands,
+    _asset_server: Res<AssetServer>,
     mut interaction_query: Query<
         (
             &Interaction,
@@ -542,21 +542,21 @@ pub fn select_item_in_inventory(
             match *interaction {
                 Interaction::Pressed => {
                     border_color.0 = WOOD_COLOR;
-                    let is_recruit_equiped =
+                    let _is_recruit_equiped =
                         equip_recruit_inventory(&mut selected_recruit, item, &mut player_stats);
-                    if is_recruit_equiped {
-                        match item {
-                            Item::Armor(_) => {
-                                play_sound(&asset_server, &mut commands, SoundEnum::EquipArmor);
-                            }
-                            Item::Scroll(_, _) => {
-                                play_sound(&asset_server, &mut commands, SoundEnum::EquipScroll);
-                            }
-                            Item::Weapon(_) => {
-                                play_sound(&asset_server, &mut commands, SoundEnum::EquipWeapon);
-                            }
-                        }
-                    }
+                    // if is_recruit_equiped {
+                    //     match item {
+                    //         Item::Armor(_) => {
+                    //             play_sound(&asset_server, &mut commands, SoundEnum::EquipArmor);
+                    //         }
+                    //         Item::Scroll(_, _) => {
+                    //             play_sound(&asset_server, &mut commands, SoundEnum::EquipScroll);
+                    //         }
+                    //         Item::Weapon(_) => {
+                    //             play_sound(&asset_server, &mut commands, SoundEnum::EquipWeapon);
+                    //         }
+                    //     }
+                    // }
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;

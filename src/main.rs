@@ -1,8 +1,11 @@
+// ! WIP
+// disable console on windows for release builds
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 // Exemple of a clippy rule for all this file
 #![allow(clippy::needless_return)]
 #![allow(clippy::type_complexity)]
 
-mod audio;
+// mod audio;
 mod custom_components;
 mod enums;
 mod structs;
@@ -20,6 +23,12 @@ use structs::general_structs::{
 };
 use ui::interface::gold_counter::MyAssets;
 
+// ! WIP
+// use bevy::window::PrimaryWindow;
+// use bevy::winit::WinitWindows;
+// use std::io::Cursor;
+// use winit::window::Icon;
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, SystemSet)]
 pub struct MySystems;
 
@@ -29,7 +38,19 @@ pub struct AlertButton;
 fn main() -> AppExit {
     App::new()
         .add_plugins((
-            DefaultPlugins,
+            DefaultPlugins
+            .set(WindowPlugin {
+                primary_window: Some(Window {
+                    title: "Guild simulator".to_string(), // ToDo
+                    // Bind to canvas included in `index.html`
+                    canvas: Some("#bevy".to_owned()),
+                    fit_canvas_to_parent: true,
+                    // Tells wasm not to override default event handling, like F5 and Ctrl+R
+                    prevent_default_event_handling: false,
+                    ..default()
+                }),
+                ..default()
+            }),
             // Desactivate on testing
             // WorldInspectorPlugin::new(),
             TooltipPlugin::default(),
@@ -45,7 +66,7 @@ fn main() -> AppExit {
         .add_systems(
             Startup,
             (
-                audio::audio_source::audio_source,
+                // audio::audio_source::audio_source,
                 systems::camera::camera_setup::camera_setup,
                 systems::inputs::mouse_systems::mouse_init,
                 ui::buttons::room_arrows::room_bottom_arrow_button,

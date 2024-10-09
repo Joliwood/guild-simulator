@@ -4,14 +4,73 @@ version = "0.1.0"
 edition = "2021"
 authors = ["Guillaume Jolibois <jolibois.contact@gmail.com>"]
 build-windows = ["./scripts/build-windows.sh"]
+exclude = ["dist", "build", "assets", "credits"]
 
-[build]
-# Point to our `index.html`.
-target = "web/index.html"
-# Set the output directory for the web build.
-dist = "target/trunk"
-# This is needed in order to host the game on itch.io.
-public_url = "./"
+[dependencies]
+bevy = { version = "0.14.0" , default-features = false, features = [
+    "animation",
+    "bevy_asset",
+    "bevy_state",
+    "bevy_color",
+    "bevy_gilrs",
+    "bevy_scene",
+    "bevy_winit",
+    "bevy_core_pipeline",
+    "bevy_pbr",
+    "bevy_gltf",
+    "bevy_render",
+    "bevy_sprite",
+    "bevy_text",
+    "bevy_ui",
+    "multi_threaded",
+    "png",
+    "hdr",
+    "x11",
+    "bevy_gizmos",
+    "tonemapping_luts",
+    "smaa_luts",
+    "default_font",
+    "webgl2",
+    "sysinfo_plugin",
+]}
+# bevy-inspector-egui  = { git = "https://github.com/jakobhellermann/bevy-inspector-egui", tag = "v0.25.0" }
+bevy_asset_loader = { version = "0.21.0", features = ["2d"]}
+bevy-settings = "0.6.0"
+rand_core = "0.6.4"
+uuid = "1.10.0"
+rand = "0.8.4"
+ron = "0.8"
+serde = { version = "1.0", features = ["derive"] }
+pyri_tooltip = "0.1.1"
+bevy_ui_mod_alerts = "0.2.0"
+
+# keep the following in sync with Bevy's dependencies
+winit = { version = "0.30", default-features = false }
+
+# ! WIP
+# [build]
+# # Point to our `index.html`.
+# target = "web/index.html"
+# # Set the output directory for the web build.
+# dist = "target/trunk"
+# # This is needed in order to host the game on itch.io.
+# public_url = "./"
+
+# This is used by trunk as it doesn't support custom profiles: https://github.com/trunk-rs/trunk/issues/605
+# xbuild also uses this profile for building android AABs because I couldn't find a configuration for it
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+strip = true
+
+# Profile for distribution
+[profile.dist]
+inherits = "release"
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
 
 # ![feature(diagnostic_namespace)]
 
@@ -22,21 +81,22 @@ opt-level = 1
 [target.x86_64h-apple-darwin]
 # Add any specific settings you want here
 
-# The default profile is optimized for Wasm builds because
-# that's what [Trunk reads](https://github.com/trunk-rs/trunk/issues/605).
-# Optimize for size in the wasm-release profile to reduce load times and bandwidth usage on web.
-[profile.release]
-# Compile the entire crate as one unit.
-# Slows compile times, marginal improvements.
-codegen-units = 1
-# Do a second optimization pass over the entire program, including dependencies.
-# Slows compile times, marginal improvements.
-lto = "thin"
-# Optimize with size in mind (also try "z", sometimes it is better).
-# Slightly slows compile times, great improvements to file size and runtime performance.
-opt-level = "s"
-# Strip all debugging information from the binary to slightly reduce file size.
-strip = "debuginfo"
+# ! WIP
+# # The default profile is optimized for Wasm builds because
+# # that's what [Trunk reads](https://github.com/trunk-rs/trunk/issues/605).
+# # Optimize for size in the wasm-release profile to reduce load times and bandwidth usage on web.
+# [profile.release]
+# # Compile the entire crate as one unit.
+# # Slows compile times, marginal improvements.
+# codegen-units = 1
+# # Do a second optimization pass over the entire program, including dependencies.
+# # Slows compile times, marginal improvements.
+# lto = "thin"
+# # Optimize with size in mind (also try "z", sometimes it is better).
+# # Slightly slows compile times, great improvements to file size and runtime performance.
+# opt-level = "s"
+# # Strip all debugging information from the binary to slightly reduce file size.
+# strip = "debuginfo"
 
 # Enable a large amount of optimization in the dev profile for dependencies.
 [profile.dev.package."*"]
@@ -55,20 +115,9 @@ opt-level = 3
 # Keep debug information in the binary.
 strip = "none"
 
-
 # Enable high optimizations for dependencies (incl. Bevy), but not for our code:
 # [profile.dev.package."*"]
 # opt-level = 3
 
-[dependencies]
-bevy = { version = "0.14.0" }
-# bevy-inspector-egui  = { git = "https://github.com/jakobhellermann/bevy-inspector-egui", tag = "v0.25.0" }
-bevy_asset_loader = { version = "0.21.0", features = ["2d"]}
-bevy-settings = "0.6.0"
-rand_core = "0.6.4"
-uuid = "1.10.0"
-rand = "0.8.4"
-ron = "0.8"
-serde = { version = "1.0", features = ["derive"] }
-pyri_tooltip = "0.1.1"
-bevy_ui_mod_alerts = "0.2.0"
+[build-dependencies]
+embed-resource = "1"

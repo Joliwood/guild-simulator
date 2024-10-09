@@ -1,6 +1,6 @@
 use crate::{
-    audio::play_sound::play_sound,
-    enums::{ColorPaletteEnum, SoundEnum},
+    // audio::play_sound::play_sound,
+    enums::ColorPaletteEnum,
     structs::{
         general_structs::MissionNotificationsNumber,
         trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
@@ -34,7 +34,7 @@ pub fn spawn_or_update_notification(
             commands.entity(entity).despawn_recursive();
         }
 
-        play_sound(&asset_server, &mut commands, SoundEnum::PaperTouch);
+        // play_sound(&asset_server, &mut commands, SoundEnum::PaperTouch);
 
         // If no toast exists, create a new one
         commands
