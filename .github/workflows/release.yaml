@@ -40,9 +40,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Remove build script
+      - name: Remove build script if it exists
         run: |
-          rm build.rs
+          if [ -f build.rs ]; then rm build.rs; fi
       - name: Install rust toolchain for Apple Silicon
         uses: dtolnay/rust-toolchain@master
         with:
