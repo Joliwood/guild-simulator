@@ -19,8 +19,8 @@ pub fn scroll_button(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
     scroll_index: u8,
 ) {
-    let texture_handle_empty_slot: Handle<Image> =
-        asset_server.load("images/equipments/empty_inventory_slot.png");
+    // let texture_handle_empty_slot: Handle<Image> =
+    //     asset_server.load("images/equipments/empty_inventory_slot.png");
 
     let recruit_id = recruit.id;
 
@@ -71,7 +71,7 @@ pub fn scroll_button(
                 },
                 border_color: BorderColor(Color::BLACK),
                 border_radius: BorderRadius::all(Val::Px(10.)),
-                image: texture_handle_empty_slot.clone().into(),
+                // image: texture_handle_empty_slot.clone().into(),
                 ..default()
             })
             .insert(UniqueId("item_in_inventory".to_string()));

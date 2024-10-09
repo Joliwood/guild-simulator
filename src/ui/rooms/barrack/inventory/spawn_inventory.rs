@@ -19,8 +19,8 @@ pub fn spawn_inventory(
 ) {
     let inventory_size = player_stats.max_inventory_size;
     let columns = 5;
-    let texture_handle_empty_slot: Handle<Image> =
-        asset_server.load("images/equipments/empty_inventory_slot.png");
+    // let texture_handle_empty_slot: Handle<Image> =
+    //     asset_server.load("images/equipments/empty_inventory_slot.png");
 
     // Create a parent node for the inventory grid
     parent
@@ -124,7 +124,7 @@ pub fn spawn_inventory(
                                         },
                                         border_color: BorderColor(Color::BLACK),
                                         border_radius: BorderRadius::all(Val::Px(10.)),
-                                        image: texture_handle_empty_slot.clone().into(),
+                                        // image: texture_handle_empty_slot.clone().into(),
                                         ..default()
                                     })
                                     .insert(UniqueId("item_in_inventory0".to_string()));

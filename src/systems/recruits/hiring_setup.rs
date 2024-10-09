@@ -13,24 +13,24 @@ use uuid::Uuid;
 pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
     let first_weapon = load_weapon_by_id(1);
     let new_recruits = vec![
-        RecruitStats {
-            class: RecruitEnum::Warrior,
-            endurance: 10,
-            experience: 0,
-            id: Uuid::new_v4(),
-            image_atlas_index: 0,
-            intelligence: 5,
-            level: 1,
-            max_experience: 100,
-            name: "Warzazat".to_string(),
-            recruit_inventory: RecruitInventory {
-                armor: None,
-                weapon: first_weapon,
-                scrolls: vec![],
-            },
-            state: RecruitStateEnum::Available,
-            strength: 10,
-        },
+        // RecruitStats {
+        //     class: RecruitEnum::Warrior,
+        //     endurance: 10,
+        //     experience: 0,
+        //     id: Uuid::new_v4(),
+        //     image_atlas_index: 0,
+        //     intelligence: 5,
+        //     level: 1,
+        //     max_experience: 100,
+        //     name: "Warzazat".to_string(),
+        //     recruit_inventory: RecruitInventory {
+        //         armor: None,
+        //         weapon: first_weapon,
+        //         scrolls: vec![],
+        //     },
+        //     state: RecruitStateEnum::Available,
+        //     strength: 10,
+        // },
         RecruitStats {
             class: RecruitEnum::Mage,
             endurance: 5,

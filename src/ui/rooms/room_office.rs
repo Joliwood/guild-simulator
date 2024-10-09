@@ -9,7 +9,7 @@ pub fn room_office(
     commands: &mut Commands,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let imager_handler: Handle<Image> = asset_server.load("images/office.png");
+    // let imager_handler: Handle<Image> = asset_server.load("images/office.png");
 
     commands
         .spawn(NodeBundle {
@@ -21,7 +21,7 @@ pub fn room_office(
         // Image background node
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn(ImageBundle {
-                image: imager_handler.into(),
+                // image: imager_handler.into(),
                 style: Style {
                     position_type: PositionType::Absolute,
                     width: Val::Percent(100.0),

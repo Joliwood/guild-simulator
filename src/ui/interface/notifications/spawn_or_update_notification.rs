@@ -18,7 +18,7 @@ pub fn spawn_or_update_notification(
     mut mission_notifications_number: ResMut<MissionNotificationsNumber>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let texture_handle: Handle<Image> = asset_server.load("images/ui/notification_atlas.png");
+    // let texture_handle: Handle<Image> = asset_server.load("images/ui/notification_atlas.png");
     let layout = TextureAtlasLayout::from_grid(
         UVec2::new(200, 50),
         4,
@@ -69,7 +69,7 @@ pub fn spawn_or_update_notification(
                                 },
                                 ..default()
                             },
-                            image: texture_handle.clone().into(),
+                            // image: texture_handle.clone().into(),
                             border_radius: BorderRadius {
                                 top_left: Val::Px(10.),
                                 top_right: Val::ZERO,

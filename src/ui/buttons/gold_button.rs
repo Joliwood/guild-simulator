@@ -7,7 +7,7 @@ pub fn gold_button(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
-    let texture_handle = asset_server.load("images/ui/buttons_atlas.png");
+    // let texture_handle = asset_server.load("images/ui/buttons_atlas.png");
     let layout = TextureAtlasLayout::from_grid(
         UVec2::new(5436, 3809),
         5,
@@ -27,7 +27,7 @@ pub fn gold_button(
                     border: UiRect::all(Val::Px(3.)),
                     ..default()
                 },
-                image: texture_handle.clone().into(),
+                // image: texture_handle.clone().into(),
                 border_color: BorderColor(Color::BLACK),
                 border_radius: BorderRadius::all(Val::Px(10.)),
                 ..default()

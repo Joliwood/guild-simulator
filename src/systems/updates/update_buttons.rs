@@ -164,9 +164,9 @@ pub fn mouse_interaction_updates(
                     info!("let's recruit a rogue now!");
                     hire_new_recruits(player_stats.as_mut(), new_recruits);
                     let new_item = load_scroll_by_id(2);
-                    if let Some(item) = new_item {
-                        player_stats.add_item(Item::Scroll(item, 1));
-                    }
+                    // if let Some(item) = new_item {
+                    //     player_stats.add_item(Item::Scroll(item, 1));
+                    // }
                 }
                 Interaction::Hovered => {}
                 Interaction::None => {}

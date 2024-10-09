@@ -12,7 +12,7 @@ pub fn spawn_right_container(
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let texture_test: Handle<Image> = asset_server.load("images/ui/art_v0_buttons.png");
+    // let texture_test: Handle<Image> = asset_server.load("images/ui/art_v0_buttons.png");
     let layout_test = TextureAtlasLayout::from_grid(
         UVec2::new(4000, 400),
         4,
@@ -22,13 +22,13 @@ pub fn spawn_right_container(
     );
     let texture_atlas_layout_test = texture_atlas_layouts.add(layout_test);
 
-    let texture_handle_inventory_container: Handle<Image> =
-        asset_server.load("images/rooms/barrack/inventory_container.png");
+    // let texture_handle_inventory_container: Handle<Image> =
+    //     asset_server.load("images/rooms/barrack/inventory_container.png");
 
     // Container for the inventory
     parent
         .spawn(ImageBundle {
-            image: texture_handle_inventory_container.into(),
+            // image: texture_handle_inventory_container.into(),
             style: Style {
                 display: Display::Flex,
                 align_self: AlignSelf::Center,
@@ -73,7 +73,7 @@ pub fn spawn_right_container(
                                 style: inventory_filter_button_style(),
                                 border_color: BorderColor(Color::BLACK),
                                 border_radius: BorderRadius::all(Val::Px(10.)),
-                                image: texture_test.clone().into(),
+                                // image: texture_test.clone().into(),
                                 ..default()
                             },
                             TextureAtlas {
@@ -100,7 +100,7 @@ pub fn spawn_right_container(
                                 style: inventory_filter_button_style(),
                                 border_color: BorderColor(Color::BLACK),
                                 border_radius: BorderRadius::all(Val::Px(10.)),
-                                image: texture_test.clone().into(),
+                                // image: texture_test.clone().into(),
                                 ..default()
                             },
                             TextureAtlas {
@@ -127,7 +127,7 @@ pub fn spawn_right_container(
                                 style: inventory_filter_button_style(),
                                 border_color: BorderColor(Color::BLACK),
                                 border_radius: BorderRadius::all(Val::Px(10.)),
-                                image: texture_test.clone().into(),
+                                // image: texture_test.clone().into(),
                                 ..default()
                             },
                             TextureAtlas {
@@ -154,7 +154,7 @@ pub fn spawn_right_container(
                                 style: inventory_filter_button_style(),
                                 border_color: BorderColor(Color::BLACK),
                                 border_radius: BorderRadius::all(Val::Px(10.)),
-                                image: texture_test.clone().into(),
+                                // image: texture_test.clone().into(),
                                 ..default()
                             },
                             TextureAtlas {

@@ -11,7 +11,7 @@ use bevy_asset_loader::asset_collection::AssetCollection;
 
 #[derive(AssetCollection, Resource)]
 pub struct MyAssets {
-    #[asset(path = "images/ui/buttons_atlas.png")]
+    // #[asset(path = "images/ui/buttons_atlas.png")]
     pub test_button: Handle<Image>,
     #[asset(texture_atlas_layout(tile_size_x = 2000, tile_size_y = 2000, columns = 4, rows = 4))]
     pub test_button_layout: Handle<TextureAtlasLayout>,
@@ -47,7 +47,7 @@ pub fn gold_counter(
         // Gold icon
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn(ImageBundle {
-                image: asset_server.load("images/ui/gold.png").into(),
+                // image: asset_server.load("images/ui/gold.png").into(),
                 style: Style {
                     // The position absolute make the gold counter visible (z-index)
                     width: Val::Px(24.0),

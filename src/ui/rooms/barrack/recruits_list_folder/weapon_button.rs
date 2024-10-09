@@ -17,8 +17,8 @@ pub fn weapon_button(
     recruit_stats: &RecruitStats,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let texture_handle_empty_slot: Handle<Image> =
-        asset_server.load("images/equipments/empty_inventory_slot.png");
+    // let texture_handle_empty_slot: Handle<Image> =
+    //     asset_server.load("images/equipments/empty_inventory_slot.png");
 
     let recruit_stats_inventory = recruit_stats.recruit_inventory.clone();
     let recruit_stats_weapon = recruit_stats_inventory.weapon;
@@ -63,7 +63,7 @@ pub fn weapon_button(
                 },
                 border_color: BorderColor(Color::BLACK),
                 border_radius: BorderRadius::all(Val::Px(10.)),
-                image: texture_handle_empty_slot.clone().into(),
+                // image: texture_handle_empty_slot.clone().into(),
                 ..default()
             })
             .insert(UniqueId("item_in_inventory".to_string()));

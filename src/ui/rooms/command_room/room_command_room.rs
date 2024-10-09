@@ -14,7 +14,7 @@ pub fn room_command_room(
     missions: Res<Missions>,
     image_assets: &Res<MyAssets>,
 ) {
-    let image_handler: Handle<Image> = asset_server.load("images/command_room.png");
+    // let image_handler: Handle<Image> = asset_server.load("images/command_room.png");
 
     commands
         .spawn(NodeBundle {
@@ -26,7 +26,7 @@ pub fn room_command_room(
         // Image background node
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn(ImageBundle {
-                image: image_handler.into(),
+                // image: image_handler.into(),
                 style: Style {
                     position_type: PositionType::Absolute,
                     width: Val::Percent(100.0),

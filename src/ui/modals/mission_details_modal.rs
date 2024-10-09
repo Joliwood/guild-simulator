@@ -28,7 +28,7 @@ pub fn display_mission_modal(
     missions: Res<Missions>,
 ) {
     // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
-    let texture_handle = asset_server.load("images/ui/buttons_atlas.png");
+    // let texture_handle = asset_server.load("images/ui/buttons_atlas.png");
     let layout = TextureAtlasLayout::from_grid(
         UVec2::new(5436, 3809),
         5,
@@ -104,7 +104,7 @@ pub fn display_mission_modal(
                                             border: UiRect::all(Val::Px(3.)),
                                             ..default()
                                         },
-                                        image: texture_handle.clone().into(),
+                                        // image: texture_handle.clone().into(),
                                         border_color: BorderColor(WOOD_COLOR),
                                         border_radius: BorderRadius::all(Val::Px(10.)),
                                         ..default()
