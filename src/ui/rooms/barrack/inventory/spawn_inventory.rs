@@ -127,7 +127,7 @@ pub fn spawn_inventory(
                                         image: texture_handle_empty_slot.clone().into(),
                                         ..default()
                                     })
-                                    .insert(UniqueId(format!("item_in_inventory0")));
+                                    .insert(UniqueId("item_in_inventory0".to_string()));
                             }
                         }
                     }

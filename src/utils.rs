@@ -123,7 +123,7 @@ pub fn get_xp_earned(level: u8) -> u32 {
 #[allow(dead_code)]
 pub fn format_ron_equipments_for_display(ron_data: &str) -> String {
     // Use a regex to format the RON output
-    let formatted = ron_data
+    return ron_data
         .replace(":", ": ")
         .replace("),", "},")
         .replace(")", "}")
@@ -134,8 +134,6 @@ pub fn format_ron_equipments_for_display(ron_data: &str) -> String {
         .replace("Weapons(", "  {")
         .replace("Weapons(", "{")
         .replace("Weapons(", "{");
-
-    formatted
 }
 
 /// Get the image atlas index of an item

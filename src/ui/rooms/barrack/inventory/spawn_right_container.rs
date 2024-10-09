@@ -81,7 +81,7 @@ pub fn spawn_right_container(
                                 layout: texture_atlas_layout_test.clone(),
                             },
                         ))
-                        .insert(UniqueId(format!("item_in_inventory")))
+                        .insert(UniqueId("item_in_inventory".to_string()))
                         .with_children(|b| {
                             b.spawn(TextBundle::from_section(
                                 "All",
@@ -162,7 +162,7 @@ pub fn spawn_right_container(
                                 layout: texture_atlas_layout_test.clone(),
                             },
                         ))
-                        .insert(UniqueId(format!("item_in_inventory")))
+                        .insert(UniqueId("item_in_inventory".to_string()))
                         .with_children(|b| {
                             b.spawn(TextBundle::from_section(
                                 "Scrolls",

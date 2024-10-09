@@ -10,7 +10,6 @@ pub fn audio_source(asset_server: Res<AssetServer>, mut commands: Commands) {
                 speed: 1.0,
                 ..Default::default()
             },
-            ..default()
         })
         .insert(Name::new("Audio source"));
 }

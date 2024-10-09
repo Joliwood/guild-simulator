@@ -61,7 +61,7 @@ strip = "none"
 # opt-level = 3
 
 [dependencies]
-bevy = { version = "0.14.0", features = ["dynamic_linking"] }
+bevy = { version = "0.14.0" }
 # bevy-inspector-egui  = { git = "https://github.com/jakobhellermann/bevy-inspector-egui", tag = "v0.25.0" }
 bevy_asset_loader = { version = "0.21.0", features = ["2d"]}
 bevy-settings = "0.6.0"

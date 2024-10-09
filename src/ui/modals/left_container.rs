@@ -31,13 +31,13 @@ pub fn spawn_left_container(
                 parent
                     .spawn(CustomButton::Primary.bundle(asset_server, image_assets))
                     .insert((
-                        UniqueId(format!("assign_recruit_to_mission")),
+                        UniqueId("assign_recruit_to_mission".to_string()),
                         recruit.clone(),
                     ))
                     .with_children(|button| {
                         button.spawn(TextBundle {
                             text: Text::from_section(
-                                &recruit.class.to_string(),
+                                recruit.class.to_string(),
                                 TextStyle {
                                     font: asset_server.load("fonts/FiraSans-Bold.ttf"),
                                     font_size: 20.0,

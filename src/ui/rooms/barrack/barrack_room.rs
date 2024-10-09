@@ -1,7 +1,7 @@
 use super::{
     inventory::spawn_right_container::spawn_right_container,
-    recruit_overview::recruit_overview::recruit_overview,
-    recruits_list::recruits_list::spawn_left_container,
+    recruit_overview_folder::recruit_overview::recruit_overview,
+    recruits_list_folder::recruits_list::spawn_left_container,
 };
 use crate::{
     structs::{

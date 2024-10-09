@@ -10,8 +10,10 @@ ASSETS_DIR="assets"             # Path to assets directory
 TARGET="aarch64-apple-darwin"   # Target for macOS ARM64 (Apple Silicon)
 OUT_DIR="tmp/package/${PACKAGE_NAME}.app/Contents/MacOS"  # Output directory for the build
 PACKAGE_EXT=".dmg"              # Output package format
+INFO_PLIST="tmp/package/${PACKAGE_NAME}.app/Contents/Info.plist"  # Path to Info.plist
 
 # Prepare output directories
+echo "Cleaning up previous build..."
 rm -rf tmp
 mkdir -p "$OUT_DIR"
 
@@ -29,12 +31,13 @@ mv target/"$TARGET"/release/"$BINARY" "$OUT_DIR/$BINARY"
 # Optionally copy assets (if they exist)
 if [ -d "$ASSETS_DIR" ]; then
     echo "Copying assets to the package..."
-    cp -r "$ASSETS_DIR" "$OUT_DIR"
+    cp -r "$ASSETS_DIR" "tmp/package/${PACKAGE_NAME}.app/Contents"
 fi
 
 # Add metadata for macOS app bundle
 echo "Adding macOS app metadata..."
-cat > "$OUT_DIR/../Info.plist" << EOF
+mkdir -p "tmp/package/${PACKAGE_NAME}.app/Contents"
+cat > "$INFO_PLIST" << EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -44,7 +47,7 @@ cat > "$OUT_DIR/../Info.plist" << EOF
         <key>CFBundleDisplayName</key>
         <string>${PACKAGE_NAME}</string>
         <key>CFBundleExecutable</key>
-        <string>${PACKAGE_NAME}</string>
+        <string>${BINARY}</string>
         <key>CFBundleIdentifier</key>
         <string>com.example.${PACKAGE_NAME}</string>
         <key>CFBundleName</key>
@@ -67,6 +70,10 @@ EOF
 
 # Create a .dmg file from the package
 echo "Creating .dmg package..."
-hdiutil create -fs HFS+ -volname "${PACKAGE_NAME}" -srcfolder "tmp/package" "${PACKAGE_NAME}-${VERSION}${PACKAGE_EXT}"
+hdiutil create -fs APFS -volname "${PACKAGE_NAME}" -srcfolder "tmp/package" "${PACKAGE_NAME}-${VERSION}${PACKAGE_EXT}"
+
+# Clean up temporary files
+echo "Cleaning up temporary files..."
+rm -rf tmp
 
 echo "Build and packaging for macOS ARM64 completed successfully!"

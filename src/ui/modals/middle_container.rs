@@ -75,7 +75,7 @@ pub fn spawn_middle_container(
 
             // Button inside the middle container
             parent
-                .spawn(CustomButton::Primary.bundle(&asset_server, image_assets))
+                .spawn(CustomButton::Primary.bundle(asset_server, image_assets))
                 .insert(UniqueId("start_mission".to_string()))
                 .with_children(|button| {
                     button.spawn(TextBundle {

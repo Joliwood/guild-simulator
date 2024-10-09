@@ -75,10 +75,10 @@ pub struct RecruitStats {
     pub strength: u16,
 }
 
-#[derive(Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
+#[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct SelectedRecruit(pub Option<RecruitStats>);
 
-#[derive(Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
+#[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct SelectedMission {
     pub mission: Option<Mission>,
     pub percent_of_victory: Option<u32>,
@@ -198,14 +198,6 @@ impl Mission {
     }
 }
 
-// --- Implementations --- //
-
-impl Default for SelectedRecruit {
-    fn default() -> Self {
-        Self(None)
-    }
-}
-
 impl SelectedRecruit {
     pub fn get_inventory(&self) -> RecruitInventory {
         if let Some(recruit) = &self.0 {
@@ -226,16 +218,6 @@ impl SelectedRecruit {
     pub fn equip_weapon(&mut self, weapon: Weapon) {
         if let Some(recruit) = &mut self.0 {
             recruit.recruit_inventory.weapon = Some(weapon);
-        }
-    }
-}
-
-impl Default for SelectedMission {
-    fn default() -> Self {
-        Self {
-            mission: None,
-            percent_of_victory: None,
-            recruit_id: None,
         }
     }
 }
@@ -282,13 +264,12 @@ impl PlayerStats {
                     Item::Scroll(scroll, _) => scroll.id == scroll_id,
                     _ => false,
                 }) {
-                    self.inventory.iter_mut().for_each(|item| match item {
-                        Item::Scroll(scroll, q) => {
+                    self.inventory.iter_mut().for_each(|item| {
+                        if let Item::Scroll(scroll, q) = item {
                             if scroll.id == scroll_id {
                                 *q += quantity;
                             }
                         }
-                        _ => {}
                     });
                 } else {
                     self.inventory.push(Item::Scroll(scroll, quantity));
@@ -317,7 +298,7 @@ impl PlayerStats {
             .iter_mut()
             .find(|recruit| recruit.id == recruit_id)
         {
-            recruit.equip_item(&item);
+            recruit.equip_item(item);
         }
     }
 

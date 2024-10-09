@@ -15,6 +15,7 @@ use crate::{
 };
 use bevy::{asset::AssetServer, prelude::*};
 
+#[allow(clippy::too_many_arguments)]
 pub fn display_mission_modal(
     mut commands: Commands,
     asset_server: Res<AssetServer>,

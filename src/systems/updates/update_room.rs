@@ -15,6 +15,7 @@ use crate::{
 };
 use bevy::prelude::*;
 
+#[allow(clippy::too_many_arguments)]
 /// Checks for changes in PlayerStats and updates the room accordingly
 ///
 /// # Parameters
