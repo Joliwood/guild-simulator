@@ -26,19 +26,15 @@ cargo build --release --target="$TARGET" --no-default-features
 echo "Moving binary to output directory..."
 mv target/"$TARGET"/release/"$BINARY" "$OUT_DIR/$BINARY"
 
-# Set executable permissions for the binary
-chmod +x "$OUT_DIR/$BINARY"
-
 # Optionally copy assets (if they exist)
 if [ -d "$ASSETS_DIR" ]; then
     echo "Copying assets to the package..."
-    cp -r "$ASSETS_DIR" "tmp/package/${PACKAGE_NAME}.app/Contents"
+    cp -r "$ASSETS_DIR" "$OUT_DIR"
 fi
 
 # Add metadata for macOS app bundle
 echo "Adding macOS app metadata..."
-mkdir -p "tmp/package/${PACKAGE_NAME}.app/Contents"  # Ensure the Contents directory exists
-cat > "tmp/package/${PACKAGE_NAME}.app/Contents/Info.plist" << EOF
+cat > "$OUT_DIR/../Info.plist" << EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -48,7 +44,7 @@ cat > "tmp/package/${PACKAGE_NAME}.app/Contents/Info.plist" << EOF
         <key>CFBundleDisplayName</key>
         <string>${PACKAGE_NAME}</string>
         <key>CFBundleExecutable</key>
-        <string>${BINARY}</string>
+        <string>${PACKAGE_NAME}</string>
         <key>CFBundleIdentifier</key>
         <string>com.example.${PACKAGE_NAME}</string>
         <key>CFBundleName</key>

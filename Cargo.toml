@@ -2,6 +2,7 @@
 name = "guild_simulator"
 version = "0.1.0"
 edition = "2021"
+authors = ["Guillaume Jolibois <jolibois.contact@gmail.com>"]
 build-windows = ["./scripts/build-windows.sh"]
 
 [build]
@@ -17,6 +18,9 @@ public_url = "./"
 # Enable a small amount of optimization in debug mode
 [profile.dev]
 opt-level = 1
+
+[target.x86_64h-apple-darwin]
+# Add any specific settings you want here
 
 # The default profile is optimized for Wasm builds because
 # that's what [Trunk reads](https://github.com/trunk-rs/trunk/issues/605).
