@@ -13,7 +13,7 @@ mod systems;
 mod ui;
 mod utils;
 
-use bevy::prelude::*;
+use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
@@ -37,20 +37,21 @@ pub struct AlertButton;
 
 fn main() -> AppExit {
     App::new()
+    // .insert_resource(AssetMetaCheck::Never)
         .add_plugins((
             DefaultPlugins
+            .set(AssetPlugin {
+                meta_check: AssetMetaCheck::Never,
+                ..default()
+            })
             .set(WindowPlugin {
                 primary_window: Some(Window {
-                    title: "Guild simulator".to_string(), // ToDo
-                    // Bind to canvas included in `index.html`
-                    canvas: Some("#bevy".to_owned()),
-                    fit_canvas_to_parent: true,
-                    // Tells wasm not to override default event handling, like F5 and Ctrl+R
-                    prevent_default_event_handling: false,
+                    canvas: Some("#mygame-canvas".into()),
                     ..default()
                 }),
                 ..default()
             }),
+            
             // Desactivate on testing
             // WorldInspectorPlugin::new(),
             TooltipPlugin::default(),

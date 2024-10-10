@@ -14,12 +14,12 @@ pub fn recruit_infos(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
     player_stats: &Res<PlayerStats>,
 ) {
-    let frame_image_handle: Handle<Image> =
-        asset_server.load("images/rooms/barrack/recruit_infos.png");
+    // let frame_image_handle: Handle<Image> =
+    //     asset_server.load("images/rooms/barrack/recruit_infos.png");
 
     parent
         .spawn(ImageBundle {
-            image: frame_image_handle.into(),
+            // image: frame_image_handle.into(),
             style: Style {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,

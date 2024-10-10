@@ -1,13 +1,15 @@
-use crate::structs::general_structs::UniqueId;
+use crate::{structs::general_structs::UniqueId, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
 
 pub fn gold_button(
     asset_server: &Res<AssetServer>,
     commands: &mut ChildBuilder,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
+    my_assets: Res<MyAssets>,
 ) {
     // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
     // let texture_handle = asset_server.load("images/ui/buttons_atlas.png");
+    // let texture_handle = my_assets.test_button.clone();
     let layout = TextureAtlasLayout::from_grid(
         UVec2::new(5436, 3809),
         5,

@@ -7,24 +7,36 @@ use crate::{
     ui::{styles::containers_styles::basic_button_style, ui_constants::WOOD_COLOR},
 };
 use bevy::prelude::*;
-use bevy_asset_loader::asset_collection::AssetCollection;
+use bevy_asset_loader::prelude::*;
+// use bevy_asset_loader::asset_collection::AssetCollection;
+
+// #[derive(AssetCollection, Resource)]
+// pub struct TextureAssets {
+//     #[asset(path = "textures/bevy.png")]
+//     pub bevy: Handle<Image>,
+//     #[asset(path = "textures/github.png")]
+//     pub github: Handle<Image>,
+// }
 
 #[derive(AssetCollection, Resource)]
 pub struct MyAssets {
-    // #[asset(path = "images/ui/buttons_atlas.png")]
+    #[asset(path = "images/ui/buttons_atlas.png")]
     pub test_button: Handle<Image>,
-    #[asset(texture_atlas_layout(tile_size_x = 2000, tile_size_y = 2000, columns = 4, rows = 4))]
-    pub test_button_layout: Handle<TextureAtlasLayout>,
+    // #[asset(texture_atlas_layout(tile_size_x = 2000, tile_size_y = 2000, columns = 4, rows = 4))]
+    // pub test_button_layout: Handle<TextureAtlasLayout>,
+    #[asset(path = "images/office.png")]
+    pub office: Handle<Image>,
 }
 
-impl Clone for MyAssets {
-    fn clone(&self) -> Self {
-        MyAssets {
-            test_button: self.test_button.clone(),
-            test_button_layout: self.test_button_layout.clone(),
-        }
-    }
-}
+// impl Clone for MyAssets {
+//     fn clone(&self) -> Self {
+//         MyAssets {
+//             test_button: self.test_button.clone(),
+//             test_button_layout: self.test_button_layout.clone(),
+//             office: self.office.clone(),
+//         }
+//     }
+// }
 
 pub fn gold_counter(
     asset_server: Res<AssetServer>,
