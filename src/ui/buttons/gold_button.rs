@@ -45,9 +45,10 @@ pub fn gold_button(
             settings_button.spawn(TextBundle::from_section(
                 "",
                 TextStyle {
-                    font: my_assets.fira_sans_bold.clone().into(),
+                    // font: my_assets.fira_sans_bold.clone().into(),
                     font_size: 40.,
                     color: Color::srgb(0.9, 0.9, 0.9),
+                    ..default()
                 },
             ));
         });

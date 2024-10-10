@@ -36,9 +36,10 @@ pub fn spawn_middle_container(
                 text: Text::from_section(
                     "Mission middle \n Assigned recruit :",
                     TextStyle {
-                        font: my_assets.fira_sans_bold.clone().into(),
+                        // font: my_assets.fira_sans_bold.clone().into(),
                         font_size: 20.0,
                         color: Color::WHITE,
+                        ..default()
                     },
                 ),
                 ..default()
@@ -49,9 +50,10 @@ pub fn spawn_middle_container(
                     text: Text::from_section(
                         format!("{:?}", selected_mission.recruit_id),
                         TextStyle {
-                            font: my_assets.fira_sans_bold.clone().into(),
+                            // font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 20.0,
                             color: Color::WHITE,
+                            ..default()
                         },
                     ),
                     ..default()
@@ -63,9 +65,10 @@ pub fn spawn_middle_container(
                     text: Text::from_section(
                         format!("{:?}", selected_mission.percent_of_victory),
                         TextStyle {
-                            font: my_assets.fira_sans_bold.clone().into(),
+                            // font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 20.0,
                             color: Color::WHITE,
+                            ..default()
                         },
                     ),
                     ..default()
@@ -81,9 +84,10 @@ pub fn spawn_middle_container(
                         text: Text::from_section(
                             "Start the mission",
                             TextStyle {
-                                font: my_assets.fira_sans_bold.clone().into(),
+                                // font: my_assets.fira_sans_bold.clone().into(),
                                 font_size: 20.0,
                                 color: Color::BLACK,
+                                ..default()
                             },
                         ),
                         ..default()

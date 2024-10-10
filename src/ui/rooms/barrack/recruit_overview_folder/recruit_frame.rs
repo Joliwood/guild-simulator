@@ -43,9 +43,10 @@ pub fn recruit_frame(
                 text: Text::from_section(
                     selected_recruit_data.name.to_string(),
                     TextStyle {
-                        font: my_assets.fira_sans_bold.clone().into(),
+                        // font: my_assets.fira_sans_bold.clone().into(),
                         font_size: 20.0,
                         color: Color::BLACK,
+                        ..default()
                     },
                 ),
                 style: Style {

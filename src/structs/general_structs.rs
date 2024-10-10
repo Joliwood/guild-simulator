@@ -478,6 +478,8 @@ pub fn load_weapon_by_id(id: u16) {
     // let weapons_data = fs::read_to_string("src/data/equipments/weapons.ron")
     //     .expect("Failed to read the RON file.");
 
+    // let weapons_data: &str = include_str!("../../data/equipments/weapons.ron");
+
     // let weapons: Weapons = from_str(&weapons_data).expect("Failed to deserialize RON data.");
 
     // if let Some(weapon) = weapons.items.iter().find(|weapon| weapon.id == id) {

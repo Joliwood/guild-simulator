@@ -81,9 +81,10 @@ pub fn display_mission_modal(
                                     text: Text::from_section(
                                         format!("Mission Details -> {:?}", mission.name),
                                         TextStyle {
-                                            font: my_assets.fira_sans_bold.clone().into(),
+                                            // font: my_assets.fira_sans_bold.clone().into(),
                                             font_size: 40.0,
                                             color: Color::WHITE,
+                                            ..default()
                                         },
                                     ),
                                     ..default()

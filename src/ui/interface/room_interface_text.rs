@@ -27,9 +27,10 @@ pub fn room_interface_text(
                         gold_counter = player_stats.golds,
                         guild_level = player_stats.guild_level},
                         TextStyle {
-                            font: my_assets.fira_sans_bold.clone().into(),
+                            // font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 40.0,
                             color: Color::BLACK,
+                            ..default()
                         },
                     ),
                     ..default()

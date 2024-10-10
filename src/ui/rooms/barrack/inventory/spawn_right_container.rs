@@ -50,9 +50,10 @@ pub fn spawn_right_container(
             parent.spawn(TextBundle::from_section(
                 "Inventory",
                 TextStyle {
-                    font: my_assets.fira_sans_bold.clone().into(),
+                    // font: my_assets.fira_sans_bold.clone().into(),
                     font_size: 30.,
                     color: ColorPaletteEnum::DarkBrown.as_color(),
+                    ..default()
                 },
             ));
 
@@ -88,9 +89,10 @@ pub fn spawn_right_container(
                             b.spawn(TextBundle::from_section(
                                 "All",
                                 TextStyle {
-                                    font: my_assets.fira_sans_bold.clone().into(),
+                                    // font: my_assets.fira_sans_bold.clone().into(),
                                     font_size: 14.0,
                                     color: Color::WHITE,
+                                    ..default()
                                 },
                             ));
                         });
@@ -115,9 +117,10 @@ pub fn spawn_right_container(
                             b.spawn(TextBundle::from_section(
                                 "Weapons",
                                 TextStyle {
-                                    font: my_assets.fira_sans_bold.clone().into(),
+                                    // font: my_assets.fira_sans_bold.clone().into(),
                                     font_size: 14.0,
                                     color: Color::WHITE,
+                                    ..default()
                                 },
                             ));
                         });
@@ -142,9 +145,10 @@ pub fn spawn_right_container(
                             b.spawn(TextBundle::from_section(
                                 "Armors",
                                 TextStyle {
-                                    font: my_assets.fira_sans_bold.clone().into(),
+                                    // font: my_assets.fira_sans_bold.clone().into(),
                                     font_size: 14.0,
                                     color: Color::WHITE,
+                                    ..default()
                                 },
                             ));
                         });
@@ -169,9 +173,10 @@ pub fn spawn_right_container(
                             b.spawn(TextBundle::from_section(
                                 "Scrolls",
                                 TextStyle {
-                                    font: my_assets.fira_sans_bold.clone().into(),
+                                    // font: my_assets.fira_sans_bold.clone().into(),
                                     font_size: 14.0,
                                     color: Color::WHITE,
+                                    ..default()
                                 },
                             ));
                         });

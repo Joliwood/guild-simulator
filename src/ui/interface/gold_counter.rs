@@ -148,9 +148,10 @@ pub fn gold_counter(
                     text: Text::from_section(
                         format! {"Guild level : {} | {gold_counter}", player_stats.guild_level, gold_counter = player_stats.golds},
                         TextStyle {
-                            font: my_assets.fira_sans_bold.clone().into(),
+                            // font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 40.0,
                             color: Color::BLACK,
+                            ..default()
                         },
                     ),
                     ..default()
@@ -176,9 +177,10 @@ pub fn gold_counter(
                     ui_container.spawn(TextBundle::from_section(
                         "Buy",
                         TextStyle {
-                            font: my_assets.fira_sans_bold.clone().into(),
+                            // font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 20.0,
                             color: Color::BLACK,
+                            ..default()
                         },
                     ));
                 });
@@ -203,9 +205,10 @@ pub fn gold_counter(
                     ui_container.spawn(TextBundle::from_section(
                         "Sleep",
                         TextStyle {
-                            font: my_assets.fira_sans_bold.clone().into(),
+                            // font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 20.0,
                             color: Color::BLACK,
+                            ..default()
                         },
                     ));
                 });

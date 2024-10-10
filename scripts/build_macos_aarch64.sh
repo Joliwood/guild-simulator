@@ -7,6 +7,7 @@ BINARY="guild_simulator"        # Name of your binary
 PACKAGE_NAME="guild_simulator"  # Name for the package
 VERSION="v1.0.0"                # Version number, modify as needed
 ASSETS_DIR="assets"             # Path to assets directory
+ICON_FILE="logo.icns"           # Icon file for the macOS app
 TARGET="aarch64-apple-darwin"   # Target for macOS ARM64 (Apple Silicon)
 OUT_DIR="tmp/package/${PACKAGE_NAME}.app/Contents/MacOS"  # Output directory for the build
 PACKAGE_EXT=".dmg"              # Output package format
@@ -30,8 +31,15 @@ mv target/"$TARGET"/release/"$BINARY" "$OUT_DIR/$BINARY"
 
 # Optionally copy assets (if they exist)
 if [ -d "$ASSETS_DIR" ]; then
-    echo "Copying assets to the package..."
-    cp -r "$ASSETS_DIR" "tmp/package/${PACKAGE_NAME}.app/Contents"
+    echo "Copying assets to the package's Resources directory..."
+    mkdir -p "tmp/package/${PACKAGE_NAME}.app/Contents/Resources"
+    cp -r "$ASSETS_DIR" "tmp/package/${PACKAGE_NAME}.app/Contents/Resources"
+fi
+
+# Copy the icon file to Resources directory
+if [ -f "$ICON_FILE" ]; then
+    echo "Copying icon file to the package's Resources directory..."
+    cp "$ICON_FILE" "tmp/package/${PACKAGE_NAME}.app/Contents/Resources"
 fi
 
 # Add metadata for macOS app bundle
@@ -64,6 +72,8 @@ cat > "$INFO_PLIST" << EOF
         <array>
             <string>MacOSX</string>
         </array>
+        <key>CFBundleIconFile</key>
+        <string>logo</string>
     </dict>
 </plist>
 EOF
