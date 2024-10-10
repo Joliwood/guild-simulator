@@ -12,6 +12,7 @@ mod structs;
 mod systems;
 mod ui;
 mod utils;
+mod data;
 
 use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_asset_loader::asset_collection::AssetCollectionApp;

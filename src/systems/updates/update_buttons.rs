@@ -1,12 +1,13 @@
 #![allow(unused_mut)]
 use crate::{
     // audio::play_sound::play_sound,
+    data::equipments::scrolls::ScrollsEnum,
     enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
     structs::{
         equipments::Item,
         general_structs::{
-            load_scroll_by_id, Mission, MissionModalVisible, Missions, PlayerStats,
-            RecruitInventory, RecruitStats, SelectedMission, SelectedRecruit, UniqueId,
+            load_scroll, Mission, MissionModalVisible, Missions, PlayerStats, RecruitInventory,
+            RecruitStats, SelectedMission, SelectedRecruit, UniqueId,
         },
     },
     systems::{
@@ -163,9 +164,9 @@ pub fn mouse_interaction_updates(
                 Interaction::Pressed => {
                     info!("let's recruit a rogue now!");
                     hire_new_recruits(player_stats.as_mut(), new_recruits);
-                    let new_item = load_scroll_by_id(2);
+                    let new_item = load_scroll(ScrollsEnum::ScrollOfPower);
                     // if let Some(item) = new_item {
-                    //     player_stats.add_item(Item::Scroll(item, 1));
+                    player_stats.add_item(Item::Scroll(new_item, 1));
                     // }
                 }
                 Interaction::Hovered => {}

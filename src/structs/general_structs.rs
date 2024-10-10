@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 use super::equipments::{Armor, Armors, Item, Scroll, Scrolls, Weapon};
 use crate::{
+    data::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
     enums::{RecruitEnum, RecruitStateEnum, RoomEnum},
     structs::equipments::Weapons,
 };
@@ -474,64 +475,89 @@ impl RecruitStats {
     }
 }
 
-pub fn load_weapon_by_id(id: u16) {
-    // let weapons_data = fs::read_to_string("src/data/equipments/weapons.ron")
-    //     .expect("Failed to read the RON file.");
+// ! Version with Ron + serde
+// ! Not working currently with builds
+// pub fn load_weapon_by_id(id: u16) -> Option<Weapon> {
+//     let weapons_data = fs::read_to_string("src/data/equipments/weapons.ron")
+//         .expect("Failed to read the RON file.");
 
-    // let weapons_data: &str = include_str!("../../data/equipments/weapons.ron");
+//     let weapons: Weapons = from_str(&weapons_data).expect("Failed to deserialize RON data.");
 
-    // let weapons: Weapons = from_str(&weapons_data).expect("Failed to deserialize RON data.");
+//     if let Some(weapon) = weapons.items.iter().find(|weapon| weapon.id == id) {
+//         info!("Weapon with id = {}: {:?}", id, weapon);
+//         return Some(weapon.clone());
+//     } else {
+//         info!("Weapon with id = {} not found.", id);
+//         return None;
+//     }
+// }
 
-    // if let Some(weapon) = weapons.items.iter().find(|weapon| weapon.id == id) {
-    //     info!("Weapon with id = {}: {:?}", id, weapon);
-    //     return Some(weapon.clone());
-    // } else {
-    //     info!("Weapon with id = {} not found.", id);
-    //     return None;
-    // }
+pub fn load_weapon(weapon: WeaponsEnum) -> Weapon {
+    return WeaponsEnum::get_weapon(&weapon);
 }
 
-pub fn load_scroll_by_id(id: u16) {
-    // let scrolls_data = fs::read_to_string("src/data/equipments/scrolls.ron")
-    //     .expect("Failed to read the RON file.");
+// ! Version with Ron + serde
+// ! Not working currently with builds
+// pub fn load_scroll_by_id(id: u16) -> Option<Scroll> {
+//     let scrolls_data = fs::read_to_string("src/data/equipments/scrolls.ron")
+//         .expect("Failed to read the RON file.");
 
-    // let scrolls: Scrolls = from_str(&scrolls_data).expect("Failed to deserialize RON data.");
+//     let scrolls: Scrolls = from_str(&scrolls_data).expect("Failed to deserialize RON data.");
 
-    // if let Some(scroll) = scrolls.items.iter().find(|scroll| scroll.id == id) {
-    //     info!("Scroll with id = {}: {:?}", id, scroll);
-    //     return Some(scroll.clone());
-    // } else {
-    //     info!("Scroll with id = {} not found.", id);
-    //     return None;
-    // }
+//     if let Some(scroll) = scrolls.items.iter().find(|scroll| scroll.id == id) {
+//         info!("Scroll with id = {}: {:?}", id, scroll);
+//         return Some(scroll.clone());
+//     } else {
+//         info!("Scroll with id = {} not found.", id);
+//         return None;
+//     }
+// }
+
+pub fn load_scroll(scroll: ScrollsEnum) -> Scroll {
+    return ScrollsEnum::get_scroll(&scroll);
 }
 
-pub fn load_armor_by_id(id: u16) {
-    // let armors_data =
-    //     fs::read_to_string("src/data/equipments/armors.ron").expect("Failed to read the RON file.");
+// ! Version with Ron + serde
+// ! Not working currently with builds
+// pub fn load_armor_by_id(id: u16) -> Option<Armor> {
+//     let armors_data =
+//         fs::read_to_string("src/data/equipments/armors.ron").expect("Failed to read the RON file.");
 
-    // let armors: Armors = from_str(&armors_data).expect("Failed to deserialize RON data.");
+//     let armors: Armors = from_str(&armors_data).expect("Failed to deserialize RON data.");
 
-    // if let Some(armor) = armors.items.iter().find(|armor| armor.id == id) {
-    //     info!("Armor with id = {}: {:?}", id, armor);
-    //     return Some(armor.clone());
-    // } else {
-    //     info!("Armor with id = {} not found.", id);
-    //     return None;
-    // }
+//     if let Some(armor) = armors.items.iter().find(|armor| armor.id == id) {
+//         info!("Armor with id = {}: {:?}", id, armor);
+//         return Some(armor.clone());
+//     } else {
+//         info!("Armor with id = {} not found.", id);
+//         return None;
+//     }
+// }
+
+pub fn load_armor(armor: ArmorsEnum) -> Armor {
+    return ArmorsEnum::get_armor(&armor);
 }
 
 impl Default for PlayerStats {
     fn default() -> Self {
-        let inventory = vec![];
-        // let first_weapon = load_weapon_by_id(1);
-        // let second_weapon = load_weapon_by_id(3);
-        // let second_same_weapon = load_weapon_by_id(3);
-        // let first_scroll = load_scroll_by_id(1);
-        // let second_scroll = load_scroll_by_id(3);
-        // let first_armor = load_armor_by_id(3);
-        // let second_armor = load_armor_by_id(1);
-        // let second_same_armor = load_armor_by_id(1);
+        let mut inventory = vec![];
+        let first_weapon = load_weapon(WeaponsEnum::AxeOfFury);
+        let second_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
+        let second_same_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
+        let first_scroll = load_scroll(ScrollsEnum::ScrollOfEndurance);
+        let second_scroll = load_scroll(ScrollsEnum::ScrollOfSpeed);
+        let first_armor = load_armor(ArmorsEnum::GauntletsOfPower);
+        let second_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
+        let second_same_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
+
+        inventory.push(Item::Weapon(first_weapon));
+        inventory.push(Item::Weapon(second_weapon));
+        inventory.push(Item::Weapon(second_same_weapon));
+        inventory.push(Item::Scroll(first_scroll, 1));
+        inventory.push(Item::Scroll(second_scroll, 3));
+        inventory.push(Item::Armor(first_armor));
+        inventory.push(Item::Armor(second_armor));
+        inventory.push(Item::Armor(second_same_armor));
 
         // if let Some(first_weapon) = first_weapon {
         //     inventory.push(Item::Weapon(first_weapon));
