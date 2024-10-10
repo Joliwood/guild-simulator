@@ -14,11 +14,7 @@ pub enum CustomButton {
 }
 
 impl CustomButton {
-    pub fn bundle(
-        &self,
-        _asset_server: &Res<AssetServer>,
-        image_assets: &Res<MyAssets>,
-    ) -> ButtonBundle {
+    pub fn bundle(&self, my_assets: &Res<MyAssets>) -> ButtonBundle {
         // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
 
         match self {
@@ -47,7 +43,7 @@ impl CustomButton {
                 },
                 border_radius: BorderRadius::MAX,
                 // Test for insert image asset for button
-                // image: UiImage::new(asset_server.load("../assets/images/cursors/cursor_grab.png")),
+                // image: UiImage::new(my_assets.load("../assets/images/cursors/cursor_grab.png")),
                 // image: UiImage::new(image_assets.test_button),
                 ..Default::default()
             },
@@ -85,7 +81,7 @@ impl CustomButton {
                     border: UiRect::all(Val::Px(3.)),
                     ..default()
                 },
-                image: image_assets.test_button.clone().into(),
+                image: my_assets.buttons_atlas.clone().into(),
                 border_color: BorderColor(WOOD_COLOR),
                 border_radius: BorderRadius::all(Val::Px(10.)),
                 ..default()

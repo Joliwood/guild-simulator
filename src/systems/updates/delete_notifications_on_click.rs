@@ -20,14 +20,14 @@ pub fn delete_notifications_on_click(
         (Entity, &Interaction),
         (Changed<Interaction>, With<MissionNotificationTrigger>),
     >,
-    _asset_server: Res<AssetServer>,
+    my_assets: Res<AssetServer>,
 ) {
     for (_entity, interaction) in interaction_query.iter_mut() {
         if *interaction == Interaction::Pressed {
             for entity in query.iter() {
                 commands.entity(entity).despawn_recursive();
             }
-            // play_sound(&asset_server, &mut commands, SoundEnum::BookThrowDown);
+            // play_sound(&my_assets, &mut commands, SoundEnum::BookThrowDown);
             mission_notifications_number.0 = 0;
         }
     }

@@ -5,6 +5,7 @@ use crate::{
         general_structs::MissionNotificationsNumber,
         trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
     },
+    ui::interface::gold_counter::MyAssets,
     utils::get_mission_notification_tooltip_text,
 };
 use bevy::prelude::*;
@@ -13,12 +14,12 @@ use pyri_tooltip::{Tooltip, TooltipActivation};
 pub fn spawn_or_update_notification(
     mut commands: Commands,
     keyboard_input: Res<ButtonInput<KeyCode>>,
-    asset_server: Res<AssetServer>,
+    my_assets: Res<MyAssets>,
     query: Query<Entity, With<NotificationToastTrigger>>,
     mut mission_notifications_number: ResMut<MissionNotificationsNumber>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    // let texture_handle: Handle<Image> = asset_server.load("images/ui/notification_atlas.png");
+    // let texture_handle: Handle<Image> = my_assets.load("images/ui/notification_atlas.png");
     let layout = TextureAtlasLayout::from_grid(
         UVec2::new(200, 50),
         4,
@@ -34,7 +35,7 @@ pub fn spawn_or_update_notification(
             commands.entity(entity).despawn_recursive();
         }
 
-        // play_sound(&asset_server, &mut commands, SoundEnum::PaperTouch);
+        // play_sound(&my_assets, &mut commands, SoundEnum::PaperTouch);
 
         // If no toast exists, create a new one
         commands
@@ -69,7 +70,7 @@ pub fn spawn_or_update_notification(
                                 },
                                 ..default()
                             },
-                            // image: texture_handle.clone().into(),
+                            image: my_assets.notification_atlas.clone().into(),
                             border_radius: BorderRadius {
                                 top_left: Val::Px(10.),
                                 top_right: Val::ZERO,
@@ -92,7 +93,7 @@ pub fn spawn_or_update_notification(
                         parent.spawn((TextBundle::from_section(
                             format!("x{}", mission_notifications_number.0 + 1),
                             TextStyle {
-                                font: asset_server.clone().load("fonts/FiraSans-Bold.ttf"),
+                                font: my_assets.fira_sans_bold.clone().into(),
                                 font_size: 25.,
                                 color: ColorPaletteEnum::DarkBrown.as_color(),
                             },

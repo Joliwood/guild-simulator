@@ -149,6 +149,7 @@ pub fn get_item_image_atlas_index(item: &Item) -> u16 {
 
 /// Get the path of the image atlas of an item
 ///
+/// ! WIP Change this method
 /// Has to be updated each time the design will evolve
 pub fn get_item_atlas_path(item: &Item) -> String {
     return match item {

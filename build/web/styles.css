@@ -11,8 +11,10 @@ body {
 }
 
 .game-container {
-    width: 800px;
-    height: 600px;
+    /* width: 800px; */
+    width: "auto";
+    /* height: 600px; */
+    height: "auto";
     display: flex;
     justify-content: center;
     align-items: center;

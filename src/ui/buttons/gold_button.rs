@@ -2,13 +2,12 @@ use crate::{structs::general_structs::UniqueId, ui::interface::gold_counter::MyA
 use bevy::prelude::*;
 
 pub fn gold_button(
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     commands: &mut ChildBuilder,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
-    my_assets: Res<MyAssets>,
 ) {
     // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
-    // let texture_handle = asset_server.load("images/ui/buttons_atlas.png");
+    // let texture_handle = my_assets.load("images/ui/buttons_atlas.png");
     // let texture_handle = my_assets.test_button.clone();
     let layout = TextureAtlasLayout::from_grid(
         UVec2::new(5436, 3809),
@@ -29,7 +28,7 @@ pub fn gold_button(
                     border: UiRect::all(Val::Px(3.)),
                     ..default()
                 },
-                // image: texture_handle.clone().into(),
+                image: my_assets.buttons_atlas.clone().into(),
                 border_color: BorderColor(Color::BLACK),
                 border_radius: BorderRadius::all(Val::Px(10.)),
                 ..default()
@@ -46,7 +45,7 @@ pub fn gold_button(
             settings_button.spawn(TextBundle::from_section(
                 "",
                 TextStyle {
-                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                    font: my_assets.fira_sans_bold.clone().into(),
                     font_size: 40.,
                     color: Color::srgb(0.9, 0.9, 0.9),
                 },

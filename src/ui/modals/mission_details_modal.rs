@@ -13,12 +13,12 @@ use crate::{
         styles::containers_styles::mission_details_modal_container, ui_constants::WOOD_COLOR,
     },
 };
-use bevy::{asset::AssetServer, prelude::*};
+use bevy::prelude::*;
 
 #[allow(clippy::too_many_arguments)]
 pub fn display_mission_modal(
     mut commands: Commands,
-    asset_server: Res<AssetServer>,
+    my_assets: Res<MyAssets>,
     modal_visible: Res<MissionModalVisible>,
     query: Query<Entity, With<ModalContentTrigger>>,
     player_stats: Res<PlayerStats>,
@@ -28,7 +28,7 @@ pub fn display_mission_modal(
     missions: Res<Missions>,
 ) {
     // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
-    // let texture_handle = asset_server.load("images/ui/buttons_atlas.png");
+    // let texture_handle = my_assets.load("images/ui/buttons_atlas.png");
     let layout = TextureAtlasLayout::from_grid(
         UVec2::new(5436, 3809),
         5,
@@ -81,7 +81,7 @@ pub fn display_mission_modal(
                                     text: Text::from_section(
                                         format!("Mission Details -> {:?}", mission.name),
                                         TextStyle {
-                                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                            font: my_assets.fira_sans_bold.clone().into(),
                                             font_size: 40.0,
                                             color: Color::WHITE,
                                         },
@@ -104,7 +104,7 @@ pub fn display_mission_modal(
                                             border: UiRect::all(Val::Px(3.)),
                                             ..default()
                                         },
-                                        // image: texture_handle.clone().into(),
+                                        image: my_assets.buttons_atlas.clone().into(),
                                         border_color: BorderColor(WOOD_COLOR),
                                         border_radius: BorderRadius::all(Val::Px(10.)),
                                         ..default()
@@ -114,7 +114,7 @@ pub fn display_mission_modal(
                                         layout: texture_atlas_layout.clone(),
                                     },
                                 ))
-                                // .spawn(CustomButton::SquareIcon.bundle(&asset_server, image_assets.clone()))
+                                // .spawn(CustomButton::SquareIcon.bundle(&my_assets, image_assets.clone()))
                                 .insert(UniqueId("close_mission_modal".to_string()))
                                 // TODO WIP - Fix !
                                 .with_children(|button| {
@@ -138,22 +138,16 @@ pub fn display_mission_modal(
                                     ..default()
                                 })
                                 .with_children(|parent| {
-                                    spawn_left_container(
-                                        parent,
-                                        &asset_server,
-                                        &player_stats,
-                                        &image_assets,
-                                    );
+                                    spawn_left_container(parent, &my_assets, &player_stats);
 
                                     spawn_middle_container(
                                         parent,
-                                        &asset_server,
-                                        &image_assets,
+                                        &my_assets,
                                         &selected_mission,
                                         missions,
                                     );
 
-                                    spawn_right_container(parent, &asset_server, mission);
+                                    spawn_right_container(parent, &my_assets, mission);
                                 });
                         });
                 });

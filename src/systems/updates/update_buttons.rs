@@ -520,7 +520,7 @@ pub fn buttons_disable_updates(
 
 pub fn select_item_in_inventory(
     mut _commands: Commands,
-    _asset_server: Res<AssetServer>,
+    my_assets: Res<AssetServer>,
     mut interaction_query: Query<
         (
             &Interaction,
@@ -547,13 +547,13 @@ pub fn select_item_in_inventory(
                     // if is_recruit_equiped {
                     //     match item {
                     //         Item::Armor(_) => {
-                    //             play_sound(&asset_server, &mut commands, SoundEnum::EquipArmor);
+                    //             play_sound(&my_assets, &mut commands, SoundEnum::EquipArmor);
                     //         }
                     //         Item::Scroll(_, _) => {
-                    //             play_sound(&asset_server, &mut commands, SoundEnum::EquipScroll);
+                    //             play_sound(&my_assets, &mut commands, SoundEnum::EquipScroll);
                     //         }
                     //         Item::Weapon(_) => {
-                    //             play_sound(&asset_server, &mut commands, SoundEnum::EquipWeapon);
+                    //             play_sound(&my_assets, &mut commands, SoundEnum::EquipWeapon);
                     //         }
                     //     }
                     // }

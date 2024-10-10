@@ -3,6 +3,7 @@ use crate::{
         equipments::Item,
         general_structs::{PlayerStats, SelectedRecruit, UniqueId},
     },
+    ui::interface::gold_counter::MyAssets,
     utils::{
         get_item_atlas_path, get_item_image_atlas_index, get_item_layout,
         get_item_tooltip_description,
@@ -14,13 +15,13 @@ use pyri_tooltip::{Tooltip, TooltipActivation};
 pub fn scroll_button(
     player_stats: &Res<PlayerStats>,
     scrolls_row: &mut ChildBuilder,
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     selected_recruit: &Res<SelectedRecruit>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
     scroll_index: u8,
 ) {
     // let texture_handle_empty_slot: Handle<Image> =
-    //     asset_server.load("images/equipments/empty_inventory_slot.png");
+    //     my_assets.load("images/equipments/empty_inventory_slot.png");
 
     let recruit_id = selected_recruit.get_id();
 
@@ -37,7 +38,7 @@ pub fn scroll_button(
                 },
                 border_color: BorderColor(Color::BLACK),
                 border_radius: BorderRadius::all(Val::Px(10.)),
-                // image: texture_handle_empty_slot.clone().into(),
+                image: my_assets.empty_inventory_slot.clone().into(),
                 ..default()
             })
             .insert(UniqueId("item_in_inventory".to_string()));
@@ -52,7 +53,8 @@ pub fn scroll_button(
     if let Some(recruit_scroll) = recruit_scroll {
         let item = Item::Scroll(recruit_scroll.clone(), 1);
         let item_image_atlas_index = get_item_image_atlas_index(&item);
-        let item_atlas_path = get_item_atlas_path(&item);
+        // WIP
+        // let item_atlas_path = get_item_atlas_path(&item);
         let layout = get_item_layout(&item);
         let tooltip_text = get_item_tooltip_description(&item);
 
@@ -67,7 +69,7 @@ pub fn scroll_button(
                         margin: UiRect::all(Val::Px(5.)),
                         ..default()
                     },
-                    image: asset_server.load(item_atlas_path).clone().into(),
+                    image: my_assets.get_item_atlas_path(&item).clone().into(),
                     border_color: BorderColor(Color::BLACK),
                     border_radius: BorderRadius::all(Val::Px(10.)),
                     ..default()
@@ -93,7 +95,7 @@ pub fn scroll_button(
                 },
                 border_color: BorderColor(Color::BLACK),
                 border_radius: BorderRadius::all(Val::Px(10.)),
-                // image: texture_handle_empty_slot.clone().into(),
+                image: my_assets.empty_inventory_slot.clone().into(),
                 ..default()
             })
             .insert(UniqueId("item_in_inventory".to_string()));

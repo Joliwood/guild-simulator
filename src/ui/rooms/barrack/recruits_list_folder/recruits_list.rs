@@ -1,19 +1,21 @@
 use super::recruit_card::recruit_card;
-use crate::structs::general_structs::PlayerStats;
+use crate::{structs::general_structs::PlayerStats, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
 
 /// Spawns the left container, displaying the player's recruits.
 pub fn spawn_left_container(
     parent: &mut ChildBuilder,
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // let inventory_container_image_handle: Handle<Image> =
-    //     asset_server.load("images/rooms/barrack/inventory_container.png");
+    //     my_assets.load("images/rooms/barrack/inventory_container.png");
 
     // let recruit_image_handle: Handle<Image> =
-    //     asset_server.load("images/recruits/recruit_picture_atlas.png");
+    //     my_assets.load("images/recruits/recruit_picture_atlas.png");
+
+    let recruit_image_handle: Handle<Image> = my_assets.recruit_picture_atlas.clone().into();
 
     let recruit_layout = TextureAtlasLayout::from_grid(
         UVec2::new(800, 200),
@@ -45,7 +47,7 @@ pub fn spawn_left_container(
         .with_children(|left_container| {
             // Background image
             left_container.spawn(ImageBundle {
-                // image: inventory_container_image_handle.into(),
+                image: my_assets.inventory_container.clone().into(),
                 style: Style {
                     display: Display::Flex,
                     top: Val::Px(0.),
@@ -59,15 +61,15 @@ pub fn spawn_left_container(
 
             // Barrack room > left container > recruit buttons
             for recruit in player_stats.recruits.iter() {
-                // recruit_card(
-                //     left_container,
-                //     asset_server,
-                //     player_stats,
-                //     recruit,
-                //     // recruit_image_handle.clone(),
-                //     recruit_texture_atlas_layout.clone(),
-                //     texture_atlas_layouts,
-                // );
+                recruit_card(
+                    left_container,
+                    my_assets,
+                    player_stats,
+                    recruit,
+                    // recruit_image_handle,
+                    recruit_texture_atlas_layout.clone(),
+                    texture_atlas_layouts,
+                );
             }
         });
 }

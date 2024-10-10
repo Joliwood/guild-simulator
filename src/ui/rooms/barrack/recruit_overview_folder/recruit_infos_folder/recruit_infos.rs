@@ -4,22 +4,23 @@ use super::{
 use crate::{
     enums::ColorPaletteEnum,
     structs::general_structs::{PlayerStats, SelectedRecruit},
+    ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
 
 pub fn recruit_infos(
     parent: &mut ChildBuilder,
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     selected_recruit: &Res<SelectedRecruit>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
     player_stats: &Res<PlayerStats>,
 ) {
     // let frame_image_handle: Handle<Image> =
-    //     asset_server.load("images/rooms/barrack/recruit_infos.png");
+    //     my_assets.load("images/rooms/barrack/recruit_infos.png");
 
     parent
         .spawn(ImageBundle {
-            // image: frame_image_handle.into(),
+            image: my_assets.recruit_infos.clone().into(),
             style: Style {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,
@@ -70,7 +71,7 @@ pub fn recruit_infos(
                             weapon_column.spawn(TextBundle::from_section(
                                 "Weapon",
                                 TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font: my_assets.fira_sans_bold.clone().into(),
                                     font_size: 20.0,
                                     color: ColorPaletteEnum::DarkBrown.as_color(),
                                 },
@@ -79,7 +80,7 @@ pub fn recruit_infos(
                             weapon_button(
                                 player_stats,
                                 weapon_column,
-                                asset_server,
+                                my_assets,
                                 selected_recruit,
                                 texture_atlas_layouts,
                             );
@@ -100,7 +101,7 @@ pub fn recruit_infos(
                             armor_column.spawn(TextBundle::from_section(
                                 "Armor",
                                 TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font: my_assets.fira_sans_bold.clone().into(),
                                     font_size: 20.0,
                                     color: ColorPaletteEnum::DarkBrown.as_color(),
                                 },
@@ -109,7 +110,7 @@ pub fn recruit_infos(
                             armor_button(
                                 player_stats,
                                 armor_column,
-                                asset_server,
+                                my_assets,
                                 selected_recruit,
                                 texture_atlas_layouts,
                             );
@@ -135,7 +136,7 @@ pub fn recruit_infos(
                     bottom_container.spawn(TextBundle::from_section(
                         "Scrolls",
                         TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 20.0,
                             color: ColorPaletteEnum::DarkBrown.as_color(),
                         },
@@ -159,7 +160,7 @@ pub fn recruit_infos(
                             scroll_button(
                                 player_stats,
                                 scrolls_row,
-                                asset_server,
+                                my_assets,
                                 selected_recruit,
                                 texture_atlas_layouts,
                                 0,
@@ -168,7 +169,7 @@ pub fn recruit_infos(
                             scroll_button(
                                 player_stats,
                                 scrolls_row,
-                                asset_server,
+                                my_assets,
                                 selected_recruit,
                                 texture_atlas_layouts,
                                 1,
@@ -177,7 +178,7 @@ pub fn recruit_infos(
                             scroll_button(
                                 player_stats,
                                 scrolls_row,
-                                asset_server,
+                                my_assets,
                                 selected_recruit,
                                 texture_atlas_layouts,
                                 2,

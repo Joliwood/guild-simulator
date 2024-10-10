@@ -5,10 +5,10 @@ use bevy::{
     prelude::{default, Commands, Res},
 };
 
-pub fn play_sound(asset_server: &Res<AssetServer>, commands: &mut Commands, asset: SoundEnum) {
+pub fn play_sound(my_assets: &Res<MyAssets>, commands: &mut Commands, asset: SoundEnum) {
     let path: &str = asset.get_path();
     commands.spawn(AudioBundle {
-        // source: asset_server.load(path),
+        // source: my_assets.load(path),
         settings: PlaybackSettings {
             mode: PlaybackMode::Despawn,
             volume: Volume::new(0.1),

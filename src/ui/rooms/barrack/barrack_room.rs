@@ -8,19 +8,19 @@ use crate::{
         general_structs::{PlayerStats, SelectedRecruit},
         trigger_structs::ResetRoomTrigger,
     },
-    ui::styles::containers_styles::node_container_style,
+    ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
 };
 use bevy::prelude::*;
 
 pub fn spawn_room_barrack(
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     commands: &mut Commands,
     player_stats: &Res<PlayerStats>,
     selected_recruit: &Res<SelectedRecruit>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // let background_image_handle: Handle<Image> =
-    // asset_server.load("images/rooms/barrack/barrack_background.png");
+    // my_assets.load("images/rooms/barrack/barrack_background.png");
 
     commands
         .spawn(NodeBundle {
@@ -45,18 +45,18 @@ pub fn spawn_room_barrack(
                     height: Val::Vh(100.),
                     ..default()
                 },
-                // image: background_image_handle.into(),
+                image: my_assets.barrack_background.clone().into(),
                 ..default()
             });
 
-            spawn_left_container(parent, asset_server, player_stats, texture_atlas_layouts);
+            spawn_left_container(parent, my_assets, player_stats, texture_atlas_layouts);
             recruit_overview(
                 player_stats,
                 parent,
-                asset_server,
+                my_assets,
                 selected_recruit,
                 texture_atlas_layouts,
             );
-            spawn_right_container(parent, asset_server, player_stats, texture_atlas_layouts);
+            spawn_right_container(parent, my_assets, player_stats, texture_atlas_layouts);
         });
 }

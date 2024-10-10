@@ -1,14 +1,14 @@
 use bevy::prelude::*;
 
-use crate::enums::ColorPaletteEnum;
+use crate::{enums::ColorPaletteEnum, ui::interface::gold_counter::MyAssets};
 
 pub fn recruit_endurance(
     stats_container: &mut ChildBuilder,
     recruit_endurance: u32,
     additional_endurance: u32,
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
 ) {
-    let base_font = asset_server.load("fonts/FiraSans-Bold.ttf");
+    let base_font: Handle<Font> = my_assets.fira_sans_bold.clone().into();
 
     let base_endurance_text = TextSection {
         value: format!("END: {}", recruit_endurance),

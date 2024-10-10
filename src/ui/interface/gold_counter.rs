@@ -1,5 +1,6 @@
 use crate::{
     structs::{
+        equipments::Item,
         general_structs::{PlayerStats, UniqueId},
         trigger_structs::{GoldCountTrigger, SleepButtonTrigger},
     },
@@ -7,25 +8,75 @@ use crate::{
     ui::{styles::containers_styles::basic_button_style, ui_constants::WOOD_COLOR},
 };
 use bevy::prelude::*;
-use bevy_asset_loader::prelude::*;
-// use bevy_asset_loader::asset_collection::AssetCollection;
-
-// #[derive(AssetCollection, Resource)]
-// pub struct TextureAssets {
-//     #[asset(path = "textures/bevy.png")]
-//     pub bevy: Handle<Image>,
-//     #[asset(path = "textures/github.png")]
-//     pub github: Handle<Image>,
-// }
+use bevy_asset_loader::asset_collection::AssetCollection;
 
 #[derive(AssetCollection, Resource)]
 pub struct MyAssets {
-    #[asset(path = "images/ui/buttons_atlas.png")]
-    pub test_button: Handle<Image>,
+    // --- Other --- //
     // #[asset(texture_atlas_layout(tile_size_x = 2000, tile_size_y = 2000, columns = 4, rows = 4))]
-    // pub test_button_layout: Handle<TextureAtlasLayout>,
+    // pub _test_button_layout: Handle<TextureAtlasLayout>,
+
+    // --- Recruits --- //
+    #[asset(path = "images/recruits/recruit_picture_atlas.png")]
+    pub recruit_picture_atlas: Handle<Image>,
+
+    // --- Equipments --- //
+    #[asset(path = "images/equipments/empty_inventory_slot.png")]
+    pub empty_inventory_slot: Handle<Image>,
+    #[asset(path = "images/equipments/armors_atlas.png")]
+    pub armors_atlas: Handle<Image>,
+    #[asset(path = "images/equipments/weapons_atlas.png")]
+    pub weapons_atlas: Handle<Image>,
+    #[asset(path = "images/equipments/scrolls_atlas.png")]
+    pub scrolls_atlas: Handle<Image>,
+
+    // --- UI --- //
+    #[asset(path = "images/ui/art_v0_buttons.png")]
+    pub art_v0_buttons: Handle<Image>,
+    #[asset(path = "images/ui/buttons_atlas.png")]
+    pub buttons_atlas: Handle<Image>,
+    #[asset(path = "images/ui/gold.png")]
+    pub gold: Handle<Image>,
+    #[asset(path = "images/ui/notification_atlas.png")]
+    pub notification_atlas: Handle<Image>,
+    #[asset(path = "images/ui/play.png")]
+    pub _play: Handle<Image>,
+
+    // --- Rooms > Barrack --- //
+    #[asset(path = "images/rooms/barrack/barrack_background.png")]
+    pub barrack_background: Handle<Image>,
+    #[asset(path = "images/rooms/barrack/inventory_container.png")]
+    pub inventory_container: Handle<Image>,
+    #[asset(path = "images/rooms/barrack/recruit_frame.png")]
+    pub recruit_frame: Handle<Image>,
+    #[asset(path = "images/rooms/barrack/recruit_infos.png")]
+    pub recruit_infos: Handle<Image>,
+
+    // --- Rooms > Office ---//
     #[asset(path = "images/office.png")]
     pub office: Handle<Image>,
+
+    // --- Rooms > Command room --- //
+    #[asset(path = "images/command_room.png")]
+    pub command_room: Handle<Image>,
+
+    // --- Rooms > Store --- //
+    #[asset(path = "images/store.png")]
+    pub store: Handle<Image>,
+
+    // --- Fonts --- //
+    #[asset(path = "fonts/FiraSans-Bold.ttf")]
+    pub fira_sans_bold: Handle<Font>,
+}
+
+impl MyAssets {
+    pub fn get_item_atlas_path(&self, item: &Item) -> Handle<Image> {
+        return match item {
+            Item::Weapon(_) => self.weapons_atlas.clone(),
+            Item::Armor(_) => self.armors_atlas.clone(),
+            Item::Scroll(_, _) => self.scrolls_atlas.clone(),
+        };
+    }
 }
 
 // impl Clone for MyAssets {
@@ -39,10 +90,10 @@ pub struct MyAssets {
 // }
 
 pub fn gold_counter(
-    asset_server: Res<AssetServer>,
+    my_assets: Res<MyAssets>,
     mut commands: Commands,
     player_stats: Res<PlayerStats>,
-    image_assets: Res<MyAssets>,
+    // image_assets: Res<MyAssets>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
@@ -59,7 +110,7 @@ pub fn gold_counter(
         // Gold icon
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn(ImageBundle {
-                // image: asset_server.load("images/ui/gold.png").into(),
+                image: my_assets.gold.clone().into(),
                 style: Style {
                     // The position absolute make the gold counter visible (z-index)
                     width: Val::Px(24.0),
@@ -75,7 +126,7 @@ pub fn gold_counter(
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn((
                 SpriteBundle {
-                    texture: image_assets.test_button.clone(),
+                    texture: my_assets.buttons_atlas.clone().into(),
                     transform: Transform {
                         translation: Vec3::new(100.0, 0.0, 0.0),
                         scale: Vec3::splat(0.2),
@@ -97,7 +148,7 @@ pub fn gold_counter(
                     text: Text::from_section(
                         format! {"Guild level : {} | {gold_counter}", player_stats.guild_level, gold_counter = player_stats.golds},
                         TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 40.0,
                             color: Color::BLACK,
                         },
@@ -125,7 +176,7 @@ pub fn gold_counter(
                     ui_container.spawn(TextBundle::from_section(
                         "Buy",
                         TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 20.0,
                             color: Color::BLACK,
                         },
@@ -152,7 +203,7 @@ pub fn gold_counter(
                     ui_container.spawn(TextBundle::from_section(
                         "Sleep",
                         TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 20.0,
                             color: Color::BLACK,
                         },
