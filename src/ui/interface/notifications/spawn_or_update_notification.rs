@@ -93,7 +93,7 @@ pub fn spawn_or_update_notification(
                         parent.spawn((TextBundle::from_section(
                             format!("x{}", mission_notifications_number.0 + 1),
                             TextStyle {
-                                // font: my_assets.fira_sans_bold.clone().into(),
+                                font: my_assets.fira_sans_bold.clone().into(),
                                 font_size: 25.,
                                 color: ColorPaletteEnum::DarkBrown.as_color(),
                                 ..default()

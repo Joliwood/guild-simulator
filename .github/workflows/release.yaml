@@ -12,13 +12,12 @@ on:
         type: string
 
 env:
-  # This variable is used to name release output files.
   GAME_EXECUTABLE_NAME: guild_simulator
   GAME_OSX_APP_NAME: guild_simulator
   ITCH_TARGET: joliwood/guild_simulator
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   get-version:
@@ -34,15 +33,13 @@ jobs:
     runs-on: macos-latest
     needs: get-version
     env:
-      # macOS 11.0 Big Sur is the first version to support universal binaries
       MACOSX_DEPLOYMENT_TARGET: 11.0
       VERSION: ${{needs.get-version.outputs.version}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Remove build script
-        run: |
-          rm build.rs
+        run: rm build.rs
       - name: Install rust toolchain for Apple Silicon
         uses: dtolnay/rust-toolchain@master
         with:
@@ -71,56 +68,12 @@ jobs:
           mv build/macos/src/Game.app build/macos/src/${{ env.GAME_OSX_APP_NAME }}.app
           ln -s /Applications build/macos/src/
           hdiutil create -fs HFS+ -volname "${{ env.GAME_OSX_APP_NAME }}" -srcfolder build/macos/src ${{ env.GAME_EXECUTABLE_NAME }}.dmg
-      - name: Upload release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ env.GAME_EXECUTABLE_NAME }}.dmg
-          asset_name: ${{ env.GAME_EXECUTABLE_NAME }}_${{ env.VERSION }}_macOS.dmg
-          release_name: ${{ env.VERSION }}
-          tag: ${{ env.VERSION }}
-          overwrite: true
-
-  # build-linux:
-  #   runs-on: ubuntu-latest
-  #   needs: get-version
-  #   env:
-  #     VERSION: ${{needs.get-version.outputs.version}}
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
-  #     - name: Install rust toolchain
-  #       uses: dtolnay/rust-toolchain@master
-  #       with:
-  #         toolchain: stable
-  #     - name: Install Dependencies
-  #       run: sudo apt-get update; sudo apt-get install pkg-config libx11-dev libasound2-dev libudev-dev
-  #     - name: Build release
-  #       run: |
-  #         cargo build --profile dist
-  #     - name: Prepare release
-  #       run: |
-  #         chmod +x target/dist/${{ env.GAME_EXECUTABLE_NAME }}
-  #         mv target/dist/${{ env.GAME_EXECUTABLE_NAME }} .
-  #     - name: Bundle release
-  #       run: |
-  #         tar -czf ${{ env.GAME_EXECUTABLE_NAME }}_linux.tar.gz ${{ env.GAME_EXECUTABLE_NAME }} assets credits
-  #     - name: Upload release
-  #       uses: svenstaro/upload-release-action@v2
-  #       with:
-  #         repo_token: ${{ secrets.GITHUB_TOKEN }}
-  #         file: ${{ env.GAME_EXECUTABLE_NAME }}_linux.tar.gz
-  #         asset_name: ${{ env.GAME_EXECUTABLE_NAME }}_${{ env.VERSION }}_linux.tar.gz
-  #         release_name: ${{ env.VERSION }}
-  #         tag: ${{ env.VERSION }}
-  #         overwrite: true
 
   build-windows:
     runs-on: windows-latest
     needs: get-version
     env:
       VERSION: ${{needs.get-version.outputs.version}}
-      BUILD_INSTALLER: ${{ false }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -128,11 +81,6 @@ jobs:
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: stable
-      - name: Install dotnet
-        if: ${{ env.BUILD_INSTALLER }}
-        uses: actions/setup-dotnet@v3
-        with:
-          global-json-file: build/windows/installer/global.json
       - name: Build release
         run: |
           cargo build --profile dist
@@ -145,27 +93,6 @@ jobs:
         with:
           files: target/dist/assets/ target/dist/credits/ target/dist/${{ env.GAME_EXECUTABLE_NAME }}.exe
           dest: ${{ env.GAME_EXECUTABLE_NAME }}_windows.zip
-      - name: Create Installer
-        if: ${{ env.BUILD_INSTALLER }}
-        run: dotnet build -p:Version=${{ env.VERSION }} -c Release build/windows/installer/Installer.wixproj --output installer
-      - name: Upload release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ env.GAME_EXECUTABLE_NAME }}_windows.zip
-          asset_name: ${{ env.GAME_EXECUTABLE_NAME }}_${{ env.VERSION }}_windows.zip
-          tag: ${{ env.VERSION }}
-          overwrite: true
-      - name: Upload installer
-        if: ${{ env.BUILD_INSTALLER }}
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: installer/en-US/installer.msi
-          asset_name: ${{ env.GAME_EXECUTABLE_NAME }}_${{ env.VERSION }}_windows.msi
-          release_name: ${{ env.VERSION }}
-          tag: ${{ env.VERSION }}
-          overwrite: true
 
   build-web:
     runs-on: ubuntu-latest
@@ -186,11 +113,9 @@ jobs:
         with:
           version: latest
       - name: Add wasm target
-        run: |
-          rustup target add wasm32-unknown-unknown
+        run: rustup target add wasm32-unknown-unknown
       - name: Build Release
-        run: |
-          trunk build --release
+        run: trunk build --release
       - name: Optimize Wasm
         uses: NiklasEi/wasm-opt-action@v2
         with:
@@ -200,75 +125,7 @@ jobs:
         with:
           files: dist/
           dest: ${{ env.GAME_EXECUTABLE_NAME }}_web.zip
-      - name: Upload release
-        uses: svenstaro/upload-release-action@v2
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: ${{ env.GAME_EXECUTABLE_NAME }}_web.zip
-          asset_name: ${{ env.GAME_EXECUTABLE_NAME }}_${{ env.VERSION }}_web.zip
-          release_name: ${{ env.VERSION }}
-          tag: ${{ env.VERSION }}
-          overwrite: true
 
-  # build-for-iOS:
-  #   runs-on: macos-latest
-  #   timeout-minutes: 30
-  #   needs: get-version
-  #   env:
-  #     VERSION: ${{needs.get-version.outputs.version}}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: dtolnay/rust-toolchain@stable
-  #     - name: Add iOS targets
-  #       run: rustup target add aarch64-apple-ios x86_64-apple-ios
-  #     - name: Build app for iOS
-  #       run: |
-  #         cd mobile
-  #         make xcodebuild-iphone-release
-  #         mkdir Payload
-  #         mv build/Build/Products/Release-iphoneos/*.app Payload
-  #         zip -r ${{ env.GAME_EXECUTABLE_NAME }}.zip Payload
-  #         mv ${{ env.GAME_EXECUTABLE_NAME }}.zip ${{ env.GAME_EXECUTABLE_NAME }}.ipa
-  #     - name: Upload release
-  #       uses: svenstaro/upload-release-action@v2
-  #       with:
-  #         repo_token: ${{ secrets.GITHUB_TOKEN }}
-  #         file: mobile/${{ env.GAME_EXECUTABLE_NAME }}.ipa
-  #         asset_name: ${{ env.GAME_EXECUTABLE_NAME }}_${{ env.VERSION }}_unsigned_ios.ipa
-  #         release_name: ${{ env.VERSION }}
-  #         tag: ${{ env.VERSION }}
-  #         overwrite: true
-
-  # build-for-Android:
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 30
-  #   needs: get-version
-  #   env:
-  #     VERSION: ${{needs.get-version.outputs.version}}
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: dtolnay/rust-toolchain@stable
-  #     - name: Add Android targets
-  #       # could add more targets like armv7-linux-androideabi here (then also add to cargo-apk config)
-  #       run: rustup target add aarch64-linux-android
-  #     - name: Install Cargo APK
-  #       run: cargo install --force cargo-apk
-  #     - name: Build app for Android
-  #       # This uses a debug build, since release builds require keystore configuration
-  #       # For AAB builds that can be pushed to the Play store, see the release-android-google-play workflow.
-  #       run: ANDROID_NDK_ROOT=$ANDROID_NDK_LATEST_HOME cargo apk build --package mobile
-  #     - name: Upload release
-  #       uses: svenstaro/upload-release-action@v2
-  #       with:
-  #         repo_token: ${{ secrets.GITHUB_TOKEN }}
-  #         file: target/debug/apk/${{ env.GAME_OSX_APP_NAME }}.apk
-  #         asset_name: ${{ env.GAME_EXECUTABLE_NAME }}_${{ env.VERSION }}_android.apk
-  #         release_name: ${{ env.VERSION }}
-  #         tag: ${{ env.VERSION }}
-  #         overwrite: true
-
-  # Get itch.io target from env, because the `env` context can't be used in the `if:` condition of a job.
-  # See: https://docs.github.com/en/actions/learn-github-actions/contexts#context-availability
   get-itch-target:
     runs-on: ubuntu-latest
     steps:
@@ -277,7 +134,6 @@ jobs:
     outputs:
       itch-target: ${{ env.ITCH_TARGET }}
 
-  # Upload all packages to itch.io.
   upload-to-itch:
     runs-on: ubuntu-latest
     needs:

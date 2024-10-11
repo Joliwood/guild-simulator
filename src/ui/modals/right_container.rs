@@ -25,7 +25,7 @@ pub fn spawn_right_container(
                 text: Text::from_section(
                     format!("Ennemy for this mission -> {:?}", mission.ennemy.name),
                     TextStyle {
-                        // font: my_assets.fira_sans_bold.clone().into(),
+                        font: my_assets.fira_sans_bold.clone().into(),
                         font_size: 20.0,
                         color: Color::WHITE,
                         ..default()
@@ -38,7 +38,7 @@ pub fn spawn_right_container(
                 text: Text::from_section(
                     format!("Strength: {:?}", mission.ennemy.strength),
                     TextStyle {
-                        // font: my_assets.fira_sans_bold.clone().into(),
+                        font: my_assets.fira_sans_bold.clone().into(),
                         font_size: 20.0,
                         color: Color::WHITE,
                         ..default()
@@ -55,7 +55,7 @@ pub fn spawn_right_container(
                 text: Text::from_section(
                     format!("Endurance: {:?}", mission.ennemy.endurance),
                     TextStyle {
-                        // font: my_assets.fira_sans_bold.clone().into(),
+                        font: my_assets.fira_sans_bold.clone().into(),
                         font_size: 20.0,
                         color: Color::WHITE,
                         ..default()
@@ -72,7 +72,7 @@ pub fn spawn_right_container(
                 text: Text::from_section(
                     format!("Intelligence: {:?}", mission.ennemy.intelligence),
                     TextStyle {
-                        // font: my_assets.fira_sans_bold.clone().into(),
+                        font: my_assets.fira_sans_bold.clone().into(),
                         font_size: 20.0,
                         color: Color::WHITE,
                         ..default()
@@ -89,7 +89,7 @@ pub fn spawn_right_container(
                 text: Text::from_section(
                     format!("Level: {:?}", mission.ennemy.level),
                     TextStyle {
-                        // font: my_assets.fira_sans_bold.clone().into(),
+                        font: my_assets.fira_sans_bold.clone().into(),
                         font_size: 20.0,
                         color: Color::WHITE,
                         ..default()

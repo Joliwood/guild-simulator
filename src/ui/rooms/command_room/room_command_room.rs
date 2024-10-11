@@ -48,7 +48,7 @@ pub fn room_command_room(
                                 text: Text::from_section(
                                     format!("Mission {}: Level {}", index + 1, mission.level),
                                     TextStyle {
-                                        // font: my_assets.fira_sans_bold.clone().into(),
+                                        font: my_assets.fira_sans_bold.clone().into(),
                                         font_size: 16.0,
                                         color: Color::WHITE,
                                         ..default()
@@ -65,7 +65,7 @@ pub fn room_command_room(
                                 text: Text::from_section(
                                     format!("Mission {}: Level {}", index + 1, mission.level),
                                     TextStyle {
-                                        // font: my_assets.fira_sans_bold.clone().into(),
+                                        font: my_assets.fira_sans_bold.clone().into(),
                                         font_size: 16.0,
                                         color: Color::WHITE,
                                         ..default()

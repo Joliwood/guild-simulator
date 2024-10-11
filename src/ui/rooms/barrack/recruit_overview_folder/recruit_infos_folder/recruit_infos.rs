@@ -71,7 +71,7 @@ pub fn recruit_infos(
                             weapon_column.spawn(TextBundle::from_section(
                                 "Weapon",
                                 TextStyle {
-                                    // font: my_assets.fira_sans_bold.clone().into(),
+                                    font: my_assets.fira_sans_bold.clone().into(),
                                     font_size: 20.0,
                                     color: ColorPaletteEnum::DarkBrown.as_color(),
                                     ..default()
@@ -102,7 +102,7 @@ pub fn recruit_infos(
                             armor_column.spawn(TextBundle::from_section(
                                 "Armor",
                                 TextStyle {
-                                    // font: my_assets.fira_sans_bold.clone().into(),
+                                    font: my_assets.fira_sans_bold.clone().into(),
                                     font_size: 20.0,
                                     color: ColorPaletteEnum::DarkBrown.as_color(),
                                     ..default()
@@ -138,7 +138,7 @@ pub fn recruit_infos(
                     bottom_container.spawn(TextBundle::from_section(
                         "Scrolls",
                         TextStyle {
-                            // font: my_assets.fira_sans_bold.clone().into(),
+                            font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 20.0,
                             color: ColorPaletteEnum::DarkBrown.as_color(),
                             ..default()

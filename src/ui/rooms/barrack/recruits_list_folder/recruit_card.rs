@@ -75,7 +75,7 @@ pub fn recruit_card(
                             text: Text::from_section(
                                 "In Mission",
                                 TextStyle {
-                                    // font: my_assets.fira_sans_bold.clone().into(),
+                                    font: my_assets.fira_sans_bold.clone().into(),
                                     font_size: 20.0,
                                     color: Color::WHITE,
                                     ..default()
@@ -152,7 +152,7 @@ pub fn recruit_card(
                     name_class_container.spawn(TextBundle::from_section(
                         recruit.name.clone(),
                         TextStyle {
-                            // font: my_assets.fira_sans_bold.clone().into(),
+                            font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 20.0,
                             color: ColorPaletteEnum::DarkBrown.as_color(),
                             ..default()
@@ -163,7 +163,7 @@ pub fn recruit_card(
                     name_class_container.spawn(TextBundle::from_section(
                         recruit.class.to_string(),
                         TextStyle {
-                            // font: my_assets.fira_sans_bold.clone().into(),
+                            font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 18.0,
                             color: ColorPaletteEnum::DarkBrown.as_color(),
                             ..default()
@@ -174,7 +174,7 @@ pub fn recruit_card(
                     name_class_container.spawn(TextBundle::from_section(
                         format!("Level: {}", recruit.level),
                         TextStyle {
-                            // font: my_assets.fira_sans_bold.clone().into(),
+                            font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 18.0,
                             color: ColorPaletteEnum::DarkBrown.as_color(),
                             ..default()
@@ -198,7 +198,7 @@ pub fn recruit_card(
                     stats_container.spawn(TextBundle::from_section(
                         format!("XP: {}/{}", recruit.experience, recruit.max_experience),
                         TextStyle {
-                            // font: my_assets.fira_sans_bold.clone().into(),
+                            font: my_assets.fira_sans_bold.clone().into(),
                             font_size: 18.0,
                             color: ColorPaletteEnum::DarkBrown.as_color(),
                             ..default()

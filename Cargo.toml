@@ -121,3 +121,7 @@ strip = "none"
 
 [build-dependencies]
 embed-resource = "1"
+
+[alias]
+# Your custom cargo command alias
+my-command = "run --release --no-default-features"

@@ -38,7 +38,7 @@ pub fn spawn_left_container(
                             text: Text::from_section(
                                 recruit.class.to_string(),
                                 TextStyle {
-                                    // font: my_assets.fira_sans_bold.clone().into(),
+                                    font: my_assets.fira_sans_bold.clone().into(),
                                     font_size: 20.0,
                                     color: Color::BLACK,
                                     ..default()
