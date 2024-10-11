@@ -1,51 +1,36 @@
 #!/bin/bash
 
-# Set environment variables
-GAME_EXECUTABLE_NAME="bevy_game"
-TARGET_DIR="dist"
+# Variables
+GAME_EXECUTABLE_NAME="guild_simulator"
+VERSION=$1
 
-# Print the current operation
-echo "🚀 Starting web build..."
-
-# Check if trunk is installed
-if ! command -v trunk &> /dev/null
-then
-    echo "⚠️ trunk could not be found, installing trunk..."
-    cargo install trunk
+if [ -z "$VERSION" ]; then
+  echo "Error: Version not provided."
+  echo "Usage: ./build_web.sh <version>"
+  exit 1
 fi
 
-# Add the wasm32 target if not already added
-if ! rustup target list | grep wasm32-unknown-unknown | grep installed &> /dev/null
-then
-    echo "⚙️ Adding wasm32-unknown-unknown target..."
-    rustup target add wasm32-unknown-unknown
+# Ensure trunk is installed
+trunk --version &> /dev/null
+if [ $? -ne 0 ]; then
+  echo "Installing trunk..."
+  cargo install trunk
 fi
 
-# Clean up previous builds
-echo "🧹 Cleaning up previous builds..."
-rm -rf $TARGET_DIR
+# Add wasm target
+echo "Adding wasm target..."
+rustup target add wasm32-unknown-unknown
 
-# Build the release for the web
-echo "🏗️ Building the web release with trunk..."
+# Build the web release
+echo "Building web release..."
 trunk build --release
 
-# Check if build was successful
-if [ $? -ne 0 ]; then
-    echo "❌ Build failed!"
-    exit 1
-fi
+# Optimize wasm
+echo "Optimizing wasm..."
+wasm-opt -O3 dist/*.wasm -o dist/optimized.wasm
 
-# Optimize the WASM file using wasm-opt (optional)
-if command -v wasm-opt &> /dev/null
-then
-    echo "⚙️ Optimizing WASM file..."
-    wasm-opt -O3 -o $TARGET_DIR/${GAME_EXECUTABLE_NAME}_optimized.wasm $TARGET_DIR/*.wasm
-    mv $TARGET_DIR/${GAME_EXECUTABLE_NAME}_optimized.wasm $TARGET_DIR/${GAME_EXECUTABLE_NAME}.wasm
-else
-    echo "⚠️ wasm-opt not found, skipping optimization."
-fi
+# Zip the release
+echo "Creating zip package..."
+zip -r "${GAME_EXECUTABLE_NAME}_web_${VERSION}.zip" dist/
 
-# Serve the web version locally
-echo "🌐 Serving the web version using trunk..."
-trunk serve
-
+echo "Web build complete: ${GAME_EXECUTABLE_NAME}_web_${VERSION}.zip"
