@@ -1,89 +1,67 @@
 #!/bin/bash
 
-set -e
+# Set environment variables
+GAME_EXECUTABLE_NAME="guild_simulator"
+GAME_OSX_APP_NAME="guild_simulator"
+VERSION="$1"  # Pass the version as the first argument
 
-# Variables for local build
-BINARY="guild_simulator"        # Name of your binary
-PACKAGE_NAME="guild_simulator"  # Name for the package
-VERSION="v1.0.0"                # Version number, modify as needed
-ASSETS_DIR="assets"             # Path to assets directory
-ICON_FILE="logo.icns"           # Icon file for the macOS app
-TARGET="aarch64-apple-darwin"   # Target for macOS ARM64 (Apple Silicon)
-OUT_DIR="tmp/package/${PACKAGE_NAME}.app/Contents/MacOS"  # Output directory for the build
-PACKAGE_EXT=".dmg"              # Output package format
-INFO_PLIST="tmp/package/${PACKAGE_NAME}.app/Contents/Info.plist"  # Path to Info.plist
+if [ -z "$VERSION" ]; then
+  echo "Error: Version not provided."
+  echo "Usage: ./build-macos.sh <version>"
+  exit 1
+fi
 
-# Prepare output directories
-echo "Cleaning up previous build..."
-rm -rf tmp
-mkdir -p "$OUT_DIR"
-
-# Set the deployment target for macOS
+# Ensure macOS SDK is set
 export MACOSX_DEPLOYMENT_TARGET=11.0
 
-# Build the binary with cargo for macOS ARM64
-echo "Building for macOS ARM64 (aarch64-apple-darwin)..."
-cargo build --release --target="$TARGET" --no-default-features
+# Clean up any previous builds
+echo "Cleaning up old builds..."
+rm -rf target/
+rm -rf build/macos/src
 
-# Move the built binary to the output directory
-echo "Moving binary to output directory..."
-mv target/"$TARGET"/release/"$BINARY" "$OUT_DIR/$BINARY"
+# Install rust toolchain for Apple Silicon
+echo "Installing rust toolchain for Apple Silicon..."
+rustup target add aarch64-apple-darwin
 
-# Optionally copy assets (if they exist)
-if [ -d "$ASSETS_DIR" ]; then
-    echo "Copying assets to the package's Resources directory..."
-    mkdir -p "tmp/package/${PACKAGE_NAME}.app/Contents/Resources"
-    cp -r "$ASSETS_DIR" "tmp/package/${PACKAGE_NAME}.app/Contents/Resources"
-fi
+# Build for Apple Silicon
+echo "Building release for Apple Silicon..."
+SDKROOT=$(xcrun -sdk macosx --show-sdk-path)
+cargo build --profile dist --target=aarch64-apple-darwin
 
-# Copy the icon file to Resources directory
-if [ -f "$ICON_FILE" ]; then
-    echo "Copying icon file to the package's Resources directory..."
-    cp "$ICON_FILE" "tmp/package/${PACKAGE_NAME}.app/Contents/Resources"
-fi
+# Install rust toolchain for x86_64
+echo "Installing rust toolchain for x86_64 Apple..."
+rustup target add x86_64-apple-darwin
 
-# Add metadata for macOS app bundle
-echo "Adding macOS app metadata..."
-mkdir -p "tmp/package/${PACKAGE_NAME}.app/Contents"
-cat > "$INFO_PLIST" << EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-    <dict>
-        <key>CFBundleDevelopmentRegion</key>
-        <string>en</string>
-        <key>CFBundleDisplayName</key>
-        <string>${PACKAGE_NAME}</string>
-        <key>CFBundleExecutable</key>
-        <string>${BINARY}</string>
-        <key>CFBundleIdentifier</key>
-        <string>com.example.${PACKAGE_NAME}</string>
-        <key>CFBundleName</key>
-        <string>${PACKAGE_NAME}</string>
-        <key>CFBundleShortVersionString</key>
-        <string>${VERSION}</string>
-        <key>CFBundleVersion</key>
-        <string>${VERSION}</string>
-        <key>CFBundleInfoDictionaryVersion</key>
-        <string>6.0</string>
-        <key>CFBundlePackageType</key>
-        <string>APPL</string>
-        <key>CFBundleSupportedPlatforms</key>
-        <array>
-            <string>MacOSX</string>
-        </array>
-        <key>CFBundleIconFile</key>
-        <string>logo</string>
-    </dict>
-</plist>
-EOF
+# Build for x86 Apple
+echo "Building release for x86_64..."
+SDKROOT=$(xcrun -sdk macosx --show-sdk-path)
+cargo build --profile dist --target=x86_64-apple-darwin
 
-# Create a .dmg file from the package
+# Create a universal binary
+echo "Creating Universal Binary..."
+lipo -create -output target/dist/${GAME_EXECUTABLE_NAME} \
+  target/aarch64-apple-darwin/dist/${GAME_EXECUTABLE_NAME} \
+  target/x86_64-apple-darwin/dist/${GAME_EXECUTABLE_NAME}
+
+# Create the release directory structure
+echo "Creating macOS app structure..."
+mkdir -p build/macos/src/Game.app/Contents/MacOS/assets
+mkdir -p build/macos/src/Game.app/Contents/MacOS/credits
+
+# Copy assets and executable
+echo "Copying assets and executable..."
+cp -r assets/ build/macos/src/Game.app/Contents/MacOS/assets
+cp -r credits/ build/macos/src/Game.app/Contents/MacOS/credits
+cp target/dist/${GAME_EXECUTABLE_NAME} build/macos/src/Game.app/Contents/MacOS/
+
+# Rename the app
+mv build/macos/src/Game.app build/macos/src/${GAME_OSX_APP_NAME}.app
+
+# Create a symbolic link to /Applications
+ln -s /Applications build/macos/src/
+
+# Package everything into a .dmg
 echo "Creating .dmg package..."
-hdiutil create -fs APFS -volname "${PACKAGE_NAME}" -srcfolder "tmp/package" "${PACKAGE_NAME}-${VERSION}${PACKAGE_EXT}"
+hdiutil create -fs HFS+ -volname "${GAME_OSX_APP_NAME}" -srcfolder build/macos/src ${GAME_EXECUTABLE_NAME}_${VERSION}_macOS.dmg
 
-# Clean up temporary files
-echo "Cleaning up temporary files..."
-rm -rf tmp
-
-echo "Build and packaging for macOS ARM64 completed successfully!"
+echo "Build and packaging complete. DMG file: ${GAME_EXECUTABLE_NAME}_${VERSION}_macOS_aarch64.dmg"
