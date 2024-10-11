@@ -4,10 +4,7 @@ use crate::{
         general_structs::{PlayerStats, RecruitStats, UniqueId},
     },
     ui::interface::gold_counter::MyAssets,
-    utils::{
-        get_item_atlas_path, get_item_image_atlas_index, get_item_layout,
-        get_item_tooltip_description,
-    },
+    utils::{get_item_image_atlas_index, get_item_layout, get_item_tooltip_description},
 };
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
@@ -20,11 +17,7 @@ pub fn scroll_button(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
     scroll_index: u8,
 ) {
-    // let texture_handle_empty_slot: Handle<Image> =
-    //     my_assets.load("images/equipments/empty_inventory_slot.png");
-
     let recruit_id = recruit.id;
-
     let recruit = player_stats.get_recruit_by_id(recruit_id).unwrap();
     let recruit_inventory = recruit.recruit_inventory;
     let recruit_scrolls = recruit_inventory.scrolls;
@@ -33,8 +26,6 @@ pub fn scroll_button(
     if let Some(recruit_scroll) = recruit_scroll {
         let item = Item::Scroll(recruit_scroll.clone(), 1);
         let item_image_atlas_index = get_item_image_atlas_index(&item);
-        // WIP
-        // let item_atlas_path = get_item_atlas_path(&item);
         let layout = get_item_layout(&item);
         let tooltip_text = get_item_tooltip_description(&item);
 

@@ -10,11 +10,6 @@ pub fn recruit_frame(
     selected_recruit: &Res<SelectedRecruit>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    // let frame_image_handle: Handle<Image> =
-    //     my_assets.load("images/rooms/barrack/recruit_frame.png");
-    // let recruit_image_handle: Handle<Image> =
-    //     my_assets.load("images/recruits/recruit_picture_atlas.png");
-
     let recruit_layout = TextureAtlasLayout::from_grid(
         UVec2::new(800, 200),
         5,
@@ -43,10 +38,9 @@ pub fn recruit_frame(
                 text: Text::from_section(
                     selected_recruit_data.name.to_string(),
                     TextStyle {
-                        font: my_assets.fira_sans_bold.clone().into(),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 20.0,
                         color: Color::BLACK,
-                        ..default()
                     },
                 ),
                 style: Style {

@@ -1,8 +1,7 @@
-#![allow(unused_mut)]
 use crate::{
-    // audio::play_sound::play_sound,
+    audio::play_sound::play_sound,
     data::equipments::scrolls::ScrollsEnum,
-    enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
+    enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum, SoundEnum},
     structs::{
         equipments::Item,
         general_structs::{
@@ -14,7 +13,7 @@ use crate::{
         recruits::hire_new_recruits::hire_new_recruits,
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     },
-    ui::ui_constants::WOOD_COLOR,
+    ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
     utils::{equip_recruit_inventory, get_global_points, get_new_room, get_victory_percentage},
 };
 use bevy::prelude::*;
@@ -380,7 +379,7 @@ pub fn start_mission_button(
     mut missions: ResMut<Missions>,
     mut player_stats: ResMut<PlayerStats>,
     mut windows: Query<&mut Window>,
-    mut selected_mission: ResMut<SelectedMission>,
+    selected_mission: ResMut<SelectedMission>,
 ) {
     let mut window = windows.single_mut();
 
@@ -520,8 +519,8 @@ pub fn buttons_disable_updates(
 }
 
 pub fn select_item_in_inventory(
-    mut _commands: Commands,
-    my_assets: Res<AssetServer>,
+    mut commands: Commands,
+    my_assets: Res<MyAssets>,
     mut interaction_query: Query<
         (
             &Interaction,
@@ -543,21 +542,21 @@ pub fn select_item_in_inventory(
             match *interaction {
                 Interaction::Pressed => {
                     border_color.0 = WOOD_COLOR;
-                    let _is_recruit_equiped =
+                    let is_recruit_equiped =
                         equip_recruit_inventory(&mut selected_recruit, item, &mut player_stats);
-                    // if is_recruit_equiped {
-                    //     match item {
-                    //         Item::Armor(_) => {
-                    //             play_sound(&my_assets, &mut commands, SoundEnum::EquipArmor);
-                    //         }
-                    //         Item::Scroll(_, _) => {
-                    //             play_sound(&my_assets, &mut commands, SoundEnum::EquipScroll);
-                    //         }
-                    //         Item::Weapon(_) => {
-                    //             play_sound(&my_assets, &mut commands, SoundEnum::EquipWeapon);
-                    //         }
-                    //     }
-                    // }
+                    if is_recruit_equiped {
+                        match item {
+                            Item::Armor(_) => {
+                                play_sound(&my_assets, &mut commands, SoundEnum::EquipArmor);
+                            }
+                            Item::Scroll(_, _) => {
+                                play_sound(&my_assets, &mut commands, SoundEnum::EquipScroll);
+                            }
+                            Item::Weapon(_) => {
+                                play_sound(&my_assets, &mut commands, SoundEnum::EquipWeapon);
+                            }
+                        }
+                    }
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;

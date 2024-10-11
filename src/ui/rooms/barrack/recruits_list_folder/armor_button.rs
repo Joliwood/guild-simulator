@@ -4,10 +4,7 @@ use crate::{
         general_structs::{RecruitStats, UniqueId},
     },
     ui::interface::gold_counter::MyAssets,
-    utils::{
-        get_item_atlas_path, get_item_image_atlas_index, get_item_layout,
-        get_item_tooltip_description,
-    },
+    utils::{get_item_image_atlas_index, get_item_layout, get_item_tooltip_description},
 };
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
@@ -18,16 +15,12 @@ pub fn armor_button(
     recruit_stats: &RecruitStats,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    // let texture_handle_empty_slot: Handle<Image> =
-    //     my_assets.load("images/equipments/empty_inventory_slot.png");
-
     let recruit_stats_inventory = recruit_stats.recruit_inventory.clone();
     let recruit_stats_armor = recruit_stats_inventory.armor;
+
     if let Some(recruit_stats_armor) = recruit_stats_armor {
         let item = Item::Armor(recruit_stats_armor);
         let item_image_atlas_index = get_item_image_atlas_index(&item);
-        // WIP
-        // let item_atlas_path = get_item_atlas_path(&item);
         let layout = get_item_layout(&item);
         let tooltip_text = get_item_tooltip_description(&item);
 

@@ -45,17 +45,18 @@ pub struct Scroll {
     pub strength: Option<u32>,
 }
 
-#[derive(Debug, Deserialize)]
-pub struct Weapons {
-    pub items: Vec<Weapon>,
-}
+// ! Structs for the workflow with ron files
+// #[derive(Debug, Deserialize)]
+// pub struct Weapons {
+//     pub items: Vec<Weapon>,
+// }
 
-#[derive(Debug, Deserialize)]
-pub struct Scrolls {
-    pub items: Vec<Scroll>,
-}
+// #[derive(Debug, Deserialize)]
+// pub struct Scrolls {
+//     pub items: Vec<Scroll>,
+// }
 
-#[derive(Debug, Deserialize)]
-pub struct Armors {
-    pub items: Vec<Armor>,
-}
+// #[derive(Debug, Deserialize)]
+// pub struct Armors {
+//     pub items: Vec<Armor>,
+// }

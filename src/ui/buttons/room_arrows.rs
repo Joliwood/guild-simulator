@@ -24,10 +24,9 @@ pub fn room_left_arrow_button(my_assets: Res<MyAssets>, mut commands: Commands) 
                     ui_container.spawn(TextBundle::from_section(
                         "<",
                         TextStyle {
-                            font: my_assets.fira_sans_bold.clone().into(),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 40.0,
                             color: Color::srgb(0.9, 0.9, 0.9),
-                            ..default()
                         },
                     ));
                 });
@@ -53,10 +52,9 @@ pub fn room_right_arrow_button(my_assets: Res<MyAssets>, mut commands: Commands)
                     ui_container.spawn(TextBundle::from_section(
                         ">",
                         TextStyle {
-                            font: my_assets.fira_sans_bold.clone().into(),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 40.0,
                             color: Color::srgb(0.9, 0.9, 0.9),
-                            ..default()
                         },
                     ));
                 });
@@ -82,10 +80,9 @@ pub fn room_bottom_arrow_button(my_assets: Res<MyAssets>, mut commands: Commands
                     ui_container.spawn(TextBundle::from_section(
                         "V",
                         TextStyle {
-                            font: my_assets.fira_sans_bold.clone().into(),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 40.0,
                             color: Color::srgb(0.9, 0.9, 0.9),
-                            ..default()
                         },
                     ));
                 });
@@ -111,10 +108,9 @@ pub fn room_top_arrow_button(my_assets: Res<MyAssets>, mut commands: Commands) {
                     ui_container.spawn(TextBundle::from_section(
                         "^",
                         TextStyle {
-                            font: my_assets.fira_sans_bold.clone().into(),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 40.0,
                             color: Color::srgb(0.9, 0.9, 0.9),
-                            ..default()
                         },
                     ));
                 });

@@ -1,5 +1,7 @@
+#![allow(dead_code)]
 use crate::structs::equipments::Scroll;
 
+#[allow(clippy::enum_variant_names)]
 #[derive(Debug, Clone)]
 pub enum ScrollsEnum {
     ScrollOfWisdom,

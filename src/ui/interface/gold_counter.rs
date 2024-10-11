@@ -1,4 +1,5 @@
 use crate::{
+    enums::SoundEnum,
     structs::{
         equipments::Item,
         general_structs::{PlayerStats, UniqueId},
@@ -12,10 +13,6 @@ use bevy_asset_loader::asset_collection::AssetCollection;
 
 #[derive(AssetCollection, Resource)]
 pub struct MyAssets {
-    // --- Other --- //
-    // #[asset(texture_atlas_layout(tile_size_x = 2000, tile_size_y = 2000, columns = 4, rows = 4))]
-    // pub _test_button_layout: Handle<TextureAtlasLayout>,
-
     // --- Recruits --- //
     #[asset(path = "images/recruits/recruit_picture_atlas.png")]
     pub recruit_picture_atlas: Handle<Image>,
@@ -67,6 +64,26 @@ pub struct MyAssets {
     // --- Fonts --- //
     #[asset(path = "fonts/FiraSans-Bold.ttf")]
     pub fira_sans_bold: Handle<Font>,
+
+    // --- Sounds --- //
+    #[asset(path = "sounds/Simple-Holidays-V3.ogg")] // Change path as necessary
+    pub simple_holidays_v3: Handle<AudioSource>,
+    #[asset(path = "sounds/book_throw_down.ogg")] // Add more sounds as needed
+    pub book_throw_down: Handle<AudioSource>,
+    #[asset(path = "sounds/cockrel_morning.ogg")]
+    pub cockrel_morning: Handle<AudioSource>,
+    #[asset(path = "sounds/equip_armor.ogg")]
+    pub equip_armor: Handle<AudioSource>,
+    #[asset(path = "sounds/equipment_equip.ogg")]
+    pub equipment_equip: Handle<AudioSource>,
+    #[asset(path = "sounds/equip_scroll.ogg")]
+    pub equip_scroll: Handle<AudioSource>,
+    #[asset(path = "sounds/equip_weapon.ogg")]
+    pub equip_weapon: Handle<AudioSource>,
+    #[asset(path = "sounds/keys_removed_from_door.ogg")]
+    pub keys_removed_from_door: Handle<AudioSource>,
+    #[asset(path = "sounds/paper_touch.ogg")]
+    pub paper_touch: Handle<AudioSource>,
 }
 
 impl MyAssets {
@@ -77,17 +94,23 @@ impl MyAssets {
             Item::Scroll(_, _) => self.scrolls_atlas.clone(),
         };
     }
+
+    pub fn load_sound(&self, sound_enum: SoundEnum) -> Handle<AudioSource> {
+        return match sound_enum {
+            SoundEnum::SimpleHolidaysV3 => self.simple_holidays_v3.clone(),
+            SoundEnum::BookThrowDown => self.book_throw_down.clone(),
+            SoundEnum::CockrelMorning => self.cockrel_morning.clone(),
+            SoundEnum::EquipArmor => self.equip_armor.clone(),
+            SoundEnum::EquipmentEquip => self.equipment_equip.clone(),
+            SoundEnum::EquipScroll => self.equip_scroll.clone(),
+            SoundEnum::EquipWeapon => self.equip_weapon.clone(),
+            SoundEnum::KeysRemovedFromDoor => self.keys_removed_from_door.clone(),
+            SoundEnum::PaperTouch => self.paper_touch.clone(),
+        };
+    }
 }
 
-// impl Clone for MyAssets {
-//     fn clone(&self) -> Self {
-//         MyAssets {
-//             test_button: self.test_button.clone(),
-//             test_button_layout: self.test_button_layout.clone(),
-//             office: self.office.clone(),
-//         }
-//     }
-// }
+// get_path
 
 pub fn gold_counter(
     my_assets: Res<MyAssets>,
@@ -126,7 +149,7 @@ pub fn gold_counter(
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn((
                 SpriteBundle {
-                    texture: my_assets.buttons_atlas.clone().into(),
+                    texture: my_assets.buttons_atlas.clone(),
                     transform: Transform {
                         translation: Vec3::new(100.0, 0.0, 0.0),
                         scale: Vec3::splat(0.2),
@@ -148,10 +171,9 @@ pub fn gold_counter(
                     text: Text::from_section(
                         format! {"Guild level : {} | {gold_counter}", player_stats.guild_level, gold_counter = player_stats.golds},
                         TextStyle {
-                            font: my_assets.fira_sans_bold.clone().into(),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 40.0,
                             color: Color::BLACK,
-                            ..default()
                         },
                     ),
                     ..default()
@@ -177,10 +199,9 @@ pub fn gold_counter(
                     ui_container.spawn(TextBundle::from_section(
                         "Buy",
                         TextStyle {
-                            font: my_assets.fira_sans_bold.clone().into(),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 20.0,
                             color: Color::BLACK,
-                            ..default()
                         },
                     ));
                 });
@@ -205,10 +226,9 @@ pub fn gold_counter(
                     ui_container.spawn(TextBundle::from_section(
                         "Sleep",
                         TextStyle {
-                            font: my_assets.fira_sans_bold.clone().into(),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 20.0,
                             color: Color::BLACK,
-                            ..default()
                         },
                     ));
                 });

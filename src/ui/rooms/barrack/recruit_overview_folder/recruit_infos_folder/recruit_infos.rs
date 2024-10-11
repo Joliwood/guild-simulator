@@ -15,9 +15,6 @@ pub fn recruit_infos(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
     player_stats: &Res<PlayerStats>,
 ) {
-    // let frame_image_handle: Handle<Image> =
-    //     my_assets.load("images/rooms/barrack/recruit_infos.png");
-
     parent
         .spawn(ImageBundle {
             image: my_assets.recruit_infos.clone().into(),
@@ -71,10 +68,9 @@ pub fn recruit_infos(
                             weapon_column.spawn(TextBundle::from_section(
                                 "Weapon",
                                 TextStyle {
-                                    font: my_assets.fira_sans_bold.clone().into(),
+                                    font: my_assets.fira_sans_bold.clone(),
                                     font_size: 20.0,
                                     color: ColorPaletteEnum::DarkBrown.as_color(),
-                                    ..default()
                                 },
                             ));
 
@@ -102,10 +98,9 @@ pub fn recruit_infos(
                             armor_column.spawn(TextBundle::from_section(
                                 "Armor",
                                 TextStyle {
-                                    font: my_assets.fira_sans_bold.clone().into(),
+                                    font: my_assets.fira_sans_bold.clone(),
                                     font_size: 20.0,
                                     color: ColorPaletteEnum::DarkBrown.as_color(),
-                                    ..default()
                                 },
                             ));
 
@@ -138,10 +133,9 @@ pub fn recruit_infos(
                     bottom_container.spawn(TextBundle::from_section(
                         "Scrolls",
                         TextStyle {
-                            font: my_assets.fira_sans_bold.clone().into(),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 20.0,
                             color: ColorPaletteEnum::DarkBrown.as_color(),
-                            ..default()
                         },
                     ));
 

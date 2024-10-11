@@ -8,7 +8,7 @@ pub fn recruit_strength(
     additional_strength: u32,
     my_assets: &Res<MyAssets>,
 ) {
-    let base_font: Handle<Font> = my_assets.fira_sans_bold.clone().into();
+    let base_font: Handle<Font> = my_assets.fira_sans_bold.clone();
 
     let base_strength_text = TextSection {
         value: format!("STR: {}", recruit_strength),

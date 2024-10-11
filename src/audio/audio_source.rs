@@ -1,9 +1,12 @@
 use bevy::{audio::PlaybackMode, prelude::*};
 
-pub fn audio_source(my_assets: Res<AssetServer>, mut commands: Commands) {
+use crate::{enums::SoundEnum, ui::interface::gold_counter::MyAssets};
+
+pub fn audio_source(my_assets: Res<MyAssets>, mut commands: Commands) {
+    let audio = my_assets.load_sound(SoundEnum::SimpleHolidaysV3);
     commands
         .spawn(AudioBundle {
-            // source: my_assets.load("sounds/Simple-Holidays-V3.ogg"),
+            source: audio,
             settings: PlaybackSettings {
                 mode: PlaybackMode::Loop,
                 paused: true,

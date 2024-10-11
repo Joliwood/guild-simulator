@@ -1,13 +1,13 @@
 use crate::{
-    // audio::play_sound::play_sound,
-    // enums::SoundEnum,
+    audio::play_sound::play_sound,
+    enums::SoundEnum,
     structs::{
         general_structs::MissionNotificationsNumber,
         trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
     },
+    ui::interface::gold_counter::MyAssets,
 };
 use bevy::{
-    asset::AssetServer,
     prelude::{Changed, Commands, DespawnRecursiveExt, Entity, Query, Res, ResMut, With},
     ui::Interaction,
 };
@@ -20,14 +20,14 @@ pub fn delete_notifications_on_click(
         (Entity, &Interaction),
         (Changed<Interaction>, With<MissionNotificationTrigger>),
     >,
-    my_assets: Res<AssetServer>,
+    my_assets: Res<MyAssets>,
 ) {
     for (_entity, interaction) in interaction_query.iter_mut() {
         if *interaction == Interaction::Pressed {
             for entity in query.iter() {
                 commands.entity(entity).despawn_recursive();
             }
-            // play_sound(&my_assets, &mut commands, SoundEnum::BookThrowDown);
+            play_sound(&my_assets, &mut commands, SoundEnum::BookThrowDown);
             mission_notifications_number.0 = 0;
         }
     }

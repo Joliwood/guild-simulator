@@ -30,9 +30,7 @@ pub fn update_room(
     query: Query<Entity, With<ResetRoomTrigger>>,
     selected_recruit: Res<SelectedRecruit>,
     missions: Res<Missions>,
-    image_assets: Res<MyAssets>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
-    // my_assets: Res<MyAssets>,
 ) {
     if player_stats.is_changed() || selected_recruit.is_changed() {
         // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed

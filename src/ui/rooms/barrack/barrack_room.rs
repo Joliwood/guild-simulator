@@ -19,9 +19,6 @@ pub fn spawn_room_barrack(
     selected_recruit: &Res<SelectedRecruit>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    // let background_image_handle: Handle<Image> =
-    // my_assets.load("images/rooms/barrack/barrack_background.png");
-
     commands
         .spawn(NodeBundle {
             style: Style {

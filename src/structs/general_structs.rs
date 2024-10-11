@@ -1,16 +1,12 @@
 #![allow(dead_code)]
-use super::equipments::{Armor, Armors, Item, Scroll, Scrolls, Weapon};
+use super::equipments::{Armor, Item, Scroll, Weapon};
 use crate::{
     data::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
     enums::{RecruitEnum, RecruitStateEnum, RoomEnum},
-    structs::equipments::Weapons,
 };
-use bevy::{
-    log::info,
-    prelude::{Component, Resource},
-};
+use bevy::prelude::{Component, Resource};
+// ! For workflow with ron files
 // use ron::de::from_str;
-use std::fs;
 use uuid::Uuid;
 
 #[derive(Resource)]
@@ -558,38 +554,6 @@ impl Default for PlayerStats {
         inventory.push(Item::Armor(first_armor));
         inventory.push(Item::Armor(second_armor));
         inventory.push(Item::Armor(second_same_armor));
-
-        // if let Some(first_weapon) = first_weapon {
-        //     inventory.push(Item::Weapon(first_weapon));
-        // }
-
-        // if let Some(second_weapon) = second_weapon {
-        //     inventory.push(Item::Weapon(second_weapon));
-        // }
-
-        // if let Some(second_same_weapon) = second_same_weapon {
-        //     inventory.push(Item::Weapon(second_same_weapon));
-        // }
-
-        // if let Some(first_scroll) = first_scroll {
-        //     inventory.push(Item::Scroll(first_scroll, 1));
-        // }
-
-        // if let Some(second_scroll) = second_scroll {
-        //     inventory.push(Item::Scroll(second_scroll, 3));
-        // }
-
-        // if let Some(first_armor) = first_armor {
-        //     inventory.push(Item::Armor(first_armor));
-        // }
-
-        // if let Some(second_armor) = second_armor {
-        //     inventory.push(Item::Armor(second_armor));
-        // }
-
-        // if let Some(second_same_armor) = second_same_armor {
-        //     inventory.push(Item::Armor(second_same_armor));
-        // }
 
         Self {
             day: 1,

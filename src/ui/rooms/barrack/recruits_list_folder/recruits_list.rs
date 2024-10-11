@@ -9,14 +9,6 @@ pub fn spawn_left_container(
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    // let inventory_container_image_handle: Handle<Image> =
-    //     my_assets.load("images/rooms/barrack/inventory_container.png");
-
-    // let recruit_image_handle: Handle<Image> =
-    //     my_assets.load("images/recruits/recruit_picture_atlas.png");
-
-    let recruit_image_handle: Handle<Image> = my_assets.recruit_picture_atlas.clone().into();
-
     let recruit_layout = TextureAtlasLayout::from_grid(
         UVec2::new(800, 200),
         5,
@@ -38,7 +30,6 @@ pub fn spawn_left_container(
                 width: Val::Px(400.),
                 height: Val::Px(450.),
                 padding: UiRect::all(Val::Px(15.0)),
-                // overflow: Overflow::clip(),
                 ..default()
             },
             ..default()
@@ -66,7 +57,6 @@ pub fn spawn_left_container(
                     my_assets,
                     player_stats,
                     recruit,
-                    // recruit_image_handle,
                     recruit_texture_atlas_layout.clone(),
                     texture_atlas_layouts,
                 );

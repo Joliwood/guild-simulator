@@ -1,18 +1,17 @@
-// ! WIP
 // disable console on windows for release builds
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 // Exemple of a clippy rule for all this file
 #![allow(clippy::needless_return)]
 #![allow(clippy::type_complexity)]
 
-// mod audio;
+mod audio;
 mod custom_components;
+mod data;
 mod enums;
 mod structs;
 mod systems;
 mod ui;
 mod utils;
-mod data;
 
 use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_asset_loader::asset_collection::AssetCollectionApp;
@@ -24,12 +23,6 @@ use structs::general_structs::{
 };
 use ui::interface::gold_counter::MyAssets;
 
-// ! WIP
-// use bevy::window::PrimaryWindow;
-// use bevy::winit::WinitWindows;
-// use std::io::Cursor;
-// use winit::window::Icon;
-
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, SystemSet)]
 pub struct MySystems;
 
@@ -38,7 +31,6 @@ pub struct AlertButton;
 
 fn main() -> AppExit {
     App::new()
-    // .insert_resource(AssetMetaCheck::Never)
         .add_plugins((
             DefaultPlugins
             .set(AssetPlugin {
@@ -52,11 +44,9 @@ fn main() -> AppExit {
                 }),
                 ..default()
             }),
-            
             // Desactivate on testing
             // WorldInspectorPlugin::new(),
             TooltipPlugin::default(),
-            // AlertsPlugin::new(),
         ))
         .insert_resource(PlayerStats::default())
         .insert_resource(Missions::default())
@@ -68,7 +58,7 @@ fn main() -> AppExit {
         .add_systems(
             Startup,
             (
-                // audio::audio_source::audio_source,
+                audio::audio_source::audio_source,
                 systems::camera::camera_setup::camera_setup,
                 systems::inputs::mouse_systems::mouse_init,
                 ui::buttons::room_arrows::room_bottom_arrow_button,

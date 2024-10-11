@@ -23,7 +23,6 @@ pub fn display_mission_modal(
     query: Query<Entity, With<ModalContentTrigger>>,
     player_stats: Res<PlayerStats>,
     selected_mission: Res<SelectedMission>,
-    image_assets: Res<MyAssets>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     missions: Res<Missions>,
 ) {
@@ -81,10 +80,9 @@ pub fn display_mission_modal(
                                     text: Text::from_section(
                                         format!("Mission Details -> {:?}", mission.name),
                                         TextStyle {
-                                            font: my_assets.fira_sans_bold.clone().into(),
+                                            font: my_assets.fira_sans_bold.clone(),
                                             font_size: 40.0,
                                             color: Color::WHITE,
-                                            ..default()
                                         },
                                     ),
                                     ..default()

@@ -5,7 +5,6 @@ use crate::{
         general_structs::{Missions, PlayerStats, RecruitInventory, RecruitStats, SelectedRecruit},
     },
     systems::updates::update_buttons::delete_item_from_player_inventory,
-    ui::ui_constants::{ARMOR_PATH, SCROLL_PATH, WEAPON_PATH},
 };
 use bevy::{
     log::info,
@@ -144,18 +143,6 @@ pub fn get_item_image_atlas_index(item: &Item) -> u16 {
         Item::Weapon(weapon) => weapon.image_atlas_index,
         Item::Armor(armor) => armor.image_atlas_index,
         Item::Scroll(scroll, _) => scroll.image_atlas_index,
-    };
-}
-
-/// Get the path of the image atlas of an item
-///
-/// ! WIP Change this method
-/// Has to be updated each time the design will evolve
-pub fn get_item_atlas_path(item: &Item) -> String {
-    return match item {
-        Item::Weapon(_) => WEAPON_PATH.to_string(),
-        Item::Armor(_) => ARMOR_PATH.to_string(),
-        Item::Scroll(_, _) => SCROLL_PATH.to_string(),
     };
 }
 

@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 use crate::{enums::ItemRaretyEnum, structs::equipments::Weapon};
 
 #[derive(Debug, Clone)]

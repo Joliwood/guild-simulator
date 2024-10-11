@@ -8,7 +8,7 @@ pub fn recruit_endurance(
     additional_endurance: u32,
     my_assets: &Res<MyAssets>,
 ) {
-    let base_font: Handle<Font> = my_assets.fira_sans_bold.clone().into();
+    let base_font: Handle<Font> = my_assets.fira_sans_bold.clone();
 
     let base_endurance_text = TextSection {
         value: format!("END: {}", recruit_endurance),
