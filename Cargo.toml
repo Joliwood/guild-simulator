@@ -1,7 +1,42 @@
 [package]
 name = "guild_simulator"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2021"
+authors = ["Guillaume Jolibois <jolibois.contact@gmail.com>"]
+build-windows = ["./scripts/build-windows.sh"]
+exclude = ["dist", "build", "assets", "credits"]
+
+[dependencies]
+bevy = { version = "0.14.0" }
+# bevy-inspector-egui  = { git = "https://github.com/jakobhellermann/bevy-inspector-egui", tag = "v0.25.0" }
+bevy_asset_loader = { version = "0.21.0", features = ["2d"]}
+bevy-settings = "0.6.0"
+rand_core = "0.6.4"
+uuid = "1.10.0"
+rand = "0.8.4"
+# ron = "0.8"
+serde = { version = "1.0", features = ["derive"] }
+pyri_tooltip = "0.1.1"
+bevy_ui_mod_alerts = "0.2.0"
+
+# keep the following in sync with Bevy's dependencies
+winit = { version = "0.30", default-features = false }
+
+# This is used by trunk as it doesn't support custom profiles: https://github.com/trunk-rs/trunk/issues/605
+# xbuild also uses this profile for building android AABs because I couldn't find a configuration for it
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+strip = true
+
+# Profile for distribution
+[profile.dist]
+inherits = "release"
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
 
 # ![feature(diagnostic_namespace)]
 
@@ -9,19 +44,25 @@ edition = "2021"
 [profile.dev]
 opt-level = 1
 
-# Enable high optimizations for dependencies (incl. Bevy), but not for our code:
-# [profile.dev.package."*"]
-# opt-level = 3
+[target.x86_64h-apple-darwin]
+# Add any specific settings you want here
 
-[dependencies]
-bevy = { version = "0.14.0", features = ["dynamic_linking"] }
-bevy-inspector-egui  = { git = "https://github.com/jakobhellermann/bevy-inspector-egui", tag = "v0.25.0" }
-bevy_asset_loader = { version = "0.21.0", features = ["2d"]}
-bevy-settings = "0.6.0"
-rand_core = "0.6.4"
-uuid = "1.10.0"
-rand = "0.8.4"
-ron = "0.8"
-serde = { version = "1.0", features = ["derive"] }
-pyri_tooltip = "0.1.1"
-bevy_ui_mod_alerts = "0.2.0"
+# Enable a large amount of optimization in the dev profile for dependencies.
+[profile.dev.package."*"]
+opt-level = 3
+
+# Remove expensive debug assertions due to <https://github.com/bevyengine/bevy/issues/14291>
+[profile.dev.package.wgpu-types]
+debug-assertions = false
+
+# Override some settings for native builds.
+[profile.release-native]
+# Default to release profile values.
+inherits = "release"
+# Optimize with performance in mind.
+opt-level = 3
+# Keep debug information in the binary.
+strip = "none"
+
+[build-dependencies]
+embed-resource = "1"

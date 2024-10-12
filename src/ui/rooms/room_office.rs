@@ -1,15 +1,18 @@
 use crate::{
     structs::trigger_structs::ResetRoomTrigger,
-    ui::{buttons::gold_button::gold_button, styles::containers_styles::node_container_style},
+    ui::{
+        buttons::gold_button::gold_button, interface::gold_counter::MyAssets,
+        styles::containers_styles::node_container_style,
+    },
 };
 use bevy::prelude::*;
 
 pub fn room_office(
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     commands: &mut Commands,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let imager_handler: Handle<Image> = asset_server.load("images/office.png");
+    // let imager_handler: Handle<Image> = my_assets.load("images/office.png");
 
     commands
         .spawn(NodeBundle {
@@ -21,7 +24,7 @@ pub fn room_office(
         // Image background node
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn(ImageBundle {
-                image: imager_handler.into(),
+                image: my_assets.office.clone().into(),
                 style: Style {
                     position_type: PositionType::Absolute,
                     width: Val::Percent(100.0),
@@ -35,6 +38,6 @@ pub fn room_office(
         })
         // Menu button node
         .with_children(|settings_button: &mut ChildBuilder| {
-            gold_button(asset_server, settings_button, texture_atlas_layouts);
+            gold_button(my_assets, settings_button, texture_atlas_layouts);
         });
 }

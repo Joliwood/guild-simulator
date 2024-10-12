@@ -1,19 +1,19 @@
-#![allow(unused_mut)]
 use crate::{
     audio::play_sound::play_sound,
+    data::equipments::scrolls::ScrollsEnum,
     enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum, SoundEnum},
     structs::{
         equipments::Item,
         general_structs::{
-            load_scroll_by_id, Mission, MissionModalVisible, Missions, PlayerStats,
-            RecruitInventory, RecruitStats, SelectedMission, SelectedRecruit, UniqueId,
+            load_scroll, Mission, MissionModalVisible, Missions, PlayerStats, RecruitInventory,
+            RecruitStats, SelectedMission, SelectedRecruit, UniqueId,
         },
     },
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     },
-    ui::ui_constants::WOOD_COLOR,
+    ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
     utils::{equip_recruit_inventory, get_global_points, get_new_room, get_victory_percentage},
 };
 use bevy::prelude::*;
@@ -163,10 +163,10 @@ pub fn mouse_interaction_updates(
                 Interaction::Pressed => {
                     info!("let's recruit a rogue now!");
                     hire_new_recruits(player_stats.as_mut(), new_recruits);
-                    let new_item = load_scroll_by_id(2);
-                    if let Some(item) = new_item {
-                        player_stats.add_item(Item::Scroll(item, 1));
-                    }
+                    let new_item = load_scroll(ScrollsEnum::ScrollOfPower);
+                    // if let Some(item) = new_item {
+                    player_stats.add_item(Item::Scroll(new_item, 1));
+                    // }
                 }
                 Interaction::Hovered => {}
                 Interaction::None => {}
@@ -203,21 +203,11 @@ pub fn select_recruit_button(
                         *color = BackgroundColor(WOOD_COLOR);
                     }
                 }
-            } else {
-                match *interaction {
-                    // Interaction::Pressed => {
-                    //     selected_recruit.0 = Some(recruit.clone());
-                    // }
-                    // Interaction::Hovered => {
-                    //     window.cursor.icon = CursorIcon::Pointer;
-                    //     *color = HOVERED_BUTTON.into();
-                    // }
-                    Interaction::None => {
-                        window.cursor.icon = CursorIcon::Default;
-                        *color = BackgroundColor(WOOD_COLOR);
-                    }
-                    _ => {}
-                }
+            }
+
+            if *interaction == Interaction::None {
+                window.cursor.icon = CursorIcon::Default;
+                *color = BackgroundColor(WOOD_COLOR);
             }
         }
     }
@@ -292,58 +282,52 @@ pub fn assign_recruit_to_mission(
     let mut window = windows.single_mut();
 
     for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
-        if unique_id.0 == "assign_recruit_to_mission" {
-            if recruit.state != RecruitStateEnum::InMission {
-                match *interaction {
-                    Interaction::Pressed => {
-                        // - 1 - //
-                        let recruit_id = recruit.id;
+        if recruit.state != RecruitStateEnum::InMission
+            && unique_id.0 == "assign_recruit_to_mission"
+        {
+            match *interaction {
+                Interaction::Pressed => {
+                    // - 1 - //
+                    let recruit_id = recruit.id;
 
-                        // - 2 - //
-                        selected_mission.recruit_id = Some(recruit_id);
+                    // - 2 - //
+                    selected_mission.recruit_id = Some(recruit_id);
 
-                        // - 3 - //
-                        let recruit_selected = player_stats
-                            .recruits
-                            .iter()
-                            .find(|recruit| recruit.id == recruit_id);
+                    // - 3 - //
+                    let recruit_selected = player_stats
+                        .recruits
+                        .iter()
+                        .find(|recruit| recruit.id == recruit_id);
 
-                        if recruit_selected.is_none() {
-                            return;
-                        }
-
-                        let recruit_global_points =
-                            recruit_selected.unwrap().get_total_merged_stats();
-
-                        // - 5 - //
-                        let ennemy = &selected_mission.mission.as_ref().unwrap().ennemy;
-                        let ennemy_global_points = get_global_points(
-                            ennemy.strength,
-                            ennemy.endurance,
-                            ennemy.intelligence,
-                        );
-
-                        // - 6 - //
-                        let victory_percentage = get_victory_percentage(
-                            recruit_global_points as u16,
-                            ennemy_global_points,
-                        );
-
-                        let victory_percentage_rounded: u32 = victory_percentage.round() as u32;
-
-                        // - 7 - //
-                        selected_mission.percent_of_victory = Some(victory_percentage_rounded);
-
-                        // We must update the mission
+                    if recruit_selected.is_none() {
+                        return;
                     }
-                    Interaction::Hovered => {
-                        window.cursor.icon = CursorIcon::Pointer;
-                        *color = HOVERED_BUTTON.into();
-                    }
-                    Interaction::None => {
-                        window.cursor.icon = CursorIcon::Default;
-                        *color = BackgroundColor(WOOD_COLOR);
-                    }
+
+                    let recruit_global_points = recruit_selected.unwrap().get_total_merged_stats();
+
+                    // - 5 - //
+                    let ennemy = &selected_mission.mission.as_ref().unwrap().ennemy;
+                    let ennemy_global_points =
+                        get_global_points(ennemy.strength, ennemy.endurance, ennemy.intelligence);
+
+                    // - 6 - //
+                    let victory_percentage =
+                        get_victory_percentage(recruit_global_points as u16, ennemy_global_points);
+
+                    let victory_percentage_rounded: u32 = victory_percentage.round() as u32;
+
+                    // - 7 - //
+                    selected_mission.percent_of_victory = Some(victory_percentage_rounded);
+
+                    // We must update the mission
+                }
+                Interaction::Hovered => {
+                    window.cursor.icon = CursorIcon::Pointer;
+                    *color = HOVERED_BUTTON.into();
+                }
+                Interaction::None => {
+                    window.cursor.icon = CursorIcon::Default;
+                    *color = BackgroundColor(WOOD_COLOR);
                 }
             }
         }
@@ -395,73 +379,48 @@ pub fn start_mission_button(
     mut missions: ResMut<Missions>,
     mut player_stats: ResMut<PlayerStats>,
     mut windows: Query<&mut Window>,
-    mut selected_mission: ResMut<SelectedMission>,
+    selected_mission: ResMut<SelectedMission>,
 ) {
     let mut window = windows.single_mut();
 
     for (interaction, mut color, unique_id) in &mut interaction_query {
         // TODO - Start the mission with provided id of mission + recruit (not disponible)
-        if selected_mission.recruit_id != None {
-            if unique_id.0 == "start_mission" {
-                match *interaction {
-                    Interaction::Pressed => {
-                        info!(
-                            "% of win is : {:?}",
-                            selected_mission.percent_of_victory.as_ref().unwrap()
-                        );
+        if selected_mission.recruit_id.is_some() && unique_id.0 == "start_mission" {
+            match *interaction {
+                Interaction::Pressed => {
+                    info!(
+                        "% of win is : {:?}",
+                        selected_mission.percent_of_victory.as_ref().unwrap()
+                    );
 
-                        let recruit_id = selected_mission.recruit_id;
-                        if recruit_id.is_none() {
-                            return;
-                        }
-
-                        player_stats.update_state_of_recruit(
-                            recruit_id.unwrap(),
-                            RecruitStateEnum::InMission,
-                        );
-
-                        let mission = selected_mission.get_mission();
-
-                        if mission.is_none() {
-                            return;
-                        }
-
-                        missions.assign_recruit_id_to_mission(
-                            mission.clone().unwrap().id,
-                            recruit_id.unwrap(),
-                        );
-
-                        missions.attribute_days_left_to_mission(mission.unwrap().id);
-
-                        // mission.unwrap().attribute_days_left();
-
-                        // ! --- OLD CODE --- //
-                        // ! --- Keep for next feature mission V2 --- //
-                        // let percent_of_victory =
-                        //     selected_mission.percent_of_victory.unwrap() as f32;
-                        // let is_mission_sucess = is_mission_success(percent_of_victory);
-                        // if is_mission_sucess {
-                        //     info!("The mission is a success !",);
-                        //     let mission_ennemy_level =
-                        //         selected_mission.mission.as_ref().unwrap().level;
-                        //     let xp_earned = get_xp_earned(mission_ennemy_level);
-                        //     let gold_earned = (mission_ennemy_level * 10) as i32;
-                        //     let recruit_id = selected_mission.recruit_id.unwrap();
-
-                        //     player_stats.gain_xp_to_recruit(recruit_id, xp_earned);
-                        //     player_stats.increment_golds(gold_earned);
-                        // } else {
-                        //     info!("The mission is a failure !");
-                        // }
+                    let recruit_id = selected_mission.recruit_id;
+                    if recruit_id.is_none() {
+                        return;
                     }
-                    Interaction::Hovered => {
-                        window.cursor.icon = CursorIcon::Pointer;
-                        *color = HOVERED_BUTTON.into();
+
+                    player_stats
+                        .update_state_of_recruit(recruit_id.unwrap(), RecruitStateEnum::InMission);
+
+                    let mission = selected_mission.get_mission();
+
+                    if mission.is_none() {
+                        return;
                     }
-                    Interaction::None => {
-                        window.cursor.icon = CursorIcon::Default;
-                        *color = BackgroundColor(WOOD_COLOR);
-                    }
+
+                    missions.assign_recruit_id_to_mission(
+                        mission.clone().unwrap().id,
+                        recruit_id.unwrap(),
+                    );
+
+                    missions.attribute_days_left_to_mission(mission.unwrap().id);
+                }
+                Interaction::Hovered => {
+                    window.cursor.icon = CursorIcon::Pointer;
+                    *color = HOVERED_BUTTON.into();
+                }
+                Interaction::None => {
+                    window.cursor.icon = CursorIcon::Default;
+                    *color = BackgroundColor(WOOD_COLOR);
                 }
             }
         }
@@ -561,7 +520,7 @@ pub fn buttons_disable_updates(
 
 pub fn select_item_in_inventory(
     mut commands: Commands,
-    asset_server: Res<AssetServer>,
+    my_assets: Res<MyAssets>,
     mut interaction_query: Query<
         (
             &Interaction,
@@ -585,16 +544,16 @@ pub fn select_item_in_inventory(
                     border_color.0 = WOOD_COLOR;
                     let is_recruit_equiped =
                         equip_recruit_inventory(&mut selected_recruit, item, &mut player_stats);
-                    if is_recruit_equiped == true {
+                    if is_recruit_equiped {
                         match item {
                             Item::Armor(_) => {
-                                play_sound(&asset_server, &mut commands, SoundEnum::EquipArmor);
+                                play_sound(&my_assets, &mut commands, SoundEnum::EquipArmor);
                             }
-                            Item::Scroll(_, __) => {
-                                play_sound(&asset_server, &mut commands, SoundEnum::EquipScroll);
+                            Item::Scroll(_, _) => {
+                                play_sound(&my_assets, &mut commands, SoundEnum::EquipScroll);
                             }
                             Item::Weapon(_) => {
-                                play_sound(&asset_server, &mut commands, SoundEnum::EquipWeapon);
+                                play_sound(&my_assets, &mut commands, SoundEnum::EquipWeapon);
                             }
                         }
                     }

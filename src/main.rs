@@ -1,15 +1,19 @@
+// disable console on windows for release builds
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 // Exemple of a clippy rule for all this file
-// #![allow(clippy::type_complexity)]
+#![allow(clippy::needless_return)]
+#![allow(clippy::type_complexity)]
 
 mod audio;
 mod custom_components;
+mod data;
 mod enums;
 mod structs;
 mod systems;
 mod ui;
 mod utils;
 
-use bevy::prelude::*;
+use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
@@ -28,11 +32,21 @@ pub struct AlertButton;
 fn main() -> AppExit {
     App::new()
         .add_plugins((
-            DefaultPlugins,
+            DefaultPlugins
+            .set(AssetPlugin {
+                meta_check: AssetMetaCheck::Never,
+                ..default()
+            })
+            .set(WindowPlugin {
+                primary_window: Some(Window {
+                    canvas: Some("#mygame-canvas".into()),
+                    ..default()
+                }),
+                ..default()
+            }),
             // Desactivate on testing
             // WorldInspectorPlugin::new(),
             TooltipPlugin::default(),
-            // AlertsPlugin::new(),
         ))
         .insert_resource(PlayerStats::default())
         .insert_resource(Missions::default())

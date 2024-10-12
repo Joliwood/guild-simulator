@@ -3,10 +3,8 @@ use crate::{
         equipments::Item,
         general_structs::{PlayerStats, UniqueId},
     },
-    utils::{
-        get_item_atlas_path, get_item_image_atlas_index, get_item_layout,
-        get_item_tooltip_description,
-    },
+    ui::interface::gold_counter::MyAssets,
+    utils::{get_item_image_atlas_index, get_item_layout, get_item_tooltip_description},
 };
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
@@ -14,13 +12,11 @@ use pyri_tooltip::{Tooltip, TooltipActivation};
 pub fn spawn_inventory(
     parent: &mut ChildBuilder,
     player_stats: &Res<PlayerStats>,
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let inventory_size = player_stats.max_inventory_size;
     let columns = 5;
-    let texture_handle_empty_slot: Handle<Image> =
-        asset_server.load("images/equipments/empty_inventory_slot.png");
 
     // Create a parent node for the inventory grid
     parent
@@ -56,7 +52,6 @@ pub fn spawn_inventory(
                             if index < player_stats.inventory.len() {
                                 let item = &player_stats.inventory[index];
                                 let item_image_atlas_index = get_item_image_atlas_index(item);
-                                let item_atlas_path = get_item_atlas_path(item);
                                 let layout = get_item_layout(item);
                                 let tooltip_text = get_item_tooltip_description(item);
 
@@ -71,8 +66,8 @@ pub fn spawn_inventory(
                                                 margin: UiRect::all(Val::Px(5.)),
                                                 ..default()
                                             },
-                                            image: asset_server
-                                                .load(item_atlas_path)
+                                            image: my_assets
+                                                .get_item_atlas_path(item)
                                                 .clone()
                                                 .into(),
                                             border_color: BorderColor(Color::BLACK),
@@ -95,8 +90,7 @@ pub fn spawn_inventory(
                                                 text: Text::from_section(
                                                     format!("x{}", count),
                                                     TextStyle {
-                                                        font: asset_server
-                                                            .load("fonts/FiraSans-Bold.ttf"),
+                                                        font: my_assets.fira_sans_bold.clone(),
                                                         font_size: 14.0,
                                                         color: Color::WHITE,
                                                     },
@@ -124,10 +118,10 @@ pub fn spawn_inventory(
                                         },
                                         border_color: BorderColor(Color::BLACK),
                                         border_radius: BorderRadius::all(Val::Px(10.)),
-                                        image: texture_handle_empty_slot.clone().into(),
+                                        image: my_assets.empty_inventory_slot.clone().into(),
                                         ..default()
                                     })
-                                    .insert(UniqueId(format!("item_in_inventory0")));
+                                    .insert(UniqueId("item_in_inventory0".to_string()));
                             }
                         }
                     }

@@ -8,9 +8,8 @@ use bevy::prelude::*;
 /// Spawns the left container, displaying the player's recruits.
 pub fn spawn_left_container(
     parent: &mut ChildBuilder,
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     player_stats: &Res<PlayerStats>,
-    image_assets: &Res<MyAssets>,
 ) {
     parent
         .spawn(NodeBundle {
@@ -29,17 +28,17 @@ pub fn spawn_left_container(
             // Recruits
             for recruit in player_stats.recruits.iter() {
                 parent
-                    .spawn(CustomButton::Primary.bundle(asset_server, image_assets))
+                    .spawn(CustomButton::Primary.bundle(my_assets))
                     .insert((
-                        UniqueId(format!("assign_recruit_to_mission")),
+                        UniqueId("assign_recruit_to_mission".to_string()),
                         recruit.clone(),
                     ))
                     .with_children(|button| {
                         button.spawn(TextBundle {
                             text: Text::from_section(
-                                &recruit.class.to_string(),
+                                recruit.class.to_string(),
                                 TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font: my_assets.fira_sans_bold.clone(),
                                     font_size: 20.0,
                                     color: Color::BLACK,
                                 },

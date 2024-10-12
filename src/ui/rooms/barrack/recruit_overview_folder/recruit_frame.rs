@@ -1,17 +1,15 @@
-use crate::{structs::general_structs::SelectedRecruit, utils::get_selected_recruit};
+use crate::{
+    structs::general_structs::SelectedRecruit, ui::interface::gold_counter::MyAssets,
+    utils::get_selected_recruit,
+};
 use bevy::prelude::*;
 
 pub fn recruit_frame(
     parent: &mut ChildBuilder,
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     selected_recruit: &Res<SelectedRecruit>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let frame_image_handle: Handle<Image> =
-        asset_server.load("images/rooms/barrack/recruit_frame.png");
-    let recruit_image_handle: Handle<Image> =
-        asset_server.load("images/recruits/recruit_picture_atlas.png");
-
     let recruit_layout = TextureAtlasLayout::from_grid(
         UVec2::new(800, 200),
         5,
@@ -25,7 +23,7 @@ pub fn recruit_frame(
 
     parent
         .spawn(ImageBundle {
-            image: frame_image_handle.into(),
+            image: my_assets.recruit_frame.clone().into(),
             style: Style {
                 width: Val::Px(200.),
                 height: Val::Px(350.),
@@ -38,9 +36,9 @@ pub fn recruit_frame(
         .with_children(|parent| {
             parent.spawn(TextBundle {
                 text: Text::from_section(
-                    format!("{}", selected_recruit_data.name),
+                    selected_recruit_data.name.to_string(),
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 20.0,
                         color: Color::BLACK,
                     },
@@ -61,7 +59,7 @@ pub fn recruit_frame(
 
             parent.spawn((
                 ImageBundle {
-                    image: recruit_image_handle.into(),
+                    image: my_assets.recruit_picture_atlas.clone().into(),
                     style: Style {
                         position_type: PositionType::Absolute,
                         width: Val::Percent(100.),

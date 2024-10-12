@@ -9,12 +9,11 @@ use crate::{
 use bevy::prelude::*;
 
 pub fn room_command_room(
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     commands: &mut Commands,
     missions: Res<Missions>,
-    image_assets: &Res<MyAssets>,
 ) {
-    let image_handler: Handle<Image> = asset_server.load("images/command_room.png");
+    // let image_handler: Handle<Image> = my_assets.load("images/command_room.png");
 
     commands
         .spawn(NodeBundle {
@@ -26,7 +25,7 @@ pub fn room_command_room(
         // Image background node
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn(ImageBundle {
-                image: image_handler.into(),
+                image: my_assets.command_room.clone().into(),
                 style: Style {
                     position_type: PositionType::Absolute,
                     width: Val::Percent(100.0),
@@ -41,7 +40,7 @@ pub fn room_command_room(
             for (index, mission) in missions.0.iter().enumerate() {
                 if mission.recruit_send.is_none() {
                     ui_container
-                        .spawn(CustomButton::Primary.bundle(&asset_server, image_assets))
+                        .spawn(CustomButton::Primary.bundle(my_assets))
                         .insert(UniqueId(format!("select_mission_button_{}", mission.id)))
                         .insert(mission.clone())
                         .with_children(|button| {
@@ -49,7 +48,7 @@ pub fn room_command_room(
                                 text: Text::from_section(
                                     format!("Mission {}: Level {}", index + 1, mission.level),
                                     TextStyle {
-                                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                        font: my_assets.fira_sans_bold.clone(),
                                         font_size: 16.0,
                                         color: Color::WHITE,
                                     },
@@ -59,13 +58,13 @@ pub fn room_command_room(
                         });
                 } else {
                     ui_container
-                        .spawn(CustomButton::Primary.bundle(&asset_server, image_assets))
+                        .spawn(CustomButton::Primary.bundle(my_assets))
                         .with_children(|button| {
                             button.spawn(TextBundle {
                                 text: Text::from_section(
                                     format!("Mission {}: Level {}", index + 1, mission.level),
                                     TextStyle {
-                                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                        font: my_assets.fira_sans_bold.clone(),
                                         font_size: 16.0,
                                         color: Color::WHITE,
                                     },

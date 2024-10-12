@@ -1,10 +1,10 @@
-use crate::structs::general_structs::Mission;
+use crate::{structs::general_structs::Mission, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
 
 /// Spawns the left container, displaying the player's recruits.
 pub fn spawn_right_container(
     parent: &mut ChildBuilder,
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     mission: &Mission,
 ) {
     parent
@@ -25,7 +25,7 @@ pub fn spawn_right_container(
                 text: Text::from_section(
                     format!("Ennemy for this mission -> {:?}", mission.ennemy.name),
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 20.0,
                         color: Color::WHITE,
                     },
@@ -37,7 +37,7 @@ pub fn spawn_right_container(
                 text: Text::from_section(
                     format!("Strength: {:?}", mission.ennemy.strength),
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 20.0,
                         color: Color::WHITE,
                     },
@@ -53,7 +53,7 @@ pub fn spawn_right_container(
                 text: Text::from_section(
                     format!("Endurance: {:?}", mission.ennemy.endurance),
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 20.0,
                         color: Color::WHITE,
                     },
@@ -69,7 +69,7 @@ pub fn spawn_right_container(
                 text: Text::from_section(
                     format!("Intelligence: {:?}", mission.ennemy.intelligence),
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 20.0,
                         color: Color::WHITE,
                     },
@@ -85,7 +85,7 @@ pub fn spawn_right_container(
                 text: Text::from_section(
                     format!("Level: {:?}", mission.ennemy.level),
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 20.0,
                         color: Color::WHITE,
                     },

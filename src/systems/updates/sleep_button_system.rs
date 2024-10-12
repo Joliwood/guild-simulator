@@ -5,6 +5,7 @@ use crate::{
         general_structs::{Missions, PlayerStats, SelectedMission},
         trigger_structs::SleepButtonTrigger,
     },
+    ui::interface::gold_counter::MyAssets,
     utils::finish_mission,
 };
 use bevy::prelude::*;
@@ -13,7 +14,7 @@ pub fn sleep_button_system(
     mut commands: Commands,
     mut interaction_query: Query<(&Interaction, &SleepButtonTrigger), Changed<Interaction>>,
     mut player_stats: ResMut<PlayerStats>,
-    asset_server: Res<AssetServer>,
+    my_assets: Res<MyAssets>,
     mut missions: ResMut<Missions>,
     selected_mission: Res<SelectedMission>,
 ) {
@@ -21,8 +22,8 @@ pub fn sleep_button_system(
         if let Interaction::Pressed = *interaction {
             // Increment the day in player_stats
             player_stats.day += 1;
-            play_sound(&asset_server, &mut commands, SoundEnum::KeysRemovedFromDoor);
-            play_sound(&asset_server, &mut commands, SoundEnum::CockrelMorning);
+            play_sound(&my_assets, &mut commands, SoundEnum::KeysRemovedFromDoor);
+            play_sound(&my_assets, &mut commands, SoundEnum::CockrelMorning);
 
             // ! --- OLD CODE --- //
             // ! --- Keep for next feature mission V2 --- //

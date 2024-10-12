@@ -7,9 +7,5 @@ pub fn hire_new_recruits(player_stats: &mut PlayerStats, new_recruits: Vec<Recru
         player_stats.recruits.push(recruit);
     }
 
-    if player_stats.recruits.len() == recruits_number {
-        return true;
-    } else {
-        return false;
-    }
+    return player_stats.recruits.len() == recruits_number;
 }

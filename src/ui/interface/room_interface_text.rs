@@ -1,3 +1,4 @@
+use super::gold_counter::MyAssets;
 use crate::{
     structs::{general_structs::PlayerStats, trigger_structs::PlayerStatsRoomTrigger},
     ui::{styles::containers_styles::room_interface_text_style, ui_constants::WOOD_COLOR},
@@ -5,7 +6,7 @@ use crate::{
 use bevy::prelude::*;
 
 pub fn room_interface_text(
-    asset_server: Res<AssetServer>,
+    my_assets: Res<MyAssets>,
     mut commands: Commands,
     player_stats: Res<PlayerStats>,
 ) {
@@ -26,7 +27,7 @@ pub fn room_interface_text(
                         gold_counter = player_stats.golds,
                         guild_level = player_stats.guild_level},
                         TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 40.0,
                             color: Color::BLACK,
                         },

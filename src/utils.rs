@@ -5,7 +5,6 @@ use crate::{
         general_structs::{Missions, PlayerStats, RecruitInventory, RecruitStats, SelectedRecruit},
     },
     systems::updates::update_buttons::delete_item_from_player_inventory,
-    ui::ui_constants::{ARMOR_PATH, SCROLL_PATH, WEAPON_PATH},
 };
 use bevy::{
     log::info,
@@ -123,7 +122,7 @@ pub fn get_xp_earned(level: u8) -> u32 {
 #[allow(dead_code)]
 pub fn format_ron_equipments_for_display(ron_data: &str) -> String {
     // Use a regex to format the RON output
-    let formatted = ron_data
+    return ron_data
         .replace(":", ": ")
         .replace("),", "},")
         .replace(")", "}")
@@ -134,8 +133,6 @@ pub fn format_ron_equipments_for_display(ron_data: &str) -> String {
         .replace("Weapons(", "  {")
         .replace("Weapons(", "{")
         .replace("Weapons(", "{");
-
-    formatted
 }
 
 /// Get the image atlas index of an item
@@ -146,17 +143,6 @@ pub fn get_item_image_atlas_index(item: &Item) -> u16 {
         Item::Weapon(weapon) => weapon.image_atlas_index,
         Item::Armor(armor) => armor.image_atlas_index,
         Item::Scroll(scroll, _) => scroll.image_atlas_index,
-    };
-}
-
-/// Get the path of the image atlas of an item
-///
-/// Has to be updated each time the design will evolve
-pub fn get_item_atlas_path(item: &Item) -> String {
-    return match item {
-        Item::Weapon(_) => WEAPON_PATH.to_string(),
-        Item::Armor(_) => ARMOR_PATH.to_string(),
-        Item::Scroll(_, _) => SCROLL_PATH.to_string(),
     };
 }
 

@@ -1,17 +1,17 @@
 use bevy::prelude::*;
 
-use crate::enums::ColorPaletteEnum;
+use crate::{enums::ColorPaletteEnum, ui::interface::gold_counter::MyAssets};
 
-pub fn recruit_endurance(
+pub fn recruit_strength(
     stats_container: &mut ChildBuilder,
-    recruit_endurance: u32,
-    additional_endurance: u32,
-    asset_server: &Res<AssetServer>,
+    recruit_strength: u32,
+    additional_strength: u32,
+    my_assets: &Res<MyAssets>,
 ) {
-    let base_font = asset_server.load("fonts/FiraSans-Bold.ttf");
+    let base_font: Handle<Font> = my_assets.fira_sans_bold.clone();
 
-    let base_endurance_text = TextSection {
-        value: format!("END: {}", recruit_endurance),
+    let base_strength_text = TextSection {
+        value: format!("STR: {}", recruit_strength),
         style: TextStyle {
             font: base_font.clone(),
             font_size: 14.0,
@@ -19,9 +19,9 @@ pub fn recruit_endurance(
         },
     };
 
-    let additional_endurance_text = if additional_endurance > 0 {
+    let additional_strength_text = if additional_strength > 0 {
         TextSection {
-            value: format!(" (+{})", additional_endurance),
+            value: format!(" (+{})", additional_strength),
             style: TextStyle {
                 font: base_font.clone(),
                 font_size: 14.0,
@@ -29,7 +29,7 @@ pub fn recruit_endurance(
             },
         }
     } else {
-        // Empty section if additional endurance is zero or less
+        // Empty section if additional strength is zero or less
         TextSection {
             value: String::new(),
             style: TextStyle {
@@ -41,7 +41,7 @@ pub fn recruit_endurance(
     };
 
     stats_container.spawn(TextBundle {
-        text: Text::from_sections([base_endurance_text, additional_endurance_text]),
+        text: Text::from_sections([base_strength_text, additional_strength_text]),
         ..default()
     });
 }

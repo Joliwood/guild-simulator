@@ -5,18 +5,20 @@ use super::{
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
     structs::general_structs::{PlayerStats, RecruitStats, UniqueId},
-    ui::rooms::barrack::recruits_list::{
-        armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
+    ui::{
+        interface::gold_counter::MyAssets,
+        rooms::barrack::recruits_list_folder::{
+            armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
+        },
     },
 };
 use bevy::prelude::*;
 
 pub fn recruit_card(
     left_container: &mut ChildBuilder,
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     player_stats: &Res<PlayerStats>,
     recruit: &RecruitStats,
-    recruit_image_handle: Handle<Image>,
     recruit_texture_atlas_layout: Handle<TextureAtlasLayout>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
@@ -73,7 +75,7 @@ pub fn recruit_card(
                             text: Text::from_section(
                                 "In Mission",
                                 TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font: my_assets.fira_sans_bold.clone(),
                                     font_size: 20.0,
                                     color: Color::WHITE,
                                 },
@@ -111,7 +113,7 @@ pub fn recruit_card(
                     // Image that is 200x400, clipped by the parent container
                     frame.spawn((
                         ImageBundle {
-                            image: recruit_image_handle.clone().into(),
+                            image: my_assets.recruit_picture_atlas.clone().into(),
                             style: Style {
                                 width: Val::Px(80.),
                                 height: Val::Px(140.),
@@ -149,7 +151,7 @@ pub fn recruit_card(
                     name_class_container.spawn(TextBundle::from_section(
                         recruit.name.clone(),
                         TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 20.0,
                             color: ColorPaletteEnum::DarkBrown.as_color(),
                         },
@@ -159,7 +161,7 @@ pub fn recruit_card(
                     name_class_container.spawn(TextBundle::from_section(
                         recruit.class.to_string(),
                         TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 18.0,
                             color: ColorPaletteEnum::DarkBrown.as_color(),
                         },
@@ -169,7 +171,7 @@ pub fn recruit_card(
                     name_class_container.spawn(TextBundle::from_section(
                         format!("Level: {}", recruit.level),
                         TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 18.0,
                             color: ColorPaletteEnum::DarkBrown.as_color(),
                         },
@@ -192,7 +194,7 @@ pub fn recruit_card(
                     stats_container.spawn(TextBundle::from_section(
                         format!("XP: {}/{}", recruit.experience, recruit.max_experience),
                         TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 18.0,
                             color: ColorPaletteEnum::DarkBrown.as_color(),
                         },
@@ -206,7 +208,7 @@ pub fn recruit_card(
                         stats_container,
                         recruit.strength.into(),
                         get_additional_strength_from_items,
-                        &asset_server,
+                        my_assets,
                     );
 
                     recruit_endurance(
@@ -214,7 +216,7 @@ pub fn recruit_card(
                         // TODO - Fix common type for stats
                         recruit.endurance.into(),
                         recruit.get_additional_endurance_from_items(),
-                        &asset_server,
+                        my_assets,
                     );
 
                     recruit_intelligence(
@@ -222,7 +224,7 @@ pub fn recruit_card(
                         // TODO - Fix common type for stats
                         recruit.intelligence.into(),
                         recruit.get_additional_intelligence_from_items(),
-                        &asset_server,
+                        my_assets,
                     );
                 });
 
@@ -244,9 +246,7 @@ pub fn recruit_card(
                         .spawn(NodeBundle {
                             style: Style {
                                 display: Display::Flex,
-                                // flex_direction: FlexDirection::Row,
                                 column_gap: Val::Px(2.0),
-                                // justify_content: JustifyContent::FlexEnd,
                                 align_self: AlignSelf::FlexEnd,
                                 align_items: AlignItems::Center,
                                 ..default()
@@ -254,19 +254,9 @@ pub fn recruit_card(
                             ..default()
                         })
                         .with_children(|top_container| {
-                            weapon_button(
-                                top_container,
-                                asset_server,
-                                recruit,
-                                texture_atlas_layouts,
-                            );
+                            weapon_button(top_container, my_assets, recruit, texture_atlas_layouts);
 
-                            armor_button(
-                                top_container,
-                                asset_server,
-                                recruit,
-                                texture_atlas_layouts,
-                            );
+                            armor_button(top_container, my_assets, recruit, texture_atlas_layouts);
                         });
 
                     // Bottom container for scrolls
@@ -286,7 +276,7 @@ pub fn recruit_card(
                             scroll_button(
                                 player_stats,
                                 bottom_container,
-                                asset_server,
+                                my_assets,
                                 recruit,
                                 texture_atlas_layouts,
                                 0,
@@ -295,7 +285,7 @@ pub fn recruit_card(
                             scroll_button(
                                 player_stats,
                                 bottom_container,
-                                asset_server,
+                                my_assets,
                                 recruit,
                                 texture_atlas_layouts,
                                 1,
@@ -304,7 +294,7 @@ pub fn recruit_card(
                             scroll_button(
                                 player_stats,
                                 bottom_container,
-                                asset_server,
+                                my_assets,
                                 recruit,
                                 texture_atlas_layouts,
                                 2,

@@ -2,17 +2,19 @@ use super::spawn_inventory::spawn_inventory;
 use crate::{
     enums::ColorPaletteEnum,
     structs::general_structs::{PlayerStats, UniqueId},
-    ui::styles::buttons_styles::inventory_filter_button_style,
+    ui::{
+        interface::gold_counter::MyAssets, styles::buttons_styles::inventory_filter_button_style,
+    },
 };
 use bevy::prelude::*;
 
 pub fn spawn_right_container(
     parent: &mut ChildBuilder,
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let texture_test: Handle<Image> = asset_server.load("images/ui/art_v0_buttons.png");
+    // let texture_test: Handle<Image> = my_assets.load("images/ui/art_v0_buttons.png");
     let layout_test = TextureAtlasLayout::from_grid(
         UVec2::new(4000, 400),
         4,
@@ -22,13 +24,13 @@ pub fn spawn_right_container(
     );
     let texture_atlas_layout_test = texture_atlas_layouts.add(layout_test);
 
-    let texture_handle_inventory_container: Handle<Image> =
-        asset_server.load("images/rooms/barrack/inventory_container.png");
+    // let texture_handle_inventory_container: Handle<Image> =
+    //     my_assets.load("images/rooms/barrack/inventory_container.png");
 
     // Container for the inventory
     parent
         .spawn(ImageBundle {
-            image: texture_handle_inventory_container.into(),
+            image: my_assets.inventory_container.clone().into(),
             style: Style {
                 display: Display::Flex,
                 align_self: AlignSelf::Center,
@@ -48,7 +50,7 @@ pub fn spawn_right_container(
             parent.spawn(TextBundle::from_section(
                 "Inventory",
                 TextStyle {
-                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                    font: my_assets.fira_sans_bold.clone(),
                     font_size: 30.,
                     color: ColorPaletteEnum::DarkBrown.as_color(),
                 },
@@ -73,7 +75,7 @@ pub fn spawn_right_container(
                                 style: inventory_filter_button_style(),
                                 border_color: BorderColor(Color::BLACK),
                                 border_radius: BorderRadius::all(Val::Px(10.)),
-                                image: texture_test.clone().into(),
+                                image: my_assets.art_v0_buttons.clone().into(),
                                 ..default()
                             },
                             TextureAtlas {
@@ -81,12 +83,12 @@ pub fn spawn_right_container(
                                 layout: texture_atlas_layout_test.clone(),
                             },
                         ))
-                        .insert(UniqueId(format!("item_in_inventory")))
+                        .insert(UniqueId("item_in_inventory".to_string()))
                         .with_children(|b| {
                             b.spawn(TextBundle::from_section(
                                 "All",
                                 TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font: my_assets.fira_sans_bold.clone(),
                                     font_size: 14.0,
                                     color: Color::WHITE,
                                 },
@@ -100,7 +102,7 @@ pub fn spawn_right_container(
                                 style: inventory_filter_button_style(),
                                 border_color: BorderColor(Color::BLACK),
                                 border_radius: BorderRadius::all(Val::Px(10.)),
-                                image: texture_test.clone().into(),
+                                image: my_assets.art_v0_buttons.clone().into(),
                                 ..default()
                             },
                             TextureAtlas {
@@ -113,7 +115,7 @@ pub fn spawn_right_container(
                             b.spawn(TextBundle::from_section(
                                 "Weapons",
                                 TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font: my_assets.fira_sans_bold.clone(),
                                     font_size: 14.0,
                                     color: Color::WHITE,
                                 },
@@ -127,7 +129,7 @@ pub fn spawn_right_container(
                                 style: inventory_filter_button_style(),
                                 border_color: BorderColor(Color::BLACK),
                                 border_radius: BorderRadius::all(Val::Px(10.)),
-                                image: texture_test.clone().into(),
+                                image: my_assets.art_v0_buttons.clone().into(),
                                 ..default()
                             },
                             TextureAtlas {
@@ -140,7 +142,7 @@ pub fn spawn_right_container(
                             b.spawn(TextBundle::from_section(
                                 "Armors",
                                 TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font: my_assets.fira_sans_bold.clone(),
                                     font_size: 14.0,
                                     color: Color::WHITE,
                                 },
@@ -154,7 +156,7 @@ pub fn spawn_right_container(
                                 style: inventory_filter_button_style(),
                                 border_color: BorderColor(Color::BLACK),
                                 border_radius: BorderRadius::all(Val::Px(10.)),
-                                image: texture_test.clone().into(),
+                                image: my_assets.art_v0_buttons.clone().into(),
                                 ..default()
                             },
                             TextureAtlas {
@@ -162,12 +164,12 @@ pub fn spawn_right_container(
                                 layout: texture_atlas_layout_test.clone(),
                             },
                         ))
-                        .insert(UniqueId(format!("item_in_inventory")))
+                        .insert(UniqueId("item_in_inventory".to_string()))
                         .with_children(|b| {
                             b.spawn(TextBundle::from_section(
                                 "Scrolls",
                                 TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font: my_assets.fira_sans_bold.clone(),
                                     font_size: 14.0,
                                     color: Color::WHITE,
                                 },
@@ -176,6 +178,6 @@ pub fn spawn_right_container(
                 });
 
             // Spawn the inventory below the buttons
-            spawn_inventory(parent, player_stats, asset_server, texture_atlas_layouts);
+            spawn_inventory(parent, player_stats, my_assets, texture_atlas_layouts);
         });
 }
