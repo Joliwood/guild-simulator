@@ -24,7 +24,6 @@ pub fn toggle_mission_reports(
                 let mission_reports_number = mission_reports.0.len();
                 if mission_reports_number > 0 {
                     mission_reports_modal_visibility.0 = true;
-                    info!("Clicked");
                 }
             }
             Interaction::Hovered => {

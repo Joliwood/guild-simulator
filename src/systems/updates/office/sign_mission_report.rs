@@ -30,7 +30,6 @@ pub fn sign_mission_report(
 ) {
     let mut window = windows.single_mut();
 
-    // for (interaction, mut style, mut color) in query.iter_mut() {
     for (interaction, mut style, _button, mut color, mission_report) in interaction_query.iter_mut()
     {
         match *interaction {

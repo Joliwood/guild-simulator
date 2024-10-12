@@ -259,32 +259,7 @@ pub fn assign_recruit_to_mission(
                 Interaction::None => {
                     window.cursor.icon = CursorIcon::Default;
                     *color = BackgroundColor(WOOD_COLOR);
-                } //     let recruit_global_points = recruit_selected.unwrap().get_total_merged_stats();
-
-                  //     // - 5 - //
-                  //     let ennemy = &selected_mission.mission.as_ref().unwrap().ennemy;
-                  //     let ennemy_global_points =
-                  //         get_global_points(ennemy.strength, ennemy.endurance, ennemy.intelligence);
-
-                  //     // - 6 - //
-                  //     let victory_percentage =
-                  //         get_victory_percentage(recruit_global_points as u16, ennemy_global_points);
-
-                  //     let victory_percentage_rounded: u32 = victory_percentage.round() as u32;
-
-                  //     // - 7 - //
-                  //     selected_mission.percent_of_victory = Some(victory_percentage_rounded);
-
-                  //     // We must update the mission
-                  // }
-                  // Interaction::Hovered => {
-                  //     window.cursor.icon = CursorIcon::Pointer;
-                  //     *color = HOVERED_BUTTON.into();
-                  // }
-                  // Interaction::None => {
-                  //     window.cursor.icon = CursorIcon::Default;
-                  //     *color = BackgroundColor(WOOD_COLOR);
-                  // }
+                }
             }
         }
     }
