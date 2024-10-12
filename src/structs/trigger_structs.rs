@@ -35,3 +35,6 @@ pub struct MissionReportModalContentTrigger;
 
 #[derive(Component)]
 pub struct MissionReportButtonTrigger;
+
+#[derive(Component)]
+pub struct MissionReportModalSignButtonTrigger;

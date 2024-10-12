@@ -212,6 +212,7 @@ pub fn assign_recruit_to_mission(
     for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
         if unique_id.0 == "assign_recruit_to_mission"
             && recruit.state != RecruitStateEnum::InMission
+            && recruit.state != RecruitStateEnum::WaitingReportSignature
         {
             match *interaction {
                 Interaction::Pressed => {

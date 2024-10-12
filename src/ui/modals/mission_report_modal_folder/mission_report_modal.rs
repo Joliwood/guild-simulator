@@ -4,7 +4,7 @@ use crate::{
         general_structs::MissionReportsModalVisible,
         missions::{MissionReports, Missions},
         player_stats::PlayerStats,
-        trigger_structs::MissionReportModalContentTrigger,
+        trigger_structs::{MissionReportModalContentTrigger, MissionReportModalSignButtonTrigger},
     },
 };
 use bevy::{prelude::*, ui::FocusPolicy};
@@ -255,6 +255,7 @@ pub fn mission_report_modal(
                             ..default()
                         });
                     })
+                    .insert(MissionReportModalSignButtonTrigger)
                     .insert(Button)
                     .insert(FocusPolicy::Pass);
             });

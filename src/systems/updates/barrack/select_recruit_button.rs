@@ -22,7 +22,10 @@ pub fn select_recruit_button(
 
     for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
         let recruit_state = recruit.clone().state;
-        if unique_id.0 == "recruit_button" && recruit_state != RecruitStateEnum::InMission {
+        if unique_id.0 == "recruit_button"
+            && recruit_state != RecruitStateEnum::InMission
+            && recruit_state != RecruitStateEnum::WaitingReportSignature
+        {
             match *interaction {
                 Interaction::Pressed => {
                     selected_recruit.0 = Some(recruit.clone());

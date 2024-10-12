@@ -88,6 +88,11 @@ fn main() -> AppExit {
                 systems::updates::update_buttons::buttons_disable_updates,
                 systems::updates::barrack::select_recruit_button::select_recruit_button,
                 systems::updates::command_room::select_mission_button::select_mission_button,
+            ),
+        )
+        .add_systems(
+            Update,
+            (
                 systems::updates::update_buttons::assign_recruit_to_mission,
                 systems::updates::update_buttons::close_mission_modal,
                 systems::updates::update_buttons::start_mission_button,
@@ -97,8 +102,14 @@ fn main() -> AppExit {
                 systems::updates::interfaces::delete_notifications_on_click::delete_notifications_on_click,
                 ui::modals::mission_details_modal::display_mission_modal,
                 ui::modals::mission_report_modal_folder::mission_report_modal::mission_report_modal,
+            ),
+        )
+        .add_systems(
+            Update,
+            (
                 systems::updates::interfaces::sleep_button_system::sleep_button_system,
                 systems::updates::office::toggle_mission_reports::toggle_mission_reports,
+                systems::updates::office::sign_mission_report::sign_mission_report,
             ),
         )
         .run()
