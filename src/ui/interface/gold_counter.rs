@@ -1,10 +1,9 @@
+#![allow(dead_code)]
 use crate::{
     enums::SoundEnum,
     structs::{
-        equipments::Item,
-        general_structs::UniqueId,
-        player_stats::PlayerStats,
-        trigger_structs::{GoldCountTrigger, SleepButtonTrigger},
+        equipments::Item, general_structs::UniqueId, player_stats::PlayerStats,
+        trigger_structs::GoldCountTrigger,
     },
     systems::systems_constants::NORMAL_BUTTON,
     ui::{styles::containers_styles::basic_button_style, ui_constants::WOOD_COLOR},
@@ -63,6 +62,10 @@ pub struct MyAssets {
     pub recap_guild_scroll: Handle<Image>,
     #[asset(path = "images/rooms/office/talents_on_desk.png")]
     pub talents_on_desk: Handle<Image>,
+    #[asset(path = "images/rooms/office/notification_token_in_wood.png")]
+    pub notification_token_in_wood: Handle<Image>,
+    #[asset(path = "images/rooms/office/set_of_keys.png")]
+    pub set_of_keys: Handle<Image>,
 
     // --- Rooms > Command room --- //
     #[asset(path = "images/command_room.png")]

@@ -1,5 +1,5 @@
 use crate::structs::missions::Mission;
-use crate::{structs::general_structs::Mission, ui::interface::gold_counter::MyAssets};
+use crate::ui::interface::gold_counter::MyAssets;
 use bevy::prelude::*;
 
 /// Spawns the left container, displaying the player's recruits.

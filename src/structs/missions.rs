@@ -3,7 +3,7 @@ use uuid::Uuid;
 
 use super::general_structs::Ennemy;
 
-#[derive(Debug, Component, Resource)]
+#[derive(Default, Debug, Component, Resource)]
 pub struct MissionReports(pub Vec<MissionReport>);
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
@@ -14,12 +14,6 @@ pub struct MissionReport {
     pub experience_gained: Option<u32>,
     pub golds_gained: Option<i32>,
     pub percent_of_victory: u32,
-}
-
-impl Default for MissionReports {
-    fn default() -> Self {
-        Self(vec![])
-    }
 }
 
 impl MissionReports {
@@ -35,7 +29,7 @@ impl MissionReports {
     }
 }
 
-#[derive(Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
+#[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct SelectedMission {
     pub mission: Option<Mission>,
     pub percent_of_victory: Option<u32>,
@@ -160,16 +154,6 @@ impl Mission {
 
     pub fn attribute_days_left(&mut self) {
         self.days_left = Some(self.days);
-    }
-}
-
-impl Default for SelectedMission {
-    fn default() -> Self {
-        Self {
-            mission: None,
-            percent_of_victory: None,
-            recruit_id: None,
-        }
     }
 }
 

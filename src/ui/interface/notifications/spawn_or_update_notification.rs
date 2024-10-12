@@ -12,12 +12,10 @@ use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn spawn_or_update_notification(
-    mut commands: Commands,
-    keyboard_input: Res<ButtonInput<KeyCode>>,
-    my_assets: Res<MyAssets>,
-    query: Query<Entity, With<NotificationToastTrigger>>,
-    mut mission_notifications_number: ResMut<MissionNotificationsNumber>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    commands: &mut Commands,
+    my_assets: &Res<MyAssets>,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
+    mission_reports: &mut ResMut<MissionReports>,
 ) {
     let layout = TextureAtlasLayout::from_grid(
         UVec2::new(200, 50),
@@ -29,7 +27,7 @@ pub fn spawn_or_update_notification(
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
     let mission_notifications_number = mission_reports.0.len();
 
-    play_sound(asset_server, commands, SoundEnum::PaperTouch);
+    play_sound(my_assets, commands, SoundEnum::PaperTouch);
 
     // Create a new notification node
     commands
@@ -64,7 +62,7 @@ pub fn spawn_or_update_notification(
                             },
                             ..default()
                         },
-                        image: texture_handle.clone().into(),
+                        image: my_assets.notification_atlas.clone().into(),
                         border_radius: BorderRadius {
                             top_left: Val::Px(10.),
                             top_right: Val::ZERO,
@@ -87,7 +85,7 @@ pub fn spawn_or_update_notification(
                     parent.spawn(TextBundle::from_section(
                         format!("x{}", mission_notifications_number),
                         TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 25.,
                             color: ColorPaletteEnum::DarkBrown.as_color(),
                         },

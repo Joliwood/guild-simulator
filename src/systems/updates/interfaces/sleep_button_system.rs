@@ -6,11 +6,15 @@ use crate::{
         player_stats::PlayerStats,
         trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
     },
-    ui::interface::gold_counter::MyAssets,
+    ui::interface::{
+        gold_counter::MyAssets,
+        notifications::spawn_or_update_notification::spawn_or_update_notification,
+    },
     utils::finish_mission,
 };
 use bevy::prelude::*;
 
+#[allow(clippy::too_many_arguments)]
 pub fn sleep_button_system(
     mut commands: Commands,
     mut interaction_query: Query<(&Interaction, &SleepButtonTrigger), Changed<Interaction>>,
@@ -64,9 +68,9 @@ pub fn sleep_button_system(
                     }
                     spawn_or_update_notification(
                         &mut commands,
-                        &asset_server,
-                        &mut mission_reports,
+                        &my_assets,
                         &mut texture_atlas_layouts,
+                        &mut mission_reports,
                     );
                 }
             }

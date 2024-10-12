@@ -15,6 +15,7 @@ use super::{
     recruit_sent_stats::recruit_sent_stats as recruit_sent_stats_fn,
 };
 
+#[allow(clippy::too_many_arguments)]
 // Function to spawn the mission report modal
 pub fn mission_report_modal(
     mut commands: Commands,
@@ -254,7 +255,7 @@ pub fn mission_report_modal(
                             ..default()
                         });
                     })
-                    .insert(Button { ..default() })
+                    .insert(Button)
                     .insert(FocusPolicy::Pass);
             });
     }

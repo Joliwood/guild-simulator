@@ -47,7 +47,7 @@ pub fn update_room(
         // Spawn new room based on player_stats
         match player_stats.room {
             RoomEnum::Office => room_office(
-                &asset_server,
+                &my_assets,
                 &mut commands,
                 mission_reports,
                 mission_reports_modal_visibility,

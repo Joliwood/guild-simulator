@@ -19,7 +19,7 @@ use bevy::prelude::*;
 #[allow(clippy::too_many_arguments)]
 pub fn display_mission_modal(
     mut commands: Commands,
-    asset_server: Res<AssetServer>,
+    my_assets: Res<MyAssets>,
     mission_modal_visibility: Res<MissionModalVisible>,
     query: Query<Entity, With<MissionModalContentTrigger>>,
     player_stats: Res<PlayerStats>,

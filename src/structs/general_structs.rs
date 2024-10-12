@@ -1,9 +1,6 @@
 #![allow(dead_code)]
-use super::equipments::{Armor, Item, Scroll, Weapon};
-use crate::{
-    data::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
-    enums::{RecruitEnum, RecruitStateEnum, RoomEnum},
-};
+use super::equipments::{Armor, Scroll, Weapon};
+use crate::data::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum};
 use bevy::prelude::{Component, Resource};
 // ! For workflow with ron files
 // use ron::de::from_str;
@@ -59,22 +56,22 @@ pub struct MissionReport {
 // #[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
 // pub struct SelectedRecruit(pub Option<RecruitStats>);
 
-#[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
-pub struct SelectedMission {
-    pub mission: Option<Mission>,
-    pub percent_of_victory: Option<u32>,
-    pub recruit_id: Option<Uuid>,
-}
+// #[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
+// pub struct SelectedMission {
+//     pub mission: Option<Mission>,
+//     pub percent_of_victory: Option<u32>,
+//     pub recruit_id: Option<Uuid>,
+// }
 
-impl SelectedMission {
-    pub fn get_mission(&self) -> Option<Mission> {
-        if let Some(mission) = &self.mission {
-            return Some(mission.clone());
-        }
+// impl SelectedMission {
+//     pub fn get_mission(&self) -> Option<Mission> {
+//         if let Some(mission) = &self.mission {
+//             return Some(mission.clone());
+//         }
 
-        None
-    }
-}
+//         None
+//     }
+// }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Component, Resource)]
 pub struct Ennemy {
@@ -471,57 +468,57 @@ pub fn load_armor(armor: ArmorsEnum) -> Armor {
 //     }
 // }
 
-impl Default for Missions {
-    fn default() -> Self {
-        Self(vec![
-            Mission {
-                days_left: None,
-                days: 1,
-                id: Uuid::new_v4(),
-                level: 1,
-                name: "Mission 1".to_string(),
-                recruit_send: None,
-                ennemy: Ennemy {
-                    endurance: 10,
-                    experience: 0,
-                    intelligence: 5,
-                    level: 1,
-                    name: "Ennemy 1".to_string(),
-                    strength: 10,
-                },
-            },
-            Mission {
-                days_left: None,
-                days: 1,
-                id: Uuid::new_v4(),
-                level: 2,
-                name: "Mission 2".to_string(),
-                recruit_send: None,
-                ennemy: Ennemy {
-                    endurance: 15,
-                    experience: 0,
-                    intelligence: 7,
-                    level: 2,
-                    name: "Ennemy 2".to_string(),
-                    strength: 15,
-                },
-            },
-            Mission {
-                days_left: Some(1),
-                days: 2,
-                id: Uuid::new_v4(),
-                level: 3,
-                name: "Mission 3".to_string(),
-                recruit_send: None,
-                ennemy: Ennemy {
-                    endurance: 20,
-                    experience: 0,
-                    intelligence: 10,
-                    level: 3,
-                    name: "Ennemy 3".to_string(),
-                    strength: 20,
-                },
-            },
-        ])
-    }
-}
+// impl Default for Missions {
+//     fn default() -> Self {
+//         Self(vec![
+//             Mission {
+//                 days_left: None,
+//                 days: 1,
+//                 id: Uuid::new_v4(),
+//                 level: 1,
+//                 name: "Mission 1".to_string(),
+//                 recruit_send: None,
+//                 ennemy: Ennemy {
+//                     endurance: 10,
+//                     experience: 0,
+//                     intelligence: 5,
+//                     level: 1,
+//                     name: "Ennemy 1".to_string(),
+//                     strength: 10,
+//                 },
+//             },
+//             Mission {
+//                 days_left: None,
+//                 days: 1,
+//                 id: Uuid::new_v4(),
+//                 level: 2,
+//                 name: "Mission 2".to_string(),
+//                 recruit_send: None,
+//                 ennemy: Ennemy {
+//                     endurance: 15,
+//                     experience: 0,
+//                     intelligence: 7,
+//                     level: 2,
+//                     name: "Ennemy 2".to_string(),
+//                     strength: 15,
+//                 },
+//             },
+//             Mission {
+//                 days_left: Some(1),
+//                 days: 2,
+//                 id: Uuid::new_v4(),
+//                 level: 3,
+//                 name: "Mission 3".to_string(),
+//                 recruit_send: None,
+//                 ennemy: Ennemy {
+//                     endurance: 20,
+//                     experience: 0,
+//                     intelligence: 10,
+//                     level: 3,
+//                     name: "Ennemy 3".to_string(),
+//                     strength: 20,
+//                 },
+//             },
+//         ])
+//     }
+// }

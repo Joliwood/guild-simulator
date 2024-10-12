@@ -1,19 +1,13 @@
+use crate::structs::missions::MissionReports;
+use crate::structs::trigger_structs::MissionReportButtonTrigger;
 use crate::{structs::trigger_structs::MissionReport, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
 
-use crate::structs::{missions::MissionReports, trigger_structs::MissionReport};
-
 pub fn mission_report_documents(
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     elements_on_desk: &mut ChildBuilder,
     mission_reports: ResMut<MissionReports>,
 ) {
-    let mission_report_documents_image: Handle<Image> =
-        asset_server.load("images/rooms/office/mission_notification_document.png");
-
-    let token_image: Handle<Image> =
-        asset_server.load("images/rooms/office/notification_token_in_wood.png");
-
     let mission_reports_number = mission_reports.0.len();
 
     if mission_reports_number > 0 {
@@ -27,12 +21,12 @@ pub fn mission_report_documents(
                 },
                 ..default()
             })
-            // .insert(MissionReportButtonTrigger)
+            .insert(MissionReportButtonTrigger)
             .insert(MissionReport)
             .with_children(|mission_report_button| {
                 mission_report_button
                     .spawn(ImageBundle {
-                        image: mission_report_documents_image.into(),
+                        image: my_assets.mission_notification_document.clone().into(),
                         style: Style {
                             display: Display::Flex,
                             align_items: AlignItems::Center,
@@ -49,7 +43,7 @@ pub fn mission_report_documents(
                         // if mission_reports_number > 0 {
                         parent
                             .spawn(ImageBundle {
-                                image: token_image.into(),
+                                image: my_assets.notification_token_in_wood.clone().into(),
                                 style: Style {
                                     display: Display::Flex,
                                     align_items: AlignItems::Center,
@@ -66,7 +60,7 @@ pub fn mission_report_documents(
                                 overlay.spawn(TextBundle::from_section(
                                     format!("{}", mission_reports_number),
                                     TextStyle {
-                                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                        font: my_assets.fira_sans_bold.clone(),
                                         font_size: 25.0,
                                         color: Color::BLACK,
                                     },

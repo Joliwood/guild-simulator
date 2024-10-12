@@ -1,30 +1,20 @@
 #![allow(unused_imports)]
-use super::{
-    mission_report_documents::mission_report_documents, recap_guild_scroll::recap_guild_scroll,
-    set_of_keys::set_of_keys, talents_on_desk::talents_on_desk,
-};
+use super::{mission_report_documents::mission_report_documents, set_of_keys::set_of_keys};
 use crate::{
     structs::{
         general_structs::MissionReportsModalVisible, missions::MissionReports,
         trigger_structs::ResetRoomTrigger,
     },
-    ui::{
-        modals::mission_report_modal::mission_report_modal,
-        styles::containers_styles::node_container_style,
-    },
+    ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
 };
 use bevy::prelude::*;
 
 pub fn room_office(
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     commands: &mut Commands,
     mission_reports: ResMut<MissionReports>,
     _mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
 ) {
-    let background_handle: Handle<Image> =
-        asset_server.load("images/rooms/office/office_room_background.png");
-    let desk_image_handler: Handle<Image> = asset_server.load("images/rooms/office/desk.png");
-
     commands
         .spawn(NodeBundle {
             style: node_container_style(),
@@ -64,15 +54,11 @@ pub fn room_office(
                         })
                         // Adding child nodes with different positions
                         .with_children(|elements_on_desk: &mut ChildBuilder| {
-                            mission_report_documents(
-                                &asset_server,
-                                elements_on_desk,
-                                mission_reports,
-                            );
+                            mission_report_documents(my_assets, elements_on_desk, mission_reports);
                             // TODO - Futur features, not necessary for V0
                             // recap_guild_scroll(&asset_server, elements_on_desk);
                             // talents_on_desk(&asset_server, elements_on_desk);
-                            set_of_keys(asset_server, elements_on_desk);
+                            set_of_keys(my_assets, elements_on_desk);
                         });
                 });
         });

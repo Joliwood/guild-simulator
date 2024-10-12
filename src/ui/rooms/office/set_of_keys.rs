@@ -1,10 +1,7 @@
-use crate::structs::trigger_structs::SleepButtonTrigger;
+use crate::{structs::trigger_structs::SleepButtonTrigger, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
 
-pub fn set_of_keys(asset_server: &Res<AssetServer>, elements_on_desk: &mut ChildBuilder) {
-    let mission_report_documents_image: Handle<Image> =
-        asset_server.load("images/rooms/office/set_of_keys.png");
-
+pub fn set_of_keys(my_assets: &Res<MyAssets>, elements_on_desk: &mut ChildBuilder) {
     elements_on_desk
         .spawn(ButtonBundle {
             style: Style {
@@ -24,7 +21,7 @@ pub fn set_of_keys(asset_server: &Res<AssetServer>, elements_on_desk: &mut Child
         .insert(SleepButtonTrigger)
         .with_children(|sleep_button| {
             sleep_button.spawn(ImageBundle {
-                image: mission_report_documents_image.into(),
+                image: my_assets.set_of_keys.clone().into(),
                 style: Style {
                     display: Display::Flex,
                     ..default()

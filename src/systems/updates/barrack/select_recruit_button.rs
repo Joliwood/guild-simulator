@@ -22,28 +22,18 @@ pub fn select_recruit_button(
 
     for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
         let recruit_state = recruit.clone().state;
-        if unique_id.0 == "recruit_button" {
-            if recruit_state != RecruitStateEnum::InMission {
-                match *interaction {
-                    Interaction::Pressed => {
-                        selected_recruit.0 = Some(recruit.clone());
-                    }
-                    Interaction::Hovered => {
-                        window.cursor.icon = CursorIcon::Pointer;
-                        *color = HOVERED_BUTTON.into();
-                    }
-                    Interaction::None => {
-                        window.cursor.icon = CursorIcon::Default;
-                        *color = BackgroundColor(WOOD_COLOR);
-                    }
+        if unique_id.0 == "recruit_button" && recruit_state != RecruitStateEnum::InMission {
+            match *interaction {
+                Interaction::Pressed => {
+                    selected_recruit.0 = Some(recruit.clone());
                 }
-            } else {
-                match *interaction {
-                    Interaction::None => {
-                        window.cursor.icon = CursorIcon::Default;
-                        *color = BackgroundColor(WOOD_COLOR);
-                    }
-                    _ => {}
+                Interaction::Hovered => {
+                    window.cursor.icon = CursorIcon::Pointer;
+                    *color = HOVERED_BUTTON.into();
+                }
+                Interaction::None => {
+                    window.cursor.icon = CursorIcon::Default;
+                    *color = BackgroundColor(WOOD_COLOR);
                 }
             }
         }

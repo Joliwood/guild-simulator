@@ -21,11 +21,11 @@ pub fn toggle_mission_reports(
     for (interaction, mut style, mut color) in query.iter_mut() {
         match *interaction {
             Interaction::Pressed => {
-                // let mission_reports_number = mission_reports.0.len();
-                // if mission_reports_number > 0 {
-                mission_reports_modal_visibility.0 = true;
-                info!("Clicked");
-                // }
+                let mission_reports_number = mission_reports.0.len();
+                if mission_reports_number > 0 {
+                    mission_reports_modal_visibility.0 = true;
+                    info!("Clicked");
+                }
             }
             Interaction::Hovered => {
                 window.cursor.icon = CursorIcon::Pointer;
@@ -37,7 +37,8 @@ pub fn toggle_mission_reports(
                     top: Val::Px(3.0),
                     bottom: Val::Px(3.0),
                 };
-                BorderColor(Color::WHITE);
+                // WIP
+                // BorderColor(Color::WHITE);
             }
             Interaction::None => {
                 // Remove the border when not interacted with

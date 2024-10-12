@@ -3,14 +3,8 @@ use crate::enums::{RecruitEnum, RecruitStateEnum};
 use bevy::prelude::{Component, Resource};
 use uuid::Uuid;
 
-#[derive(Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
+#[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct SelectedRecruit(pub Option<RecruitStats>);
-
-impl Default for SelectedRecruit {
-    fn default() -> Self {
-        Self(None)
-    }
-}
 
 impl SelectedRecruit {
     pub fn get_inventory(&self) -> RecruitInventory {

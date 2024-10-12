@@ -161,13 +161,12 @@ impl PlayerStats {
                     Item::Scroll(scroll, _) => scroll.id == scroll_id,
                     _ => false,
                 }) {
-                    self.inventory.iter_mut().for_each(|item| match item {
-                        Item::Scroll(scroll, q) => {
+                    self.inventory.iter_mut().for_each(|item| {
+                        if let Item::Scroll(scroll, q) = item {
                             if scroll.id == scroll_id {
                                 *q += quantity;
                             }
                         }
-                        _ => {}
                     });
                 } else {
                     self.inventory.push(Item::Scroll(scroll, quantity));
@@ -196,7 +195,7 @@ impl PlayerStats {
             .iter_mut()
             .find(|recruit| recruit.id == recruit_id)
         {
-            recruit.equip_item(&item);
+            recruit.equip_item(item);
         }
     }
 
