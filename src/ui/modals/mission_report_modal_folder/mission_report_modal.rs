@@ -1,3 +1,8 @@
+use super::{
+    mission_ennemy_picture::mission_ennemy_picture, mission_ennemy_stats::mission_ennemy_stats,
+    recruit_sent_picture::recruit_sent_picture,
+    recruit_sent_stats::recruit_sent_stats as recruit_sent_stats_fn,
+};
 use crate::{
     enums::ColorPaletteEnum,
     structs::{
@@ -7,13 +12,7 @@ use crate::{
         trigger_structs::{MissionReportModalContentTrigger, MissionReportModalSignButtonTrigger},
     },
 };
-use bevy::{prelude::*, ui::FocusPolicy};
-
-use super::{
-    mission_ennemy_picture::mission_ennemy_picture, mission_ennemy_stats::mission_ennemy_stats,
-    recruit_sent_picture::recruit_sent_picture,
-    recruit_sent_stats::recruit_sent_stats as recruit_sent_stats_fn,
-};
+use bevy::prelude::*;
 
 #[allow(clippy::too_many_arguments)]
 // Function to spawn the mission report modal
@@ -226,13 +225,13 @@ pub fn mission_report_modal(
 
                 // After the existing children have been added
                 parent
-                    .spawn(NodeBundle {
+                    .spawn(ButtonBundle {
                         style: Style {
                             position_type: PositionType::Absolute,
-                            bottom: Val::Px(10.0), // Position the button at the bottom right
+                            bottom: Val::Px(10.0),
                             right: Val::Px(10.0),
-                            width: Val::Px(120.0), // Button width
-                            height: Val::Px(40.0), // Button height
+                            width: Val::Px(120.0),
+                            height: Val::Px(40.0),
                             justify_content: JustifyContent::Center,
                             align_items: AlignItems::Center,
                             ..default()
@@ -255,9 +254,8 @@ pub fn mission_report_modal(
                             ..default()
                         });
                     })
-                    .insert(MissionReportModalSignButtonTrigger)
-                    .insert(Button)
-                    .insert(FocusPolicy::Pass);
+                    .insert(last_mission_report.clone())
+                    .insert(MissionReportModalSignButtonTrigger);
             });
     }
 }

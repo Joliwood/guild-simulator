@@ -27,6 +27,16 @@ impl MissionReports {
         }
         None
     }
+
+    pub fn remove_mission_report_by_id(&mut self, mission_id: Uuid) {
+        if let Some(index) = self
+            .0
+            .iter()
+            .position(|report| report.mission_id == mission_id)
+        {
+            self.0.remove(index);
+        }
+    }
 }
 
 #[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]

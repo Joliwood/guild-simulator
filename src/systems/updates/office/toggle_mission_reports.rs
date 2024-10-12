@@ -37,8 +37,6 @@ pub fn toggle_mission_reports(
                     top: Val::Px(3.0),
                     bottom: Val::Px(3.0),
                 };
-                // WIP
-                // BorderColor(Color::WHITE);
             }
             Interaction::None => {
                 // Remove the border when not interacted with

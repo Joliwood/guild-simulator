@@ -64,7 +64,7 @@ impl PlayerStats {
         self.golds += amount;
     }
 
-    fn gain_xp(&mut self, xp: u32) {
+    pub fn gain_xp(&mut self, xp: u32) {
         self.experience += xp;
 
         // Reset the experience with left experience after leveling up

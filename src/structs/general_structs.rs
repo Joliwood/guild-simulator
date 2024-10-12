@@ -4,7 +4,6 @@ use crate::data::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons:
 use bevy::prelude::{Component, Resource};
 // ! For workflow with ron files
 // use ron::de::from_str;
-use uuid::Uuid;
 
 #[derive(Resource)]
 pub struct MissionNotificationsNumber(pub u8);
@@ -17,15 +16,6 @@ pub struct MissionReportsModalVisible(pub bool);
 
 #[derive(Component)]
 pub struct UniqueId(pub String);
-
-#[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
-pub struct MissionReport {
-    pub recruit_id: Uuid,
-    pub mission_id: Uuid,
-    pub success: bool,
-    pub experience_gained: Option<u32>,
-    pub golds_gained: Option<i32>,
-}
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Component, Resource)]
 pub struct Ennemy {
