@@ -10,8 +10,6 @@ pub fn room_command_room(
     commands: &mut Commands,
     missions: Res<Missions>,
 ) {
-    // let image_handler: Handle<Image> = my_assets.load("images/command_room.png");
-
     commands
         .spawn(NodeBundle {
             style: node_container_style(),
@@ -35,7 +33,6 @@ pub fn room_command_room(
 
             // Generate buttons for each mission
             for (index, mission) in missions.0.iter().enumerate() {
-                // let mission_available = mission.recruit_send == None;
                 if mission.recruit_send.is_none() {
                     ui_container
                         .spawn(CustomButton::Primary.bundle(my_assets))

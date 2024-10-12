@@ -425,10 +425,6 @@ pub fn finish_mission(
         RecruitStateEnum::WaitingReportSignature,
     );
 
-    // ! Change to sign mission report
-    // player_stats.update_state_of_recruit(recruit_id.unwrap(), RecruitStateEnum::Available);
-    // missions.desassign_recruit_to_mission(mission_id);
-
     let is_mission_sucess = is_mission_success(percent_of_victory);
     let mission_ennemy_level = missions.get_mission_enemmy_level_by_id(mission_id);
     if mission_ennemy_level.is_none() {
@@ -446,12 +442,8 @@ pub fn finish_mission(
 
     if is_mission_sucess {
         let xp_earned = get_xp_earned(mission_ennemy_level.unwrap());
-        // ! Change to sign mission report
-        // player_stats.gain_xp_to_recruit(recruit_id.unwrap(), xp_earned);
         new_mission_report.experience_gained = Some(xp_earned);
         let gold_earned = (mission_ennemy_level.unwrap() * 10) as i32;
-        // ! Change to sign mission report
-        // player_stats.increment_golds(gold_earned);
         new_mission_report.golds_gained = Some(gold_earned);
     }
 
