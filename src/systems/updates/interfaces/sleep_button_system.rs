@@ -50,6 +50,7 @@ pub fn sleep_button_system(
                         continue;
                     }
 
+                    // WIP - Useless i think, check this
                     let recruit_id = missions.get_recruit_send_id_by_mission_id(mission_id);
                     if recruit_id.is_none() {
                         continue;
@@ -66,6 +67,7 @@ pub fn sleep_button_system(
                     for entity in query.iter() {
                         commands.entity(entity).despawn_recursive();
                     }
+
                     spawn_or_update_notification(
                         &mut commands,
                         &my_assets,

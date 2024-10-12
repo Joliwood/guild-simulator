@@ -111,7 +111,20 @@ impl ColorPaletteEnum {
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub enum RecruitStateEnum {
     Available,
+    Injured,
     InMission,
     InRecuperation,
-    Injured,
+    WaitingReportSignature,
+}
+
+impl RecruitStateEnum {
+    pub fn get_description(&self) -> &'static str {
+        match self {
+            RecruitStateEnum::Available => "Available",
+            RecruitStateEnum::Injured => "Injured",
+            RecruitStateEnum::InMission => "In Mission",
+            RecruitStateEnum::InRecuperation => "In Recuperation",
+            RecruitStateEnum::WaitingReportSignature => "Waiting its mission report signature",
+        }
+    }
 }

@@ -29,67 +29,69 @@ pub fn spawn_or_update_notification(
 
     play_sound(my_assets, commands, SoundEnum::PaperTouch);
 
-    // Create a new notification node
-    commands
-        .spawn(NodeBundle {
-            style: Style {
-                position_type: PositionType::Absolute,
-                width: Val::Px(40.),
-                height: Val::Px(40.),
-                right: Val::Px(0.),
-                top: Val::Px(120.),
+    if !mission_reports.0.is_empty() {
+        // Create a new notification node
+        commands
+            .spawn(NodeBundle {
+                style: Style {
+                    position_type: PositionType::Absolute,
+                    width: Val::Px(40.),
+                    height: Val::Px(40.),
+                    right: Val::Px(0.),
+                    top: Val::Px(120.),
+                    ..default()
+                },
                 ..default()
-            },
-            ..default()
-        })
-        .insert(Name::new("---> Notification toast"))
-        .insert(NotificationToastTrigger)
-        .with_children(|parent| {
-            parent
-                .spawn((
-                    ButtonBundle {
-                        style: Style {
-                            display: Display::Flex,
-                            align_items: AlignItems::Center,
-                            justify_content: JustifyContent::Center,
-                            width: Val::Px(40.),
-                            height: Val::Px(40.),
-                            padding: UiRect {
-                                left: Val::Px(10.),
-                                right: Val::ZERO,
-                                top: Val::ZERO,
-                                bottom: Val::ZERO,
+            })
+            .insert(Name::new("---> Notification toast"))
+            .insert(NotificationToastTrigger)
+            .with_children(|parent| {
+                parent
+                    .spawn((
+                        ButtonBundle {
+                            style: Style {
+                                display: Display::Flex,
+                                align_items: AlignItems::Center,
+                                justify_content: JustifyContent::Center,
+                                width: Val::Px(40.),
+                                height: Val::Px(40.),
+                                padding: UiRect {
+                                    left: Val::Px(10.),
+                                    right: Val::ZERO,
+                                    top: Val::ZERO,
+                                    bottom: Val::ZERO,
+                                },
+                                ..default()
+                            },
+                            image: my_assets.notification_atlas.clone().into(),
+                            border_radius: BorderRadius {
+                                top_left: Val::Px(10.),
+                                top_right: Val::ZERO,
+                                bottom_left: Val::Px(10.),
+                                bottom_right: Val::ZERO,
                             },
                             ..default()
                         },
-                        image: my_assets.notification_atlas.clone().into(),
-                        border_radius: BorderRadius {
-                            top_left: Val::Px(10.),
-                            top_right: Val::ZERO,
-                            bottom_left: Val::Px(10.),
-                            bottom_right: Val::ZERO,
+                        TextureAtlas {
+                            index: 0,
+                            layout: texture_atlas_layout.clone(),
                         },
-                        ..default()
-                    },
-                    TextureAtlas {
-                        index: 0,
-                        layout: texture_atlas_layout.clone(),
-                    },
-                    Tooltip::cursor(get_mission_notification_tooltip_text(
-                        mission_notifications_number as u8,
+                        Tooltip::cursor(get_mission_notification_tooltip_text(
+                            mission_notifications_number as u8,
+                        ))
+                        .with_activation(TooltipActivation::IMMEDIATE),
                     ))
-                    .with_activation(TooltipActivation::IMMEDIATE),
-                ))
-                .insert(MissionNotificationTrigger)
-                .with_children(|parent| {
-                    parent.spawn(TextBundle::from_section(
-                        format!("x{}", mission_notifications_number),
-                        TextStyle {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 25.,
-                            color: ColorPaletteEnum::DarkBrown.as_color(),
-                        },
-                    ));
-                });
-        });
+                    .insert(MissionNotificationTrigger)
+                    .with_children(|parent| {
+                        parent.spawn(TextBundle::from_section(
+                            format!("x{}", mission_notifications_number),
+                            TextStyle {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 25.,
+                                color: ColorPaletteEnum::DarkBrown.as_color(),
+                            },
+                        ));
+                    });
+            });
+    }
 }

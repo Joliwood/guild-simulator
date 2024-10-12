@@ -26,7 +26,7 @@ pub fn room_office(
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
                 .spawn(ImageBundle {
-                    image: my_assets.office.clone().into(),
+                    image: my_assets.office_background.clone().into(),
                     style: Style {
                         width: Val::Percent(100.0),
                         height: Val::Percent(100.0),

@@ -3,6 +3,22 @@ use crate::enums::{RecruitEnum, RecruitStateEnum};
 use bevy::prelude::{Component, Resource};
 use uuid::Uuid;
 
+#[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
+pub struct RecruitStats {
+    pub class: RecruitEnum,
+    pub endurance: u16,
+    pub experience: u32,
+    pub id: Uuid,
+    pub image_atlas_index: u16,
+    pub intelligence: u16,
+    pub level: u8,
+    pub max_experience: u32,
+    pub name: String,
+    pub recruit_inventory: RecruitInventory,
+    pub state: RecruitStateEnum,
+    pub strength: u16,
+}
+
 #[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct SelectedRecruit(pub Option<RecruitStats>);
 
@@ -53,22 +69,6 @@ impl RecruitInventory {
 
         None
     }
-}
-
-#[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
-pub struct RecruitStats {
-    pub class: RecruitEnum,
-    pub endurance: u16,
-    pub experience: u32,
-    pub id: Uuid,
-    pub image_atlas_index: u16,
-    pub intelligence: u16,
-    pub level: u8,
-    pub max_experience: u32,
-    pub name: String,
-    pub recruit_inventory: RecruitInventory,
-    pub state: RecruitStateEnum,
-    pub strength: u16,
 }
 
 impl RecruitStats {

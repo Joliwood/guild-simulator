@@ -50,9 +50,7 @@ pub struct MyAssets {
     pub recruit_infos: Handle<Image>,
 
     // --- Rooms > Office ---//
-    #[asset(path = "images/office.png")]
-    pub office: Handle<Image>,
-    #[asset(path = "images/rooms/office/office_background.png")]
+    #[asset(path = "images/rooms/office/office_room_background.png")]
     pub office_background: Handle<Image>,
     #[asset(path = "images/rooms/office/desk.png")]
     pub desk: Handle<Image>,

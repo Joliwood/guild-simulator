@@ -1,17 +1,15 @@
 #![allow(dead_code)]
-use bevy::prelude::*;
-use uuid::Uuid;
-
-use crate::{
-    data::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
-    enums::{RecruitStateEnum, RoomEnum},
-};
-
 use super::{
     equipments::Item,
     general_structs::{load_armor, load_scroll, load_weapon},
     recruits::RecruitStats,
 };
+use crate::{
+    data::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
+    enums::{RecruitStateEnum, RoomEnum},
+};
+use bevy::prelude::*;
+use uuid::Uuid;
 
 #[derive(Component, Resource, Clone)]
 pub struct PlayerStats {
@@ -25,64 +23,6 @@ pub struct PlayerStats {
     pub recruits: Vec<RecruitStats>,
     pub room: RoomEnum,
 }
-
-// impl Default for PlayerStats {
-//     fn default() -> Self {
-//         let mut inventory = vec![];
-//         let first_weapon = load_weapon(1);
-//         let second_weapon = load_weapon(3);
-//         let second_same_weapon = load_weapon(3);
-//         let first_scroll = load_scroll(1);
-//         let second_scroll = load_scroll(3);
-//         let first_armor = load_armor(3);
-//         let second_armor = load_armor(1);
-//         let second_same_armor = load_armor(1);
-
-//         if let Some(first_weapon) = first_weapon {
-//             inventory.push(Item::Weapon(first_weapon));
-//         }
-
-//         if let Some(second_weapon) = second_weapon {
-//             inventory.push(Item::Weapon(second_weapon));
-//         }
-
-//         if let Some(second_same_weapon) = second_same_weapon {
-//             inventory.push(Item::Weapon(second_same_weapon));
-//         }
-
-//         if let Some(first_scroll) = first_scroll {
-//             inventory.push(Item::Scroll(first_scroll, 1));
-//         }
-
-//         if let Some(second_scroll) = second_scroll {
-//             inventory.push(Item::Scroll(second_scroll, 3));
-//         }
-
-//         if let Some(first_armor) = first_armor {
-//             inventory.push(Item::Armor(first_armor));
-//         }
-
-//         if let Some(second_armor) = second_armor {
-//             inventory.push(Item::Armor(second_armor));
-//         }
-
-//         if let Some(second_same_armor) = second_same_armor {
-//             inventory.push(Item::Armor(second_same_armor));
-//         }
-
-//         Self {
-//             day: 1,
-//             experience: 0,
-//             golds: 0,
-//             guild_level: 1,
-//             inventory,
-//             max_experience: 100,
-//             max_inventory_size: 50,
-//             recruits: vec![],
-//             room: RoomEnum::Office,
-//         }
-//     }
-// }
 
 impl Default for PlayerStats {
     fn default() -> Self {
@@ -114,7 +54,7 @@ impl Default for PlayerStats {
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![],
-            room: RoomEnum::CommandRoom,
+            room: RoomEnum::Office,
         }
     }
 }
