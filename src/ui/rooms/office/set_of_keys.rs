@@ -14,16 +14,38 @@ pub fn set_of_keys(my_assets: &Res<MyAssets>, elements_on_desk: &mut ChildBuilde
                 right: Val::Px(50.),
                 width: Val::Px(100.),
                 height: Val::Px(100.),
+                border: UiRect::all(Val::Px(3.)),
                 ..default()
             },
+            border_color: BorderColor(Color::BLACK),
+            border_radius: BorderRadius::all(Val::Percent(100.)),
             ..default()
         })
         .insert(SleepButtonTrigger)
         .with_children(|sleep_button| {
             sleep_button.spawn(ImageBundle {
-                image: my_assets.set_of_keys.clone().into(),
+                image: my_assets.set_of_keys_container.clone().into(),
                 style: Style {
                     display: Display::Flex,
+                    ..default()
+                },
+                ..default()
+            });
+        })
+        .with_children(|parent| {
+            parent.spawn(ImageBundle {
+                image: my_assets.set_of_keys.clone().into(),
+                style: Style {
+                    position_type: PositionType::Absolute,
+                    display: Display::Flex,
+                    margin: UiRect {
+                        left: Val::Auto,
+                        right: Val::Auto,
+                        top: Val::Px(15.),
+                        bottom: Val::Auto,
+                    },
+                    width: Val::Percent(65.),
+                    height: Val::Percent(65.),
                     ..default()
                 },
                 ..default()

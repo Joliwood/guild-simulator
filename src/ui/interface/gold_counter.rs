@@ -64,6 +64,8 @@ pub struct MyAssets {
     pub notification_token_in_wood: Handle<Image>,
     #[asset(path = "images/rooms/office/set_of_keys.png")]
     pub set_of_keys: Handle<Image>,
+    #[asset(path = "images/rooms/office/set_of_keys_container.png")]
+    pub set_of_keys_container: Handle<Image>,
 
     // --- Rooms > Command room --- //
     #[asset(path = "images/command_room.png")]

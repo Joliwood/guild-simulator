@@ -40,7 +40,6 @@ pub fn sign_mission_report(
                 );
 
                 missions.desassign_recruit_to_mission(mission_report.mission_id);
-                // missions.
 
                 let is_mission_sucess =
                     is_mission_success(mission_report.percent_of_victory as f32);
