@@ -17,7 +17,7 @@ pub fn set_of_keys(my_assets: &Res<MyAssets>, elements_on_desk: &mut ChildBuilde
                 border: UiRect::all(Val::Px(3.)),
                 ..default()
             },
-            border_color: BorderColor(Color::BLACK),
+            border_color: BorderColor(Color::NONE),
             border_radius: BorderRadius::all(Val::Percent(100.)),
             ..default()
         })

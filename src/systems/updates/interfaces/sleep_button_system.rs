@@ -32,6 +32,10 @@ pub fn sleep_button_system(
     let mut window = windows.single_mut();
 
     for (interaction, _button, mut border_color) in interaction_query.iter_mut() {
+        if !mission_reports.0.is_empty() {
+            continue;
+        }
+
         match *interaction {
             Interaction::Pressed => {
                 // Increment the day in player_stats
@@ -90,7 +94,7 @@ pub fn sleep_button_system(
             }
             Interaction::None => {
                 window.cursor.icon = CursorIcon::Default;
-                border_color.0 = Color::BLACK;
+                border_color.0 = Color::NONE;
             }
         }
     }

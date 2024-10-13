@@ -66,6 +66,8 @@ pub enum SoundEnum {
     EquipWeapon,
     KeysRemovedFromDoor,
     PaperTouch,
+    PencilSign,
+    PickingGolds,
     SimpleHolidaysV3,
 }
 
@@ -80,6 +82,8 @@ impl SoundEnum {
             SoundEnum::EquipWeapon => "sounds/equip_weapon.ogg",
             SoundEnum::KeysRemovedFromDoor => "sounds/keys_removed_from_door.ogg",
             SoundEnum::PaperTouch => "sounds/paper_touch.ogg",
+            SoundEnum::PencilSign => "sounds/pencil_sign.ogg",
+            SoundEnum::PickingGolds => "sounds/picking_golds.ogg",
             SoundEnum::SimpleHolidaysV3 => "sounds/Simple-Holidays-V3.ogg",
         }
     }

@@ -98,6 +98,10 @@ pub struct MyAssets {
     pub keys_removed_from_door: Handle<AudioSource>,
     #[asset(path = "sounds/paper_touch.ogg")]
     pub paper_touch: Handle<AudioSource>,
+    #[asset(path = "sounds/pencil_sign.ogg")]
+    pub pencil_sign: Handle<AudioSource>,
+    #[asset(path = "sounds/picking_golds.ogg")]
+    pub picking_golds: Handle<AudioSource>,
 }
 
 impl MyAssets {
@@ -111,7 +115,6 @@ impl MyAssets {
 
     pub fn load_sound(&self, sound_enum: SoundEnum) -> Handle<AudioSource> {
         return match sound_enum {
-            SoundEnum::SimpleHolidaysV3 => self.simple_holidays_v3.clone(),
             SoundEnum::BookThrowDown => self.book_throw_down.clone(),
             SoundEnum::CockrelMorning => self.cockrel_morning.clone(),
             SoundEnum::EquipArmor => self.equip_armor.clone(),
@@ -120,6 +123,9 @@ impl MyAssets {
             SoundEnum::EquipWeapon => self.equip_weapon.clone(),
             SoundEnum::KeysRemovedFromDoor => self.keys_removed_from_door.clone(),
             SoundEnum::PaperTouch => self.paper_touch.clone(),
+            SoundEnum::PencilSign => self.pencil_sign.clone(),
+            SoundEnum::PickingGolds => self.picking_golds.clone(),
+            SoundEnum::SimpleHolidaysV3 => self.simple_holidays_v3.clone(),
         };
     }
 }

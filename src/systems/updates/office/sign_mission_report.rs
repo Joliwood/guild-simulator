@@ -1,5 +1,6 @@
 use crate::{
-    enums::{ColorPaletteEnum, RecruitStateEnum},
+    audio::play_sound::play_sound,
+    enums::{ColorPaletteEnum, RecruitStateEnum, SoundEnum},
     structs::{
         general_structs::MissionReportsModalVisible,
         missions::{MissionReport, MissionReports, Missions},
@@ -7,10 +8,12 @@ use crate::{
         trigger_structs::MissionReportModalSignButtonTrigger,
     },
     systems::systems_constants::HOVERED_BUTTON,
+    ui::interface::gold_counter::MyAssets,
     utils::is_mission_success,
 };
 use bevy::prelude::*;
 
+#[allow(clippy::too_many_arguments)]
 pub fn sign_mission_report(
     mut interaction_query: Query<
         (
@@ -27,6 +30,8 @@ pub fn sign_mission_report(
     mut player_stats: ResMut<PlayerStats>,
     mut missions: ResMut<Missions>,
     mut mission_reports: ResMut<MissionReports>,
+    my_assets: Res<MyAssets>,
+    mut commands: Commands,
 ) {
     let mut window = windows.single_mut();
 
@@ -51,11 +56,14 @@ pub fn sign_mission_report(
                         mission_report.experience_gained.unwrap(),
                     );
                     player_stats.increment_golds(mission_report.golds_gained.unwrap());
+                    play_sound(&my_assets, &mut commands, SoundEnum::PickingGolds);
                 }
 
                 mission_reports.remove_mission_report_by_id(mission_report.mission_id);
 
                 mission_reports_modal_visibility.0 = false;
+
+                play_sound(&my_assets, &mut commands, SoundEnum::PencilSign);
 
                 if !mission_reports.0.is_empty() {
                     mission_reports_modal_visibility.0 = true;

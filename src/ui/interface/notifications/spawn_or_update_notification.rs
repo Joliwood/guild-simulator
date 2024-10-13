@@ -1,6 +1,5 @@
 use crate::{
-    audio::play_sound::play_sound,
-    enums::{ColorPaletteEnum, SoundEnum},
+    enums::ColorPaletteEnum,
     structs::{
         missions::MissionReports,
         trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
@@ -26,8 +25,6 @@ pub fn spawn_or_update_notification(
     );
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
     let mission_notifications_number = mission_reports.0.len();
-
-    play_sound(my_assets, commands, SoundEnum::PaperTouch);
 
     if !mission_reports.0.is_empty() {
         // Create a new notification node
