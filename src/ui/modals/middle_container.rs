@@ -1,7 +1,8 @@
 use crate::{
     custom_components::CustomButton,
     structs::{
-        general_structs::{Missions, SelectedMission, UniqueId},
+        general_structs::UniqueId,
+        missions::{Missions, SelectedMission},
         trigger_structs::{
             SelectedMissionPercentOfVictoryTrigger, SelectedMissionRecruitIdTrigger,
         },

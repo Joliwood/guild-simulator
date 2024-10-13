@@ -1,8 +1,7 @@
 use crate::{
-    audio::play_sound::play_sound,
-    enums::{ColorPaletteEnum, SoundEnum},
+    enums::ColorPaletteEnum,
     structs::{
-        general_structs::MissionNotificationsNumber,
+        missions::MissionReports,
         trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
     },
     ui::interface::gold_counter::MyAssets,
@@ -12,12 +11,10 @@ use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn spawn_or_update_notification(
-    mut commands: Commands,
-    keyboard_input: Res<ButtonInput<KeyCode>>,
-    my_assets: Res<MyAssets>,
-    query: Query<Entity, With<NotificationToastTrigger>>,
-    mut mission_notifications_number: ResMut<MissionNotificationsNumber>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    commands: &mut Commands,
+    my_assets: &Res<MyAssets>,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
+    mission_reports: &mut ResMut<MissionReports>,
 ) {
     let layout = TextureAtlasLayout::from_grid(
         UVec2::new(200, 50),
@@ -27,28 +24,23 @@ pub fn spawn_or_update_notification(
         Some(UVec2::new(0, 0)),
     );
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
+    let mission_notifications_number = mission_reports.0.len();
 
-    if keyboard_input.just_pressed(KeyCode::KeyF) {
-        // We reset the node before to spawn a new one
-        for entity in query.iter() {
-            commands.entity(entity).despawn_recursive();
-        }
-
-        play_sound(&my_assets, &mut commands, SoundEnum::PaperTouch);
-
-        // If no toast exists, create a new one
+    if !mission_reports.0.is_empty() {
+        // Create a new notification node
         commands
             .spawn(NodeBundle {
                 style: Style {
                     position_type: PositionType::Absolute,
-                    width: Val::Px(60.),
-                    height: Val::Px(60.),
+                    width: Val::Px(40.),
+                    height: Val::Px(40.),
                     right: Val::Px(0.),
                     top: Val::Px(120.),
                     ..default()
                 },
                 ..default()
             })
+            .insert(Name::new("---> Notification toast"))
             .insert(NotificationToastTrigger)
             .with_children(|parent| {
                 parent
@@ -58,9 +50,8 @@ pub fn spawn_or_update_notification(
                                 display: Display::Flex,
                                 align_items: AlignItems::Center,
                                 justify_content: JustifyContent::Center,
-                                width: Val::Px(60.),
-                                height: Val::Px(60.),
-                                // margin: UiRect::all(Val::Px(5.)),
+                                width: Val::Px(40.),
+                                height: Val::Px(40.),
                                 padding: UiRect {
                                     left: Val::Px(10.),
                                     right: Val::ZERO,
@@ -83,29 +74,21 @@ pub fn spawn_or_update_notification(
                             layout: texture_atlas_layout.clone(),
                         },
                         Tooltip::cursor(get_mission_notification_tooltip_text(
-                            mission_notifications_number.0 + 1,
+                            mission_notifications_number as u8,
                         ))
-                        .with_activation(TooltipActivation::IMMEDIATE), // Display the current number in the tooltip
+                        .with_activation(TooltipActivation::IMMEDIATE),
                     ))
                     .insert(MissionNotificationTrigger)
                     .with_children(|parent| {
-                        parent.spawn((TextBundle::from_section(
-                            format!("x{}", mission_notifications_number.0 + 1),
+                        parent.spawn(TextBundle::from_section(
+                            format!("x{}", mission_notifications_number),
                             TextStyle {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 25.,
                                 color: ColorPaletteEnum::DarkBrown.as_color(),
                             },
-                        ),));
+                        ));
                     });
             });
-
-        info!(
-            "Spawned new toast with number: {}",
-            mission_notifications_number.0
-        );
-
-        // Increment the mission notification number for the next toast
-        mission_notifications_number.0 += 1;
     }
 }

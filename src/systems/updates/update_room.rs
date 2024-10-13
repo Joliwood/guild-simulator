@@ -1,14 +1,17 @@
 use crate::{
     enums::RoomEnum,
     structs::{
-        general_structs::{Missions, PlayerStats, SelectedRecruit},
+        general_structs::MissionReportsModalVisible,
+        missions::{MissionReports, Missions},
+        player_stats::PlayerStats,
+        recruits::SelectedRecruit,
         trigger_structs::ResetRoomTrigger,
     },
     ui::{
         interface::gold_counter::MyAssets,
         rooms::{
             barrack::barrack_room::spawn_room_barrack,
-            command_room::room_command_room::room_command_room, room_office::room_office,
+            command_room::room_command_room::room_command_room, office::room_office::room_office,
             room_store::room_store,
         },
     },
@@ -31,6 +34,8 @@ pub fn update_room(
     selected_recruit: Res<SelectedRecruit>,
     missions: Res<Missions>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    mission_reports: Res<MissionReports>,
+    mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
 ) {
     if player_stats.is_changed() || selected_recruit.is_changed() {
         // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed
@@ -41,7 +46,12 @@ pub fn update_room(
 
         // Spawn new room based on player_stats
         match player_stats.room {
-            RoomEnum::Office => room_office(&my_assets, &mut commands, &mut texture_atlas_layouts),
+            RoomEnum::Office => room_office(
+                &my_assets,
+                &mut commands,
+                &mission_reports,
+                mission_reports_modal_visibility,
+            ),
             RoomEnum::Barrack => spawn_room_barrack(
                 &my_assets,
                 &mut commands,

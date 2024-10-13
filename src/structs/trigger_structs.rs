@@ -16,7 +16,7 @@ pub struct SelectedMissionRecruitIdTrigger;
 pub struct SelectedMissionPercentOfVictoryTrigger;
 
 #[derive(Component)]
-pub struct ModalContentTrigger;
+pub struct MissionModalContentTrigger;
 
 #[derive(Component)]
 pub struct MissionNotificationTrigger;
@@ -26,3 +26,15 @@ pub struct NotificationToastTrigger;
 
 #[derive(Debug, Component)]
 pub struct SleepButtonTrigger;
+
+#[derive(Debug, Component)]
+pub struct MissionReport;
+
+#[derive(Component)]
+pub struct MissionReportModalContentTrigger;
+
+#[derive(Component)]
+pub struct MissionReportButtonTrigger;
+
+#[derive(Component)]
+pub struct MissionReportModalSignButtonTrigger;

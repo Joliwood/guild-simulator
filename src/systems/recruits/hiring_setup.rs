@@ -1,8 +1,10 @@
 use crate::{
     data::equipments::{armors::ArmorsEnum, weapons::WeaponsEnum},
     enums::{RecruitEnum, RecruitStateEnum},
-    structs::general_structs::{
-        load_armor, load_weapon, PlayerStats, RecruitInventory, RecruitStats,
+    structs::{
+        general_structs::{load_armor, load_weapon},
+        player_stats::PlayerStats,
+        recruits::{RecruitInventory, RecruitStats},
     },
     systems::recruits::hire_new_recruits::hire_new_recruits,
 };

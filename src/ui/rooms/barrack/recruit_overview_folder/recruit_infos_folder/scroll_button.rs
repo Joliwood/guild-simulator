@@ -1,7 +1,7 @@
 use crate::{
     structs::{
-        equipments::Item,
-        general_structs::{PlayerStats, SelectedRecruit, UniqueId},
+        equipments::Item, general_structs::UniqueId, player_stats::PlayerStats,
+        recruits::SelectedRecruit,
     },
     ui::interface::gold_counter::MyAssets,
     utils::{get_item_image_atlas_index, get_item_layout, get_item_tooltip_description},

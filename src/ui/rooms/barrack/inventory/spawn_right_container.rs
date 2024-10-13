@@ -1,7 +1,7 @@
 use super::spawn_inventory::spawn_inventory;
 use crate::{
     enums::ColorPaletteEnum,
-    structs::general_structs::{PlayerStats, UniqueId},
+    structs::{general_structs::UniqueId, player_stats::PlayerStats},
     ui::{
         interface::gold_counter::MyAssets, styles::buttons_styles::inventory_filter_button_style,
     },

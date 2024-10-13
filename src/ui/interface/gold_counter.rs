@@ -1,9 +1,9 @@
+#![allow(dead_code)]
 use crate::{
     enums::SoundEnum,
     structs::{
-        equipments::Item,
-        general_structs::{PlayerStats, UniqueId},
-        trigger_structs::{GoldCountTrigger, SleepButtonTrigger},
+        equipments::Item, general_structs::UniqueId, player_stats::PlayerStats,
+        trigger_structs::GoldCountTrigger,
     },
     systems::systems_constants::NORMAL_BUTTON,
     ui::{styles::containers_styles::basic_button_style, ui_constants::WOOD_COLOR},
@@ -50,8 +50,22 @@ pub struct MyAssets {
     pub recruit_infos: Handle<Image>,
 
     // --- Rooms > Office ---//
-    #[asset(path = "images/office.png")]
-    pub office: Handle<Image>,
+    #[asset(path = "images/rooms/office/office_room_background.png")]
+    pub office_background: Handle<Image>,
+    #[asset(path = "images/rooms/office/desk.png")]
+    pub desk: Handle<Image>,
+    #[asset(path = "images/rooms/office/mission_notification_document.png")]
+    pub mission_notification_document: Handle<Image>,
+    #[asset(path = "images/rooms/office/recap_guild_scroll.png")]
+    pub recap_guild_scroll: Handle<Image>,
+    #[asset(path = "images/rooms/office/talents_on_desk.png")]
+    pub talents_on_desk: Handle<Image>,
+    #[asset(path = "images/rooms/office/notification_token_in_wood.png")]
+    pub notification_token_in_wood: Handle<Image>,
+    #[asset(path = "images/rooms/office/set_of_keys.png")]
+    pub set_of_keys: Handle<Image>,
+    #[asset(path = "images/rooms/office/set_of_keys_container.png")]
+    pub set_of_keys_container: Handle<Image>,
 
     // --- Rooms > Command room --- //
     #[asset(path = "images/command_room.png")]
@@ -84,6 +98,10 @@ pub struct MyAssets {
     pub keys_removed_from_door: Handle<AudioSource>,
     #[asset(path = "sounds/paper_touch.ogg")]
     pub paper_touch: Handle<AudioSource>,
+    #[asset(path = "sounds/pencil_sign.ogg")]
+    pub pencil_sign: Handle<AudioSource>,
+    #[asset(path = "sounds/picking_golds.ogg")]
+    pub picking_golds: Handle<AudioSource>,
 }
 
 impl MyAssets {
@@ -97,7 +115,6 @@ impl MyAssets {
 
     pub fn load_sound(&self, sound_enum: SoundEnum) -> Handle<AudioSource> {
         return match sound_enum {
-            SoundEnum::SimpleHolidaysV3 => self.simple_holidays_v3.clone(),
             SoundEnum::BookThrowDown => self.book_throw_down.clone(),
             SoundEnum::CockrelMorning => self.cockrel_morning.clone(),
             SoundEnum::EquipArmor => self.equip_armor.clone(),
@@ -106,6 +123,9 @@ impl MyAssets {
             SoundEnum::EquipWeapon => self.equip_weapon.clone(),
             SoundEnum::KeysRemovedFromDoor => self.keys_removed_from_door.clone(),
             SoundEnum::PaperTouch => self.paper_touch.clone(),
+            SoundEnum::PencilSign => self.pencil_sign.clone(),
+            SoundEnum::PickingGolds => self.picking_golds.clone(),
+            SoundEnum::SimpleHolidaysV3 => self.simple_holidays_v3.clone(),
         };
     }
 }
@@ -198,33 +218,6 @@ pub fn gold_counter(
                 .with_children(|ui_container: &mut ChildBuilder| {
                     ui_container.spawn(TextBundle::from_section(
                         "Buy",
-                        TextStyle {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 20.0,
-                            color: Color::BLACK,
-                        },
-                    ));
-                });
-
-                // Sleep button
-                ui_container
-                .spawn(ButtonBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        justify_content: JustifyContent::Center,
-                        width: Val::Percent(100.0),
-                        ..default()
-                    },
-                    image: UiImage::default().with_color(NORMAL_BUTTON),
-                    ..default()
-                })
-                .insert((
-                    Name::new("Dev sleep button"),
-                    SleepButtonTrigger
-                ))
-                .with_children(|ui_container: &mut ChildBuilder| {
-                    ui_container.spawn(TextBundle::from_section(
-                        "Sleep",
                         TextStyle {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 20.0,

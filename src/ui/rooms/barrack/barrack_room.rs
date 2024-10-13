@@ -5,8 +5,7 @@ use super::{
 };
 use crate::{
     structs::{
-        general_structs::{PlayerStats, SelectedRecruit},
-        trigger_structs::ResetRoomTrigger,
+        player_stats::PlayerStats, recruits::SelectedRecruit, trigger_structs::ResetRoomTrigger,
     },
     ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
 };

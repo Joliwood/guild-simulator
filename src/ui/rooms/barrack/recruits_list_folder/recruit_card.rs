@@ -4,7 +4,7 @@ use super::{
 };
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
-    structs::general_structs::{PlayerStats, RecruitStats, UniqueId},
+    structs::{general_structs::UniqueId, player_stats::PlayerStats, recruits::RecruitStats},
     ui::{
         interface::gold_counter::MyAssets,
         rooms::barrack::recruits_list_folder::{
@@ -51,7 +51,9 @@ pub fn recruit_card(
         .insert((UniqueId("recruit_button".to_string()), recruit.clone()))
         .with_children(|parent| {
             // Add an overlay if the recruit is in a mission
-            if recruit.state == RecruitStateEnum::InMission {
+            if recruit.state == RecruitStateEnum::InMission
+                || recruit.state == RecruitStateEnum::WaitingReportSignature
+            {
                 parent
                     .spawn(NodeBundle {
                         style: Style {
@@ -62,7 +64,12 @@ pub fn recruit_card(
                             height: Val::Percent(100.0),
                             align_items: AlignItems::Center,
                             justify_content: JustifyContent::Center,
-
+                            padding: UiRect {
+                                top: Val::ZERO,
+                                bottom: Val::ZERO,
+                                left: Val::Percent(25.),
+                                right: Val::Percent(25.),
+                            },
                             ..default()
                         },
                         z_index: ZIndex::Global(1),
@@ -73,7 +80,7 @@ pub fn recruit_card(
                     .with_children(|overlay| {
                         overlay.spawn(TextBundle {
                             text: Text::from_section(
-                                "In Mission",
+                                recruit.state.get_description(),
                                 TextStyle {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 20.0,

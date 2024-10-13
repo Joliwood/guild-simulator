@@ -1,7 +1,4 @@
 pub mod barrack;
-pub mod command_room {
-    pub mod room_command_room;
-}
-pub mod room_office;
-pub mod room_setup;
+pub mod command_room;
+pub mod office;
 pub mod room_store;
