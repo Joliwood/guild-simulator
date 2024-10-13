@@ -34,7 +34,7 @@ pub fn update_room(
     selected_recruit: Res<SelectedRecruit>,
     missions: Res<Missions>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
-    mission_reports: ResMut<MissionReports>,
+    mission_reports: Res<MissionReports>,
     mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
 ) {
     if player_stats.is_changed() || selected_recruit.is_changed() {
@@ -49,7 +49,7 @@ pub fn update_room(
             RoomEnum::Office => room_office(
                 &my_assets,
                 &mut commands,
-                mission_reports,
+                &mission_reports,
                 mission_reports_modal_visibility,
             ),
             RoomEnum::Barrack => spawn_room_barrack(

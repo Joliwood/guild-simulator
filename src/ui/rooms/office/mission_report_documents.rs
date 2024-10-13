@@ -6,7 +6,7 @@ use bevy::prelude::*;
 pub fn mission_report_documents(
     my_assets: &Res<MyAssets>,
     elements_on_desk: &mut ChildBuilder,
-    mission_reports: ResMut<MissionReports>,
+    mission_reports: &Res<MissionReports>,
 ) {
     let mission_reports_number = mission_reports.0.len();
 

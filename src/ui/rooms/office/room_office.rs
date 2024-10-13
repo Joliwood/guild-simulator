@@ -12,7 +12,7 @@ use bevy::prelude::*;
 pub fn room_office(
     my_assets: &Res<MyAssets>,
     commands: &mut Commands,
-    mission_reports: ResMut<MissionReports>,
+    mission_reports: &Res<MissionReports>,
     _mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
 ) {
     commands
@@ -58,7 +58,7 @@ pub fn room_office(
                             // TODO - Futur features, not necessary for V0
                             // recap_guild_scroll(&asset_server, elements_on_desk);
                             // talents_on_desk(&asset_server, elements_on_desk);
-                            set_of_keys(my_assets, elements_on_desk);
+                            set_of_keys(my_assets, elements_on_desk, mission_reports);
                         });
                 });
         });
