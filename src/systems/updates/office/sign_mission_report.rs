@@ -56,6 +56,10 @@ pub fn sign_mission_report(
                 mission_reports.remove_mission_report_by_id(mission_report.mission_id);
 
                 mission_reports_modal_visibility.0 = false;
+
+                if !mission_reports.0.is_empty() {
+                    mission_reports_modal_visibility.0 = true;
+                }
             }
             Interaction::Hovered => {
                 window.cursor.icon = CursorIcon::Pointer;
