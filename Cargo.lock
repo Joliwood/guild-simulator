@@ -2085,7 +2085,7 @@ checksum = "be136d9dacc2a13cc70bb6c8f902b414fb2641f8db1314637c6b7933411a8f82"
 
 [[package]]
 name = "guild_simulator"
-version = "0.0.1"
+version = "0.0.3"
 dependencies = [
  "bevy",
  "bevy-settings",
