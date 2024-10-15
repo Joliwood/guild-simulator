@@ -68,8 +68,12 @@ pub struct MyAssets {
     pub set_of_keys_container: Handle<Image>,
 
     // --- Rooms > Command room --- //
-    #[asset(path = "images/command_room.png")]
-    pub command_room: Handle<Image>,
+    #[asset(path = "images/rooms/command_room/command_room_background.png")]
+    pub command_room_background: Handle<Image>,
+    #[asset(path = "images/rooms/command_room/command_table.png")]
+    pub command_table: Handle<Image>,
+    #[asset(path = "images/rooms/command_room/wood_box_container.png")]
+    pub wood_box_container: Handle<Image>,
 
     // --- Rooms > Store --- //
     #[asset(path = "images/store.png")]
