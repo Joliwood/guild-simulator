@@ -2,6 +2,7 @@ use crate::{
     enums::RoomEnum,
     structs::{
         general_structs::MissionReportsModalVisible,
+        maps::Maps,
         missions::{MissionReports, Missions},
         player_stats::PlayerStats,
         recruits::SelectedRecruit,
@@ -36,6 +37,7 @@ pub fn update_room(
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     mission_reports: Res<MissionReports>,
     mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
+    maps: Res<Maps>,
 ) {
     if player_stats.is_changed() || selected_recruit.is_changed() {
         // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed
@@ -60,7 +62,7 @@ pub fn update_room(
                 &mut texture_atlas_layouts,
             ),
             RoomEnum::Store => room_store(&my_assets, &mut commands),
-            RoomEnum::CommandRoom => room_command_room(&my_assets, &mut commands, missions),
+            RoomEnum::CommandRoom => room_command_room(&my_assets, &mut commands, missions, maps),
         }
     }
 }

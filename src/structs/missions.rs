@@ -9,7 +9,7 @@ pub struct MissionReports(pub Vec<MissionReport>);
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct MissionReport {
     pub recruit_id: Uuid,
-    pub mission_id: Uuid,
+    pub mission_id: u16,
     pub success: bool,
     pub experience_gained: Option<u32>,
     pub golds_gained: Option<i32>,
@@ -28,7 +28,7 @@ impl MissionReports {
         None
     }
 
-    pub fn remove_mission_report_by_id(&mut self, mission_id: Uuid) {
+    pub fn remove_mission_report_by_id(&mut self, mission_id: u16) {
         if let Some(index) = self
             .0
             .iter()
@@ -60,59 +60,63 @@ impl SelectedMission {
 pub struct Missions(pub Vec<Mission>);
 
 impl Missions {
-    pub fn get_mission_by_id(&self, id: Uuid) -> Option<Mission> {
+    pub fn get_mission_by_id(&self, id: u16) -> Option<Mission> {
         if let Some(mission) = self.0.iter().find(|mission| mission.id == id) {
             return Some(mission.clone());
         }
         None
     }
 
-    pub fn assign_recruit_id_to_mission(&mut self, mission_id: Uuid, recruit_id: Uuid) {
+    pub fn get_mission_by_name(&self, name: &str) -> Option<Mission> {
+        return self.0.iter().find(|mission| mission.name == name).cloned();
+    }
+
+    pub fn assign_recruit_id_to_mission(&mut self, mission_id: u16, recruit_id: Uuid) {
         if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
             mission.assign_recruit_by_id(recruit_id);
         }
     }
 
-    pub fn decrement_days_left_by_mission_id(&mut self, mission_id: Uuid) {
+    pub fn decrement_days_left_by_mission_id(&mut self, mission_id: u16) {
         if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
             mission.decrement_days_left();
         }
     }
 
-    pub fn attribute_days_left_to_mission(&mut self, mission_id: Uuid) {
+    pub fn attribute_days_left_to_mission(&mut self, mission_id: u16) {
         if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
             mission.attribute_days_left();
         }
     }
 
-    pub fn is_mission_over(&self, mission_id: Uuid) -> bool {
+    pub fn is_mission_over(&self, mission_id: u16) -> bool {
         if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
             return mission.days_left.is_none();
         }
         false
     }
 
-    pub fn get_recruit_send_id_by_mission_id(&self, mission_id: Uuid) -> Option<Uuid> {
+    pub fn get_recruit_send_id_by_mission_id(&self, mission_id: u16) -> Option<Uuid> {
         if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
             return mission.recruit_send;
         }
         None
     }
 
-    pub fn desassign_recruit_to_mission(&mut self, mission_id: Uuid) {
+    pub fn desassign_recruit_to_mission(&mut self, mission_id: u16) {
         if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
             mission.desassign_recruit();
         }
     }
 
-    pub fn get_mission_enemmy_level_by_id(&self, mission_id: Uuid) -> Option<u8> {
+    pub fn get_mission_enemmy_level_by_id(&self, mission_id: u16) -> Option<u8> {
         if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
             return Some(mission.ennemy.level);
         }
         None
     }
 
-    pub fn get_percent_of_victory_by_mission_id(&self, mission_id: Uuid) -> Option<u32> {
+    pub fn get_percent_of_victory_by_mission_id(&self, mission_id: u16) -> Option<u32> {
         if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
             return mission.percent_of_victory;
         }
@@ -121,7 +125,7 @@ impl Missions {
 
     pub fn attribute_percent_of_victory_to_mission(
         &mut self,
-        mission_id: Uuid,
+        mission_id: u16,
         percent_of_victory: u32,
     ) {
         if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
@@ -135,7 +139,7 @@ pub struct Mission {
     pub days_left: Option<u8>,
     pub days: u8,
     pub ennemy: Ennemy,
-    pub id: Uuid,
+    pub id: u16,
     pub level: u8,
     pub name: String,
     pub percent_of_victory: Option<u32>,
@@ -173,7 +177,7 @@ impl Default for Missions {
             Mission {
                 days_left: None,
                 days: 1,
-                id: Uuid::new_v4(),
+                id: 1,
                 level: 1,
                 name: "Mission 1".to_string(),
                 percent_of_victory: None,
@@ -191,7 +195,7 @@ impl Default for Missions {
             Mission {
                 days_left: None,
                 days: 1,
-                id: Uuid::new_v4(),
+                id: 2,
                 level: 2,
                 name: "Mission 2".to_string(),
                 percent_of_victory: None,
@@ -209,7 +213,7 @@ impl Default for Missions {
             Mission {
                 days_left: Some(1),
                 days: 2,
-                id: Uuid::new_v4(),
+                id: 3,
                 level: 3,
                 name: "Mission 3".to_string(),
                 percent_of_victory: None,

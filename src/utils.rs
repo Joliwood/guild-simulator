@@ -410,7 +410,7 @@ pub fn equip_recruit_inventory(
 
 pub fn finish_mission(
     player_stats: &mut ResMut<PlayerStats>,
-    mission_id: Uuid,
+    mission_id: u16,
     missions: &mut Missions,
     percent_of_victory: f32,
     mission_reports: &mut ResMut<MissionReports>,
