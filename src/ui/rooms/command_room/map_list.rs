@@ -8,20 +8,20 @@ pub fn map_list(parent: &mut ChildBuilder, my_assets: &Res<MyAssets>, maps: &Res
     // Create a vertical container for the map list
     parent
         .spawn(ImageBundle {
-            image: my_assets.wood_box_container.clone().into(),
+            image: my_assets.inventory_container.clone().into(),
             style: Style {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,
                 justify_content: JustifyContent::FlexStart,
-                row_gap: Val::Px(10.0),
+                row_gap: Val::Px(5.0),
                 align_items: AlignItems::Center,
                 width: Val::Percent(100.),
                 height: Val::Percent(40.),
                 padding: UiRect {
-                    left: Val::Px(30.0),
-                    right: Val::Px(30.0),
-                    top: Val::Px(15.0),
-                    bottom: Val::Px(15.0),
+                    left: Val::Px(30.),
+                    right: Val::Px(30.),
+                    top: Val::Px(20.),
+                    bottom: Val::Px(20.),
                 },
                 ..default()
             },
@@ -37,7 +37,7 @@ pub fn map_list(parent: &mut ChildBuilder, my_assets: &Res<MyAssets>, maps: &Res
                             justify_content: JustifyContent::Center,
                             align_items: AlignItems::Center,
                             width: Val::Percent(100.),
-                            height: Val::Px(50.0),
+                            height: Val::Px(40.0),
                             // margin: UiRect::all(Val::Px(5.0)), // Space between map entries
                             ..Default::default()
                         },

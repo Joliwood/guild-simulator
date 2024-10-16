@@ -132,3 +132,10 @@ impl RecruitStateEnum {
         }
     }
 }
+
+#[derive(Debug, Clone)]
+pub enum MapImageEnum {
+    CampagnTuto,
+    // Campaign1,
+    // Campaign2,
+}

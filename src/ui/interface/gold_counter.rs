@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 use crate::{
-    enums::SoundEnum,
+    enums::{MapImageEnum, SoundEnum},
     structs::{
         equipments::Item, general_structs::UniqueId, player_stats::PlayerStats,
         trigger_structs::GoldCountTrigger,
@@ -106,6 +106,10 @@ pub struct MyAssets {
     pub pencil_sign: Handle<AudioSource>,
     #[asset(path = "sounds/picking_golds.ogg")]
     pub picking_golds: Handle<AudioSource>,
+
+    // --- Maps --- //
+    #[asset(path = "images/maps/map_tuto.png")]
+    pub map_tuto: Handle<Image>,
 }
 
 impl MyAssets {
@@ -130,6 +134,12 @@ impl MyAssets {
             SoundEnum::PencilSign => self.pencil_sign.clone(),
             SoundEnum::PickingGolds => self.picking_golds.clone(),
             SoundEnum::SimpleHolidaysV3 => self.simple_holidays_v3.clone(),
+        };
+    }
+
+    pub fn get_image_map(&self, map_enum: MapImageEnum) -> Handle<Image> {
+        return match map_enum {
+            MapImageEnum::CampagnTuto => self.map_tuto.clone(),
         };
     }
 }

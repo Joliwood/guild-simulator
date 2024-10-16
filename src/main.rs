@@ -21,7 +21,7 @@ use structs::{
     general_structs::{
         MissionModalVisible, MissionNotificationsNumber, MissionReportsModalVisible,
     },
-    maps::Maps,
+    maps::{Maps, SelectedMapId},
     missions::{MissionReports, Missions, SelectedMission},
     player_stats::PlayerStats,
     recruits::SelectedRecruit,
@@ -58,6 +58,7 @@ fn main() -> AppExit {
         .insert_resource(Missions::default())
         .insert_resource(SelectedRecruit::default())
         .insert_resource(SelectedMission::default())
+        .insert_resource(SelectedMapId::default())
         .insert_resource(MissionModalVisible(false))
         .insert_resource(MissionReportsModalVisible(false))
         .insert_resource(MissionNotificationsNumber(0))

@@ -1,22 +1,27 @@
+use super::{
+    map_description::map_description, map_list::map_list, map_on_table::map_on_table,
+    start_mission::start_mission,
+};
 use crate::{
-    custom_components::CustomButton,
-    enums::ColorPaletteEnum,
     structs::{
-        general_structs::UniqueId, maps::Maps, missions::Missions,
+        maps::{Maps, SelectedMapId},
+        missions::{Missions, SelectedMission},
         trigger_structs::ResetRoomTrigger,
     },
     ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
 };
 use bevy::prelude::*;
 
-use super::{map_list::map_list, map_on_table::map_on_table};
-
 pub fn room_command_room(
     my_assets: &Res<MyAssets>,
     commands: &mut Commands,
     missions: Res<Missions>,
+    mut selected_map_id: Res<SelectedMapId>,
     maps: Res<Maps>,
+    mut selected_mission: ResMut<SelectedMission>,
 ) {
+    let selected_map = maps.get_map_by_optional_id(selected_map_id.0);
+
     commands
         .spawn(NodeBundle {
             style: node_container_style(),
@@ -81,9 +86,10 @@ pub fn room_command_room(
                             map_list(left_column, &my_assets, &maps);
 
                             // Map description
-                            map_list(left_column, &my_assets, &maps);
+                            map_description(left_column, my_assets, &selected_map);
 
                             // Map objectives ?? Not sure for this feature
+                            map_list(left_column, &my_assets, &maps);
                         });
 
                     // Center Area (Big node)
@@ -100,7 +106,7 @@ pub fn room_command_room(
                         })
                         .with_children(|center| {
                             // External function for the center area
-                            map_on_table(center, my_assets);
+                            map_on_table(center, my_assets, &selected_map);
                         });
 
                     // Right Column
@@ -116,14 +122,20 @@ pub fn room_command_room(
                             },
                             ..default()
                         })
-                        .with_children(|left_column| {
+                        .with_children(|right_column| {
                             // Description of the selected mission + loots
-                            map_list(left_column, &my_assets, &maps);
+                            map_list(right_column, &my_assets, &maps);
 
                             // Change of victory + button to start it
-                            map_list(left_column, &my_assets, &maps);
+                            start_mission(
+                                right_column,
+                                my_assets,
+                                &selected_map,
+                                &mut selected_mission,
+                            );
 
                             // Selected recruit
+                            map_list(right_column, &my_assets, &maps);
                         });
                 });
         });
