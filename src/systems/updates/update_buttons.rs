@@ -220,27 +220,31 @@ pub fn assign_recruit_to_mission(
 
                     selected_mission.recruit_id = Some(recruit_id);
 
-                    let recruit_selected = player_stats
-                        .recruits
-                        .iter()
-                        .find(|recruit| recruit.id == recruit_id);
+                    // ! WIP to check after missions refacto
+                    // let recruit_selected = player_stats
+                    //     .recruits
+                    //     .iter()
+                    //     .find(|recruit| recruit.id == recruit_id);
 
-                    if recruit_selected.is_none() {
-                        return;
-                    }
+                    // if recruit_selected.is_none() {
+                    //     return;
+                    // }
 
-                    let recruit_global_points = recruit_selected.unwrap().get_total_merged_stats();
+                    // let recruit_global_points = recruit_selected.unwrap().get_total_merged_stats();
 
-                    let ennemy = &selected_mission.mission.as_ref().unwrap().ennemy;
-                    let ennemy_global_points =
-                        get_global_points(ennemy.strength, ennemy.endurance, ennemy.intelligence);
+                    // let ennemy = &selected_mission.mission.as_ref().unwrap().ennemy;
+                    // let ennemy_global_points =
+                    //     get_global_points(ennemy.strength, ennemy.endurance, ennemy.intelligence);
 
-                    let victory_percentage =
-                        get_victory_percentage(recruit_global_points as u16, ennemy_global_points);
+                    // let victory_percentage =
+                    //     get_victory_percentage(recruit_global_points as u16, ennemy_global_points);
 
-                    let victory_percentage_rounded: u32 = victory_percentage.round() as u32;
+                    // let victory_percentage_rounded: u32 = victory_percentage.round() as u32;
 
-                    selected_mission.percent_of_victory = Some(victory_percentage_rounded);
+                    // selected_mission.percent_of_victory = Some(victory_percentage_rounded);
+
+                    selected_mission.calculate_percent_of_victory(&player_stats);
+                    let victory_percentage_rounded = selected_mission.percent_of_victory.unwrap();
 
                     let mission = selected_mission.mission.as_ref();
                     if mission.is_none() {

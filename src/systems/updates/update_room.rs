@@ -71,6 +71,8 @@ pub fn update_room(
                 selected_map_id,
                 maps,
                 selected_mission,
+                &player_stats,
+                &mut texture_atlas_layouts,
             ),
         }
     }

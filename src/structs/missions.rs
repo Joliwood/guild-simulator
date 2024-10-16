@@ -1,7 +1,12 @@
 use bevy::prelude::*;
 use uuid::Uuid;
 
-use super::general_structs::Ennemy;
+use crate::utils::{get_global_points, get_victory_percentage};
+
+use super::{
+    general_structs::Ennemy,
+    player_stats::{self, PlayerStats},
+};
 
 #[derive(Default, Debug, Component, Resource)]
 pub struct MissionReports(pub Vec<MissionReport>);
@@ -53,6 +58,30 @@ impl SelectedMission {
         }
 
         None
+    }
+
+    pub fn calculate_percent_of_victory(&mut self, player_stats: &Res<PlayerStats>) {
+        if self.mission.is_none() {
+            return;
+        }
+
+        let ennemy = self.mission.as_ref().unwrap().ennemy.clone();
+        let ennemy_global_points =
+            get_global_points(ennemy.strength, ennemy.endurance, ennemy.intelligence);
+
+        let recruit_id = self.mission.as_ref().unwrap().recruit_send.unwrap();
+        let recruit = player_stats.get_recruit_by_id(recruit_id).unwrap();
+        let recruit_global_points = recruit.get_total_merged_stats();
+
+        let victory_percentage =
+            get_victory_percentage(recruit_global_points as u16, ennemy_global_points) as u32;
+
+        self.percent_of_victory = Some(victory_percentage);
+
+        // let recruit = self.percent_of_victory = Some(get_victory_percentage(
+        //     recruit_global_points,
+        //     ennemy_global_points,
+        // ));
     }
 }
 

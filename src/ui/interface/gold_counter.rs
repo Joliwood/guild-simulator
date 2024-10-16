@@ -16,6 +16,8 @@ pub struct MyAssets {
     // --- Recruits --- //
     #[asset(path = "images/recruits/recruit_picture_atlas.png")]
     pub recruit_picture_atlas: Handle<Image>,
+    // #[asset(path = "images/recruits/recruit_card_win_percent.png")]
+    // pub recruit_card_win_percent: Handle<Image>,
 
     // --- Equipments --- //
     #[asset(path = "images/equipments/empty_inventory_slot.png")]

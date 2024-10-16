@@ -1,17 +1,20 @@
 use super::{
     map_description::map_description, map_list::map_list, map_on_table::map_on_table,
-    start_mission::start_mission,
+    map_recruit_list::map_recruit_list, start_mission::start_mission,
 };
 use crate::{
     structs::{
         maps::{Maps, SelectedMapId},
         missions::{Missions, SelectedMission},
+        player_stats::PlayerStats,
+        recruits::SelectedRecruit,
         trigger_structs::ResetRoomTrigger,
     },
     ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
 };
 use bevy::prelude::*;
 
+#[allow(clippy::too_many_arguments)]
 pub fn room_command_room(
     my_assets: &Res<MyAssets>,
     commands: &mut Commands,
@@ -19,6 +22,8 @@ pub fn room_command_room(
     mut selected_map_id: Res<SelectedMapId>,
     maps: Res<Maps>,
     mut selected_mission: ResMut<SelectedMission>,
+    player_stats: &Res<PlayerStats>,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let selected_map = maps.get_map_by_optional_id(selected_map_id.0);
 
@@ -88,8 +93,13 @@ pub fn room_command_room(
                             // Map description
                             map_description(left_column, my_assets, &selected_map);
 
-                            // Map objectives ?? Not sure for this feature
-                            map_list(left_column, &my_assets, &maps);
+                            map_recruit_list(
+                                left_column,
+                                my_assets,
+                                &player_stats,
+                                texture_atlas_layouts,
+                                &mut selected_mission,
+                            );
                         });
 
                     // Center Area (Big node)

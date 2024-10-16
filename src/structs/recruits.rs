@@ -205,4 +205,16 @@ impl RecruitStats {
             + self.intelligence as u32
             + self.get_additional_intelligence_from_items();
     }
+
+    pub fn get_total_strength(&self) -> u32 {
+        return self.strength as u32 + self.get_additional_strength_from_items();
+    }
+
+    pub fn get_total_endurance(&self) -> u32 {
+        return self.endurance as u32 + self.get_additional_endurance_from_items();
+    }
+
+    pub fn get_total_intelligence(&self) -> u32 {
+        return self.intelligence as u32 + self.get_additional_intelligence_from_items();
+    }
 }
