@@ -26,6 +26,13 @@ impl MissionReports {
         self.0.push(report);
     }
 
+    pub fn get_mission_report_by_id(&self, mission_id: u16) -> Option<MissionReport> {
+        if let Some(report) = self.0.iter().find(|report| report.mission_id == mission_id) {
+            return Some(report.clone());
+        }
+        None
+    }
+
     pub fn get_last_mission_report(&self) -> Option<MissionReport> {
         if let Some(report) = self.0.last() {
             return Some(report.clone());
@@ -69,7 +76,7 @@ impl SelectedMission {
         let ennemy_global_points =
             get_global_points(ennemy.strength, ennemy.endurance, ennemy.intelligence);
 
-        let recruit_id = self.mission.as_ref().unwrap().recruit_send.unwrap();
+        let recruit_id = self.recruit_id.unwrap();
         let recruit = player_stats.get_recruit_by_id(recruit_id).unwrap();
         let recruit_global_points = recruit.get_total_merged_stats();
 
@@ -185,6 +192,7 @@ pub struct Mission {
     pub name: String,
     pub percent_of_victory: Option<u32>,
     pub recruit_send: Option<Uuid>,
+    pub unlocked: bool,
 }
 
 impl Mission {
@@ -232,6 +240,7 @@ impl Default for Missions {
                     name: "Ennemy 1".to_string(),
                     strength: 10,
                 },
+                unlocked: true,
             },
             Mission {
                 days_left: None,
@@ -250,6 +259,7 @@ impl Default for Missions {
                     name: "Ennemy 2".to_string(),
                     strength: 15,
                 },
+                unlocked: true,
             },
             Mission {
                 days_left: Some(1),
@@ -268,6 +278,7 @@ impl Default for Missions {
                     name: "Ennemy 3".to_string(),
                     strength: 20,
                 },
+                unlocked: false,
             },
         ])
     }

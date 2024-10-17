@@ -1,13 +1,13 @@
 use crate::{
-    structs::recruits::SelectedRecruit, ui::interface::gold_counter::MyAssets,
-    utils::get_selected_recruit,
+    structs::recruits::SelectedRecruitForEquipment, ui::interface::gold_counter::MyAssets,
+    utils::get_selected_recruit_for_equipment,
 };
 use bevy::prelude::*;
 
 pub fn recruit_frame(
     parent: &mut ChildBuilder,
     my_assets: &Res<MyAssets>,
-    selected_recruit: &Res<SelectedRecruit>,
+    selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let recruit_layout = TextureAtlasLayout::from_grid(
@@ -19,7 +19,7 @@ pub fn recruit_frame(
     );
     let recruit_texture_atlas_layout: Handle<TextureAtlasLayout> =
         texture_atlas_layouts.add(recruit_layout);
-    let selected_recruit_data = get_selected_recruit(selected_recruit);
+    let selected_recruit_for_equipment_data = get_selected_recruit_for_equipment(selected_recruit_for_equipment);
 
     parent
         .spawn(ImageBundle {
@@ -36,7 +36,7 @@ pub fn recruit_frame(
         .with_children(|parent| {
             parent.spawn(TextBundle {
                 text: Text::from_section(
-                    selected_recruit_data.name.to_string(),
+                    selected_recruit_for_equipment_data.name.to_string(),
                     TextStyle {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 20.0,
@@ -70,7 +70,7 @@ pub fn recruit_frame(
                     ..default()
                 },
                 TextureAtlas {
-                    index: selected_recruit_data.image_atlas_index.into(),
+                    index: selected_recruit_for_equipment_data.image_atlas_index.into(),
                     layout: recruit_texture_atlas_layout.clone(),
                 },
             ));

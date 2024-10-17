@@ -32,12 +32,12 @@ pub fn map_recruit_list(
                 row_gap: Val::Px(5.0),
                 align_items: AlignItems::Center,
                 width: Val::Percent(100.),
-                height: Val::Percent(40.),
+                height: Val::Percent(100.),
                 padding: UiRect {
                     left: Val::Px(6.),
                     right: Val::Px(6.),
-                    top: Val::Px(4.),
-                    bottom: Val::Px(4.),
+                    top: Val::Px(10.),
+                    bottom: Val::Px(10.),
                 },
                 ..default()
             },

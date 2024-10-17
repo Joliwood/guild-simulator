@@ -5,7 +5,7 @@ use crate::{
         maps::{Maps, SelectedMapId},
         missions::{MissionReports, Missions, SelectedMission},
         player_stats::PlayerStats,
-        recruits::SelectedRecruit,
+        recruits::SelectedRecruitForEquipment,
         trigger_structs::ResetRoomTrigger,
     },
     ui::{
@@ -32,7 +32,7 @@ pub fn update_room(
     player_stats: Res<PlayerStats>,
     mut commands: Commands,
     query: Query<Entity, With<ResetRoomTrigger>>,
-    selected_recruit: Res<SelectedRecruit>,
+    selected_recruit_for_equipment: Res<SelectedRecruitForEquipment>,
     missions: Res<Missions>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     mission_reports: Res<MissionReports>,
@@ -41,10 +41,10 @@ pub fn update_room(
     selected_map_id: Res<SelectedMapId>,
     mut selected_mission: ResMut<SelectedMission>,
 ) {
-    if player_stats.is_changed() || selected_recruit.is_changed() {
+    if player_stats.is_changed() || selected_recruit_for_equipment.is_changed() {
         // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed
         for entity in query.iter() {
-            info!("PlayerStats or SelectedRecruit has changed");
+            info!("PlayerStats or SelectedRecruitForEquipment has changed");
             commands.entity(entity).despawn_recursive();
         }
 
@@ -60,7 +60,7 @@ pub fn update_room(
                 &my_assets,
                 &mut commands,
                 &player_stats,
-                &selected_recruit,
+                &selected_recruit_for_equipment,
                 &mut texture_atlas_layouts,
             ),
             RoomEnum::Store => room_store(&my_assets, &mut commands),

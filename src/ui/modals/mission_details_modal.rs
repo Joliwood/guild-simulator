@@ -9,10 +9,7 @@ use crate::{
         player_stats::PlayerStats,
         trigger_structs::MissionModalContentTrigger,
     },
-    ui::{
-        interface::gold_counter::MyAssets,
-        styles::containers_styles::mission_details_modal_container, ui_constants::WOOD_COLOR,
-    },
+    ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
 };
 use bevy::prelude::*;
 

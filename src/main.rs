@@ -24,7 +24,7 @@ use structs::{
     maps::{Maps, SelectedMapId},
     missions::{MissionReports, Missions, SelectedMission},
     player_stats::PlayerStats,
-    recruits::SelectedRecruit,
+    recruits::SelectedRecruitForEquipment,
 };
 use ui::interface::gold_counter::MyAssets;
 
@@ -56,7 +56,7 @@ fn main() -> AppExit {
         .insert_resource(PlayerStats::default())
         .insert_resource(MissionReports::default())
         .insert_resource(Missions::default())
-        .insert_resource(SelectedRecruit::default())
+        .insert_resource(SelectedRecruitForEquipment::default())
         .insert_resource(SelectedMission::default())
         .insert_resource(SelectedMapId::default())
         .insert_resource(MissionModalVisible(false))
@@ -100,10 +100,11 @@ fn main() -> AppExit {
                 systems::updates::update_buttons::close_mission_modal,
                 systems::updates::update_buttons::start_mission_button,
                 systems::updates::update_buttons::select_item_in_inventory,
-                systems::updates::command_room::update_selected_recruit::update_selected_mission_recruit_id,
-                systems::updates::command_room::update_selected_recruit::update_update_selected_mission_percentage_of_victory,
+                systems::updates::command_room::update_selected_recruit_for_equipment::update_selected_mission_recruit_id,
+                systems::updates::command_room::update_selected_recruit_for_equipment::update_update_selected_mission_percentage_of_victory,
                 systems::updates::interfaces::delete_notifications_on_click::delete_notifications_on_click,
-                ui::modals::mission_details_modal::display_mission_modal,
+                // ui::modals::mission_details_modal::display_mission_modal,
+                ui::modals::mission_order_modal_folder::mission_order_modal::mission_order_modal,
                 ui::modals::mission_report_modal_folder::mission_report_modal::mission_report_modal,
             ),
         )

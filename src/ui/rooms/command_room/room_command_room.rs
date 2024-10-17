@@ -7,7 +7,7 @@ use crate::{
         maps::{Maps, SelectedMapId},
         missions::{Missions, SelectedMission},
         player_stats::PlayerStats,
-        recruits::SelectedRecruit,
+        recruits::SelectedRecruitForEquipment,
         trigger_structs::ResetRoomTrigger,
     },
     ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
@@ -88,18 +88,8 @@ pub fn room_command_room(
                             ..default()
                         })
                         .with_children(|left_column| {
-                            map_list(left_column, &my_assets, &maps);
-
-                            // Map description
+                            map_list(left_column, my_assets, &maps);
                             map_description(left_column, my_assets, &selected_map);
-
-                            map_recruit_list(
-                                left_column,
-                                my_assets,
-                                &player_stats,
-                                texture_atlas_layouts,
-                                &mut selected_mission,
-                            );
                         });
 
                     // Center Area (Big node)
@@ -133,19 +123,13 @@ pub fn room_command_room(
                             ..default()
                         })
                         .with_children(|right_column| {
-                            // Description of the selected mission + loots
-                            map_list(right_column, &my_assets, &maps);
-
-                            // Change of victory + button to start it
-                            start_mission(
+                            map_recruit_list(
                                 right_column,
                                 my_assets,
-                                &selected_map,
+                                player_stats,
+                                texture_atlas_layouts,
                                 &mut selected_mission,
                             );
-
-                            // Selected recruit
-                            map_list(right_column, &my_assets, &maps);
                         });
                 });
         });

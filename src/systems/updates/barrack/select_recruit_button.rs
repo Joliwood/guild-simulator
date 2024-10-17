@@ -2,7 +2,7 @@ use crate::{
     enums::RecruitStateEnum,
     structs::{
         general_structs::UniqueId,
-        recruits::{RecruitStats, SelectedRecruit},
+        recruits::{RecruitStats, SelectedRecruitForEquipment},
     },
     systems::systems_constants::HOVERED_BUTTON,
     ui::ui_constants::WOOD_COLOR,
@@ -16,7 +16,7 @@ pub fn select_recruit_button(
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
-    mut selected_recruit: ResMut<SelectedRecruit>,
+    mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
 ) {
     let mut window = windows.single_mut();
 
@@ -28,7 +28,7 @@ pub fn select_recruit_button(
         {
             match *interaction {
                 Interaction::Pressed => {
-                    selected_recruit.0 = Some(recruit.clone());
+                    selected_recruit_for_equipment.0 = Some(recruit.clone());
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;

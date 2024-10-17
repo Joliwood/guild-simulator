@@ -43,35 +43,18 @@ pub fn map_on_table(
                         ..default()
                     })
                     .with_children(|map| {
-                        //     map.spawn(TextBundle {
-                        //         text: Text::from_section(
-                        //             "Center Area Content",
-                        //             TextStyle {
-                        //                 font: my_assets.fira_sans_bold.clone(),
-                        //                 font_size: 32.0,
-                        //                 color: Color::WHITE,
-                        //             },
-                        //         ),
-                        //         ..default()
-                        //     });
-                        // });
-
                         // Generate buttons for each mission
-                        for (index, mission) in missions.iter().enumerate() {
+                        for mission in missions.iter().filter(|mission| mission.unlocked) {
                             if mission.recruit_send.is_none() {
                                 map.spawn(CustomButton::Primary.bundle(my_assets))
-                                    .insert(UniqueId(format!(
-                                        "select_mission_button_{}",
-                                        mission.id
-                                    )))
+                                    .insert(UniqueId("select_mission_button".to_string()))
                                     .insert(mission.clone())
                                     .with_children(|button| {
                                         button.spawn(TextBundle {
                                             text: Text::from_section(
                                                 format!(
                                                     "Mission {}: Level {}",
-                                                    index + 1,
-                                                    mission.level
+                                                    mission.name, mission.level
                                                 ),
                                                 TextStyle {
                                                     font: my_assets.fira_sans_bold.clone(),
@@ -89,8 +72,7 @@ pub fn map_on_table(
                                             text: Text::from_section(
                                                 format!(
                                                     "Mission {}: Level {}",
-                                                    index + 1,
-                                                    mission.level
+                                                    mission.name, mission.level
                                                 ),
                                                 TextStyle {
                                                     font: my_assets.fira_sans_bold.clone(),

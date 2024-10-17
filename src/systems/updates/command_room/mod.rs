@@ -1,2 +1,2 @@
 pub mod select_mission_button;
-pub mod update_selected_recruit;
+pub mod update_selected_recruit_for_equipment;

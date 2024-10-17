@@ -16,7 +16,7 @@ pub fn map_description(
                 row_gap: Val::Px(5.0),
                 align_items: AlignItems::Center,
                 width: Val::Percent(100.),
-                height: Val::Percent(20.),
+                height: Val::Percent(60.),
                 padding: UiRect {
                     left: Val::Px(30.),
                     right: Val::Px(30.),

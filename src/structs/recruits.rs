@@ -20,9 +20,9 @@ pub struct RecruitStats {
 }
 
 #[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
-pub struct SelectedRecruit(pub Option<RecruitStats>);
+pub struct SelectedRecruitForEquipment(pub Option<RecruitStats>);
 
-impl SelectedRecruit {
+impl SelectedRecruitForEquipment {
     pub fn get_inventory(&self) -> RecruitInventory {
         if let Some(recruit) = &self.0 {
             return recruit.recruit_inventory.clone();

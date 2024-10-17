@@ -51,19 +51,3 @@ pub fn basic_button_style() -> Style {
         ..default()
     }
 }
-
-pub fn mission_details_modal_container() -> Style {
-    Style {
-        position_type: PositionType::Absolute,
-        align_items: AlignItems::Center,
-        flex_direction: FlexDirection::Column,
-        justify_content: JustifyContent::Center,
-        row_gap: Val::Px(10.0),
-        width: Val::Percent(70.0),
-        height: Val::Percent(80.0),
-        margin: UiRect::all(Val::Auto),
-        padding: UiRect::all(Val::Px(20.0)),
-        border: UiRect::all(Val::Px(3.0)),
-        ..default()
-    }
-}

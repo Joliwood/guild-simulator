@@ -7,7 +7,7 @@ use crate::{
         general_structs::{load_scroll, MissionModalVisible, MissionReportsModalVisible, UniqueId},
         missions::{Missions, SelectedMission},
         player_stats::PlayerStats,
-        recruits::{RecruitInventory, RecruitStats, SelectedRecruit},
+        recruits::{RecruitInventory, RecruitStats, SelectedRecruitForEquipment},
     },
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
@@ -505,7 +505,7 @@ pub fn select_item_in_inventory(
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
-    mut selected_recruit: ResMut<SelectedRecruit>,
+    mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
     mut player_stats: ResMut<PlayerStats>,
 ) {
     let mut window = windows.single_mut();
@@ -516,7 +516,7 @@ pub fn select_item_in_inventory(
                 Interaction::Pressed => {
                     border_color.0 = WOOD_COLOR;
                     let is_recruit_equiped =
-                        equip_recruit_inventory(&mut selected_recruit, item, &mut player_stats);
+                        equip_recruit_inventory(&mut selected_recruit_for_equipment, item, &mut player_stats);
                     if is_recruit_equiped {
                         match item {
                             Item::Armor(_) => {
