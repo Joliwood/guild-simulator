@@ -116,7 +116,7 @@ pub fn room_command_room(
                         })
                         .with_children(|center| {
                             // External function for the center area
-                            map_on_table(center, my_assets, &selected_map);
+                            map_on_table(center, my_assets, &selected_map, &missions);
                         });
 
                     // Right Column

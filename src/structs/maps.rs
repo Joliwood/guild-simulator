@@ -81,7 +81,7 @@ impl Default for Maps {
                 id: 2,
                 map_mission_ids: vec![],
                 name: "Campaign 2".to_string(),
-                unlocked: false,
+                unlocked: true,
                 // image_atlas_index: 1,
                 image: MapImageEnum::CampagnTuto,
             },

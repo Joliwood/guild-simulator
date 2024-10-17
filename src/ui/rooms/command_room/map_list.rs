@@ -29,7 +29,7 @@ pub fn map_list(parent: &mut ChildBuilder, my_assets: &Res<MyAssets>, maps: &Res
         })
         .with_children(|column| {
             // Loop through each map and create an ImageBundle with text overlay for each
-            for map in &maps.0 {
+            for map in maps.0.iter().filter(|map| map.unlocked) {
                 column
                     .spawn(NodeBundle {
                         style: Style {
@@ -38,7 +38,7 @@ pub fn map_list(parent: &mut ChildBuilder, my_assets: &Res<MyAssets>, maps: &Res
                             align_items: AlignItems::Center,
                             width: Val::Percent(100.),
                             height: Val::Px(40.0),
-                            // margin: UiRect::all(Val::Px(5.0)), // Space between map entries
+                            // margin: UiRect::all(Val::Px(5.0)),
                             ..Default::default()
                         },
                         ..Default::default()

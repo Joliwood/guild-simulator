@@ -1,8 +1,17 @@
-use crate::{structs::maps::Map, ui::interface::gold_counter::MyAssets};
+use crate::{
+    custom_components::CustomButton,
+    structs::{general_structs::UniqueId, maps::Map, missions::Missions},
+    ui::interface::gold_counter::MyAssets,
+};
 use bevy::prelude::*;
 
 // External function for the center area (1 big child)
-pub fn map_on_table(parent: &mut ChildBuilder, my_assets: &Res<MyAssets>, map: &Option<Map>) {
+pub fn map_on_table(
+    parent: &mut ChildBuilder,
+    my_assets: &Res<MyAssets>,
+    map: &Option<Map>,
+    missions: &Res<Missions>,
+) {
     parent
         .spawn(ImageBundle {
             image: my_assets.inventory_container.clone().into(),
@@ -19,31 +28,82 @@ pub fn map_on_table(parent: &mut ChildBuilder, my_assets: &Res<MyAssets>, map: &
         })
         .with_children(|button| {
             if map.is_some() {
-                button.spawn(ImageBundle {
-                    image: my_assets.get_image_map(map.clone().unwrap().image).into(),
-                    style: Style {
-                        display: Display::Flex,
-                        justify_content: JustifyContent::Center,
-                        align_items: AlignItems::Center,
-                        width: Val::Percent(100.),
-                        height: Val::Percent(100.),
+                let missions = missions.get_missions_by_ids(map.clone().unwrap().map_mission_ids);
+                button
+                    .spawn(ImageBundle {
+                        image: my_assets.get_image_map(map.clone().unwrap().image).into(),
+                        style: Style {
+                            display: Display::Flex,
+                            justify_content: JustifyContent::Center,
+                            align_items: AlignItems::Center,
+                            width: Val::Percent(100.),
+                            height: Val::Percent(100.),
+                            ..default()
+                        },
                         ..default()
-                    },
-                    ..default()
-                });
-                // .with_children(|map| {
-                //     map.spawn(TextBundle {
-                //         text: Text::from_section(
-                //             "Center Area Content",
-                //             TextStyle {
-                //                 font: my_assets.fira_sans_bold.clone(),
-                //                 font_size: 32.0,
-                //                 color: Color::WHITE,
-                //             },
-                //         ),
-                //         ..default()
-                //     });
-                // });
+                    })
+                    .with_children(|map| {
+                        //     map.spawn(TextBundle {
+                        //         text: Text::from_section(
+                        //             "Center Area Content",
+                        //             TextStyle {
+                        //                 font: my_assets.fira_sans_bold.clone(),
+                        //                 font_size: 32.0,
+                        //                 color: Color::WHITE,
+                        //             },
+                        //         ),
+                        //         ..default()
+                        //     });
+                        // });
+
+                        // Generate buttons for each mission
+                        for (index, mission) in missions.iter().enumerate() {
+                            if mission.recruit_send.is_none() {
+                                map.spawn(CustomButton::Primary.bundle(my_assets))
+                                    .insert(UniqueId(format!(
+                                        "select_mission_button_{}",
+                                        mission.id
+                                    )))
+                                    .insert(mission.clone())
+                                    .with_children(|button| {
+                                        button.spawn(TextBundle {
+                                            text: Text::from_section(
+                                                format!(
+                                                    "Mission {}: Level {}",
+                                                    index + 1,
+                                                    mission.level
+                                                ),
+                                                TextStyle {
+                                                    font: my_assets.fira_sans_bold.clone(),
+                                                    font_size: 16.0,
+                                                    color: Color::WHITE,
+                                                },
+                                            ),
+                                            ..default()
+                                        });
+                                    });
+                            } else {
+                                map.spawn(CustomButton::Primary.bundle(my_assets))
+                                    .with_children(|button| {
+                                        button.spawn(TextBundle {
+                                            text: Text::from_section(
+                                                format!(
+                                                    "Mission {}: Level {}",
+                                                    index + 1,
+                                                    mission.level
+                                                ),
+                                                TextStyle {
+                                                    font: my_assets.fira_sans_bold.clone(),
+                                                    font_size: 16.0,
+                                                    color: Color::WHITE,
+                                                },
+                                            ),
+                                            ..default()
+                                        });
+                                    });
+                            }
+                        }
+                    });
             }
         });
 }

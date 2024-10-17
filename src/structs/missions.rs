@@ -161,6 +161,18 @@ impl Missions {
             mission.percent_of_victory = Some(percent_of_victory);
         }
     }
+
+    pub fn get_missions_by_ids(&self, ids: Vec<u16>) -> Vec<Mission> {
+        let mut missions = vec![];
+
+        for id in ids {
+            if let Some(mission) = self.get_mission_by_id(id) {
+                missions.push(mission);
+            }
+        }
+
+        missions
+    }
 }
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
