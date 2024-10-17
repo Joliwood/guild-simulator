@@ -1,15 +1,12 @@
-use crate::structs::recruits::RecruitStats;
+use crate::{structs::recruits::RecruitStats, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
 
 pub fn recruit_sent_picture(
     commands: &mut ChildBuilder,
     recruit_sent: &RecruitStats,
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let recruit_image_handle: Handle<Image> =
-        asset_server.load("images/recruits/recruit_picture_atlas.png");
-
     let recruit_layout = TextureAtlasLayout::from_grid(
         UVec2::new(800, 200),
         5,
@@ -39,7 +36,7 @@ pub fn recruit_sent_picture(
                 text: Text::from_section(
                     "Recruit sent",
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
                     },
@@ -49,7 +46,7 @@ pub fn recruit_sent_picture(
 
             recruit_block.spawn((
                 ImageBundle {
-                    image: recruit_image_handle.into(),
+                    image: my_assets.recruit_picture_atlas.clone().into(),
                     style: Style {
                         position_type: PositionType::Absolute,
                         width: Val::Percent(100.),

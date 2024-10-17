@@ -186,6 +186,7 @@ impl Missions {
 pub struct Mission {
     pub days_left: Option<u8>,
     pub days: u8,
+    pub description: String,
     pub ennemy: Ennemy,
     pub id: u16,
     pub level: u8,
@@ -241,6 +242,8 @@ impl Default for Missions {
                     strength: 10,
                 },
                 unlocked: true,
+                description: "A basic camp, we think we could find some resources here. We need to send a recruit to check it out."
+                .to_string(),
             },
             Mission {
                 days_left: None,
@@ -260,6 +263,7 @@ impl Default for Missions {
                     strength: 15,
                 },
                 unlocked: true,
+                description: "More extended camp, we think we could find some resources here. We need to send a recruit to check it out.".to_string(),
             },
             Mission {
                 days_left: Some(1),
@@ -279,6 +283,7 @@ impl Default for Missions {
                     strength: 20,
                 },
                 unlocked: false,
+                description: "A very extended camp, the final one of the tuto".to_string(),
             },
         ])
     }

@@ -10,7 +10,7 @@ use crate::{
 use bevy::prelude::*;
 
 /// Select the recruit when the button is pressed
-pub fn select_recruit_button(
+pub fn select_recruit_for_equipment_button(
     mut interaction_query: Query<
         (&Interaction, &mut BackgroundColor, &UniqueId, &RecruitStats),
         Changed<Interaction>,

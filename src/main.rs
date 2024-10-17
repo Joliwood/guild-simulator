@@ -24,7 +24,7 @@ use structs::{
     maps::{Maps, SelectedMapId},
     missions::{MissionReports, Missions, SelectedMission},
     player_stats::PlayerStats,
-    recruits::SelectedRecruitForEquipment,
+    recruits::{SelectedRecruitForEquipment, SelectedRecruitForMission},
 };
 use ui::interface::gold_counter::MyAssets;
 
@@ -57,6 +57,7 @@ fn main() -> AppExit {
         .insert_resource(MissionReports::default())
         .insert_resource(Missions::default())
         .insert_resource(SelectedRecruitForEquipment::default())
+        .insert_resource(SelectedRecruitForMission::default())
         .insert_resource(SelectedMission::default())
         .insert_resource(SelectedMapId::default())
         .insert_resource(MissionModalVisible(false))
@@ -89,7 +90,8 @@ fn main() -> AppExit {
                 systems::updates::update_room::update_room,
                 systems::updates::update_buttons::mouse_interaction_updates,
                 systems::updates::update_buttons::buttons_disable_updates,
-                systems::updates::barrack::select_recruit_button::select_recruit_button,
+                systems::updates::barrack::select_recruit_for_equipment_button::select_recruit_for_equipment_button,
+                systems::updates::command_room::select_recruit_for_mission_button::select_recruit_for_mission_button,
                 systems::updates::command_room::select_mission_button::select_mission_button,
             ),
         )

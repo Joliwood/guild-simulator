@@ -1,1 +1,1 @@
-pub mod select_recruit_button;
+pub mod select_recruit_for_equipment_button;

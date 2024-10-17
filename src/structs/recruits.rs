@@ -46,6 +46,33 @@ impl SelectedRecruitForEquipment {
     }
 }
 
+#[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
+pub struct SelectedRecruitForMission(pub Option<RecruitStats>);
+
+impl SelectedRecruitForMission {
+    pub fn get_inventory(&self) -> RecruitInventory {
+        if let Some(recruit) = &self.0 {
+            return recruit.recruit_inventory.clone();
+        }
+
+        RecruitInventory::generate_empty_inventory()
+    }
+
+    pub fn get_id(&self) -> Option<Uuid> {
+        if let Some(recruit) = &self.0 {
+            return Some(recruit.id);
+        }
+
+        None
+    }
+
+    pub fn equip_weapon(&mut self, weapon: Weapon) {
+        if let Some(recruit) = &mut self.0 {
+            recruit.recruit_inventory.weapon = Some(weapon);
+        }
+    }
+}
+
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub struct RecruitInventory {
     pub armor: Option<Armor>,
