@@ -1,0 +1,89 @@
+use crate::{
+    enums::ColorPaletteEnum, structs::missions::Mission, ui::interface::gold_counter::MyAssets,
+};
+use bevy::prelude::*;
+
+pub fn mission_recap(
+    parent: &mut ChildBuilder,
+    my_assets: &Res<MyAssets>,
+    mission: &Mission,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
+) {
+    let ennemy_layout = TextureAtlasLayout::from_grid(
+        UVec2::new(1200, 200),
+        6,
+        1,
+        Some(UVec2::new(0, 0)),
+        Some(UVec2::new(0, 0)),
+    );
+    let ennemy_texture_atlas_layout: Handle<TextureAtlasLayout> =
+        texture_atlas_layouts.add(ennemy_layout);
+
+    // Mission Image and Description (A / B)
+    parent
+        .spawn(NodeBundle {
+            style: Style {
+                flex_direction: FlexDirection::Column,
+                row_gap: Val::Px(20.0),
+                justify_content: JustifyContent::FlexStart,
+                width: Val::Percent(50.0),
+                overflow: Overflow {
+                    x: OverflowAxis::Hidden,
+                    y: OverflowAxis::Hidden,
+                },
+                ..default()
+            },
+            // background_color: BackgroundColor(ColorPaletteEnum::Brown.as_color()),
+            ..default()
+        })
+        .with_children(|parent| {
+            // Mission image
+            parent
+                .spawn(NodeBundle {
+                    style: Style {
+                        width: Val::Percent(100.0),
+                        height: Val::Px(100.0),
+                        overflow: Overflow {
+                            x: OverflowAxis::Hidden,
+                            y: OverflowAxis::Hidden,
+                        },
+                        ..default()
+                    },
+                    ..default()
+                })
+                .with_children(|parent| {
+                    parent.spawn((
+                        ImageBundle {
+                            image: my_assets.ennemy_image_handle.clone().into(),
+                            style: Style {
+                                margin: UiRect {
+                                    top: Val::Px(-100.0),
+                                    ..default()
+                                },
+                                width: Val::Percent(100.0),
+                                height: Val::Px(450.),
+                                ..default()
+                            },
+                            ..default()
+                        },
+                        TextureAtlas {
+                            index: mission.ennemy.image_atlas_index.into(),
+                            layout: ennemy_texture_atlas_layout.clone(),
+                        },
+                    ));
+                });
+
+            // Mission description
+            parent.spawn(TextBundle {
+                text: Text::from_section(
+                    mission.description.clone(),
+                    TextStyle {
+                        font: my_assets.fira_sans_bold.clone(),
+                        font_size: 16.0,
+                        color: Color::BLACK,
+                    },
+                ),
+                ..default()
+            });
+        });
+}
