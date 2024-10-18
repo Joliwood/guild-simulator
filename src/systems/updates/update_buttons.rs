@@ -7,7 +7,9 @@ use crate::{
         general_structs::{load_scroll, MissionModalVisible, MissionReportsModalVisible, UniqueId},
         missions::{Missions, SelectedMission},
         player_stats::PlayerStats,
-        recruits::{RecruitInventory, RecruitStats, SelectedRecruitForEquipment},
+        recruits::{
+            RecruitInventory, RecruitStats, SelectedRecruitForEquipment, SelectedRecruitForMission,
+        },
     },
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
@@ -18,6 +20,8 @@ use crate::{
 };
 use bevy::prelude::*;
 use uuid::Uuid;
+
+use super::command_room::select_recruit_for_mission_button;
 
 pub fn mouse_interaction_updates(
     mut interaction_query: Query<
@@ -281,6 +285,8 @@ pub fn close_mission_modal(
     >,
     mut windows: Query<&mut Window>,
     mut modal_visible: ResMut<MissionModalVisible>,
+    mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
+    mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
 ) {
     let mut window = windows.single_mut();
 
@@ -290,6 +296,12 @@ pub fn close_mission_modal(
                 Interaction::Pressed => {
                     modal_visible.0 = false;
                     border_color.0 = WOOD_COLOR;
+
+                    if selected_recruit_for_equipment.0 == selected_recruit_for_mission.0 {
+                        selected_recruit_for_equipment.0 = None;
+                    }
+
+                    selected_recruit_for_mission.0 = None;
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;
@@ -515,8 +527,11 @@ pub fn select_item_in_inventory(
             match *interaction {
                 Interaction::Pressed => {
                     border_color.0 = WOOD_COLOR;
-                    let is_recruit_equiped =
-                        equip_recruit_inventory(&mut selected_recruit_for_equipment, item, &mut player_stats);
+                    let is_recruit_equiped = equip_recruit_inventory(
+                        &mut selected_recruit_for_equipment,
+                        item,
+                        &mut player_stats,
+                    );
                     if is_recruit_equiped {
                         match item {
                             Item::Armor(_) => {
