@@ -120,7 +120,7 @@ pub fn mission_recap(
                         ..default()
                     });
 
-                    // Enemy Level (right)
+                    // Enemy Level
                     parent.spawn(TextBundle {
                         text: Text::from_section(
                             format!("Level : {}", mission.ennemy.level),
@@ -133,7 +133,7 @@ pub fn mission_recap(
                         ..default()
                     });
 
-                    // Enemy Strength (Str)
+                    // Enemy Strength
                     parent.spawn(TextBundle {
                         text: Text::from_section(
                             format!("Str : {}", mission.ennemy.strength),
@@ -146,7 +146,7 @@ pub fn mission_recap(
                         ..default()
                     });
 
-                    // Enemy Defense (Def)
+                    // Enemy Defense
                     parent.spawn(TextBundle {
                         text: Text::from_section(
                             format!("Def : {}", mission.ennemy.endurance),
@@ -159,10 +159,10 @@ pub fn mission_recap(
                         ..default()
                     });
 
-                    // Enemy Intelligence (Spd)
+                    // Enemy Intelligence
                     parent.spawn(TextBundle {
                         text: Text::from_section(
-                            format!("Spd : {}", mission.ennemy.intelligence),
+                            format!("Int : {}", mission.ennemy.intelligence),
                             TextStyle {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 16.0,

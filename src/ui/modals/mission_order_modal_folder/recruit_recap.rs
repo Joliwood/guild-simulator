@@ -145,7 +145,7 @@ pub fn recruit_recap(
                             ..default()
                         });
 
-                        // Recruit Strength (Str)
+                        // Recruit Strength
                         parent.spawn(TextBundle {
                             text: Text::from_section(
                                 format!("Str : {}", recruit.strength),
@@ -158,7 +158,7 @@ pub fn recruit_recap(
                             ..default()
                         });
 
-                        // Recruit Defense (Def)
+                        // Recruit Defense
                         parent.spawn(TextBundle {
                             text: Text::from_section(
                                 format!("Def : {}", recruit.endurance),
@@ -171,10 +171,10 @@ pub fn recruit_recap(
                             ..default()
                         });
 
-                        // Recruit Intelligence (Spd)
+                        // Recruit Intelligence
                         parent.spawn(TextBundle {
                             text: Text::from_section(
-                                format!("Spd : {}", recruit.intelligence),
+                                format!("Int : {}", recruit.intelligence),
                                 TextStyle {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 16.0,

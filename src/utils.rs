@@ -483,14 +483,18 @@ pub fn finish_mission(
         success: is_mission_sucess,
         experience_gained: None,
         golds_gained: None,
+        mission_ids_to_unlock: vec![],
     };
 
     if is_mission_sucess {
         let xp_earned = get_xp_earned(mission_ennemy_level.unwrap());
         new_mission_report.experience_gained = Some(xp_earned);
-        // let gold_earned = (mission_ennemy_level.unwrap() * 10) as i32;
+
         let golds_earned = missions.get_golds_earned_by_mission_id(mission_id).unwrap() as i32;
         new_mission_report.golds_gained = Some(golds_earned);
+
+        missions.unlock_missions_by_mission_id(mission_id);
+        // unlock_missions_by_ids
     }
 
     // Create a new mission_report

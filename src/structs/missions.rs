@@ -3,19 +3,24 @@ use uuid::Uuid;
 
 use crate::utils::{get_global_points, get_victory_percentage};
 
-use super::{general_structs::Ennemy, player_stats::PlayerStats};
+use super::{
+    equipments::{Armor, Scroll, Weapon},
+    general_structs::Ennemy,
+    player_stats::PlayerStats,
+};
 
 #[derive(Default, Debug, Component, Resource)]
 pub struct MissionReports(pub Vec<MissionReport>);
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct MissionReport {
-    pub recruit_id: Uuid,
-    pub mission_id: u16,
-    pub success: bool,
     pub experience_gained: Option<u32>,
     pub golds_gained: Option<i32>,
+    pub mission_id: u16,
+    pub mission_ids_to_unlock: Vec<u16>,
     pub percent_of_victory: u32,
+    pub recruit_id: Uuid,
+    pub success: bool,
 }
 
 impl MissionReports {
@@ -184,6 +189,42 @@ impl Missions {
         }
         None
     }
+
+    pub fn unlock_missions_by_mission_id(&mut self, mission_id: u16) {
+        if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
+            for id in mission.unlock_mission_ids.clone() {
+                if let Some(mission_to_unlock) = self.0.iter_mut().find(|mission| mission.id == id)
+                {
+                    mission_to_unlock.unlocked = true;
+                }
+            }
+        }
+    }
+}
+
+#[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
+pub struct WeaponLoot {
+    pub weapon_id: u16,
+    pub percent: u8,
+}
+
+#[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
+pub struct ArmorLoot {
+    pub armor_id: u16,
+    pub percent: u8,
+}
+
+#[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
+pub struct ScrollLoot {
+    pub scroll_id: u16,
+    pub percent: u8,
+}
+
+#[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
+pub struct Loots {
+    pub weapons: Vec<WeaponLoot>,
+    pub armors: Vec<ArmorLoot>,
+    pub scrolls: Vec<ScrollLoot>,
 }
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
@@ -195,9 +236,11 @@ pub struct Mission {
     pub golds: u32,
     pub id: u16,
     pub level: u8,
+    pub loots: Loots,
     pub name: String,
     pub percent_of_victory: Option<u32>,
     pub recruit_send: Option<Uuid>,
+    pub unlock_mission_ids: Vec<u16>,
     pub unlocked: bool,
 }
 
@@ -250,6 +293,21 @@ impl Default for Missions {
                 description: "A basic camp, we think we could find some resources here. We need to send a recruit to check it out."
                 .to_string(),
                 golds: 50,
+                loots: Loots {
+                    weapons: vec![
+                        WeaponLoot {
+                            weapon_id: 1,
+                            percent: 50,
+                        },
+                        WeaponLoot {
+                            weapon_id: 2,
+                            percent: 50,
+                        },
+                    ],
+                    armors: vec![],
+                    scrolls: vec![],
+                },
+                unlock_mission_ids: vec![2],
             },
             Mission {
                 days_left: None,
@@ -268,9 +326,15 @@ impl Default for Missions {
                     name: "Ennemy 2".to_string(),
                     strength: 15,
                 },
-                unlocked: true,
+                unlocked: false,
                 description: "More extended camp, we think we could find some resources here. We need to send a recruit to check it out.".to_string(),
                 golds: 80,
+                loots: Loots {
+                    weapons: vec![],
+                    armors: vec![],
+                    scrolls: vec![],
+                },
+                unlock_mission_ids: vec![3],
             },
             Mission {
                 days_left: Some(1),
@@ -292,6 +356,12 @@ impl Default for Missions {
                 unlocked: false,
                 description: "A very extended camp, the final one of the tuto".to_string(),
                 golds: 150,
+                loots: Loots {
+                    weapons: vec![],
+                    armors: vec![],
+                    scrolls: vec![],
+                },
+                unlock_mission_ids: vec![],
             },
         ])
     }
