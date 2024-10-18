@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 use crate::{
+    enums::ColorPaletteEnum,
     systems::systems_constants::NORMAL_BUTTON,
     ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
 };
@@ -11,6 +12,7 @@ pub enum CustomButton {
     RoomArrow,
     SquareIcon,
     EarnGold,
+    MissionStart,
 }
 
 impl CustomButton {
@@ -82,6 +84,19 @@ impl CustomButton {
                     ..default()
                 },
                 image: my_assets.buttons_atlas.clone().into(),
+                border_color: BorderColor(WOOD_COLOR),
+                border_radius: BorderRadius::all(Val::Px(10.)),
+                ..default()
+            },
+            CustomButton::MissionStart => ButtonBundle {
+                style: Style {
+                    // margin: UiRect::all(Val::Px(10.)),
+                    width: Val::Px(200.),
+                    height: Val::Px(40.),
+                    border: UiRect::all(Val::Px(2.)),
+                    ..default()
+                },
+                image: my_assets.wood_box_container.clone().into(),
                 border_color: BorderColor(WOOD_COLOR),
                 border_radius: BorderRadius::all(Val::Px(10.)),
                 ..default()

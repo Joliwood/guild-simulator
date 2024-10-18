@@ -21,7 +21,7 @@ pub fn mission_order_modal(
     my_assets: Res<MyAssets>,
     mission_modal_visibility: Res<MissionModalVisible>,
     query: Query<Entity, With<MissionModalContentTrigger>>,
-    _player_stats: Res<PlayerStats>,
+    player_stats: Res<PlayerStats>,
     selected_mission: Res<SelectedMission>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     _missions: Res<Missions>,
@@ -110,7 +110,7 @@ pub fn mission_order_modal(
                                 TextStyle {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 20.0,
-                                    color: Color::WHITE,
+                                    color: Color::BLACK,
                                 },
                             ),
                             ..default()
@@ -138,7 +138,7 @@ pub fn mission_order_modal(
                                         flex_direction: FlexDirection::Row,
                                         justify_content: JustifyContent::SpaceBetween,
                                         width: Val::Percent(100.0),
-                                        height: Val::Percent(100.0),
+                                        height: Val::Percent(80.),
                                         row_gap: Val::Px(20.0),
                                         ..default()
                                     },
@@ -152,35 +152,35 @@ pub fn mission_order_modal(
                                         &mut texture_atlas_layouts,
                                     );
 
-                                    // Percent of Win (centered)
-                                    parent.spawn(TextBundle {
-                                        text: Text::from_section(
-                                            format!(
-                                                "{}%",
-                                                mission.percent_of_victory.unwrap_or_default()
+                                    if selected_mission.percent_of_victory.is_some() {
+                                        // Percent of Win (centered)
+                                        parent.spawn(TextBundle {
+                                            text: Text::from_section(
+                                                format!(
+                                                    "{}%",
+                                                    selected_mission.percent_of_victory.unwrap()
+                                                ),
+                                                TextStyle {
+                                                    font: my_assets.fira_sans_bold.clone(),
+                                                    font_size: 18.0,
+                                                    color: Color::BLACK,
+                                                },
                                             ),
-                                            TextStyle {
-                                                font: my_assets.fira_sans_bold.clone(),
-                                                font_size: 18.0,
-                                                color: Color::BLACK,
+                                            style: Style {
+                                                align_self: AlignSelf::Center,
+                                                justify_self: JustifySelf::Center,
+                                                ..default()
                                             },
-                                        ),
-                                        style: Style {
-                                            align_self: AlignSelf::Center,
-                                            width: Val::Percent(10.0),
                                             ..default()
-                                        },
-                                        background_color: BackgroundColor(
-                                            ColorPaletteEnum::Brown.as_color(),
-                                        ),
-                                        ..default()
-                                    });
+                                        });
+                                    }
 
                                     recruit_recap(
                                         parent,
                                         selected_recruit_for_mission,
                                         &my_assets,
                                         &mut texture_atlas_layouts,
+                                        &player_stats,
                                     );
                                 });
 

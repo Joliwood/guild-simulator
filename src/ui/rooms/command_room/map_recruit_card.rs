@@ -55,6 +55,10 @@ pub fn map_recruit_card(
             border_radius: BorderRadius::all(Val::Px(10.)),
             ..default()
         })
+        // .insert((
+        //     UniqueId("assign_recruit_to_mission".to_string()),
+        //     recruit.clone(),
+        // ))
         .insert((UniqueId("map_recruit_button".to_string()), recruit.clone()))
         .with_children(|parent| {
             // Add an overlay if the recruit is in a mission

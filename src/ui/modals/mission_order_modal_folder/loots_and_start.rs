@@ -1,6 +1,9 @@
 use bevy::prelude::*;
 
-use crate::{structs::general_structs::UniqueId, ui::interface::gold_counter::MyAssets};
+use crate::{
+    custom_components::CustomButton, structs::general_structs::UniqueId,
+    ui::interface::gold_counter::MyAssets,
+};
 
 pub fn loots_and_start(
     parent: &mut ChildBuilder,
@@ -26,7 +29,7 @@ pub fn loots_and_start(
                     TextStyle {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 14.0,
-                        color: Color::WHITE,
+                        color: Color::BLACK,
                     },
                 ),
                 ..default()
@@ -44,18 +47,40 @@ pub fn loots_and_start(
             //     });
             // });
 
-            // Sign the mission button
+            // // Sign the mission button
+            // parent
+            //     .spawn(ButtonBundle {
+            //         style: Style {
+            //             margin: UiRect::all(Val::Px(10.0)),
+            //             width: Val::Percent(20.0),
+            //             height: Val::Px(50.0),
+            //             ..default()
+            //         },
+            //         image: my_assets._play.clone().into(),
+            //         ..default()
+            //     })
+            //     .insert(UniqueId("sign_mission_order".to_string()));
+
+            // Button inside the middle container
             parent
-                .spawn(ButtonBundle {
-                    style: Style {
-                        margin: UiRect::all(Val::Px(10.0)),
-                        width: Val::Percent(20.0),
-                        height: Val::Px(50.0),
+                .spawn(CustomButton::MissionStart.bundle(my_assets))
+                .insert(UniqueId("start_mission".to_string()))
+                .with_children(|button| {
+                    button.spawn(TextBundle {
+                        text: Text::from_section(
+                            "Start the mission",
+                            TextStyle {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 16.0,
+                                color: Color::WHITE,
+                            },
+                        ),
+                        style: Style {
+                            margin: UiRect::all(Val::Auto),
+                            ..default()
+                        },
                         ..default()
-                    },
-                    image: my_assets._play.clone().into(),
-                    ..default()
-                })
-                .insert(UniqueId("sign_mission_order".to_string()));
+                    });
+                });
         });
 }

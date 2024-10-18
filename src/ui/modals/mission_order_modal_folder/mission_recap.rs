@@ -31,9 +31,17 @@ pub fn mission_recap(
                     x: OverflowAxis::Hidden,
                     y: OverflowAxis::Hidden,
                 },
+                border: UiRect::all(Val::Px(2.)),
+                padding: UiRect {
+                    top: Val::Px(10.),
+                    left: Val::Px(10.),
+                    right: Val::Px(10.),
+                    bottom: Val::Px(10.),
+                },
                 ..default()
             },
-            // background_color: BackgroundColor(ColorPaletteEnum::Brown.as_color()),
+            border_color: BorderColor(Color::BLACK),
+            border_radius: BorderRadius::all(Val::Px(10.)),
             ..default()
         })
         .with_children(|parent| {
@@ -85,5 +93,84 @@ pub fn mission_recap(
                 ),
                 ..default()
             });
+
+            parent
+                // Outer container to hold both rows (Name/Level and Stats)
+                .spawn(NodeBundle {
+                    style: Style {
+                        flex_direction: FlexDirection::Column, // Organize rows in a column
+                        justify_content: JustifyContent::FlexStart,
+                        row_gap: Val::Px(5.),
+                        width: Val::Percent(100.0), // Full width
+                        ..default()
+                    },
+                    ..default()
+                })
+                .with_children(|parent| {
+                    // Row 1: Name (left) and Level (right)
+                    parent.spawn(TextBundle {
+                        text: Text::from_section(
+                            format!("Target : {}", mission.ennemy.name),
+                            TextStyle {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 16.0,
+                                color: Color::BLACK,
+                            },
+                        ),
+                        ..default()
+                    });
+
+                    // Enemy Level (right)
+                    parent.spawn(TextBundle {
+                        text: Text::from_section(
+                            format!("Level : {}", mission.ennemy.level),
+                            TextStyle {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 16.0,
+                                color: Color::BLACK,
+                            },
+                        ),
+                        ..default()
+                    });
+
+                    // Enemy Strength (Str)
+                    parent.spawn(TextBundle {
+                        text: Text::from_section(
+                            format!("Str : {}", mission.ennemy.strength),
+                            TextStyle {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 16.0,
+                                color: Color::BLACK,
+                            },
+                        ),
+                        ..default()
+                    });
+
+                    // Enemy Defense (Def)
+                    parent.spawn(TextBundle {
+                        text: Text::from_section(
+                            format!("Def : {}", mission.ennemy.endurance),
+                            TextStyle {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 16.0,
+                                color: Color::BLACK,
+                            },
+                        ),
+                        ..default()
+                    });
+
+                    // Enemy Intelligence (Spd)
+                    parent.spawn(TextBundle {
+                        text: Text::from_section(
+                            format!("Spd : {}", mission.ennemy.intelligence),
+                            TextStyle {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 16.0,
+                                color: Color::BLACK,
+                            },
+                        ),
+                        ..default()
+                    });
+                });
         });
 }
