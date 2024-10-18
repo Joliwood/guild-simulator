@@ -1,5 +1,4 @@
 use crate::{
-    enums::ColorPaletteEnum,
     structs::{
         general_structs::{MissionModalVisible, UniqueId},
         missions::{Missions, SelectedMission},

@@ -4,14 +4,7 @@ use crate::{
         general_structs::UniqueId, missions::SelectedMission, player_stats::PlayerStats,
         recruits::RecruitStats,
     },
-    ui::{
-        interface::gold_counter::MyAssets,
-        rooms::barrack::recruits_list_folder::{
-            armor_button::armor_button, recruit_endurance::recruit_endurance,
-            recruit_intelligence::recruit_intelligence, recruit_strength::recruit_strength,
-            scroll_button::scroll_button, weapon_button::weapon_button,
-        },
-    },
+    ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
 
@@ -24,10 +17,10 @@ pub fn map_recruit_card(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
     selected_mission: &mut ResMut<SelectedMission>,
 ) {
-    let victory_percentage: String = match selected_mission.percent_of_victory {
-        Some(victory_percentage) => victory_percentage.to_string(),
-        None => "".to_string(),
-    };
+    // let victory_percentage: String = match selected_mission.percent_of_victory {
+    //     Some(victory_percentage) => victory_percentage.to_string(),
+    //     None => "".to_string(),
+    // };
 
     left_container
         .spawn(ButtonBundle {
@@ -216,7 +209,7 @@ pub fn map_recruit_card(
                 .with_children(|frame| {
                     // Image that is 30x30 with centered text inside
                     frame.spawn(TextBundle::from_section(
-                        victory_percentage,
+                        recruit.get_total_merged_stats().to_string(),
                         TextStyle {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 14.0,
