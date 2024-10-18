@@ -1,7 +1,4 @@
-use crate::{
-    structs::{maps::Maps, player_stats::PlayerStats},
-    ui::interface::gold_counter::MyAssets,
-};
+use crate::{structs::maps::Maps, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
 
 pub fn map_list(parent: &mut ChildBuilder, my_assets: &Res<MyAssets>, maps: &Res<Maps>) {

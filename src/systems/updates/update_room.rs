@@ -3,7 +3,7 @@ use crate::{
     structs::{
         general_structs::MissionReportsModalVisible,
         maps::{Maps, SelectedMapId},
-        missions::{MissionReports, Missions, SelectedMission},
+        missions::{MissionReports, Missions},
         player_stats::PlayerStats,
         recruits::SelectedRecruitForEquipment,
         trigger_structs::ResetRoomTrigger,
@@ -39,7 +39,6 @@ pub fn update_room(
     mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
     maps: Res<Maps>,
     selected_map_id: Res<SelectedMapId>,
-    mut selected_mission: ResMut<SelectedMission>,
 ) {
     if player_stats.is_changed() || selected_recruit_for_equipment.is_changed() {
         // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed
@@ -70,7 +69,6 @@ pub fn update_room(
                 missions,
                 selected_map_id,
                 maps,
-                selected_mission,
                 &player_stats,
                 &mut texture_atlas_layouts,
             ),

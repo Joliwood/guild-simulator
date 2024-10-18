@@ -1,13 +1,7 @@
+use super::{general_structs::Ennemy, player_stats::PlayerStats};
+use crate::utils::{get_global_points, get_victory_percentage};
 use bevy::prelude::*;
 use uuid::Uuid;
-
-use crate::utils::{get_global_points, get_victory_percentage};
-
-use super::{
-    equipments::{Armor, Scroll, Weapon},
-    general_structs::Ennemy,
-    player_stats::PlayerStats,
-};
 
 #[derive(Default, Debug, Component, Resource)]
 pub struct MissionReports(pub Vec<MissionReport>);

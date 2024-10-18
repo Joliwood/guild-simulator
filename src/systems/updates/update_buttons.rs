@@ -16,12 +16,10 @@ use crate::{
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     },
     ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
-    utils::{equip_recruit_inventory, get_global_points, get_new_room, get_victory_percentage},
+    utils::{equip_recruit_inventory, get_new_room},
 };
 use bevy::prelude::*;
 use uuid::Uuid;
-
-use super::command_room::select_recruit_for_mission_button;
 
 pub fn mouse_interaction_updates(
     mut interaction_query: Query<

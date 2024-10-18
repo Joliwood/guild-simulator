@@ -1,13 +1,12 @@
 use super::{
     map_description::map_description, map_list::map_list, map_on_table::map_on_table,
-    map_recruit_list::map_recruit_list, start_mission::start_mission,
+    map_recruit_list::map_recruit_list,
 };
 use crate::{
     structs::{
         maps::{Maps, SelectedMapId},
-        missions::{Missions, SelectedMission},
+        missions::Missions,
         player_stats::PlayerStats,
-        recruits::SelectedRecruitForEquipment,
         trigger_structs::ResetRoomTrigger,
     },
     ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
@@ -19,9 +18,8 @@ pub fn room_command_room(
     my_assets: &Res<MyAssets>,
     commands: &mut Commands,
     missions: Res<Missions>,
-    mut selected_map_id: Res<SelectedMapId>,
+    selected_map_id: Res<SelectedMapId>,
     maps: Res<Maps>,
-    mut selected_mission: ResMut<SelectedMission>,
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
@@ -128,7 +126,6 @@ pub fn room_command_room(
                                 my_assets,
                                 player_stats,
                                 texture_atlas_layouts,
-                                &mut selected_mission,
                             );
                         });
                 });

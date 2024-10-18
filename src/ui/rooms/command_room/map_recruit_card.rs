@@ -1,9 +1,6 @@
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
-    structs::{
-        general_structs::UniqueId, missions::SelectedMission, player_stats::PlayerStats,
-        recruits::RecruitStats,
-    },
+    structs::{general_structs::UniqueId, recruits::RecruitStats},
     ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
@@ -11,17 +8,9 @@ use bevy::prelude::*;
 pub fn map_recruit_card(
     left_container: &mut ChildBuilder,
     my_assets: &Res<MyAssets>,
-    player_stats: &Res<PlayerStats>,
     recruit: &RecruitStats,
     recruit_texture_atlas_layout: Handle<TextureAtlasLayout>,
-    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
-    selected_mission: &mut ResMut<SelectedMission>,
 ) {
-    // let victory_percentage: String = match selected_mission.percent_of_victory {
-    //     Some(victory_percentage) => victory_percentage.to_string(),
-    //     None => "".to_string(),
-    // };
-
     left_container
         .spawn(ButtonBundle {
             style: Style {

@@ -1,7 +1,6 @@
 use super::map_recruit_card::map_recruit_card;
 use crate::{
-    structs::{missions::SelectedMission, player_stats::PlayerStats},
-    ui::interface::gold_counter::MyAssets,
+    structs::player_stats::PlayerStats, ui::interface::gold_counter::MyAssets,
     utils::sort_recruits_by_total_merged_stats,
 };
 use bevy::prelude::*;
@@ -11,7 +10,6 @@ pub fn map_recruit_list(
     my_assets: &Res<MyAssets>,
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
-    selected_mission: &mut ResMut<SelectedMission>,
 ) {
     let recruit_layout = TextureAtlasLayout::from_grid(
         UVec2::new(800, 200),
@@ -53,11 +51,8 @@ pub fn map_recruit_list(
                 map_recruit_card(
                     left_container,
                     my_assets,
-                    player_stats,
                     recruit,
                     recruit_texture_atlas_layout.clone(),
-                    texture_atlas_layouts,
-                    selected_mission,
                 );
             }
         });

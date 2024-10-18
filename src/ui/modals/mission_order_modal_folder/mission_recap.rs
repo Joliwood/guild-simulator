@@ -1,6 +1,4 @@
-use crate::{
-    enums::ColorPaletteEnum, structs::missions::Mission, ui::interface::gold_counter::MyAssets,
-};
+use crate::{structs::missions::Mission, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
 
 pub fn mission_recap(

@@ -3,7 +3,7 @@ use crate::{
     structs::{
         general_structs::UniqueId,
         missions::{Missions, SelectedMission},
-        player_stats::{self, PlayerStats},
+        player_stats::PlayerStats,
         recruits::{RecruitStats, SelectedRecruitForMission},
     },
     systems::systems_constants::HOVERED_BUTTON,

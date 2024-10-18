@@ -1,5 +1,4 @@
 use crate::{
-    enums::ColorPaletteEnum,
     structs::{player_stats::PlayerStats, recruits::SelectedRecruitForMission},
     ui::{
         interface::gold_counter::MyAssets,

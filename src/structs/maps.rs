@@ -1,27 +1,5 @@
-use bevy::prelude::*;
-use uuid::Uuid;
-
 use crate::enums::MapImageEnum;
-
-use super::missions::{Mission, Missions};
-
-// #[derive(Debug, Component, Resource)]
-// pub struct Objective {
-//     pub id: Uuid,
-//     pub name: String,
-//     pub description: String,
-//     pub is_completed: bool,
-// }
-
-// impl Objective {
-//     pub fn is_completed(&self) -> bool {
-//         // WIP - Pour que l'objective se remplisse automatiquement ?
-//         self.is_completed
-//     }
-// }
-
-// #[derive(Debug, Component, Resource)]
-// pub struct Objectives(pub Vec<Objective>);
+use bevy::prelude::*;
 
 #[derive(Debug, Component, Resource, Clone)]
 pub struct Maps(pub Vec<Map>);
