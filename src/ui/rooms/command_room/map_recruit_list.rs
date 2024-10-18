@@ -2,6 +2,7 @@ use super::map_recruit_card::map_recruit_card;
 use crate::{
     structs::{missions::SelectedMission, player_stats::PlayerStats},
     ui::interface::gold_counter::MyAssets,
+    utils::sort_recruits_by_total_merged_stats,
 };
 use bevy::prelude::*;
 
@@ -44,8 +45,11 @@ pub fn map_recruit_list(
             ..default()
         })
         .with_children(|left_container| {
+            let sorted_recruits =
+                sort_recruits_by_total_merged_stats(player_stats.recruits.clone());
+
             // Barrack room > left container > recruit buttons
-            for recruit in player_stats.recruits.iter() {
+            for recruit in sorted_recruits.iter() {
                 map_recruit_card(
                     left_container,
                     my_assets,

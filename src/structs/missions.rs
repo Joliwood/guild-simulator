@@ -3,10 +3,7 @@ use uuid::Uuid;
 
 use crate::utils::{get_global_points, get_victory_percentage};
 
-use super::{
-    general_structs::Ennemy,
-    player_stats::{self, PlayerStats},
-};
+use super::{general_structs::Ennemy, player_stats::PlayerStats};
 
 #[derive(Default, Debug, Component, Resource)]
 pub struct MissionReports(pub Vec<MissionReport>);
@@ -180,6 +177,13 @@ impl Missions {
 
         missions
     }
+
+    pub fn get_golds_earned_by_mission_id(&self, mission_id: u16) -> Option<u32> {
+        if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
+            return Some(mission.golds);
+        }
+        None
+    }
 }
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
@@ -188,6 +192,7 @@ pub struct Mission {
     pub days: u8,
     pub description: String,
     pub ennemy: Ennemy,
+    pub golds: u32,
     pub id: u16,
     pub level: u8,
     pub name: String,
@@ -244,6 +249,7 @@ impl Default for Missions {
                 unlocked: true,
                 description: "A basic camp, we think we could find some resources here. We need to send a recruit to check it out."
                 .to_string(),
+                golds: 50,
             },
             Mission {
                 days_left: None,
@@ -264,6 +270,7 @@ impl Default for Missions {
                 },
                 unlocked: true,
                 description: "More extended camp, we think we could find some resources here. We need to send a recruit to check it out.".to_string(),
+                golds: 80,
             },
             Mission {
                 days_left: Some(1),
@@ -284,6 +291,7 @@ impl Default for Missions {
                 },
                 unlocked: false,
                 description: "A very extended camp, the final one of the tuto".to_string(),
+                golds: 150,
             },
         ])
     }

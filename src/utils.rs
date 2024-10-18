@@ -276,26 +276,59 @@ Click to dismiss.",
     )
 }
 
-pub fn get_selected_recruit_for_equipment(selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>) -> RecruitStats {
+pub fn get_selected_recruit_for_equipment(
+    selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
+) -> RecruitStats {
     match selected_recruit_for_equipment.0 {
         Some(_) => {
             return RecruitStats {
-                state: selected_recruit_for_equipment.0.as_ref().unwrap().state.clone(),
+                state: selected_recruit_for_equipment
+                    .0
+                    .as_ref()
+                    .unwrap()
+                    .state
+                    .clone(),
                 recruit_inventory: selected_recruit_for_equipment
                     .0
                     .as_ref()
                     .unwrap()
                     .recruit_inventory
                     .clone(),
-                class: selected_recruit_for_equipment.0.as_ref().unwrap().class.clone(),
+                class: selected_recruit_for_equipment
+                    .0
+                    .as_ref()
+                    .unwrap()
+                    .class
+                    .clone(),
                 endurance: selected_recruit_for_equipment.0.as_ref().unwrap().endurance,
-                experience: selected_recruit_for_equipment.0.as_ref().unwrap().experience,
+                experience: selected_recruit_for_equipment
+                    .0
+                    .as_ref()
+                    .unwrap()
+                    .experience,
                 id: selected_recruit_for_equipment.0.as_ref().unwrap().id,
-                image_atlas_index: selected_recruit_for_equipment.0.as_ref().unwrap().image_atlas_index,
-                intelligence: selected_recruit_for_equipment.0.as_ref().unwrap().intelligence,
+                image_atlas_index: selected_recruit_for_equipment
+                    .0
+                    .as_ref()
+                    .unwrap()
+                    .image_atlas_index,
+                intelligence: selected_recruit_for_equipment
+                    .0
+                    .as_ref()
+                    .unwrap()
+                    .intelligence,
                 level: selected_recruit_for_equipment.0.as_ref().unwrap().level,
-                max_experience: selected_recruit_for_equipment.0.as_ref().unwrap().max_experience,
-                name: selected_recruit_for_equipment.0.as_ref().unwrap().name.clone(),
+                max_experience: selected_recruit_for_equipment
+                    .0
+                    .as_ref()
+                    .unwrap()
+                    .max_experience,
+                name: selected_recruit_for_equipment
+                    .0
+                    .as_ref()
+                    .unwrap()
+                    .name
+                    .clone(),
                 strength: selected_recruit_for_equipment.0.as_ref().unwrap().strength,
             };
         }
@@ -328,13 +361,16 @@ pub fn equip_recruit_inventory(
             // Add the weapon to the selected recruit inventory weapon slot
             // + Delete from the player_stat inventory
 
-            let selected_recruit_for_equipment_inventory: RecruitInventory = selected_recruit_for_equipment.get_inventory();
-            let selected_recruit_for_equipment_weapon = selected_recruit_for_equipment_inventory.weapon;
+            let selected_recruit_for_equipment_inventory: RecruitInventory =
+                selected_recruit_for_equipment.get_inventory();
+            let selected_recruit_for_equipment_weapon =
+                selected_recruit_for_equipment_inventory.weapon;
             let selected_recruit_for_equipment_id = selected_recruit_for_equipment.get_id();
 
             if selected_recruit_for_equipment_id.is_some() {
                 if selected_recruit_for_equipment_weapon.is_none() {
-                    player_stats.equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
+                    player_stats
+                        .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
                     selected_recruit_for_equipment.0 =
                         player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
                     delete_item_from_player_inventory(player_stats, item);
@@ -345,7 +381,8 @@ pub fn equip_recruit_inventory(
                     let selected_recruit_for_equipment_item =
                         Item::Weapon(selected_recruit_for_equipment_weapon.clone().unwrap());
                     player_stats.add_item(selected_recruit_for_equipment_item);
-                    player_stats.equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
+                    player_stats
+                        .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
                     selected_recruit_for_equipment.0 =
                         player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
                     delete_item_from_player_inventory(player_stats, item);
@@ -356,13 +393,16 @@ pub fn equip_recruit_inventory(
             return false;
         }
         Item::Armor(_armor) => {
-            let selected_recruit_for_equipment_inventory: RecruitInventory = selected_recruit_for_equipment.get_inventory();
-            let selected_recruit_for_equipment_armor = selected_recruit_for_equipment_inventory.armor;
+            let selected_recruit_for_equipment_inventory: RecruitInventory =
+                selected_recruit_for_equipment.get_inventory();
+            let selected_recruit_for_equipment_armor =
+                selected_recruit_for_equipment_inventory.armor;
             let selected_recruit_for_equipment_id = selected_recruit_for_equipment.get_id();
 
             if selected_recruit_for_equipment_id.is_some() {
                 if selected_recruit_for_equipment_armor.is_none() {
-                    player_stats.equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
+                    player_stats
+                        .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
                     selected_recruit_for_equipment.0 =
                         player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
                     delete_item_from_player_inventory(player_stats, item);
@@ -373,7 +413,8 @@ pub fn equip_recruit_inventory(
                     let selected_recruit_for_equipment_item =
                         Item::Armor(selected_recruit_for_equipment_armor.clone().unwrap());
                     player_stats.add_item(selected_recruit_for_equipment_item);
-                    player_stats.equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
+                    player_stats
+                        .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
                     selected_recruit_for_equipment.0 =
                         player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
                     delete_item_from_player_inventory(player_stats, item);
@@ -384,8 +425,10 @@ pub fn equip_recruit_inventory(
             return false;
         }
         Item::Scroll(scroll, _quantity) => {
-            let selected_recruit_for_equipment_inventory: RecruitInventory = selected_recruit_for_equipment.get_inventory();
-            let selected_recruit_for_equipment_scrolls = selected_recruit_for_equipment_inventory.scrolls;
+            let selected_recruit_for_equipment_inventory: RecruitInventory =
+                selected_recruit_for_equipment.get_inventory();
+            let selected_recruit_for_equipment_scrolls =
+                selected_recruit_for_equipment_inventory.scrolls;
 
             if selected_recruit_for_equipment_scrolls.len() == 3 {
                 return false;
@@ -395,9 +438,11 @@ pub fn equip_recruit_inventory(
             let scroll_id = scroll.id;
 
             if selected_recruit_for_equipment_id.is_some() {
-                player_stats.equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
+                player_stats
+                    .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
 
-                selected_recruit_for_equipment.0 = player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
+                selected_recruit_for_equipment.0 =
+                    player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
 
                 player_stats.remove_one_scroll_from_inventory(scroll_id);
                 return true;
@@ -443,12 +488,18 @@ pub fn finish_mission(
     if is_mission_sucess {
         let xp_earned = get_xp_earned(mission_ennemy_level.unwrap());
         new_mission_report.experience_gained = Some(xp_earned);
-        let gold_earned = (mission_ennemy_level.unwrap() * 10) as i32;
-        new_mission_report.golds_gained = Some(gold_earned);
+        // let gold_earned = (mission_ennemy_level.unwrap() * 10) as i32;
+        let golds_earned = missions.get_golds_earned_by_mission_id(mission_id).unwrap() as i32;
+        new_mission_report.golds_gained = Some(golds_earned);
     }
 
     // Create a new mission_report
     mission_reports.add_mission_report(new_mission_report);
+}
+
+pub fn sort_recruits_by_total_merged_stats(mut recruits: Vec<RecruitStats>) -> Vec<RecruitStats> {
+    recruits.sort_by_key(|recruit| std::cmp::Reverse(recruit.get_total_merged_stats()));
+    return recruits;
 }
 
 #[cfg(test)]
