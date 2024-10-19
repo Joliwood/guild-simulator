@@ -57,6 +57,16 @@ pub fn sign_mission_report(
                     );
                     player_stats.increment_golds(mission_report.golds_gained.unwrap());
                     play_sound(&my_assets, &mut commands, SoundEnum::PickingGolds);
+
+                    missions.unlock_missions_by_mission_id(mission_report.mission_id);
+
+                    let mission = missions.get_mission_by_id(mission_report.mission_id);
+
+                    if mission.is_none() {
+                        return;
+                    }
+
+                    player_stats.add_loots_to_inventory_by_item_loot(mission.unwrap().loots);
                 }
 
                 mission_reports.remove_mission_report_by_id(mission_report.mission_id);

@@ -3,7 +3,7 @@ use crate::{
     structs::{
         equipments::ItemEnum,
         general_structs::{MissionModalVisible, MissionReportsModalVisible},
-        missions::{MissionReport, MissionReports, Missions},
+        missions::{ItemLootEnum, MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
         recruits::{RecruitInventory, RecruitStats, SelectedRecruitForEquipment},
     },
@@ -493,8 +493,17 @@ pub fn finish_mission(
         let golds_earned = missions.get_golds_earned_by_mission_id(mission_id).unwrap() as i32;
         new_mission_report.golds_gained = Some(golds_earned);
 
-        missions.unlock_missions_by_mission_id(mission_id);
-        // unlock_missions_by_ids
+        // ! WIP - Has to be when the player sign the report
+
+        // missions.unlock_missions_by_mission_id(mission_id);
+
+        // let mission = missions.get_mission_by_id(mission_id);
+
+        // if mission.is_none() {
+        //     return;
+        // }
+
+        // player_stats.add_loots_to_inventory_by_item_loot(mission.unwrap().loots);
     }
 
     // Create a new mission_report

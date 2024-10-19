@@ -35,7 +35,7 @@ pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
                 scrolls: vec![],
             },
             state: RecruitStateEnum::Available,
-            strength: 10,
+            strength: 25,
         },
         RecruitStats {
             class: RecruitEnum::Mage,
@@ -43,7 +43,7 @@ pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
             experience: 0,
             id: Uuid::new_v4(),
             image_atlas_index: 1,
-            intelligence: 67,
+            intelligence: 12,
             level: 1,
             max_experience: 100,
             name: "Wagaly".to_string(),

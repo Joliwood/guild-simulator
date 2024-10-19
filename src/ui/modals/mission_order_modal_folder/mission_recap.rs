@@ -98,7 +98,7 @@ pub fn mission_recap(
                     style: Style {
                         flex_direction: FlexDirection::Column, // Organize rows in a column
                         justify_content: JustifyContent::FlexStart,
-                        row_gap: Val::Px(5.),
+                        row_gap: Val::Px(3.),
                         width: Val::Percent(100.0), // Full width
                         ..default()
                     },

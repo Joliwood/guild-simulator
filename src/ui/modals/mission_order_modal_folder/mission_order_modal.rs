@@ -1,4 +1,5 @@
 use crate::{
+    enums::ColorPaletteEnum,
     structs::{
         general_structs::{MissionModalVisible, UniqueId},
         missions::{Missions, SelectedMission},
@@ -23,7 +24,7 @@ pub fn mission_order_modal(
     player_stats: Res<PlayerStats>,
     selected_mission: Res<SelectedMission>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
-    _missions: Res<Missions>,
+    missions: Res<Missions>,
     selected_recruit_for_mission: Res<SelectedRecruitForMission>,
 ) {
     let buttons_layout = TextureAtlasLayout::from_grid(
@@ -124,7 +125,7 @@ pub fn mission_order_modal(
                                 height: Val::Percent(100.0),
                                 flex_direction: FlexDirection::Column,
                                 justify_content: JustifyContent::SpaceBetween,
-                                column_gap: Val::Px(10.0),
+                                // column_gap: Val::Px(10.0),
                                 ..default()
                             },
                             ..default()
@@ -183,7 +184,13 @@ pub fn mission_order_modal(
                                     );
                                 });
 
-                            loots_and_start(parent, &my_assets);
+                            loots_and_start(
+                                parent,
+                                &my_assets,
+                                &missions,
+                                &selected_mission,
+                                &mut texture_atlas_layouts,
+                            );
                         });
                 });
         }

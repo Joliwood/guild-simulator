@@ -89,14 +89,15 @@ impl CustomButton {
             },
             CustomButton::MissionStart => ButtonBundle {
                 style: Style {
-                    // margin: UiRect::all(Val::Px(10.)),
+                    justify_self: JustifySelf::Center,
+                    align_self: AlignSelf::Center,
                     width: Val::Px(200.),
                     height: Val::Px(40.),
                     border: UiRect::all(Val::Px(2.)),
                     ..default()
                 },
                 image: my_assets.wood_box_container.clone().into(),
-                border_color: BorderColor(WOOD_COLOR),
+                border_color: BorderColor(Color::BLACK),
                 border_radius: BorderRadius::all(Val::Px(10.)),
                 ..default()
             },

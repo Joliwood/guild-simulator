@@ -63,6 +63,7 @@ pub fn recruit_recap(
                         },
                     ),
                     style: Style {
+                        border: UiRect::all(Val::Px(2.)),
                         margin: UiRect::all(Val::Auto),
                         ..default()
                     },

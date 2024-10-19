@@ -2,8 +2,8 @@
 use crate::{
     enums::{MapImageEnum, SoundEnum},
     structs::{
-        equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats,
-        trigger_structs::GoldCountTrigger,
+        equipments::ItemEnum, general_structs::UniqueId, missions::ItemLootEnum,
+        player_stats::PlayerStats, trigger_structs::GoldCountTrigger,
     },
     systems::systems_constants::NORMAL_BUTTON,
     ui::{styles::containers_styles::basic_button_style, ui_constants::WOOD_COLOR},
@@ -124,6 +124,14 @@ impl MyAssets {
             ItemEnum::Weapon(_) => self.weapons_atlas.clone(),
             ItemEnum::Armor(_) => self.armors_atlas.clone(),
             ItemEnum::Scroll(_, _) => self.scrolls_atlas.clone(),
+        };
+    }
+
+    pub fn get_item_loot_atlas_path(&self, item: &ItemLootEnum) -> Handle<Image> {
+        return match item {
+            ItemLootEnum::Weapon(_) => self.weapons_atlas.clone(),
+            ItemLootEnum::Armor(_) => self.armors_atlas.clone(),
+            ItemLootEnum::Scroll(_) => self.scrolls_atlas.clone(),
         };
     }
 

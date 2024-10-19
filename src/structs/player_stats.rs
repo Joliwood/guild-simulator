@@ -2,6 +2,7 @@
 use super::{
     equipments::ItemEnum,
     general_structs::{load_armor, load_scroll, load_weapon},
+    missions::{ItemLoot, ItemLootEnum, Loots},
     recruits::RecruitStats,
 };
 use crate::{
@@ -174,42 +175,62 @@ impl PlayerStats {
         }
     }
 
-    // Importée de general structs
-    // pub fn add_item(&mut self, item: ItemEnum) {
-    //     match item {
-    //         ItemEnum::Scroll(scroll, quantity) => {
-    //             let scroll_id = scroll.id;
-    //             if self.inventory.iter().any(|item| match item {
-    //                 ItemEnum::Scroll(scroll, _) => scroll.id == scroll_id,
-    //                 _ => false,
-    //             }) {
-    //                 self.inventory.iter_mut().for_each(|item| {
-    //                     if let ItemEnum::Scroll(scroll, q) = item {
-    //                         if scroll.id == scroll_id {
-    //                             *q += quantity;
-    //                         }
-    //                     }
-    //                 });
-    //             } else {
-    //                 self.inventory.push(ItemEnum::Scroll(scroll, quantity));
-    //             }
-    //         }
-    //         _ => {
-    //             if self.inventory.len() < self.max_inventory_size {
-    //                 self.inventory.push(item);
+    // pub fn add_loots_to_inventory_by_item_loot(&mut self, item_loots: Vec<ItemLoot>) {
+    //     for item_loot in item_loots {
+    //         let random_percent = rand::random::<u8>();
+    //         if random_percent <= item_loot.percent {
+    //             match item_loot.item {
+    //                 ItemLootEnum::Armor(armor) => {
+    //                     let armor = load_armor(armor);
+    //                     self.add_item(ItemEnum::Armor(armor));
+    //                 }
+    //                 ItemLootEnum::Scroll(scroll) => {
+    //                     let scroll = load_scroll(scroll);
+    //                     self.add_item(ItemEnum::Scroll(scroll, 1));
+    //                 }
+    //                 ItemLootEnum::Weapon(weapon) => {
+    //                     let weapon = load_weapon(weapon);
+    //                     self.add_item(ItemEnum::Weapon(weapon));
+    //                 }
     //             }
     //         }
     //     }
-    //     // self.inventory.push(item);
     // }
 
-    //     pub fn equip_item_to_recruit(&mut self, recruit_id: Uuid, item: &ItemEnum) {
-    //         if let Some(recruit) = self
-    //             .recruits
-    //             .iter_mut()
-    //             .find(|recruit| recruit.id == recruit_id)
-    //         {
-    //             recruit.equip_item(item);
-    //         }
-    //     }
+    pub fn add_loots_to_inventory_by_item_loot(&mut self, loots: Loots) {
+        let item_loots = loots.0;
+
+        if item_loots.is_empty() {
+            return;
+        }
+
+        // Helper function to add item based on its enum type
+        let mut add_item_to_inventory = |item_loot: &ItemLoot| match &item_loot.item {
+            ItemLootEnum::Armor(armor) => {
+                let armor = load_armor(armor.clone());
+                self.add_item(ItemEnum::Armor(armor));
+            }
+            ItemLootEnum::Scroll(scroll) => {
+                let scroll = load_scroll(scroll.clone());
+                self.add_item(ItemEnum::Scroll(scroll, 1));
+            }
+            ItemLootEnum::Weapon(weapon) => {
+                let weapon = load_weapon(weapon.clone());
+                self.add_item(ItemEnum::Weapon(weapon));
+            }
+        };
+
+        // Step 1: Pick one guaranteed random item
+        let first_random_item_index = rand::random::<usize>() % item_loots.len();
+        let first_item = &item_loots[first_random_item_index];
+        add_item_to_inventory(first_item);
+
+        // Step 2: 50% chance to pick a second item (can be same or different)
+        let second_chance = rand::random::<u8>() % 100;
+        if second_chance < 50 {
+            let first_random_item_index = rand::random::<usize>() % item_loots.len();
+            let second_item = &item_loots[first_random_item_index];
+            add_item_to_inventory(second_item);
+        }
+    }
 }

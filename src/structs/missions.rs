@@ -1,7 +1,7 @@
 use super::{general_structs::Ennemy, player_stats::PlayerStats};
 use crate::{
     data::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
-    utils::{get_global_points, get_victory_percentage},
+    utils::{calculate_price_range, get_global_points, get_victory_percentage},
 };
 use bevy::prelude::*;
 use uuid::Uuid;
@@ -210,6 +210,128 @@ pub enum ItemLootEnum {
 pub struct ItemLoot {
     pub item: ItemLootEnum,
     pub percent: u8,
+}
+
+impl ItemLoot {
+    pub fn get_atlas_index(&self) -> u16 {
+        match &self.item {
+            ItemLootEnum::Armor(armor) => armor.get_armor().image_atlas_index,
+            ItemLootEnum::Scroll(scroll) => scroll.get_scroll().image_atlas_index,
+            ItemLootEnum::Weapon(weapon) => weapon.get_weapon().image_atlas_index,
+        }
+    }
+
+    pub fn get_item_layout(&self) -> TextureAtlasLayout {
+        return match self {
+            ItemLoot {
+                item: ItemLootEnum::Armor(_),
+                ..
+            } => TextureAtlasLayout::from_grid(
+                UVec2::new(1600, 400),
+                4,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            ),
+            ItemLoot {
+                item: ItemLootEnum::Scroll(_),
+                ..
+            } => TextureAtlasLayout::from_grid(
+                UVec2::new(4320, 1080),
+                4,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            ),
+            ItemLoot {
+                item: ItemLootEnum::Weapon(_),
+                ..
+            } => TextureAtlasLayout::from_grid(
+                UVec2::new(2900, 400),
+                6,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            ),
+        };
+    }
+
+    pub fn get_item_loot_tooltip_description(&self) -> String {
+        return match self {
+            ItemLoot {
+                item: ItemLootEnum::Armor(armor),
+                ..
+            } => {
+                let armor = armor.get_armor();
+                let mut description = format!("{}\n", armor.name);
+                let price_range = calculate_price_range(armor.price);
+
+                if let Some(endurance) = armor.endurance {
+                    description.push_str(&format!("\nEndurance: {}", endurance));
+                }
+                if let Some(strength) = armor.strength {
+                    description.push_str(&format!("\nStrength: {}", strength));
+                }
+                if let Some(intelligence) = armor.intelligence {
+                    description.push_str(&format!("\nIntelligence: {}", intelligence));
+                }
+                description.push_str(&format!(
+                    "\n\nPrice: {} to {} G",
+                    price_range.0, price_range.1
+                ));
+
+                description
+            }
+            ItemLoot {
+                item: ItemLootEnum::Scroll(scroll),
+                ..
+            } => {
+                let scroll = scroll.get_scroll();
+                let mut description = format!("{}\n", scroll.name);
+                let price_range = calculate_price_range(scroll.price);
+
+                if let Some(endurance) = scroll.endurance {
+                    description.push_str(&format!("\nEndurance: {}", endurance));
+                }
+                if let Some(strength) = scroll.strength {
+                    description.push_str(&format!("\nStrength: {}", strength));
+                }
+                if let Some(intelligence) = scroll.intelligence {
+                    description.push_str(&format!("\nIntelligence: {}", intelligence));
+                }
+                description.push_str(&format!(
+                    "\n\nPrice: {} to {} G",
+                    price_range.0, price_range.1
+                ));
+
+                description
+            }
+            ItemLoot {
+                item: ItemLootEnum::Weapon(weapon),
+                ..
+            } => {
+                let weapon = weapon.get_weapon();
+                let mut description = format!("{}\n", weapon.name);
+                let price_range = calculate_price_range(weapon.price);
+
+                if let Some(endurance) = weapon.endurance {
+                    description.push_str(&format!("\nEndurance: {}", endurance));
+                }
+                if let Some(strength) = weapon.strength {
+                    description.push_str(&format!("\nStrength: {}", strength));
+                }
+                if let Some(intelligence) = weapon.intelligence {
+                    description.push_str(&format!("\nIntelligence: {}", intelligence));
+                }
+                description.push_str(&format!(
+                    "\n\nPrice: {} to {} G",
+                    price_range.0, price_range.1
+                ));
+
+                description
+            }
+        };
+    }
 }
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
