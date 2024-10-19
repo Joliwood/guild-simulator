@@ -3,7 +3,7 @@ use crate::{
     structs::{
         equipments::ItemEnum,
         general_structs::{MissionModalVisible, MissionReportsModalVisible},
-        missions::{ItemLootEnum, MissionReport, MissionReports, Missions},
+        missions::{ItemLootEnum, Loots, MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
         recruits::{RecruitInventory, RecruitStats, SelectedRecruitForEquipment},
     },
@@ -484,6 +484,7 @@ pub fn finish_mission(
         experience_gained: None,
         golds_gained: None,
         mission_ids_to_unlock: vec![],
+        loots: vec![],
     };
 
     if is_mission_sucess {
@@ -497,13 +498,19 @@ pub fn finish_mission(
 
         // missions.unlock_missions_by_mission_id(mission_id);
 
-        // let mission = missions.get_mission_by_id(mission_id);
+        let mission = missions.get_mission_by_id(mission_id);
 
-        // if mission.is_none() {
-        //     return;
-        // }
+        if mission.is_none() {
+            return;
+        }
 
         // player_stats.add_loots_to_inventory_by_item_loot(mission.unwrap().loots);
+
+        // ? WIP
+
+        new_mission_report.calculate_loots(mission.unwrap().loots.clone());
+
+        // new_mission_report.loots = mission.unwrap().loots;
     }
 
     // Create a new mission_report

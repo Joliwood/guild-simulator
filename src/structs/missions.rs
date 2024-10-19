@@ -1,4 +1,8 @@
-use super::{general_structs::Ennemy, player_stats::PlayerStats};
+use super::{
+    equipments::ItemEnum,
+    general_structs::{load_armor, load_scroll, load_weapon, Ennemy},
+    player_stats::PlayerStats,
+};
 use crate::{
     data::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
     utils::{calculate_price_range, get_global_points, get_victory_percentage},
@@ -13,11 +17,77 @@ pub struct MissionReports(pub Vec<MissionReport>);
 pub struct MissionReport {
     pub experience_gained: Option<u32>,
     pub golds_gained: Option<i32>,
+    pub loots: Vec<ItemEnum>,
     pub mission_id: u16,
     pub mission_ids_to_unlock: Vec<u16>,
     pub percent_of_victory: u32,
     pub recruit_id: Uuid,
     pub success: bool,
+}
+
+impl MissionReport {
+    pub fn add_item(&mut self, item: ItemEnum) {
+        match item {
+            ItemEnum::Scroll(scroll, quantity) => {
+                let scroll_id = scroll.id;
+                if self.loots.iter().any(|item| match item {
+                    ItemEnum::Scroll(scroll, _) => scroll.id == scroll_id,
+                    _ => false,
+                }) {
+                    self.loots.iter_mut().for_each(|item| {
+                        if let ItemEnum::Scroll(scroll, q) = item {
+                            if scroll.id == scroll_id {
+                                *q += quantity;
+                            }
+                        }
+                    });
+                } else {
+                    self.loots.push(ItemEnum::Scroll(scroll, quantity));
+                }
+            }
+            _ => {
+                self.loots.push(item);
+            }
+        }
+        // self.inventory.push(item);
+    }
+
+    pub fn calculate_loots(&mut self, loots: Loots) {
+        let item_loots = loots.0;
+
+        if item_loots.is_empty() {
+            return;
+        }
+
+        // Helper function to add item based on its enum type
+        let mut add_item_to_inventory = |item_loot: &ItemLoot| match &item_loot.item {
+            ItemLootEnum::Armor(armor) => {
+                let armor = load_armor(armor.clone());
+                self.add_item(ItemEnum::Armor(armor));
+            }
+            ItemLootEnum::Scroll(scroll) => {
+                let scroll = load_scroll(scroll.clone());
+                self.add_item(ItemEnum::Scroll(scroll, 1));
+            }
+            ItemLootEnum::Weapon(weapon) => {
+                let weapon = load_weapon(weapon.clone());
+                self.add_item(ItemEnum::Weapon(weapon));
+            }
+        };
+
+        // Step 1: Pick one guaranteed random item
+        let first_random_item_index = rand::random::<usize>() % item_loots.len();
+        let first_item = &item_loots[first_random_item_index];
+        add_item_to_inventory(first_item);
+
+        // Step 2: 50% chance to pick a second item (can be same or different)
+        let second_chance = rand::random::<u8>() % 100;
+        if second_chance < 50 {
+            let first_random_item_index = rand::random::<usize>() % item_loots.len();
+            let second_item = &item_loots[first_random_item_index];
+            add_item_to_inventory(second_item);
+        }
+    }
 }
 
 impl MissionReports {
@@ -48,7 +118,54 @@ impl MissionReports {
             self.0.remove(index);
         }
     }
+
+    // pub fn add_loots_by_item_loot_by_mission_id(&mut self, mission_id: u16, loots: Loots) {
+    //     if let Some(report) = self
+    //         .0
+    //         .iter_mut()
+    //         .find(|report| report.mission_id == mission_id)
+    //     {
+    //         report.loots = loots.0;
+    //     }
+    // }
 }
+
+// pub fn add_loots_to_inventory_by_item_loot(&mut self, loots: Loots) {
+//     let item_loots = loots.0;
+
+//     if item_loots.is_empty() {
+//         return;
+//     }
+
+//     // Helper function to add item based on its enum type
+//     let mut add_item_to_inventory = |item_loot: &ItemLoot| match &item_loot.item {
+//         ItemLootEnum::Armor(armor) => {
+//             let armor = load_armor(armor.clone());
+//             self.add_item(ItemEnum::Armor(armor));
+//         }
+//         ItemLootEnum::Scroll(scroll) => {
+//             let scroll = load_scroll(scroll.clone());
+//             self.add_item(ItemEnum::Scroll(scroll, 1));
+//         }
+//         ItemLootEnum::Weapon(weapon) => {
+//             let weapon = load_weapon(weapon.clone());
+//             self.add_item(ItemEnum::Weapon(weapon));
+//         }
+//     };
+
+//     // Step 1: Pick one guaranteed random item
+//     let first_random_item_index = rand::random::<usize>() % item_loots.len();
+//     let first_item = &item_loots[first_random_item_index];
+//     add_item_to_inventory(first_item);
+
+//     // Step 2: 50% chance to pick a second item (can be same or different)
+//     let second_chance = rand::random::<u8>() % 100;
+//     if second_chance < 50 {
+//         let first_random_item_index = rand::random::<usize>() % item_loots.len();
+//         let second_item = &item_loots[first_random_item_index];
+//         add_item_to_inventory(second_item);
+//     }
+// }
 
 #[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct SelectedMission {

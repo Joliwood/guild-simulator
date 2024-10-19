@@ -60,13 +60,20 @@ pub fn sign_mission_report(
 
                     missions.unlock_missions_by_mission_id(mission_report.mission_id);
 
-                    let mission = missions.get_mission_by_id(mission_report.mission_id);
+                    // ! WIP - Has to be added to the report and we only add report > player inventory here
+                    // let mission = missions.get_mission_by_id(mission_report.mission_id);
 
-                    if mission.is_none() {
-                        return;
+                    // if mission.is_none() {
+                    //     return;
+                    // }
+
+                    // let loots = mission_report.loots.clone();
+
+                    // player_stats.add_loots_to_inventory_by_item_loot(loots);
+
+                    for loot in mission_report.loots.iter() {
+                        player_stats.add_item(loot.clone());
                     }
-
-                    player_stats.add_loots_to_inventory_by_item_loot(mission.unwrap().loots);
                 }
 
                 mission_reports.remove_mission_report_by_id(mission_report.mission_id);
