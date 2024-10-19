@@ -19,7 +19,8 @@ pub fn recruit_frame(
     );
     let recruit_texture_atlas_layout: Handle<TextureAtlasLayout> =
         texture_atlas_layouts.add(recruit_layout);
-    let selected_recruit_for_equipment_data = get_selected_recruit_for_equipment(selected_recruit_for_equipment);
+    let selected_recruit_for_equipment_data =
+        get_selected_recruit_for_equipment(selected_recruit_for_equipment);
 
     parent
         .spawn(ImageBundle {
