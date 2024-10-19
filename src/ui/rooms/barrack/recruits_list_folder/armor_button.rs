@@ -1,5 +1,5 @@
 use crate::{
-    structs::{equipments::Item, general_structs::UniqueId, recruits::RecruitStats},
+    structs::{equipments::ItemEnum, general_structs::UniqueId, recruits::RecruitStats},
     ui::interface::gold_counter::MyAssets,
     utils::{get_item_image_atlas_index, get_item_layout, get_item_tooltip_description},
 };
@@ -16,7 +16,7 @@ pub fn armor_button(
     let recruit_stats_armor = recruit_stats_inventory.armor;
 
     if let Some(recruit_stats_armor) = recruit_stats_armor {
-        let item = Item::Armor(recruit_stats_armor);
+        let item = ItemEnum::Armor(recruit_stats_armor);
         let item_image_atlas_index = get_item_image_atlas_index(&item);
         let layout = get_item_layout(&item);
         let tooltip_text = get_item_tooltip_description(&item);

@@ -1,7 +1,7 @@
 use crate::{
     enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
     structs::{
-        equipments::Item,
+        equipments::ItemEnum,
         general_structs::{MissionModalVisible, MissionReportsModalVisible},
         missions::{MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
@@ -146,34 +146,34 @@ pub fn format_ron_equipments_for_display(ron_data: &str) -> String {
 /// Get the image atlas index of an item
 ///
 /// Has to be updated each time the design will evolve
-pub fn get_item_image_atlas_index(item: &Item) -> u16 {
+pub fn get_item_image_atlas_index(item: &ItemEnum) -> u16 {
     return match item {
-        Item::Weapon(weapon) => weapon.image_atlas_index,
-        Item::Armor(armor) => armor.image_atlas_index,
-        Item::Scroll(scroll, _) => scroll.image_atlas_index,
+        ItemEnum::Weapon(weapon) => weapon.image_atlas_index,
+        ItemEnum::Armor(armor) => armor.image_atlas_index,
+        ItemEnum::Scroll(scroll, _) => scroll.image_atlas_index,
     };
 }
 
 /// Get the layout of the image atlas of an item
 ///
 /// Has to be updated each time the design will evolve
-pub fn get_item_layout(item: &Item) -> TextureAtlasLayout {
+pub fn get_item_layout(item: &ItemEnum) -> TextureAtlasLayout {
     return match item {
-        Item::Weapon(_) => TextureAtlasLayout::from_grid(
+        ItemEnum::Weapon(_) => TextureAtlasLayout::from_grid(
             UVec2::new(2900, 400),
             6,
             1,
             Some(UVec2::new(0, 0)),
             Some(UVec2::new(0, 0)),
         ),
-        Item::Armor(_) => TextureAtlasLayout::from_grid(
+        ItemEnum::Armor(_) => TextureAtlasLayout::from_grid(
             UVec2::new(1600, 400),
             4,
             1,
             Some(UVec2::new(0, 0)),
             Some(UVec2::new(0, 0)),
         ),
-        Item::Scroll(_, _) => TextureAtlasLayout::from_grid(
+        ItemEnum::Scroll(_, _) => TextureAtlasLayout::from_grid(
             UVec2::new(4320, 1080),
             4,
             1,
@@ -186,9 +186,9 @@ pub fn get_item_layout(item: &Item) -> TextureAtlasLayout {
 /// Get the tooltip description of an item
 ///
 /// For now, only supports texts
-pub fn get_item_tooltip_description(item: &Item) -> String {
+pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
     return match item {
-        Item::Weapon(weapon) => {
+        ItemEnum::Weapon(weapon) => {
             let mut description = format!("{}\n", weapon.name);
             let price_range = calculate_price_range(weapon.price);
 
@@ -208,7 +208,7 @@ pub fn get_item_tooltip_description(item: &Item) -> String {
 
             description
         }
-        Item::Armor(armor) => {
+        ItemEnum::Armor(armor) => {
             let mut description = format!("{}\n", armor.name);
             let price_range = calculate_price_range(armor.price);
 
@@ -228,7 +228,7 @@ pub fn get_item_tooltip_description(item: &Item) -> String {
 
             description
         }
-        Item::Scroll(scroll, quantity) => {
+        ItemEnum::Scroll(scroll, quantity) => {
             let mut description = format!("{}\n", scroll.name);
 
             if let Some(endurance) = scroll.endurance {
@@ -353,11 +353,11 @@ pub fn get_selected_recruit_for_equipment(
 
 pub fn equip_recruit_inventory(
     selected_recruit_for_equipment: &mut ResMut<SelectedRecruitForEquipment>,
-    item: &Item,
+    item: &ItemEnum,
     player_stats: &mut ResMut<PlayerStats>,
 ) -> bool {
     match item {
-        Item::Weapon(_weapon) => {
+        ItemEnum::Weapon(_weapon) => {
             // Add the weapon to the selected recruit inventory weapon slot
             // + Delete from the player_stat inventory
 
@@ -379,7 +379,7 @@ pub fn equip_recruit_inventory(
 
                 if selected_recruit_for_equipment_weapon.is_some() {
                     let selected_recruit_for_equipment_item =
-                        Item::Weapon(selected_recruit_for_equipment_weapon.clone().unwrap());
+                        ItemEnum::Weapon(selected_recruit_for_equipment_weapon.clone().unwrap());
                     player_stats.add_item(selected_recruit_for_equipment_item);
                     player_stats
                         .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
@@ -392,7 +392,7 @@ pub fn equip_recruit_inventory(
 
             return false;
         }
-        Item::Armor(_armor) => {
+        ItemEnum::Armor(_armor) => {
             let selected_recruit_for_equipment_inventory: RecruitInventory =
                 selected_recruit_for_equipment.get_inventory();
             let selected_recruit_for_equipment_armor =
@@ -411,7 +411,7 @@ pub fn equip_recruit_inventory(
 
                 if selected_recruit_for_equipment_armor.is_some() {
                     let selected_recruit_for_equipment_item =
-                        Item::Armor(selected_recruit_for_equipment_armor.clone().unwrap());
+                        ItemEnum::Armor(selected_recruit_for_equipment_armor.clone().unwrap());
                     player_stats.add_item(selected_recruit_for_equipment_item);
                     player_stats
                         .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
@@ -424,7 +424,7 @@ pub fn equip_recruit_inventory(
 
             return false;
         }
-        Item::Scroll(scroll, _quantity) => {
+        ItemEnum::Scroll(scroll, _quantity) => {
             let selected_recruit_for_equipment_inventory: RecruitInventory =
                 selected_recruit_for_equipment.get_inventory();
             let selected_recruit_for_equipment_scrolls =

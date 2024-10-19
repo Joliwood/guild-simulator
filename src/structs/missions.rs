@@ -1,5 +1,8 @@
 use super::{general_structs::Ennemy, player_stats::PlayerStats};
-use crate::utils::{get_global_points, get_victory_percentage};
+use crate::{
+    data::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
+    utils::{get_global_points, get_victory_percentage},
+};
 use bevy::prelude::*;
 use uuid::Uuid;
 
@@ -197,29 +200,20 @@ impl Missions {
 }
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
-pub struct WeaponLoot {
-    pub weapon_id: u16,
+pub enum ItemLootEnum {
+    Armor(ArmorsEnum),
+    Scroll(ScrollsEnum),
+    Weapon(WeaponsEnum),
+}
+
+#[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
+pub struct ItemLoot {
+    pub item: ItemLootEnum,
     pub percent: u8,
 }
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
-pub struct ArmorLoot {
-    pub armor_id: u16,
-    pub percent: u8,
-}
-
-#[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
-pub struct ScrollLoot {
-    pub scroll_id: u16,
-    pub percent: u8,
-}
-
-#[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
-pub struct Loots {
-    pub weapons: Vec<WeaponLoot>,
-    pub armors: Vec<ArmorLoot>,
-    pub scrolls: Vec<ScrollLoot>,
-}
+pub struct Loots(pub Vec<ItemLoot>);
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct Mission {
@@ -287,20 +281,22 @@ impl Default for Missions {
                 description: "A basic camp, we think we could find some resources here. We need to send a recruit to check it out."
                 .to_string(),
                 golds: 50,
-                loots: Loots {
-                    weapons: vec![
-                        WeaponLoot {
-                            weapon_id: 1,
+                loots: Loots(
+                    vec![
+                        ItemLoot {
+                            item: ItemLootEnum::Weapon(WeaponsEnum::SwordOfValor),
                             percent: 50,
                         },
-                        WeaponLoot {
-                            weapon_id: 2,
+                        ItemLoot {
+                            item: ItemLootEnum::Armor(ArmorsEnum::GauntletsOfPower),
                             percent: 50,
                         },
-                    ],
-                    armors: vec![],
-                    scrolls: vec![],
-                },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
+                            percent: 50,
+                        },
+                    ]
+                ),
                 unlock_mission_ids: vec![2],
             },
             Mission {
@@ -323,11 +319,9 @@ impl Default for Missions {
                 unlocked: false,
                 description: "More extended camp, we think we could find some resources here. We need to send a recruit to check it out.".to_string(),
                 golds: 80,
-                loots: Loots {
-                    weapons: vec![],
-                    armors: vec![],
-                    scrolls: vec![],
-                },
+                loots: Loots(
+                    vec![],
+                ),
                 unlock_mission_ids: vec![3],
             },
             Mission {
@@ -350,11 +344,9 @@ impl Default for Missions {
                 unlocked: false,
                 description: "A very extended camp, the final one of the tuto".to_string(),
                 golds: 150,
-                loots: Loots {
-                    weapons: vec![],
-                    armors: vec![],
-                    scrolls: vec![],
-                },
+                loots: Loots(
+                    vec![],
+                ),
                 unlock_mission_ids: vec![],
             },
         ])

@@ -3,7 +3,7 @@ use crate::{
     data::equipments::scrolls::ScrollsEnum,
     enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum, SoundEnum},
     structs::{
-        equipments::Item,
+        equipments::ItemEnum,
         general_structs::{load_scroll, MissionModalVisible, MissionReportsModalVisible, UniqueId},
         missions::{Missions, SelectedMission},
         player_stats::PlayerStats,
@@ -188,7 +188,7 @@ pub fn mouse_interaction_updates(
                     hire_new_recruits(player_stats.as_mut(), new_recruits);
                     let new_item = load_scroll(ScrollsEnum::ScrollOfPower);
                     // if let Some(item) = new_item {
-                    player_stats.add_item(Item::Scroll(new_item, 1));
+                    player_stats.add_item(ItemEnum::Scroll(new_item, 1));
                     // }
                 }
                 Interaction::Hovered => {}
@@ -510,7 +510,7 @@ pub fn select_item_in_inventory(
             &mut BackgroundColor,
             &UniqueId,
             &mut BorderColor,
-            &Item,
+            &ItemEnum,
         ),
         Changed<Interaction>,
     >,
@@ -532,13 +532,13 @@ pub fn select_item_in_inventory(
                     );
                     if is_recruit_equiped {
                         match item {
-                            Item::Armor(_) => {
+                            ItemEnum::Armor(_) => {
                                 play_sound(&my_assets, &mut commands, SoundEnum::EquipArmor);
                             }
-                            Item::Scroll(_, _) => {
+                            ItemEnum::Scroll(_, _) => {
                                 play_sound(&my_assets, &mut commands, SoundEnum::EquipScroll);
                             }
-                            Item::Weapon(_) => {
+                            ItemEnum::Weapon(_) => {
                                 play_sound(&my_assets, &mut commands, SoundEnum::EquipWeapon);
                             }
                         }
@@ -559,7 +559,7 @@ pub fn select_item_in_inventory(
     }
 }
 
-pub fn delete_item_from_player_inventory(player_stats: &mut PlayerStats, item: &Item) {
+pub fn delete_item_from_player_inventory(player_stats: &mut PlayerStats, item: &ItemEnum) {
     let item_index = player_stats
         .inventory
         .iter()

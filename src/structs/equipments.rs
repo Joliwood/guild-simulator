@@ -4,7 +4,7 @@ use serde::Deserialize;
 use crate::enums::ItemRaretyEnum;
 
 #[derive(Debug, Clone, Deserialize, Component, PartialEq, Eq, Hash)]
-pub enum Item {
+pub enum ItemEnum {
     Weapon(Weapon),
     Armor(Armor),
     Scroll(Scroll, u16),

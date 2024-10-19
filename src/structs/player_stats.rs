@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 use super::{
-    equipments::Item,
+    equipments::ItemEnum,
     general_structs::{load_armor, load_scroll, load_weapon},
     recruits::RecruitStats,
 };
@@ -17,7 +17,7 @@ pub struct PlayerStats {
     pub experience: u32,
     pub golds: i32,
     pub guild_level: i8,
-    pub inventory: Vec<Item>,
+    pub inventory: Vec<ItemEnum>,
     pub max_experience: u32,
     pub max_inventory_size: usize,
     pub recruits: Vec<RecruitStats>,
@@ -36,14 +36,14 @@ impl Default for PlayerStats {
         let second_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
         let second_same_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
 
-        inventory.push(Item::Weapon(first_weapon));
-        inventory.push(Item::Weapon(second_weapon));
-        inventory.push(Item::Weapon(second_same_weapon));
-        inventory.push(Item::Scroll(first_scroll, 1));
-        inventory.push(Item::Scroll(second_scroll, 3));
-        inventory.push(Item::Armor(first_armor));
-        inventory.push(Item::Armor(second_armor));
-        inventory.push(Item::Armor(second_same_armor));
+        inventory.push(ItemEnum::Weapon(first_weapon));
+        inventory.push(ItemEnum::Weapon(second_weapon));
+        inventory.push(ItemEnum::Weapon(second_same_weapon));
+        inventory.push(ItemEnum::Scroll(first_scroll, 1));
+        inventory.push(ItemEnum::Scroll(second_scroll, 3));
+        inventory.push(ItemEnum::Armor(first_armor));
+        inventory.push(ItemEnum::Armor(second_armor));
+        inventory.push(ItemEnum::Armor(second_same_armor));
 
         Self {
             day: 1,
@@ -81,11 +81,11 @@ impl PlayerStats {
         self.max_experience *= 2;
     }
 
-    pub fn find_item_by_id(&self, id: u16) -> Option<Item> {
+    pub fn find_item_by_id(&self, id: u16) -> Option<ItemEnum> {
         if let Some(item) = self.inventory.iter().find(|item| match item {
-            Item::Weapon(weapon) => weapon.id == id,
-            Item::Armor(armor) => armor.id == id,
-            Item::Scroll(scroll, _) => scroll.id == id,
+            ItemEnum::Weapon(weapon) => weapon.id == id,
+            ItemEnum::Armor(armor) => armor.id == id,
+            ItemEnum::Scroll(scroll, _) => scroll.id == id,
         }) {
             return Some(item.clone());
         }
@@ -93,23 +93,23 @@ impl PlayerStats {
         None
     }
 
-    pub fn add_item(&mut self, item: Item) {
+    pub fn add_item(&mut self, item: ItemEnum) {
         match item {
-            Item::Scroll(scroll, quantity) => {
+            ItemEnum::Scroll(scroll, quantity) => {
                 let scroll_id = scroll.id;
                 if self.inventory.iter().any(|item| match item {
-                    Item::Scroll(scroll, _) => scroll.id == scroll_id,
+                    ItemEnum::Scroll(scroll, _) => scroll.id == scroll_id,
                     _ => false,
                 }) {
                     self.inventory.iter_mut().for_each(|item| {
-                        if let Item::Scroll(scroll, q) = item {
+                        if let ItemEnum::Scroll(scroll, q) = item {
                             if scroll.id == scroll_id {
                                 *q += quantity;
                             }
                         }
                     });
                 } else {
-                    self.inventory.push(Item::Scroll(scroll, quantity));
+                    self.inventory.push(ItemEnum::Scroll(scroll, quantity));
                 }
             }
             _ => {
@@ -129,7 +129,7 @@ impl PlayerStats {
         None
     }
 
-    pub fn equip_item_to_recruit(&mut self, recruit_id: Uuid, item: &Item) {
+    pub fn equip_item_to_recruit(&mut self, recruit_id: Uuid, item: &ItemEnum) {
         if let Some(recruit) = self
             .recruits
             .iter_mut()
@@ -151,10 +151,10 @@ impl PlayerStats {
 
     pub fn remove_one_scroll_from_inventory(&mut self, scroll_id: u16) {
         if let Some(scroll_index) = self.inventory.iter().position(|item| match item {
-            Item::Scroll(scroll, _) => scroll.id == scroll_id,
+            ItemEnum::Scroll(scroll, _) => scroll.id == scroll_id,
             _ => false,
         }) {
-            if let Item::Scroll(_scroll, quantity) = &mut self.inventory[scroll_index] {
+            if let ItemEnum::Scroll(_scroll, quantity) = &mut self.inventory[scroll_index] {
                 if *quantity > 1 {
                     *quantity -= 1;
                 } else {
@@ -175,23 +175,23 @@ impl PlayerStats {
     }
 
     // Importée de general structs
-    // pub fn add_item(&mut self, item: Item) {
+    // pub fn add_item(&mut self, item: ItemEnum) {
     //     match item {
-    //         Item::Scroll(scroll, quantity) => {
+    //         ItemEnum::Scroll(scroll, quantity) => {
     //             let scroll_id = scroll.id;
     //             if self.inventory.iter().any(|item| match item {
-    //                 Item::Scroll(scroll, _) => scroll.id == scroll_id,
+    //                 ItemEnum::Scroll(scroll, _) => scroll.id == scroll_id,
     //                 _ => false,
     //             }) {
     //                 self.inventory.iter_mut().for_each(|item| {
-    //                     if let Item::Scroll(scroll, q) = item {
+    //                     if let ItemEnum::Scroll(scroll, q) = item {
     //                         if scroll.id == scroll_id {
     //                             *q += quantity;
     //                         }
     //                     }
     //                 });
     //             } else {
-    //                 self.inventory.push(Item::Scroll(scroll, quantity));
+    //                 self.inventory.push(ItemEnum::Scroll(scroll, quantity));
     //             }
     //         }
     //         _ => {
@@ -203,7 +203,7 @@ impl PlayerStats {
     //     // self.inventory.push(item);
     // }
 
-    //     pub fn equip_item_to_recruit(&mut self, recruit_id: Uuid, item: &Item) {
+    //     pub fn equip_item_to_recruit(&mut self, recruit_id: Uuid, item: &ItemEnum) {
     //         if let Some(recruit) = self
     //             .recruits
     //             .iter_mut()

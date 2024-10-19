@@ -2,7 +2,7 @@
 use crate::{
     enums::{MapImageEnum, SoundEnum},
     structs::{
-        equipments::Item, general_structs::UniqueId, player_stats::PlayerStats,
+        equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats,
         trigger_structs::GoldCountTrigger,
     },
     systems::systems_constants::NORMAL_BUTTON,
@@ -119,11 +119,11 @@ pub struct MyAssets {
 }
 
 impl MyAssets {
-    pub fn get_item_atlas_path(&self, item: &Item) -> Handle<Image> {
+    pub fn get_item_atlas_path(&self, item: &ItemEnum) -> Handle<Image> {
         return match item {
-            Item::Weapon(_) => self.weapons_atlas.clone(),
-            Item::Armor(_) => self.armors_atlas.clone(),
-            Item::Scroll(_, _) => self.scrolls_atlas.clone(),
+            ItemEnum::Weapon(_) => self.weapons_atlas.clone(),
+            ItemEnum::Armor(_) => self.armors_atlas.clone(),
+            ItemEnum::Scroll(_, _) => self.scrolls_atlas.clone(),
         };
     }
 

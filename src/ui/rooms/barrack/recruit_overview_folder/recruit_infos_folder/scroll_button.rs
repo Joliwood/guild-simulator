@@ -1,6 +1,6 @@
 use crate::{
     structs::{
-        equipments::Item, general_structs::UniqueId, player_stats::PlayerStats,
+        equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats,
         recruits::SelectedRecruitForEquipment,
     },
     ui::interface::gold_counter::MyAssets,
@@ -45,7 +45,7 @@ pub fn scroll_button(
     let recruit_scroll = recruit_scrolls.get(scroll_index as usize);
 
     if let Some(recruit_scroll) = recruit_scroll {
-        let item = Item::Scroll(recruit_scroll.clone(), 1);
+        let item = ItemEnum::Scroll(recruit_scroll.clone(), 1);
         let item_image_atlas_index = get_item_image_atlas_index(&item);
         let layout = get_item_layout(&item);
         let tooltip_text = get_item_tooltip_description(&item);

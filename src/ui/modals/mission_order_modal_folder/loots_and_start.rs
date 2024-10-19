@@ -22,18 +22,29 @@ pub fn loots_and_start(
             ..default()
         })
         .with_children(|parent| {
-            // Loots in text
-            parent.spawn(TextBundle {
-                text: Text::from_section(
-                    "Loots: gold, sword",
-                    TextStyle {
-                        font: my_assets.fira_sans_bold.clone(),
-                        font_size: 14.0,
-                        color: Color::BLACK,
+            parent
+                .spawn(NodeBundle {
+                    style: Style {
+                        flex_direction: FlexDirection::Column,
+                        justify_content: JustifyContent::SpaceBetween,
+                        ..default()
                     },
-                ),
-                ..default()
-            });
+                    ..default()
+                })
+                .with_children(|parent| {
+                    // Loots in text
+                    parent.spawn(TextBundle {
+                        text: Text::from_section(
+                            "Loots :",
+                            TextStyle {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 14.0,
+                                color: Color::BLACK,
+                            },
+                        ),
+                        ..default()
+                    });
+                });
 
             //     // Loot icons
             //     parent.spawn(ImageBundle {

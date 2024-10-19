@@ -1,6 +1,6 @@
 use crate::{
     structs::{
-        equipments::Item, general_structs::UniqueId, player_stats::PlayerStats,
+        equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats,
         recruits::SelectedRecruitForEquipment,
     },
     ui::interface::gold_counter::MyAssets,
@@ -43,7 +43,7 @@ pub fn weapon_button(
     let recruit_inventory = recruit.recruit_inventory;
     let recruit_weapon = recruit_inventory.weapon;
     if let Some(recruit_weapon) = recruit_weapon {
-        let item = Item::Weapon(recruit_weapon);
+        let item = ItemEnum::Weapon(recruit_weapon);
         let item_image_atlas_index = get_item_image_atlas_index(&item);
         let layout = get_item_layout(&item);
         let tooltip_text = get_item_tooltip_description(&item);
