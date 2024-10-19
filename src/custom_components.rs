@@ -12,6 +12,7 @@ pub enum CustomButton {
     SquareIcon,
     EarnGold,
     MissionStart,
+    MissionOnMap,
 }
 
 impl CustomButton {
@@ -101,6 +102,44 @@ impl CustomButton {
                 border_radius: BorderRadius::all(Val::Px(10.)),
                 ..default()
             },
+            _ => panic!("The mission button has to be called in the mission_bundle method"),
         }
+    }
+
+    pub fn mission_bundle(&self, my_assets: &Res<MyAssets>, mission_id: u16) -> ButtonBundle {
+        let mission_image = my_assets.get_mission_image(mission_id);
+        let mission_position = get_mission_position(mission_id);
+
+        match self {
+            CustomButton::MissionOnMap => ButtonBundle {
+                style: Style {
+                    position_type: PositionType::Absolute,
+                    left: Val::Px(mission_position.0),
+                    top: Val::Px(mission_position.1),
+                    justify_self: JustifySelf::Center,
+                    align_self: AlignSelf::Center,
+                    width: Val::Px(130.),
+                    height: Val::Px(130.),
+                    border: UiRect::all(Val::Px(2.)),
+                    ..default()
+                },
+                image: mission_image.clone().into(),
+                border_color: BorderColor(Color::BLACK),
+                border_radius: BorderRadius::all(Val::Px(10.)),
+                ..default()
+            },
+            _ => panic!("This button is not a mission on map button"),
+        }
+    }
+}
+
+pub fn get_mission_position(mission_id: u16) -> (f32, f32) {
+    match mission_id {
+        1 => (0., 0.),
+        2 => (0., 150.),
+        3 => (0., 300.),
+        4 => (0., 450.),
+        5 => (150., 0.),
+        _ => panic!("Mission id not found"),
     }
 }

@@ -3,7 +3,7 @@ use crate::{
         general_structs::{MissionModalVisible, UniqueId},
         missions::{Mission, Missions, SelectedMission},
     },
-    systems::systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON},
+    systems::systems_constants::NORMAL_BUTTON,
 };
 use bevy::prelude::*;
 
@@ -41,7 +41,7 @@ pub fn select_mission_button(
                     }
                     Interaction::Hovered => {
                         window.cursor.icon = CursorIcon::Pointer;
-                        *color = HOVERED_BUTTON.into();
+                        *color = Color::WHITE.into();
                     }
                     Interaction::None => {
                         window.cursor.icon = CursorIcon::Default;

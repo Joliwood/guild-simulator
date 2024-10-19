@@ -116,6 +116,20 @@ pub struct MyAssets {
     // --- Maps --- //
     #[asset(path = "images/maps/map_tuto.png")]
     pub map_tuto: Handle<Image>,
+
+    // --- Missions --- //
+    #[asset(path = "images/missions/c1_mission_1.png")]
+    pub c1_mission_1: Handle<Image>,
+    #[asset(path = "images/missions/c1_mission_2.png")]
+    pub c1_mission_2: Handle<Image>,
+    #[asset(path = "images/missions/c1_mission_3.png")]
+    pub c1_mission_3: Handle<Image>,
+    #[asset(path = "images/missions/c1_mission_4.png")]
+    pub c1_mission_4: Handle<Image>,
+    #[asset(path = "images/missions/c1_mission_5.png")]
+    pub c1_mission_5: Handle<Image>,
+    #[asset(path = "images/missions/c1_mission_6.png")]
+    pub c1_mission_6: Handle<Image>,
 }
 
 impl MyAssets {
@@ -154,6 +168,18 @@ impl MyAssets {
     pub fn get_image_map(&self, map_enum: MapImageEnum) -> Handle<Image> {
         return match map_enum {
             MapImageEnum::CampagnTuto => self.map_tuto.clone(),
+        };
+    }
+
+    pub fn get_mission_image(&self, mission_id: u16) -> Handle<Image> {
+        return match mission_id {
+            1 => self.c1_mission_1.clone(),
+            2 => self.c1_mission_2.clone(),
+            3 => self.c1_mission_3.clone(),
+            4 => self.c1_mission_4.clone(),
+            5 => self.c1_mission_5.clone(),
+            6 => self.c1_mission_6.clone(),
+            _ => self.c1_mission_1.clone(),
         };
     }
 }

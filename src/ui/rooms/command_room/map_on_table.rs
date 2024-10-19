@@ -46,25 +46,12 @@ pub fn map_on_table(
                         // Generate buttons for each mission
                         for mission in missions.iter().filter(|mission| mission.unlocked) {
                             if mission.recruit_send.is_none() {
-                                map.spawn(CustomButton::Primary.bundle(my_assets))
-                                    .insert(UniqueId("select_mission_button".to_string()))
-                                    .insert(mission.clone())
-                                    .with_children(|button| {
-                                        button.spawn(TextBundle {
-                                            text: Text::from_section(
-                                                format!(
-                                                    "Mission {}: Level {}",
-                                                    mission.name, mission.level
-                                                ),
-                                                TextStyle {
-                                                    font: my_assets.fira_sans_bold.clone(),
-                                                    font_size: 16.0,
-                                                    color: Color::WHITE,
-                                                },
-                                            ),
-                                            ..default()
-                                        });
-                                    });
+                                map.spawn(
+                                    CustomButton::MissionOnMap
+                                        .mission_bundle(my_assets, mission.id),
+                                )
+                                .insert(UniqueId("select_mission_button".to_string()))
+                                .insert(mission.clone());
                             } else {
                                 map.spawn(CustomButton::Primary.bundle(my_assets))
                                     .with_children(|button| {
