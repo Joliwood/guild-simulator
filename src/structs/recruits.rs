@@ -114,6 +114,9 @@ impl RecruitStats {
         self.level += 1;
         // Set the max experience to the current experience * 2
         self.max_experience *= 2;
+        self.strength *= 2;
+        self.endurance *= 2;
+        self.intelligence *= 2;
     }
 
     pub fn get_item(&self, item: ItemEnum) -> Option<ItemEnum> {

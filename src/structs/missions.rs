@@ -49,7 +49,6 @@ impl MissionReport {
                 self.loots.push(item);
             }
         }
-        // self.inventory.push(item);
     }
 
     pub fn calculate_loots(&mut self, loots: Loots) {
@@ -80,12 +79,20 @@ impl MissionReport {
         let first_item = &item_loots[first_random_item_index];
         add_item_to_inventory(first_item);
 
-        // Step 2: 50% chance to pick a second item (can be same or different)
-        let second_chance = rand::random::<u8>() % 100;
-        if second_chance < 50 {
-            let first_random_item_index = rand::random::<usize>() % item_loots.len();
-            let second_item = &item_loots[first_random_item_index];
-            add_item_to_inventory(second_item);
+        // Step 2: 50% chance to pick a second item (must be different)
+        if item_loots.len() > 1 {
+            let second_chance = rand::random::<u8>() % 100;
+            if second_chance < 99 {
+                let mut second_random_item_index = rand::random::<usize>() % item_loots.len();
+
+                // Ensure the second item is different from the first one
+                while second_random_item_index == first_random_item_index {
+                    second_random_item_index = rand::random::<usize>() % item_loots.len();
+                }
+
+                let second_item = &item_loots[second_random_item_index];
+                add_item_to_inventory(second_item);
+            }
         }
     }
 }
@@ -118,54 +125,7 @@ impl MissionReports {
             self.0.remove(index);
         }
     }
-
-    // pub fn add_loots_by_item_loot_by_mission_id(&mut self, mission_id: u16, loots: Loots) {
-    //     if let Some(report) = self
-    //         .0
-    //         .iter_mut()
-    //         .find(|report| report.mission_id == mission_id)
-    //     {
-    //         report.loots = loots.0;
-    //     }
-    // }
 }
-
-// pub fn add_loots_to_inventory_by_item_loot(&mut self, loots: Loots) {
-//     let item_loots = loots.0;
-
-//     if item_loots.is_empty() {
-//         return;
-//     }
-
-//     // Helper function to add item based on its enum type
-//     let mut add_item_to_inventory = |item_loot: &ItemLoot| match &item_loot.item {
-//         ItemLootEnum::Armor(armor) => {
-//             let armor = load_armor(armor.clone());
-//             self.add_item(ItemEnum::Armor(armor));
-//         }
-//         ItemLootEnum::Scroll(scroll) => {
-//             let scroll = load_scroll(scroll.clone());
-//             self.add_item(ItemEnum::Scroll(scroll, 1));
-//         }
-//         ItemLootEnum::Weapon(weapon) => {
-//             let weapon = load_weapon(weapon.clone());
-//             self.add_item(ItemEnum::Weapon(weapon));
-//         }
-//     };
-
-//     // Step 1: Pick one guaranteed random item
-//     let first_random_item_index = rand::random::<usize>() % item_loots.len();
-//     let first_item = &item_loots[first_random_item_index];
-//     add_item_to_inventory(first_item);
-
-//     // Step 2: 50% chance to pick a second item (can be same or different)
-//     let second_chance = rand::random::<u8>() % 100;
-//     if second_chance < 50 {
-//         let first_random_item_index = rand::random::<usize>() % item_loots.len();
-//         let second_item = &item_loots[first_random_item_index];
-//         add_item_to_inventory(second_item);
-//     }
-// }
 
 #[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct SelectedMission {
@@ -200,11 +160,6 @@ impl SelectedMission {
             get_victory_percentage(recruit_global_points as u16, ennemy_global_points) as u32;
 
         self.percent_of_victory = Some(victory_percentage);
-
-        // let recruit = self.percent_of_victory = Some(get_victory_percentage(
-        //     recruit_global_points,
-        //     ennemy_global_points,
-        // ));
     }
 }
 
@@ -526,17 +481,17 @@ impl Default for Missions {
                             item: ItemLootEnum::Weapon(WeaponsEnum::SwordOfValor),
                             percent: 50,
                         },
-                        ItemLoot {
-                            item: ItemLootEnum::Armor(ArmorsEnum::GauntletsOfPower),
-                            percent: 50,
-                        },
-                        ItemLoot {
-                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
-                            percent: 50,
-                        },
+                        // ItemLoot {
+                        //     item: ItemLootEnum::Armor(ArmorsEnum::GauntletsOfPower),
+                        //     percent: 50,
+                        // },
+                        // ItemLoot {
+                        //     item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
+                        //     percent: 50,
+                        // },
                     ]
                 ),
-                unlock_mission_ids: vec![2],
+                unlock_mission_ids: vec![4, 5],
             },
             Mission {
                 days_left: None,
@@ -555,7 +510,7 @@ impl Default for Missions {
                     name: "Ennemy 2".to_string(),
                     strength: 15,
                 },
-                unlocked: false,
+                unlocked: true,
                 description: "More extended camp, we think we could find some resources here. We need to send a recruit to check it out.".to_string(),
                 golds: 80,
                 loots: Loots(
@@ -578,6 +533,95 @@ impl Default for Missions {
                     intelligence: 10,
                     level: 3,
                     name: "Ennemy 3".to_string(),
+                    strength: 20,
+                },
+                unlocked: false,
+                description: "A very extended camp, the final one of the tuto".to_string(),
+                golds: 150,
+                loots: Loots(
+                    vec![],
+                ),
+                unlock_mission_ids: vec![],
+            },
+            Mission {
+                days_left: None,
+                days: 1,
+                id: 4,
+                level: 1,
+                name: "Mission 4".to_string(),
+                percent_of_victory: None,
+                recruit_send: None,
+                ennemy: Ennemy {
+                    image_atlas_index: 5,
+                    endurance: 10,
+                    experience: 0,
+                    intelligence: 5,
+                    level: 1,
+                    name: "Ennemy 4".to_string(),
+                    strength: 10,
+                },
+                unlocked: false,
+                description: "A basic camp, we think we could find some resources here. We need to send a recruit to check it out."
+                .to_string(),
+                golds: 50,
+                loots: Loots(
+                    vec![
+                        ItemLoot {
+                            item: ItemLootEnum::Weapon(WeaponsEnum::SwordOfValor),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Armor(ArmorsEnum::GauntletsOfPower),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
+                            percent: 50,
+                        },
+                    ]
+                ),
+                unlock_mission_ids: vec![5],
+            },
+            Mission {
+                days_left: None,
+                days: 1,
+                id: 5,
+                level: 2,
+                name: "Mission 5".to_string(),
+                percent_of_victory: None,
+                recruit_send: None,
+                ennemy: Ennemy {
+                    image_atlas_index: 4,
+                    endurance: 15,
+                    experience: 0,
+                    intelligence: 7,
+                    level: 2,
+                    name: "Ennemy 5".to_string(),
+                    strength: 15,
+                },
+                unlocked: false,
+                description: "More extended camp, we think we could find some resources here. We need to send a recruit to check it out.".to_string(),
+                golds: 80,
+                loots: Loots(
+                    vec![],
+                ),
+                unlock_mission_ids: vec![6],
+            },
+            Mission {
+                days_left: Some(1),
+                days: 2,
+                id: 6,
+                level: 3,
+                name: "Mission 6".to_string(),
+                percent_of_victory: None,
+                recruit_send: None,
+                ennemy: Ennemy {
+                    image_atlas_index: 3,
+                    endurance: 20,
+                    experience: 0,
+                    intelligence: 10,
+                    level: 3,
+                    name: "Ennemy 6".to_string(),
                     strength: 20,
                 },
                 unlocked: false,

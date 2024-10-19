@@ -4,6 +4,7 @@ use crate::{
     ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
+use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn map_recruit_card(
     left_container: &mut ChildBuilder,
@@ -183,18 +184,27 @@ pub fn map_recruit_card(
                 });
 
             button
-                .spawn(ImageBundle {
-                    image: my_assets.set_of_keys_container.clone().into(),
-                    style: Style {
-                        width: Val::Px(30.),
-                        height: Val::Px(30.),
-                        display: Display::Flex, // To allow flex positioning
-                        align_items: AlignItems::Center, // Align text vertically in the center
-                        justify_content: JustifyContent::Center, // Align text horizontally in the center
+                .spawn((
+                    ButtonBundle {
+                        image: my_assets.set_of_keys_container.clone().into(),
+                        style: Style {
+                            width: Val::Px(30.),
+                            height: Val::Px(30.),
+                            display: Display::Flex, // To allow flex positioning
+                            align_items: AlignItems::Center, // Align text vertically in the center
+                            justify_content: JustifyContent::Center, // Align text horizontally in the center
+                            ..default()
+                        },
                         ..default()
                     },
-                    ..default()
-                })
+                    Tooltip::cursor(
+                        "This score represent the
+total power of the recruit, based on
+his/her stats, equipment and level."
+                            .to_string(),
+                    )
+                    .with_activation(TooltipActivation::IDLE),
+                ))
                 .with_children(|frame| {
                     // Image that is 30x30 with centered text inside
                     frame.spawn(TextBundle::from_section(

@@ -48,7 +48,7 @@ impl Default for Maps {
             Map {
                 description: "Tutorial description".to_string(),
                 id: 1,
-                map_mission_ids: vec![1, 2, 3],
+                map_mission_ids: vec![1, 2, 3, 4, 5, 6],
                 name: "Campagn tuto".to_string(),
                 unlocked: true,
                 // image_atlas_index: 0,

@@ -173,11 +173,12 @@ impl MyAssets {
 
     pub fn get_mission_image(&self, mission_id: u16) -> Handle<Image> {
         return match mission_id {
-            1 => self.c1_mission_1.clone(),
-            2 => self.c1_mission_2.clone(),
-            3 => self.c1_mission_3.clone(),
-            4 => self.c1_mission_4.clone(),
-            5 => self.c1_mission_5.clone(),
+            0 => self.c1_mission_1.clone(),
+            1 => self.c1_mission_2.clone(),
+            2 => self.c1_mission_3.clone(),
+            3 => self.c1_mission_4.clone(),
+            4 => self.c1_mission_5.clone(),
+            5 => self.c1_mission_6.clone(),
             6 => self.c1_mission_6.clone(),
             _ => self.c1_mission_1.clone(),
         };

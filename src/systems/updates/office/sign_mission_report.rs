@@ -46,10 +46,7 @@ pub fn sign_mission_report(
 
                 missions.desassign_recruit_to_mission(mission_report.mission_id);
 
-                let is_mission_sucess =
-                    is_mission_success(mission_report.percent_of_victory as f32);
-
-                if is_mission_sucess {
+                if mission_report.success {
                     player_stats.gain_xp(mission_report.experience_gained.unwrap());
                     player_stats.gain_xp_to_recruit(
                         mission_report.recruit_id,
@@ -59,17 +56,6 @@ pub fn sign_mission_report(
                     play_sound(&my_assets, &mut commands, SoundEnum::PickingGolds);
 
                     missions.unlock_missions_by_mission_id(mission_report.mission_id);
-
-                    // ! WIP - Has to be added to the report and we only add report > player inventory here
-                    // let mission = missions.get_mission_by_id(mission_report.mission_id);
-
-                    // if mission.is_none() {
-                    //     return;
-                    // }
-
-                    // let loots = mission_report.loots.clone();
-
-                    // player_stats.add_loots_to_inventory_by_item_loot(loots);
 
                     for loot in mission_report.loots.iter() {
                         player_stats.add_item(loot.clone());

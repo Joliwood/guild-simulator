@@ -53,23 +53,43 @@ pub fn map_on_table(
                                 .insert(UniqueId("select_mission_button".to_string()))
                                 .insert(mission.clone());
                             } else {
-                                map.spawn(CustomButton::Primary.bundle(my_assets))
-                                    .with_children(|button| {
-                                        button.spawn(TextBundle {
-                                            text: Text::from_section(
-                                                format!(
-                                                    "Mission {}: Level {}",
-                                                    mission.name, mission.level
-                                                ),
-                                                TextStyle {
-                                                    font: my_assets.fira_sans_bold.clone(),
-                                                    font_size: 16.0,
-                                                    color: Color::WHITE,
-                                                },
-                                            ),
+                                map.spawn(
+                                    CustomButton::MissionOnMap
+                                        .mission_bundle(my_assets, mission.id),
+                                )
+                                .with_children(|button| {
+                                    // Black filter overlay with centered text
+                                    button
+                                        .spawn(NodeBundle {
+                                            style: Style {
+                                                position_type: PositionType::Absolute,
+                                                top: Val::Px(0.0),
+                                                bottom: Val::Px(0.0),
+                                                left: Val::Px(0.0),
+                                                right: Val::Px(0.0),
+                                                padding: UiRect::all(Val::Px(10.)),
+                                                justify_content: JustifyContent::Center,
+                                                align_items: AlignItems::Center,
+                                                ..default()
+                                            },
+                                            background_color: Color::srgba(0.0, 0.0, 0.0, 0.8)
+                                                .into(),
                                             ..default()
+                                        })
+                                        .with_children(|overlay| {
+                                            overlay.spawn(TextBundle {
+                                                text: Text::from_section(
+                                                    "A recruit has already been sent",
+                                                    TextStyle {
+                                                        font: my_assets.fira_sans_bold.clone(),
+                                                        font_size: 18.0,
+                                                        color: Color::WHITE,
+                                                    },
+                                                ),
+                                                ..default()
+                                            });
                                         });
-                                    });
+                                });
                             }
                         }
                     });
