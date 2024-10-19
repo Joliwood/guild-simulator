@@ -122,7 +122,7 @@ pub fn recruit_recap(
                         // Recruit Name
                         parent.spawn(TextBundle {
                             text: Text::from_section(
-                                format!("Target : {}", recruit.name),
+                                format!("Recruit : {}", recruit.name),
                                 TextStyle {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 16.0,

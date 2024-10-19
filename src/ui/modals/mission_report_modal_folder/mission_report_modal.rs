@@ -1,6 +1,6 @@
 use super::{
-    mission_ennemy_picture::mission_ennemy_picture, mission_ennemy_stats::mission_ennemy_stats,
-    recruit_sent_picture::recruit_sent_picture,
+    loots_earned::loots_earned, mission_ennemy_picture::mission_ennemy_picture,
+    mission_ennemy_stats::mission_ennemy_stats, recruit_sent_picture::recruit_sent_picture,
     recruit_sent_stats::recruit_sent_stats as recruit_sent_stats_fn,
 };
 use crate::{
@@ -198,31 +198,39 @@ pub fn mission_report_modal(
                         mission_ennemy_stats(row, &ennemy, &my_assets);
                     });
 
-                // Loots Text
-                parent.spawn(TextBundle {
-                    text: Text::from_section(
-                        "Loots",
-                        TextStyle {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 18.0,
-                            color: Color::BLACK,
-                        },
-                    ),
-                    ..default()
-                });
+                loots_earned(
+                    parent,
+                    &my_assets,
+                    golds_gained,
+                    experience_gained,
+                    &last_mission_report,
+                    &mut texture_atlas_layouts,
+                );
+                // // Loots Text
+                // parent.spawn(TextBundle {
+                //     text: Text::from_section(
+                //         "Loots",
+                //         TextStyle {
+                //             font: my_assets.fira_sans_bold.clone(),
+                //             font_size: 18.0,
+                //             color: Color::BLACK,
+                //         },
+                //     ),
+                //     ..default()
+                // });
 
-                // Golds and Experience Gained
-                parent.spawn(TextBundle {
-                    text: Text::from_section(
-                        format!("{} golds + {} xp", golds_gained, experience_gained),
-                        TextStyle {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 16.0,
-                            color: Color::BLACK,
-                        },
-                    ),
-                    ..default()
-                });
+                // // Golds and Experience Gained
+                // parent.spawn(TextBundle {
+                //     text: Text::from_section(
+                //         format!("{} golds + {} xp", golds_gained, experience_gained),
+                //         TextStyle {
+                //             font: my_assets.fira_sans_bold.clone(),
+                //             font_size: 16.0,
+                //             color: Color::BLACK,
+                //         },
+                //     ),
+                //     ..default()
+                // });
 
                 // After the existing children have been added
                 parent

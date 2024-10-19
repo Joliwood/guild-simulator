@@ -13,5 +13,9 @@ You can manage all your equipments and equip appropriate stuff to your recruits
 
 ## Overview of the command room
 
+![Overview of the office](./docs/office_overview.png)
+
+## Overview of the command room
+
 (All the designs will be changed) Look at all missions you had unlock send recruits make the job for you, after all ... you are just a manager !
-![Overview of the bcommand room](./docs/command_room_overview.jpg)
+![Overview of the bcommand room](./docs/command_room_overview.png)
