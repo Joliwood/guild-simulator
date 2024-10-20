@@ -3,18 +3,20 @@ use crate::{
     data::equipments::scrolls::ScrollsEnum,
     enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum, SoundEnum},
     structs::{
-        equipments::Item,
+        equipments::ItemEnum,
         general_structs::{load_scroll, MissionModalVisible, MissionReportsModalVisible, UniqueId},
         missions::{Missions, SelectedMission},
         player_stats::PlayerStats,
-        recruits::{RecruitInventory, RecruitStats, SelectedRecruit},
+        recruits::{
+            RecruitInventory, RecruitStats, SelectedRecruitForEquipment, SelectedRecruitForMission,
+        },
     },
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     },
     ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
-    utils::{equip_recruit_inventory, get_global_points, get_new_room, get_victory_percentage},
+    utils::{equip_recruit_inventory, get_new_room},
 };
 use bevy::prelude::*;
 use uuid::Uuid;
@@ -186,7 +188,7 @@ pub fn mouse_interaction_updates(
                     hire_new_recruits(player_stats.as_mut(), new_recruits);
                     let new_item = load_scroll(ScrollsEnum::ScrollOfPower);
                     // if let Some(item) = new_item {
-                    player_stats.add_item(Item::Scroll(new_item, 1));
+                    player_stats.add_item(ItemEnum::Scroll(new_item, 1));
                     // }
                 }
                 Interaction::Hovered => {}
@@ -220,27 +222,31 @@ pub fn assign_recruit_to_mission(
 
                     selected_mission.recruit_id = Some(recruit_id);
 
-                    let recruit_selected = player_stats
-                        .recruits
-                        .iter()
-                        .find(|recruit| recruit.id == recruit_id);
+                    // ! WIP to check after missions refacto
+                    // let recruit_selected = player_stats
+                    //     .recruits
+                    //     .iter()
+                    //     .find(|recruit| recruit.id == recruit_id);
 
-                    if recruit_selected.is_none() {
-                        return;
-                    }
+                    // if recruit_selected.is_none() {
+                    //     return;
+                    // }
 
-                    let recruit_global_points = recruit_selected.unwrap().get_total_merged_stats();
+                    // let recruit_global_points = recruit_selected.unwrap().get_total_merged_stats();
 
-                    let ennemy = &selected_mission.mission.as_ref().unwrap().ennemy;
-                    let ennemy_global_points =
-                        get_global_points(ennemy.strength, ennemy.endurance, ennemy.intelligence);
+                    // let ennemy = &selected_mission.mission.as_ref().unwrap().ennemy;
+                    // let ennemy_global_points =
+                    //     get_global_points(ennemy.strength, ennemy.endurance, ennemy.intelligence);
 
-                    let victory_percentage =
-                        get_victory_percentage(recruit_global_points as u16, ennemy_global_points);
+                    // let victory_percentage =
+                    //     get_victory_percentage(recruit_global_points as u16, ennemy_global_points);
 
-                    let victory_percentage_rounded: u32 = victory_percentage.round() as u32;
+                    // let victory_percentage_rounded: u32 = victory_percentage.round() as u32;
 
-                    selected_mission.percent_of_victory = Some(victory_percentage_rounded);
+                    // selected_mission.percent_of_victory = Some(victory_percentage_rounded);
+
+                    selected_mission.calculate_percent_of_victory(&player_stats);
+                    let victory_percentage_rounded = selected_mission.percent_of_victory.unwrap();
 
                     let mission = selected_mission.mission.as_ref();
                     if mission.is_none() {
@@ -277,6 +283,9 @@ pub fn close_mission_modal(
     >,
     mut windows: Query<&mut Window>,
     mut modal_visible: ResMut<MissionModalVisible>,
+    mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
+    mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
+    mut selected_mission: ResMut<SelectedMission>,
 ) {
     let mut window = windows.single_mut();
 
@@ -286,6 +295,13 @@ pub fn close_mission_modal(
                 Interaction::Pressed => {
                     modal_visible.0 = false;
                     border_color.0 = WOOD_COLOR;
+
+                    if selected_recruit_for_equipment.0 == selected_recruit_for_mission.0 {
+                        selected_recruit_for_equipment.0 = None;
+                    }
+
+                    selected_recruit_for_mission.0 = None;
+                    selected_mission.reset();
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;
@@ -496,12 +512,12 @@ pub fn select_item_in_inventory(
             &mut BackgroundColor,
             &UniqueId,
             &mut BorderColor,
-            &Item,
+            &ItemEnum,
         ),
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
-    mut selected_recruit: ResMut<SelectedRecruit>,
+    mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
     mut player_stats: ResMut<PlayerStats>,
 ) {
     let mut window = windows.single_mut();
@@ -511,17 +527,20 @@ pub fn select_item_in_inventory(
             match *interaction {
                 Interaction::Pressed => {
                     border_color.0 = WOOD_COLOR;
-                    let is_recruit_equiped =
-                        equip_recruit_inventory(&mut selected_recruit, item, &mut player_stats);
+                    let is_recruit_equiped = equip_recruit_inventory(
+                        &mut selected_recruit_for_equipment,
+                        item,
+                        &mut player_stats,
+                    );
                     if is_recruit_equiped {
                         match item {
-                            Item::Armor(_) => {
+                            ItemEnum::Armor(_) => {
                                 play_sound(&my_assets, &mut commands, SoundEnum::EquipArmor);
                             }
-                            Item::Scroll(_, _) => {
+                            ItemEnum::Scroll(_, _) => {
                                 play_sound(&my_assets, &mut commands, SoundEnum::EquipScroll);
                             }
-                            Item::Weapon(_) => {
+                            ItemEnum::Weapon(_) => {
                                 play_sound(&my_assets, &mut commands, SoundEnum::EquipWeapon);
                             }
                         }
@@ -542,7 +561,7 @@ pub fn select_item_in_inventory(
     }
 }
 
-pub fn delete_item_from_player_inventory(player_stats: &mut PlayerStats, item: &Item) {
+pub fn delete_item_from_player_inventory(player_stats: &mut PlayerStats, item: &ItemEnum) {
     let item_index = player_stats
         .inventory
         .iter()

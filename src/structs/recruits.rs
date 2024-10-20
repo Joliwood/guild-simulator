@@ -1,4 +1,4 @@
-use super::equipments::{Armor, Item, Scroll, Weapon};
+use super::equipments::{Armor, ItemEnum, Scroll, Weapon};
 use crate::enums::{RecruitEnum, RecruitStateEnum};
 use bevy::prelude::{Component, Resource};
 use uuid::Uuid;
@@ -20,9 +20,36 @@ pub struct RecruitStats {
 }
 
 #[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
-pub struct SelectedRecruit(pub Option<RecruitStats>);
+pub struct SelectedRecruitForEquipment(pub Option<RecruitStats>);
 
-impl SelectedRecruit {
+impl SelectedRecruitForEquipment {
+    pub fn get_inventory(&self) -> RecruitInventory {
+        if let Some(recruit) = &self.0 {
+            return recruit.recruit_inventory.clone();
+        }
+
+        RecruitInventory::generate_empty_inventory()
+    }
+
+    pub fn get_id(&self) -> Option<Uuid> {
+        if let Some(recruit) = &self.0 {
+            return Some(recruit.id);
+        }
+
+        None
+    }
+
+    pub fn equip_weapon(&mut self, weapon: Weapon) {
+        if let Some(recruit) = &mut self.0 {
+            recruit.recruit_inventory.weapon = Some(weapon);
+        }
+    }
+}
+
+#[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
+pub struct SelectedRecruitForMission(pub Option<RecruitStats>);
+
+impl SelectedRecruitForMission {
     pub fn get_inventory(&self) -> RecruitInventory {
         if let Some(recruit) = &self.0 {
             return recruit.recruit_inventory.clone();
@@ -87,23 +114,26 @@ impl RecruitStats {
         self.level += 1;
         // Set the max experience to the current experience * 2
         self.max_experience *= 2;
+        self.strength *= 2;
+        self.endurance *= 2;
+        self.intelligence *= 2;
     }
 
-    pub fn get_item(&self, item: Item) -> Option<Item> {
+    pub fn get_item(&self, item: ItemEnum) -> Option<ItemEnum> {
         match item {
-            Item::Weapon(_weapon) => {
+            ItemEnum::Weapon(_weapon) => {
                 if let Some(weapon) = &self.recruit_inventory.weapon {
-                    return Some(Item::Weapon(weapon.clone()));
+                    return Some(ItemEnum::Weapon(weapon.clone()));
                 }
             }
-            Item::Armor(_armor) => {
+            ItemEnum::Armor(_armor) => {
                 if let Some(armor) = &self.recruit_inventory.armor {
-                    return Some(Item::Armor(armor.clone()));
+                    return Some(ItemEnum::Armor(armor.clone()));
                 }
             }
-            Item::Scroll(_scroll, _) => {
+            ItemEnum::Scroll(_scroll, _) => {
                 if let Some(scroll) = self.recruit_inventory.scrolls.first() {
-                    return Some(Item::Scroll(scroll.clone(), 1));
+                    return Some(ItemEnum::Scroll(scroll.clone(), 1));
                 }
             }
         }
@@ -111,15 +141,15 @@ impl RecruitStats {
         None
     }
 
-    pub fn equip_item(&mut self, item: &Item) {
+    pub fn equip_item(&mut self, item: &ItemEnum) {
         match item {
-            Item::Weapon(weapon) => {
+            ItemEnum::Weapon(weapon) => {
                 self.recruit_inventory.weapon = Some(weapon.clone());
             }
-            Item::Armor(armor) => {
+            ItemEnum::Armor(armor) => {
                 self.recruit_inventory.armor = Some(armor.clone());
             }
-            Item::Scroll(scroll, _) => {
+            ItemEnum::Scroll(scroll, _) => {
                 self.recruit_inventory.scrolls.push(scroll.clone());
             }
         }
@@ -204,5 +234,17 @@ impl RecruitStats {
             + self.get_additional_endurance_from_items()
             + self.intelligence as u32
             + self.get_additional_intelligence_from_items();
+    }
+
+    pub fn get_total_strength(&self) -> u32 {
+        return self.strength as u32 + self.get_additional_strength_from_items();
+    }
+
+    pub fn get_total_endurance(&self) -> u32 {
+        return self.endurance as u32 + self.get_additional_endurance_from_items();
+    }
+
+    pub fn get_total_intelligence(&self) -> u32 {
+        return self.intelligence as u32 + self.get_additional_intelligence_from_items();
     }
 }

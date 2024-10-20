@@ -1,10 +1,10 @@
-use crate::structs::recruits::RecruitStats;
+use crate::{structs::recruits::RecruitStats, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
 
 pub fn recruit_sent_stats(
     commands: &mut ChildBuilder,
     recruit_sent: &RecruitStats,
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
 ) {
     let recruit_strength =
         recruit_sent.strength + recruit_sent.get_additional_strength_from_items() as u16;
@@ -37,7 +37,7 @@ pub fn recruit_sent_stats(
                 text: Text::from_section(
                     format!("Level: {}", recruit_sent.level),
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
                     },
@@ -50,7 +50,7 @@ pub fn recruit_sent_stats(
                 text: Text::from_section(
                     format!("Strength: {}", recruit_strength),
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
                     },
@@ -63,7 +63,7 @@ pub fn recruit_sent_stats(
                 text: Text::from_section(
                     format!("Endurance: {}", recruit_endurance),
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
                     },
@@ -76,7 +76,7 @@ pub fn recruit_sent_stats(
                 text: Text::from_section(
                     format!("Intelligence: {}", recruit_intelligence),
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
                     },

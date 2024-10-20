@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 use crate::{enums::ItemRaretyEnum, structs::equipments::Armor};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub enum ArmorsEnum {
     ShieldOfCourage,
     HelmetOfTheGuardian,

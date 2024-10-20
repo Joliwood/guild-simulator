@@ -1,15 +1,30 @@
+use super::{
+    map_description::map_description, map_list::map_list, map_on_table::map_on_table,
+    map_recruit_list::map_recruit_list,
+};
 use crate::{
-    custom_components::CustomButton,
-    structs::{general_structs::UniqueId, missions::Missions, trigger_structs::ResetRoomTrigger},
+    structs::{
+        maps::{Maps, SelectedMapId},
+        missions::Missions,
+        player_stats::PlayerStats,
+        trigger_structs::ResetRoomTrigger,
+    },
     ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
 };
 use bevy::prelude::*;
 
+#[allow(clippy::too_many_arguments)]
 pub fn room_command_room(
     my_assets: &Res<MyAssets>,
     commands: &mut Commands,
     missions: Res<Missions>,
+    selected_map_id: Res<SelectedMapId>,
+    maps: Res<Maps>,
+    player_stats: &Res<PlayerStats>,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
+    let selected_map = maps.get_map_by_optional_id(selected_map_id.0);
+
     commands
         .spawn(NodeBundle {
             style: node_container_style(),
@@ -17,12 +32,14 @@ pub fn room_command_room(
         })
         .insert(Name::new("Command room"))
         .insert(ResetRoomTrigger)
-        // Image background node
+        // Background Image for the Command Room
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn(ImageBundle {
-                image: my_assets.command_room.clone().into(),
+                image: my_assets.command_room_background.clone().into(),
                 style: Style {
                     position_type: PositionType::Absolute,
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
                     width: Val::Percent(100.0),
                     height: Val::Percent(100.0),
                     ..default()
@@ -30,44 +47,87 @@ pub fn room_command_room(
                 z_index: ZIndex::Global(-1),
                 ..default()
             });
+        })
+        // Command Table with all child elements inside it
+        .with_children(|ui_container: &mut ChildBuilder| {
+            ui_container
+                .spawn(ImageBundle {
+                    image: my_assets.command_table.clone().into(),
+                    style: Style {
+                        flex_direction: FlexDirection::Row,
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
+                        width: Val::Px(1170.0),
+                        height: Val::Px(650.0),
+                        padding: UiRect::all(Val::Px(80.)),
+                        ..default()
+                    },
+                    z_index: ZIndex::Global(0),
+                    ..default()
+                })
+                .with_children(|table| {
+                    // Left Column
+                    table
+                        .spawn(NodeBundle {
+                            style: Style {
+                                position_type: PositionType::Relative,
+                                display: Display::Flex,
+                                flex_direction: FlexDirection::Column,
+                                justify_content: JustifyContent::SpaceBetween,
+                                align_items: AlignItems::FlexStart,
+                                width: Val::Percent(20.),
+                                height: Val::Percent(100.),
+                                overflow: Overflow {
+                                    x: OverflowAxis::Hidden,
+                                    y: OverflowAxis::Hidden,
+                                },
+                                ..default()
+                            },
+                            ..default()
+                        })
+                        .with_children(|left_column| {
+                            map_list(left_column, my_assets, &maps);
+                            map_description(left_column, my_assets, &selected_map);
+                        });
 
-            // Generate buttons for each mission
-            for (index, mission) in missions.0.iter().enumerate() {
-                if mission.recruit_send.is_none() {
-                    ui_container
-                        .spawn(CustomButton::Primary.bundle(my_assets))
-                        .insert(UniqueId(format!("select_mission_button_{}", mission.id)))
-                        .insert(mission.clone())
-                        .with_children(|button| {
-                            button.spawn(TextBundle {
-                                text: Text::from_section(
-                                    format!("Mission {}: Level {}", index + 1, mission.level),
-                                    TextStyle {
-                                        font: my_assets.fira_sans_bold.clone(),
-                                        font_size: 16.0,
-                                        color: Color::WHITE,
-                                    },
-                                ),
+                    // Center Area (Big node)
+                    table
+                        .spawn(NodeBundle {
+                            style: Style {
+                                width: Val::Percent(60.0),
+                                height: Val::Percent(100.0),
+                                justify_content: JustifyContent::Center,
+                                align_items: AlignItems::Center,
                                 ..default()
-                            });
+                            },
+                            ..default()
+                        })
+                        .with_children(|center| {
+                            // External function for the center area
+                            map_on_table(center, my_assets, &selected_map, &missions);
                         });
-                } else {
-                    ui_container
-                        .spawn(CustomButton::Primary.bundle(my_assets))
-                        .with_children(|button| {
-                            button.spawn(TextBundle {
-                                text: Text::from_section(
-                                    format!("Mission {}: Level {}", index + 1, mission.level),
-                                    TextStyle {
-                                        font: my_assets.fira_sans_bold.clone(),
-                                        font_size: 16.0,
-                                        color: Color::WHITE,
-                                    },
-                                ),
+
+                    // Right Column
+                    table
+                        .spawn(NodeBundle {
+                            style: Style {
+                                flex_direction: FlexDirection::Column,
+                                justify_content: JustifyContent::SpaceBetween,
+                                align_items: AlignItems::FlexEnd,
+                                width: Val::Percent(20.0),
+                                height: Val::Percent(100.0),
                                 ..default()
-                            });
+                            },
+                            ..default()
+                        })
+                        .with_children(|right_column| {
+                            map_recruit_list(
+                                right_column,
+                                my_assets,
+                                player_stats,
+                                texture_atlas_layouts,
+                            );
                         });
-                }
-            }
+                });
         });
 }

@@ -5,7 +5,8 @@ use super::{
 };
 use crate::{
     structs::{
-        player_stats::PlayerStats, recruits::SelectedRecruit, trigger_structs::ResetRoomTrigger,
+        player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
+        trigger_structs::ResetRoomTrigger,
     },
     ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
 };
@@ -15,7 +16,7 @@ pub fn spawn_room_barrack(
     my_assets: &Res<MyAssets>,
     commands: &mut Commands,
     player_stats: &Res<PlayerStats>,
-    selected_recruit: &Res<SelectedRecruit>,
+    selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     commands
@@ -50,7 +51,7 @@ pub fn spawn_room_barrack(
                 player_stats,
                 parent,
                 my_assets,
-                selected_recruit,
+                selected_recruit_for_equipment,
                 texture_atlas_layouts,
             );
             spawn_right_container(parent, my_assets, player_stats, texture_atlas_layouts);

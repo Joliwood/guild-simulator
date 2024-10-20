@@ -1,5 +1,5 @@
 use crate::{
-    structs::{equipments::Item, general_structs::UniqueId, player_stats::PlayerStats},
+    structs::{equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats},
     ui::interface::gold_counter::MyAssets,
     utils::{get_item_image_atlas_index, get_item_layout, get_item_tooltip_description},
 };
@@ -82,7 +82,7 @@ pub fn spawn_inventory(
                                     .insert(item.clone())
                                     .with_children(|button| {
                                         // If the item is a scroll, add a count indicator inside the button
-                                        if let Item::Scroll(_, count) = item {
+                                        if let ItemEnum::Scroll(_, count) = item {
                                             button.spawn(TextBundle {
                                                 text: Text::from_section(
                                                     format!("x{}", count),

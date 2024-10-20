@@ -97,6 +97,7 @@ pub enum ColorPaletteEnum {
     Primary,
     Success,
     Warning,
+    Brown,
 }
 
 impl ColorPaletteEnum {
@@ -108,6 +109,7 @@ impl ColorPaletteEnum {
             ColorPaletteEnum::Primary => Color::srgb(0.1, 0.2, 0.8),
             ColorPaletteEnum::Success => Color::srgb(0.1, 0.8, 0.1),
             ColorPaletteEnum::Warning => Color::srgb(0.9, 0.7, 0.0),
+            ColorPaletteEnum::Brown => Color::srgb(0.647, 0.165, 0.165),
         }
     }
 }
@@ -131,4 +133,11 @@ impl RecruitStateEnum {
             RecruitStateEnum::WaitingReportSignature => "Waiting its mission report signature",
         }
     }
+}
+
+#[derive(Debug, Clone)]
+pub enum MapImageEnum {
+    CampagnTuto,
+    // Campaign1,
+    // Campaign2,
 }

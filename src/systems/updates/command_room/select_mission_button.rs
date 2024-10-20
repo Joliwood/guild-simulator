@@ -3,7 +3,7 @@ use crate::{
         general_structs::{MissionModalVisible, UniqueId},
         missions::{Mission, Missions, SelectedMission},
     },
-    systems::systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON},
+    systems::systems_constants::NORMAL_BUTTON,
 };
 use bevy::prelude::*;
 
@@ -24,25 +24,24 @@ pub fn select_mission_button(
 ) {
     let mut window = windows.single_mut();
     if !mission_modal_visibility.0 {
-        for (interaction, mut color, unique_id, _mission) in &mut interaction_query {
-            if unique_id.0.starts_with("select_mission_button_") {
+        for (interaction, mut color, unique_id, mission) in &mut interaction_query {
+            if unique_id.0 == "select_mission_button" {
                 match *interaction {
                     Interaction::Pressed => {
-                        let mission_id =
-                            unique_id.0.strip_prefix("select_mission_button_").unwrap();
+                        let mission_id = mission.id;
 
                         // Search the mission by id in the player_disponible missions
                         selected_mission.mission = missions
                             .0
                             .iter()
-                            .find(|mission| mission.id.to_string() == mission_id)
+                            .find(|mission| mission.id == mission_id)
                             .cloned();
 
                         mission_modal_visibility.0 = true;
                     }
                     Interaction::Hovered => {
                         window.cursor.icon = CursorIcon::Pointer;
-                        *color = HOVERED_BUTTON.into();
+                        *color = Color::WHITE.into();
                     }
                     Interaction::None => {
                         window.cursor.icon = CursorIcon::Default;

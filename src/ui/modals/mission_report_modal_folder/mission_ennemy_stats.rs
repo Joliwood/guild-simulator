@@ -1,10 +1,10 @@
-use crate::structs::general_structs::Ennemy;
+use crate::{structs::general_structs::Ennemy, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
 
 pub fn mission_ennemy_stats(
     commands: &mut ChildBuilder,
     ennemy_stats: &Ennemy,
-    asset_server: &Res<AssetServer>,
+    my_assets: &Res<MyAssets>,
 ) {
     // ennemy Send Stats
     commands
@@ -28,7 +28,7 @@ pub fn mission_ennemy_stats(
                 text: Text::from_section(
                     format!("Level: {}", ennemy_stats.level),
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
                     },
@@ -41,7 +41,7 @@ pub fn mission_ennemy_stats(
                 text: Text::from_section(
                     format!("Strength: {}", ennemy_stats.strength),
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
                     },
@@ -54,7 +54,7 @@ pub fn mission_ennemy_stats(
                 text: Text::from_section(
                     format!("Endurance: {}", ennemy_stats.endurance),
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
                     },
@@ -67,7 +67,7 @@ pub fn mission_ennemy_stats(
                 text: Text::from_section(
                     format!("Intelligence: {}", ennemy_stats.intelligence),
                     TextStyle {
-                        font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                        font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
                     },

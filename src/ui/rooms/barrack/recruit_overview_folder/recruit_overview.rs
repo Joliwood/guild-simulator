@@ -1,6 +1,6 @@
 use super::{recruit_frame::recruit_frame, recruit_infos_folder::recruit_infos::recruit_infos};
 use crate::{
-    structs::{player_stats::PlayerStats, recruits::SelectedRecruit},
+    structs::{player_stats::PlayerStats, recruits::SelectedRecruitForEquipment},
     ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
@@ -9,7 +9,7 @@ pub fn recruit_overview(
     player_stats: &Res<PlayerStats>,
     parent: &mut ChildBuilder,
     my_assets: &Res<MyAssets>,
-    selected_recruit: &Res<SelectedRecruit>,
+    selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // Right container: recruit info
@@ -33,11 +33,16 @@ pub fn recruit_overview(
         })
         .insert(Name::new("Barrack > recruit overview"))
         .with_children(|parent| {
-            recruit_frame(parent, my_assets, selected_recruit, texture_atlas_layouts);
+            recruit_frame(
+                parent,
+                my_assets,
+                selected_recruit_for_equipment,
+                texture_atlas_layouts,
+            );
             recruit_infos(
                 parent,
                 my_assets,
-                selected_recruit,
+                selected_recruit_for_equipment,
                 texture_atlas_layouts,
                 player_stats,
             )

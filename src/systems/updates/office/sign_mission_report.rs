@@ -9,7 +9,6 @@ use crate::{
     },
     systems::systems_constants::HOVERED_BUTTON,
     ui::interface::gold_counter::MyAssets,
-    utils::is_mission_success,
 };
 use bevy::prelude::*;
 
@@ -46,10 +45,7 @@ pub fn sign_mission_report(
 
                 missions.desassign_recruit_to_mission(mission_report.mission_id);
 
-                let is_mission_sucess =
-                    is_mission_success(mission_report.percent_of_victory as f32);
-
-                if is_mission_sucess {
+                if mission_report.success {
                     player_stats.gain_xp(mission_report.experience_gained.unwrap());
                     player_stats.gain_xp_to_recruit(
                         mission_report.recruit_id,
@@ -57,6 +53,12 @@ pub fn sign_mission_report(
                     );
                     player_stats.increment_golds(mission_report.golds_gained.unwrap());
                     play_sound(&my_assets, &mut commands, SoundEnum::PickingGolds);
+
+                    missions.unlock_missions_by_mission_id(mission_report.mission_id);
+
+                    for loot in mission_report.loots.iter() {
+                        player_stats.add_item(loot.clone());
+                    }
                 }
 
                 mission_reports.remove_mission_report_by_id(mission_report.mission_id);

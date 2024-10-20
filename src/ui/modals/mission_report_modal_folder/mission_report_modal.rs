@@ -1,6 +1,6 @@
 use super::{
-    mission_ennemy_picture::mission_ennemy_picture, mission_ennemy_stats::mission_ennemy_stats,
-    recruit_sent_picture::recruit_sent_picture,
+    loots_earned::loots_earned, mission_ennemy_picture::mission_ennemy_picture,
+    mission_ennemy_stats::mission_ennemy_stats, recruit_sent_picture::recruit_sent_picture,
     recruit_sent_stats::recruit_sent_stats as recruit_sent_stats_fn,
 };
 use crate::{
@@ -11,6 +11,7 @@ use crate::{
         player_stats::PlayerStats,
         trigger_structs::{MissionReportModalContentTrigger, MissionReportModalSignButtonTrigger},
     },
+    ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
 
@@ -18,7 +19,7 @@ use bevy::prelude::*;
 // Function to spawn the mission report modal
 pub fn mission_report_modal(
     mut commands: Commands,
-    asset_server: Res<AssetServer>,
+    my_assets: Res<MyAssets>,
     query: Query<Entity, With<MissionReportModalContentTrigger>>,
     mission_reports_modal_visibility: Res<MissionReportsModalVisible>,
     mission_reports: Res<MissionReports>,
@@ -40,8 +41,8 @@ pub fn mission_report_modal(
         && mission_reports_modal_visibility.0
         && mission_reports_len > 0
     {
-        let container_image: Handle<Image> =
-            asset_server.load("images/rooms/barrack/inventory_container.png");
+        // let container_image: Handle<Image> =
+        //     asset_server.load("images/rooms/barrack/inventory_container.png");
 
         let last_mission_report = match mission_reports.get_last_mission_report() {
             Some(report) => report,
@@ -74,7 +75,7 @@ pub fn mission_report_modal(
         // Spawn the mission report modal container
         commands
             .spawn(ImageBundle {
-                image: container_image.into(),
+                image: my_assets.inventory_container.clone().into(),
                 style: Style {
                     width: Val::Px(300.),
                     height: Val::Px(450.),
@@ -98,7 +99,7 @@ pub fn mission_report_modal(
                     text: Text::from_section(
                         format!("Report of the mission: {}", mission.name),
                         TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 20.0,
                             color: Color::BLACK,
                         },
@@ -111,7 +112,7 @@ pub fn mission_report_modal(
                     text: Text::from_section(
                         success_message,
                         TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                            font: my_assets.fira_sans_bold.clone(),
                             font_size: 18.0,
                             color: if last_mission_report.success {
                                 Color::srgb(0.0, 0.5, 0.0)
@@ -140,7 +141,7 @@ pub fn mission_report_modal(
                         recruit_sent_picture(
                             row,
                             &recruit_sent_stats,
-                            &asset_server,
+                            &my_assets,
                             &mut texture_atlas_layouts,
                         );
 
@@ -149,7 +150,7 @@ pub fn mission_report_modal(
                             text: Text::from_section(
                                 "-- VS --",
                                 TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font: my_assets.fira_sans_bold.clone(),
                                     font_size: 16.0,
                                     color: Color::BLACK,
                                 },
@@ -160,7 +161,7 @@ pub fn mission_report_modal(
                         mission_ennemy_picture(
                             row,
                             &ennemy,
-                            &asset_server,
+                            &my_assets,
                             &mut texture_atlas_layouts,
                         );
                     });
@@ -179,14 +180,14 @@ pub fn mission_report_modal(
                         ..default()
                     })
                     .with_children(|row| {
-                        recruit_sent_stats_fn(row, &recruit_sent_stats, &asset_server);
+                        recruit_sent_stats_fn(row, &recruit_sent_stats, &my_assets);
 
                         // Percent of Victory
                         row.spawn(TextBundle {
                             text: Text::from_section(
                                 format!("-- {}% --", percent_of_victory),
                                 TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font: my_assets.fira_sans_bold.clone(),
                                     font_size: 16.0,
                                     color: Color::BLACK,
                                 },
@@ -194,34 +195,42 @@ pub fn mission_report_modal(
                             ..default()
                         });
 
-                        mission_ennemy_stats(row, &ennemy, &asset_server);
+                        mission_ennemy_stats(row, &ennemy, &my_assets);
                     });
 
-                // Loots Text
-                parent.spawn(TextBundle {
-                    text: Text::from_section(
-                        "Loots",
-                        TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                            font_size: 18.0,
-                            color: Color::BLACK,
-                        },
-                    ),
-                    ..default()
-                });
+                loots_earned(
+                    parent,
+                    &my_assets,
+                    golds_gained,
+                    experience_gained,
+                    &last_mission_report,
+                    &mut texture_atlas_layouts,
+                );
+                // // Loots Text
+                // parent.spawn(TextBundle {
+                //     text: Text::from_section(
+                //         "Loots",
+                //         TextStyle {
+                //             font: my_assets.fira_sans_bold.clone(),
+                //             font_size: 18.0,
+                //             color: Color::BLACK,
+                //         },
+                //     ),
+                //     ..default()
+                // });
 
-                // Golds and Experience Gained
-                parent.spawn(TextBundle {
-                    text: Text::from_section(
-                        format!("{} golds + {} xp", golds_gained, experience_gained),
-                        TextStyle {
-                            font: asset_server.load("fonts/FiraSans-Bold.ttf"),
-                            font_size: 16.0,
-                            color: Color::BLACK,
-                        },
-                    ),
-                    ..default()
-                });
+                // // Golds and Experience Gained
+                // parent.spawn(TextBundle {
+                //     text: Text::from_section(
+                //         format!("{} golds + {} xp", golds_gained, experience_gained),
+                //         TextStyle {
+                //             font: my_assets.fira_sans_bold.clone(),
+                //             font_size: 16.0,
+                //             color: Color::BLACK,
+                //         },
+                //     ),
+                //     ..default()
+                // });
 
                 // After the existing children have been added
                 parent
@@ -246,7 +255,7 @@ pub fn mission_report_modal(
                             text: Text::from_section(
                                 "Sign the report",
                                 TextStyle {
-                                    font: asset_server.load("fonts/FiraSans-Bold.ttf"),
+                                    font: my_assets.fira_sans_bold.clone(),
                                     font_size: 14.0,
                                     color: Color::WHITE,
                                 },

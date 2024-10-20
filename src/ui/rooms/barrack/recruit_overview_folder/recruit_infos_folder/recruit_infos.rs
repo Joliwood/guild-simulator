@@ -3,7 +3,7 @@ use super::{
 };
 use crate::{
     enums::ColorPaletteEnum,
-    structs::{player_stats::PlayerStats, recruits::SelectedRecruit},
+    structs::{player_stats::PlayerStats, recruits::SelectedRecruitForEquipment},
     ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
@@ -11,7 +11,7 @@ use bevy::prelude::*;
 pub fn recruit_infos(
     parent: &mut ChildBuilder,
     my_assets: &Res<MyAssets>,
-    selected_recruit: &Res<SelectedRecruit>,
+    selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
     player_stats: &Res<PlayerStats>,
 ) {
@@ -78,7 +78,7 @@ pub fn recruit_infos(
                                 player_stats,
                                 weapon_column,
                                 my_assets,
-                                selected_recruit,
+                                selected_recruit_for_equipment,
                                 texture_atlas_layouts,
                             );
                         });
@@ -108,7 +108,7 @@ pub fn recruit_infos(
                                 player_stats,
                                 armor_column,
                                 my_assets,
-                                selected_recruit,
+                                selected_recruit_for_equipment,
                                 texture_atlas_layouts,
                             );
                         });
@@ -158,7 +158,7 @@ pub fn recruit_infos(
                                 player_stats,
                                 scrolls_row,
                                 my_assets,
-                                selected_recruit,
+                                selected_recruit_for_equipment,
                                 texture_atlas_layouts,
                                 0,
                             );
@@ -167,7 +167,7 @@ pub fn recruit_infos(
                                 player_stats,
                                 scrolls_row,
                                 my_assets,
-                                selected_recruit,
+                                selected_recruit_for_equipment,
                                 texture_atlas_layouts,
                                 1,
                             );
@@ -176,7 +176,7 @@ pub fn recruit_infos(
                                 player_stats,
                                 scrolls_row,
                                 my_assets,
-                                selected_recruit,
+                                selected_recruit_for_equipment,
                                 texture_atlas_layouts,
                                 2,
                             );

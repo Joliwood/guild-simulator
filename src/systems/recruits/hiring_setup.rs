@@ -35,7 +35,7 @@ pub fn hiring_setup(mut player_stats: ResMut<PlayerStats>) {
                 scrolls: vec![],
             },
             state: RecruitStateEnum::Available,
-            strength: 10,
+            strength: 25,
         },
         RecruitStats {
             class: RecruitEnum::Mage,

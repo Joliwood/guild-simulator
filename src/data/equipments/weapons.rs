@@ -1,7 +1,7 @@
 #![allow(dead_code)]
 use crate::{enums::ItemRaretyEnum, structs::equipments::Weapon};
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub enum WeaponsEnum {
     SwordOfValor,
     AxeOfFury,

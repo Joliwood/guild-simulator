@@ -1,7 +1,7 @@
 use crate::{
     structs::{
-        equipments::Item, general_structs::UniqueId, player_stats::PlayerStats,
-        recruits::SelectedRecruit,
+        equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats,
+        recruits::SelectedRecruitForEquipment,
     },
     ui::interface::gold_counter::MyAssets,
     utils::{get_item_image_atlas_index, get_item_layout, get_item_tooltip_description},
@@ -13,10 +13,10 @@ pub fn armor_button(
     player_stats: &Res<PlayerStats>,
     armor_column: &mut ChildBuilder,
     my_assets: &Res<MyAssets>,
-    selected_recruit: &Res<SelectedRecruit>,
+    selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let recruit_id = selected_recruit.get_id();
+    let recruit_id = selected_recruit_for_equipment.get_id();
 
     if recruit_id.is_none() {
         // Empty armor button
@@ -43,7 +43,7 @@ pub fn armor_button(
     let recruit_armor = recruit_inventory.armor;
 
     if let Some(recruit_armor) = recruit_armor {
-        let item = Item::Armor(recruit_armor);
+        let item = ItemEnum::Armor(recruit_armor);
         let item_image_atlas_index = get_item_image_atlas_index(&item);
         let layout = get_item_layout(&item);
         let tooltip_text = get_item_tooltip_description(&item);

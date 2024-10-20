@@ -2,7 +2,7 @@
 use crate::structs::equipments::Scroll;
 
 #[allow(clippy::enum_variant_names)]
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub enum ScrollsEnum {
     ScrollOfWisdom,
     ScrollOfPower,

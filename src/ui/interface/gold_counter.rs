@@ -1,9 +1,9 @@
 #![allow(dead_code)]
 use crate::{
-    enums::SoundEnum,
+    enums::{MapImageEnum, SoundEnum},
     structs::{
-        equipments::Item, general_structs::UniqueId, player_stats::PlayerStats,
-        trigger_structs::GoldCountTrigger,
+        equipments::ItemEnum, general_structs::UniqueId, missions::ItemLootEnum,
+        player_stats::PlayerStats, trigger_structs::GoldCountTrigger,
     },
     systems::systems_constants::NORMAL_BUTTON,
     ui::{styles::containers_styles::basic_button_style, ui_constants::WOOD_COLOR},
@@ -16,6 +16,12 @@ pub struct MyAssets {
     // --- Recruits --- //
     #[asset(path = "images/recruits/recruit_picture_atlas.png")]
     pub recruit_picture_atlas: Handle<Image>,
+    // #[asset(path = "images/recruits/recruit_card_win_percent.png")]
+    // pub recruit_card_win_percent: Handle<Image>,
+
+    // --- Ennemies --- //
+    #[asset(path = "images/missions/ennemy_picture_atlas.png")]
+    pub ennemy_image_handle: Handle<Image>,
 
     // --- Equipments --- //
     #[asset(path = "images/equipments/empty_inventory_slot.png")]
@@ -68,8 +74,12 @@ pub struct MyAssets {
     pub set_of_keys_container: Handle<Image>,
 
     // --- Rooms > Command room --- //
-    #[asset(path = "images/command_room.png")]
-    pub command_room: Handle<Image>,
+    #[asset(path = "images/rooms/command_room/command_room_background.png")]
+    pub command_room_background: Handle<Image>,
+    #[asset(path = "images/rooms/command_room/command_table.png")]
+    pub command_table: Handle<Image>,
+    #[asset(path = "images/rooms/command_room/wood_box_container.png")]
+    pub wood_box_container: Handle<Image>,
 
     // --- Rooms > Store --- //
     #[asset(path = "images/store.png")]
@@ -102,14 +112,40 @@ pub struct MyAssets {
     pub pencil_sign: Handle<AudioSource>,
     #[asset(path = "sounds/picking_golds.ogg")]
     pub picking_golds: Handle<AudioSource>,
+
+    // --- Maps --- //
+    #[asset(path = "images/maps/map_tuto.png")]
+    pub map_tuto: Handle<Image>,
+
+    // --- Missions --- //
+    #[asset(path = "images/missions/c1_mission_1.png")]
+    pub c1_mission_1: Handle<Image>,
+    #[asset(path = "images/missions/c1_mission_2.png")]
+    pub c1_mission_2: Handle<Image>,
+    #[asset(path = "images/missions/c1_mission_3.png")]
+    pub c1_mission_3: Handle<Image>,
+    #[asset(path = "images/missions/c1_mission_4.png")]
+    pub c1_mission_4: Handle<Image>,
+    #[asset(path = "images/missions/c1_mission_5.png")]
+    pub c1_mission_5: Handle<Image>,
+    #[asset(path = "images/missions/c1_mission_6.png")]
+    pub c1_mission_6: Handle<Image>,
 }
 
 impl MyAssets {
-    pub fn get_item_atlas_path(&self, item: &Item) -> Handle<Image> {
+    pub fn get_item_atlas_path(&self, item: &ItemEnum) -> Handle<Image> {
         return match item {
-            Item::Weapon(_) => self.weapons_atlas.clone(),
-            Item::Armor(_) => self.armors_atlas.clone(),
-            Item::Scroll(_, _) => self.scrolls_atlas.clone(),
+            ItemEnum::Weapon(_) => self.weapons_atlas.clone(),
+            ItemEnum::Armor(_) => self.armors_atlas.clone(),
+            ItemEnum::Scroll(_, _) => self.scrolls_atlas.clone(),
+        };
+    }
+
+    pub fn get_item_loot_atlas_path(&self, item: &ItemLootEnum) -> Handle<Image> {
+        return match item {
+            ItemLootEnum::Weapon(_) => self.weapons_atlas.clone(),
+            ItemLootEnum::Armor(_) => self.armors_atlas.clone(),
+            ItemLootEnum::Scroll(_) => self.scrolls_atlas.clone(),
         };
     }
 
@@ -126,6 +162,25 @@ impl MyAssets {
             SoundEnum::PencilSign => self.pencil_sign.clone(),
             SoundEnum::PickingGolds => self.picking_golds.clone(),
             SoundEnum::SimpleHolidaysV3 => self.simple_holidays_v3.clone(),
+        };
+    }
+
+    pub fn get_image_map(&self, map_enum: MapImageEnum) -> Handle<Image> {
+        return match map_enum {
+            MapImageEnum::CampagnTuto => self.map_tuto.clone(),
+        };
+    }
+
+    pub fn get_mission_image(&self, mission_id: u16) -> Handle<Image> {
+        return match mission_id {
+            0 => self.c1_mission_1.clone(),
+            1 => self.c1_mission_2.clone(),
+            2 => self.c1_mission_3.clone(),
+            3 => self.c1_mission_4.clone(),
+            4 => self.c1_mission_5.clone(),
+            5 => self.c1_mission_6.clone(),
+            6 => self.c1_mission_6.clone(),
+            _ => self.c1_mission_1.clone(),
         };
     }
 }
