@@ -5,7 +5,9 @@ use crate::{
         general_structs::{MissionModalVisible, MissionReportsModalVisible},
         missions::{MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
-        recruits::{RecruitInventory, RecruitStats, SelectedRecruitForEquipment},
+        recruits::{
+            RecruitInventory, RecruitStats, SelectedRecruitForEquipment, SelectedRecruitForMission,
+        },
     },
     systems::updates::update_buttons::delete_item_from_player_inventory,
 };
@@ -31,10 +33,12 @@ pub fn get_new_room(
     direction: RoomDirectionEnum,
     mission_modal_visibility: &mut ResMut<MissionModalVisible>,
     mission_reports_modal_visibility: &mut ResMut<MissionReportsModalVisible>,
+    selected_recruit_for_mission: &mut ResMut<SelectedRecruitForMission>,
 ) -> Option<RoomEnum> {
     // Close any open modals
     mission_modal_visibility.0 = false;
     mission_reports_modal_visibility.0 = false;
+    selected_recruit_for_mission.0 = None;
 
     match player_stats.room {
         RoomEnum::Office => match direction {
