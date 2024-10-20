@@ -2,7 +2,6 @@
 use super::{
     equipments::ItemEnum,
     general_structs::{load_armor, load_scroll, load_weapon},
-    missions::{ItemLoot, ItemLootEnum, Loots},
     recruits::RecruitStats,
 };
 use crate::{

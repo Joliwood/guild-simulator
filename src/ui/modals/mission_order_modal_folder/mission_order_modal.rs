@@ -1,5 +1,7 @@
+use super::{
+    loots_and_start::loots_and_start, mission_recap::mission_recap, recruit_recap::recruit_recap,
+};
 use crate::{
-    enums::ColorPaletteEnum,
     structs::{
         general_structs::{MissionModalVisible, UniqueId},
         missions::{Missions, SelectedMission},
@@ -10,10 +12,6 @@ use crate::{
     ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
 };
 use bevy::prelude::*;
-
-use super::{
-    loots_and_start::loots_and_start, mission_recap::mission_recap, recruit_recap::recruit_recap,
-};
 
 #[allow(clippy::too_many_arguments)]
 pub fn mission_order_modal(

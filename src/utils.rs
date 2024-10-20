@@ -3,7 +3,7 @@ use crate::{
     structs::{
         equipments::ItemEnum,
         general_structs::{MissionModalVisible, MissionReportsModalVisible},
-        missions::{ItemLootEnum, Loots, MissionReport, MissionReports, Missions},
+        missions::{MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
         recruits::{RecruitInventory, RecruitStats, SelectedRecruitForEquipment},
     },

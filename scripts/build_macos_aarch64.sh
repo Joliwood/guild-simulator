@@ -92,6 +92,6 @@ ln -s /Applications build/macos/src/
 
 # Create a DMG package
 echo "Creating DMG package..."
-hdiutil create -fs HFS+ -volname "${GAME_OSX_APP_NAME}" -srcfolder build/macos/src "${GAME_EXECUTABLE_NAME}_${VERSION}_macOS.dmg"
+hdiutil create -fs HFS+ -volname "${GAME_OSX_APP_NAME}" -srcfolder build/macos/src "${GAME_EXECUTABLE_NAME}_${VERSION}_macOS_aarch64.dmg"
 
-echo "Build and packaging complete. DMG file: ${GAME_EXECUTABLE_NAME}_${VERSION}_macOS.dmg"
+echo "Build and packaging complete. DMG file: ${GAME_EXECUTABLE_NAME}_${VERSION}_macOS_aarch64.dmg"

@@ -9,7 +9,6 @@ use crate::{
     },
     systems::systems_constants::HOVERED_BUTTON,
     ui::interface::gold_counter::MyAssets,
-    utils::is_mission_success,
 };
 use bevy::prelude::*;
 
