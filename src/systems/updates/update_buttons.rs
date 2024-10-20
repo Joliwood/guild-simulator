@@ -35,6 +35,7 @@ pub fn mouse_interaction_updates(
     mut windows: Query<&mut Window>,
     mut mission_modal_visibility: ResMut<MissionModalVisible>,
     mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
+    mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
 ) {
     let mut window = windows.single_mut();
 
@@ -69,6 +70,7 @@ pub fn mouse_interaction_updates(
                         RoomDirectionEnum::Right,
                         &mut mission_modal_visibility,
                         &mut mission_reports_modal_visibility,
+                        &mut selected_recruit_for_mission,
                     ) {
                         player_stats.room = new_room;
                     }
@@ -95,6 +97,7 @@ pub fn mouse_interaction_updates(
                         RoomDirectionEnum::Left,
                         &mut mission_modal_visibility,
                         &mut mission_reports_modal_visibility,
+                        &mut selected_recruit_for_mission,
                     ) {
                         player_stats.room = new_room;
                     }
@@ -121,6 +124,7 @@ pub fn mouse_interaction_updates(
                         RoomDirectionEnum::Top,
                         &mut mission_modal_visibility,
                         &mut mission_reports_modal_visibility,
+                        &mut selected_recruit_for_mission,
                     ) {
                         player_stats.room = new_room;
                     }
@@ -148,6 +152,7 @@ pub fn mouse_interaction_updates(
                         RoomDirectionEnum::Bottom,
                         &mut mission_modal_visibility,
                         &mut mission_reports_modal_visibility,
+                        &mut selected_recruit_for_mission,
                     ) {
                         player_stats.room = new_room;
                     }
@@ -284,22 +289,16 @@ pub fn close_mission_modal(
     mut windows: Query<&mut Window>,
     mut modal_visible: ResMut<MissionModalVisible>,
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
-    mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
     mut selected_mission: ResMut<SelectedMission>,
 ) {
     let mut window = windows.single_mut();
 
     for (interaction, mut color, unique_id, mut border_color) in &mut interaction_query {
-        if unique_id.0 == "close_mission_modal" || unique_id.0 == "start_mission" {
+        if unique_id.0 == "close_mission_modal" {
             match *interaction {
                 Interaction::Pressed => {
                     modal_visible.0 = false;
                     border_color.0 = WOOD_COLOR;
-
-                    if selected_recruit_for_equipment.0 == selected_recruit_for_mission.0 {
-                        selected_recruit_for_equipment.0 = None;
-                    }
-
                     selected_recruit_for_mission.0 = None;
                     selected_mission.reset();
                 }
@@ -318,6 +317,7 @@ pub fn close_mission_modal(
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 pub fn start_mission_button(
     mut interaction_query: Query<
         (&Interaction, &mut BackgroundColor, &UniqueId),
@@ -326,7 +326,10 @@ pub fn start_mission_button(
     mut missions: ResMut<Missions>,
     mut player_stats: ResMut<PlayerStats>,
     mut windows: Query<&mut Window>,
-    selected_mission: ResMut<SelectedMission>,
+    mut selected_mission: ResMut<SelectedMission>,
+    mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
+    mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
+    mut modal_visible: ResMut<MissionModalVisible>,
 ) {
     let mut window = windows.single_mut();
 
@@ -370,12 +373,23 @@ pub fn start_mission_button(
                         return;
                     }
 
+                    if selected_recruit_for_equipment.0.is_some()
+                        && selected_recruit_for_equipment.0.clone().unwrap().id
+                            == recruit_id.unwrap()
+                    {
+                        selected_recruit_for_equipment.0 = None;
+                    }
+
                     missions.assign_recruit_id_to_mission(
                         mission.clone().unwrap().id,
                         recruit_id.unwrap(),
                     );
 
                     missions.attribute_days_left_to_mission(mission.unwrap().id);
+
+                    modal_visible.0 = false;
+                    selected_mission.reset();
+                    selected_recruit_for_mission.0 = None;
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;
@@ -395,6 +409,7 @@ pub fn move_room_from_keyboard(
     keyboard_input: Res<ButtonInput<KeyCode>>,
     mut mission_modal_visibility: ResMut<MissionModalVisible>,
     mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
+    mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
 ) {
     if keyboard_input.just_pressed(KeyCode::KeyD) {
         info!("Right arrow pressed");
@@ -403,6 +418,7 @@ pub fn move_room_from_keyboard(
             RoomDirectionEnum::Right,
             &mut mission_modal_visibility,
             &mut mission_reports_modal_visibility,
+            &mut selected_recruit_for_mission,
         ) {
             player_stats.room = new_room;
         }
@@ -414,6 +430,7 @@ pub fn move_room_from_keyboard(
             RoomDirectionEnum::Left,
             &mut mission_modal_visibility,
             &mut mission_reports_modal_visibility,
+            &mut selected_recruit_for_mission,
         ) {
             player_stats.room = new_room;
         }
@@ -425,6 +442,7 @@ pub fn move_room_from_keyboard(
             RoomDirectionEnum::Top,
             &mut mission_modal_visibility,
             &mut mission_reports_modal_visibility,
+            &mut selected_recruit_for_mission,
         ) {
             player_stats.room = new_room;
         }
@@ -436,6 +454,7 @@ pub fn move_room_from_keyboard(
             RoomDirectionEnum::Bottom,
             &mut mission_modal_visibility,
             &mut mission_reports_modal_visibility,
+            &mut selected_recruit_for_mission,
         ) {
             player_stats.room = new_room;
         }
