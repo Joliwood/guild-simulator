@@ -285,6 +285,7 @@ pub fn close_mission_modal(
     mut modal_visible: ResMut<MissionModalVisible>,
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
     mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
+    mut selected_mission: ResMut<SelectedMission>,
 ) {
     let mut window = windows.single_mut();
 
@@ -300,6 +301,7 @@ pub fn close_mission_modal(
                     }
 
                     selected_recruit_for_mission.0 = None;
+                    selected_mission.reset();
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;

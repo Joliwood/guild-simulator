@@ -3,7 +3,6 @@ name = "guild_simulator"
 version = "0.0.3"
 edition = "2021"
 authors = ["Guillaume Jolibois <jolibois.contact@gmail.com>"]
-build-windows = ["./scripts/build-windows.sh"]
 exclude = ["dist", "build", "assets", "credits"]
 
 [dependencies]

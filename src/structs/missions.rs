@@ -161,6 +161,12 @@ impl SelectedMission {
 
         self.percent_of_victory = Some(victory_percentage);
     }
+
+    pub fn reset(&mut self) {
+        self.mission = None;
+        self.percent_of_victory = None;
+        self.recruit_id = None;
+    }
 }
 
 #[derive(Debug, Component, Resource)]
@@ -481,14 +487,14 @@ impl Default for Missions {
                             item: ItemLootEnum::Weapon(WeaponsEnum::SwordOfValor),
                             percent: 50,
                         },
-                        // ItemLoot {
-                        //     item: ItemLootEnum::Armor(ArmorsEnum::GauntletsOfPower),
-                        //     percent: 50,
-                        // },
-                        // ItemLoot {
-                        //     item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
-                        //     percent: 50,
-                        // },
+                        ItemLoot {
+                            item: ItemLootEnum::Armor(ArmorsEnum::GauntletsOfPower),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
+                            percent: 50,
+                        },
                     ]
                 ),
                 unlock_mission_ids: vec![4, 5],
