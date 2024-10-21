@@ -10,8 +10,8 @@ pub fn spawn_left_container(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let recruit_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(800, 200),
-        5,
+        UVec2::new(1400, 400),
+        7,
         1,
         Some(UVec2::new(0, 0)),
         Some(UVec2::new(0, 0)),
@@ -29,7 +29,7 @@ pub fn spawn_left_container(
                 align_items: AlignItems::Center,
                 width: Val::Px(400.),
                 height: Val::Px(450.),
-                padding: UiRect::all(Val::Px(15.0)),
+                padding: UiRect::all(Val::Px(25.0)),
                 ..default()
             },
             ..default()

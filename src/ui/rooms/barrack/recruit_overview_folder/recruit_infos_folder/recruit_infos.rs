@@ -17,19 +17,18 @@ pub fn recruit_infos(
 ) {
     parent
         .spawn(ImageBundle {
-            image: my_assets.recruit_infos.clone().into(),
+            image: my_assets.inventory_container.clone().into(),
             style: Style {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
-                width: Val::Auto,
                 height: Val::Auto,
                 padding: UiRect {
-                    top: Val::Px(10.),
-                    bottom: Val::Px(10.),
-                    left: Val::Px(10.),
-                    right: Val::Px(10.),
+                    top: Val::Px(15.),
+                    bottom: Val::Px(15.),
+                    left: Val::Px(20.),
+                    right: Val::Px(20.),
                 },
                 ..default()
             },

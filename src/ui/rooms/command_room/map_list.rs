@@ -4,8 +4,8 @@ use bevy::prelude::*;
 pub fn map_list(parent: &mut ChildBuilder, my_assets: &Res<MyAssets>, maps: &Res<Maps>) {
     // Create a vertical container for the map list
     parent
-        .spawn(ImageBundle {
-            image: my_assets.inventory_container.clone().into(),
+        .spawn(NodeBundle {
+            // image: my_assets.inventory_container.clone().into(),
             style: Style {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,

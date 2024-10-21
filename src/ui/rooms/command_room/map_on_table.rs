@@ -13,8 +13,8 @@ pub fn map_on_table(
     missions: &Res<Missions>,
 ) {
     parent
-        .spawn(ImageBundle {
-            image: my_assets.inventory_container.clone().into(),
+        .spawn(NodeBundle {
+            // image: my_assets.inventory_container.clone().into(),
             style: Style {
                 display: Display::Flex,
                 justify_content: JustifyContent::Center,

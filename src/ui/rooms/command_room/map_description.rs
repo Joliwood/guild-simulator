@@ -7,8 +7,8 @@ pub fn map_description(
     selected_map: &Option<Map>,
 ) {
     parent
-        .spawn(ImageBundle {
-            image: my_assets.inventory_container.clone().into(),
+        .spawn(NodeBundle {
+            // image: my_assets.inventory_container.clone().into(),
             style: Style {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,

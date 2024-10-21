@@ -12,8 +12,8 @@ pub fn map_recruit_list(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let recruit_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(800, 200),
-        5,
+        UVec2::new(1400, 400),
+        7,
         1,
         Some(UVec2::new(0, 0)),
         Some(UVec2::new(0, 0)),
@@ -22,8 +22,8 @@ pub fn map_recruit_list(
         texture_atlas_layouts.add(recruit_layout);
 
     parent
-        .spawn(ImageBundle {
-            image: my_assets.inventory_container.clone().into(),
+        .spawn(NodeBundle {
+            // image: my_assets.inventory_container.clone().into(),
             style: Style {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,
