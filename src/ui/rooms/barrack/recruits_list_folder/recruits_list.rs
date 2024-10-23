@@ -25,11 +25,16 @@ pub fn spawn_left_container(
                 display: Display::Flex,
                 align_self: AlignSelf::Center,
                 flex_direction: FlexDirection::Column,
+                padding: UiRect {
+                    top: Val::Px(30.),
+                    bottom: Val::Px(25.),
+                    left: Val::Px(25.),
+                    right: Val::Px(25.),
+                },
                 row_gap: Val::Px(5.0),
                 align_items: AlignItems::Center,
                 width: Val::Px(400.),
                 height: Val::Px(450.),
-                padding: UiRect::all(Val::Px(25.0)),
                 ..default()
             },
             ..default()

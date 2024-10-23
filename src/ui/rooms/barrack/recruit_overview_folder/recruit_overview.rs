@@ -21,8 +21,8 @@ pub fn recruit_overview(
                 align_items: AlignItems::Center,
                 row_gap: Val::Px(5.),
                 margin: UiRect {
-                    left: Val::Px(50.),
-                    right: Val::Px(50.),
+                    left: Val::Px(30.),
+                    right: Val::Px(30.),
                     top: Val::Px(35.),
                     bottom: Val::ZERO,
                 },
