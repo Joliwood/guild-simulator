@@ -59,6 +59,8 @@ pub fn sign_mission_report(
                     for loot in mission_report.loots.iter() {
                         player_stats.add_item(loot.clone());
                     }
+                    player_stats.stats.golds_earned += mission_report.golds_gained.unwrap();
+                    player_stats.stats.mission_completed += 1;
                 }
 
                 mission_reports.remove_mission_report_by_id(mission_report.mission_id);
