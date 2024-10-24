@@ -46,10 +46,10 @@ impl Default for Maps {
     fn default() -> Self {
         Self(vec![
             Map {
-                description: "Tutorial description".to_string(),
+                description: "Map gived by the mayor, marking vagrant camps causing trouble. Taking out their leader could make the town safer.".to_string(),
                 id: 1,
                 map_mission_ids: vec![1, 2, 3, 4, 5, 6],
-                name: "Campagn tuto".to_string(),
+                name: "Troublemaker's Territory".to_string(),
                 unlocked: true,
                 // image_atlas_index: 0,
                 image: MapImageEnum::CampagnTuto,

@@ -57,6 +57,7 @@ pub fn room_command_room(
                         flex_direction: FlexDirection::Row,
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
+                        column_gap: Val::Px(30.0),
                         width: Val::Px(1170.0),
                         height: Val::Px(650.0),
                         padding: UiRect::all(Val::Px(80.)),

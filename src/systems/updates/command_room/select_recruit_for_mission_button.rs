@@ -7,14 +7,13 @@ use crate::{
         recruits::{RecruitStats, SelectedRecruitForMission},
     },
     systems::systems_constants::HOVERED_BUTTON,
-    ui::ui_constants::WOOD_COLOR,
 };
 use bevy::prelude::*;
 
 /// Select the recruit when the button is pressed
 pub fn select_recruit_for_mission_button(
     mut interaction_query: Query<
-        (&Interaction, &mut BackgroundColor, &UniqueId, &RecruitStats),
+        (&Interaction, &mut BorderColor, &UniqueId, &RecruitStats),
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
@@ -57,11 +56,11 @@ pub fn select_recruit_for_mission_button(
                 }
                 Interaction::Hovered => {
                     window.cursor.icon = CursorIcon::Pointer;
-                    *color = HOVERED_BUTTON.into();
+                    *color = BorderColor(Color::WHITE);
                 }
                 Interaction::None => {
                     window.cursor.icon = CursorIcon::Default;
-                    *color = BackgroundColor(WOOD_COLOR);
+                    *color = HOVERED_BUTTON.into();
                 }
             }
         }

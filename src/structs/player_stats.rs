@@ -62,7 +62,7 @@ impl Default for PlayerStats {
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![],
-            room: RoomEnum::Barrack,
+            room: RoomEnum::CommandRoom,
             toxicity: 50,
             stats: Stats {
                 golds_earned: 0,

@@ -80,6 +80,8 @@ pub struct MyAssets {
     pub command_table: Handle<Image>,
     #[asset(path = "images/rooms/command_room/wood_box_container.png")]
     pub wood_box_container: Handle<Image>,
+    #[asset(path = "images/rooms/command_room/recruit_card.png")]
+    pub recruit_card: Handle<Image>,
 
     // --- Rooms > Store --- //
     #[asset(path = "images/store.png")]
@@ -116,6 +118,8 @@ pub struct MyAssets {
     // --- Maps --- //
     #[asset(path = "images/maps/map_tuto.png")]
     pub map_tuto: Handle<Image>,
+    #[asset(path = "images/maps/map_description.png")]
+    pub map_description: Handle<Image>,
 
     // --- Missions --- //
     #[asset(path = "images/missions/c1_mission_1.png")]
