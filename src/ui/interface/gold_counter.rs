@@ -62,8 +62,6 @@ pub struct MyAssets {
     pub desk: Handle<Image>,
     #[asset(path = "images/rooms/office/mission_notification_document.png")]
     pub mission_notification_document: Handle<Image>,
-    #[asset(path = "images/rooms/office/recap_guild_scroll.png")]
-    pub recap_guild_scroll: Handle<Image>,
     #[asset(path = "images/rooms/office/talents_on_desk.png")]
     pub talents_on_desk: Handle<Image>,
     #[asset(path = "images/rooms/office/notification_token_in_wood.png")]
@@ -134,6 +132,8 @@ pub struct MyAssets {
     pub c1_mission_5: Handle<Image>,
     #[asset(path = "images/missions/c1_mission_6.png")]
     pub c1_mission_6: Handle<Image>,
+    #[asset(path = "images/missions/recap_guild_scroll.png")]
+    pub recap_guild_scroll: Handle<Image>,
 }
 
 impl MyAssets {
