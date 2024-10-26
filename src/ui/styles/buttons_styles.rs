@@ -3,6 +3,7 @@ use bevy::{
     ui::{AlignItems, JustifyContent, Style, Val},
 };
 
+#[allow(dead_code)]
 pub fn inventory_filter_button_style() -> Style {
     Style {
         width: Val::Percent(100. / 4.),
