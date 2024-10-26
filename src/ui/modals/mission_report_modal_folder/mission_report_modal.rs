@@ -5,13 +5,13 @@ use super::{
 };
 use crate::{
     enums::ColorPaletteEnum,
+    my_assets::MyAssets,
     structs::{
         general_structs::MissionReportsModalVisible,
         missions::{MissionReports, Missions},
         player_stats::PlayerStats,
         trigger_structs::{MissionReportModalContentTrigger, MissionReportModalSignButtonTrigger},
     },
-    ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
 

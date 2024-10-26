@@ -1,5 +1,5 @@
 use crate::{
-    structs::recruits::SelectedRecruitForEquipment, ui::interface::gold_counter::MyAssets,
+    my_assets::MyAssets, structs::recruits::SelectedRecruitForEquipment,
     utils::get_selected_recruit_for_equipment,
 };
 use bevy::prelude::*;

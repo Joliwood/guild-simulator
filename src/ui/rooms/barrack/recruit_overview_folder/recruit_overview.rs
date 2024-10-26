@@ -1,7 +1,7 @@
 use super::{recruit_frame::recruit_frame, recruit_infos_folder::recruit_infos::recruit_infos};
 use crate::{
+    my_assets::MyAssets,
     structs::{player_stats::PlayerStats, recruits::SelectedRecruitForEquipment},
-    ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
 

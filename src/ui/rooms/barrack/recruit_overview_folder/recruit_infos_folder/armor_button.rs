@@ -1,9 +1,9 @@
 use crate::{
+    my_assets::MyAssets,
     structs::{
         equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats,
         recruits::SelectedRecruitForEquipment,
     },
-    ui::interface::gold_counter::MyAssets,
     utils::{get_item_image_atlas_index, get_item_layout, get_item_tooltip_description},
 };
 use bevy::prelude::*;

@@ -1,6 +1,7 @@
 use crate::{
     audio::play_sound::play_sound,
     enums::{ColorPaletteEnum, RecruitStateEnum, SoundEnum},
+    my_assets::MyAssets,
     structs::{
         general_structs::MissionReportsModalVisible,
         missions::{MissionReport, MissionReports, Missions},
@@ -8,7 +9,6 @@ use crate::{
         trigger_structs::MissionReportModalSignButtonTrigger,
     },
     systems::systems_constants::HOVERED_BUTTON,
-    ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
 

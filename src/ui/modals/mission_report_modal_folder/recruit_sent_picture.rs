@@ -1,4 +1,4 @@
-use crate::{structs::recruits::RecruitStats, ui::interface::gold_counter::MyAssets};
+use crate::{my_assets::MyAssets, structs::recruits::RecruitStats};
 use bevy::prelude::*;
 
 pub fn recruit_sent_picture(

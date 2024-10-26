@@ -4,12 +4,10 @@ use super::{
 };
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
+    my_assets::MyAssets,
     structs::{general_structs::UniqueId, player_stats::PlayerStats, recruits::RecruitStats},
-    ui::{
-        interface::gold_counter::MyAssets,
-        rooms::barrack::recruits_list_folder::{
-            armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
-        },
+    ui::rooms::barrack::recruits_list_folder::{
+        armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
     },
 };
 use bevy::prelude::*;

@@ -1,15 +1,13 @@
 use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
+    my_assets::MyAssets,
     structs::{
         missions::{MissionReports, Missions},
         player_stats::PlayerStats,
         trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
     },
-    ui::interface::{
-        gold_counter::MyAssets,
-        notifications::spawn_or_update_notification::spawn_or_update_notification,
-    },
+    ui::interface::notifications::spawn_or_update_notification::spawn_or_update_notification,
     utils::finish_mission,
 };
 use bevy::prelude::*;

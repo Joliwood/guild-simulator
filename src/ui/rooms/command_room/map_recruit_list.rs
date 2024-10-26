@@ -1,6 +1,6 @@
 use super::map_recruit_card::map_recruit_card;
 use crate::{
-    structs::player_stats::PlayerStats, ui::interface::gold_counter::MyAssets,
+    my_assets::MyAssets, structs::player_stats::PlayerStats,
     utils::sort_recruits_by_total_merged_stats,
 };
 use bevy::prelude::*;

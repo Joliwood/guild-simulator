@@ -3,11 +3,11 @@ use pyri_tooltip::{Tooltip, TooltipActivation};
 
 use crate::{
     custom_components::CustomButton,
+    my_assets::MyAssets,
     structs::{
         general_structs::UniqueId,
         missions::{Missions, SelectedMission},
     },
-    ui::interface::gold_counter::MyAssets,
 };
 
 pub fn loots_and_start(

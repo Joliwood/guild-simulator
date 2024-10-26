@@ -1,8 +1,5 @@
 use super::spawn_inventory::spawn_inventory;
-use crate::{
-    enums::ColorPaletteEnum, structs::player_stats::PlayerStats,
-    ui::interface::gold_counter::MyAssets,
-};
+use crate::{enums::ColorPaletteEnum, my_assets::MyAssets, structs::player_stats::PlayerStats};
 use bevy::prelude::*;
 
 pub fn spawn_right_container(

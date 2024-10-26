@@ -3,8 +3,8 @@ use super::{
 };
 use crate::{
     enums::ColorPaletteEnum,
+    my_assets::MyAssets,
     structs::{player_stats::PlayerStats, recruits::SelectedRecruitForEquipment},
-    ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
 

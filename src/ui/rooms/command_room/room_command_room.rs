@@ -3,13 +3,14 @@ use super::{
     map_recruit_list::map_recruit_list,
 };
 use crate::{
+    my_assets::MyAssets,
     structs::{
         maps::{Maps, SelectedMapId},
         missions::Missions,
         player_stats::PlayerStats,
         trigger_structs::ResetRoomTrigger,
     },
-    ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
+    ui::styles::containers_styles::node_container_style,
 };
 use bevy::prelude::*;
 

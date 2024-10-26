@@ -1,5 +1,5 @@
 use super::recruit_card::recruit_card;
-use crate::{structs::player_stats::PlayerStats, ui::interface::gold_counter::MyAssets};
+use crate::{my_assets::MyAssets, structs::player_stats::PlayerStats};
 use bevy::prelude::*;
 
 /// Spawns the left container, displaying the player's recruits.

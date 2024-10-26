@@ -1,7 +1,7 @@
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
+    my_assets::MyAssets,
     structs::{general_structs::UniqueId, recruits::RecruitStats},
-    ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};

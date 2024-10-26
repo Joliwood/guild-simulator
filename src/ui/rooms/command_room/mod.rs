@@ -1,3 +1,4 @@
+pub mod map_card;
 pub mod map_description;
 pub mod map_list;
 pub mod map_on_table;

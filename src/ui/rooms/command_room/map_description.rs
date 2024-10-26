@@ -1,4 +1,4 @@
-use crate::{structs::maps::Map, ui::interface::gold_counter::MyAssets};
+use crate::{my_assets::MyAssets, structs::maps::Map};
 use bevy::prelude::*;
 
 pub fn map_description(

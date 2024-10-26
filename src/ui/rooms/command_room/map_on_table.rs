@@ -1,7 +1,7 @@
 use crate::{
     custom_components::CustomButton,
+    my_assets::MyAssets,
     structs::{general_structs::UniqueId, maps::Map, missions::Missions},
-    ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
 
