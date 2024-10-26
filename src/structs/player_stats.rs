@@ -28,7 +28,7 @@ pub struct PlayerStats {
     pub max_inventory_size: usize,
     pub recruits: Vec<RecruitStats>,
     pub room: RoomEnum,
-    pub toxicity: u8,
+    pub toxicity: i8,
     pub stats: Stats,
 }
 
@@ -62,7 +62,7 @@ impl Default for PlayerStats {
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![],
-            room: RoomEnum::CommandRoom,
+            room: RoomEnum::Office,
             toxicity: 50,
             stats: Stats {
                 golds_earned: 0,
@@ -185,5 +185,9 @@ impl PlayerStats {
         {
             recruit.state = state;
         }
+    }
+
+    pub fn gain_toxitiy(&mut self, toxicity: i8) {
+        self.toxicity += toxicity;
     }
 }

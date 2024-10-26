@@ -1,3 +1,4 @@
+pub mod daily_events;
 pub mod equipments;
 pub mod general_structs;
 pub mod maps;

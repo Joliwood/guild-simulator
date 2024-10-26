@@ -3,6 +3,7 @@ use crate::{
     enums::SoundEnum,
     my_assets::MyAssets,
     structs::{
+        daily_events::DailyEvents,
         missions::{MissionReports, Missions},
         player_stats::PlayerStats,
         trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
@@ -26,6 +27,7 @@ pub fn sleep_button_system(
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     query: Query<Entity, With<NotificationToastTrigger>>,
     mut windows: Query<&mut Window>,
+    mut daily_events: ResMut<DailyEvents>,
 ) {
     let mut window = windows.single_mut();
 
@@ -38,8 +40,8 @@ pub fn sleep_button_system(
             Interaction::Pressed => {
                 // Increment the day in player_stats
                 player_stats.day += 1;
-                play_sound(&my_assets, &mut commands, SoundEnum::KeysRemovedFromDoor);
-                play_sound(&my_assets, &mut commands, SoundEnum::CockrelMorning);
+                // play_sound(&my_assets, &mut commands, SoundEnum::KeysRemovedFromDoor);
+                // play_sound(&my_assets, &mut commands, SoundEnum::CockrelMorning);
 
                 // We iterate on every missions to decrement the days left for every mission that days_left.is_some()
                 let mission_ids: Vec<_> = missions
@@ -85,6 +87,10 @@ pub fn sleep_button_system(
                         );
                     }
                 }
+
+                // info!("Daily events BEFORE : {:?}", daily_events);
+                let azpo = daily_events.select_one_event_based_on_chance();
+                info!("Daily events AFTER : {:?}", azpo);
             }
             Interaction::Hovered => {
                 window.cursor.icon = CursorIcon::Pointer;

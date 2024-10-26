@@ -19,6 +19,7 @@ use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
 use structs::{
+    daily_events::DailyEvents,
     general_structs::{
         MissionModalVisible, MissionNotificationsNumber, MissionReportsModalVisible,
     },
@@ -64,6 +65,7 @@ fn main() -> AppExit {
         .insert_resource(MissionReportsModalVisible(false))
         .insert_resource(MissionNotificationsNumber(0))
         .insert_resource(Maps::default())
+        .insert_resource(DailyEvents::default())
         .init_collection::<my_assets::MyAssets>()
         .add_systems(
             Startup,
