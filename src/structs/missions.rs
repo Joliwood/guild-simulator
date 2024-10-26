@@ -275,6 +275,13 @@ impl Missions {
             }
         }
     }
+
+    pub fn get_map_id_by_mission_id(&self, mission_id: u16) -> Option<u16> {
+        if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
+            return Some(mission.id);
+        }
+        None
+    }
 }
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]

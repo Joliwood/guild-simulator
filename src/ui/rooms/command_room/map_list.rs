@@ -3,7 +3,12 @@ use bevy::prelude::*;
 
 use super::map_card::map_card;
 
-pub fn map_list(parent: &mut ChildBuilder, my_assets: &Res<MyAssets>, maps: &Res<Maps>) {
+pub fn map_list(
+    parent: &mut ChildBuilder,
+    my_assets: &Res<MyAssets>,
+    maps: &Res<Maps>,
+    texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
+) {
     // Create a vertical container for the map list
     parent
         .spawn(NodeBundle {
@@ -15,12 +20,12 @@ pub fn map_list(parent: &mut ChildBuilder, my_assets: &Res<MyAssets>, maps: &Res
                 row_gap: Val::Px(5.0),
                 align_items: AlignItems::Center,
                 width: Val::Percent(100.),
-                height: Val::Percent(40.),
+                height: Val::Percent(65.),
                 padding: UiRect {
-                    left: Val::Px(30.),
-                    right: Val::Px(30.),
-                    top: Val::Px(20.),
-                    bottom: Val::Px(20.),
+                    left: Val::Px(1.),
+                    right: Val::Px(5.),
+                    top: Val::Px(5.),
+                    bottom: Val::Px(5.),
                 },
                 ..default()
             },
@@ -29,7 +34,7 @@ pub fn map_list(parent: &mut ChildBuilder, my_assets: &Res<MyAssets>, maps: &Res
         .with_children(|column| {
             // Loop through each map and create an ImageBundle with text overlay for each
             for map in maps.0.iter().filter(|map| map.unlocked) {
-                map_card(column, my_assets, map);
+                map_card(column, my_assets, map, texture_atlas_layouts);
                 // column
                 //     .spawn(NodeBundle {
                 //         style: Style {

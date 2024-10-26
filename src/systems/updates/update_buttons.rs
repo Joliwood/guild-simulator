@@ -181,7 +181,7 @@ pub fn mouse_interaction_updates(
             intelligence: 12,
             level: 1,
             max_experience: 100,
-            name: "Random noob".to_string(),
+            name: "Big Noob".to_string(),
             recruit_inventory: RecruitInventory::generate_empty_inventory(),
             state: RecruitStateEnum::Available,
             strength: 2,

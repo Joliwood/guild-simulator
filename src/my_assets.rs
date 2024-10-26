@@ -113,6 +113,14 @@ pub struct MyAssets {
     pub map_tuto: Handle<Image>,
     #[asset(path = "images/maps/map_description.png")]
     pub map_description: Handle<Image>,
+    #[asset(path = "images/maps/map_atlas.png")]
+    pub map_atlas: Handle<Image>,
+    #[asset(path = "images/maps/map_card.png")]
+    pub map_card: Handle<Image>,
+    #[asset(path = "images/maps/map_type_atlas.png")]
+    pub map_type_atlas: Handle<Image>,
+    #[asset(path = "images/maps/limited_time.png")]
+    pub limited_time: Handle<Image>,
 
     // --- Missions --- //
     #[asset(path = "images/missions/c1_mission_1.png")]
@@ -146,6 +154,10 @@ impl MyAssets {
             ItemLootEnum::Armor(_) => self.armors_atlas.clone(),
             ItemLootEnum::Scroll(_) => self.scrolls_atlas.clone(),
         };
+    }
+
+    pub fn get_map_type_atlas(&self) -> Handle<Image> {
+        return self.map_type_atlas.clone();
     }
 
     pub fn load_sound(&self, sound_enum: SoundEnum) -> Handle<AudioSource> {

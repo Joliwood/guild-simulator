@@ -88,7 +88,7 @@ pub fn room_command_room(
                             ..default()
                         })
                         .with_children(|left_column| {
-                            map_list(left_column, my_assets, &maps);
+                            map_list(left_column, my_assets, &maps, texture_atlas_layouts);
                             map_description(left_column, my_assets, &selected_map);
                         });
 
