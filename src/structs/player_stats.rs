@@ -12,6 +12,12 @@ use bevy::prelude::*;
 use uuid::Uuid;
 
 #[derive(Component, Resource, Clone)]
+pub struct Stats {
+    pub golds_earned: i32,
+    pub mission_completed: u16,
+}
+
+#[derive(Component, Resource, Clone)]
 pub struct PlayerStats {
     pub day: u16,
     pub experience: u32,
@@ -22,6 +28,8 @@ pub struct PlayerStats {
     pub max_inventory_size: usize,
     pub recruits: Vec<RecruitStats>,
     pub room: RoomEnum,
+    pub toxicity: u8,
+    pub stats: Stats,
 }
 
 impl Default for PlayerStats {
@@ -55,6 +63,11 @@ impl Default for PlayerStats {
             max_inventory_size: 50,
             recruits: vec![],
             room: RoomEnum::CommandRoom,
+            toxicity: 50,
+            stats: Stats {
+                golds_earned: 0,
+                mission_completed: 0,
+            },
         }
     }
 }

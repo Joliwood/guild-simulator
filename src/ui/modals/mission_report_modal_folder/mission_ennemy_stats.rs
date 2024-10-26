@@ -1,4 +1,4 @@
-use crate::{structs::general_structs::Ennemy, ui::interface::gold_counter::MyAssets};
+use crate::{my_assets::MyAssets, structs::general_structs::Ennemy};
 use bevy::prelude::*;
 
 pub fn mission_ennemy_stats(

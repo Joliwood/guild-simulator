@@ -1,4 +1,4 @@
-use crate::{structs::recruits::RecruitStats, ui::interface::gold_counter::MyAssets};
+use crate::{my_assets::MyAssets, structs::recruits::RecruitStats};
 use bevy::prelude::*;
 
 pub fn recruit_sent_picture(
@@ -8,8 +8,8 @@ pub fn recruit_sent_picture(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let recruit_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(800, 200),
-        5,
+        UVec2::new(1400, 400),
+        7,
         1,
         Some(UVec2::new(0, 0)),
         Some(UVec2::new(0, 0)),

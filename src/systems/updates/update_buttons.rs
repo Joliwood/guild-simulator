@@ -2,6 +2,7 @@ use crate::{
     audio::play_sound::play_sound,
     data::equipments::scrolls::ScrollsEnum,
     enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum, SoundEnum},
+    my_assets::MyAssets,
     structs::{
         equipments::ItemEnum,
         general_structs::{load_scroll, MissionModalVisible, MissionReportsModalVisible, UniqueId},
@@ -15,7 +16,7 @@ use crate::{
         recruits::hire_new_recruits::hire_new_recruits,
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     },
-    ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
+    ui::ui_constants::WOOD_COLOR,
     utils::{equip_recruit_inventory, get_new_room},
 };
 use bevy::prelude::*;
@@ -180,7 +181,7 @@ pub fn mouse_interaction_updates(
             intelligence: 12,
             level: 1,
             max_experience: 100,
-            name: "Random noob".to_string(),
+            name: "Big Noob".to_string(),
             recruit_inventory: RecruitInventory::generate_empty_inventory(),
             state: RecruitStateEnum::Available,
             strength: 2,

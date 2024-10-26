@@ -1,7 +1,6 @@
 #![allow(dead_code)]
 use crate::{
-    systems::systems_constants::NORMAL_BUTTON,
-    ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
+    my_assets::MyAssets, systems::systems_constants::NORMAL_BUTTON, ui::ui_constants::WOOD_COLOR,
 };
 use bevy::prelude::*;
 
@@ -135,11 +134,11 @@ impl CustomButton {
 
 pub fn get_mission_position(mission_id: u16) -> (f32, f32) {
     match mission_id {
-        1 => (400., 270.),
-        2 => (220., 270.),
+        1 => (370., 270.),
+        2 => (200., 270.),
         3 => (35., 270.),
-        4 => (400., 60.),
-        5 => (220., 60.),
+        4 => (370., 60.),
+        5 => (200., 60.),
         6 => (35., 60.),
         _ => panic!("Mission id not found"),
     }

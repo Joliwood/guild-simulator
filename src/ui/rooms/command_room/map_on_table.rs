@@ -1,7 +1,7 @@
 use crate::{
     custom_components::CustomButton,
+    my_assets::MyAssets,
     structs::{general_structs::UniqueId, maps::Map, missions::Missions},
-    ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
 
@@ -13,8 +13,8 @@ pub fn map_on_table(
     missions: &Res<Missions>,
 ) {
     parent
-        .spawn(ImageBundle {
-            image: my_assets.inventory_container.clone().into(),
+        .spawn(NodeBundle {
+            // image: my_assets.inventory_container.clone().into(),
             style: Style {
                 display: Display::Flex,
                 justify_content: JustifyContent::Center,

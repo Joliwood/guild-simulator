@@ -1,6 +1,6 @@
 use bevy::prelude::*;
 
-use crate::{enums::ColorPaletteEnum, ui::interface::gold_counter::MyAssets};
+use crate::{enums::ColorPaletteEnum, my_assets::MyAssets};
 
 pub fn recruit_endurance(
     stats_container: &mut ChildBuilder,

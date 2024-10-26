@@ -1,6 +1,7 @@
 use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
+    my_assets::MyAssets,
     structs::{
         general_structs::MissionNotificationsNumber,
         trigger_structs::{
@@ -8,7 +9,6 @@ use crate::{
             NotificationToastTrigger,
         },
     },
-    ui::interface::gold_counter::MyAssets,
 };
 use bevy::{
     prelude::{Changed, Commands, DespawnRecursiveExt, Entity, Query, Res, ResMut, With},

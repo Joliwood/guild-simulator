@@ -8,6 +8,7 @@ mod audio;
 mod custom_components;
 mod data;
 mod enums;
+mod my_assets;
 mod structs;
 mod systems;
 mod ui;
@@ -26,7 +27,6 @@ use structs::{
     player_stats::PlayerStats,
     recruits::{SelectedRecruitForEquipment, SelectedRecruitForMission},
 };
-use ui::interface::gold_counter::MyAssets;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, SystemSet)]
 pub struct MySystems;
@@ -64,7 +64,7 @@ fn main() -> AppExit {
         .insert_resource(MissionReportsModalVisible(false))
         .insert_resource(MissionNotificationsNumber(0))
         .insert_resource(Maps::default())
-        .init_collection::<MyAssets>()
+        .init_collection::<my_assets::MyAssets>()
         .add_systems(
             Startup,
             (

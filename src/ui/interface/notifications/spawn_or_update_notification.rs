@@ -1,10 +1,10 @@
 use crate::{
     enums::ColorPaletteEnum,
+    my_assets::MyAssets,
     structs::{
         missions::MissionReports,
         trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
     },
-    ui::interface::gold_counter::MyAssets,
     utils::get_mission_notification_tooltip_text,
 };
 use bevy::prelude::*;

@@ -1,6 +1,7 @@
+use crate::my_assets::MyAssets;
 use crate::structs::missions::MissionReports;
+use crate::structs::trigger_structs::MissionReport;
 use crate::structs::trigger_structs::MissionReportButtonTrigger;
-use crate::{structs::trigger_structs::MissionReport, ui::interface::gold_counter::MyAssets};
 use bevy::prelude::*;
 
 pub fn mission_report_documents(

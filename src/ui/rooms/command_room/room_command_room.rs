@@ -3,13 +3,14 @@ use super::{
     map_recruit_list::map_recruit_list,
 };
 use crate::{
+    my_assets::MyAssets,
     structs::{
         maps::{Maps, SelectedMapId},
         missions::Missions,
         player_stats::PlayerStats,
         trigger_structs::ResetRoomTrigger,
     },
-    ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
+    ui::styles::containers_styles::node_container_style,
 };
 use bevy::prelude::*;
 
@@ -57,6 +58,7 @@ pub fn room_command_room(
                         flex_direction: FlexDirection::Row,
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
+                        column_gap: Val::Px(30.0),
                         width: Val::Px(1170.0),
                         height: Val::Px(650.0),
                         padding: UiRect::all(Val::Px(80.)),
@@ -86,7 +88,7 @@ pub fn room_command_room(
                             ..default()
                         })
                         .with_children(|left_column| {
-                            map_list(left_column, my_assets, &maps);
+                            map_list(left_column, my_assets, &maps, texture_atlas_layouts);
                             map_description(left_column, my_assets, &selected_map);
                         });
 

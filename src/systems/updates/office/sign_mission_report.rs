@@ -1,14 +1,15 @@
 use crate::{
     audio::play_sound::play_sound,
     enums::{ColorPaletteEnum, RecruitStateEnum, SoundEnum},
+    my_assets::MyAssets,
     structs::{
         general_structs::MissionReportsModalVisible,
+        maps::Maps,
         missions::{MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
         trigger_structs::MissionReportModalSignButtonTrigger,
     },
     systems::systems_constants::HOVERED_BUTTON,
-    ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
 
@@ -31,6 +32,7 @@ pub fn sign_mission_report(
     mut mission_reports: ResMut<MissionReports>,
     my_assets: Res<MyAssets>,
     mut commands: Commands,
+    mut maps: ResMut<Maps>,
 ) {
     let mut window = windows.single_mut();
 
@@ -58,6 +60,14 @@ pub fn sign_mission_report(
 
                     for loot in mission_report.loots.iter() {
                         player_stats.add_item(loot.clone());
+                    }
+                    player_stats.stats.golds_earned += mission_report.golds_gained.unwrap();
+                    player_stats.stats.mission_completed += 1;
+
+                    let map_id = missions.get_map_id_by_mission_id(mission_report.mission_id);
+                    let map = maps.get_map_by_optional_id(map_id);
+                    if map.is_some() {
+                        maps.finish_mission_by_id(mission_report.mission_id);
                     }
                 }
 

@@ -1,4 +1,4 @@
-use crate::{structs::missions::Mission, ui::interface::gold_counter::MyAssets};
+use crate::{my_assets::MyAssets, structs::missions::Mission};
 use bevy::prelude::*;
 
 pub fn mission_recap(

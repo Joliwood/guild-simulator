@@ -1,5 +1,5 @@
-use super::gold_counter::MyAssets;
 use crate::{
+    my_assets::MyAssets,
     structs::{player_stats::PlayerStats, trigger_structs::PlayerStatsRoomTrigger},
     ui::{styles::containers_styles::room_interface_text_style, ui_constants::WOOD_COLOR},
 };

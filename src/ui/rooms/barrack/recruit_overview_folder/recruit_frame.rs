@@ -1,5 +1,5 @@
 use crate::{
-    structs::recruits::SelectedRecruitForEquipment, ui::interface::gold_counter::MyAssets,
+    my_assets::MyAssets, structs::recruits::SelectedRecruitForEquipment,
     utils::get_selected_recruit_for_equipment,
 };
 use bevy::prelude::*;
@@ -11,8 +11,8 @@ pub fn recruit_frame(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let recruit_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(800, 200),
-        5,
+        UVec2::new(1400, 400),
+        7,
         1,
         Some(UVec2::new(0, 0)),
         Some(UVec2::new(0, 0)),

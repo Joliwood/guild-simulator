@@ -1,4 +1,4 @@
-use crate::{structs::missions::MissionReport, ui::interface::gold_counter::MyAssets};
+use crate::{my_assets::MyAssets, structs::missions::MissionReport};
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
 

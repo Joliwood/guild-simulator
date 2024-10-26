@@ -2,6 +2,7 @@ use super::{
     loots_and_start::loots_and_start, mission_recap::mission_recap, recruit_recap::recruit_recap,
 };
 use crate::{
+    my_assets::MyAssets,
     structs::{
         general_structs::{MissionModalVisible, UniqueId},
         missions::{Missions, SelectedMission},
@@ -9,7 +10,7 @@ use crate::{
         recruits::SelectedRecruitForMission,
         trigger_structs::MissionModalContentTrigger,
     },
-    ui::{interface::gold_counter::MyAssets, ui_constants::WOOD_COLOR},
+    ui::ui_constants::WOOD_COLOR,
 };
 use bevy::prelude::*;
 

@@ -10,6 +10,7 @@ dist/
 build/macos/src/Applications
 
 # Release builds
+builds/
 *.dmg
 *.zip
 

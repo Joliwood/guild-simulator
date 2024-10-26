@@ -4,11 +4,12 @@ use super::{
     recruits_list_folder::recruits_list::spawn_left_container,
 };
 use crate::{
+    my_assets::MyAssets,
     structs::{
         player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
         trigger_structs::ResetRoomTrigger,
     },
-    ui::{interface::gold_counter::MyAssets, styles::containers_styles::node_container_style},
+    ui::styles::containers_styles::node_container_style,
 };
 use bevy::prelude::*;
 

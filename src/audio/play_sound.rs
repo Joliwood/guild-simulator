@@ -1,4 +1,4 @@
-use crate::{enums::SoundEnum, ui::interface::gold_counter::MyAssets};
+use crate::{enums::SoundEnum, my_assets::MyAssets};
 use bevy::{
     audio::{AudioBundle, PlaybackMode, PlaybackSettings, Volume},
     prelude::{default, Commands, Res},

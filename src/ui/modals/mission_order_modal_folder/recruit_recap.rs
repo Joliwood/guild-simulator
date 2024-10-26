@@ -1,10 +1,8 @@
 use crate::{
+    my_assets::MyAssets,
     structs::{player_stats::PlayerStats, recruits::SelectedRecruitForMission},
-    ui::{
-        interface::gold_counter::MyAssets,
-        rooms::barrack::recruits_list_folder::{
-            armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
-        },
+    ui::rooms::barrack::recruits_list_folder::{
+        armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
     },
 };
 use bevy::prelude::*;
@@ -17,8 +15,8 @@ pub fn recruit_recap(
     player_stats: &Res<PlayerStats>,
 ) {
     let recruit_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(800, 200),
-        5,
+        UVec2::new(1400, 400),
+        7,
         1,
         Some(UVec2::new(0, 0)),
         Some(UVec2::new(0, 0)),

@@ -1,4 +1,4 @@
-use crate::{structs::maps::Map, ui::interface::gold_counter::MyAssets};
+use crate::{my_assets::MyAssets, structs::maps::Map};
 use bevy::prelude::*;
 
 pub fn map_description(
@@ -8,18 +8,18 @@ pub fn map_description(
 ) {
     parent
         .spawn(ImageBundle {
-            image: my_assets.inventory_container.clone().into(),
+            image: my_assets.map_description.clone().into(),
             style: Style {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,
                 justify_content: JustifyContent::FlexStart,
-                row_gap: Val::Px(5.0),
-                align_items: AlignItems::Center,
+                row_gap: Val::Px(10.),
+                align_items: AlignItems::FlexStart,
                 width: Val::Percent(100.),
-                height: Val::Percent(60.),
+                height: Val::Percent(35.),
                 padding: UiRect {
-                    left: Val::Px(30.),
-                    right: Val::Px(30.),
+                    left: Val::Px(25.),
+                    right: Val::Px(25.),
                     top: Val::Px(20.),
                     bottom: Val::Px(20.),
                 },
@@ -46,7 +46,7 @@ pub fn map_description(
                         map.description.clone(),
                         TextStyle {
                             font: my_assets.fira_sans_bold.clone(),
-                            font_size: 16.0,
+                            font_size: 14.0,
                             color: Color::BLACK,
                         },
                     ),

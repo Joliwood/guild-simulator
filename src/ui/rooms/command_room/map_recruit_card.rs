@@ -1,7 +1,7 @@
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
+    my_assets::MyAssets,
     structs::{general_structs::UniqueId, recruits::RecruitStats},
-    ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
@@ -18,13 +18,14 @@ pub fn map_recruit_card(
                 display: Display::Flex,
                 flex_direction: FlexDirection::Row,
                 align_items: AlignItems::Center,
-                justify_content: JustifyContent::SpaceBetween,
-                width: Val::Percent(100.0),
-                height: Val::Px(60.0),
+                justify_content: JustifyContent::FlexStart,
+                column_gap: Val::Px(20.),
+                width: Val::Percent(100.),
+                height: Val::Px(40.),
                 padding: UiRect {
-                    top: Val::Px(15.),
-                    bottom: Val::Px(15.),
-                    left: Val::Px(3.),
+                    top: Val::Px(3.),
+                    bottom: Val::Px(3.),
+                    left: Val::Px(7.),
                     right: Val::Px(3.),
                 },
                 border: UiRect::all(Val::Px(2.0)),
@@ -34,6 +35,8 @@ pub fn map_recruit_card(
                 },
                 ..default()
             },
+            // background_color: Color::BLACK.into(),
+            image: my_assets.recruit_card.clone().into(),
             border_color: BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
             border_radius: BorderRadius::all(Val::Px(10.)),
             ..default()
@@ -57,12 +60,10 @@ pub fn map_recruit_card(
                             width: Val::Percent(100.0),
                             height: Val::Percent(100.0),
                             align_items: AlignItems::Center,
-                            justify_content: JustifyContent::Center,
+                            justify_content: JustifyContent::FlexStart,
                             padding: UiRect {
-                                top: Val::ZERO,
-                                bottom: Val::ZERO,
-                                left: Val::Percent(15.),
-                                right: Val::Percent(15.),
+                                left: Val::Px(42.),
+                                ..default()
                             },
                             ..default()
                         },
@@ -87,112 +88,12 @@ pub fn map_recruit_card(
             }
         })
         .with_children(|button| {
-            // Recruit portrait image (left-most side)
-            button.spawn((
-                ImageBundle {
-                    image: my_assets.recruit_picture_atlas.clone().into(),
-                    style: Style {
-                        width: Val::Px(30.),
-                        height: Val::Px(50.),
-                        ..default()
-                    },
-                    ..default()
-                },
-                TextureAtlas {
-                    index: recruit.image_atlas_index.into(),
-                    layout: recruit_texture_atlas_layout.clone(),
-                },
-            ));
-
-            // Container for recruit name and class
-            button
-                .spawn(NodeBundle {
-                    style: Style {
-                        flex_direction: FlexDirection::Column,
-                        align_items: AlignItems::FlexStart,
-                        row_gap: Val::Px(5.0),
-                        width: Val::Px(80.0),
-                        overflow: Overflow {
-                            x: OverflowAxis::Hidden,
-                            y: OverflowAxis::Hidden,
-                        },
-                        margin: UiRect::all(Val::Px(5.0)),
-                        ..default()
-                    },
-                    ..default()
-                })
-                .with_children(|name_class_container| {
-                    // Recruit name
-                    name_class_container.spawn(TextBundle::from_section(
-                        recruit.name.clone(),
-                        TextStyle {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 16.0,
-                            color: ColorPaletteEnum::DarkBrown.as_color(),
-                        },
-                    ));
-
-                    // Recruit class
-                    name_class_container.spawn(TextBundle::from_section(
-                        recruit.class.to_string(),
-                        TextStyle {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 14.0,
-                            color: ColorPaletteEnum::DarkBrown.as_color(),
-                        },
-                    ));
-                });
-
-            // Container for recruit stats (strength, armor, intelligence)
-            button
-                .spawn(NodeBundle {
-                    style: Style {
-                        flex_direction: FlexDirection::Column,
-                        width: Val::Px(60.0),
-                        margin: UiRect::all(Val::Px(5.0)),
-                        ..default()
-                    },
-                    ..default()
-                })
-                .with_children(|stats_container| {
-                    stats_container.spawn(TextBundle::from_section(
-                        format!("Str: {}", recruit.get_total_strength()),
-                        TextStyle {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 14.0,
-                            color: ColorPaletteEnum::DarkBrown.as_color(),
-                        },
-                    ));
-
-                    stats_container.spawn(TextBundle::from_section(
-                        format!("End: {}", recruit.get_total_endurance()),
-                        TextStyle {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 14.0,
-                            color: ColorPaletteEnum::DarkBrown.as_color(),
-                        },
-                    ));
-
-                    stats_container.spawn(TextBundle::from_section(
-                        format!("Int: {}", recruit.get_total_intelligence()),
-                        TextStyle {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 14.0,
-                            color: ColorPaletteEnum::DarkBrown.as_color(),
-                        },
-                    ));
-                });
-
             button
                 .spawn((
                     ButtonBundle {
-                        image: my_assets.set_of_keys_container.clone().into(),
                         style: Style {
-                            width: Val::Px(30.),
-                            height: Val::Px(30.),
-                            display: Display::Flex, // To allow flex positioning
-                            align_items: AlignItems::Center, // Align text vertically in the center
-                            justify_content: JustifyContent::Center, // Align text horizontally in the center
+                            justify_content: JustifyContent::Center,
+                            align_items: AlignItems::Center,
                             ..default()
                         },
                         ..default()
@@ -205,14 +106,65 @@ his/her stats, equipment and level."
                     )
                     .with_activation(TooltipActivation::IDLE),
                 ))
-                .with_children(|frame| {
-                    // Image that is 30x30 with centered text inside
-                    frame.spawn(TextBundle::from_section(
+                .with_children(|parent| {
+                    parent.spawn(TextBundle::from_section(
                         recruit.get_total_merged_stats().to_string(),
                         TextStyle {
                             font: my_assets.fira_sans_bold.clone(),
-                            font_size: 14.0,
-                            color: ColorPaletteEnum::DarkBrown.as_color(),
+                            font_size: 18.0,
+                            color: Color::BLACK,
+                        },
+                    ));
+                });
+
+            // Recruit name
+            button.spawn(TextBundle::from_section(
+                recruit.name.clone(),
+                TextStyle {
+                    font: my_assets.fira_sans_bold.clone(),
+                    font_size: 16.0,
+                    color: Color::WHITE,
+                },
+            ));
+
+            button
+                .spawn(NodeBundle {
+                    style: Style {
+                        width: Val::Px(72.),
+                        position_type: PositionType::Absolute,
+                        right: Val::Px(0.),
+                        height: Val::Percent(65.),
+                        padding: UiRect {
+                            left: Val::Px(3.),
+                            right: Val::Px(5.),
+                            ..default()
+                        },
+                        overflow: Overflow {
+                            x: OverflowAxis::Hidden,
+                            y: OverflowAxis::Hidden,
+                        },
+                        ..default()
+                    },
+                    ..default()
+                })
+                .with_children(|parent| {
+                    parent.spawn((
+                        ImageBundle {
+                            image: my_assets.recruit_picture_atlas.clone().into(),
+                            style: Style {
+                                margin: UiRect {
+                                    top: Val::Px(-10.),
+                                    ..default()
+                                },
+                                width: Val::Percent(100.),
+                                height: Val::Px(70. * 2.),
+                                ..default()
+                            },
+                            ..default()
+                        },
+                        TextureAtlas {
+                            index: recruit.image_atlas_index.into(),
+                            layout: recruit_texture_atlas_layout.clone(),
                         },
                     ));
                 });

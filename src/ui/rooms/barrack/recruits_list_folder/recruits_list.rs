@@ -1,5 +1,5 @@
 use super::recruit_card::recruit_card;
-use crate::{structs::player_stats::PlayerStats, ui::interface::gold_counter::MyAssets};
+use crate::{my_assets::MyAssets, structs::player_stats::PlayerStats};
 use bevy::prelude::*;
 
 /// Spawns the left container, displaying the player's recruits.
@@ -10,8 +10,8 @@ pub fn spawn_left_container(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let recruit_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(800, 200),
-        5,
+        UVec2::new(1400, 400),
+        7,
         1,
         Some(UVec2::new(0, 0)),
         Some(UVec2::new(0, 0)),
@@ -25,11 +25,16 @@ pub fn spawn_left_container(
                 display: Display::Flex,
                 align_self: AlignSelf::Center,
                 flex_direction: FlexDirection::Column,
+                padding: UiRect {
+                    top: Val::Px(30.),
+                    bottom: Val::Px(25.),
+                    left: Val::Px(25.),
+                    right: Val::Px(25.),
+                },
                 row_gap: Val::Px(5.0),
                 align_items: AlignItems::Center,
                 width: Val::Px(400.),
                 height: Val::Px(450.),
-                padding: UiRect::all(Val::Px(15.0)),
                 ..default()
             },
             ..default()

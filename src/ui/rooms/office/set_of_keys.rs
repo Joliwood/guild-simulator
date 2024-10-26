@@ -1,6 +1,6 @@
 use crate::{
+    my_assets::MyAssets,
     structs::{missions::MissionReports, trigger_structs::SleepButtonTrigger},
-    ui::interface::gold_counter::MyAssets,
 };
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
