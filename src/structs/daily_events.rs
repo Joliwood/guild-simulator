@@ -2,9 +2,6 @@
 use bevy::prelude::*;
 use rand::Rng;
 
-// pub static TOTAL_APPARITION_CHANCE: u16 =
-//     calculate_total_apparition_chance(&ALL_DISCUSSIONS_LISTED_APPARITION_CHANCE);
-
 fn calculate_total_apparition_chance(list: &[u16]) -> u16 {
     let mut total = 0;
     let mut i = 0;
@@ -15,12 +12,14 @@ fn calculate_total_apparition_chance(list: &[u16]) -> u16 {
     total
 }
 
-// const RANDOM_GRANDMA_1_APPARITION_CHANCE: u16 = 99;
-// const RANDOM_GRANDMA_2_APPARITION_CHANCE: u16 = 5;
-// const RANDOM_GRANDMA_3_APPARITION_CHANCE: u16 = 99;
-
 #[derive(Debug, Component, Resource, Clone, PartialEq)]
 struct DiscussionTarget {
+    percent_chance: u16,
+    index: u16,
+}
+
+#[derive(Debug, Component, Resource, Clone, PartialEq)]
+struct SpontaneousApplicationTarget {
     percent_chance: u16,
     index: u16,
 }
@@ -43,11 +42,24 @@ const RANDOM_GRANDMA_3: DiscussionTarget = DiscussionTarget {
 const GRANDMAS_INITIAL_LIST: [DiscussionTarget; 3] =
     [RANDOM_GRANDMA_1, RANDOM_GRANDMA_2, RANDOM_GRANDMA_3];
 
-const ALL_DISCUSSIONS_LISTED_APPARITION_CHANCE: [u16; 3] = [
-    RANDOM_GRANDMA_1.percent_chance,
-    RANDOM_GRANDMA_2.percent_chance,
-    RANDOM_GRANDMA_3.percent_chance,
-];
+const RANDOM_NOOB_1: SpontaneousApplicationTarget = SpontaneousApplicationTarget {
+    percent_chance: 100,
+    index: 1,
+};
+
+const RANDOM_NOOB_2: SpontaneousApplicationTarget = SpontaneousApplicationTarget {
+    percent_chance: 100,
+    index: 2,
+};
+
+const SPONTANOUS_APPLICATIONS_INITIAL_LIST: [SpontaneousApplicationTarget; 2] =
+    [RANDOM_NOOB_1, RANDOM_NOOB_2];
+
+// const ALL_DISCUSSIONS_LISTED_APPARITION_CHANCE: [u16; 3] = [
+//     RANDOM_GRANDMA_1.percent_chance,
+//     RANDOM_GRANDMA_2.percent_chance,
+//     RANDOM_GRANDMA_3.percent_chance,
+// ];
 
 pub fn get_random_index(list: &[u16]) -> usize {
     let total_apparition_chance = calculate_total_apparition_chance(list);
@@ -89,11 +101,87 @@ pub struct DailyDiscussion {
     pub title: String,
 }
 
-#[derive(Debug, Component, Resource, Clone, PartialEq)]
+#[derive(Debug, Component, Resource, Clone, PartialEq, Copy)]
 pub enum DailyDiscussionEnum {
     RandomGrandma1,
     RandomGrandma2,
     RandomGrandma3,
+}
+
+#[derive(Debug, Component, Resource, Clone, PartialEq)]
+pub struct SpontaneousApplication {
+    pub id: u16,
+    pub title: String,
+    pub description: String,
+    pub apparition_chance: u16,
+}
+
+#[derive(Debug, Component, Resource, Clone, PartialEq)]
+pub enum SpontaneousApplicationEnum {
+    RandomNoob1,
+    RandomNoob2,
+}
+
+impl SpontaneousApplicationEnum {
+    pub fn get_random_spontaneous_application_enums(n: usize) -> Vec<SpontaneousApplicationEnum> {
+        // Convert the initial list to a modifiable vector.
+        let mut available_spontaneous_applications = SPONTANOUS_APPLICATIONS_INITIAL_LIST.to_vec();
+        let mut selected_spontaneous_applications = Vec::new();
+
+        for _ in 0..n {
+            // Collect the apparition chances for the current set of available spontaneous applications.
+            let percent_chance_vec = available_spontaneous_applications
+                .iter()
+                .map(|spontaneous_application_target| spontaneous_application_target.percent_chance)
+                .collect::<Vec<u16>>();
+
+            // Select a random index based on apparition chance.
+            let selected_index = get_random_index(&percent_chance_vec);
+            let selected_spontaneous_application =
+                available_spontaneous_applications[selected_index].clone();
+
+            // Convert the selected spontaneous application's index to `SpontaneousApplicationEnum`.
+            let random_spontaneous_application_enum =
+                select_random_spontaneous_application(selected_spontaneous_application.index);
+            selected_spontaneous_applications.push(random_spontaneous_application_enum);
+
+            // Remove the selected spontaneous application from the available list for uniqueness.
+            available_spontaneous_applications.remove(selected_index);
+
+            // Stop early if there are no more spontaneous applications left to select.
+            if available_spontaneous_applications.is_empty() {
+                break;
+            }
+        }
+
+        selected_spontaneous_applications
+    }
+
+    pub fn get_spontaneous_application(&self) -> SpontaneousApplication {
+        match self {
+            SpontaneousApplicationEnum::RandomNoob1 => SpontaneousApplication {
+                apparition_chance: RANDOM_NOOB_1.percent_chance,
+                description: "A noob wants to join your guild.".to_string(),
+                id: RANDOM_NOOB_1.index,
+                title: "Noob".to_string(),
+            },
+            SpontaneousApplicationEnum::RandomNoob2 => SpontaneousApplication {
+                apparition_chance: RANDOM_NOOB_2.percent_chance,
+                description: "A noob wants to join your guild.".to_string(),
+                id: RANDOM_NOOB_2.index,
+                title: "Noob".to_string(),
+            },
+        }
+    }
+}
+
+fn select_random_spontaneous_application(index: u16) -> SpontaneousApplicationEnum {
+    match index {
+        1 => SpontaneousApplicationEnum::RandomNoob1,
+        2 => SpontaneousApplicationEnum::RandomNoob2,
+        // Should never happen
+        _ => SpontaneousApplicationEnum::RandomNoob1,
+    }
 }
 
 fn select_random_discussion(index: u16) -> DailyDiscussionEnum {
@@ -107,41 +195,7 @@ fn select_random_discussion(index: u16) -> DailyDiscussionEnum {
 }
 
 impl DailyDiscussionEnum {
-    pub fn get_two_random_discussions() -> (DailyDiscussionEnum, DailyDiscussionEnum) {
-        let first_list = GRANDMAS_INITIAL_LIST.to_vec();
-
-        let first_percent_chance_vec = first_list
-            .iter()
-            .map(|discussion_target| discussion_target.percent_chance)
-            .collect::<Vec<u16>>();
-        let first_index = get_random_index(&first_percent_chance_vec);
-        let first_random_discussion_index = first_list[first_index].index;
-
-        let first_random_discussion = select_random_discussion(first_random_discussion_index);
-
-        let first_random_discussion_id = first_random_discussion.clone().get_daily_discussion().id;
-
-        let second_list = first_list
-            .iter()
-            .enumerate()
-            .filter(|(_, discussion_target)| discussion_target.index != first_random_discussion_id)
-            .map(|(_, discussion_target)| discussion_target)
-            .collect::<Vec<&DiscussionTarget>>();
-
-        let second_percent_chance_vec = second_list
-            .iter()
-            .map(|discussion_target| discussion_target.percent_chance)
-            .collect::<Vec<u16>>();
-
-        let second_index = get_random_index(&second_percent_chance_vec);
-        let second_random_discussion_index = second_list[second_index].index;
-
-        let second_random_discussion = select_random_discussion(second_random_discussion_index);
-
-        return (first_random_discussion, second_random_discussion);
-    }
-
-    pub fn get_random_discussions(n: usize) -> Vec<DailyDiscussionEnum> {
+    pub fn get_random_discussion_enums(n: usize) -> Vec<DailyDiscussionEnum> {
         // Convert the initial list to a modifiable vector.
         let mut available_discussions = GRANDMAS_INITIAL_LIST.to_vec();
         let mut selected_discussions = Vec::new();
@@ -262,7 +316,7 @@ pub enum DailyEventTypeEnum {
     Discussion(DailyDiscussionEnum),
     // EquipmentTrade(u16),
     // MapProposition(u16),
-    // SpontaneousApplication(u16),
+    SpontaneousApplication(SpontaneousApplicationEnum),
 }
 
 #[derive(Debug, Component, Resource, Clone, PartialEq)]
@@ -271,33 +325,53 @@ pub struct DailyEvent {
     pub daily_event_type: DailyEventTypeEnum,
 }
 
-impl DailyEvent {
-    pub fn get_random_daily_event_enum() -> DailyEventTypeEnum {
-        let mut rng = rand::thread_rng();
-        let random_number = rng.gen_range(0..3);
-        match random_number {
-            0 => DailyEventTypeEnum::Discussion(DailyDiscussionEnum::RandomGrandma1),
-            1 => DailyEventTypeEnum::Discussion(DailyDiscussionEnum::RandomGrandma2),
-            2 => DailyEventTypeEnum::Discussion(DailyDiscussionEnum::RandomGrandma3),
-            _ => DailyEventTypeEnum::Discussion(DailyDiscussionEnum::RandomGrandma1),
-        }
-    }
-
-    pub fn get_percent_chance(&self) -> u16 {
-        match &self.daily_event_type {
-            DailyEventTypeEnum::Discussion(discussion_enum) => {
-                discussion_enum.get_daily_discussion().apparition_chance
-            }
-        }
-    }
-}
-
 #[derive(Default, Debug, Component, Resource, Clone)]
 pub struct DailyEvents(pub Vec<DailyEvent>);
 
 impl DailyEvents {
-    // pub fn get_random_discussion(&self) -> DailyDiscussion {
-    //     let random_discussion_event = DailyDiscussionEnum::get_random_discussion();
-    //     random_discussion_event.get_daily_discussion()
-    // }
+    pub fn get_random_number_of_daily_events(&self, n: usize) -> Vec<DailyEvent> {
+        let mut daily_events = Vec::new();
+        let mut daily_discussion_number = 0;
+        let mut daily_spontaneous_application_number = 0;
+
+        // Discussion has a 66% chance of being selected.
+        // Spontaneous application has a 33% chance of being selected.
+
+        for _ in 0..n {
+            let random_number = rand::thread_rng().gen_range(0..100);
+            if random_number < 66 {
+                daily_discussion_number += 1;
+            } else {
+                daily_spontaneous_application_number += 1;
+            }
+        }
+
+        let daily_discussion_enums =
+            DailyDiscussionEnum::get_random_discussion_enums(daily_discussion_number);
+
+        for daily_discussion_enum in daily_discussion_enums {
+            let daily_discussion = DailyEvent {
+                id: 0,
+                daily_event_type: DailyEventTypeEnum::Discussion(daily_discussion_enum),
+            };
+            daily_events.push(daily_discussion);
+        }
+
+        let daily_sponaneous_applications =
+            SpontaneousApplicationEnum::get_random_spontaneous_application_enums(
+                daily_spontaneous_application_number,
+            );
+
+        for daily_spontaneous_application_enum in daily_sponaneous_applications {
+            let daily_spontaneous_application = DailyEvent {
+                id: 0,
+                daily_event_type: DailyEventTypeEnum::SpontaneousApplication(
+                    daily_spontaneous_application_enum,
+                ),
+            };
+            daily_events.push(daily_spontaneous_application);
+        }
+
+        daily_events
+    }
 }

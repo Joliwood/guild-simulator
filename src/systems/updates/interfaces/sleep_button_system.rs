@@ -92,7 +92,7 @@ pub fn sleep_button_system(
                 // let total_apparition_chance = TOTAL_APPARITION_CHANCE;
                 info!(
                     "H   E     R     E  : {:?}",
-                    DailyDiscussionEnum::get_random_discussions(4)
+                    daily_events.get_random_number_of_daily_events(8).len()
                 );
             }
             Interaction::Hovered => {
