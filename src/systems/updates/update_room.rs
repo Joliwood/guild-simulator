@@ -41,7 +41,6 @@ pub fn update_room(
     if player_stats.is_changed() || selected_recruit_for_equipment.is_changed() {
         // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed
         for entity in query.iter() {
-            // info!("PlayerStats or SelectedRecruitForEquipment has changed");
             commands.entity(entity).despawn_recursive();
         }
 

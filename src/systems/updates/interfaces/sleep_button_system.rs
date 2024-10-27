@@ -3,9 +3,7 @@ use crate::{
     enums::SoundEnum,
     my_assets::MyAssets,
     structs::{
-        daily_events::{
-            get_random_index, DailyDiscussionEnum, DailyEvents, TOTAL_APPARITION_CHANCE,
-        },
+        daily_events::{DailyDiscussionEnum, DailyEvents},
         missions::{MissionReports, Missions},
         player_stats::PlayerStats,
         trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
@@ -94,7 +92,7 @@ pub fn sleep_button_system(
                 // let total_apparition_chance = TOTAL_APPARITION_CHANCE;
                 info!(
                     "H   E     R     E  : {:?}",
-                    DailyDiscussionEnum::get_random_discussion()
+                    DailyDiscussionEnum::get_random_discussions(4)
                 );
             }
             Interaction::Hovered => {
