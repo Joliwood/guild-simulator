@@ -1,7 +1,7 @@
 use crate::my_assets::MyAssets;
 use crate::structs::daily_events::DailyEvents;
-use crate::structs::trigger_structs::MissionReport;
-use crate::structs::trigger_structs::MissionReportButtonTrigger;
+use crate::structs::trigger_structs::DailyEventTrigger;
+// use crate::structs::trigger_structs::MissionReportButtonTrigger;
 use bevy::prelude::*;
 
 pub fn daily_event_documents(
@@ -22,12 +22,12 @@ pub fn daily_event_documents(
                 },
                 ..default()
             })
-            .insert(MissionReportButtonTrigger)
-            .insert(MissionReport)
+            // .insert(MissionReportButtonTrigger)
+            .insert(DailyEventTrigger)
             .with_children(|mission_report_button| {
                 mission_report_button
                     .spawn(ImageBundle {
-                        image: my_assets.daily_event_documents.clone().into(),
+                        image: my_assets.daily_event_documents_on_desk.clone().into(),
                         style: Style {
                             display: Display::Flex,
                             align_items: AlignItems::Center,

@@ -1,4 +1,4 @@
-use super::discussion_event_document::discussion_event_document;
+use super::discussion_event_doc::discussion_event_doc;
 use crate::{
     enums::ColorPaletteEnum,
     my_assets::MyAssets,
@@ -7,8 +7,9 @@ use crate::{
         general_structs::DailyEventsModalVisible,
         missions::Missions,
         player_stats::PlayerStats,
-        trigger_structs::{DailyEventsModalContentTrigger, MissionReportModalSignButtonTrigger},
+        trigger_structs::{DailyEventTrigger, MissionReportModalSignButtonTrigger},
     },
+    ui::modals::daily_events::spontaneous_application_event_doc::spontaneous_application_event_doc,
 };
 use bevy::prelude::*;
 
@@ -17,12 +18,12 @@ use bevy::prelude::*;
 pub fn daily_events_modal(
     mut commands: Commands,
     my_assets: Res<MyAssets>,
-    query: Query<Entity, With<DailyEventsModalContentTrigger>>,
+    // ! WIP - Check that if it works
+    query: Query<Entity, With<DailyEventTrigger>>,
     daily_events_modal_visibility: Res<DailyEventsModalVisible>,
     daily_events: Res<DailyEvents>,
-    missions: Res<Missions>,
-    player_stats: ResMut<PlayerStats>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    _player_stats: ResMut<PlayerStats>,
+    mut _texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // Despawn existing modals if visibility is set to false
     if daily_events_modal_visibility.is_changed() && !daily_events_modal_visibility.0 {
@@ -31,12 +32,12 @@ pub fn daily_events_modal(
         }
     }
 
-    let mission_reports_len = daily_events.0.len();
+    let daily_events_len = daily_events.0.len();
 
     // Spawn the mission report modal if visibility is true and there are mission reports
     if daily_events_modal_visibility.is_changed()
         && daily_events_modal_visibility.0
-        && mission_reports_len > 0
+        && daily_events_len > 0
     {
         // let container_image: Handle<Image> =
         //     asset_server.load("images/rooms/barrack/inventory_container.png");
@@ -46,20 +47,18 @@ pub fn daily_events_modal(
             None => return,
         };
 
-        match last_daily_event.daily_event_type {
+        info!("Last daily event: {:?}", last_daily_event);
+
+        match &last_daily_event.daily_event_type {
             DailyEventTypeEnum::Discussion(_) => {
-                discussion_event_document(
+                discussion_event_doc(&mut commands, &my_assets, &last_daily_event);
+            }
+            DailyEventTypeEnum::SpontaneousApplication(spontaneous_application) => {
+                spontaneous_application_event_doc(
                     &mut commands,
                     &my_assets,
-                    &last_daily_event,
-                    // &mut texture_atlas_layouts,
+                    spontaneous_application.get_spontaneous_application(),
                 );
-            }
-            DailyEventTypeEnum::SpontaneousApplication(_) => {
-                // let daily_application: &DailyApplicationEnum = match last_daily_event.daily_event {
-                //     DailyEvent::Application(application) => application,
-                //     _ => return,
-                // };
             }
         }
     }

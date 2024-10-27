@@ -28,16 +28,16 @@ pub struct NotificationToastTrigger;
 pub struct SleepButtonTrigger;
 
 #[derive(Debug, Component)]
-pub struct MissionReport;
+pub struct MissionReportTrigger;
 
 #[derive(Component)]
 pub struct MissionReportModalContentTrigger;
 
-#[derive(Component)]
-pub struct MissionReportButtonTrigger;
+// #[derive(Component)]
+// pub struct MissionReportButtonTrigger;
 
 #[derive(Component)]
 pub struct MissionReportModalSignButtonTrigger;
 
 #[derive(Component)]
-pub struct DailyEventsModalContentTrigger;
+pub struct DailyEventTrigger;

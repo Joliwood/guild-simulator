@@ -2,24 +2,24 @@ use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
     my_assets::MyAssets,
-    structs::{general_structs::MissionReportsModalVisible, trigger_structs::MissionReportTrigger},
+    structs::{general_structs::DailyEventsModalVisible, trigger_structs::DailyEventTrigger},
 };
 use bevy::prelude::*;
 
-pub fn toggle_mission_reports(
+pub fn toggle_daily_event_documents(
     my_assets: Res<MyAssets>,
     mut commands: Commands,
-    mut query: Query<&Interaction, (Changed<Interaction>, With<MissionReportTrigger>)>,
+    mut query: Query<&Interaction, (Changed<Interaction>, With<DailyEventTrigger>)>,
     mut windows: Query<&mut Window>,
-    mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
+    mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
 ) {
     let mut window = windows.single_mut();
 
     for interaction in query.iter_mut() {
         match *interaction {
             Interaction::Pressed => {
-                mission_reports_modal_visibility.0 = true;
-                play_sound(&my_assets, &mut commands, SoundEnum::PaperTouch);
+                daily_events_modal_visibility.0 = true;
+                play_sound(&my_assets, &mut commands, SoundEnum::PickingGolds);
             }
             Interaction::Hovered => {
                 window.cursor.icon = CursorIcon::Pointer;
