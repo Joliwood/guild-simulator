@@ -1,5 +1,5 @@
 use crate::{
-    data::equipments::{armors::ArmorsEnum, weapons::WeaponsEnum},
+    content::equipments::{armors::ArmorsEnum, weapons::WeaponsEnum},
     enums::{RecruitEnum, RecruitStateEnum},
     structs::{
         general_structs::{load_armor, load_weapon},

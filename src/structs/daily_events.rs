@@ -1,8 +1,34 @@
 #![allow(dead_code)]
 use bevy::prelude::*;
-
-use super::player_stats::PlayerStats;
 use rand::Rng;
+
+pub static TOTAL_APPARITION_CHANCE: u16 = calculate_total_apparition_chance();
+
+const fn calculate_total_apparition_chance() -> u16 {
+    let mut total = 0;
+    let mut i = 0;
+    while i < ALL_LISTED_APPARITION_CHANCE.len() {
+        total += ALL_LISTED_APPARITION_CHANCE[i];
+        i += 1;
+    }
+    total
+}
+
+const ALL_LISTED_APPARITION_CHANCE: [u16; 3] = [99, 5, 99];
+
+pub fn get_random_index() -> usize {
+    let random_number = rand::thread_rng().gen_range(0..TOTAL_APPARITION_CHANCE);
+    let mut cumulative = 0;
+
+    for (index, &chance) in ALL_LISTED_APPARITION_CHANCE.iter().enumerate() {
+        cumulative += chance;
+        if random_number < cumulative {
+            return index;
+        }
+    }
+    // Default to the last element if none were selected (shouldn't happen)
+    ALL_LISTED_APPARITION_CHANCE.len() - 1
+}
 
 pub struct Answer {
     pub id: u16,
@@ -32,14 +58,24 @@ pub enum DailyDiscussionEnum {
 }
 
 impl DailyDiscussionEnum {
-    pub fn get_discussion(&self) -> DailyDiscussion {
+    pub fn get_random_discussion() -> DailyDiscussionEnum {
+        match get_random_index() {
+            0 => DailyDiscussionEnum::RandomGrandma1,
+            1 => DailyDiscussionEnum::RandomGrandma2,
+            2 => DailyDiscussionEnum::RandomGrandma3,
+            // Should never happen
+            _ => DailyDiscussionEnum::RandomGrandma1,
+        }
+    }
+
+    pub fn get_daily_iscussion(&self) -> DailyDiscussion {
         match self {
             DailyDiscussionEnum::RandomGrandma1 => DailyDiscussion {
                 id: 1,
                 title: "Curious Grandma".to_string(),
                 description: "An old lady approaches with a question about your guild.".to_string(),
                 image_atlas_index: 5,
-                apparition_chance: 99,
+                apparition_chance: ALL_LISTED_APPARITION_CHANCE[0],
                 cooldown: 3,
                 max_day: 10,
                 min_day: 1,
@@ -65,7 +101,7 @@ impl DailyDiscussionEnum {
                 title: "Persistent Grandma".to_string(),
                 description: "The same old lady insists on talking to you.".to_string(),
                 image_atlas_index: 6,
-                apparition_chance: 50,
+                apparition_chance: ALL_LISTED_APPARITION_CHANCE[1],
                 cooldown: 3,
                 max_day: 10,
                 min_day: 1,
@@ -91,7 +127,7 @@ impl DailyDiscussionEnum {
                 title: "Suspicious Grandma".to_string(),
                 description: "The old lady seems to be hiding something.".to_string(),
                 image_atlas_index: 7,
-                apparition_chance: 99,
+                apparition_chance: ALL_LISTED_APPARITION_CHANCE[2],
                 cooldown: 3,
                 max_day: 10,
                 min_day: 1,
@@ -145,134 +181,13 @@ impl DailyEvent {
     pub fn get_percent_chance(&self) -> u16 {
         match &self.daily_event_type {
             DailyEventTypeEnum::Discussion(discussion_enum) => {
-                discussion_enum.get_discussion().apparition_chance
+                discussion_enum.get_daily_iscussion().apparition_chance
             }
         }
     }
 }
 
-#[derive(Debug, Component, Resource, Clone)]
+#[derive(Default, Debug, Component, Resource, Clone)]
 pub struct DailyEvents(pub Vec<DailyEvent>);
 
-impl Default for DailyEvents {
-    fn default() -> Self {
-        Self(vec![DailyEvent {
-            id: 1,
-            daily_event_type: DailyEventTypeEnum::Discussion(DailyDiscussionEnum::RandomGrandma1),
-        }])
-    }
-}
-
-// impl DailyEvents {
-//     pub fn get_all_percent_chance(&self) -> u16 {
-//         let azpo = self.0.iter().map(|event| event.get_percent_chance()).sum();
-//         info!("All percent chance : {:?}", azpo);
-//         azpo
-//     }
-
-//     pub fn get_one_random_event_based_on_all_percent_chance(&self) -> Option<DailyEvent> {
-//         let all_percent_chance = self.get_all_percent_chance();
-//         let random_percent = rand::random::<u16>() % all_percent_chance;
-//         let mut current_percent = 0;
-//         for event in self.0.iter() {
-//             let percent_chance = event.get_percent_chance();
-//             if random_percent < current_percent + percent_chance {
-//                 info!("-------- Random event : {:?}", event);
-//                 return Some(event.clone());
-//             }
-//             current_percent += percent_chance;
-//         }
-//         None
-//     }
-
-//     pub fn add_impact_to_player_stats(
-//         &self,
-//         player_stats: &mut PlayerStats,
-//         gold_impact: Option<i32>,
-//         experience_impact: Option<u32>,
-//         toxicity_impact: Option<i8>,
-//     ) {
-//         if let Some(gold_impact) = gold_impact {
-//             player_stats.increment_golds(gold_impact);
-//         }
-//         if let Some(experience_impact) = experience_impact {
-//             player_stats.gain_xp(experience_impact);
-//         }
-//         if let Some(toxicity_impact) = toxicity_impact {
-//             player_stats.gain_toxitiy(toxicity_impact);
-//         }
-//     }
-
-//     pub fn remove_event_by_id(&mut self, id: u16) {
-//         self.0.retain(|event| event.id != id);
-//     }
-// }
-
-impl DailyEvents {
-    pub fn select_random_discussions(&self) -> Vec<DailyEvent> {
-        let mut rng = rand::thread_rng();
-        let mut selected_events = Vec::new();
-
-        // 1. Sélectionne la première discussion obligatoire
-        if let Some(first_event) = self.select_one_event_based_on_chance() {
-            selected_events.push(first_event);
-
-            // 2. Sélectionne une deuxième discussion optionnelle
-            if rng.gen_bool(0.5) {
-                // 50% de chance d'avoir une deuxième discussion
-                if let Some(second_event) =
-                    self.select_one_event_based_on_chance_except(&selected_events)
-                {
-                    selected_events.push(second_event);
-                }
-            }
-        }
-
-        selected_events
-    }
-
-    // Fonction utilitaire pour sélectionner une discussion
-    pub fn select_one_event_based_on_chance(&self) -> Option<DailyEvent> {
-        // let total_chance: u16 = self.0.iter().map(|event| event.get_percent_chance()).sum();
-        let total_change: u16 = 50 + 99 + 99;
-        let random_number = rand::thread_rng().gen_range(0..total_change);
-        if random_number < 50 {
-            return Some(DailyEvent {
-                id: 1,
-                daily_event_type: DailyEventTypeEnum::Discussion(
-                    DailyDiscussionEnum::RandomGrandma1,
-                ),
-            });
-        } else if random_number < 50 + 99 {
-            return Some(DailyEvent {
-                id: 2,
-                daily_event_type: DailyEventTypeEnum::Discussion(
-                    DailyDiscussionEnum::RandomGrandma2,
-                ),
-            });
-        } else {
-            return Some(DailyEvent {
-                id: 3,
-                daily_event_type: DailyEventTypeEnum::Discussion(
-                    DailyDiscussionEnum::RandomGrandma3,
-                ),
-            });
-        }
-    }
-
-    // Sélectionner une discussion en évitant celles déjà sélectionnées
-    fn select_one_event_based_on_chance_except(
-        &self,
-        exclusions: &[DailyEvent],
-    ) -> Option<DailyEvent> {
-        let filtered_events: Vec<_> = self
-            .0
-            .iter()
-            .filter(|event| !exclusions.contains(event))
-            .cloned()
-            .collect();
-
-        let mut random_events = DailyEvents(filtered_events);
-        random_events.select_one_event_based_on_chance()
-    }
-}
+impl DailyEvents {}

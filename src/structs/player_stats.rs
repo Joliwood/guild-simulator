@@ -5,7 +5,7 @@ use super::{
     recruits::RecruitStats,
 };
 use crate::{
-    data::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
+    content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
     enums::{RecruitStateEnum, RoomEnum},
 };
 use bevy::prelude::*;

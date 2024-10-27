@@ -3,7 +3,9 @@ use crate::{
     enums::SoundEnum,
     my_assets::MyAssets,
     structs::{
-        daily_events::DailyEvents,
+        daily_events::{
+            get_random_index, DailyDiscussionEnum, DailyEvents, TOTAL_APPARITION_CHANCE,
+        },
         missions::{MissionReports, Missions},
         player_stats::PlayerStats,
         trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
@@ -40,8 +42,8 @@ pub fn sleep_button_system(
             Interaction::Pressed => {
                 // Increment the day in player_stats
                 player_stats.day += 1;
-                // play_sound(&my_assets, &mut commands, SoundEnum::KeysRemovedFromDoor);
-                // play_sound(&my_assets, &mut commands, SoundEnum::CockrelMorning);
+                play_sound(&my_assets, &mut commands, SoundEnum::KeysRemovedFromDoor);
+                play_sound(&my_assets, &mut commands, SoundEnum::CockrelMorning);
 
                 // We iterate on every missions to decrement the days left for every mission that days_left.is_some()
                 let mission_ids: Vec<_> = missions
@@ -89,8 +91,11 @@ pub fn sleep_button_system(
                 }
 
                 // info!("Daily events BEFORE : {:?}", daily_events);
-                let azpo = daily_events.select_one_event_based_on_chance();
-                info!("Daily events AFTER : {:?}", azpo);
+                // let total_apparition_chance = TOTAL_APPARITION_CHANCE;
+                info!(
+                    "H   E     R     E  : {:?}",
+                    DailyDiscussionEnum::get_random_discussion()
+                );
             }
             Interaction::Hovered => {
                 window.cursor.icon = CursorIcon::Pointer;

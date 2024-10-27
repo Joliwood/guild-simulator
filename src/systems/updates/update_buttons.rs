@@ -1,6 +1,6 @@
 use crate::{
     audio::play_sound::play_sound,
-    data::equipments::scrolls::ScrollsEnum,
+    content::equipments::scrolls::ScrollsEnum,
     enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum, SoundEnum},
     my_assets::MyAssets,
     structs::{
