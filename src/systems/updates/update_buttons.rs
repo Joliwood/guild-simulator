@@ -5,7 +5,10 @@ use crate::{
     my_assets::MyAssets,
     structs::{
         equipments::ItemEnum,
-        general_structs::{load_scroll, MissionModalVisible, MissionReportsModalVisible, UniqueId},
+        general_structs::{
+            load_scroll, DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
+            UniqueId,
+        },
         missions::{Missions, SelectedMission},
         player_stats::PlayerStats,
         recruits::{
@@ -16,7 +19,7 @@ use crate::{
         recruits::hire_new_recruits::hire_new_recruits,
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     },
-    ui::ui_constants::WOOD_COLOR,
+    ui::{modals::daily_events::daily_events_modal, ui_constants::WOOD_COLOR},
     utils::{equip_recruit_inventory, get_new_room},
 };
 use bevy::prelude::*;
@@ -37,6 +40,7 @@ pub fn mouse_interaction_updates(
     mut mission_modal_visibility: ResMut<MissionModalVisible>,
     mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
+    mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
 ) {
     let mut window = windows.single_mut();
 
@@ -72,6 +76,7 @@ pub fn mouse_interaction_updates(
                         &mut mission_modal_visibility,
                         &mut mission_reports_modal_visibility,
                         &mut selected_recruit_for_mission,
+                        &mut daily_events_modal_visibility,
                     ) {
                         player_stats.room = new_room;
                     }
@@ -99,6 +104,7 @@ pub fn mouse_interaction_updates(
                         &mut mission_modal_visibility,
                         &mut mission_reports_modal_visibility,
                         &mut selected_recruit_for_mission,
+                        &mut daily_events_modal_visibility,
                     ) {
                         player_stats.room = new_room;
                     }
@@ -126,6 +132,7 @@ pub fn mouse_interaction_updates(
                         &mut mission_modal_visibility,
                         &mut mission_reports_modal_visibility,
                         &mut selected_recruit_for_mission,
+                        &mut daily_events_modal_visibility,
                     ) {
                         player_stats.room = new_room;
                     }
@@ -154,6 +161,7 @@ pub fn mouse_interaction_updates(
                         &mut mission_modal_visibility,
                         &mut mission_reports_modal_visibility,
                         &mut selected_recruit_for_mission,
+                        &mut daily_events_modal_visibility,
                     ) {
                         player_stats.room = new_room;
                     }
@@ -411,6 +419,7 @@ pub fn move_room_from_keyboard(
     mut mission_modal_visibility: ResMut<MissionModalVisible>,
     mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
+    mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
 ) {
     if keyboard_input.just_pressed(KeyCode::KeyD) {
         info!("Right arrow pressed");
@@ -420,6 +429,7 @@ pub fn move_room_from_keyboard(
             &mut mission_modal_visibility,
             &mut mission_reports_modal_visibility,
             &mut selected_recruit_for_mission,
+            &mut daily_events_modal_visibility,
         ) {
             player_stats.room = new_room;
         }
@@ -432,6 +442,7 @@ pub fn move_room_from_keyboard(
             &mut mission_modal_visibility,
             &mut mission_reports_modal_visibility,
             &mut selected_recruit_for_mission,
+            &mut daily_events_modal_visibility,
         ) {
             player_stats.room = new_room;
         }
@@ -444,6 +455,7 @@ pub fn move_room_from_keyboard(
             &mut mission_modal_visibility,
             &mut mission_reports_modal_visibility,
             &mut selected_recruit_for_mission,
+            &mut daily_events_modal_visibility,
         ) {
             player_stats.room = new_room;
         }
@@ -456,6 +468,7 @@ pub fn move_room_from_keyboard(
             &mut mission_modal_visibility,
             &mut mission_reports_modal_visibility,
             &mut selected_recruit_for_mission,
+            &mut daily_events_modal_visibility,
         ) {
             player_stats.room = new_room;
         }

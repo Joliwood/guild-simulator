@@ -2,7 +2,9 @@ use crate::{
     enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
     structs::{
         equipments::ItemEnum,
-        general_structs::{MissionModalVisible, MissionReportsModalVisible},
+        general_structs::{
+            DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
+        },
         missions::{MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
         recruits::{
@@ -34,10 +36,12 @@ pub fn get_new_room(
     mission_modal_visibility: &mut ResMut<MissionModalVisible>,
     mission_reports_modal_visibility: &mut ResMut<MissionReportsModalVisible>,
     selected_recruit_for_mission: &mut ResMut<SelectedRecruitForMission>,
+    daily_events_modal_visibility: &mut ResMut<DailyEventsModalVisible>,
 ) -> Option<RoomEnum> {
     // Close any open modals
     mission_modal_visibility.0 = false;
     mission_reports_modal_visibility.0 = false;
+    daily_events_modal_visibility.0 = false;
     selected_recruit_for_mission.0 = None;
 
     match player_stats.room {

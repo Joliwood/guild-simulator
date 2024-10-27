@@ -1,13 +1,11 @@
 use super::discussion_event_doc::discussion_event_doc;
 use crate::{
-    enums::ColorPaletteEnum,
     my_assets::MyAssets,
     structs::{
-        daily_events::{DailyDiscussionEnum, DailyEvent, DailyEventTypeEnum, DailyEvents},
+        daily_events::{DailyEvent, DailyEventTypeEnum, DailyEvents},
         general_structs::DailyEventsModalVisible,
-        missions::Missions,
         player_stats::PlayerStats,
-        trigger_structs::{DailyEventTrigger, MissionReportModalSignButtonTrigger},
+        trigger_structs::DailyEventTrigger,
     },
     ui::modals::daily_events::spontaneous_application_event_doc::spontaneous_application_event_doc,
 };
@@ -50,8 +48,8 @@ pub fn daily_events_modal(
         info!("Last daily event: {:?}", last_daily_event);
 
         match &last_daily_event.daily_event_type {
-            DailyEventTypeEnum::Discussion(_) => {
-                discussion_event_doc(&mut commands, &my_assets, &last_daily_event);
+            DailyEventTypeEnum::Discussion(discussion) => {
+                discussion_event_doc(&mut commands, &my_assets, discussion.get_daily_discussion());
             }
             DailyEventTypeEnum::SpontaneousApplication(spontaneous_application) => {
                 spontaneous_application_event_doc(

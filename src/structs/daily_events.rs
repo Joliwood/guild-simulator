@@ -161,13 +161,13 @@ impl SpontaneousApplicationEnum {
                 apparition_chance: RANDOM_NOOB_1.percent_chance,
                 description: "A noob wants to join your guild.".to_string(),
                 id: RANDOM_NOOB_1.index,
-                title: "Noob".to_string(),
+                title: "Noob 1".to_string(),
             },
             SpontaneousApplicationEnum::RandomNoob2 => SpontaneousApplication {
                 apparition_chance: RANDOM_NOOB_2.percent_chance,
                 description: "A noob wants to join your guild.".to_string(),
                 id: RANDOM_NOOB_2.index,
-                title: "Noob".to_string(),
+                title: "Noob 2".to_string(),
             },
         }
     }
@@ -341,7 +341,7 @@ impl DailyEvents {
 
         for _ in 0..n {
             let random_number = rand::thread_rng().gen_range(0..100);
-            if random_number < 66 {
+            if random_number <= 100 {
                 daily_discussion_number += 1;
             } else {
                 daily_spontaneous_application_number += 1;
