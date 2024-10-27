@@ -65,11 +65,9 @@ pub fn get_random_index(list: &[u16]) -> usize {
     let total_apparition_chance = calculate_total_apparition_chance(list);
 
     let random_number = rand::thread_rng().gen_range(0..total_apparition_chance);
-    info!("random_number : {:?}", random_number);
     let mut cumulative = 0;
 
     for (index, &chance) in list.iter().enumerate() {
-        info!("index in the loop : {:?}", index);
         cumulative += chance;
         if random_number <= cumulative {
             return index;
@@ -329,6 +327,10 @@ pub struct DailyEvent {
 pub struct DailyEvents(pub Vec<DailyEvent>);
 
 impl DailyEvents {
+    pub fn get_last_daily_event(&self) -> Option<&DailyEvent> {
+        self.0.last()
+    }
+
     pub fn get_random_number_of_daily_events(&self, n: usize) -> Vec<DailyEvent> {
         let mut daily_events = Vec::new();
         let mut daily_discussion_number = 0;

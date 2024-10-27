@@ -2,6 +2,7 @@ use crate::{
     enums::RoomEnum,
     my_assets::MyAssets,
     structs::{
+        daily_events::DailyEvents,
         general_structs::MissionReportsModalVisible,
         maps::{Maps, SelectedMapId},
         missions::{MissionReports, Missions},
@@ -37,6 +38,7 @@ pub fn update_room(
     mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
     maps: Res<Maps>,
     selected_map_id: Res<SelectedMapId>,
+    daily_events: Res<DailyEvents>,
 ) {
     if player_stats.is_changed() || selected_recruit_for_equipment.is_changed() {
         // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed
@@ -51,6 +53,7 @@ pub fn update_room(
                 &mut commands,
                 &mission_reports,
                 mission_reports_modal_visibility,
+                &daily_events,
             ),
             RoomEnum::Barrack => spawn_room_barrack(
                 &my_assets,

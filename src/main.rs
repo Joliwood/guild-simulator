@@ -21,7 +21,8 @@ use pyri_tooltip::prelude::*;
 use structs::{
     daily_events::DailyEvents,
     general_structs::{
-        MissionModalVisible, MissionNotificationsNumber, MissionReportsModalVisible,
+        DailyEventsModalVisible, MissionModalVisible, MissionNotificationsNumber,
+        MissionReportsModalVisible,
     },
     maps::{Maps, SelectedMapId},
     missions::{MissionReports, Missions, SelectedMission},
@@ -63,6 +64,7 @@ fn main() -> AppExit {
         .insert_resource(SelectedMapId::default())
         .insert_resource(MissionModalVisible(false))
         .insert_resource(MissionReportsModalVisible(false))
+        .insert_resource(DailyEventsModalVisible(false))
         .insert_resource(MissionNotificationsNumber(0))
         .insert_resource(Maps::default())
         .insert_resource(DailyEvents::default())
@@ -109,6 +111,7 @@ fn main() -> AppExit {
                 systems::updates::interfaces::delete_notifications_on_click::delete_notifications_on_click,
                 // ui::modals::mission_details_modal::display_mission_modal,
                 ui::modals::mission_order_modal_folder::mission_order_modal::mission_order_modal,
+                ui::modals::daily_events::daily_events_modal::daily_events_modal,
                 ui::modals::mission_report_modal_folder::mission_report_modal::mission_report_modal,
             ),
         )

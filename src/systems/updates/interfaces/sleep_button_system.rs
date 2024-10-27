@@ -88,12 +88,8 @@ pub fn sleep_button_system(
                     }
                 }
 
-                // info!("Daily events BEFORE : {:?}", daily_events);
-                // let total_apparition_chance = TOTAL_APPARITION_CHANCE;
-                info!(
-                    "H   E     R     E  : {:?}",
-                    daily_events.get_random_number_of_daily_events(8).len()
-                );
+                let new_daily_events = daily_events.get_random_number_of_daily_events(8);
+                daily_events.0 = new_daily_events;
             }
             Interaction::Hovered => {
                 window.cursor.icon = CursorIcon::Pointer;
