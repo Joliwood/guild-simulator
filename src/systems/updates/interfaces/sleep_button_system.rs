@@ -3,7 +3,7 @@ use crate::{
     enums::SoundEnum,
     my_assets::MyAssets,
     structs::{
-        daily_events::{DailyDiscussionEnum, DailyEvents},
+        daily_events::{DailyEventTargets, DailyEvents},
         missions::{MissionReports, Missions},
         player_stats::PlayerStats,
         trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
@@ -28,6 +28,7 @@ pub fn sleep_button_system(
     query: Query<Entity, With<NotificationToastTrigger>>,
     mut windows: Query<&mut Window>,
     mut daily_events: ResMut<DailyEvents>,
+    mut daily_event_targets: ResMut<DailyEventTargets>,
 ) {
     let mut window = windows.single_mut();
 
@@ -88,8 +89,11 @@ pub fn sleep_button_system(
                     }
                 }
 
-                let new_daily_events =
-                    daily_events.get_random_number_of_daily_events(8, player_stats.day);
+                let new_daily_events = daily_events.get_random_number_of_daily_events(
+                    3,
+                    player_stats.day,
+                    &mut daily_event_targets,
+                );
                 daily_events.0 = new_daily_events;
             }
             Interaction::Hovered => {
