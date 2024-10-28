@@ -2,6 +2,10 @@
 use bevy::prelude::*;
 use rand::Rng;
 
+use crate::content::daily_events::{
+    discussions::get_daily_discussion, spontaneous_applications::get_spontaneous_application,
+};
+
 fn calculate_total_apparition_chance(list: &[u16]) -> u16 {
     let mut total = 0;
     let mut i = 0;
@@ -20,11 +24,11 @@ pub struct DailyEventTargets {
 
 impl Default for DailyEventTargets {
     fn default() -> Self {
-        let grandma_1 = DailyDiscussionEnum::RandomGrandma1.get_daily_discussion();
-        let grandma_2 = DailyDiscussionEnum::RandomGrandma2.get_daily_discussion();
-        let grandma_3 = DailyDiscussionEnum::RandomGrandma3.get_daily_discussion();
-        let noob_1 = SpontaneousApplicationEnum::RandomNoob1.get_spontaneous_application();
-        let noob_2 = SpontaneousApplicationEnum::RandomNoob2.get_spontaneous_application();
+        let grandma_1 = get_daily_discussion(&DailyDiscussionEnum::RandomGrandma1);
+        let grandma_2 = get_daily_discussion(&DailyDiscussionEnum::RandomGrandma2);
+        let grandma_3 = get_daily_discussion(&DailyDiscussionEnum::RandomGrandma3);
+        let noob_1 = get_spontaneous_application(&SpontaneousApplicationEnum::RandomNoob1);
+        let noob_2 = get_spontaneous_application(&SpontaneousApplicationEnum::RandomNoob2);
         Self {
             daily_discussion_targets: vec![
                 // Grandma 1
@@ -222,33 +226,6 @@ impl SpontaneousApplicationEnum {
 
         selected_spontaneous_applications
     }
-
-    pub fn get_spontaneous_application(&self) -> SpontaneousApplication {
-        match self {
-            SpontaneousApplicationEnum::RandomNoob1 => SpontaneousApplication {
-                apparition_chance: 75,
-                description: "A noob wants to join your guild.".to_string(),
-                id: 1,
-                title: "Noob 1".to_string(),
-                day_system: DaySystem {
-                    cooldown: 3,
-                    max_day: Some(10),
-                    min_day: 1,
-                },
-            },
-            SpontaneousApplicationEnum::RandomNoob2 => SpontaneousApplication {
-                apparition_chance: 75,
-                description: "A noob wants to join your guild.".to_string(),
-                id: 2,
-                title: "Noob 2".to_string(),
-                day_system: DaySystem {
-                    cooldown: 3,
-                    max_day: Some(10),
-                    min_day: 1,
-                },
-            },
-        }
-    }
 }
 
 fn select_random_spontaneous_application(index: u16) -> SpontaneousApplicationEnum {
@@ -270,7 +247,6 @@ fn select_random_discussion(index: u16) -> DailyDiscussionEnum {
     }
 }
 
-// WIP - OK CHECKED
 impl DailyDiscussionEnum {
     pub fn get_random_discussion_enums(
         n: usize,
@@ -316,95 +292,6 @@ impl DailyDiscussionEnum {
         }
 
         selected_discussions
-    }
-
-    pub fn get_daily_discussion(&self) -> DailyDiscussion {
-        match self {
-            DailyDiscussionEnum::RandomGrandma1 => DailyDiscussion {
-                id: 1,
-                title: "Curious Grandma".to_string(),
-                description: "An old lady approaches with a question about your guild.".to_string(),
-                image_atlas_index: 5,
-                apparition_chance: 99,
-                answers: vec![
-                    Answer {
-                        id: 1,
-                        message: "Answer politely.".to_string(),
-                        gold_impact: Some(10),
-                        experience_impact: Some(5),
-                        toxicity_impact: Some(-1),
-                    },
-                    Answer {
-                        id: 2,
-                        message: "Ignore her.".to_string(),
-                        gold_impact: Some(-5),
-                        experience_impact: Some(0),
-                        toxicity_impact: Some(2),
-                    },
-                ],
-                day_system: DaySystem {
-                    cooldown: 7,
-                    max_day: None,
-                    min_day: 1,
-                },
-            },
-            DailyDiscussionEnum::RandomGrandma2 => DailyDiscussion {
-                id: 2,
-                title: "Persistent Grandma".to_string(),
-                description: "The same old lady insists on talking to you.".to_string(),
-                image_atlas_index: 6,
-                apparition_chance: 25,
-                answers: vec![
-                    Answer {
-                        id: 3,
-                        message: "Offer her some tea.".to_string(),
-                        gold_impact: Some(5),
-                        experience_impact: Some(10),
-                        toxicity_impact: Some(-2),
-                    },
-                    Answer {
-                        id: 4,
-                        message: "Dismiss her.".to_string(),
-                        gold_impact: Some(-10),
-                        experience_impact: Some(0),
-                        toxicity_impact: Some(3),
-                    },
-                ],
-                day_system: DaySystem {
-                    cooldown: 7,
-                    max_day: None,
-                    min_day: 1,
-                },
-            },
-            DailyDiscussionEnum::RandomGrandma3 => DailyDiscussion {
-                id: 3,
-                title: "Suspicious Grandma".to_string(),
-                description: "The old lady seems to be hiding something.".to_string(),
-                image_atlas_index: 7,
-                apparition_chance: 99,
-                answers: vec![
-                    Answer {
-                        id: 5,
-                        message: "Ask her what she's hiding.".to_string(),
-                        gold_impact: Some(0),
-                        experience_impact: Some(5),
-                        toxicity_impact: Some(1),
-                    },
-                    Answer {
-                        id: 6,
-                        message: "Leave her alone.".to_string(),
-                        gold_impact: Some(0),
-                        experience_impact: Some(0),
-                        toxicity_impact: Some(0),
-                    },
-                ],
-                day_system: DaySystem {
-                    cooldown: 7,
-                    max_day: None,
-                    min_day: 3,
-                },
-            },
-        }
     }
 }
 
@@ -459,7 +346,7 @@ impl DailyEvents {
         );
 
         for random_discussion_enum in random_discussion_enums {
-            let daily_discussion = random_discussion_enum.get_daily_discussion();
+            let daily_discussion = get_daily_discussion(&random_discussion_enum);
             let daily_event = DailyEvent {
                 daily_event_type: DailyEventTypeEnum::Discussion(random_discussion_enum),
                 day_system: daily_discussion.day_system.clone(),
@@ -476,7 +363,7 @@ impl DailyEvents {
 
         for daily_spontaneous_application_enum in daily_sponaneous_applications {
             let daily_spontaneous_application =
-                daily_spontaneous_application_enum.get_spontaneous_application();
+                get_spontaneous_application(&daily_spontaneous_application_enum);
             let daily_event = DailyEvent {
                 daily_event_type: DailyEventTypeEnum::SpontaneousApplication(
                     daily_spontaneous_application_enum,

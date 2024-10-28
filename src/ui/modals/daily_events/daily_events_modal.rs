@@ -1,5 +1,8 @@
 use super::discussion_event_doc::discussion_event_doc;
 use crate::{
+    content::daily_events::{
+        discussions::get_daily_discussion, spontaneous_applications::get_spontaneous_application,
+    },
     my_assets::MyAssets,
     structs::{
         daily_events::{DailyEvent, DailyEventTypeEnum, DailyEvents},
@@ -49,13 +52,13 @@ pub fn daily_events_modal(
 
         match &last_daily_event.daily_event_type {
             DailyEventTypeEnum::Discussion(discussion) => {
-                discussion_event_doc(&mut commands, &my_assets, discussion.get_daily_discussion());
+                discussion_event_doc(&mut commands, &my_assets, get_daily_discussion(discussion));
             }
             DailyEventTypeEnum::SpontaneousApplication(spontaneous_application) => {
                 spontaneous_application_event_doc(
                     &mut commands,
                     &my_assets,
-                    spontaneous_application.get_spontaneous_application(),
+                    get_spontaneous_application(spontaneous_application),
                 );
             }
         }
