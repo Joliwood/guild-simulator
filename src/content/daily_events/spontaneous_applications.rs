@@ -1,7 +1,22 @@
 use crate::structs::daily_events_folder::{
-    daily_events::DaySystem,
-    spontaneous_applications::{SpontaneousApplication, SpontaneousApplicationEnum},
+    daily_events::DaySystem, spontaneous_applications::SpontaneousApplication,
 };
+use bevy::prelude::*;
+
+#[derive(Debug, Component, Resource, Clone, PartialEq)]
+pub enum SpontaneousApplicationEnum {
+    RandomNoob1,
+    RandomNoob2,
+}
+
+pub fn select_random_spontaneous_application(index: u16) -> SpontaneousApplicationEnum {
+    match index {
+        1 => SpontaneousApplicationEnum::RandomNoob1,
+        2 => SpontaneousApplicationEnum::RandomNoob2,
+        // Should never happen
+        _ => SpontaneousApplicationEnum::RandomNoob1,
+    }
+}
 
 pub fn get_spontaneous_application(
     spontaneous_application_enum: &SpontaneousApplicationEnum,

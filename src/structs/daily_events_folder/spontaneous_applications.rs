@@ -1,3 +1,7 @@
+use crate::content::daily_events::spontaneous_applications::{
+    select_random_spontaneous_application, SpontaneousApplicationEnum,
+};
+
 use super::daily_events::{get_random_index_from_percent_arr, DailyEventTargets, DaySystem};
 use bevy::prelude::*;
 
@@ -10,22 +14,7 @@ pub struct SpontaneousApplication {
     pub title: String,
 }
 
-#[derive(Debug, Component, Resource, Clone, PartialEq)]
-pub enum SpontaneousApplicationEnum {
-    RandomNoob1,
-    RandomNoob2,
-}
-
 impl SpontaneousApplicationEnum {
-    pub fn select_random_spontaneous_application(index: u16) -> SpontaneousApplicationEnum {
-        match index {
-            1 => SpontaneousApplicationEnum::RandomNoob1,
-            2 => SpontaneousApplicationEnum::RandomNoob2,
-            // Should never happen
-            _ => SpontaneousApplicationEnum::RandomNoob1,
-        }
-    }
-
     pub fn get_random_spontaneous_application_enums(
         n: usize,
         player_day: u16,
@@ -67,7 +56,7 @@ impl SpontaneousApplicationEnum {
             );
 
             let random_spontaneous_application_enum =
-                Self::select_random_spontaneous_application(selected_spontaneous_application.index);
+                select_random_spontaneous_application(selected_spontaneous_application.index);
             selected_spontaneous_applications.push(random_spontaneous_application_enum);
 
             available_spontaneous_applications.remove(selected_index);

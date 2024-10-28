@@ -1,8 +1,6 @@
-use super::{
-    discussions::DailyDiscussionEnum, spontaneous_applications::SpontaneousApplicationEnum,
-};
 use crate::content::daily_events::{
-    discussions::get_daily_discussion, spontaneous_applications::get_spontaneous_application,
+    discussions::{get_daily_discussion, DailyDiscussionEnum},
+    spontaneous_applications::{get_spontaneous_application, SpontaneousApplicationEnum},
 };
 use bevy::prelude::*;
 use rand::Rng;

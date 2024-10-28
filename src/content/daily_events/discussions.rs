@@ -1,7 +1,25 @@
 use crate::structs::daily_events_folder::{
     daily_events::DaySystem,
-    discussions::{Answer, DailyDiscussion, DailyDiscussionEnum},
+    discussions::{Answer, DailyDiscussion},
 };
+use bevy::prelude::*;
+
+#[derive(Debug, Component, Resource, Clone, PartialEq, Copy)]
+pub enum DailyDiscussionEnum {
+    RandomGrandma1,
+    RandomGrandma2,
+    RandomGrandma3,
+}
+
+pub fn select_random_discussion(index: u16) -> DailyDiscussionEnum {
+    match index {
+        1 => DailyDiscussionEnum::RandomGrandma1,
+        2 => DailyDiscussionEnum::RandomGrandma2,
+        3 => DailyDiscussionEnum::RandomGrandma3,
+        // Should never happen
+        _ => DailyDiscussionEnum::RandomGrandma1,
+    }
+}
 
 pub fn get_daily_discussion(daily_discussion_enum: &DailyDiscussionEnum) -> DailyDiscussion {
     match daily_discussion_enum {

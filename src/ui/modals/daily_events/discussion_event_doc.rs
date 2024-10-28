@@ -1,4 +1,4 @@
-use crate::{my_assets::MyAssets, structs::daily_events_folder::daily_events::DailyDiscussion};
+use crate::{my_assets::MyAssets, structs::daily_events_folder::discussions::DailyDiscussion};
 use bevy::prelude::*;
 
 pub fn discussion_event_doc(

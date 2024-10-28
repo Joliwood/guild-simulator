@@ -1,14 +1,13 @@
-use bevy::prelude::*;
-
 use crate::{
-    my_assets::MyAssets, structs::daily_events_folder::daily_events::SpontaneousApplication,
+    my_assets::MyAssets,
+    structs::daily_events_folder::spontaneous_applications::SpontaneousApplication,
 };
+use bevy::prelude::*;
 
 pub fn spontaneous_application_event_doc(
     commands: &mut Commands,
     my_assets: &Res<MyAssets>,
     spontaneous_application: SpontaneousApplication,
-    // texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     commands
         .spawn(ImageBundle {
