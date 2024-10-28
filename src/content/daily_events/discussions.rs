@@ -1,4 +1,7 @@
-use crate::structs::daily_events::{Answer, DailyDiscussion, DailyDiscussionEnum, DaySystem};
+use crate::structs::daily_events_folder::{
+    daily_events::DaySystem,
+    discussions::{Answer, DailyDiscussion, DailyDiscussionEnum},
+};
 
 pub fn get_daily_discussion(daily_discussion_enum: &DailyDiscussionEnum) -> DailyDiscussion {
     match daily_discussion_enum {

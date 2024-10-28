@@ -19,7 +19,7 @@ use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
 use structs::{
-    daily_events::{DailyEventTargets, DailyEvents},
+    daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
     general_structs::{
         DailyEventsModalVisible, MissionModalVisible, MissionNotificationsNumber,
         MissionReportsModalVisible,
@@ -110,7 +110,6 @@ fn main() -> AppExit {
                 systems::updates::command_room::update_selected_recruit_for_equipment::update_selected_mission_recruit_id,
                 systems::updates::command_room::update_selected_recruit_for_equipment::update_update_selected_mission_percentage_of_victory,
                 systems::updates::interfaces::delete_notifications_on_click::delete_notifications_on_click,
-                // ui::modals::mission_details_modal::display_mission_modal,
                 ui::modals::mission_order_modal_folder::mission_order_modal::mission_order_modal,
                 ui::modals::daily_events::daily_events_modal::daily_events_modal,
                 ui::modals::mission_report_modal_folder::mission_report_modal::mission_report_modal,

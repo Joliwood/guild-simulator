@@ -5,7 +5,7 @@ use crate::{
     },
     my_assets::MyAssets,
     structs::{
-        daily_events::{DailyEvent, DailyEventTypeEnum, DailyEvents},
+        daily_events_folder::daily_events::{DailyEvent, DailyEventTypeEnum, DailyEvents},
         general_structs::DailyEventsModalVisible,
         player_stats::PlayerStats,
         trigger_structs::DailyEventTrigger,

@@ -6,8 +6,9 @@ use super::{
 use crate::{
     my_assets::MyAssets,
     structs::{
-        daily_events::DailyEvents, general_structs::MissionReportsModalVisible,
-        missions::MissionReports, trigger_structs::ResetRoomTrigger,
+        daily_events_folder::daily_events::DailyEvents,
+        general_structs::MissionReportsModalVisible, missions::MissionReports,
+        trigger_structs::ResetRoomTrigger,
     },
     ui::styles::containers_styles::node_container_style,
 };

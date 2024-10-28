@@ -1,6 +1,8 @@
 use bevy::prelude::*;
 
-use crate::{my_assets::MyAssets, structs::daily_events::SpontaneousApplication};
+use crate::{
+    my_assets::MyAssets, structs::daily_events_folder::daily_events::SpontaneousApplication,
+};
 
 pub fn spontaneous_application_event_doc(
     commands: &mut Commands,

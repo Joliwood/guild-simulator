@@ -1,7 +1,6 @@
 use crate::my_assets::MyAssets;
-use crate::structs::daily_events::DailyEvents;
+use crate::structs::daily_events_folder::daily_events::DailyEvents;
 use crate::structs::trigger_structs::DailyEventTrigger;
-// use crate::structs::trigger_structs::MissionReportButtonTrigger;
 use bevy::prelude::*;
 
 pub fn daily_event_documents(

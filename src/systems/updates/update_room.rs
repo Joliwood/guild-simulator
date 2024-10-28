@@ -2,7 +2,7 @@ use crate::{
     enums::RoomEnum,
     my_assets::MyAssets,
     structs::{
-        daily_events::DailyEvents,
+        daily_events_folder::daily_events::DailyEvents,
         general_structs::MissionReportsModalVisible,
         maps::{Maps, SelectedMapId},
         missions::{MissionReports, Missions},

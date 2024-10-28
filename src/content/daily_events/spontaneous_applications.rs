@@ -1,4 +1,7 @@
-use crate::structs::daily_events::{DaySystem, SpontaneousApplication, SpontaneousApplicationEnum};
+use crate::structs::daily_events_folder::{
+    daily_events::DaySystem,
+    spontaneous_applications::{SpontaneousApplication, SpontaneousApplicationEnum},
+};
 
 pub fn get_spontaneous_application(
     spontaneous_application_enum: &SpontaneousApplicationEnum,
