@@ -88,7 +88,8 @@ pub fn sleep_button_system(
                     }
                 }
 
-                let new_daily_events = daily_events.get_random_number_of_daily_events(3);
+                let new_daily_events =
+                    daily_events.get_random_number_of_daily_events(8, player_stats.day);
                 daily_events.0 = new_daily_events;
             }
             Interaction::Hovered => {
