@@ -1,14 +1,13 @@
+use super::{
+    discussions::get_random_discussion_indexs,
+    spontaneous_applications::get_random_spontaneous_application_indexs,
+};
 use crate::content::daily_events::{
     discussions::{get_all_daily_discussions, get_daily_discussion},
     spontaneous_applications::{get_all_spontaneous_applications, get_spontaneous_application},
 };
 use bevy::prelude::*;
 use rand::Rng;
-
-use super::{
-    discussions::get_random_discussion_indexs,
-    spontaneous_applications::get_random_spontaneous_application_indexs,
-};
 
 fn calculate_total_apparition_chance(list: &[u16]) -> u16 {
     let mut total = 0;
@@ -131,12 +130,36 @@ pub struct DailyEvent {
     pub day_system: DaySystem,
 }
 
-#[derive(Default, Debug, Component, Resource, Clone)]
+#[derive(Debug, Component, Resource, Clone)]
 pub struct DailyEvents(pub Vec<DailyEvent>);
+
+impl Default for DailyEvents {
+    fn default() -> Self {
+        // The last must be 8 (it is the mayor's welcome message)
+        let discussion_ids = [7, 9, 8];
+
+        let daily_events = discussion_ids
+            .iter()
+            .map(|&id| {
+                let discussion = get_daily_discussion(&id);
+                DailyEvent {
+                    daily_event_type: DailyEventTypeEnum::Discussion(discussion.id),
+                    day_system: discussion.day_system,
+                }
+            })
+            .collect();
+
+        Self(daily_events)
+    }
+}
 
 impl DailyEvents {
     pub fn get_last_daily_event(&self) -> Option<&DailyEvent> {
         self.0.last()
+    }
+
+    pub fn push_daily_event(&mut self, daily_event: DailyEvent) {
+        self.0.push(daily_event);
     }
 
     pub fn get_random_number_of_daily_events(

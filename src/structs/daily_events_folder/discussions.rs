@@ -24,7 +24,6 @@ pub struct DailyDiscussion {
     pub day_system: DaySystem,
 }
 
-// impl DailyDiscussionEnum {
 pub fn get_random_discussion_indexs(
     n: usize,
     player_day: u16,
@@ -62,8 +61,6 @@ pub fn get_random_discussion_indexs(
         let selected_discussion = available_discussions[selected_index].clone();
         daily_event_targets.update_min_day_for_discussion_by_index(selected_discussion.index);
 
-        // let random_discussion_enum =
-        //     get_random_spontaneous_application_indexs(selected_index as u16);
         selected_discussions.push(selected_discussion.index);
 
         available_discussions.remove(selected_index);
@@ -71,4 +68,3 @@ pub fn get_random_discussion_indexs(
 
     selected_discussions
 }
-// }

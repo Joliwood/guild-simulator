@@ -10,7 +10,6 @@ pub struct SpontaneousApplication {
     pub title: String,
 }
 
-// impl SpontaneousApplicationEnum {
 pub fn get_random_spontaneous_application_indexs(
     n: usize,
     player_day: u16,
@@ -51,8 +50,6 @@ pub fn get_random_spontaneous_application_indexs(
             selected_spontaneous_application.index,
         );
 
-        // let random_spontaneous_application_enum =
-        //     select_random_spontaneous_application(selected_spontaneous_application.index);
         selected_spontaneous_applications.push(selected_spontaneous_application.index);
 
         available_spontaneous_applications.remove(selected_index);
@@ -60,4 +57,3 @@ pub fn get_random_spontaneous_application_indexs(
 
     selected_spontaneous_applications
 }
-// }

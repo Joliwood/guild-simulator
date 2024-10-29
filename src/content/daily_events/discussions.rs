@@ -4,7 +4,7 @@ use crate::structs::daily_events_folder::{
 };
 
 // --- To update whenever the content is updated --- //
-const MAX_DAILY_DISCUSSION_NUMBER: u16 = 4;
+const MAX_DAILY_DISCUSSION_NUMBER: u16 = 9;
 
 pub fn get_all_daily_discussions() -> Vec<DailyDiscussion> {
     (1..=MAX_DAILY_DISCUSSION_NUMBER)
@@ -164,6 +164,164 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
                 cooldown: 15,
                 max_day: None,
                 min_day: 5,
+            },
+        },
+        5 => DailyDiscussion {
+            id: 5,
+            title: "Village medicines need".to_string(),
+            description: "We're running out of medicines for the sick and wounded in the village. Can you help us find some, or, failing that, give us a grant? It's for the common good, you know...".to_string(),
+            image_atlas_index: 9,
+            apparition_chance: 25,
+            answers: vec![
+                Answer {
+                    id: 1,
+                    message: "We'll give you a grant to buy the necessary medicines.".to_string(),
+                    gold_impact: Some(-10),
+                    experience_impact: None,
+                    toxicity_impact: Some(-2),
+                    reputation_impact: Some(2),
+                },
+                Answer {
+                    id: 2,
+                    message: "We'll help you find the necessary medicines whenever we'll have the time, mark my words sir !".to_string(),
+                    gold_impact: None,
+                    experience_impact: None,
+                    toxicity_impact: None,
+                    reputation_impact: Some(1),
+                },
+                Answer {
+                    id: 3,
+                    message: "We can't help you, but we'll make sure the village is safe.".to_string(),
+                    gold_impact: None,
+                    experience_impact: None,
+                    toxicity_impact: None,
+                    reputation_impact: Some(-1),
+                },
+                Answer {
+                    id: 4,
+                    message: "Common interest, common interest... You're talking to a private company, my dear sir, do you know that?".to_string(),
+                    gold_impact: None,
+                    experience_impact: None,
+                    toxicity_impact: None,
+                    reputation_impact: Some(-3),
+                },
+            ],
+            day_system: DaySystem {
+                cooldown: 5,
+                max_day: None,
+                min_day: 10,
+            },
+        },
+        6 => DailyDiscussion {
+            id: 6,
+            title: "The miracle worker".to_string(),
+            description: "A miracle worker offers to pray for you and your guild, and of course assures you that the ancient gods will only respond if an offering can be made.".to_string(),
+            image_atlas_index: 10,
+            apparition_chance: 20,
+            answers: vec![
+                Answer {
+                    id: 1,
+                    message: "We'll make an offering to the gods. Take this my friend.".to_string(),
+                    gold_impact: Some(-5),
+                    experience_impact: None,
+                    toxicity_impact: None,
+                    reputation_impact: None,
+                },
+                Answer {
+                    id: 2,
+                    message: "We don't need the help of the gods, we're doing very well on our own.".to_string(),
+                    gold_impact: None,
+                    experience_impact: None,
+                    toxicity_impact: None,
+                    reputation_impact: None,
+                },
+                Answer {
+                    id: 3,
+                    message: "We'll make an offering to the gods, but we'll make sure it's a good investment.".to_string(),
+                    gold_impact: Some(-10),
+                    experience_impact: None,
+                    toxicity_impact: None,
+                    reputation_impact: None,
+                },
+                Answer {
+                    id: 4,
+                    message: "I only believe in finances my dear sir, how do you expect my dear recruits to support themselves if I start doing anything at all ?".to_string(),
+                    gold_impact: None,
+                    experience_impact: None,
+                    toxicity_impact: Some(-1),
+                    reputation_impact: None,
+                },
+            ],
+            day_system: DaySystem {
+                cooldown: 2,
+                max_day: None,
+                min_day: 10,
+            },
+        },
+        7 => DailyDiscussion {
+            id: 7,
+            title: "Welcome from a grandmother".to_string(),
+            description: "A grandmother who tells us that what we're doing is a good thing, that it can bring a little security to the town".to_string(),
+            image_atlas_index: 1,
+            apparition_chance: 100,
+            answers: vec![
+                Answer {
+                    experience_impact: None,
+                    gold_impact: Some(1),
+                    id: 1,
+                    message: "Thank you mdam, it's a pleasure".to_string(),
+                    reputation_impact: None,
+                    toxicity_impact: None,
+                },
+            ],
+            day_system: DaySystem {
+                cooldown: 0,
+                min_day: 1,
+                max_day: Some(1),
+            },
+        },
+        8 => DailyDiscussion {
+            id: 8,
+            title: "Mayor's welcome message".to_string(),
+            description: "Hello ! I'm delighted that you've accepted my offer to come and live in our beloved town, so welcome! As you know, there's plenty of work in the area. I've managed to find two people for you to recruit, and you should have received their proposals by now. I've provided you with a map of the surrounding area, where we're having a bit of trouble with vagrants causing trouble in the area, so it would be a good start if you could get rid of them for us...".to_string(),
+            image_atlas_index: 2,
+            apparition_chance: 100,
+            answers: vec![
+                Answer {
+                    experience_impact: None,
+                    gold_impact: Some(50),
+                    id: 1,
+                    message: "Thank you for welcoming me to your city. I intend to develop this guild with a master's hand, and I'm sure our business will bear fruit.".to_string(),
+                    reputation_impact: None,
+                    toxicity_impact: None,
+                },
+            ],
+            day_system: DaySystem {
+                cooldown: 0,
+                min_day: 1,
+                max_day: Some(1),
+            },
+        },
+        9 => DailyDiscussion {
+            id: 9,
+            title: "Welcome from the merchant guild".to_string(),
+            description: "We're delighted to welcome you to the region, and hope your business flourishes. I've registered your guild in our network's merchant directory. That way, they can come and offer you a wide variety of transactions. We hope to hear from you soon.".to_string(),
+            image_atlas_index: 3,
+            apparition_chance: 100,
+            answers: vec![
+                Answer {
+                    experience_impact: None,
+                    gold_impact: None,
+                    id: 1,
+                    message: "Tell him it will be a pleasure to do business with his guild's merchants.".to_string(),
+                    reputation_impact: None,
+                    toxicity_impact: None,
+                },
+            ],
+            day_system: DaySystem {
+                cooldown: 0,
+                min_day: 1,
+                max_day: Some(1),
             },
         },
         _ => panic!(
