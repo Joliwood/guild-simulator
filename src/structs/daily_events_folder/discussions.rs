@@ -5,10 +5,11 @@ use bevy::prelude::*;
 
 #[derive(Debug, Component, Resource, Clone, PartialEq)]
 pub struct Answer {
+    pub experience_impact: Option<u32>,
+    pub gold_impact: Option<i32>,
     pub id: u16,
     pub message: String,
-    pub gold_impact: Option<i32>,
-    pub experience_impact: Option<u32>,
+    pub reputation_impact: Option<i8>,
     pub toxicity_impact: Option<i8>,
 }
 
