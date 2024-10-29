@@ -1,9 +1,14 @@
 use crate::content::daily_events::{
-    discussions::{get_daily_discussion, DailyDiscussionEnum},
-    spontaneous_applications::{get_spontaneous_application, SpontaneousApplicationEnum},
+    discussions::{get_all_daily_discussions, get_daily_discussion},
+    spontaneous_applications::{get_all_spontaneous_applications, get_spontaneous_application},
 };
 use bevy::prelude::*;
 use rand::Rng;
+
+use super::{
+    discussions::get_random_discussion_indexs,
+    spontaneous_applications::get_random_spontaneous_application_indexs,
+};
 
 fn calculate_total_apparition_chance(list: &[u16]) -> u16 {
     let mut total = 0;
@@ -23,46 +28,25 @@ pub struct DailyEventTargets {
 
 impl Default for DailyEventTargets {
     fn default() -> Self {
-        let grandma_1 = get_daily_discussion(&DailyDiscussionEnum::RandomGrandma1);
-        let grandma_2 = get_daily_discussion(&DailyDiscussionEnum::RandomGrandma2);
-        let grandma_3 = get_daily_discussion(&DailyDiscussionEnum::RandomGrandma3);
-        let noob_1 = get_spontaneous_application(&SpontaneousApplicationEnum::RandomNoob1);
-        let noob_2 = get_spontaneous_application(&SpontaneousApplicationEnum::RandomNoob2);
+        let discussions = get_all_daily_discussions();
+        let spontaneous_applications = get_all_spontaneous_applications();
         Self {
-            daily_discussion_targets: vec![
-                // Grandma 1
-                DiscussionTarget {
-                    percent_chance: grandma_1.apparition_chance,
-                    index: grandma_1.id,
-                    day_system: grandma_1.day_system,
-                },
-                // Grandma 2
-                DiscussionTarget {
-                    percent_chance: grandma_2.apparition_chance,
-                    index: grandma_2.id,
-                    day_system: grandma_2.day_system,
-                },
-                // Grandma 3
-                DiscussionTarget {
-                    percent_chance: grandma_3.apparition_chance,
-                    index: grandma_3.id,
-                    day_system: grandma_3.day_system,
-                },
-            ],
-            daily_spontaneous_application_targets: vec![
-                // Noob 1
-                SpontaneousApplicationTarget {
-                    percent_chance: noob_1.apparition_chance,
-                    index: noob_1.id,
-                    day_system: noob_1.day_system,
-                },
-                // Noob 2
-                SpontaneousApplicationTarget {
-                    percent_chance: noob_2.apparition_chance,
-                    index: noob_2.id,
-                    day_system: noob_2.day_system,
-                },
-            ],
+            daily_discussion_targets: discussions
+                .into_iter()
+                .map(|discussion| DiscussionTarget {
+                    percent_chance: discussion.apparition_chance,
+                    index: discussion.id,
+                    day_system: discussion.day_system,
+                })
+                .collect(),
+            daily_spontaneous_application_targets: spontaneous_applications
+                .into_iter()
+                .map(|discussion| SpontaneousApplicationTarget {
+                    percent_chance: discussion.apparition_chance,
+                    index: discussion.id,
+                    day_system: discussion.day_system,
+                })
+                .collect(),
         }
     }
 }
@@ -135,10 +119,10 @@ impl DaySystem {
 
 #[derive(Debug, Component, Resource, Clone, PartialEq)]
 pub enum DailyEventTypeEnum {
-    Discussion(DailyDiscussionEnum),
+    Discussion(u16),
     // EquipmentTrade(u16),
     // MapProposition(u16),
-    SpontaneousApplication(SpontaneousApplicationEnum),
+    SpontaneousApplication(u16),
 }
 
 #[derive(Debug, Component, Resource, Clone, PartialEq)]
@@ -177,34 +161,30 @@ impl DailyEvents {
             }
         }
 
-        let random_discussion_enums = DailyDiscussionEnum::get_random_discussion_enums(
-            daily_discussion_number,
-            player_day,
-            daily_event_targets,
-        );
+        let random_discussion_indexs =
+            get_random_discussion_indexs(daily_discussion_number, player_day, daily_event_targets);
 
-        for random_discussion_enum in random_discussion_enums {
-            let daily_discussion = get_daily_discussion(&random_discussion_enum);
+        for random_discussion_index in random_discussion_indexs {
+            let daily_discussion = get_daily_discussion(&random_discussion_index);
             let daily_event = DailyEvent {
-                daily_event_type: DailyEventTypeEnum::Discussion(random_discussion_enum),
+                daily_event_type: DailyEventTypeEnum::Discussion(random_discussion_index),
                 day_system: daily_discussion.day_system.clone(),
             };
             daily_events.push(daily_event);
         }
 
-        let daily_sponaneous_applications =
-            SpontaneousApplicationEnum::get_random_spontaneous_application_enums(
-                daily_spontaneous_application_number,
-                player_day,
-                daily_event_targets,
-            );
+        let daily_sponaneous_application_indexs = get_random_spontaneous_application_indexs(
+            daily_spontaneous_application_number,
+            player_day,
+            daily_event_targets,
+        );
 
-        for daily_spontaneous_application_enum in daily_sponaneous_applications {
+        for daily_sponaneous_application_index in daily_sponaneous_application_indexs {
             let daily_spontaneous_application =
-                get_spontaneous_application(&daily_spontaneous_application_enum);
+                get_spontaneous_application(&daily_sponaneous_application_index);
             let daily_event = DailyEvent {
                 daily_event_type: DailyEventTypeEnum::SpontaneousApplication(
-                    daily_spontaneous_application_enum,
+                    daily_sponaneous_application_index,
                 ),
                 day_system: daily_spontaneous_application.day_system.clone(),
             };

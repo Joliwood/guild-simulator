@@ -1,28 +1,19 @@
 use crate::structs::daily_events_folder::{
     daily_events::DaySystem, spontaneous_applications::SpontaneousApplication,
 };
-use bevy::prelude::*;
 
-#[derive(Debug, Component, Resource, Clone, PartialEq)]
-pub enum SpontaneousApplicationEnum {
-    RandomNoob1,
-    RandomNoob2,
+// --- To update whenever the content is updated --- //
+const MAX_DAILY_SPONTANEOUS_APPLICATION_NUMBER: u16 = 2;
+
+pub fn get_all_spontaneous_applications() -> Vec<SpontaneousApplication> {
+    (1..=MAX_DAILY_SPONTANEOUS_APPLICATION_NUMBER)
+        .map(|i| get_spontaneous_application(&i))
+        .collect()
 }
 
-pub fn select_random_spontaneous_application(index: u16) -> SpontaneousApplicationEnum {
-    match index {
-        1 => SpontaneousApplicationEnum::RandomNoob1,
-        2 => SpontaneousApplicationEnum::RandomNoob2,
-        // Should never happen
-        _ => SpontaneousApplicationEnum::RandomNoob1,
-    }
-}
-
-pub fn get_spontaneous_application(
-    spontaneous_application_enum: &SpontaneousApplicationEnum,
-) -> SpontaneousApplication {
-    match spontaneous_application_enum {
-        SpontaneousApplicationEnum::RandomNoob1 => SpontaneousApplication {
+pub fn get_spontaneous_application(spontaneous_application_index: &u16) -> SpontaneousApplication {
+    match spontaneous_application_index {
+        1 => SpontaneousApplication {
             apparition_chance: 75,
             description: "A noob wants to join your guild.".to_string(),
             id: 1,
@@ -33,7 +24,7 @@ pub fn get_spontaneous_application(
                 min_day: 1,
             },
         },
-        SpontaneousApplicationEnum::RandomNoob2 => SpontaneousApplication {
+        2 => SpontaneousApplication {
             apparition_chance: 75,
             description: "A noob wants to join your guild.".to_string(),
             id: 2,
@@ -44,5 +35,29 @@ pub fn get_spontaneous_application(
                 min_day: 1,
             },
         },
+        _ => panic!(
+            "Spontaneous application index not found: {}",
+            spontaneous_application_index
+        ),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use colored::*;
+    use std::panic;
+
+    #[test]
+    fn test_get_spontaneous_application_should_panic() {
+        let result = panic::catch_unwind(|| {
+            get_spontaneous_application(&(MAX_DAILY_SPONTANEOUS_APPLICATION_NUMBER + 1));
+        });
+
+        assert!(
+            result.is_err(),
+            "{}",
+            "When you update the content, you have to update also the MAX_DAILY_SPONTANEOUS_APPLICATION_NUMBER constant".red()
+        );
     }
 }
