@@ -136,17 +136,25 @@ pub struct DailyEvents(pub Vec<DailyEvent>);
 impl Default for DailyEvents {
     fn default() -> Self {
         // The last must be 8 (it is the mayor's welcome message)
-        let discussion_ids = [7, 9, 8];
+        let discussion_ids = [10, 7, 9, 8];
+        let spontaneous_application_ids = [2, 1];
 
-        let daily_events = discussion_ids
+        let daily_events = spontaneous_application_ids
             .iter()
             .map(|&id| {
+                let application = get_spontaneous_application(&id);
+                DailyEvent {
+                    daily_event_type: DailyEventTypeEnum::SpontaneousApplication(application.id),
+                    day_system: application.day_system,
+                }
+            })
+            .chain(discussion_ids.iter().map(|&id| {
                 let discussion = get_daily_discussion(&id);
                 DailyEvent {
                     daily_event_type: DailyEventTypeEnum::Discussion(discussion.id),
                     day_system: discussion.day_system,
                 }
-            })
+            }))
             .collect();
 
         Self(daily_events)

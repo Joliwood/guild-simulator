@@ -1,12 +1,17 @@
-use super::daily_events::{get_random_index_from_percent_arr, DailyEventTargets, DaySystem};
+use super::{
+    daily_events::{get_random_index_from_percent_arr, DailyEventTargets, DaySystem},
+    discussions::Answer,
+};
 use bevy::prelude::*;
 
 #[derive(Debug, Component, Resource, Clone, PartialEq)]
 pub struct SpontaneousApplication {
+    pub answers: Vec<Answer>,
     pub apparition_chance: u16,
     pub day_system: DaySystem,
     pub description: String,
     pub id: u16,
+    pub image_atlas_index: u16,
     pub title: String,
 }
 

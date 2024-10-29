@@ -1,10 +1,13 @@
-use crate::structs::daily_events_folder::{
-    daily_events::DaySystem,
-    discussions::{Answer, DailyDiscussion},
+use crate::{
+    content::equipments::{armors::ArmorsEnum, weapons::WeaponsEnum},
+    structs::daily_events_folder::{
+        daily_events::DaySystem,
+        discussions::{Answer, DailyDiscussion, ImpactAction},
+    },
 };
 
 // --- To update whenever the content is updated --- //
-const MAX_DAILY_DISCUSSION_NUMBER: u16 = 9;
+const MAX_DAILY_DISCUSSION_NUMBER: u16 = 10;
 
 pub fn get_all_daily_discussions() -> Vec<DailyDiscussion> {
     (1..=MAX_DAILY_DISCUSSION_NUMBER)
@@ -22,28 +25,25 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             apparition_chance: 25,
             answers: vec![
                 Answer {
-                    experience_impact: None,
-                    gold_impact: None,
                     id: 1,
                     message: "We've never forgotten the village. Come to us if you need help.".to_string(),
                     reputation_impact: Some(1),
                     toxicity_impact: Some(-1),
+                    ..Default::default()
                 },
                 Answer {
-                    experience_impact: None,
-                    gold_impact: None,
                     id: 2,
                     message: "It's natural for the strong to progress and the weak to fade away.".to_string(),
                     reputation_impact: Some(-2),
                     toxicity_impact: Some(3),
+                    ..Default::default()
                 },
                 Answer {
-                    experience_impact: None,
-                    gold_impact: None,
                     id: 3,
                     message: "Our recruits are available to anyone who can afford our services. Hehe".to_string(),
                     reputation_impact: Some(-1),
                     toxicity_impact: Some(1),
+                    ..Default::default()
                 },
             ],
             day_system: DaySystem {
@@ -63,25 +63,21 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
                     id: 1,
                     message: "We'll help you with compensation, we'll make the city safer, we'll make the city safer for everyone.".to_string(),
                     gold_impact: Some(-10),
-                    experience_impact: None,
                     toxicity_impact: Some(-3),
                     reputation_impact: Some(3),
+                    ..Default::default()
                 },
                 Answer {
                     id: 2,
                     message: "We can't do anything for the moment, but we'll make sure the city is safer.".to_string(),
-                    gold_impact: None,
-                    experience_impact: None,
-                    toxicity_impact: None,
-                    reputation_impact: None,
+                    ..Default::default()
                 },
                 Answer {
                     id: 3,
                     message: "Wow, it's a good thing it wasn't our place, there'll always be less competition in business, go on, leave me to my business, please!".to_string(),
-                    gold_impact: None,
-                    experience_impact: None,
                     toxicity_impact: Some(-1),
                     reputation_impact: Some(-2),
+                    ..Default::default()
                 },
             ],
             day_system: DaySystem {
@@ -100,26 +96,21 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
                 Answer {
                     id: 1,
                     message: "We'll keep the noise down, and apologize for any inconvenience.".to_string(),
-                    gold_impact: None,
-                    experience_impact: None,
-                    toxicity_impact: None,
                     reputation_impact: Some(1),
+                    ..Default::default()
                 },
                 Answer {
                     id: 2,
                     message: "They need training. You'll have to put up with that.".to_string(),
-                    gold_impact: Some(0),
-                    experience_impact: Some(0),
-                    toxicity_impact: Some(0),
                     reputation_impact: Some(-1),
+                    ..Default::default()
                 },
                 Answer {
                     id: 3,
                     message: "Hey.. psst come in, let's just say that if I gave you a few golds, we'd forget all about this nasty story?".to_string(),
                     gold_impact: Some(-5),
-                    experience_impact: None,
-                    toxicity_impact: None,
                     reputation_impact: Some(1),
+                    ..Default::default()
                 },
             ],
             day_system: DaySystem {
@@ -139,25 +130,21 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
                     id: 1,
                     message: "What an excellent idea! We will finance this project.".to_string(),
                     gold_impact: Some(-5),
-                    experience_impact: None,
-                    toxicity_impact: None,
                     reputation_impact: Some(2),
+                    ..Default::default()
                 },
                 Answer {
                     id: 2,
                     message: "Sounds good, but you'll have to raise the funds yourself.".to_string(),
-                    gold_impact: None,
-                    experience_impact: None,
-                    toxicity_impact: None,
                     reputation_impact: Some(-1),
+                    ..Default::default()
                 },
                 Answer {
                     id: 3,
                     message: "Our employees d.. hum .. I mean our heroes don't need frescoes to prove their worth.".to_string(),
-                    gold_impact: None,
-                    experience_impact: None,
                     toxicity_impact: Some(1),
                     reputation_impact: Some(-2),
+                    ..Default::default()
                 },
             ],
             day_system: DaySystem {
@@ -177,33 +164,27 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
                     id: 1,
                     message: "We'll give you a grant to buy the necessary medicines.".to_string(),
                     gold_impact: Some(-10),
-                    experience_impact: None,
                     toxicity_impact: Some(-2),
                     reputation_impact: Some(2),
+                    ..Default::default()
                 },
                 Answer {
                     id: 2,
                     message: "We'll help you find the necessary medicines whenever we'll have the time, mark my words sir !".to_string(),
-                    gold_impact: None,
-                    experience_impact: None,
-                    toxicity_impact: None,
                     reputation_impact: Some(1),
+                    ..Default::default()
                 },
                 Answer {
                     id: 3,
                     message: "We can't help you, but we'll make sure the village is safe.".to_string(),
-                    gold_impact: None,
-                    experience_impact: None,
-                    toxicity_impact: None,
                     reputation_impact: Some(-1),
+                    ..Default::default()
                 },
                 Answer {
                     id: 4,
                     message: "Common interest, common interest... You're talking to a private company, my dear sir, do you know that?".to_string(),
-                    gold_impact: None,
-                    experience_impact: None,
-                    toxicity_impact: None,
                     reputation_impact: Some(-3),
+                    ..Default::default()
                 },
             ],
             day_system: DaySystem {
@@ -223,33 +204,24 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
                     id: 1,
                     message: "We'll make an offering to the gods. Take this my friend.".to_string(),
                     gold_impact: Some(-5),
-                    experience_impact: None,
-                    toxicity_impact: None,
-                    reputation_impact: None,
+                    ..Default::default()
                 },
                 Answer {
                     id: 2,
                     message: "We don't need the help of the gods, we're doing very well on our own.".to_string(),
-                    gold_impact: None,
-                    experience_impact: None,
-                    toxicity_impact: None,
-                    reputation_impact: None,
+                    ..Default::default()
                 },
                 Answer {
                     id: 3,
                     message: "We'll make an offering to the gods, but we'll make sure it's a good investment.".to_string(),
                     gold_impact: Some(-10),
-                    experience_impact: None,
-                    toxicity_impact: None,
-                    reputation_impact: None,
+                    ..Default::default()
                 },
                 Answer {
                     id: 4,
                     message: "I only believe in finances my dear sir, how do you expect my dear recruits to support themselves if I start doing anything at all ?".to_string(),
-                    gold_impact: None,
-                    experience_impact: None,
                     toxicity_impact: Some(-1),
-                    reputation_impact: None,
+                    ..Default::default()
                 },
             ],
             day_system: DaySystem {
@@ -266,12 +238,10 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             apparition_chance: 100,
             answers: vec![
                 Answer {
-                    experience_impact: None,
                     gold_impact: Some(1),
                     id: 1,
                     message: "Thank you mdam, it's a pleasure".to_string(),
-                    reputation_impact: None,
-                    toxicity_impact: None,
+                    ..Default::default()
                 },
             ],
             day_system: DaySystem {
@@ -288,12 +258,10 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             apparition_chance: 100,
             answers: vec![
                 Answer {
-                    experience_impact: None,
                     gold_impact: Some(50),
                     id: 1,
                     message: "Thank you for welcoming me to your city. I intend to develop this guild with a master's hand, and I'm sure our business will bear fruit.".to_string(),
-                    reputation_impact: None,
-                    toxicity_impact: None,
+                    ..Default::default()
                 },
             ],
             day_system: DaySystem {
@@ -310,12 +278,30 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             apparition_chance: 100,
             answers: vec![
                 Answer {
-                    experience_impact: None,
-                    gold_impact: None,
                     id: 1,
                     message: "Tell him it will be a pleasure to do business with his guild's merchants.".to_string(),
-                    reputation_impact: None,
-                    toxicity_impact: None,
+                    ..Default::default()
+                },
+            ],
+            day_system: DaySystem {
+                cooldown: 0,
+                min_day: 1,
+                max_day: Some(1),
+            },
+        },
+        10 => DailyDiscussion {
+            id: 10,
+            title: "Welcome from a retired warrior".to_string(),
+            description: "Hello, I've just seen that you've moved to our beautiful town, so welcome! I've already done my share of work, you know, but perhaps my old equipment could be of use to you, here...".to_string(),
+            image_atlas_index: 4,
+            apparition_chance: 100,
+            answers: vec![
+                Answer {
+                    id: 1,
+                    message: "Thank you very much, you can be sure that we'll make good use of it, have a nice day and please close the drafty door.".to_string(),
+                    armor_impact: Some(vec![ImpactAction::Add(ArmorsEnum::GauntletsOfPower)]),
+                    weapon_impact: Some(vec![ImpactAction::Add(WeaponsEnum::SpearOfDestiny)]),
+                    ..Default::default()
                 },
             ],
             day_system: DaySystem {
