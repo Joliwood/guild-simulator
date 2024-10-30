@@ -2,9 +2,9 @@ use crate::structs::{
     daily_events_folder::{
         daily_events::DailyEvents,
         discussions::{Answer, DailyDiscussion},
+        spontaneous_applications::SpontaneousApplication,
     },
     general_structs::DailyEventsModalVisible,
-    player_stats::PlayerStats,
 };
 use bevy::prelude::*;
 
@@ -12,10 +12,10 @@ pub fn select_discussion_answer(
     mut query: Query<
         (
             &Interaction,
-            &mut Style,
             &mut BackgroundColor,
             &Answer,
-            &DailyDiscussion,
+            Option<&DailyDiscussion>,
+            Option<&SpontaneousApplication>,
         ),
         (Changed<Interaction>, With<Answer>),
     >,
@@ -24,10 +24,19 @@ pub fn select_discussion_answer(
     mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
 ) {
     let mut window = windows.single_mut();
-    for (interaction, mut color, mut background_color, answer, discussion) in query.iter_mut() {
+    for (interaction, mut background_color, answer, discussion, spontaneous_application) in
+        query.iter_mut()
+    {
         match *interaction {
             Interaction::Pressed => {
-                daily_events.remove_daily_discussion_by_id(discussion.id);
+                // daily_events.remove_daily_discussion_by_id(discussion.id);
+
+                // Check if there's a DailyDiscussion or SpontaneousApplication and remove it accordingly
+                if let Some(discussion) = discussion {
+                    daily_events.remove_daily_discussion_by_id(discussion.id);
+                } else if let Some(application) = spontaneous_application {
+                    daily_events.remove_spontaneous_application_by_id(application.id);
+                }
 
                 daily_events_modal_visibility.0 = false;
 

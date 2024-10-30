@@ -1,7 +1,8 @@
 use crate::{
     my_assets::MyAssets,
     structs::{
-        daily_events_folder::discussions::DailyDiscussion, trigger_structs::SelectAnswerTrigger,
+        daily_events_folder::{daily_events::DailyEvent, discussions::DailyDiscussion},
+        trigger_structs::SelectAnswerTrigger,
     },
 };
 use bevy::prelude::*;
@@ -11,7 +12,6 @@ pub fn discussion_event_doc(
     my_assets: &Res<MyAssets>,
     discussion: DailyDiscussion,
 ) {
-    info!("Discussion event doc {:?}", discussion);
     // WIP - Must create textures for each discussion
     // let ennemy_layout = TextureAtlasLayout::from_grid(
     //     UVec2::new(1200, 200),
@@ -123,8 +123,6 @@ pub fn discussion_event_doc(
                                 background_color: Color::srgba(0., 0., 0., 0.5).into(),
                                 ..default()
                             })
-                            // WIP - Je pense que je peux supprimer le trigger
-                            // .insert(SelectAnswerTrigger)
                             .insert(answer.clone())
                             .insert(discussion.clone())
                             .with_children(|button| {

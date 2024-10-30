@@ -1,26 +1,21 @@
 use crate::{
-    audio::play_sound::play_sound,
     content::equipments::scrolls::ScrollsEnum,
-    enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum, SoundEnum},
-    my_assets::MyAssets,
+    enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
     structs::{
         equipments::ItemEnum,
         general_structs::{
             load_scroll, DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
             UniqueId,
         },
-        missions::{Missions, SelectedMission},
         player_stats::PlayerStats,
-        recruits::{
-            RecruitInventory, RecruitStats, SelectedRecruitForEquipment, SelectedRecruitForMission,
-        },
+        recruits::{RecruitInventory, RecruitStats, SelectedRecruitForMission},
     },
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     },
     ui::ui_constants::WOOD_COLOR,
-    utils::{equip_recruit_inventory, get_new_room},
+    utils::get_new_room,
 };
 use bevy::prelude::*;
 use uuid::Uuid;

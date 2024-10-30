@@ -231,4 +231,11 @@ impl DailyEvents {
             _ => true,
         });
     }
+
+    pub fn remove_spontaneous_application_by_id(&mut self, application_id: u16) {
+        self.0.retain(|event| match &event.daily_event_type {
+            DailyEventTypeEnum::SpontaneousApplication(id) => id != &application_id,
+            _ => true,
+        });
+    }
 }
