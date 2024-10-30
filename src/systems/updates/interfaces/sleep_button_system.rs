@@ -3,10 +3,7 @@ use crate::{
     enums::SoundEnum,
     my_assets::MyAssets,
     structs::{
-        daily_events_folder::{
-            daily_events::{DailyEvent, DailyEventTargets, DailyEvents},
-            discussions::DailyDiscussion,
-        },
+        daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
         missions::{MissionReports, Missions},
         player_stats::PlayerStats,
         trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
@@ -98,11 +95,6 @@ pub fn sleep_button_system(
                     &mut daily_event_targets,
                 );
                 daily_events.0 = new_daily_events;
-
-                // if player_stats.day == 2 {
-                //     daily_events.add_discussions_for_first_day();
-                //     info!("First day discussions: {:?}", daily_events.0);
-                // }
             }
             Interaction::Hovered => {
                 window.cursor.icon = CursorIcon::Pointer;

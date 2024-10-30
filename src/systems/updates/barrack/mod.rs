@@ -1,1 +1,2 @@
+pub mod select_item_in_inventory;
 pub mod select_recruit_for_equipment_button;
