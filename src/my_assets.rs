@@ -141,6 +141,12 @@ pub struct MyAssets {
     pub c1_mission_6: Handle<Image>,
     #[asset(path = "images/missions/recap_guild_scroll.png")]
     pub recap_guild_scroll: Handle<Image>,
+
+    // --- Daily events --- //
+    #[asset(path = "images/daily_events/daily_discussions_atlas.png")]
+    pub daily_discussions_atlas: Handle<Image>,
+    #[asset(path = "images/daily_events/daily_spontaneous_applications_atlas.png")]
+    pub daily_spontaneous_applications_atlas: Handle<Image>,
 }
 
 impl MyAssets {

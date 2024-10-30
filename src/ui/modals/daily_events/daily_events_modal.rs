@@ -23,7 +23,7 @@ pub fn daily_events_modal(
     daily_events_modal_visibility: Res<DailyEventsModalVisible>,
     daily_events: Res<DailyEvents>,
     _player_stats: ResMut<PlayerStats>,
-    mut _texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // Despawn existing modals if visibility is set to false
     if daily_events_modal_visibility.is_changed() {
@@ -49,13 +49,19 @@ pub fn daily_events_modal(
 
         match &last_daily_event.daily_event_type {
             DailyEventTypeEnum::Discussion(discussion) => {
-                discussion_event_doc(&mut commands, &my_assets, get_daily_discussion(discussion));
+                discussion_event_doc(
+                    &mut commands,
+                    &my_assets,
+                    get_daily_discussion(discussion),
+                    texture_atlas_layouts,
+                );
             }
             DailyEventTypeEnum::SpontaneousApplication(spontaneous_application) => {
                 spontaneous_application_event_doc(
                     &mut commands,
                     &my_assets,
                     get_spontaneous_application(spontaneous_application),
+                    texture_atlas_layouts,
                 );
             }
         }

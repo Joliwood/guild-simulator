@@ -62,8 +62,8 @@ pub fn get_spontaneous_application(spontaneous_application_index: &u16) -> Spont
             apparition_chance: 100,
             description: "Hello ! So you're the new club on the block? Well, I was sent here because I made some blunders... So here's my confession: I set fire to the library, but I didn't mean to! You've got to believe me... at the same time, if the town had installed street lighting, I wouldn't have been clutching an oil lamp as I slid down the library steps... I think I'll have to work for a while to pay off my debt to the city...".to_string(),
             id: 2,
-            image_atlas_index: 0,
-            title: "A proposal from an untalented guy".to_string(),
+            image_atlas_index: 1,
+            title: "He says his name is Hubert...".to_string(),
             day_system: DaySystem {
                 cooldown: 0,
                 max_day: Some(1),

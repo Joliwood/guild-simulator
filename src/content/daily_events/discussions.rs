@@ -24,7 +24,7 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             id: 1,
             title: "Contempt for the little people".to_string(),
             description: "Ever since your guild arrived, I've had the impression that we little people don't care any more. In your quest for power, have you forgotten about us?".to_string(),
-            image_atlas_index: 5,
+            image_atlas_index: 0,
             apparition_chance: 25,
             answers: vec![
                 Answer {
@@ -59,7 +59,7 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             id: 2,
             title: "Shop robbed".to_string(),
             description: "Some rascals tore up my stall chasing a thief. I don't know how I'm going to be able to meet my customer demands. Could you help me solve my problem?".to_string(),
-            image_atlas_index: 6,
+            image_atlas_index: 1,
             apparition_chance: 35,
             answers: vec![
                 Answer {
@@ -93,7 +93,7 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             id: 3,
             title: "Noise pollution".to_string(),
             description: "Hello, I'm part of the neighborhood, your recruits make too much noise at night with their training. Can you ask them to quiet down?".to_string(),
-            image_atlas_index: 7,
+            image_atlas_index: 2,
             apparition_chance: 15,
             answers: vec![
                 Answer {
@@ -126,7 +126,7 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             id: 4,
             title: "Fresco by a local artist".to_string(),
             description: "I'd like to immortalize your adventurers in a fresco to decorate the village square.".to_string(),
-            image_atlas_index: 8,
+            image_atlas_index: 3,
             apparition_chance: 5,
             answers: vec![
                 Answer {
@@ -160,7 +160,7 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             id: 5,
             title: "Village medicines need".to_string(),
             description: "We're running out of medicines for the sick and wounded in the village. Can you help us find some, or, failing that, give us a grant? It's for the common good, you know...".to_string(),
-            image_atlas_index: 9,
+            image_atlas_index: 4,
             apparition_chance: 25,
             answers: vec![
                 Answer {
@@ -200,7 +200,7 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             id: 6,
             title: "The miracle worker".to_string(),
             description: "A miracle worker offers to pray for you and your guild, and of course assures you that the ancient gods will only respond if an offering can be made.".to_string(),
-            image_atlas_index: 10,
+            image_atlas_index: 5,
             apparition_chance: 20,
             answers: vec![
                 Answer {
@@ -237,7 +237,7 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             id: 7,
             title: "Welcome from a grandmother".to_string(),
             description: "A grandmother who tells us that what we're doing is a good thing, that it can bring a little security to the town".to_string(),
-            image_atlas_index: 1,
+            image_atlas_index: 6,
             apparition_chance: 100,
             answers: vec![
                 Answer {
@@ -257,7 +257,7 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             id: 8,
             title: "Mayor's welcome message".to_string(),
             description: "Hello ! I'm delighted that you've accepted my offer to come and live in our beloved town, so welcome! As you know, there's plenty of work in the area. I've managed to find two people for you to recruit, and you should have received their proposals by now. I've provided you with a map of the surrounding area, where we're having a bit of trouble with vagrants causing trouble in the area, so it would be a good start if you could get rid of them for us...".to_string(),
-            image_atlas_index: 2,
+            image_atlas_index: 7,
             apparition_chance: 100,
             answers: vec![
                 Answer {
@@ -277,7 +277,7 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             id: 9,
             title: "Welcome from the merchant guild".to_string(),
             description: "We're delighted to welcome you to the region, and hope your business flourishes. I've registered your guild in our network's merchant directory. That way, they can come and offer you a wide variety of transactions. We hope to hear from you soon.".to_string(),
-            image_atlas_index: 3,
+            image_atlas_index: 8,
             apparition_chance: 100,
             answers: vec![
                 Answer {
@@ -296,7 +296,7 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             id: 10,
             title: "Welcome from a retired warrior".to_string(),
             description: "Hello, I've just seen that you've moved to our beautiful town, so welcome! I've already done my share of work, you know, but perhaps my old equipment could be of use to you, here...".to_string(),
-            image_atlas_index: 4,
+            image_atlas_index: 9,
             apparition_chance: 100,
             answers: vec![
                 Answer {

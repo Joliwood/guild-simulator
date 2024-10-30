@@ -1,8 +1,7 @@
 use crate::{
     my_assets::MyAssets,
     structs::{
-        daily_events_folder::{daily_events::DailyEvent, discussions::DailyDiscussion},
-        trigger_structs::SelectAnswerTrigger,
+        daily_events_folder::discussions::DailyDiscussion, trigger_structs::SelectAnswerTrigger,
     },
 };
 use bevy::prelude::*;
@@ -11,17 +10,17 @@ pub fn discussion_event_doc(
     commands: &mut Commands,
     my_assets: &Res<MyAssets>,
     discussion: DailyDiscussion,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    // WIP - Must create textures for each discussion
-    // let ennemy_layout = TextureAtlasLayout::from_grid(
-    //     UVec2::new(1200, 200),
-    //     6,
-    //     1,
-    //     Some(UVec2::new(0, 0)),
-    //     Some(UVec2::new(0, 0)),
-    // );
-    // let ennemy_texture_atlas_layout: Handle<TextureAtlasLayout> =
-    //     texture_atlas_layouts.add(ennemy_layout);
+    let daily_discussions_layout = TextureAtlasLayout::from_grid(
+        UVec2::new(801, 3501),
+        1,
+        10,
+        Some(UVec2::new(0, 0)),
+        Some(UVec2::new(0, 0)),
+    );
+    let daily_discussions_texture_atlas_layout: Handle<TextureAtlasLayout> =
+        texture_atlas_layouts.add(daily_discussions_layout);
 
     commands
         .spawn(ImageBundle {
@@ -79,17 +78,23 @@ pub fn discussion_event_doc(
                     });
 
                     // Image below the title
-                    column.spawn(ImageBundle {
-                        image: my_assets.inventory_container.clone().into(),
-                        style: Style {
-                            width: Val::Percent(100.),
-                            height: Val::Px(150.),
-                            margin: UiRect::bottom(Val::Px(8.)),
+                    column.spawn((
+                        ImageBundle {
+                            image: my_assets.daily_discussions_atlas.clone().into(),
+                            style: Style {
+                                width: Val::Percent(100.),
+                                height: Val::Px(150.),
+                                margin: UiRect::bottom(Val::Px(8.)),
+                                ..default()
+                            },
+                            z_index: ZIndex::Global(1),
                             ..default()
                         },
-                        z_index: ZIndex::Global(1),
-                        ..default()
-                    });
+                        TextureAtlas {
+                            index: discussion.image_atlas_index.into(),
+                            layout: daily_discussions_texture_atlas_layout.clone(),
+                        },
+                    ));
 
                     // Description below the image
                     column.spawn(TextBundle {

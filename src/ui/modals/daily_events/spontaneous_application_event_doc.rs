@@ -11,7 +11,18 @@ pub fn spontaneous_application_event_doc(
     commands: &mut Commands,
     my_assets: &Res<MyAssets>,
     spontaneous_application: SpontaneousApplication,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
+    let daily_spontaneous_applications_layout = TextureAtlasLayout::from_grid(
+        UVec2::new(801, 701),
+        1,
+        2,
+        Some(UVec2::new(0, 0)),
+        Some(UVec2::new(0, 0)),
+    );
+    let daily_spontaneous_applications_texture_atlas_layout: Handle<TextureAtlasLayout> =
+        texture_atlas_layouts.add(daily_spontaneous_applications_layout);
+
     commands
         .spawn(ImageBundle {
             image: my_assets.daily_event_document.clone().into(),
@@ -68,17 +79,26 @@ pub fn spontaneous_application_event_doc(
                     });
 
                     // Image below the title
-                    column.spawn(ImageBundle {
-                        image: my_assets.inventory_container.clone().into(),
-                        style: Style {
-                            width: Val::Percent(100.),
-                            height: Val::Px(150.),
-                            margin: UiRect::bottom(Val::Px(8.)),
+                    column.spawn((
+                        ImageBundle {
+                            image: my_assets
+                                .daily_spontaneous_applications_atlas
+                                .clone()
+                                .into(),
+                            style: Style {
+                                width: Val::Percent(100.),
+                                height: Val::Px(150.),
+                                margin: UiRect::bottom(Val::Px(8.)),
+                                ..default()
+                            },
+                            z_index: ZIndex::Global(1),
                             ..default()
                         },
-                        z_index: ZIndex::Global(1),
-                        ..default()
-                    });
+                        TextureAtlas {
+                            index: spontaneous_application.image_atlas_index.into(),
+                            layout: daily_spontaneous_applications_texture_atlas_layout.clone(),
+                        },
+                    ));
 
                     // Description below the image
                     column.spawn(TextBundle {
