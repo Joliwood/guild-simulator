@@ -309,7 +309,7 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
                     ..Default::default()
                 },
             ],
-            day_system: DaySystem { 
+            day_system: DaySystem {
                 cooldown: 0,
                 min_day: 1,
                 max_day: Some(1),

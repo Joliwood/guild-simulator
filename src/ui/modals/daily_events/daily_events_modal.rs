@@ -23,7 +23,7 @@ pub fn daily_events_modal(
     daily_events_modal_visibility: Res<DailyEventsModalVisible>,
     daily_events: Res<DailyEvents>,
     _player_stats: ResMut<PlayerStats>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // Despawn existing modals if visibility is set to false
     if daily_events_modal_visibility.is_changed() {
