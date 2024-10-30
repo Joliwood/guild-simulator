@@ -11,6 +11,7 @@ pub fn discussion_event_doc(
     my_assets: &Res<MyAssets>,
     discussion: DailyDiscussion,
 ) {
+    info!("Discussion event doc {:?}", discussion);
     // WIP - Must create textures for each discussion
     // let ennemy_layout = TextureAtlasLayout::from_grid(
     //     UVec2::new(1200, 200),
