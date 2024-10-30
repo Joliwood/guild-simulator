@@ -8,7 +8,7 @@ use crate::{
         daily_events_folder::daily_events::{DailyEvent, DailyEventTypeEnum, DailyEvents},
         general_structs::DailyEventsModalVisible,
         player_stats::PlayerStats,
-        trigger_structs::DailyEventTrigger,
+        trigger_structs::SelectAnswerTrigger,
     },
     ui::modals::daily_events::spontaneous_application_event_doc::spontaneous_application_event_doc,
 };
@@ -19,8 +19,7 @@ use bevy::prelude::*;
 pub fn daily_events_modal(
     mut commands: Commands,
     my_assets: Res<MyAssets>,
-    // ! WIP - Check that if it works
-    query: Query<Entity, With<DailyEventTrigger>>,
+    query: Query<Entity, With<SelectAnswerTrigger>>,
     daily_events_modal_visibility: Res<DailyEventsModalVisible>,
     daily_events: Res<DailyEvents>,
     _player_stats: ResMut<PlayerStats>,
@@ -48,7 +47,7 @@ pub fn daily_events_modal(
             None => return,
         };
 
-        info!("Last daily event: {:?}", last_daily_event);
+        info!("Last daily event: {:?}", daily_events_len);
 
         match &last_daily_event.daily_event_type {
             DailyEventTypeEnum::Discussion(discussion) => {

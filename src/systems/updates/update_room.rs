@@ -40,7 +40,10 @@ pub fn update_room(
     selected_map_id: Res<SelectedMapId>,
     daily_events: Res<DailyEvents>,
 ) {
-    if player_stats.is_changed() || selected_recruit_for_equipment.is_changed() {
+    if player_stats.is_changed()
+        || selected_recruit_for_equipment.is_changed()
+        || daily_events.is_changed()
+    {
         // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed
         for entity in query.iter() {
             commands.entity(entity).despawn_recursive();

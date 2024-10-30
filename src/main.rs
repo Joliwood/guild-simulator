@@ -120,6 +120,7 @@ fn main() -> AppExit {
                 systems::updates::interfaces::sleep_button_system::sleep_button_system,
                 systems::updates::office::toggle_mission_reports::toggle_mission_reports,
                 systems::updates::office::toggle_daily_event_documents::toggle_daily_event_documents,
+                systems::updates::office::select_discussion_answer::select_discussion_answer,
                 systems::updates::office::sign_mission_report::sign_mission_report,
             ),
         )

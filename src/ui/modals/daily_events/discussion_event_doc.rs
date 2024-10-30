@@ -1,4 +1,9 @@
-use crate::{my_assets::MyAssets, structs::daily_events_folder::discussions::DailyDiscussion};
+use crate::{
+    my_assets::MyAssets,
+    structs::{
+        daily_events_folder::discussions::DailyDiscussion, trigger_structs::SelectAnswerTrigger,
+    },
+};
 use bevy::prelude::*;
 
 pub fn discussion_event_doc(
@@ -38,6 +43,7 @@ pub fn discussion_event_doc(
             z_index: ZIndex::Global(2),
             ..default()
         })
+        .insert(SelectAnswerTrigger)
         .with_children(|parent| {
             // Container with flex column layout
             parent
@@ -103,22 +109,37 @@ pub fn discussion_event_doc(
 
                     // Map through answers and display each below the description
                     for answer in discussion.answers.iter() {
-                        column.spawn(TextBundle {
-                            text: Text::from_section(
-                                answer.message.clone(),
-                                TextStyle {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 14.0,
-                                    color: Color::BLACK,
+                        column
+                            .spawn(ButtonBundle {
+                                style: Style {
+                                    width: Val::Percent(100.0),
+                                    margin: UiRect::top(Val::Px(4.0)),
+                                    padding: UiRect::all(Val::Px(8.0)),
+                                    border: UiRect::all(Val::Px(1.)),
+                                    ..default()
                                 },
-                            ),
-                            style: Style {
-                                margin: UiRect::top(Val::Px(4.)),
-                                // max_size: Size::new(Val::Percent(90.), Val::Auto),
+                                border_radius: BorderRadius::all(Val::Px(5.)),
+                                background_color: Color::srgba(0., 0., 0., 0.5).into(),
                                 ..default()
-                            },
-                            ..default()
-                        });
+                            })
+                            // WIP - Je pense que je peux supprimer le trigger
+                            // .insert(SelectAnswerTrigger)
+                            .insert(answer.clone())
+                            .insert(discussion.clone())
+                            .with_children(|button| {
+                                button.spawn(TextBundle {
+                                    text: Text::from_section(
+                                        answer.message.clone(),
+                                        TextStyle {
+                                            font: my_assets.fira_sans_bold.clone(),
+                                            font_size: 14.0,
+                                            color: Color::BLACK,
+                                        },
+                                    ),
+                                    style: Style { ..default() },
+                                    ..default()
+                                });
+                            });
                     }
                 });
         });

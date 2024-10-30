@@ -224,4 +224,11 @@ impl DailyEvents {
 
         daily_events
     }
+
+    pub fn remove_daily_discussion_by_id(&mut self, discussion_id: u16) {
+        self.0.retain(|event| match &event.daily_event_type {
+            DailyEventTypeEnum::Discussion(id) => id != &discussion_id,
+            _ => true,
+        });
+    }
 }
