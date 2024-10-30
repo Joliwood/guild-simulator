@@ -65,7 +65,7 @@ pub fn room_office(
                             // recap_guild_scroll(&asset_server, elements_on_desk);
                             // talents_on_desk(&asset_server, elements_on_desk);
                             daily_event_documents(my_assets, elements_on_desk, daily_events);
-                            set_of_keys(my_assets, elements_on_desk, mission_reports);
+                            set_of_keys(my_assets, elements_on_desk, mission_reports, daily_events);
                         });
                 });
         });
