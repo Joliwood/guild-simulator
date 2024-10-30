@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 use super::{
+    daily_events_folder::discussions::{Answer, ImpactAction},
     equipments::ItemEnum,
     general_structs::{load_armor, load_scroll, load_weapon},
     recruits::RecruitStats,
@@ -30,6 +31,7 @@ pub struct PlayerStats {
     pub room: RoomEnum,
     pub toxicity: i8,
     pub stats: Stats,
+    pub reputation: i8,
 }
 
 impl Default for PlayerStats {
@@ -64,6 +66,7 @@ impl Default for PlayerStats {
             recruits: vec![],
             room: RoomEnum::Office,
             toxicity: 50,
+            reputation: 50,
             stats: Stats {
                 golds_earned: 0,
                 mission_completed: 0,
@@ -75,6 +78,9 @@ impl Default for PlayerStats {
 impl PlayerStats {
     pub fn increment_golds(&mut self, amount: i32) {
         self.golds += amount;
+        if self.golds < 0 {
+            self.golds = 0;
+        }
     }
 
     pub fn gain_xp(&mut self, xp: u32) {
@@ -131,7 +137,12 @@ impl PlayerStats {
                 }
             }
         }
-        // self.inventory.push(item);
+    }
+
+    pub fn remove_item(&mut self, item: ItemEnum) {
+        if let Some(item_index) = self.inventory.iter().position(|i| i == &item) {
+            self.inventory.remove(item_index);
+        }
     }
 
     pub fn get_recruit_by_id(&self, id: Uuid) -> Option<RecruitStats> {
@@ -189,5 +200,55 @@ impl PlayerStats {
 
     pub fn gain_toxitiy(&mut self, toxicity: i8) {
         self.toxicity += toxicity;
+
+        if self.toxicity > 100 {
+            self.toxicity = 100;
+        }
+
+        if toxicity < 0 {
+            self.toxicity = 0;
+        }
+    }
+
+    pub fn gain_reputation(&mut self, reputation: i8) {
+        self.reputation += reputation;
+
+        if self.reputation > 100 {
+            self.reputation = 100;
+        }
+
+        if reputation < 0 {
+            self.reputation = 0;
+        }
+    }
+
+    pub fn apply_equipment_impact(&mut self, answer: &Answer) {
+        if let Some(experience_impact) = &answer.experience_impact {
+            self.gain_xp(*experience_impact);
+        }
+
+        if let Some(gold_impact) = &answer.gold_impact {
+            self.increment_golds(*gold_impact);
+        }
+
+        if let Some(recruit_impact) = &answer.recruit_impact {
+            self.recruits.push(recruit_impact.clone());
+        }
+
+        if let Some(reputation_impact) = &answer.reputation_impact {
+            self.gain_reputation(*reputation_impact);
+        }
+
+        if let Some(toxicity_impact) = &answer.toxicity_impact {
+            self.gain_toxitiy(*toxicity_impact);
+        }
+        if let Some(equipment_impact) = &answer.equipment_impact {
+            for impact_action in equipment_impact {
+                match impact_action {
+                    ImpactAction::Add(item) => self.add_item(item.clone()),
+                    ImpactAction::Remove(item) => self.remove_item(item.clone()),
+                }
+            }
+        }
     }
 }

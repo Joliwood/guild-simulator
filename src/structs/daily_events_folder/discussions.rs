@@ -2,10 +2,7 @@
 use super::daily_events::{
     get_random_index_from_percent_arr, DailyEventTargets, DaySystem, DiscussionTarget,
 };
-use crate::{
-    content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
-    structs::recruits::RecruitStats,
-};
+use crate::structs::{equipments::ItemEnum, recruits::RecruitStats};
 use bevy::prelude::*;
 
 #[derive(Debug, Clone, PartialEq)]
@@ -16,16 +13,14 @@ pub enum ImpactAction<T> {
 
 #[derive(Default, Debug, Component, Resource, Clone, PartialEq)]
 pub struct Answer {
-    pub armor_impact: Option<Vec<ImpactAction<ArmorsEnum>>>,
+    pub equipment_impact: Option<Vec<ImpactAction<ItemEnum>>>,
     pub experience_impact: Option<u32>,
     pub gold_impact: Option<i32>,
     pub id: u16,
     pub message: String,
     pub recruit_impact: Option<RecruitStats>,
     pub reputation_impact: Option<i8>,
-    pub scroll_impact: Option<Vec<ImpactAction<ScrollsEnum>>>,
     pub toxicity_impact: Option<i8>,
-    pub weapon_impact: Option<Vec<ImpactAction<WeaponsEnum>>>,
 }
 
 #[derive(Debug, Component, Resource, Clone, PartialEq)]

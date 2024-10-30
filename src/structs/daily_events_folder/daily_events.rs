@@ -133,6 +133,7 @@ pub struct DailyEvent {
 #[derive(Debug, Component, Resource, Clone)]
 pub struct DailyEvents(pub Vec<DailyEvent>);
 
+// Contents
 impl Default for DailyEvents {
     fn default() -> Self {
         // The last must be 8 (it is the mayor's welcome message)

@@ -1,7 +1,3 @@
-use std::ops::Add;
-
-use uuid::Uuid;
-
 use crate::{
     enums::{RecruitEnum, RecruitStateEnum},
     structs::{
@@ -12,6 +8,7 @@ use crate::{
         recruits::{RecruitInventory, RecruitStats},
     },
 };
+use uuid::Uuid;
 
 // --- To update whenever the content is updated --- //
 const MAX_DAILY_SPONTANEOUS_APPLICATION_NUMBER: u16 = 2;

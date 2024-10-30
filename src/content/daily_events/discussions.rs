@@ -1,8 +1,11 @@
 use crate::{
     content::equipments::{armors::ArmorsEnum, weapons::WeaponsEnum},
-    structs::daily_events_folder::{
-        daily_events::DaySystem,
-        discussions::{Answer, DailyDiscussion, ImpactAction},
+    structs::{
+        daily_events_folder::{
+            daily_events::DaySystem,
+            discussions::{Answer, DailyDiscussion, ImpactAction},
+        },
+        equipments::ItemEnum,
     },
 };
 
@@ -299,12 +302,14 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
                 Answer {
                     id: 1,
                     message: "Thank you very much, you can be sure that we'll make good use of it, have a nice day and please close the drafty door.".to_string(),
-                    armor_impact: Some(vec![ImpactAction::Add(ArmorsEnum::GauntletsOfPower)]),
-                    weapon_impact: Some(vec![ImpactAction::Add(WeaponsEnum::SpearOfDestiny)]),
+                    equipment_impact: Some(vec![
+                        ImpactAction::Add(ItemEnum::Armor(ArmorsEnum::ShieldOfCourage.get_armor())),
+                        ImpactAction::Add(ItemEnum::Weapon(WeaponsEnum::SpearOfDestiny.get_weapon()))
+                    ]),
                     ..Default::default()
                 },
             ],
-            day_system: DaySystem {
+            day_system: DaySystem { 
                 cooldown: 0,
                 min_day: 1,
                 max_day: Some(1),

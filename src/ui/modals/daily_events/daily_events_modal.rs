@@ -33,21 +33,6 @@ pub fn daily_events_modal(
     }
 
     let daily_events_len = daily_events.0.len();
-    // let daily_discussions_len = daily_events
-    //     .0
-    //     .iter()
-    //     .filter(|event| matches!(event.daily_event_type, DailyEventTypeEnum::Discussion(_)))
-    //     .count();
-    // let daily_spontaneous_applications_len = daily_events
-    //     .0
-    //     .iter()
-    //     .filter(|event| {
-    //         matches!(
-    //             event.daily_event_type,
-    //             DailyEventTypeEnum::SpontaneousApplication(_)
-    //         )
-    //     })
-    //     .count();
 
     // Spawn the mission report modal if visibility is true and there are mission reports
     if daily_events_modal_visibility.is_changed()
@@ -64,18 +49,14 @@ pub fn daily_events_modal(
 
         match &last_daily_event.daily_event_type {
             DailyEventTypeEnum::Discussion(discussion) => {
-                // if daily_discussions_len > 0 {
                 discussion_event_doc(&mut commands, &my_assets, get_daily_discussion(discussion));
-                // }
             }
             DailyEventTypeEnum::SpontaneousApplication(spontaneous_application) => {
-                // if daily_spontaneous_applications_len > 0 {
                 spontaneous_application_event_doc(
                     &mut commands,
                     &my_assets,
                     get_spontaneous_application(spontaneous_application),
                 );
-                // }
             }
         }
     }

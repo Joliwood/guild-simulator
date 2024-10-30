@@ -120,7 +120,7 @@ pub fn discussion_event_doc(
                                     ..default()
                                 },
                                 border_radius: BorderRadius::all(Val::Px(5.)),
-                                background_color: Color::srgba(0., 0., 0., 0.5).into(),
+                                background_color: Color::srgba(0., 0., 0., 0.7).into(),
                                 ..default()
                             })
                             .insert(answer.clone())
