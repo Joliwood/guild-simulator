@@ -1,5 +1,5 @@
 pub mod buttons;
-pub mod interface;
+pub mod hud;
 pub mod modals;
 pub mod rooms;
 pub mod styles;

@@ -79,8 +79,9 @@ fn main() -> AppExit {
                 ui::buttons::room_arrows::room_left_arrow_button,
                 ui::buttons::room_arrows::room_right_arrow_button,
                 ui::buttons::room_arrows::room_top_arrow_button,
-                ui::interface::gold_counter::gold_counter,
-                ui::interface::room_interface_text::room_interface_text,
+                ui::hud::gold_counter::gold_counter,
+                ui::hud::room_interface_text::room_interface_text,
+                ui::hud::hud::hud,
                 systems::recruits::hiring_setup::hiring_setup,
             ),
         )

@@ -20,20 +20,20 @@ pub fn room_interface_text(
         .insert(Name::new("Room interface text"))
         // Room text
         .with_children(|ui_container: &mut ChildBuilder| {
-            ui_container
-                .spawn(TextBundle {
-                    text: Text::from_section(
-                        format! {"{gold_counter} | Guild level : {guild_level}",
-                        gold_counter = player_stats.golds,
-                        guild_level = player_stats.guild_level},
-                        TextStyle {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 40.0,
-                            color: Color::BLACK,
-                        },
-                    ),
-                    ..default()
-                })
-                .insert(PlayerStatsRoomTrigger);
+            // ui_container
+            //     .spawn(TextBundle {
+            //         text: Text::from_section(
+            //             format! {"{gold_counter} | Guild level : {guild_level}",
+            //             gold_counter = player_stats.golds,
+            //             guild_level = player_stats.guild_level},
+            //             TextStyle {
+            //                 font: my_assets.fira_sans_bold.clone(),
+            //                 font_size: 40.0,
+            //                 color: Color::BLACK,
+            //             },
+            //         ),
+            //         ..default()
+            //     })
+            //     .insert(PlayerStatsRoomTrigger);
         });
 }

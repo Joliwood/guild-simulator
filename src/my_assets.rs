@@ -28,17 +28,19 @@ pub struct MyAssets {
     #[asset(path = "images/equipments/scrolls_atlas.png")]
     pub scrolls_atlas: Handle<Image>,
 
-    // --- UI --- //
-    #[asset(path = "images/ui/art_v0_buttons.png")]
+    // --- HUD --- //
+    #[asset(path = "images/hud/art_v0_buttons.png")]
     pub art_v0_buttons: Handle<Image>,
-    #[asset(path = "images/ui/buttons_atlas.png")]
+    #[asset(path = "images/hud/buttons_atlas.png")]
     pub buttons_atlas: Handle<Image>,
-    #[asset(path = "images/ui/gold.png")]
+    #[asset(path = "images/hud/gold.png")]
     pub gold: Handle<Image>,
-    #[asset(path = "images/ui/notification_atlas.png")]
+    #[asset(path = "images/hud/notification_atlas.png")]
     pub notification_atlas: Handle<Image>,
-    #[asset(path = "images/ui/play.png")]
+    #[asset(path = "images/hud/play.png")]
     pub _play: Handle<Image>,
+    #[asset(path = "images/hud/hud.png")]
+    pub hud: Handle<Image>,
 
     // --- Rooms > Barrack --- //
     #[asset(path = "images/rooms/barrack/barrack_background.png")]
@@ -81,7 +83,7 @@ pub struct MyAssets {
     pub recruit_card: Handle<Image>,
 
     // --- Rooms > Store --- //
-    #[asset(path = "images/store.png")]
+    #[asset(path = "images/rooms/store/store.png")]
     pub store: Handle<Image>,
 
     // --- Fonts --- //
