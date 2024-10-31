@@ -1,6 +1,9 @@
 use crate::{
     my_assets::MyAssets,
-    structs::{missions::MissionReports, trigger_structs::SleepButtonTrigger},
+    structs::{
+        daily_events_folder::daily_events::DailyEvents, missions::MissionReports,
+        trigger_structs::SleepButtonTrigger,
+    },
 };
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
@@ -9,8 +12,9 @@ pub fn set_of_keys(
     my_assets: &Res<MyAssets>,
     elements_on_desk: &mut ChildBuilder,
     mission_reports: &Res<MissionReports>,
+    daily_events: &Res<DailyEvents>,
 ) {
-    let tooltip_text =  "You have to sign all the\nreports before going to sleep.\n\nNo pain no gains !\nAs the kids say";
+    let tooltip_text =  "You have to read and sign all documents\non your desk before going to sleep.\n\nNo pain no gains !\nAs the kids say";
 
     // Create the main button
     let mut button = elements_on_desk.spawn(ButtonBundle {
@@ -31,7 +35,7 @@ pub fn set_of_keys(
     });
 
     // Insert the tooltip only if there are mission reports
-    if !mission_reports.0.is_empty() {
+    if !mission_reports.0.is_empty() || !daily_events.0.is_empty() {
         button.insert(
             Tooltip::cursor(tooltip_text.to_string()).with_activation(TooltipActivation::IDLE),
         );

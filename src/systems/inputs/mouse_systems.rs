@@ -1,7 +1,6 @@
 use bevy::{
     ecs::system::Res,
     input::{mouse::MouseButton, ButtonInput},
-    log::info,
     prelude::*,
     // window::CursorGrabMode,
 };
@@ -21,9 +20,7 @@ pub fn mouse_click_system(
         window.cursor.icon = CursorIcon::Default;
     }
 
-    if mouse_button_input.just_released(MouseButton::Right) {
-        info!("Right mouse button just released.");
-    }
+    if mouse_button_input.just_released(MouseButton::Right) {}
 }
 
 pub fn mouse_init(mut windows: Query<&mut Window>) {

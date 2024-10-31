@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 use super::equipments::{Armor, Scroll, Weapon};
-use crate::data::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum};
+use crate::content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum};
 use bevy::prelude::{Component, Resource};
 // ! For workflow with ron files
 // use ron::de::from_str;
@@ -13,6 +13,9 @@ pub struct MissionModalVisible(pub bool);
 
 #[derive(Component, Resource)]
 pub struct MissionReportsModalVisible(pub bool);
+
+#[derive(Component, Resource)]
+pub struct DailyEventsModalVisible(pub bool);
 
 #[derive(Component)]
 pub struct UniqueId(pub String);

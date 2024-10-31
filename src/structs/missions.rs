@@ -4,7 +4,7 @@ use super::{
     player_stats::PlayerStats,
 };
 use crate::{
-    data::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
+    content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
     utils::{calculate_price_range, get_global_points, get_victory_percentage},
 };
 use bevy::prelude::*;
@@ -74,6 +74,7 @@ impl MissionReport {
             }
         };
 
+        // ! WIP - It doesn't take in consideration the % loot of each item !!!
         // Step 1: Pick one guaranteed random item
         let first_random_item_index = rand::random::<usize>() % item_loots.len();
         let first_item = &item_loots[first_random_item_index];
@@ -500,7 +501,7 @@ impl Default for Missions {
                         },
                         ItemLoot {
                             item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
-                            percent: 50,
+                            percent: 1,
                         },
                     ]
                 ),

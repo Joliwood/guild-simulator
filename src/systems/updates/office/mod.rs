@@ -1,2 +1,4 @@
+pub mod select_discussion_answer;
 pub mod sign_mission_report;
+pub mod toggle_daily_event_documents;
 pub mod toggle_mission_reports;

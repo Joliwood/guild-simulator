@@ -1,23 +1,21 @@
 use crate::{
-    audio::play_sound::play_sound,
-    data::equipments::scrolls::ScrollsEnum,
-    enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum, SoundEnum},
-    my_assets::MyAssets,
+    content::equipments::scrolls::ScrollsEnum,
+    enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
     structs::{
         equipments::ItemEnum,
-        general_structs::{load_scroll, MissionModalVisible, MissionReportsModalVisible, UniqueId},
-        missions::{Missions, SelectedMission},
-        player_stats::PlayerStats,
-        recruits::{
-            RecruitInventory, RecruitStats, SelectedRecruitForEquipment, SelectedRecruitForMission,
+        general_structs::{
+            load_scroll, DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
+            UniqueId,
         },
+        player_stats::PlayerStats,
+        recruits::{RecruitInventory, RecruitStats, SelectedRecruitForMission},
     },
     systems::{
         recruits::hire_new_recruits::hire_new_recruits,
         systems_constants::{HOVERED_BUTTON, NORMAL_BUTTON, PRESSED_BUTTON},
     },
     ui::ui_constants::WOOD_COLOR,
-    utils::{equip_recruit_inventory, get_new_room},
+    utils::get_new_room,
 };
 use bevy::prelude::*;
 use uuid::Uuid;
@@ -37,6 +35,7 @@ pub fn mouse_interaction_updates(
     mut mission_modal_visibility: ResMut<MissionModalVisible>,
     mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
+    mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
 ) {
     let mut window = windows.single_mut();
 
@@ -72,6 +71,7 @@ pub fn mouse_interaction_updates(
                         &mut mission_modal_visibility,
                         &mut mission_reports_modal_visibility,
                         &mut selected_recruit_for_mission,
+                        &mut daily_events_modal_visibility,
                     ) {
                         player_stats.room = new_room;
                     }
@@ -99,6 +99,7 @@ pub fn mouse_interaction_updates(
                         &mut mission_modal_visibility,
                         &mut mission_reports_modal_visibility,
                         &mut selected_recruit_for_mission,
+                        &mut daily_events_modal_visibility,
                     ) {
                         player_stats.room = new_room;
                     }
@@ -126,6 +127,7 @@ pub fn mouse_interaction_updates(
                         &mut mission_modal_visibility,
                         &mut mission_reports_modal_visibility,
                         &mut selected_recruit_for_mission,
+                        &mut daily_events_modal_visibility,
                     ) {
                         player_stats.room = new_room;
                     }
@@ -154,6 +156,7 @@ pub fn mouse_interaction_updates(
                         &mut mission_modal_visibility,
                         &mut mission_reports_modal_visibility,
                         &mut selected_recruit_for_mission,
+                        &mut daily_events_modal_visibility,
                     ) {
                         player_stats.room = new_room;
                     }
@@ -204,213 +207,13 @@ pub fn mouse_interaction_updates(
     }
 }
 
-/// On arrive ici en cliquant dans la modal mission sur la recruit
-pub fn assign_recruit_to_mission(
-    mut interaction_query: Query<
-        (&Interaction, &mut BackgroundColor, &UniqueId, &RecruitStats),
-        Changed<Interaction>,
-    >,
-    mut windows: Query<&mut Window>,
-    player_stats: Res<PlayerStats>,
-    mut selected_mission: ResMut<SelectedMission>,
-    mut missions: ResMut<Missions>,
-) {
-    let mut window = windows.single_mut();
-
-    for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
-        if unique_id.0 == "assign_recruit_to_mission"
-            && recruit.state != RecruitStateEnum::InMission
-            && recruit.state != RecruitStateEnum::WaitingReportSignature
-        {
-            match *interaction {
-                Interaction::Pressed => {
-                    let recruit_id = recruit.id;
-
-                    selected_mission.recruit_id = Some(recruit_id);
-
-                    // ! WIP to check after missions refacto
-                    // let recruit_selected = player_stats
-                    //     .recruits
-                    //     .iter()
-                    //     .find(|recruit| recruit.id == recruit_id);
-
-                    // if recruit_selected.is_none() {
-                    //     return;
-                    // }
-
-                    // let recruit_global_points = recruit_selected.unwrap().get_total_merged_stats();
-
-                    // let ennemy = &selected_mission.mission.as_ref().unwrap().ennemy;
-                    // let ennemy_global_points =
-                    //     get_global_points(ennemy.strength, ennemy.endurance, ennemy.intelligence);
-
-                    // let victory_percentage =
-                    //     get_victory_percentage(recruit_global_points as u16, ennemy_global_points);
-
-                    // let victory_percentage_rounded: u32 = victory_percentage.round() as u32;
-
-                    // selected_mission.percent_of_victory = Some(victory_percentage_rounded);
-
-                    selected_mission.calculate_percent_of_victory(&player_stats);
-                    let victory_percentage_rounded = selected_mission.percent_of_victory.unwrap();
-
-                    let mission = selected_mission.mission.as_ref();
-                    if mission.is_none() {
-                        return;
-                    }
-
-                    missions.attribute_percent_of_victory_to_mission(
-                        mission.unwrap().id,
-                        victory_percentage_rounded,
-                    );
-                }
-                Interaction::Hovered => {
-                    window.cursor.icon = CursorIcon::Pointer;
-                    *color = HOVERED_BUTTON.into();
-                }
-                Interaction::None => {
-                    window.cursor.icon = CursorIcon::Default;
-                    *color = BackgroundColor(WOOD_COLOR);
-                }
-            }
-        }
-    }
-}
-
-pub fn close_mission_modal(
-    mut interaction_query: Query<
-        (
-            &Interaction,
-            &mut BackgroundColor,
-            &UniqueId,
-            &mut BorderColor,
-        ),
-        Changed<Interaction>,
-    >,
-    mut windows: Query<&mut Window>,
-    mut modal_visible: ResMut<MissionModalVisible>,
-    mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
-    mut selected_mission: ResMut<SelectedMission>,
-) {
-    let mut window = windows.single_mut();
-
-    for (interaction, mut color, unique_id, mut border_color) in &mut interaction_query {
-        if unique_id.0 == "close_mission_modal" {
-            match *interaction {
-                Interaction::Pressed => {
-                    modal_visible.0 = false;
-                    border_color.0 = WOOD_COLOR;
-                    selected_recruit_for_mission.0 = None;
-                    selected_mission.reset();
-                }
-                Interaction::Hovered => {
-                    window.cursor.icon = CursorIcon::Pointer;
-                    *color = HOVERED_BUTTON.into();
-                    border_color.0 = Color::WHITE;
-                }
-                Interaction::None => {
-                    window.cursor.icon = CursorIcon::Default;
-                    *color = BackgroundColor(WOOD_COLOR);
-                    border_color.0 = Color::BLACK;
-                }
-            }
-        }
-    }
-}
-
-#[allow(clippy::too_many_arguments)]
-pub fn start_mission_button(
-    mut interaction_query: Query<
-        (&Interaction, &mut BackgroundColor, &UniqueId),
-        Changed<Interaction>,
-    >,
-    mut missions: ResMut<Missions>,
-    mut player_stats: ResMut<PlayerStats>,
-    mut windows: Query<&mut Window>,
-    mut selected_mission: ResMut<SelectedMission>,
-    mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
-    mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
-    mut modal_visible: ResMut<MissionModalVisible>,
-) {
-    let mut window = windows.single_mut();
-
-    for (interaction, mut color, unique_id) in &mut interaction_query {
-        // TODO - Start the mission with provided id of mission + recruit (not disponible)
-        if selected_mission.recruit_id.is_some() && unique_id.0 == "start_mission" {
-            match *interaction {
-                Interaction::Pressed => {
-                    info!(
-                        "% of win is : {:?}",
-                        selected_mission.percent_of_victory.as_ref().unwrap()
-                    );
-
-                    let recruit_id = selected_mission.recruit_id;
-                    if recruit_id.is_none() {
-                        return;
-                    }
-
-                    player_stats
-                        .update_state_of_recruit(recruit_id.unwrap(), RecruitStateEnum::InMission);
-
-                    let mission = selected_mission.get_mission();
-
-                    if mission.is_none() {
-                        return;
-                    }
-
-                    missions.assign_recruit_id_to_mission(
-                        mission.clone().unwrap().id,
-                        recruit_id.unwrap(),
-                    );
-
-                    missions.attribute_days_left_to_mission(mission.unwrap().id);
-
-                    player_stats
-                        .update_state_of_recruit(recruit_id.unwrap(), RecruitStateEnum::InMission);
-
-                    let mission = selected_mission.get_mission();
-
-                    if mission.is_none() {
-                        return;
-                    }
-
-                    if selected_recruit_for_equipment.0.is_some()
-                        && selected_recruit_for_equipment.0.clone().unwrap().id
-                            == recruit_id.unwrap()
-                    {
-                        selected_recruit_for_equipment.0 = None;
-                    }
-
-                    missions.assign_recruit_id_to_mission(
-                        mission.clone().unwrap().id,
-                        recruit_id.unwrap(),
-                    );
-
-                    missions.attribute_days_left_to_mission(mission.unwrap().id);
-
-                    modal_visible.0 = false;
-                    selected_mission.reset();
-                    selected_recruit_for_mission.0 = None;
-                }
-                Interaction::Hovered => {
-                    window.cursor.icon = CursorIcon::Pointer;
-                    *color = HOVERED_BUTTON.into();
-                }
-                Interaction::None => {
-                    window.cursor.icon = CursorIcon::Default;
-                    *color = BackgroundColor(WOOD_COLOR);
-                }
-            }
-        }
-    }
-}
-
 pub fn move_room_from_keyboard(
     mut player_stats: ResMut<PlayerStats>,
     keyboard_input: Res<ButtonInput<KeyCode>>,
     mut mission_modal_visibility: ResMut<MissionModalVisible>,
     mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
+    mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
 ) {
     if keyboard_input.just_pressed(KeyCode::KeyD) {
         info!("Right arrow pressed");
@@ -420,6 +223,7 @@ pub fn move_room_from_keyboard(
             &mut mission_modal_visibility,
             &mut mission_reports_modal_visibility,
             &mut selected_recruit_for_mission,
+            &mut daily_events_modal_visibility,
         ) {
             player_stats.room = new_room;
         }
@@ -432,6 +236,7 @@ pub fn move_room_from_keyboard(
             &mut mission_modal_visibility,
             &mut mission_reports_modal_visibility,
             &mut selected_recruit_for_mission,
+            &mut daily_events_modal_visibility,
         ) {
             player_stats.room = new_room;
         }
@@ -444,6 +249,7 @@ pub fn move_room_from_keyboard(
             &mut mission_modal_visibility,
             &mut mission_reports_modal_visibility,
             &mut selected_recruit_for_mission,
+            &mut daily_events_modal_visibility,
         ) {
             player_stats.room = new_room;
         }
@@ -456,6 +262,7 @@ pub fn move_room_from_keyboard(
             &mut mission_modal_visibility,
             &mut mission_reports_modal_visibility,
             &mut selected_recruit_for_mission,
+            &mut daily_events_modal_visibility,
         ) {
             player_stats.room = new_room;
         }
@@ -519,64 +326,6 @@ pub fn buttons_disable_updates(
                 }
                 _ => style.display = Display::Flex,
             },
-        }
-    }
-}
-
-pub fn select_item_in_inventory(
-    mut commands: Commands,
-    my_assets: Res<MyAssets>,
-    mut interaction_query: Query<
-        (
-            &Interaction,
-            &mut BackgroundColor,
-            &UniqueId,
-            &mut BorderColor,
-            &ItemEnum,
-        ),
-        Changed<Interaction>,
-    >,
-    mut windows: Query<&mut Window>,
-    mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
-    mut player_stats: ResMut<PlayerStats>,
-) {
-    let mut window = windows.single_mut();
-
-    for (interaction, mut color, unique_id, mut border_color, item) in &mut interaction_query {
-        if unique_id.0 == "item_in_inventory" {
-            match *interaction {
-                Interaction::Pressed => {
-                    border_color.0 = WOOD_COLOR;
-                    let is_recruit_equiped = equip_recruit_inventory(
-                        &mut selected_recruit_for_equipment,
-                        item,
-                        &mut player_stats,
-                    );
-                    if is_recruit_equiped {
-                        match item {
-                            ItemEnum::Armor(_) => {
-                                play_sound(&my_assets, &mut commands, SoundEnum::EquipArmor);
-                            }
-                            ItemEnum::Scroll(_, _) => {
-                                play_sound(&my_assets, &mut commands, SoundEnum::EquipScroll);
-                            }
-                            ItemEnum::Weapon(_) => {
-                                play_sound(&my_assets, &mut commands, SoundEnum::EquipWeapon);
-                            }
-                        }
-                    }
-                }
-                Interaction::Hovered => {
-                    window.cursor.icon = CursorIcon::Pointer;
-                    *color = HOVERED_BUTTON.into();
-                    border_color.0 = Color::WHITE;
-                }
-                Interaction::None => {
-                    window.cursor.icon = CursorIcon::Default;
-                    *color = BackgroundColor(WOOD_COLOR);
-                    border_color.0 = Color::BLACK;
-                }
-            }
         }
     }
 }

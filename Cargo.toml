@@ -17,6 +17,7 @@ rand = "0.8.4"
 serde = { version = "1.0", features = ["derive"] }
 pyri_tooltip = "0.1.1"
 bevy_ui_mod_alerts = "0.2.0"
+colored = "2.0"
 
 # keep the following in sync with Bevy's dependencies
 winit = { version = "0.30", default-features = false }
@@ -49,10 +50,6 @@ opt-level = 1
 # Enable a large amount of optimization in the dev profile for dependencies.
 [profile.dev.package."*"]
 opt-level = 3
-
-# Remove expensive debug assertions due to <https://github.com/bevyengine/bevy/issues/14291>
-[profile.dev.package.wgpu-types]
-debug-assertions = false
 
 # Override some settings for native builds.
 [profile.release-native]

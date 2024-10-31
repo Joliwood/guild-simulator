@@ -3,6 +3,7 @@ use crate::{
     enums::SoundEnum,
     my_assets::MyAssets,
     structs::{
+        daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
         missions::{MissionReports, Missions},
         player_stats::PlayerStats,
         trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
@@ -26,11 +27,13 @@ pub fn sleep_button_system(
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     query: Query<Entity, With<NotificationToastTrigger>>,
     mut windows: Query<&mut Window>,
+    mut daily_events: ResMut<DailyEvents>,
+    mut daily_event_targets: ResMut<DailyEventTargets>,
 ) {
     let mut window = windows.single_mut();
 
     for (interaction, _button, mut border_color) in interaction_query.iter_mut() {
-        if !mission_reports.0.is_empty() {
+        if !mission_reports.0.is_empty() || !daily_events.0.is_empty() {
             continue;
         }
 
@@ -85,6 +88,13 @@ pub fn sleep_button_system(
                         );
                     }
                 }
+
+                let new_daily_events = daily_events.get_random_number_of_daily_events(
+                    3,
+                    player_stats.day,
+                    &mut daily_event_targets,
+                );
+                daily_events.0 = new_daily_events;
             }
             Interaction::Hovered => {
                 window.cursor.icon = CursorIcon::Pointer;

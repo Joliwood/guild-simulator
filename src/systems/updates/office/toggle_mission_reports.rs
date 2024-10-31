@@ -2,14 +2,14 @@ use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
     my_assets::MyAssets,
-    structs::{general_structs::MissionReportsModalVisible, trigger_structs::MissionReport},
+    structs::{general_structs::MissionReportsModalVisible, trigger_structs::MissionReportTrigger},
 };
 use bevy::prelude::*;
 
 pub fn toggle_mission_reports(
     my_assets: Res<MyAssets>,
     mut commands: Commands,
-    mut query: Query<&Interaction, (Changed<Interaction>, With<MissionReport>)>,
+    mut query: Query<&Interaction, (Changed<Interaction>, With<MissionReportTrigger>)>,
     mut windows: Query<&mut Window>,
     mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
 ) {

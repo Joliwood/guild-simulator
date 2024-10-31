@@ -1,7 +1,7 @@
 use crate::my_assets::MyAssets;
 use crate::structs::missions::MissionReports;
-use crate::structs::trigger_structs::MissionReport;
-use crate::structs::trigger_structs::MissionReportButtonTrigger;
+use crate::structs::trigger_structs::MissionReportTrigger;
+// use crate::structs::trigger_structs::MissionReportButtonTrigger;
 use bevy::prelude::*;
 
 pub fn mission_report_documents(
@@ -22,8 +22,8 @@ pub fn mission_report_documents(
                 },
                 ..default()
             })
-            .insert(MissionReportButtonTrigger)
-            .insert(MissionReport)
+            // .insert(MissionReportButtonTrigger)
+            .insert(MissionReportTrigger)
             .with_children(|mission_report_button| {
                 mission_report_button
                     .spawn(ImageBundle {

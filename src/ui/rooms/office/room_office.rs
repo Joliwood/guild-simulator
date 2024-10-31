@@ -1,8 +1,12 @@
 #![allow(unused_imports)]
-use super::{mission_report_documents::mission_report_documents, set_of_keys::set_of_keys};
+use super::{
+    daily_event_documents::daily_event_documents,
+    mission_report_documents::mission_report_documents, set_of_keys::set_of_keys,
+};
 use crate::{
     my_assets::MyAssets,
     structs::{
+        daily_events_folder::daily_events::DailyEvents,
         general_structs::MissionReportsModalVisible, missions::MissionReports,
         trigger_structs::ResetRoomTrigger,
     },
@@ -15,6 +19,7 @@ pub fn room_office(
     commands: &mut Commands,
     mission_reports: &Res<MissionReports>,
     _mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
+    daily_events: &Res<DailyEvents>,
 ) {
     commands
         .spawn(NodeBundle {
@@ -59,7 +64,8 @@ pub fn room_office(
                             // TODO - Futur features, not necessary for V0
                             // recap_guild_scroll(&asset_server, elements_on_desk);
                             // talents_on_desk(&asset_server, elements_on_desk);
-                            set_of_keys(my_assets, elements_on_desk, mission_reports);
+                            daily_event_documents(my_assets, elements_on_desk, daily_events);
+                            set_of_keys(my_assets, elements_on_desk, mission_reports, daily_events);
                         });
                 });
         });
