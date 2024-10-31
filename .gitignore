@@ -8,6 +8,7 @@ target/
 /web/dist/
 dist/
 build/macos/src/Applications
+build/macos/src/GuildSimulator.app/Contents/MacOS/guild_simulator
 
 # Release builds
 builds/
