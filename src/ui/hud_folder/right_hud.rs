@@ -6,6 +6,7 @@ use crate::{
     },
 };
 use bevy::prelude::*;
+use pyri_tooltip::Tooltip;
 
 pub fn right_hud(
     commands: &mut ChildBuilder,
@@ -29,14 +30,17 @@ pub fn right_hud(
         .with_children(|right_container| {
             // Recruits length
             right_container
-                .spawn(NodeBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        column_gap: Val::Px(5.),
+                .spawn((
+                    ButtonBundle {
+                        style: Style {
+                            display: Display::Flex,
+                            column_gap: Val::Px(5.),
+                            ..default()
+                        },
                         ..default()
                     },
-                    ..default()
-                })
+                    Tooltip::cursor("You have this many recruits"),
+                ))
                 .with_children(|parent| {
                     parent.spawn((
                         ImageBundle {
@@ -70,14 +74,17 @@ pub fn right_hud(
 
             // Reputation score
             right_container
-                .spawn(NodeBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        column_gap: Val::Px(5.),
+                .spawn((
+                    ButtonBundle {
+                        style: Style {
+                            display: Display::Flex,
+                            column_gap: Val::Px(5.),
+                            ..default()
+                        },
                         ..default()
                     },
-                    ..default()
-                })
+                    Tooltip::cursor("Your reputation score"),
+                ))
                 .with_children(|parent| {
                     parent.spawn((
                         ImageBundle {
@@ -111,14 +118,17 @@ pub fn right_hud(
 
             // Toxicity score
             right_container
-                .spawn(NodeBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        column_gap: Val::Px(5.),
+                .spawn((
+                    ButtonBundle {
+                        style: Style {
+                            display: Display::Flex,
+                            column_gap: Val::Px(5.),
+                            ..default()
+                        },
                         ..default()
                     },
-                    ..default()
-                })
+                    Tooltip::cursor("Your toxicity score"),
+                ))
                 .with_children(|parent| {
                     parent.spawn((
                         ImageBundle {
@@ -164,6 +174,7 @@ pub fn right_hud(
                     index: 7,
                     layout: texture_atlas_layouts.clone(),
                 },
+                Tooltip::cursor("Settings menu (not implemented yet)"),
             ));
         });
 }

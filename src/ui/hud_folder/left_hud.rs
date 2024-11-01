@@ -6,6 +6,7 @@ use crate::{
     },
 };
 use bevy::prelude::*;
+use pyri_tooltip::Tooltip;
 
 pub fn left_hud(
     commands: &mut ChildBuilder,
@@ -29,14 +30,17 @@ pub fn left_hud(
         .insert(Name::new("Left Container"))
         .with_children(|left_container| {
             left_container
-                .spawn(NodeBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        column_gap: Val::Px(5.),
+                .spawn((
+                    ButtonBundle {
+                        style: Style {
+                            display: Display::Flex,
+                            column_gap: Val::Px(5.),
+                            ..default()
+                        },
                         ..default()
                     },
-                    ..default()
-                })
+                    Tooltip::cursor("Your golds"),
+                ))
                 .with_children(|parent| {
                     parent.spawn((
                         ImageBundle {

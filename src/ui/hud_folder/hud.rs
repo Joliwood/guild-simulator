@@ -5,6 +5,7 @@ use crate::{
     structs::{player_stats::PlayerStats, trigger_structs::RoomButtonTrigger},
 };
 use bevy::prelude::*;
+use pyri_tooltip::Tooltip;
 
 pub fn hud(
     my_assets: Res<MyAssets>,
@@ -84,6 +85,7 @@ pub fn hud(
                                 index: 4,
                                 layout: hud_icons_texture_atlas_layout.clone(),
                             },
+                            Tooltip::cursor("Go to the command room\n\nShortcut: press 'A/Q'"),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::CommandRoom));
 
@@ -102,6 +104,7 @@ pub fn hud(
                                 index: 1,
                                 layout: hud_icons_texture_atlas_layout.clone(),
                             },
+                            Tooltip::cursor("Go to the office room\n\nShortcut: press 'S'"),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::Office));
 
@@ -120,6 +123,7 @@ pub fn hud(
                                 index: 2,
                                 layout: hud_icons_texture_atlas_layout.clone(),
                             },
+                            Tooltip::cursor("Go to the barrack room\n\nShortcut: press 'D'"),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::Barrack));
                 });
