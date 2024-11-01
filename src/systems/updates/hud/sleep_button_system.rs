@@ -42,7 +42,7 @@ pub fn sleep_button_system(
                 // Increment the day in player_stats
                 player_stats.day += 1;
                 play_sound(&my_assets, &mut commands, SoundEnum::KeysRemovedFromDoor);
-                play_sound(&my_assets, &mut commands, SoundEnum::CockrelMorning);
+                // play_sound(&my_assets, &mut commands, SoundEnum::CockrelMorning);
 
                 // We iterate on every missions to decrement the days left for every mission that days_left.is_some()
                 let mission_ids: Vec<_> = missions
@@ -95,6 +95,9 @@ pub fn sleep_button_system(
                     &mut daily_event_targets,
                 );
                 daily_events.0 = new_daily_events;
+
+                let recruit_length = player_stats.recruits.len();
+                player_stats.increment_golds(recruit_length as i32 * -5);
             }
             Interaction::Hovered => {
                 window.cursor.icon = CursorIcon::Pointer;

@@ -478,17 +478,17 @@ impl Default for Missions {
                 recruit_send: None,
                 ennemy: Ennemy {
                     image_atlas_index: 5,
-                    endurance: 10,
+                    endurance: 5,
                     experience: 0,
                     intelligence: 5,
                     level: 1,
                     name: "Ennemy 1".to_string(),
-                    strength: 10,
+                    strength: 7,
                 },
                 unlocked: true,
                 description: "A basic camp, we think we could find some resources here. We need to send a recruit to check it out."
                 .to_string(),
-                golds: 50,
+                golds: 5,
                 loots: Loots(
                     vec![
                         ItemLoot {
@@ -522,13 +522,26 @@ impl Default for Missions {
                     intelligence: 7,
                     level: 2,
                     name: "Ennemy 2".to_string(),
-                    strength: 15,
+                    strength: 5,
                 },
                 unlocked: true,
                 description: "More extended camp, we think we could find some resources here. We need to send a recruit to check it out.".to_string(),
-                golds: 80,
+                golds: 10,
                 loots: Loots(
-                    vec![],
+                    vec![
+                        ItemLoot {
+                            item: ItemLootEnum::Weapon(WeaponsEnum::BowOfTheEagle),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Armor(ArmorsEnum::BreastplateOfTheDragon),
+                            percent: 10,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfEndurance),
+                            percent: 10,
+                        },
+                    ],
                 ),
                 unlock_mission_ids: vec![3],
             },
@@ -551,9 +564,22 @@ impl Default for Missions {
                 },
                 unlocked: false,
                 description: "A very extended camp, the final one of the tuto".to_string(),
-                golds: 150,
+                golds: 30,
                 loots: Loots(
-                    vec![],
+                    vec![
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfSpeed),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfPower),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheAncients),
+                            percent: 50,
+                        },
+                    ],
                 ),
                 unlock_mission_ids: vec![],
             },
@@ -577,7 +603,7 @@ impl Default for Missions {
                 unlocked: false,
                 description: "A basic camp, we think we could find some resources here. We need to send a recruit to check it out."
                 .to_string(),
-                golds: 50,
+                golds: 12,
                 loots: Loots(
                     vec![
                         ItemLoot {
@@ -615,9 +641,22 @@ impl Default for Missions {
                 },
                 unlocked: false,
                 description: "More extended camp, we think we could find some resources here. We need to send a recruit to check it out.".to_string(),
-                golds: 80,
+                golds: 15,
                 loots: Loots(
-                    vec![],
+                    vec![
+                        ItemLoot {
+                            item: ItemLootEnum::Weapon(WeaponsEnum::BowOfTheEagle),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Armor(ArmorsEnum::BreastplateOfTheDragon),
+                            percent: 10,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
+                            percent: 10,
+                        },
+                    ],
                 ),
                 unlock_mission_ids: vec![6],
             },
@@ -640,9 +679,22 @@ impl Default for Missions {
                 },
                 unlocked: false,
                 description: "A very extended camp, the final one of the tuto".to_string(),
-                golds: 150,
+                golds: 50,
                 loots: Loots(
-                    vec![],
+                    vec![
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfSpeed),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfPower),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheAncients),
+                            percent: 50,
+                        },
+                    ],
                 ),
                 unlock_mission_ids: vec![],
             },

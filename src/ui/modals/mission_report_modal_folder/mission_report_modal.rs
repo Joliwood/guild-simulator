@@ -30,7 +30,6 @@ pub fn mission_report_modal(
     // Despawn existing modals if visibility is set to false
     if mission_reports_modal_visibility.is_changed() && !mission_reports_modal_visibility.0 {
         for entity in query.iter() {
-            info!("RESETINGNNNNN");
             commands.entity(entity).despawn_recursive();
         }
     }

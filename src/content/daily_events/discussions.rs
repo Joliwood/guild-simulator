@@ -241,7 +241,7 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             apparition_chance: 100,
             answers: vec![
                 Answer {
-                    gold_impact: Some(1),
+                    gold_impact: Some(10),
                     id: 1,
                     message: "Thank you mdam, it's a pleasure".to_string(),
                     ..Default::default()

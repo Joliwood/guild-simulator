@@ -71,7 +71,7 @@ pub fn sign_mission_report(
                     }
                 } else {
                     let random_number_from_0_to_100 = rand::random::<u8>();
-                    if random_number_from_0_to_100 > 50 {
+                    if random_number_from_0_to_100 > 80 {
                         // The recruit die
                         player_stats.remove_recruit_by_id(mission_report.recruit_id);
                         play_sound(&my_assets, &mut commands, SoundEnum::DeadMale);
