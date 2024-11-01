@@ -44,3 +44,18 @@ pub struct DailyEventTrigger;
 
 #[derive(Component)]
 pub struct SelectAnswerTrigger;
+
+#[derive(Component)]
+pub struct GuildLvlTrigger;
+
+#[derive(Component)]
+pub struct PlayerDayTrigger;
+
+#[derive(Component)]
+pub struct RecruitCountTrigger;
+
+#[derive(Component)]
+pub struct ReputationCountTrigger;
+
+#[derive(Component)]
+pub struct ToxicityCountTrigger;

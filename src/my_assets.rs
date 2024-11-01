@@ -41,6 +41,8 @@ pub struct MyAssets {
     pub _play: Handle<Image>,
     #[asset(path = "images/hud/hud3.png")]
     pub hud: Handle<Image>,
+    #[asset(path = "images/hud/hud_icon_atlas.png")]
+    pub hud_icon_atlas: Handle<Image>,
 
     // --- Rooms > Barrack --- //
     #[asset(path = "images/rooms/barrack/barrack_background.png")]

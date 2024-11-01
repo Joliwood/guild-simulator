@@ -20,13 +20,13 @@ pub fn gold_counter(
     let layout = TextureAtlasLayout::from_grid(UVec2::splat(500), 4, 4, None, None);
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
 
-    commands
-        .spawn(NodeBundle {
-            // style: basic_button_style(),
-            // background_color: BackgroundColor(WOOD_COLOR),
-            ..default()
-        })
-        .insert(Name::new("Gold counter"));
+    // commands
+    //     .spawn(NodeBundle {
+    //         // style: basic_button_style(),
+    //         // background_color: BackgroundColor(WOOD_COLOR),
+    //         ..default()
+    //     })
+    //     .insert(Name::new("Gold counter"));
     // // Gold icon
     // .with_children(|ui_container: &mut ChildBuilder| {
     //     ui_container.spawn(ImageBundle {

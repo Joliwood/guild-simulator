@@ -90,8 +90,12 @@ fn main() -> AppExit {
             (
                 systems::updates::update_buttons::move_room_from_keyboard,
                 systems::inputs::mouse_systems::mouse_click_system,
-                systems::updates::interfaces::update_gold_counter::update_gold_counter,
-                systems::updates::interfaces::update_room_interface_text::update_room_interface_text,
+                systems::updates::hud::update_gold_counter::update_gold_counter,
+                systems::updates::hud::update_guild_level::update_guild_level,
+                systems::updates::hud::update_day_counter::update_day_counter,
+                systems::updates::hud::update_recruit_counter::update_recruit_counter,
+                systems::updates::hud::update_reputation_counter::update_reputation_counter,
+                systems::updates::hud::update_toxicity_counter::update_toxicity_counter,
                 systems::updates::update_room::update_room,
                 systems::updates::update_buttons::mouse_interaction_updates,
                 systems::updates::update_buttons::buttons_disable_updates,
@@ -109,7 +113,7 @@ fn main() -> AppExit {
                 systems::updates::barrack::select_item_in_inventory::select_item_in_inventory,
                 systems::updates::command_room::update_selected_recruit_for_equipment::update_selected_mission_recruit_id,
                 systems::updates::command_room::update_selected_recruit_for_equipment::update_update_selected_mission_percentage_of_victory,
-                systems::updates::interfaces::delete_notifications_on_click::delete_notifications_on_click,
+                systems::updates::hud::delete_notifications_on_click::delete_notifications_on_click,
                 ui::modals::mission_order_modal_folder::mission_order_modal::mission_order_modal,
                 ui::modals::daily_events::daily_events_modal::daily_events_modal,
                 ui::modals::mission_report_modal_folder::mission_report_modal::mission_report_modal,
@@ -118,7 +122,7 @@ fn main() -> AppExit {
         .add_systems(
             Update,
             (
-                systems::updates::interfaces::sleep_button_system::sleep_button_system,
+                systems::updates::hud::sleep_button_system::sleep_button_system,
                 systems::updates::office::toggle_mission_reports::toggle_mission_reports,
                 systems::updates::office::toggle_daily_event_documents::toggle_daily_event_documents,
                 systems::updates::office::select_discussion_answer::select_discussion_answer,

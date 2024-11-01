@@ -65,8 +65,8 @@ impl Default for PlayerStats {
             max_inventory_size: 50,
             recruits: vec![],
             room: RoomEnum::Barrack,
-            toxicity: 50,
-            reputation: 50,
+            toxicity: 0,
+            reputation: 10,
             stats: Stats {
                 golds_earned: 0,
                 mission_completed: 0,
@@ -199,27 +199,11 @@ impl PlayerStats {
     }
 
     pub fn gain_toxitiy(&mut self, toxicity: i8) {
-        self.toxicity += toxicity;
-
-        if self.toxicity > 100 {
-            self.toxicity = 100;
-        }
-
-        if toxicity < 0 {
-            self.toxicity = 0;
-        }
+        self.toxicity = (self.toxicity + toxicity).clamp(0, 100);
     }
 
     pub fn gain_reputation(&mut self, reputation: i8) {
-        self.reputation += reputation;
-
-        if self.reputation > 100 {
-            self.reputation = 100;
-        }
-
-        if reputation < 0 {
-            self.reputation = 0;
-        }
+        self.reputation = (self.reputation + reputation).clamp(0, 100);
     }
 
     pub fn apply_equipment_impact(&mut self, answer: &Answer) {
