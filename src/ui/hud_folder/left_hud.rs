@@ -11,18 +11,8 @@ pub fn left_hud(
     commands: &mut ChildBuilder,
     my_assets: &Res<MyAssets>,
     player_stats: &Res<PlayerStats>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    texture_atlas_layouts: &Handle<TextureAtlasLayout>,
 ) {
-    let hud_icons_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(4000, 500),
-        8,
-        1,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
-    let hud_icons_texture_atlas_layout: Handle<TextureAtlasLayout> =
-        texture_atlas_layouts.add(hud_icons_layout);
-
     commands
         .spawn(NodeBundle {
             style: Style {
@@ -60,7 +50,7 @@ pub fn left_hud(
                         },
                         TextureAtlas {
                             index: 3,
-                            layout: hud_icons_texture_atlas_layout.clone(),
+                            layout: texture_atlas_layouts.clone(),
                         },
                     ));
                     // Adding 3 text elements

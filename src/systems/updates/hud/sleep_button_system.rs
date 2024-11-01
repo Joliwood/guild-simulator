@@ -8,7 +8,7 @@ use crate::{
         player_stats::PlayerStats,
         trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
     },
-    ui::hud::notifications::spawn_or_update_notification::spawn_or_update_notification,
+    ui::hud_folder::notifications::spawn_or_update_notification::spawn_or_update_notification,
     utils::finish_mission,
 };
 use bevy::prelude::*;

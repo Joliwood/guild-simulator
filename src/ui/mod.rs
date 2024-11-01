@@ -1,4 +1,4 @@
-pub mod hud;
+pub mod hud_folder;
 pub mod modals;
 pub mod rooms;
 pub mod styles;

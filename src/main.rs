@@ -75,9 +75,7 @@ fn main() -> AppExit {
                 audio::audio_source::audio_source,
                 systems::camera::camera_setup::camera_setup,
                 systems::inputs::mouse_systems::mouse_init,
-                ui::hud::gold_counter::gold_counter,
-                ui::hud::room_interface_text::room_interface_text,
-                ui::hud::hud::hud,
+                ui::hud_folder::hud::hud,
                 systems::recruits::hiring_setup::hiring_setup,
             ),
         )
