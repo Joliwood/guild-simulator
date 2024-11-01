@@ -26,8 +26,8 @@ pub fn recruit_frame(
         .spawn(ImageBundle {
             image: my_assets.recruit_frame.clone().into(),
             style: Style {
-                width: Val::Px(200.),
-                height: Val::Px(350.),
+                width: Val::Px(180.),
+                height: Val::Px(330.),
                 ..default()
             },
             z_index: ZIndex::Global(2),

@@ -39,7 +39,7 @@ pub struct MyAssets {
     pub notification_atlas: Handle<Image>,
     #[asset(path = "images/hud/play.png")]
     pub _play: Handle<Image>,
-    #[asset(path = "images/hud/hud.png")]
+    #[asset(path = "images/hud/hud3.png")]
     pub hud: Handle<Image>,
 
     // --- Rooms > Barrack --- //

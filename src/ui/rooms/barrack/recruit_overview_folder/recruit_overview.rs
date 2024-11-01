@@ -23,7 +23,7 @@ pub fn recruit_overview(
                 margin: UiRect {
                     left: Val::Px(30.),
                     right: Val::Px(30.),
-                    top: Val::Px(35.),
+                    top: Val::Px(60.),
                     bottom: Val::ZERO,
                 },
                 ..default()
