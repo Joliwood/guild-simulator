@@ -67,36 +67,53 @@ pub fn hud(
                 })
                 .insert(Name::new("Middle Container"))
                 .with_children(|middle_container| {
-                    // Adding 3 button elements
-                    for i in 1..=3 {
-                        middle_container
-                            .spawn(ButtonBundle {
-                                style: Style {
-                                    width: Val::Px(50.0),
-                                    height: Val::Percent(100.),
-                                    justify_content: JustifyContent::Center,
-                                    align_items: AlignItems::Center,
-                                    ..default()
-                                },
-                                background_color: BackgroundColor(
-                                    ColorPaletteEnum::Brown.as_color(),
-                                ),
+                    middle_container.spawn((
+                        ButtonBundle {
+                            image: my_assets.hud_icon_atlas.clone().into(),
+                            style: Style {
+                                width: Val::Px(30.),
+                                height: Val::Px(30.),
                                 ..default()
-                            })
-                            .with_children(|button| {
-                                button.spawn(TextBundle {
-                                    text: Text::from_section(
-                                        i.to_string(),
-                                        TextStyle {
-                                            font: my_assets.fira_sans_bold.clone(),
-                                            font_size: 14.0,
-                                            color: Color::WHITE,
-                                        },
-                                    ),
-                                    ..default()
-                                });
-                            });
-                    }
+                            },
+                            ..default()
+                        },
+                        TextureAtlas {
+                            index: 4,
+                            layout: hud_icons_texture_atlas_layout.clone(),
+                        },
+                    ));
+
+                    middle_container.spawn((
+                        ButtonBundle {
+                            image: my_assets.hud_icon_atlas.clone().into(),
+                            style: Style {
+                                width: Val::Px(30.0),
+                                height: Val::Px(30.),
+                                ..default()
+                            },
+                            ..default()
+                        },
+                        TextureAtlas {
+                            index: 1,
+                            layout: hud_icons_texture_atlas_layout.clone(),
+                        },
+                    ));
+
+                    middle_container.spawn((
+                        ButtonBundle {
+                            image: my_assets.hud_icon_atlas.clone().into(),
+                            style: Style {
+                                width: Val::Px(30.0),
+                                height: Val::Px(30.),
+                                ..default()
+                            },
+                            ..default()
+                        },
+                        TextureAtlas {
+                            index: 2,
+                            layout: hud_icons_texture_atlas_layout.clone(),
+                        },
+                    ));
                 });
             // Right Container
             parent

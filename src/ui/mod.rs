@@ -1,4 +1,3 @@
-pub mod buttons;
 pub mod hud;
 pub mod modals;
 pub mod rooms;
