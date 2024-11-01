@@ -1,5 +1,9 @@
 use super::{left_hud::left_hud, right_hud::right_hud};
-use crate::{my_assets::MyAssets, structs::player_stats::PlayerStats};
+use crate::{
+    enums::RoomEnum,
+    my_assets::MyAssets,
+    structs::{player_stats::PlayerStats, trigger_structs::RoomButtonTrigger},
+};
 use bevy::prelude::*;
 
 pub fn hud(
@@ -65,53 +69,59 @@ pub fn hud(
                 })
                 .insert(Name::new("Middle Container"))
                 .with_children(|middle_container| {
-                    middle_container.spawn((
-                        ButtonBundle {
-                            image: my_assets.hud_icon_atlas.clone().into(),
-                            style: Style {
-                                width: Val::Px(30.),
-                                height: Val::Px(30.),
+                    middle_container
+                        .spawn((
+                            ButtonBundle {
+                                image: my_assets.hud_icon_atlas.clone().into(),
+                                style: Style {
+                                    width: Val::Px(30.),
+                                    height: Val::Px(30.),
+                                    ..default()
+                                },
                                 ..default()
                             },
-                            ..default()
-                        },
-                        TextureAtlas {
-                            index: 4,
-                            layout: hud_icons_texture_atlas_layout.clone(),
-                        },
-                    ));
+                            TextureAtlas {
+                                index: 4,
+                                layout: hud_icons_texture_atlas_layout.clone(),
+                            },
+                        ))
+                        .insert(RoomButtonTrigger(RoomEnum::CommandRoom));
 
-                    middle_container.spawn((
-                        ButtonBundle {
-                            image: my_assets.hud_icon_atlas.clone().into(),
-                            style: Style {
-                                width: Val::Px(30.0),
-                                height: Val::Px(30.),
+                    middle_container
+                        .spawn((
+                            ButtonBundle {
+                                image: my_assets.hud_icon_atlas.clone().into(),
+                                style: Style {
+                                    width: Val::Px(30.0),
+                                    height: Val::Px(30.),
+                                    ..default()
+                                },
                                 ..default()
                             },
-                            ..default()
-                        },
-                        TextureAtlas {
-                            index: 1,
-                            layout: hud_icons_texture_atlas_layout.clone(),
-                        },
-                    ));
+                            TextureAtlas {
+                                index: 1,
+                                layout: hud_icons_texture_atlas_layout.clone(),
+                            },
+                        ))
+                        .insert(RoomButtonTrigger(RoomEnum::Office));
 
-                    middle_container.spawn((
-                        ButtonBundle {
-                            image: my_assets.hud_icon_atlas.clone().into(),
-                            style: Style {
-                                width: Val::Px(30.0),
-                                height: Val::Px(30.),
+                    middle_container
+                        .spawn((
+                            ButtonBundle {
+                                image: my_assets.hud_icon_atlas.clone().into(),
+                                style: Style {
+                                    width: Val::Px(30.0),
+                                    height: Val::Px(30.),
+                                    ..default()
+                                },
                                 ..default()
                             },
-                            ..default()
-                        },
-                        TextureAtlas {
-                            index: 2,
-                            layout: hud_icons_texture_atlas_layout.clone(),
-                        },
-                    ));
+                            TextureAtlas {
+                                index: 2,
+                                layout: hud_icons_texture_atlas_layout.clone(),
+                            },
+                        ))
+                        .insert(RoomButtonTrigger(RoomEnum::Barrack));
                 });
             right_hud(
                 parent,

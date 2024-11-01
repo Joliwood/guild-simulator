@@ -1,5 +1,7 @@
 use bevy::prelude::{Component, Resource};
 
+use crate::enums::RoomEnum;
+
 #[derive(Resource, Component)]
 pub struct GoldCountTrigger;
 
@@ -59,3 +61,6 @@ pub struct ReputationCountTrigger;
 
 #[derive(Component)]
 pub struct ToxicityCountTrigger;
+
+#[derive(Component)]
+pub struct RoomButtonTrigger(pub RoomEnum);
