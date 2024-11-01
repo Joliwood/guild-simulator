@@ -76,7 +76,7 @@ fn main() -> AppExit {
                 systems::camera::camera_setup::camera_setup,
                 systems::inputs::mouse_systems::mouse_init,
                 ui::hud_folder::hud::hud,
-                systems::recruits::hiring_setup::hiring_setup,
+                // systems::recruits::hiring_setup::hiring_setup,
             ),
         )
         .add_systems(

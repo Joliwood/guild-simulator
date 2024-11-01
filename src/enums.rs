@@ -69,6 +69,7 @@ pub enum SoundEnum {
     PencilSign,
     PickingGolds,
     SimpleHolidaysV3,
+    DeadMale,
 }
 
 impl SoundEnum {
@@ -85,6 +86,7 @@ impl SoundEnum {
             SoundEnum::PencilSign => "sounds/pencil_sign.ogg",
             SoundEnum::PickingGolds => "sounds/picking_golds.ogg",
             SoundEnum::SimpleHolidaysV3 => "sounds/Simple-Holidays-V3.ogg",
+            SoundEnum::DeadMale => "sounds/dead_male.ogg",
         }
     }
 }

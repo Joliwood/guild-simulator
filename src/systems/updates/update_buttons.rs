@@ -20,7 +20,7 @@ pub fn move_room_from_keyboard(
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
     mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
 ) {
-    if keyboard_input.just_pressed(KeyCode::KeyA) {
+    if keyboard_input.just_pressed(KeyCode::KeyS) {
         reset_modals_visibility(
             &mut mission_modal_visibility,
             &mut mission_reports_modal_visibility,
@@ -30,7 +30,7 @@ pub fn move_room_from_keyboard(
         player_stats.room = RoomEnum::CommandRoom;
     }
 
-    if keyboard_input.just_pressed(KeyCode::KeyS) {
+    if keyboard_input.just_pressed(KeyCode::KeyW) {
         reset_modals_visibility(
             &mut mission_modal_visibility,
             &mut mission_reports_modal_visibility,

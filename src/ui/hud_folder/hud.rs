@@ -85,7 +85,7 @@ pub fn hud(
                                 index: 4,
                                 layout: hud_icons_texture_atlas_layout.clone(),
                             },
-                            Tooltip::cursor("Go to the command room\n\nShortcut: press 'A/Q'"),
+                            Tooltip::cursor("Go to the command room\n\nShortcut: press 'S'"),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::CommandRoom));
 
@@ -104,7 +104,7 @@ pub fn hud(
                                 index: 1,
                                 layout: hud_icons_texture_atlas_layout.clone(),
                             },
-                            Tooltip::cursor("Go to the office room\n\nShortcut: press 'S'"),
+                            Tooltip::cursor("Go to the office room\n\nShortcut: press 'W/Z'"),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::Office));
 
