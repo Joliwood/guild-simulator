@@ -33,11 +33,6 @@ pub fn start_mission_button(
         if selected_mission.recruit_id.is_some() && unique_id.0 == "start_mission" {
             match *interaction {
                 Interaction::Pressed => {
-                    info!(
-                        "% of win is : {:?}",
-                        selected_mission.percent_of_victory.as_ref().unwrap()
-                    );
-
                     let recruit_id = selected_mission.recruit_id;
                     if recruit_id.is_none() {
                         return;

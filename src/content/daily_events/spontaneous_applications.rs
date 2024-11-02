@@ -110,7 +110,7 @@ pub fn get_spontaneous_application(spontaneous_application_index: &u16) -> Spont
                 Answer {
                     id: 1,
                     message: "We have some dirty missions, let's go !".to_string(),
-                    gold_impact: Some(-30),
+                    gold_impact: Some(-20),
                     recruit_impact: Some(RecruitStats {
                         class: RecruitEnum::Rogue,
                         endurance: 5,

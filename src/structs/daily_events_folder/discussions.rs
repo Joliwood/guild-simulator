@@ -78,7 +78,5 @@ pub fn get_random_discussion_indexs(
         available_discussions.remove(selected_index);
     }
 
-    info!("Selected discussions : {:?}", selected_discussions);
-
     selected_discussions
 }

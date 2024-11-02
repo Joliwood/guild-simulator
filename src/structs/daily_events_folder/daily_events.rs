@@ -182,7 +182,7 @@ impl DailyEvents {
 
         for _ in 0..n {
             let random_number = rand::thread_rng().gen_range(0..100);
-            if random_number <= 5 {
+            if random_number <= 80 {
                 daily_discussion_number += 1;
             } else {
                 daily_spontaneous_application_number += 1;
