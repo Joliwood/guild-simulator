@@ -97,7 +97,7 @@ pub fn sleep_button_system(
                 daily_events.0 = new_daily_events;
 
                 let recruit_length = player_stats.recruits.len();
-                player_stats.increment_golds(recruit_length as i32 * -5);
+                player_stats.increment_golds(recruit_length as i32 * -2);
             }
             Interaction::Hovered => {
                 window.cursor.icon = CursorIcon::Pointer;

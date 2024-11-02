@@ -39,9 +39,7 @@ pub fn select_discussion_answer(
 
         match *interaction {
             Interaction::Pressed => {
-                // daily_events.remove_daily_discussion_by_id(discussion.id);
-
-                // Check if there's a DailyDiscussion or SpontaneousApplication and remove it accordingly
+                // info!("Daily events : {:?}", daily_events);
                 if let Some(discussion) = discussion {
                     daily_events.remove_daily_discussion_by_id(discussion.id);
                 } else if let Some(application) = spontaneous_application {
@@ -63,10 +61,6 @@ pub fn select_discussion_answer(
             Interaction::None => {
                 window.cursor.icon = CursorIcon::Default;
                 background_color.0 = Color::srgba(0., 0., 0., 0.5);
-
-                // if is_answer_disabled {
-                //     background_color.0 = Color::srgba(255., 0., 0., 0.8);
-                // }
             }
         };
     }

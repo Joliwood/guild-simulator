@@ -25,7 +25,7 @@ pub fn get_random_spontaneous_application_indexs(
         .clone();
     let mut selected_spontaneous_applications = Vec::new();
 
-    for _ in 0..n {
+    for n_index in 0..n {
         let mut available_spontaneous_applications = available_spontaneous_applications
             .iter()
             .filter(|application| {
@@ -38,7 +38,11 @@ pub fn get_random_spontaneous_application_indexs(
             .cloned()
             .collect::<Vec<_>>();
 
-        if available_spontaneous_applications.is_empty() {
+        // If there is no more available spontaneous applications (with min / max day with cooldowns)
+        // Or if the random has selected a number of event supérior to the available ones
+        if available_spontaneous_applications.is_empty()
+            || n_index + 1 > available_spontaneous_applications.len()
+        {
             break;
         }
 

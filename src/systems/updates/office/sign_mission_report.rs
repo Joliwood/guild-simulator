@@ -12,6 +12,7 @@ use crate::{
     systems::systems_constants::HOVERED_BUTTON,
 };
 use bevy::prelude::*;
+use rand::Rng;
 
 #[allow(clippy::too_many_arguments)]
 pub fn sign_mission_report(
@@ -70,8 +71,8 @@ pub fn sign_mission_report(
                         maps.finish_mission_by_id(mission_report.mission_id);
                     }
                 } else {
-                    let random_number_from_0_to_100 = rand::random::<u8>();
-                    if random_number_from_0_to_100 > 80 {
+                    let random_number_from_0_to_100 = rand::thread_rng().gen_range(1..=100);
+                    if random_number_from_0_to_100 < 25 {
                         // The recruit die
                         player_stats.remove_recruit_by_id(mission_report.recruit_id);
                         play_sound(&my_assets, &mut commands, SoundEnum::DeadMale);

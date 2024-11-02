@@ -44,7 +44,7 @@ pub fn get_random_discussion_indexs(
         daily_event_targets.daily_discussion_targets.clone();
     let mut selected_discussions = Vec::new();
 
-    for _ in 0..n {
+    for n_index in 0..n {
         // We update the available discussions with only the ones that fit the player day
         available_discussions = available_discussions
             .iter()
@@ -58,7 +58,9 @@ pub fn get_random_discussion_indexs(
             .cloned()
             .collect::<Vec<_>>();
 
-        if available_discussions.is_empty() {
+        // If there is no more available spontaneous applications (with min / max day with cooldowns)
+        // Or if the random has selected a number of event supérior to the available ones
+        if available_discussions.is_empty() || n_index + 1 > available_discussions.len() {
             break;
         }
 
@@ -75,6 +77,8 @@ pub fn get_random_discussion_indexs(
 
         available_discussions.remove(selected_index);
     }
+
+    info!("Selected discussions : {:?}", selected_discussions);
 
     selected_discussions
 }
