@@ -103,13 +103,6 @@ impl MissionReports {
         self.0.push(report);
     }
 
-    pub fn get_mission_report_by_id(&self, mission_id: u16) -> Option<MissionReport> {
-        if let Some(report) = self.0.iter().find(|report| report.mission_id == mission_id) {
-            return Some(report.clone());
-        }
-        None
-    }
-
     pub fn get_last_mission_report(&self) -> Option<MissionReport> {
         if let Some(report) = self.0.last() {
             return Some(report.clone());
@@ -179,10 +172,6 @@ impl Missions {
             return Some(mission.clone());
         }
         None
-    }
-
-    pub fn get_mission_by_name(&self, name: &str) -> Option<Mission> {
-        return self.0.iter().find(|mission| mission.name == name).cloned();
     }
 
     pub fn assign_recruit_id_to_mission(&mut self, mission_id: u16, recruit_id: Uuid) {
@@ -275,13 +264,6 @@ impl Missions {
                 }
             }
         }
-    }
-
-    pub fn get_map_id_by_mission_id(&self, mission_id: u16) -> Option<u16> {
-        if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
-            return Some(mission.id);
-        }
-        None
     }
 }
 

@@ -1,5 +1,5 @@
 use crate::{
-    enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
+    enums::{RecruitEnum, RecruitStateEnum},
     structs::{
         equipments::ItemEnum,
         general_structs::{
@@ -514,23 +514,13 @@ pub fn finish_mission(
         let golds_earned = missions.get_golds_earned_by_mission_id(mission_id).unwrap() as i32;
         new_mission_report.golds_gained = Some(golds_earned);
 
-        // ! WIP - Has to be when the player sign the report
-
-        // missions.unlock_missions_by_mission_id(mission_id);
-
         let mission = missions.get_mission_by_id(mission_id);
 
         if mission.is_none() {
             return;
         }
 
-        // player_stats.add_loots_to_inventory_by_item_loot(mission.unwrap().loots);
-
-        // ? WIP
-
         new_mission_report.calculate_loots(mission.unwrap().loots.clone());
-
-        // new_mission_report.loots = mission.unwrap().loots;
     }
 
     // Create a new mission_report

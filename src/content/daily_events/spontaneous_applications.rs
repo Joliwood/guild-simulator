@@ -52,7 +52,7 @@ pub fn get_spontaneous_application(spontaneous_application_index: &u16) -> Spont
                             scrolls: vec![],
                         },
                         state: RecruitStateEnum::Available,
-                        strength: 5,
+                        strength: 500,
                     }),
                     ..Default::default()
                 },

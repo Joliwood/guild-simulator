@@ -110,7 +110,7 @@ fn main() -> AppExit {
                 ui::modals::mission_order_modal_folder::mission_order_modal::mission_order_modal,
                 ui::modals::daily_events::daily_events_modal::daily_events_modal,
                 ui::modals::mission_report_modal_folder::mission_report_modal::mission_report_modal,
-                systems::updates::update_room_on_click::update_room_on_click,                    
+                systems::updates::update_room_on_click::update_room_on_click,
             ),
         )
         .add_systems(

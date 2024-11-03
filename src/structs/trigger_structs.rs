@@ -5,8 +5,8 @@ use crate::enums::RoomEnum;
 #[derive(Resource, Component)]
 pub struct GoldCountTrigger;
 
-#[derive(Component)]
-pub struct PlayerStatsRoomTrigger;
+// #[derive(Component)]
+// pub struct PlayerStatsRoomTrigger;
 
 #[derive(Component)]
 pub struct ResetRoomTrigger;

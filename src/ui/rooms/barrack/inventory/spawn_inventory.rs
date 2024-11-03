@@ -30,7 +30,7 @@ pub fn spawn_inventory(
         })
         .with_children(|grid| {
             // Create rows for the inventory
-            for row_index in 0..(inventory_size + columns - 1) / columns {
+            for row_index in 0..inventory_size.div_ceil(columns) {
                 grid.spawn(NodeBundle {
                     style: Style {
                         flex_direction: FlexDirection::Row,

@@ -65,10 +65,16 @@ pub fn sign_mission_report(
                     player_stats.stats.golds_earned += mission_report.golds_gained.unwrap();
                     player_stats.stats.mission_completed += 1;
 
-                    let map_id = missions.get_map_id_by_mission_id(mission_report.mission_id);
-                    let map = maps.get_map_by_optional_id(map_id);
+                    let map_id = maps
+                        .get_map_by_mission_id(mission_report.mission_id)
+                        .unwrap()
+                        .id;
+
+                    let map = maps.get_map_by_id(map_id);
                     if map.is_some() {
                         maps.finish_mission_by_id(mission_report.mission_id);
+                    } else {
+                        error!("The mission isn't present in any map");
                     }
                 } else {
                     let random_number_from_0_to_100 = rand::thread_rng().gen_range(1..=100);

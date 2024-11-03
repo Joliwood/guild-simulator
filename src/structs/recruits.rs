@@ -38,39 +38,33 @@ impl SelectedRecruitForEquipment {
 
         None
     }
-
-    pub fn equip_weapon(&mut self, weapon: Weapon) {
-        if let Some(recruit) = &mut self.0 {
-            recruit.recruit_inventory.weapon = Some(weapon);
-        }
-    }
 }
 
 #[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct SelectedRecruitForMission(pub Option<RecruitStats>);
 
 impl SelectedRecruitForMission {
-    pub fn get_inventory(&self) -> RecruitInventory {
-        if let Some(recruit) = &self.0 {
-            return recruit.recruit_inventory.clone();
-        }
+    // pub fn get_inventory(&self) -> RecruitInventory {
+    //     if let Some(recruit) = &self.0 {
+    //         return recruit.recruit_inventory.clone();
+    //     }
 
-        RecruitInventory::generate_empty_inventory()
-    }
+    //     RecruitInventory::generate_empty_inventory()
+    // }
 
-    pub fn get_id(&self) -> Option<Uuid> {
-        if let Some(recruit) = &self.0 {
-            return Some(recruit.id);
-        }
+    // pub fn get_id(&self) -> Option<Uuid> {
+    //     if let Some(recruit) = &self.0 {
+    //         return Some(recruit.id);
+    //     }
 
-        None
-    }
+    //     None
+    // }
 
-    pub fn equip_weapon(&mut self, weapon: Weapon) {
-        if let Some(recruit) = &mut self.0 {
-            recruit.recruit_inventory.weapon = Some(weapon);
-        }
-    }
+    // pub fn equip_weapon(&mut self, weapon: Weapon) {
+    //     if let Some(recruit) = &mut self.0 {
+    //         recruit.recruit_inventory.weapon = Some(weapon);
+    //     }
+    // }
 }
 
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
@@ -89,13 +83,13 @@ impl RecruitInventory {
         }
     }
 
-    pub fn get_weapon(&self) -> Option<Weapon> {
-        if let Some(weapon) = &self.weapon {
-            return Some(weapon.clone());
-        }
+    // pub fn get_weapon(&self) -> Option<Weapon> {
+    //     if let Some(weapon) = &self.weapon {
+    //         return Some(weapon.clone());
+    //     }
 
-        None
-    }
+    //     None
+    // }
 }
 
 impl RecruitStats {
@@ -119,27 +113,27 @@ impl RecruitStats {
         self.intelligence *= 2;
     }
 
-    pub fn get_item(&self, item: ItemEnum) -> Option<ItemEnum> {
-        match item {
-            ItemEnum::Weapon(_weapon) => {
-                if let Some(weapon) = &self.recruit_inventory.weapon {
-                    return Some(ItemEnum::Weapon(weapon.clone()));
-                }
-            }
-            ItemEnum::Armor(_armor) => {
-                if let Some(armor) = &self.recruit_inventory.armor {
-                    return Some(ItemEnum::Armor(armor.clone()));
-                }
-            }
-            ItemEnum::Scroll(_scroll, _) => {
-                if let Some(scroll) = self.recruit_inventory.scrolls.first() {
-                    return Some(ItemEnum::Scroll(scroll.clone(), 1));
-                }
-            }
-        }
+    // pub fn get_item(&self, item: ItemEnum) -> Option<ItemEnum> {
+    //     match item {
+    //         ItemEnum::Weapon(_weapon) => {
+    //             if let Some(weapon) = &self.recruit_inventory.weapon {
+    //                 return Some(ItemEnum::Weapon(weapon.clone()));
+    //             }
+    //         }
+    //         ItemEnum::Armor(_armor) => {
+    //             if let Some(armor) = &self.recruit_inventory.armor {
+    //                 return Some(ItemEnum::Armor(armor.clone()));
+    //             }
+    //         }
+    //         ItemEnum::Scroll(_scroll, _) => {
+    //             if let Some(scroll) = self.recruit_inventory.scrolls.first() {
+    //                 return Some(ItemEnum::Scroll(scroll.clone(), 1));
+    //             }
+    //         }
+    //     }
 
-        None
-    }
+    //     None
+    // }
 
     pub fn equip_item(&mut self, item: &ItemEnum) {
         match item {
@@ -236,15 +230,15 @@ impl RecruitStats {
             + self.get_additional_intelligence_from_items();
     }
 
-    pub fn get_total_strength(&self) -> u32 {
-        return self.strength as u32 + self.get_additional_strength_from_items();
-    }
+    //     pub fn get_total_strength(&self) -> u32 {
+    //         return self.strength as u32 + self.get_additional_strength_from_items();
+    //     }
 
-    pub fn get_total_endurance(&self) -> u32 {
-        return self.endurance as u32 + self.get_additional_endurance_from_items();
-    }
+    //     pub fn get_total_endurance(&self) -> u32 {
+    //         return self.endurance as u32 + self.get_additional_endurance_from_items();
+    //     }
 
-    pub fn get_total_intelligence(&self) -> u32 {
-        return self.intelligence as u32 + self.get_additional_intelligence_from_items();
-    }
+    //     pub fn get_total_intelligence(&self) -> u32 {
+    //         return self.intelligence as u32 + self.get_additional_intelligence_from_items();
+    //     }
 }
