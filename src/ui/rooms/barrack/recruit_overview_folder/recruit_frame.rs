@@ -38,7 +38,7 @@ pub fn recruit_frame(
             parent.spawn(TextBundle {
                 text: Text::from_section(
                     selected_recruit_for_equipment_data.name.to_string(),
-                    TextStyle {
+                    TextFont {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 20.0,
                         color: Color::BLACK,

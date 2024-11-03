@@ -12,7 +12,7 @@ pub fn recruit_endurance(
 
     let base_endurance_text = TextSection {
         value: format!("END: {}", recruit_endurance),
-        style: TextStyle {
+        style: TextFont {
             font: base_font.clone(),
             font_size: 14.0,
             color: ColorPaletteEnum::DarkBrown.as_color(),
@@ -22,7 +22,7 @@ pub fn recruit_endurance(
     let additional_endurance_text = if additional_endurance > 0 {
         TextSection {
             value: format!(" (+{})", additional_endurance),
-            style: TextStyle {
+            style: TextFont {
                 font: base_font.clone(),
                 font_size: 14.0,
                 color: Color::srgb(0.0, 107.0 / 255.0, 29.0 / 255.0),
@@ -32,7 +32,7 @@ pub fn recruit_endurance(
         // Empty section if additional endurance is zero or less
         TextSection {
             value: String::new(),
-            style: TextStyle {
+            style: TextFont {
                 font: base_font,
                 font_size: 14.0,
                 color: Color::NONE,

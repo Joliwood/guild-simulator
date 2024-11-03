@@ -13,17 +13,13 @@ pub fn map_on_table(
     missions: &Res<Missions>,
 ) {
     parent
-        .spawn(NodeBundle {
-            // image: my_assets.inventory_container.clone().into(),
-            style: Style {
-                display: Display::Flex,
-                justify_content: JustifyContent::Center,
-                align_items: AlignItems::Center,
-                width: Val::Percent(100.),
-                height: Val::Percent(100.),
-                padding: UiRect::all(Val::Px(20.)),
-                ..default()
-            },
+        .spawn(Node {
+            display: Display::Flex,
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+            width: Val::Percent(100.),
+            height: Val::Percent(100.),
+            padding: UiRect::all(Val::Px(20.)),
             ..default()
         })
         .with_children(|button| {
@@ -60,27 +56,25 @@ pub fn map_on_table(
                                 .with_children(|button| {
                                     // Black filter overlay with centered text
                                     button
-                                        .spawn(NodeBundle {
-                                            style: Style {
-                                                position_type: PositionType::Absolute,
-                                                top: Val::Px(0.0),
-                                                bottom: Val::Px(0.0),
-                                                left: Val::Px(0.0),
-                                                right: Val::Px(0.0),
-                                                padding: UiRect::all(Val::Px(10.)),
-                                                justify_content: JustifyContent::Center,
-                                                align_items: AlignItems::Center,
-                                                ..default()
-                                            },
-                                            background_color: Color::srgba(0.0, 0.0, 0.0, 0.8)
-                                                .into(),
+                                        .spawn(Node {
+                                            position_type: PositionType::Absolute,
+                                            top: Val::Px(0.0),
+                                            bottom: Val::Px(0.0),
+                                            left: Val::Px(0.0),
+                                            right: Val::Px(0.0),
+                                            padding: UiRect::all(Val::Px(10.)),
+                                            justify_content: JustifyContent::Center,
+                                            align_items: AlignItems::Center,
+                                            // WIP - 0.15 migrating
+                                            // background_color: Color::srgba(0.0, 0.0, 0.0, 0.8)
+                                            //     .into(),
                                             ..default()
                                         })
                                         .with_children(|overlay| {
                                             overlay.spawn(TextBundle {
                                                 text: Text::from_section(
                                                     "A recruit has already been sent",
-                                                    TextStyle {
+                                                    TextFont {
                                                         font: my_assets.fira_sans_bold.clone(),
                                                         font_size: 18.0,
                                                         color: Color::WHITE,

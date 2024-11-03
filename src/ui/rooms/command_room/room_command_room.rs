@@ -10,7 +10,6 @@ use crate::{
         player_stats::PlayerStats,
         trigger_structs::ResetRoomTrigger,
     },
-    ui::styles::containers_styles::node_container_style,
 };
 use bevy::prelude::*;
 
@@ -27,10 +26,7 @@ pub fn room_command_room(
     let selected_map = maps.get_map_by_optional_id(selected_map_id.0);
 
     commands
-        .spawn(NodeBundle {
-            style: node_container_style(),
-            ..default()
-        })
+        .spawn(Node::default())
         .insert(Name::new("Command room"))
         .insert(ResetRoomTrigger)
         // Background Image for the Command Room
@@ -70,20 +66,17 @@ pub fn room_command_room(
                 .with_children(|table| {
                     // Left Column
                     table
-                        .spawn(NodeBundle {
-                            style: Style {
-                                position_type: PositionType::Relative,
-                                display: Display::Flex,
-                                flex_direction: FlexDirection::Column,
-                                justify_content: JustifyContent::SpaceBetween,
-                                align_items: AlignItems::FlexStart,
-                                width: Val::Percent(20.),
-                                height: Val::Percent(100.),
-                                overflow: Overflow {
-                                    x: OverflowAxis::Hidden,
-                                    y: OverflowAxis::Hidden,
-                                },
-                                ..default()
+                        .spawn(Node {
+                            position_type: PositionType::Relative,
+                            display: Display::Flex,
+                            flex_direction: FlexDirection::Column,
+                            justify_content: JustifyContent::SpaceBetween,
+                            align_items: AlignItems::FlexStart,
+                            width: Val::Percent(20.),
+                            height: Val::Percent(100.),
+                            overflow: Overflow {
+                                x: OverflowAxis::Hidden,
+                                y: OverflowAxis::Hidden,
                             },
                             ..default()
                         })
@@ -94,14 +87,11 @@ pub fn room_command_room(
 
                     // Center Area (Big node)
                     table
-                        .spawn(NodeBundle {
-                            style: Style {
-                                width: Val::Percent(60.0),
-                                height: Val::Percent(100.0),
-                                justify_content: JustifyContent::Center,
-                                align_items: AlignItems::Center,
-                                ..default()
-                            },
+                        .spawn(Node {
+                            width: Val::Percent(60.0),
+                            height: Val::Percent(100.0),
+                            justify_content: JustifyContent::Center,
+                            align_items: AlignItems::Center,
                             ..default()
                         })
                         .with_children(|center| {
@@ -111,15 +101,12 @@ pub fn room_command_room(
 
                     // Right Column
                     table
-                        .spawn(NodeBundle {
-                            style: Style {
-                                flex_direction: FlexDirection::Column,
-                                justify_content: JustifyContent::SpaceBetween,
-                                align_items: AlignItems::FlexEnd,
-                                width: Val::Percent(20.0),
-                                height: Val::Percent(100.0),
-                                ..default()
-                            },
+                        .spawn(Node {
+                            flex_direction: FlexDirection::Column,
+                            justify_content: JustifyContent::SpaceBetween,
+                            align_items: AlignItems::FlexEnd,
+                            width: Val::Percent(20.0),
+                            height: Val::Percent(100.0),
                             ..default()
                         })
                         .with_children(|right_column| {

@@ -52,31 +52,29 @@ pub fn map_recruit_card(
                 || recruit.state == RecruitStateEnum::WaitingReportSignature
             {
                 parent
-                    .spawn(NodeBundle {
-                        style: Style {
-                            position_type: PositionType::Absolute,
-                            left: Val::Px(0.),
-                            right: Val::Px(0.),
-                            width: Val::Percent(100.0),
-                            height: Val::Percent(100.0),
-                            align_items: AlignItems::Center,
-                            justify_content: JustifyContent::FlexStart,
-                            padding: UiRect {
-                                left: Val::Px(42.),
-                                ..default()
-                            },
+                    .spawn(Node {
+                        position_type: PositionType::Absolute,
+                        left: Val::Px(0.),
+                        right: Val::Px(0.),
+                        width: Val::Percent(100.0),
+                        height: Val::Percent(100.0),
+                        align_items: AlignItems::Center,
+                        justify_content: JustifyContent::FlexStart,
+                        padding: UiRect {
+                            left: Val::Px(42.),
                             ..default()
                         },
-                        z_index: ZIndex::Global(1),
-                        border_radius: BorderRadius::all(Val::Px(10.)),
-                        background_color: Color::srgba(0.0, 0.0, 0.0, 0.8).into(),
+                        // WIP - 0.15 migrating
+                        // z_index: ZIndex::Global(1),
+                        // border_radius: BorderRadius::all(Val::Px(10.)),
+                        // background_color: Color::srgba(0.0, 0.0, 0.0, 0.8).into(),
                         ..default()
                     })
                     .with_children(|overlay| {
                         overlay.spawn(TextBundle {
                             text: Text::from_section(
                                 recruit.state.get_description(),
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 16.0,
                                     color: Color::WHITE,
@@ -109,7 +107,7 @@ his/her stats, equipment and level."
                 .with_children(|parent| {
                     parent.spawn(TextBundle::from_section(
                         recruit.get_total_merged_stats().to_string(),
-                        TextStyle {
+                        TextFont {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 18.0,
                             color: Color::BLACK,
@@ -120,7 +118,7 @@ his/her stats, equipment and level."
             // Recruit name
             button.spawn(TextBundle::from_section(
                 recruit.name.clone(),
-                TextStyle {
+                TextFont {
                     font: my_assets.fira_sans_bold.clone(),
                     font_size: 16.0,
                     color: Color::WHITE,
@@ -128,22 +126,19 @@ his/her stats, equipment and level."
             ));
 
             button
-                .spawn(NodeBundle {
-                    style: Style {
-                        width: Val::Px(72.),
-                        position_type: PositionType::Absolute,
-                        right: Val::Px(0.),
-                        height: Val::Percent(65.),
-                        padding: UiRect {
-                            left: Val::Px(3.),
-                            right: Val::Px(5.),
-                            ..default()
-                        },
-                        overflow: Overflow {
-                            x: OverflowAxis::Hidden,
-                            y: OverflowAxis::Hidden,
-                        },
+                .spawn(Node {
+                    width: Val::Px(72.),
+                    position_type: PositionType::Absolute,
+                    right: Val::Px(0.),
+                    height: Val::Percent(65.),
+                    padding: UiRect {
+                        left: Val::Px(3.),
+                        right: Val::Px(5.),
                         ..default()
+                    },
+                    overflow: Overflow {
+                        x: OverflowAxis::Hidden,
+                        y: OverflowAxis::Hidden,
                     },
                     ..default()
                 })

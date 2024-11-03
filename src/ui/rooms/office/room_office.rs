@@ -10,7 +10,6 @@ use crate::{
         general_structs::MissionReportsModalVisible, missions::MissionReports,
         trigger_structs::ResetRoomTrigger,
     },
-    ui::styles::containers_styles::node_container_style,
 };
 use bevy::prelude::*;
 
@@ -22,10 +21,7 @@ pub fn room_office(
     daily_events: &Res<DailyEvents>,
 ) {
     commands
-        .spawn(NodeBundle {
-            style: node_container_style(),
-            ..default()
-        })
+        .spawn(Node::default())
         .insert(Name::new("Office room"))
         .insert(ResetRoomTrigger)
         // Image background node

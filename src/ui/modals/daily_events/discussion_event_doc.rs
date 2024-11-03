@@ -47,16 +47,13 @@ pub fn discussion_event_doc(
         .with_children(|parent| {
             // Container with flex column layout
             parent
-                .spawn(NodeBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        flex_direction: FlexDirection::Column,
-                        align_items: AlignItems::Center,
-                        justify_content: JustifyContent::FlexStart,
-                        width: Val::Percent(100.),
-                        height: Val::Percent(100.),
-                        ..default()
-                    },
+                .spawn(Node {
+                    display: Display::Flex,
+                    flex_direction: FlexDirection::Column,
+                    align_items: AlignItems::Center,
+                    justify_content: JustifyContent::FlexStart,
+                    width: Val::Percent(100.),
+                    height: Val::Percent(100.),
                     ..default()
                 })
                 .with_children(|column| {
@@ -64,7 +61,7 @@ pub fn discussion_event_doc(
                     column.spawn(TextBundle {
                         text: Text::from_section(
                             discussion.title.clone(),
-                            TextStyle {
+                            TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 18.0,
                                 color: Color::BLACK,
@@ -100,7 +97,7 @@ pub fn discussion_event_doc(
                     column.spawn(TextBundle {
                         text: Text::from_section(
                             discussion.description.clone(),
-                            TextStyle {
+                            TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 14.0,
                                 color: Color::BLACK,
@@ -134,7 +131,7 @@ pub fn discussion_event_doc(
                                 button.spawn(TextBundle {
                                     text: Text::from_section(
                                         answer.message.clone(),
-                                        TextStyle {
+                                        TextFont {
                                             font: my_assets.fira_sans_bold.clone(),
                                             font_size: 14.0,
                                             color: Color::BLACK,

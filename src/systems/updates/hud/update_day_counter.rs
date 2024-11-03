@@ -1,6 +1,6 @@
 use crate::structs::{player_stats::PlayerStats, trigger_structs::PlayerDayTrigger};
 use bevy::{
-    prelude::{DetectChanges, Query, Res, With},
+    prelude::{DetectChanges, Entity, Query, Res, With},
     text::Text,
 };
 
@@ -11,7 +11,9 @@ use bevy::{
 /// - `query`: The element that will be updated (has to ba added in an .insert() method in the node)
 pub fn update_day_counter(
     player_stats: Res<PlayerStats>,
-    mut query: Query<&mut Text, With<PlayerDayTrigger>>,
+    query: Query<Entity, With<PlayerDayTrigger>>,
+    // ! WIP - Not working yet
+    mut writer: UiTextWriter,
 ) {
     if player_stats.is_changed() {
         for mut text in query.iter_mut() {

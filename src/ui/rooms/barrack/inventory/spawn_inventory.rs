@@ -17,27 +17,21 @@ pub fn spawn_inventory(
 
     // Create a parent node for the inventory grid
     parent
-        .spawn(NodeBundle {
-            style: Style {
-                flex_direction: FlexDirection::Column,
-                align_items: AlignItems::Center,
-                width: Val::Percent(100.0),
-                height: Val::Px(350.),
-                overflow: Overflow::clip(),
-                ..default()
-            },
+        .spawn(Node {
+            flex_direction: FlexDirection::Column,
+            align_items: AlignItems::Center,
+            width: Val::Percent(100.0),
+            height: Val::Px(350.),
+            overflow: Overflow::clip(),
             ..default()
         })
         .with_children(|grid| {
             // Create rows for the inventory
             for row_index in 0..inventory_size.div_ceil(columns) {
-                grid.spawn(NodeBundle {
-                    style: Style {
-                        flex_direction: FlexDirection::Row,
-                        justify_content: JustifyContent::Center,
-                        width: Val::Percent(100.0),
-                        ..default()
-                    },
+                grid.spawn(Node {
+                    flex_direction: FlexDirection::Row,
+                    justify_content: JustifyContent::Center,
+                    width: Val::Percent(100.0),
                     ..default()
                 })
                 .with_children(|row_builder| {
@@ -86,7 +80,7 @@ pub fn spawn_inventory(
                                             button.spawn(TextBundle {
                                                 text: Text::from_section(
                                                     format!("x{}", count),
-                                                    TextStyle {
+                                                    TextFont {
                                                         font: my_assets.fira_sans_bold.clone(),
                                                         font_size: 14.0,
                                                         color: Color::WHITE,

@@ -26,27 +26,25 @@ pub fn recruit_recap(
 
     // Recruits (Image / Name / Stats / Node Container)
     parent
-        .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(40.0),
-                flex_direction: FlexDirection::Column,
-                justify_content: JustifyContent::FlexStart,
-                row_gap: Val::Px(10.0),
-                overflow: Overflow {
-                    x: OverflowAxis::Hidden,
-                    y: OverflowAxis::Hidden,
-                },
-                border: UiRect::all(Val::Px(2.)),
-                padding: UiRect {
-                    top: Val::Px(10.),
-                    left: Val::Px(10.),
-                    right: Val::Px(10.),
-                    bottom: Val::Px(10.),
-                },
-                ..default()
+        .spawn(Node {
+            width: Val::Percent(40.0),
+            flex_direction: FlexDirection::Column,
+            justify_content: JustifyContent::FlexStart,
+            row_gap: Val::Px(10.0),
+            overflow: Overflow {
+                x: OverflowAxis::Hidden,
+                y: OverflowAxis::Hidden,
             },
-            border_color: BorderColor(Color::BLACK),
-            border_radius: BorderRadius::all(Val::Px(10.)),
+            border: UiRect::all(Val::Px(2.)),
+            padding: UiRect {
+                top: Val::Px(10.),
+                left: Val::Px(10.),
+                right: Val::Px(10.),
+                bottom: Val::Px(10.),
+            },
+            // WIP - 0.15 migrating
+            // border_color: BorderColor(Color::BLACK),
+            // border_radius: BorderRadius::all(Val::Px(10.)),
             ..default()
         })
         .with_children(|parent| {
@@ -54,7 +52,7 @@ pub fn recruit_recap(
                 parent.spawn(TextBundle {
                     text: Text::from_section(
                         "No recruit selected",
-                        TextStyle {
+                        TextFont {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 16.0,
                             color: Color::BLACK,
@@ -73,15 +71,12 @@ pub fn recruit_recap(
 
                 // Recruit image
                 parent
-                    .spawn(NodeBundle {
-                        style: Style {
-                            width: Val::Percent(100.0),
-                            height: Val::Px(100.0),
-                            overflow: Overflow {
-                                x: OverflowAxis::Hidden,
-                                y: OverflowAxis::Hidden,
-                            },
-                            ..default()
+                    .spawn(Node {
+                        width: Val::Percent(100.0),
+                        height: Val::Px(100.0),
+                        overflow: Overflow {
+                            x: OverflowAxis::Hidden,
+                            y: OverflowAxis::Hidden,
                         },
                         ..default()
                     })
@@ -106,14 +101,11 @@ pub fn recruit_recap(
 
                 parent
                     // Outer container to hold both rows (Name/Level and Stats)
-                    .spawn(NodeBundle {
-                        style: Style {
-                            flex_direction: FlexDirection::Column,
-                            align_items: AlignItems::Center,
-                            row_gap: Val::Px(5.),
-                            width: Val::Percent(100.0),
-                            ..default()
-                        },
+                    .spawn(Node {
+                        flex_direction: FlexDirection::Column,
+                        align_items: AlignItems::Center,
+                        row_gap: Val::Px(5.),
+                        width: Val::Percent(100.0),
                         ..default()
                     })
                     .with_children(|parent| {
@@ -121,7 +113,7 @@ pub fn recruit_recap(
                         parent.spawn(TextBundle {
                             text: Text::from_section(
                                 format!("Recruit : {}", recruit.name),
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 16.0,
                                     color: Color::BLACK,
@@ -134,7 +126,7 @@ pub fn recruit_recap(
                         parent.spawn(TextBundle {
                             text: Text::from_section(
                                 format!("Level : {}", recruit.level),
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 16.0,
                                     color: Color::BLACK,
@@ -147,7 +139,7 @@ pub fn recruit_recap(
                         parent.spawn(TextBundle {
                             text: Text::from_section(
                                 format!("Str : {}", recruit.strength),
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 16.0,
                                     color: Color::BLACK,
@@ -160,7 +152,7 @@ pub fn recruit_recap(
                         parent.spawn(TextBundle {
                             text: Text::from_section(
                                 format!("Def : {}", recruit.endurance),
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 16.0,
                                     color: Color::BLACK,
@@ -173,7 +165,7 @@ pub fn recruit_recap(
                         parent.spawn(TextBundle {
                             text: Text::from_section(
                                 format!("Int : {}", recruit.intelligence),
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 16.0,
                                     color: Color::BLACK,
@@ -184,17 +176,14 @@ pub fn recruit_recap(
 
                         // Equipments
                         parent
-                            .spawn(NodeBundle {
-                                style: Style {
-                                    display: Display::Flex,
-                                    flex_direction: FlexDirection::Column,
-                                    row_gap: Val::Px(2.),
-                                    align_items: AlignItems::Center,
-                                    justify_content: JustifyContent::Center,
-                                    margin: UiRect {
-                                        top: Val::Px(10.),
-                                        ..default()
-                                    },
+                            .spawn(Node {
+                                display: Display::Flex,
+                                flex_direction: FlexDirection::Column,
+                                row_gap: Val::Px(2.),
+                                align_items: AlignItems::Center,
+                                justify_content: JustifyContent::Center,
+                                margin: UiRect {
+                                    top: Val::Px(10.),
                                     ..default()
                                 },
                                 ..default()
@@ -202,14 +191,11 @@ pub fn recruit_recap(
                             .with_children(|equipments_container| {
                                 // Top container for weapon and armor
                                 equipments_container
-                                    .spawn(NodeBundle {
-                                        style: Style {
-                                            display: Display::Flex,
-                                            column_gap: Val::Px(2.0),
-                                            align_self: AlignSelf::Center,
-                                            align_items: AlignItems::Center,
-                                            ..default()
-                                        },
+                                    .spawn(Node {
+                                        display: Display::Flex,
+                                        column_gap: Val::Px(2.0),
+                                        align_self: AlignSelf::Center,
+                                        align_items: AlignItems::Center,
                                         ..default()
                                     })
                                     .with_children(|top_container| {
@@ -230,15 +216,12 @@ pub fn recruit_recap(
 
                                 // Bottom container for scrolls
                                 equipments_container
-                                    .spawn(NodeBundle {
-                                        style: Style {
-                                            display: Display::Flex,
-                                            flex_direction: FlexDirection::Row,
-                                            column_gap: Val::Px(2.0),
-                                            justify_content: JustifyContent::Center,
-                                            align_items: AlignItems::Center,
-                                            ..default()
-                                        },
+                                    .spawn(NodeNodeBundle {
+                                        display: Display::Flex,
+                                        flex_direction: FlexDirection::Row,
+                                        column_gap: Val::Px(2.0),
+                                        justify_content: JustifyContent::Center,
+                                        align_items: AlignItems::Center,
                                         ..default()
                                     })
                                     .with_children(|bottom_container| {

@@ -98,7 +98,7 @@ pub fn mission_report_modal(
                 parent.spawn(TextBundle {
                     text: Text::from_section(
                         format!("Report of the mission: {}", mission.name),
-                        TextStyle {
+                        TextFont {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 20.0,
                             color: Color::BLACK,
@@ -111,7 +111,7 @@ pub fn mission_report_modal(
                 parent.spawn(TextBundle {
                     text: Text::from_section(
                         success_message,
-                        TextStyle {
+                        TextFont {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 18.0,
                             color: if last_mission_report.success {
@@ -126,15 +126,12 @@ pub fn mission_report_modal(
 
                 // Recruit Send / Versus / Enemy Block
                 parent
-                    .spawn(NodeBundle {
-                        style: Style {
-                            display: Display::Flex,
-                            flex_direction: FlexDirection::Row,
-                            align_items: AlignItems::Center,
-                            justify_content: JustifyContent::SpaceBetween,
-                            width: Val::Percent(100.0),
-                            ..default()
-                        },
+                    .spawn(Node {
+                        display: Display::Flex,
+                        flex_direction: FlexDirection::Row,
+                        align_items: AlignItems::Center,
+                        justify_content: JustifyContent::SpaceBetween,
+                        width: Val::Percent(100.0),
                         ..default()
                     })
                     .with_children(|row| {
@@ -149,7 +146,7 @@ pub fn mission_report_modal(
                         row.spawn(TextBundle {
                             text: Text::from_section(
                                 "-- VS --",
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 16.0,
                                     color: Color::BLACK,
@@ -168,15 +165,12 @@ pub fn mission_report_modal(
 
                 // Recruit Send Stats / Percent of Victory / Enemy Stats
                 parent
-                    .spawn(NodeBundle {
-                        style: Style {
-                            display: Display::Flex,
-                            flex_direction: FlexDirection::Row,
-                            align_items: AlignItems::Center,
-                            justify_content: JustifyContent::SpaceBetween,
-                            width: Val::Percent(100.0),
-                            ..default()
-                        },
+                    .spawn(Node {
+                        display: Display::Flex,
+                        flex_direction: FlexDirection::Row,
+                        align_items: AlignItems::Center,
+                        justify_content: JustifyContent::SpaceBetween,
+                        width: Val::Percent(100.0),
                         ..default()
                     })
                     .with_children(|row| {
@@ -186,7 +180,7 @@ pub fn mission_report_modal(
                         row.spawn(TextBundle {
                             text: Text::from_section(
                                 format!("-- {}% --", percent_of_victory),
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 16.0,
                                     color: Color::BLACK,
@@ -210,7 +204,7 @@ pub fn mission_report_modal(
                 // parent.spawn(TextBundle {
                 //     text: Text::from_section(
                 //         "Loots",
-                //         TextStyle {
+                //         TextFont {
                 //             font: my_assets.fira_sans_bold.clone(),
                 //             font_size: 18.0,
                 //             color: Color::BLACK,
@@ -223,7 +217,7 @@ pub fn mission_report_modal(
                 // parent.spawn(TextBundle {
                 //     text: Text::from_section(
                 //         format!("{} golds + {} xp", golds_gained, experience_gained),
-                //         TextStyle {
+                //         TextFont {
                 //             font: my_assets.fira_sans_bold.clone(),
                 //             font_size: 16.0,
                 //             color: Color::BLACK,
@@ -254,7 +248,7 @@ pub fn mission_report_modal(
                         button.spawn(TextBundle {
                             text: Text::from_section(
                                 "Sign the report",
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 14.0,
                                     color: Color::WHITE,

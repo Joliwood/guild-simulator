@@ -14,19 +14,16 @@ pub fn recruit_overview(
 ) {
     // Right container: recruit info
     parent
-        .spawn(NodeBundle {
-            style: Style {
-                display: Display::Flex,
-                flex_direction: FlexDirection::Column,
-                align_items: AlignItems::Center,
-                row_gap: Val::Px(5.),
-                margin: UiRect {
-                    left: Val::Px(30.),
-                    right: Val::Px(30.),
-                    top: Val::Px(60.),
-                    bottom: Val::ZERO,
-                },
-                ..default()
+        .spawn(Node {
+            display: Display::Flex,
+            flex_direction: FlexDirection::Column,
+            align_items: AlignItems::Center,
+            row_gap: Val::Px(5.),
+            margin: UiRect {
+                left: Val::Px(30.),
+                right: Val::Px(30.),
+                top: Val::Px(60.),
+                bottom: Val::ZERO,
             },
             ..default()
         })

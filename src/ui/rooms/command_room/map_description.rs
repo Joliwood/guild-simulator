@@ -32,7 +32,7 @@ pub fn map_description(
                 column.spawn(TextBundle {
                     text: Text::from_section(
                         map.name.clone(),
-                        TextStyle {
+                        TextFont {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 16.0,
                             color: Color::BLACK,
@@ -44,7 +44,7 @@ pub fn map_description(
                 column.spawn(TextBundle {
                     text: Text::from_section(
                         map.description.clone(),
-                        TextStyle {
+                        TextFont {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 14.0,
                             color: Color::BLACK,

@@ -77,7 +77,7 @@ pub fn map_card(
             map_container.spawn(TextBundle {
                 text: Text::from_section(
                     map.name.clone(),
-                    TextStyle {
+                    TextFont {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 14.0,
                         color: Color::BLACK,
@@ -95,23 +95,20 @@ pub fn map_card(
 
             // Bottom-Right Container with 2 Icons
             map_container
-                .spawn(NodeBundle {
-                    style: Style {
-                        position_type: PositionType::Absolute,
-                        bottom: Val::Px(5.),
-                        right: Val::Px(10.),
-                        flex_direction: FlexDirection::Column,
-                        align_items: AlignItems::FlexEnd,
-                        row_gap: Val::Px(8.),
-                        ..default()
-                    },
+                .spawn(Node {
+                    position_type: PositionType::Absolute,
+                    bottom: Val::Px(5.),
+                    right: Val::Px(10.),
+                    flex_direction: FlexDirection::Column,
+                    align_items: AlignItems::FlexEnd,
+                    row_gap: Val::Px(8.),
                     ..default()
                 })
                 .with_children(|icon_container| {
                     icon_container.spawn(TextBundle {
                         text: Text::from_section(
                             map.recommanded_power_level.to_string(),
-                            TextStyle {
+                            TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 16.0,
                                 color: Color::BLACK,
@@ -136,7 +133,7 @@ pub fn map_card(
                         icon_container.spawn(TextBundle {
                             text: Text::from_section(
                                 missions_finished_text,
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 16.0,
                                     color: Color::BLACK,

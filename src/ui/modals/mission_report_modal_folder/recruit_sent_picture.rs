@@ -19,15 +19,12 @@ pub fn recruit_sent_picture(
 
     // Recruit Send Block
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                display: Display::Flex,
-                width: Val::Px(100.),
-                height: Val::Px(200.),
-                flex_direction: FlexDirection::Column,
-                align_items: AlignItems::Center,
-                ..default()
-            },
+        .spawn(NoNodedeBundle {
+            display: Display::Flex,
+            width: Val::Px(100.),
+            height: Val::Px(200.),
+            flex_direction: FlexDirection::Column,
+            align_items: AlignItems::Center,
             ..default()
         })
         .with_children(|recruit_block| {
@@ -35,7 +32,7 @@ pub fn recruit_sent_picture(
             recruit_block.spawn(TextBundle {
                 text: Text::from_section(
                     "Recruit sent",
-                    TextStyle {
+                    TextFont {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,

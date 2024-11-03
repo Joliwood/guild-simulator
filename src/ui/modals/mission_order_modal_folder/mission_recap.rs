@@ -19,41 +19,36 @@ pub fn mission_recap(
 
     // Mission Image and Description (A / B)
     parent
-        .spawn(NodeBundle {
-            style: Style {
-                flex_direction: FlexDirection::Column,
-                row_gap: Val::Px(20.0),
-                justify_content: JustifyContent::FlexStart,
-                width: Val::Percent(50.0),
-                overflow: Overflow {
-                    x: OverflowAxis::Hidden,
-                    y: OverflowAxis::Hidden,
-                },
-                border: UiRect::all(Val::Px(2.)),
-                padding: UiRect {
-                    top: Val::Px(10.),
-                    left: Val::Px(10.),
-                    right: Val::Px(10.),
-                    bottom: Val::Px(10.),
-                },
-                ..default()
+        .spawn(Node {
+            flex_direction: FlexDirection::Column,
+            row_gap: Val::Px(20.0),
+            justify_content: JustifyContent::FlexStart,
+            width: Val::Percent(50.0),
+            overflow: Overflow {
+                x: OverflowAxis::Hidden,
+                y: OverflowAxis::Hidden,
             },
-            border_color: BorderColor(Color::BLACK),
-            border_radius: BorderRadius::all(Val::Px(10.)),
+            border: UiRect::all(Val::Px(2.)),
+            padding: UiRect {
+                top: Val::Px(10.),
+                left: Val::Px(10.),
+                right: Val::Px(10.),
+                bottom: Val::Px(10.),
+            },
+            // WIP - 0.15 migrating
+            // border_color: BorderColor(Color::BLACK),
+            // border_radius: BorderRadius::all(Val::Px(10.)),
             ..default()
         })
         .with_children(|parent| {
             // Mission image
             parent
-                .spawn(NodeBundle {
-                    style: Style {
-                        width: Val::Percent(100.0),
-                        height: Val::Px(100.0),
-                        overflow: Overflow {
-                            x: OverflowAxis::Hidden,
-                            y: OverflowAxis::Hidden,
-                        },
-                        ..default()
+                .spawn(Node {
+                    width: Val::Percent(100.0),
+                    height: Val::Px(100.0),
+                    overflow: Overflow {
+                        x: OverflowAxis::Hidden,
+                        y: OverflowAxis::Hidden,
                     },
                     ..default()
                 })
@@ -83,7 +78,7 @@ pub fn mission_recap(
             parent.spawn(TextBundle {
                 text: Text::from_section(
                     mission.description.clone(),
-                    TextStyle {
+                    TextFont {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
@@ -94,14 +89,11 @@ pub fn mission_recap(
 
             parent
                 // Outer container to hold both rows (Name/Level and Stats)
-                .spawn(NodeBundle {
-                    style: Style {
-                        flex_direction: FlexDirection::Column, // Organize rows in a column
-                        justify_content: JustifyContent::FlexStart,
-                        row_gap: Val::Px(3.),
-                        width: Val::Percent(100.0), // Full width
-                        ..default()
-                    },
+                .spawn(Node {
+                    flex_direction: FlexDirection::Column, // Organize rows in a column
+                    justify_content: JustifyContent::FlexStart,
+                    row_gap: Val::Px(3.),
+                    width: Val::Percent(100.0), // Full width
                     ..default()
                 })
                 .with_children(|parent| {
@@ -109,7 +101,7 @@ pub fn mission_recap(
                     parent.spawn(TextBundle {
                         text: Text::from_section(
                             format!("Target : {}", mission.ennemy.name),
-                            TextStyle {
+                            TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 16.0,
                                 color: Color::BLACK,
@@ -122,7 +114,7 @@ pub fn mission_recap(
                     parent.spawn(TextBundle {
                         text: Text::from_section(
                             format!("Level : {}", mission.ennemy.level),
-                            TextStyle {
+                            TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 16.0,
                                 color: Color::BLACK,
@@ -135,7 +127,7 @@ pub fn mission_recap(
                     parent.spawn(TextBundle {
                         text: Text::from_section(
                             format!("Str : {}", mission.ennemy.strength),
-                            TextStyle {
+                            TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 16.0,
                                 color: Color::BLACK,
@@ -148,7 +140,7 @@ pub fn mission_recap(
                     parent.spawn(TextBundle {
                         text: Text::from_section(
                             format!("Def : {}", mission.ennemy.endurance),
-                            TextStyle {
+                            TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 16.0,
                                 color: Color::BLACK,
@@ -161,7 +153,7 @@ pub fn mission_recap(
                     parent.spawn(TextBundle {
                         text: Text::from_section(
                             format!("Int : {}", mission.ennemy.intelligence),
-                            TextStyle {
+                            TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 16.0,
                                 color: Color::BLACK,

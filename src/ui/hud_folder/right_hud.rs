@@ -15,15 +15,12 @@ pub fn right_hud(
     texture_atlas_layouts: Handle<TextureAtlasLayout>,
 ) {
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                flex_direction: FlexDirection::Row,
-                justify_content: JustifyContent::SpaceAround,
-                align_items: AlignItems::Center,
-                width: Val::Px(208.0),
-                height: Val::Px(25.0),
-                ..default()
-            },
+        .spawn(Node {
+            flex_direction: FlexDirection::Row,
+            justify_content: JustifyContent::SpaceAround,
+            align_items: AlignItems::Center,
+            width: Val::Px(208.0),
+            height: Val::Px(25.0),
             ..default()
         })
         .insert(Name::new("Right Container"))
@@ -61,7 +58,7 @@ pub fn right_hud(
                         .spawn(TextBundle {
                             text: Text::from_section(
                                 player_stats.recruits.len().to_string(),
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 14.0,
                                     color: Color::WHITE,
@@ -105,7 +102,7 @@ pub fn right_hud(
                         .spawn(TextBundle {
                             text: Text::from_section(
                                 player_stats.reputation.to_string(),
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 14.0,
                                     color: Color::WHITE,
@@ -149,7 +146,7 @@ pub fn right_hud(
                         .spawn(TextBundle {
                             text: Text::from_section(
                                 player_stats.toxicity.to_string(),
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 14.0,
                                     color: Color::WHITE,

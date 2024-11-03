@@ -8,16 +8,13 @@ pub fn mission_ennemy_stats(
 ) {
     // ennemy Send Stats
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                display: Display::Flex,
-                flex_direction: FlexDirection::Column,
-                align_items: AlignItems::Center,
-                margin: UiRect {
-                    top: Val::Px(10.0),
-                    bottom: Val::Px(10.0),
-                    ..default()
-                },
+        .spawn(Node {
+            display: Display::Flex,
+            flex_direction: FlexDirection::Column,
+            align_items: AlignItems::Center,
+            margin: UiRect {
+                top: Val::Px(10.0),
+                bottom: Val::Px(10.0),
                 ..default()
             },
             ..default()
@@ -27,7 +24,7 @@ pub fn mission_ennemy_stats(
             stats_column.spawn(TextBundle {
                 text: Text::from_section(
                     format!("Level: {}", ennemy_stats.level),
-                    TextStyle {
+                    TextFont {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
@@ -40,7 +37,7 @@ pub fn mission_ennemy_stats(
             stats_column.spawn(TextBundle {
                 text: Text::from_section(
                     format!("Strength: {}", ennemy_stats.strength),
-                    TextStyle {
+                    TextFont {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
@@ -53,7 +50,7 @@ pub fn mission_ennemy_stats(
             stats_column.spawn(TextBundle {
                 text: Text::from_section(
                     format!("Endurance: {}", ennemy_stats.endurance),
-                    TextStyle {
+                    TextFont {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
@@ -66,7 +63,7 @@ pub fn mission_ennemy_stats(
             stats_column.spawn(TextBundle {
                 text: Text::from_section(
                     format!("Intelligence: {}", ennemy_stats.intelligence),
-                    TextStyle {
+                    TextFont {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,

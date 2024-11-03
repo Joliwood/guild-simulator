@@ -30,7 +30,7 @@ pub fn spawn_right_container(
         .with_children(|parent| {
             parent.spawn(TextBundle::from_section(
                 "Inventory",
-                TextStyle {
+                TextFont {
                     font: my_assets.fira_sans_bold.clone(),
                     font_size: 30.,
                     color: ColorPaletteEnum::DarkBrown.as_color(),

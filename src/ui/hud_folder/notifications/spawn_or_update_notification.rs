@@ -29,15 +29,12 @@ pub fn spawn_or_update_notification(
     if !mission_reports.0.is_empty() {
         // Create a new notification node
         commands
-            .spawn(NodeBundle {
-                style: Style {
-                    position_type: PositionType::Absolute,
-                    width: Val::Px(40.),
-                    height: Val::Px(40.),
-                    right: Val::Px(0.),
-                    top: Val::Px(120.),
-                    ..default()
-                },
+            .spawn(Node {
+                position_type: PositionType::Absolute,
+                width: Val::Px(40.),
+                height: Val::Px(40.),
+                right: Val::Px(0.),
+                top: Val::Px(120.),
                 ..default()
             })
             .insert(Name::new("---> Notification toast"))
@@ -82,7 +79,7 @@ pub fn spawn_or_update_notification(
                     .with_children(|parent| {
                         parent.spawn(TextBundle::from_section(
                             format!("x{}", mission_notifications_number),
-                            TextStyle {
+                            TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 25.,
                                 color: ColorPaletteEnum::DarkBrown.as_color(),

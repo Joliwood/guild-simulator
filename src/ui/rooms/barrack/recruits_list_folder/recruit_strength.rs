@@ -12,7 +12,7 @@ pub fn recruit_strength(
 
     let base_strength_text = TextSection {
         value: format!("STR: {}", recruit_strength),
-        style: TextStyle {
+        style: TextFont {
             font: base_font.clone(),
             font_size: 14.0,
             color: ColorPaletteEnum::DarkBrown.as_color(),
@@ -22,7 +22,7 @@ pub fn recruit_strength(
     let additional_strength_text = if additional_strength > 0 {
         TextSection {
             value: format!(" (+{})", additional_strength),
-            style: TextStyle {
+            style: TextFont {
                 font: base_font.clone(),
                 font_size: 14.0,
                 color: Color::srgb(0.0, 107.0 / 255.0, 29.0 / 255.0),
@@ -32,7 +32,7 @@ pub fn recruit_strength(
         // Empty section if additional strength is zero or less
         TextSection {
             value: String::new(),
-            style: TextStyle {
+            style: TextFont {
                 font: base_font,
                 font_size: 14.0,
                 color: Color::NONE,

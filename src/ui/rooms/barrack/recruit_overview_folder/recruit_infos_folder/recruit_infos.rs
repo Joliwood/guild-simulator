@@ -39,34 +39,28 @@ pub fn recruit_infos(
         .with_children(|parent| {
             // Top container (holds Weapons and Armor buttons)
             parent
-                .spawn(NodeBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        flex_direction: FlexDirection::Row,
-                        justify_content: JustifyContent::SpaceEvenly,
-                        align_items: AlignItems::Center,
-                        width: Val::Percent(100.),
-                        height: Val::Percent(50.),
-                        ..default()
-                    },
+                .spawn(Node {
+                    display: Display::Flex,
+                    flex_direction: FlexDirection::Row,
+                    justify_content: JustifyContent::SpaceEvenly,
+                    align_items: AlignItems::Center,
+                    width: Val::Percent(100.),
+                    height: Val::Percent(50.),
                     ..default()
                 })
                 .with_children(|top_container| {
                     // Left column (Weapon)
                     top_container
-                        .spawn(NodeBundle {
-                            style: Style {
-                                flex_direction: FlexDirection::Column,
-                                align_items: AlignItems::Center,
-                                ..default()
-                            },
+                        .spawn(Node {
+                            flex_direction: FlexDirection::Column,
+                            align_items: AlignItems::Center,
                             ..default()
                         })
                         .with_children(|weapon_column| {
                             // Header for Weapon
                             weapon_column.spawn(TextBundle::from_section(
                                 "Weapon",
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 20.0,
                                     color: ColorPaletteEnum::DarkBrown.as_color(),
@@ -84,19 +78,16 @@ pub fn recruit_infos(
 
                     // Right column (Armor)
                     top_container
-                        .spawn(NodeBundle {
-                            style: Style {
-                                flex_direction: FlexDirection::Column,
-                                align_items: AlignItems::Center,
-                                ..default()
-                            },
+                        .spawn(Node {
+                            flex_direction: FlexDirection::Column,
+                            align_items: AlignItems::Center,
                             ..default()
                         })
                         .with_children(|armor_column| {
                             // Header for Armor
                             armor_column.spawn(TextBundle::from_section(
                                 "Armor",
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 20.0,
                                     color: ColorPaletteEnum::DarkBrown.as_color(),
@@ -115,23 +106,20 @@ pub fn recruit_infos(
 
             // Bottom container (holds Scrolls header and three buttons)
             parent
-                .spawn(NodeBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        flex_direction: FlexDirection::Column,
-                        align_items: AlignItems::Center,
-                        justify_content: JustifyContent::Start,
-                        width: Val::Percent(100.),
-                        height: Val::Percent(50.),
-                        ..default()
-                    },
+                .spawn(Node {
+                    display: Display::Flex,
+                    flex_direction: FlexDirection::Column,
+                    align_items: AlignItems::Center,
+                    justify_content: JustifyContent::Start,
+                    width: Val::Percent(100.),
+                    height: Val::Percent(50.),
                     ..default()
                 })
                 .with_children(|bottom_container| {
                     // Header for Scrolls
                     bottom_container.spawn(TextBundle::from_section(
                         "Scrolls",
-                        TextStyle {
+                        TextFont {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 20.0,
                             color: ColorPaletteEnum::DarkBrown.as_color(),
@@ -140,16 +128,13 @@ pub fn recruit_infos(
 
                     // Row container for buttons
                     bottom_container
-                        .spawn(NodeBundle {
-                            style: Style {
-                                display: Display::Flex,
-                                flex_direction: FlexDirection::Row,
-                                justify_content: JustifyContent::SpaceBetween,
-                                align_items: AlignItems::Center,
-                                width: Val::Percent(100.),
-                                margin: UiRect::all(Val::Px(5.)),
-                                ..default()
-                            },
+                        .spawn(Node {
+                            display: Display::Flex,
+                            flex_direction: FlexDirection::Row,
+                            justify_content: JustifyContent::SpaceBetween,
+                            align_items: AlignItems::Center,
+                            width: Val::Percent(100.),
+                            margin: UiRect::all(Val::Px(5.)),
                             ..default()
                         })
                         .with_children(|scrolls_row| {

@@ -59,7 +59,7 @@ pub fn daily_event_documents(
                             .with_children(|overlay| {
                                 overlay.spawn(TextBundle::from_section(
                                     format!("{}", daily_events_number),
-                                    TextStyle {
+                                    TextFont {
                                         font: my_assets.fira_sans_bold.clone(),
                                         font_size: 25.0,
                                         color: Color::BLACK,

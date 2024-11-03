@@ -17,16 +17,13 @@ pub fn recruit_sent_stats(
 
     // Recruit Send Stats
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                display: Display::Flex,
-                flex_direction: FlexDirection::Column,
-                align_items: AlignItems::Center,
-                margin: UiRect {
-                    top: Val::Px(10.0),
-                    bottom: Val::Px(10.0),
-                    ..default()
-                },
+        .spawn(Node {
+            display: Display::Flex,
+            flex_direction: FlexDirection::Column,
+            align_items: AlignItems::Center,
+            margin: UiRect {
+                top: Val::Px(10.0),
+                bottom: Val::Px(10.0),
                 ..default()
             },
             ..default()
@@ -36,7 +33,7 @@ pub fn recruit_sent_stats(
             stats_column.spawn(TextBundle {
                 text: Text::from_section(
                     format!("Level: {}", recruit_sent.level),
-                    TextStyle {
+                    TextFont {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
@@ -49,7 +46,7 @@ pub fn recruit_sent_stats(
             stats_column.spawn(TextBundle {
                 text: Text::from_section(
                     format!("Strength: {}", recruit_strength),
-                    TextStyle {
+                    TextFont {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
@@ -62,7 +59,7 @@ pub fn recruit_sent_stats(
             stats_column.spawn(TextBundle {
                 text: Text::from_section(
                     format!("Endurance: {}", recruit_endurance),
-                    TextStyle {
+                    TextFont {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,
@@ -75,7 +72,7 @@ pub fn recruit_sent_stats(
             stats_column.spawn(TextBundle {
                 text: Text::from_section(
                     format!("Intelligence: {}", recruit_intelligence),
-                    TextStyle {
+                    TextFont {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 16.0,
                         color: Color::BLACK,

@@ -25,24 +25,18 @@ pub fn loots_and_start(
 
     // Loots (Text / Loot Icons)
     parent
-        .spawn(NodeBundle {
-            style: Style {
-                height: Val::Percent(20.),
-                flex_direction: FlexDirection::Row,
-                justify_content: JustifyContent::SpaceBetween,
-                ..default()
-            },
+        .spawn(Node {
+            height: Val::Percent(20.),
+            flex_direction: FlexDirection::Row,
+            justify_content: JustifyContent::SpaceBetween,
             ..default()
         })
         .with_children(|parent| {
             parent
-                .spawn(NodeBundle {
-                    style: Style {
-                        flex_direction: FlexDirection::Column,
-                        align_items: AlignItems::Center,
-                        justify_content: JustifyContent::Center,
-                        ..default()
-                    },
+                .spawn(Node {
+                    flex_direction: FlexDirection::Column,
+                    align_items: AlignItems::Center,
+                    justify_content: JustifyContent::Center,
                     ..default()
                 })
                 .with_children(|parent| {
@@ -50,7 +44,7 @@ pub fn loots_and_start(
                     parent.spawn(TextBundle {
                         text: Text::from_section(
                             "Loots :",
-                            TextStyle {
+                            TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 16.0,
                                 color: Color::BLACK,
@@ -61,12 +55,9 @@ pub fn loots_and_start(
 
                     // Loots in display row
                     parent
-                        .spawn(NodeBundle {
-                            style: Style {
-                                flex_direction: FlexDirection::Row,
-                                justify_content: JustifyContent::SpaceBetween,
-                                ..default()
-                            },
+                        .spawn(Node {
+                            flex_direction: FlexDirection::Row,
+                            justify_content: JustifyContent::SpaceBetween,
                             ..default()
                         })
                         .with_children(|parent| {
@@ -109,7 +100,7 @@ pub fn loots_and_start(
                     button.spawn(TextBundle {
                         text: Text::from_section(
                             "Start the mission",
-                            TextStyle {
+                            TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 16.0,
                                 color: Color::WHITE,

@@ -15,16 +15,13 @@ pub fn left_hud(
     texture_atlas_layouts: &Handle<TextureAtlasLayout>,
 ) {
     commands
-        .spawn(NodeBundle {
-            style: Style {
-                display: Display::Flex,
-                flex_direction: FlexDirection::Row,
-                justify_content: JustifyContent::SpaceAround,
-                align_items: AlignItems::Center,
-                width: Val::Px(205.0),
-                height: Val::Px(25.0),
-                ..default()
-            },
+        .spawn(Node {
+            display: Display::Flex,
+            flex_direction: FlexDirection::Row,
+            justify_content: JustifyContent::SpaceAround,
+            align_items: AlignItems::Center,
+            width: Val::Px(205.0),
+            height: Val::Px(25.0),
             ..default()
         })
         .insert(Name::new("Left Container"))
@@ -62,11 +59,13 @@ pub fn left_hud(
                         .spawn(TextBundle {
                             text: Text::from_section(
                                 player_stats.golds.to_string(),
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 14.0,
-                                    color: Color::WHITE,
+                                    // color: Color::WHITE,
+                                    text_color,
                                 },
+                                col,
                             ),
                             ..default()
                         })
@@ -78,15 +77,16 @@ pub fn left_hud(
                     text: Text::from_sections([
                         TextSection {
                             value: "Lvl : ".to_string(),
-                            style: TextStyle {
+                            style: TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 14.0,
-                                color: Color::WHITE,
+                                // color: Color::WHITE,
+                                text_color: Color::WHITE,
                             },
                         },
                         TextSection {
                             value: format!("{}", player_stats.guild_level),
-                            style: TextStyle {
+                            style: TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 14.0,
                                 color: Color::WHITE,
@@ -102,7 +102,7 @@ pub fn left_hud(
                     text: Text::from_sections([
                         TextSection {
                             value: "Day : ".to_string(),
-                            style: TextStyle {
+                            style: TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 14.0,
                                 color: Color::WHITE,
@@ -110,7 +110,7 @@ pub fn left_hud(
                         },
                         TextSection {
                             value: format!("{}", player_stats.day),
-                            style: TextStyle {
+                            style: TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 14.0,
                                 color: Color::WHITE,

@@ -51,21 +51,18 @@ pub fn hud(
 
             // Middle Container
             parent
-                .spawn(NodeBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        flex_direction: FlexDirection::Row,
-                        justify_content: JustifyContent::SpaceAround,
-                        align_items: AlignItems::Center,
-                        height: Val::Px(35.0),
-                        width: Val::Px(165.0),
-                        margin: UiRect {
-                            right: Val::Px(2.),
-                            ..default()
-                        },
-                        column_gap: Val::Px(7.),
+                .spawn(Node {
+                    display: Display::Flex,
+                    flex_direction: FlexDirection::Row,
+                    justify_content: JustifyContent::SpaceAround,
+                    align_items: AlignItems::Center,
+                    height: Val::Px(35.0),
+                    width: Val::Px(165.0),
+                    margin: UiRect {
+                        right: Val::Px(2.),
                         ..default()
                     },
+                    column_gap: Val::Px(7.),
                     ..default()
                 })
                 .insert(Name::new("Middle Container"))

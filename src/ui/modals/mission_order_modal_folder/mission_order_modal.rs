@@ -54,24 +54,22 @@ pub fn mission_order_modal(
 
         if let Some(mission) = &selected_mission.mission {
             commands
-                .spawn(NodeBundle {
-                    style: Style {
-                        position_type: PositionType::Absolute,
-                        align_items: AlignItems::Center,
-                        flex_direction: FlexDirection::Column,
-                        justify_content: JustifyContent::Center,
-                        row_gap: Val::Px(10.0),
-                        width: Val::Px(570.0),
-                        height: Val::Px(470.0),
-                        margin: UiRect::all(Val::Auto),
-                        padding: UiRect::all(Val::Px(10.0)),
-                        border: UiRect::all(Val::Px(3.0)),
-                        ..default()
-                    },
-                    border_radius: BorderRadius::all(Val::Px(20.0)),
-                    border_color: BorderColor(Color::BLACK),
-                    background_color: BackgroundColor(WOOD_COLOR),
-                    z_index: ZIndex::Global(1),
+                .spawn(Node {
+                    position_type: PositionType::Absolute,
+                    align_items: AlignItems::Center,
+                    flex_direction: FlexDirection::Column,
+                    justify_content: JustifyContent::Center,
+                    row_gap: Val::Px(10.0),
+                    width: Val::Px(570.0),
+                    height: Val::Px(470.0),
+                    margin: UiRect::all(Val::Auto),
+                    padding: UiRect::all(Val::Px(10.0)),
+                    border: UiRect::all(Val::Px(3.0)),
+                    // WIP - v0.15 migrating
+                    // border_radius: BorderRadius::all(Val::Px(20.0)),
+                    // border_color: BorderColor(Color::BLACK),
+                    // background_color: BackgroundColor(WOOD_COLOR),
+                    // z_index: ZIndex::Global(1),
                     ..default()
                 })
                 .insert(Name::new("Mission details modal"))
@@ -106,7 +104,7 @@ pub fn mission_order_modal(
                         .spawn(TextBundle {
                             text: Text::from_section(
                                 mission.name.to_string(),
-                                TextStyle {
+                                TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 20.0,
                                     color: Color::BLACK,
@@ -118,29 +116,22 @@ pub fn mission_order_modal(
 
                     // Main contents / loots
                     parent
-                        .spawn(NodeBundle {
-                            style: Style {
-                                width: Val::Percent(100.0),
-                                height: Val::Percent(100.0),
-                                flex_direction: FlexDirection::Column,
-                                justify_content: JustifyContent::SpaceBetween,
-                                // column_gap: Val::Px(10.0),
-                                ..default()
-                            },
+                        .spawn(Node {
+                            width: Val::Percent(100.0),
+                            height: Val::Percent(100.0),
+                            flex_direction: FlexDirection::Column,
+                            justify_content: JustifyContent::SpaceBetween,
                             ..default()
                         })
                         .with_children(|parent| {
                             // Main contents : mission image and description, percent of win, recruit info, and button
                             parent
-                                .spawn(NodeBundle {
-                                    style: Style {
-                                        flex_direction: FlexDirection::Row,
-                                        justify_content: JustifyContent::SpaceBetween,
-                                        width: Val::Percent(100.0),
-                                        height: Val::Percent(80.),
-                                        row_gap: Val::Px(20.0),
-                                        ..default()
-                                    },
+                                .spawn(Node {
+                                    flex_direction: FlexDirection::Row,
+                                    justify_content: JustifyContent::SpaceBetween,
+                                    width: Val::Percent(100.0),
+                                    height: Val::Percent(80.),
+                                    row_gap: Val::Px(20.0),
                                     ..default()
                                 })
                                 .with_children(|parent| {
@@ -159,7 +150,7 @@ pub fn mission_order_modal(
                                                     "{}%",
                                                     selected_mission.percent_of_victory.unwrap()
                                                 ),
-                                                TextStyle {
+                                                TextFont {
                                                     font: my_assets.fira_sans_bold.clone(),
                                                     font_size: 18.0,
                                                     color: Color::BLACK,

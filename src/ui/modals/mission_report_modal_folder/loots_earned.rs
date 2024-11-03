@@ -11,14 +11,11 @@ pub fn loots_earned(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     parent
-        .spawn(NodeBundle {
-            style: Style {
-                width: Val::Percent(100.),
-                flex_direction: FlexDirection::Column,
-                justify_content: JustifyContent::FlexStart,
-                align_items: AlignItems::FlexStart,
-                ..default()
-            },
+        .spawn(Node {
+            width: Val::Percent(100.),
+            flex_direction: FlexDirection::Column,
+            justify_content: JustifyContent::FlexStart,
+            align_items: AlignItems::FlexStart,
             ..default()
         })
         .with_children(|parent| {
@@ -26,7 +23,7 @@ pub fn loots_earned(
             parent.spawn(TextBundle {
                 text: Text::from_section(
                     "Loots",
-                    TextStyle {
+                    TextFont {
                         font: my_assets.fira_sans_bold.clone(),
                         font_size: 18.0,
                         color: Color::BLACK,
@@ -36,13 +33,10 @@ pub fn loots_earned(
             });
 
             parent
-                .spawn(NodeBundle {
-                    style: Style {
-                        flex_direction: FlexDirection::Column,
-                        align_items: AlignItems::FlexStart,
-                        justify_content: JustifyContent::Center,
-                        ..default()
-                    },
+                .spawn(Node {
+                    flex_direction: FlexDirection::Column,
+                    align_items: AlignItems::FlexStart,
+                    justify_content: JustifyContent::Center,
                     ..default()
                 })
                 .with_children(|parent| {
@@ -53,7 +47,7 @@ pub fn loots_earned(
                                 "+ {} Golds | + {} XP for recruit",
                                 golds_gained, experience_gained
                             ),
-                            TextStyle {
+                            TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 16.0,
                                 color: Color::BLACK,
@@ -64,12 +58,9 @@ pub fn loots_earned(
 
                     // Loots in display row
                     parent
-                        .spawn(NodeBundle {
-                            style: Style {
-                                flex_direction: FlexDirection::Row,
-                                justify_content: JustifyContent::SpaceBetween,
-                                ..default()
-                            },
+                        .spawn(Node {
+                            flex_direction: FlexDirection::Row,
+                            justify_content: JustifyContent::SpaceBetween,
                             ..default()
                         })
                         .with_children(|parent| {

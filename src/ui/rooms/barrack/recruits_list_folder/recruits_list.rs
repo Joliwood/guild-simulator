@@ -20,23 +20,20 @@ pub fn spawn_left_container(
         texture_atlas_layouts.add(recruit_layout);
 
     parent
-        .spawn(NodeBundle {
-            style: Style {
-                display: Display::Flex,
-                align_self: AlignSelf::Center,
-                flex_direction: FlexDirection::Column,
-                padding: UiRect {
-                    top: Val::Px(30.),
-                    bottom: Val::Px(25.),
-                    left: Val::Px(25.),
-                    right: Val::Px(25.),
-                },
-                row_gap: Val::Px(5.0),
-                align_items: AlignItems::Center,
-                width: Val::Px(400.),
-                height: Val::Px(450.),
-                ..default()
+        .spawn(Node {
+            display: Display::Flex,
+            align_self: AlignSelf::Center,
+            flex_direction: FlexDirection::Column,
+            padding: UiRect {
+                top: Val::Px(30.),
+                bottom: Val::Px(25.),
+                left: Val::Px(25.),
+                right: Val::Px(25.),
             },
+            row_gap: Val::Px(5.0),
+            align_items: AlignItems::Center,
+            width: Val::Px(400.),
+            height: Val::Px(450.),
             ..default()
         })
         .insert(Name::new("Barrack > Recruits list"))
