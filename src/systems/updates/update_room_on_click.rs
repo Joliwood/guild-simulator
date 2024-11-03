@@ -10,7 +10,7 @@ use crate::{
     },
     utils::reset_modals_visibility,
 };
-use bevy::prelude::*;
+use bevy::{prelude::*, window::CursorOptions};
 
 // System to update room based on button clicks
 pub fn update_room_on_click(
@@ -30,7 +30,7 @@ pub fn update_room_on_click(
     for (interaction, room_button, mut _background_color) in interaction_query.iter_mut() {
         match interaction {
             Interaction::Hovered => {
-                window.cursor.icon = CursorIcon::Pointer;
+                // window.cursor.icon = CursorIcon::Pointer;
                 // background_color.0 = Color::srgba(0., 0., 0., 0.6);
             }
             Interaction::Pressed => {
@@ -49,7 +49,7 @@ pub fn update_room_on_click(
             }
             Interaction::None => {
                 // background_color.0 = Color::NONE;
-                window.cursor.icon = CursorIcon::Default;
+                // window.cursor.icon = CursorIcon::Default;
             }
         }
     }

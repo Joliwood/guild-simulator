@@ -19,7 +19,7 @@ pub fn sign_mission_report(
     mut interaction_query: Query<
         (
             &Interaction,
-            &mut Style,
+            &mut Node,
             &MissionReportModalSignButtonTrigger,
             &mut BackgroundColor,
             &MissionReport,
@@ -37,7 +37,7 @@ pub fn sign_mission_report(
 ) {
     let mut window = windows.single_mut();
 
-    for (interaction, mut style, _button, mut color, mission_report) in interaction_query.iter_mut()
+    for (interaction, mut node, _button, mut color, mission_report) in interaction_query.iter_mut()
     {
         match *interaction {
             Interaction::Pressed => {
@@ -96,10 +96,10 @@ pub fn sign_mission_report(
                 }
             }
             Interaction::Hovered => {
-                window.cursor.icon = CursorIcon::Pointer;
+                // window.cursor.icon = CursorIcon::Pointer;
                 *color = HOVERED_BUTTON.into();
                 // Add a border when hovered
-                style.border = UiRect {
+                node.border = UiRect {
                     left: Val::Px(3.0),
                     right: Val::Px(3.0),
                     top: Val::Px(3.0),
@@ -108,9 +108,9 @@ pub fn sign_mission_report(
             }
             Interaction::None => {
                 // Remove the border when not interacted with
-                window.cursor.icon = CursorIcon::Default;
+                // window.cursor.icon = CursorIcon::Default;
                 *color = BackgroundColor(ColorPaletteEnum::DarkBrown.as_color());
-                style.border = UiRect::default();
+                node.border = UiRect::default();
             }
         }
     }

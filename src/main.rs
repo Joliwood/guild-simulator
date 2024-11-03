@@ -14,10 +14,16 @@ mod systems;
 mod ui;
 mod utils;
 
-use bevy::{asset::AssetMetaCheck, prelude::*};
+use bevy::{
+    asset::AssetMetaCheck,
+    prelude::*,
+    window::{CursorGrabMode, SystemCursorIcon},
+    winit::cursor::CursorIcon,
+};
 use bevy_asset_loader::asset_collection::AssetCollectionApp;
+use my_assets::MyAssets;
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
-use pyri_tooltip::prelude::*;
+// use pyri_tooltip::prelude::*;
 use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
     general_structs::{
@@ -52,8 +58,9 @@ fn main() -> AppExit {
             }),
             // Desactivate on testing
             // WorldInspectorPlugin::new(),
-            TooltipPlugin::default(),
+            // TooltipPlugin::default(),
         ))
+        .init_asset_loader::<MyAssets>()
         .insert_resource(PlayerStats::default())
         .insert_resource(MissionReports::default())
         .insert_resource(Missions::default())
@@ -68,15 +75,17 @@ fn main() -> AppExit {
         .insert_resource(Maps::default())
         .insert_resource(DailyEvents::default())
         .insert_resource(DailyEventTargets::default())
-        .init_collection::<my_assets::MyAssets>()
+        // .init_collection::<MyAssets>()
         .add_systems(
             Startup,
             (
                 audio::audio_source::audio_source,
                 systems::camera::camera_setup::camera_setup,
-                systems::inputs::mouse_systems::mouse_init,
+                // systems::inputs::mouse_systems::mouse_init,
                 ui::hud_folder::hud::hud,
                 // systems::recruits::hiring_setup::hiring_setup,
+                toggle_cursor,
+                
             ),
         )
         .add_systems(
@@ -124,4 +133,35 @@ fn main() -> AppExit {
             ),
         )
         .run()
+}
+
+#[derive(Resource)]
+struct CursorIcons(Vec<CursorIcon>);
+
+fn toggle_cursor(mut window: Single<&mut Window>, input: Res<ButtonInput<KeyCode>>) {
+    if input.just_pressed(KeyCode::Space) {
+        window.cursor_options.visible = !window.cursor_options.visible;
+        window.cursor_options.grab_mode = match window.cursor_options.grab_mode {
+            CursorGrabMode::None => CursorGrabMode::Locked,
+            CursorGrabMode::Locked | CursorGrabMode::Confined => CursorGrabMode::None,
+        };
+    }
+}
+
+fn init_cursor_icons(
+    mut commands: Commands,
+    #[cfg(feature = "custom_cursor")] asset_server: Res<AssetServer>,
+) {
+    commands.insert_resource(CursorIcons(vec![
+        SystemCursorIcon::Default.into(),
+        SystemCursorIcon::Pointer.into(),
+        SystemCursorIcon::Wait.into(),
+        SystemCursorIcon::Text.into(),
+        #[cfg(feature = "custom_cursor")]
+        CustomCursor::Image {
+            handle: asset_server.load("branding/icon.png"),
+            hotspot: (128, 128),
+        }
+        .into(),
+    ]));
 }

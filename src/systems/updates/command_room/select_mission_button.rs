@@ -40,11 +40,11 @@ pub fn select_mission_button(
                         mission_modal_visibility.0 = true;
                     }
                     Interaction::Hovered => {
-                        window.cursor.icon = CursorIcon::Pointer;
+                        // window.cursor.icon = CursorIcon::Pointer;
                         *color = Color::WHITE.into();
                     }
                     Interaction::None => {
-                        window.cursor.icon = CursorIcon::Default;
+                        // window.cursor.icon = CursorIcon::Default;
                         *color = NORMAL_BUTTON.into();
                     }
                 }

@@ -1,8 +1,5 @@
 use crate::structs::{player_stats::PlayerStats, trigger_structs::PlayerDayTrigger};
-use bevy::{
-    prelude::{DetectChanges, Entity, Query, Res, With},
-    text::Text,
-};
+use bevy::prelude::{DetectChanges, Query, Res, Text, With};
 
 /// # Update the gold counter text (top left of the user screen)
 ///
@@ -11,13 +8,13 @@ use bevy::{
 /// - `query`: The element that will be updated (has to ba added in an .insert() method in the node)
 pub fn update_day_counter(
     player_stats: Res<PlayerStats>,
-    query: Query<Entity, With<PlayerDayTrigger>>,
+    mut query: Query<&mut Text, With<PlayerDayTrigger>>,
     // ! WIP - Not working yet
-    mut writer: UiTextWriter,
+    // mut writer: UiTextWriter,
 ) {
     if player_stats.is_changed() {
         for mut text in query.iter_mut() {
-            text.sections[1].value = player_stats.day.to_string();
+            // text.sections[1].value = player_stats.day.to_string();
         }
     }
 }

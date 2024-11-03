@@ -3,8 +3,9 @@ use crate::{
     enums::{MapImageEnum, SoundEnum},
     structs::{equipments::ItemEnum, missions::ItemLootEnum},
 };
-use bevy::prelude::*;
+use bevy::{asset, prelude::*};
 use bevy_asset_loader::asset_collection::AssetCollection;
+use serde::Deserialize;
 
 #[derive(AssetCollection, Resource)]
 pub struct MyAssets {

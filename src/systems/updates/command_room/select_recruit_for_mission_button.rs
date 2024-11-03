@@ -55,11 +55,11 @@ pub fn select_recruit_for_mission_button(
                     );
                 }
                 Interaction::Hovered => {
-                    window.cursor.icon = CursorIcon::Pointer;
+                    // window.cursor.icon = CursorIcon::Pointer;
                     *color = BorderColor(Color::WHITE);
                 }
                 Interaction::None => {
-                    window.cursor.icon = CursorIcon::Default;
+                    // window.cursor.icon = CursorIcon::Default;
                     *color = HOVERED_BUTTON.into();
                 }
             }

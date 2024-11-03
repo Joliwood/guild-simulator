@@ -2,10 +2,7 @@ use crate::structs::{
     missions::SelectedMission,
     trigger_structs::{SelectedMissionPercentOfVictoryTrigger, SelectedMissionRecruitIdTrigger},
 };
-use bevy::{
-    prelude::{DetectChanges, Query, Res, With},
-    text::Text,
-};
+use bevy::prelude::{DetectChanges, Query, Res, Text, With};
 
 /// # Update the gold counter text (top left of the user screen)
 ///
@@ -18,7 +15,7 @@ pub fn update_selected_mission_recruit_id(
 ) {
     if selected_mission.is_changed() {
         for mut text in query.iter_mut() {
-            text.sections[0].value = format!("{:?}", selected_mission.recruit_id);
+            // text.sections[0].value = format!("{:?}", selected_mission.recruit_id);
         }
     }
 }
@@ -29,7 +26,7 @@ pub fn update_update_selected_mission_percentage_of_victory(
 ) {
     if selected_mission.is_changed() {
         for mut text in query.iter_mut() {
-            text.sections[0].value = format!("{:?} %", selected_mission.percent_of_victory);
+            // text.sections[0].value = format!("{:?} %", selected_mission.percent_of_victory);
         }
     }
 }

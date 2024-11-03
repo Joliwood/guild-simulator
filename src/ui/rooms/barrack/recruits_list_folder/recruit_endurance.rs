@@ -10,48 +10,41 @@ pub fn recruit_endurance(
 ) {
     let base_font: Handle<Font> = my_assets.fira_sans_bold.clone();
 
-    let base_endurance_text = TextSection {
-        value: format!("END: {}", recruit_endurance),
-        style: TextFont {
-            font: base_font.clone(),
-            font_size: 14.0,
-            color: ColorPaletteEnum::DarkBrown.as_color(),
-        },
-    };
+    // let base_endurance_text = TextSection {
+    //     value: format!("END: {}", recruit_endurance),
+    //     style: TextFont {
+    //         font: base_font.clone(),
+    //         font_size: 14.0,
+    //         color: ColorPaletteEnum::DarkBrown.as_color(),
+    //     },
+    // };
 
-    let additional_endurance_text = if additional_endurance > 0 {
-        TextSection {
-            value: format!(" (+{})", additional_endurance),
-            style: TextFont {
-                font: base_font.clone(),
-                font_size: 14.0,
-                color: Color::srgb(0.0, 107.0 / 255.0, 29.0 / 255.0),
-            },
-        }
-    } else {
-        // Empty section if additional endurance is zero or less
-        TextSection {
-            value: String::new(),
-            style: TextFont {
-                font: base_font,
-                font_size: 14.0,
-                color: Color::NONE,
-            },
-        }
-    };
+    // let additional_endurance_text = if additional_endurance > 0 {
+    //     TextSection {
+    //         value: format!(" (+{})", additional_endurance),
+    //         style: TextFont {
+    //             font: base_font.clone(),
+    //             font_size: 14.0,
+    //             color: Color::srgb(0.0, 107.0 / 255.0, 29.0 / 255.0),
+    //         },
+    //     }
+    // } else {
+    //     // Empty section if additional endurance is zero or less
+    //     TextSection {
+    //         value: String::new(),
+    //         style: TextFont {
+    //             font: base_font,
+    //             font_size: 14.0,
+    //             color: Color::NONE,
+    //         },
+    //     }
+    // };
 
-    stats_container.spawn(TextBundle {
-        text: Text::from_sections([base_endurance_text, additional_endurance_text]),
-        ..default()
-    });
+    stats_container.spawn((
+        Text::new(format!(
+            "END: {} (+{})",
+            recruit_endurance, additional_endurance
+        )),
+        // text: Text::from_sections([base_endurance_text, additional_endurance_text]),
+    ));
 }
-
-// bottom_container.spawn((
-//     Text::new("Scrolls"),
-//     TextFont {
-//         font: my_assets.fira_sans_bold.clone(),
-//         font_size: 20.0,
-//         ..default()
-//     },
-//     TextColor(ColorPaletteEnum::DarkBrown.as_color()),
-// ));

@@ -36,12 +36,12 @@ pub fn close_mission_modal(
                     selected_mission.reset();
                 }
                 Interaction::Hovered => {
-                    window.cursor.icon = CursorIcon::Pointer;
+                    // window.cursor.icon = CursorIcon::Pointer;
                     *color = HOVERED_BUTTON.into();
                     border_color.0 = Color::WHITE;
                 }
                 Interaction::None => {
-                    window.cursor.icon = CursorIcon::Default;
+                    // window.cursor.icon = CursorIcon::Default;
                     *color = BackgroundColor(WOOD_COLOR);
                     border_color.0 = Color::BLACK;
                 }

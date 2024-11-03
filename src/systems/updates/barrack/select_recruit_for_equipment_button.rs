@@ -31,11 +31,11 @@ pub fn select_recruit_for_equipment_button(
                     selected_recruit_for_equipment.0 = Some(recruit.clone());
                 }
                 Interaction::Hovered => {
-                    window.cursor.icon = CursorIcon::Pointer;
+                    // window.cursor.icon = CursorIcon::Pointer;
                     *color = HOVERED_BUTTON.into();
                 }
                 Interaction::None => {
-                    window.cursor.icon = CursorIcon::Default;
+                    // window.cursor.icon = CursorIcon::Default;
                     *color = BackgroundColor(WOOD_COLOR);
                 }
             }

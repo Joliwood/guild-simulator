@@ -49,11 +49,11 @@ pub fn assign_recruit_to_mission(
                     );
                 }
                 Interaction::Hovered => {
-                    window.cursor.icon = CursorIcon::Pointer;
+                    // window.cursor.icon = CursorIcon::Pointer;
                     *color = HOVERED_BUTTON.into();
                 }
                 Interaction::None => {
-                    window.cursor.icon = CursorIcon::Default;
+                    // window.cursor.icon = CursorIcon::Default;
                     *color = BackgroundColor(WOOD_COLOR);
                 }
             }

@@ -2,6 +2,7 @@ use bevy::{
     ecs::system::Res,
     input::{mouse::MouseButton, ButtonInput},
     prelude::*,
+    window::CursorGrabMode,
     // window::CursorGrabMode,
 };
 
@@ -13,17 +14,17 @@ pub fn mouse_click_system(
     let mut window = windows.single_mut();
 
     if mouse_button_input.pressed(MouseButton::Left) {
-        window.cursor.icon = CursorIcon::Grabbing;
+        // window.cursor.icon = CursorIcon::Grabbing;
     }
 
     if mouse_button_input.just_released(MouseButton::Left) {
-        window.cursor.icon = CursorIcon::Default;
+        // window.cursor.icon = CursorIcon::Default;
     }
 
     if mouse_button_input.just_released(MouseButton::Right) {}
 }
 
-pub fn mouse_init(mut windows: Query<&mut Window>) {
-    let mut window = windows.single_mut();
-    window.cursor.icon = CursorIcon::Default;
-}
+// pub fn mouse_init(mut windows: Query<&mut Window>) {
+//     let mut window = windows.single_mut();
+//     // window.cursor.icon = CursorIcon::Default;
+// }

@@ -39,10 +39,10 @@ pub fn toggle_mission_reports(
                 play_sound(&my_assets, &mut commands, SoundEnum::PaperTouch);
             }
             Interaction::Hovered => {
-                window.cursor.icon = CursorIcon::Pointer;
+                // window.cursor.icon = CursorIcon::Pointer;
             }
             Interaction::None => {
-                window.cursor.icon = CursorIcon::Default;
+                // window.cursor.icon = CursorIcon::Default;
             }
         }
     }

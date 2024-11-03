@@ -1,8 +1,5 @@
 use crate::structs::{player_stats::PlayerStats, trigger_structs::GuildLvlTrigger};
-use bevy::{
-    prelude::{DetectChanges, Query, Res, With},
-    text::Text,
-};
+use bevy::prelude::{DetectChanges, Query, Res, Text, With};
 
 /// # Update the gold counter text (top left of the user screen)
 ///
@@ -15,7 +12,7 @@ pub fn update_guild_level(
 ) {
     if player_stats.is_changed() {
         for mut text in query.iter_mut() {
-            text.sections[1].value = player_stats.guild_level.to_string();
+            // text.sections[1].value = player_stats.guild_level.to_string();
         }
     }
 }
