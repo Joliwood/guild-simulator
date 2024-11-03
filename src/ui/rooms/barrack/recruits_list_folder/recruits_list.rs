@@ -39,9 +39,12 @@ pub fn spawn_left_container(
         .insert(Name::new("Barrack > Recruits list"))
         .with_children(|left_container| {
             // Background image
-            left_container.spawn(ImageBundle {
-                image: my_assets.inventory_container.clone().into(),
-                style: Style {
+            left_container.spawn((
+                UiImage {
+                    image: my_assets.inventory_container.clone().into(),
+                    ..default()
+                },
+                Node {
                     display: Display::Flex,
                     top: Val::Px(0.),
                     position_type: PositionType::Absolute,
@@ -49,8 +52,7 @@ pub fn spawn_left_container(
                     height: Val::Percent(100.0),
                     ..default()
                 },
-                ..default()
-            });
+            ));
 
             // Barrack room > left container > recruit buttons
             for recruit in player_stats.recruits.iter() {

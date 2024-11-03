@@ -26,9 +26,12 @@ pub fn map_on_table(
             if map.is_some() {
                 let missions = missions.get_missions_by_ids(map.clone().unwrap().map_mission_ids);
                 button
-                    .spawn(ImageBundle {
-                        image: my_assets.get_image_map(map.clone().unwrap().image).into(),
-                        style: Style {
+                    .spawn((
+                        UiImage {
+                            image: my_assets.get_image_map(map.clone().unwrap().image).into(),
+                            ..default()
+                        },
+                        Node {
                             display: Display::Flex,
                             justify_content: JustifyContent::Center,
                             align_items: AlignItems::Center,
@@ -36,8 +39,7 @@ pub fn map_on_table(
                             height: Val::Percent(100.),
                             ..default()
                         },
-                        ..default()
-                    })
+                    ))
                     .with_children(|map| {
                         // Generate buttons for each mission
                         for mission in missions.iter().filter(|mission| mission.unlocked) {
@@ -71,17 +73,15 @@ pub fn map_on_table(
                                             ..default()
                                         })
                                         .with_children(|overlay| {
-                                            overlay.spawn(TextBundle {
-                                                text: Text::from_section(
-                                                    "A recruit has already been sent",
-                                                    TextFont {
-                                                        font: my_assets.fira_sans_bold.clone(),
-                                                        font_size: 18.0,
-                                                        color: Color::WHITE,
-                                                    },
-                                                ),
-                                                ..default()
-                                            });
+                                            overlay.spawn((
+                                                Text::new("A recruit has already been sent"),
+                                                TextFont {
+                                                    font: my_assets.fira_sans_bold.clone(),
+                                                    font_size: 18.0,
+                                                    ..default()
+                                                },
+                                                TextColor(Color::WHITE),
+                                            ));
                                         });
                                 });
                             }

@@ -74,17 +74,15 @@ pub fn map_recruit_card(
                         ..default()
                     })
                     .with_children(|overlay| {
-                        overlay.spawn(TextBundle {
-                            text: Text::from_section(
-                                recruit.state.get_description(),
-                                TextFont {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 16.0,
-                                    color: Color::WHITE,
-                                },
-                            ),
-                            ..default()
-                        });
+                        overlay.spawn((
+                            Text::new(recruit.state.get_description()),
+                            TextFont {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 16.0,
+                                ..default()
+                            },
+                            TextColor(Color::WHITE),
+                        ));
                     });
             }
         })
@@ -97,33 +95,35 @@ pub fn map_recruit_card(
                         align_items: AlignItems::Center,
                         ..default()
                     },
-                    Tooltip::cursor(
-                        "This score represent the
-total power of the recruit, based on
-his/her stats, equipment and level."
-                            .to_string(),
-                    )
-                    .with_activation(TooltipActivation::IDLE),
+                    //                     Tooltip::cursor(
+                    //                         "This score represent the
+                    // total power of the recruit, based on
+                    // his/her stats, equipment and level."
+                    //                             .to_string(),
+                    //                     )
+                    //                     .with_activation(TooltipActivation::IDLE),
                 ))
                 .with_children(|parent| {
-                    parent.spawn(TextBundle::from_section(
-                        recruit.get_total_merged_stats().to_string(),
+                    parent.spawn((
+                        Text::new(recruit.get_total_merged_stats().to_string()),
                         TextFont {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 18.0,
-                            color: Color::BLACK,
+                            ..default()
                         },
+                        TextColor(Color::BLACK),
                     ));
                 });
 
             // Recruit name
-            button.spawn(TextBundle::from_section(
-                recruit.name.clone(),
+            button.spawn((
+                Text::new(recruit.name.clone()),
                 TextFont {
                     font: my_assets.fira_sans_bold.clone(),
                     font_size: 16.0,
-                    color: Color::WHITE,
+                    ..default()
                 },
+                TextColor(Color::BLACK),
             ));
 
             button
@@ -145,22 +145,21 @@ his/her stats, equipment and level."
                 })
                 .with_children(|parent| {
                     parent.spawn((
-                        ImageBundle {
-                            image: my_assets.recruit_picture_atlas.clone().into(),
-                            style: Style {
-                                margin: UiRect {
-                                    top: Val::Px(-10.),
-                                    ..default()
-                                },
-                                width: Val::Percent(100.),
-                                height: Val::Px(70. * 2.),
+                        UiImage::from_atlas_image(
+                            my_assets.recruit_picture_atlas.clone().into(),
+                            TextureAtlas {
+                                index: recruit.image_atlas_index.into(),
+                                layout: recruit_texture_atlas_layout.clone(),
+                            },
+                        ),
+                        Node {
+                            margin: UiRect {
+                                top: Val::Px(-10.),
                                 ..default()
                             },
+                            width: Val::Percent(100.),
+                            height: Val::Px(70. * 2.),
                             ..default()
-                        },
-                        TextureAtlas {
-                            index: recruit.image_atlas_index.into(),
-                            layout: recruit_texture_atlas_layout.clone(),
                         },
                     ));
                 });

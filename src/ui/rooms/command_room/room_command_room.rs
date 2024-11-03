@@ -31,9 +31,12 @@ pub fn room_command_room(
         .insert(ResetRoomTrigger)
         // Background Image for the Command Room
         .with_children(|ui_container: &mut ChildBuilder| {
-            ui_container.spawn(ImageBundle {
-                image: my_assets.command_room_background.clone().into(),
-                style: Style {
+            ui_container.spawn((
+                UiImage {
+                    image: my_assets.command_room_background.clone().into(),
+                    ..default()
+                },
+                Node {
                     position_type: PositionType::Absolute,
                     justify_content: JustifyContent::Center,
                     align_items: AlignItems::Center,
@@ -41,16 +44,18 @@ pub fn room_command_room(
                     height: Val::Percent(100.0),
                     ..default()
                 },
-                z_index: ZIndex::Global(-1),
-                ..default()
-            });
+                ZIndex(-1),
+            ));
         })
         // Command Table with all child elements inside it
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
-                .spawn(ImageBundle {
-                    image: my_assets.command_table.clone().into(),
-                    style: Style {
+                .spawn((
+                    UiImage {
+                        image: my_assets.command_table.clone().into(),
+                        ..default()
+                    },
+                    Node {
                         flex_direction: FlexDirection::Row,
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
@@ -60,9 +65,8 @@ pub fn room_command_room(
                         padding: UiRect::all(Val::Px(80.)),
                         ..default()
                     },
-                    z_index: ZIndex::Global(0),
-                    ..default()
-                })
+                    ZIndex(0),
+                ))
                 .with_children(|table| {
                     // Left Column
                     table

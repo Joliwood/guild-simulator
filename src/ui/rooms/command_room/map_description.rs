@@ -7,9 +7,12 @@ pub fn map_description(
     selected_map: &Option<Map>,
 ) {
     parent
-        .spawn(ImageBundle {
-            image: my_assets.map_description.clone().into(),
-            style: Style {
+        .spawn((
+            UiImage {
+                image: my_assets.map_description.clone().into(),
+                ..default()
+            },
+            Node {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,
                 justify_content: JustifyContent::FlexStart,
@@ -25,33 +28,28 @@ pub fn map_description(
                 },
                 ..default()
             },
-            ..default()
-        })
+        ))
         .with_children(|column| {
             if let Some(map) = selected_map {
-                column.spawn(TextBundle {
-                    text: Text::from_section(
-                        map.name.clone(),
-                        TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 16.0,
-                            color: Color::BLACK,
-                        },
-                    ),
-                    ..default()
-                });
+                column.spawn((
+                    Text::new(map.name.clone()),
+                    TextFont {
+                        font: my_assets.fira_sans_bold.clone(),
+                        font_size: 16.0,
+                        ..default()
+                    },
+                    TextColor(Color::BLACK),
+                ));
 
-                column.spawn(TextBundle {
-                    text: Text::from_section(
-                        map.description.clone(),
-                        TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 14.0,
-                            color: Color::BLACK,
-                        },
-                    ),
-                    ..default()
-                });
+                column.spawn((
+                    Text::new(map.description.clone()),
+                    TextFont {
+                        font: my_assets.fira_sans_bold.clone(),
+                        font_size: 14.0,
+                        ..default()
+                    },
+                    TextColor(Color::BLACK),
+                ));
             }
         });
 }

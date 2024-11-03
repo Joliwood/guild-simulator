@@ -76,24 +76,22 @@ pub fn map_card(
             ));
 
             // Map Name (Top-Right)
-            map_container.spawn(TextBundle {
-                text: Text::from_section(
-                    map.name.clone(),
-                    TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
-                        font_size: 14.0,
-                        color: Color::BLACK,
-                    },
-                ),
-                style: Style {
+            map_container.spawn((
+                Text::new(map.name.clone()),
+                TextFont {
+                    font: my_assets.fira_sans_bold.clone(),
+                    font_size: 14.0,
+                    ..default()
+                },
+                TextColor(Color::BLACK),
+                Node {
                     position_type: PositionType::Absolute,
                     align_self: AlignSelf::FlexEnd,
                     top: Val::Px(3.),
                     right: Val::Px(7.),
-                    ..Default::default()
+                    ..default()
                 },
-                ..Default::default()
-            });
+            ));
 
             // Bottom-Right Container with 2 Icons
             map_container
@@ -107,62 +105,59 @@ pub fn map_card(
                     ..default()
                 })
                 .with_children(|icon_container| {
-                    icon_container.spawn(TextBundle {
-                        text: Text::from_section(
-                            map.recommanded_power_level.to_string(),
-                            TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
-                                font_size: 16.0,
-                                color: Color::BLACK,
-                            },
-                        ),
-                        ..default()
-                    });
+                    icon_container.spawn((
+                        Text::new(map.recommanded_power_level.to_string()),
+                        TextFont {
+                            font: my_assets.fira_sans_bold.clone(),
+                            font_size: 16.0,
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                    ));
 
                     if map.limited_in_time {
-                        icon_container.spawn(ImageBundle {
-                            image: my_assets.limited_time.clone().into(),
-                            style: Style {
+                        icon_container.spawn((
+                            UiImage {
+                                image: my_assets.limited_time.clone().into(),
+                                ..default()
+                            },
+                            Node {
                                 width: Val::Px(18.),
                                 height: Val::Px(18.),
                                 ..default()
                             },
-                            ..default()
-                        });
+                        ));
                     } else {
                         let missions_finished_text =
                             format!("{}/{}", missions_finished_number, map.map_mission_ids.len());
-                        icon_container.spawn(TextBundle {
-                            text: Text::from_section(
-                                missions_finished_text,
-                                TextFont {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 16.0,
-                                    color: Color::BLACK,
-                                },
-                            ),
-                            ..default()
-                        });
+                        icon_container.spawn((
+                            Text::new(missions_finished_text),
+                            TextFont {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 16.0,
+                                ..default()
+                            },
+                            TextColor(Color::BLACK),
+                        ));
                     };
                 });
 
             // Center text
             map_container.spawn((
-                ImageBundle {
-                    image: my_assets.map_type_atlas.clone().into(),
-                    style: Style {
-                        position_type: PositionType::Absolute,
-                        left: Val::Px(88.),
-                        bottom: Val::Px(6.),
-                        width: Val::Px(40.0),
-                        height: Val::Px(40.0),
-                        ..default()
+                UiImage::from_atlas_image(
+                    my_assets.map_type_atlas.clone().into(),
+                    TextureAtlas {
+                        index: icon_atlas_index.into(),
+                        layout: map_type_atlas_layout.clone(),
                     },
+                ),
+                Node {
+                    position_type: PositionType::Absolute,
+                    left: Val::Px(88.),
+                    bottom: Val::Px(6.),
+                    width: Val::Px(40.0),
+                    height: Val::Px(40.0),
                     ..default()
-                },
-                TextureAtlas {
-                    index: icon_atlas_index.into(),
-                    layout: map_type_atlas_layout.clone(),
                 },
             ));
         });
