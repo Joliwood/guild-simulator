@@ -49,22 +49,20 @@ pub fn recruit_recap(
         })
         .with_children(|parent| {
             if selected_recruit_for_mission.0.is_none() {
-                parent.spawn(TextBundle {
-                    text: Text::from_section(
-                        "No recruit selected",
-                        TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 16.0,
-                            color: Color::BLACK,
-                        },
-                    ),
-                    style: Style {
+                parent.spawn((
+                    Text::new("No recruit selected"),
+                    TextFont {
+                        font: my_assets.fira_sans_bold.clone(),
+                        font_size: 16.0,
+                        ..default()
+                    },
+                    Node {
                         border: UiRect::all(Val::Px(2.)),
                         margin: UiRect::all(Val::Auto),
                         ..default()
                     },
-                    ..default()
-                });
+                    TextColor(Color::BLACK),
+                ));
                 return;
             } else {
                 let recruit = selected_recruit_for_mission.clone().0.unwrap();
@@ -83,18 +81,17 @@ pub fn recruit_recap(
                     .with_children(|parent| {
                         // Recruit image
                         parent.spawn((
-                            ImageBundle {
-                                image: my_assets.recruit_picture_atlas.clone().into(),
-                                style: Style {
-                                    width: Val::Percent(100.),
-                                    height: Val::Px(400.),
-                                    ..default()
+                            UiImage::from_atlas_image(
+                                my_assets.recruit_picture_atlas.clone().into(),
+                                TextureAtlas {
+                                    index: recruit.image_atlas_index.into(),
+                                    layout: recruit_texture_atlas_layout.clone(),
                                 },
+                            ),
+                            Node {
+                                width: Val::Percent(100.),
+                                height: Val::Px(400.),
                                 ..default()
-                            },
-                            TextureAtlas {
-                                index: recruit.image_atlas_index.into(),
-                                layout: recruit_texture_atlas_layout.clone(),
                             },
                         ));
                     });
@@ -110,69 +107,59 @@ pub fn recruit_recap(
                     })
                     .with_children(|parent| {
                         // Recruit Name
-                        parent.spawn(TextBundle {
-                            text: Text::from_section(
-                                format!("Recruit : {}", recruit.name),
-                                TextFont {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 16.0,
-                                    color: Color::BLACK,
-                                },
-                            ),
-                            ..default()
-                        });
+                        parent.spawn((
+                            Text::new(format!("Recruit : {}", recruit.name)),
+                            TextFont {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 16.0,
+                                ..default()
+                            },
+                            TextColor(Color::BLACK),
+                        ));
 
                         // Recruit Level
-                        parent.spawn(TextBundle {
-                            text: Text::from_section(
-                                format!("Level : {}", recruit.level),
-                                TextFont {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 16.0,
-                                    color: Color::BLACK,
-                                },
-                            ),
-                            ..default()
-                        });
+                        parent.spawn((
+                            Text::new(format!("Level : {}", recruit.level)),
+                            TextFont {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 16.0,
+                                ..default()
+                            },
+                            TextColor(Color::BLACK),
+                        ));
 
                         // Recruit Strength
-                        parent.spawn(TextBundle {
-                            text: Text::from_section(
-                                format!("Str : {}", recruit.strength),
-                                TextFont {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 16.0,
-                                    color: Color::BLACK,
-                                },
-                            ),
-                            ..default()
-                        });
+                        parent.spawn((
+                            Text::new(format!("Str : {}", recruit.strength)),
+                            TextFont {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 16.0,
+                                ..default()
+                            },
+                            TextColor(Color::BLACK),
+                        ));
 
                         // Recruit Defense
-                        parent.spawn(TextBundle {
-                            text: Text::from_section(
-                                format!("Def : {}", recruit.endurance),
-                                TextFont {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 16.0,
-                                    color: Color::BLACK,
-                                },
-                            ),
-                            ..default()
-                        });
+                        parent.spawn((
+                            Text::new(format!("Def : {}", recruit.endurance)),
+                            TextFont {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 16.0,
+                                ..default()
+                            },
+                            TextColor(Color::BLACK),
+                        ));
 
                         // Recruit Intelligence
-                        parent.spawn(TextBundle {
-                            text: Text::from_section(
-                                format!("Int : {}", recruit.intelligence),
-                                TextFont {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 16.0,
-                                    color: Color::BLACK,
-                                },
-                            ),
-                            ..default()
-                        });
+                        parent.spawn((
+                            Text::new(format!("Int : {}", recruit.intelligence)),
+                            TextFont {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 16.0,
+                                ..default()
+                            },
+                            TextColor(Color::BLACK),
+                        ));
 
                         // Equipments
                         parent
@@ -216,7 +203,7 @@ pub fn recruit_recap(
 
                                 // Bottom container for scrolls
                                 equipments_container
-                                    .spawn(NodeNodeBundle {
+                                    .spawn(Node {
                                         display: Display::Flex,
                                         flex_direction: FlexDirection::Row,
                                         column_gap: Val::Px(2.0),

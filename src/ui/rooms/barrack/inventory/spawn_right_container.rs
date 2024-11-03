@@ -10,9 +10,12 @@ pub fn spawn_right_container(
 ) {
     // Container for the inventory
     parent
-        .spawn(ImageBundle {
-            image: my_assets.inventory_container.clone().into(),
-            style: Style {
+        .spawn((
+            UiImage {
+                image: my_assets.inventory_container.clone().into(),
+                ..default()
+            },
+            Node {
                 display: Display::Flex,
                 align_self: AlignSelf::Center,
                 flex_direction: FlexDirection::Column,
@@ -24,17 +27,17 @@ pub fn spawn_right_container(
                 padding: UiRect::all(Val::Px(15.0)),
                 ..default()
             },
-            ..default()
-        })
+        ))
         .insert(Name::new("Room barrack > inventory"))
         .with_children(|parent| {
-            parent.spawn(TextBundle::from_section(
-                "Inventory",
+            parent.spawn((
+                Text::new("Inventory"),
                 TextFont {
                     font: my_assets.fira_sans_bold.clone(),
                     font_size: 30.,
-                    color: ColorPaletteEnum::DarkBrown.as_color(),
+                    ..default()
                 },
+                TextColor(ColorPaletteEnum::DarkBrown.as_color()),
             ));
             // Spawn the inventory below the buttons
             spawn_inventory(parent, player_stats, my_assets, texture_atlas_layouts);

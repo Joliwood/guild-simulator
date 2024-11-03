@@ -49,69 +49,67 @@ pub fn spawn_inventory(
                                 // Spawn button for the item
                                 row_builder
                                     .spawn((
-                                        ButtonBundle {
-                                            style: Style {
-                                                width: Val::Px(60.),
-                                                height: Val::Px(60.),
-                                                border: UiRect::all(Val::Px(3.)),
-                                                margin: UiRect::all(Val::Px(5.)),
-                                                ..default()
-                                            },
-                                            image: my_assets
-                                                .get_item_atlas_path(item)
-                                                .clone()
-                                                .into(),
-                                            border_color: BorderColor(Color::BLACK),
-                                            border_radius: BorderRadius::all(Val::Px(10.)),
-                                            ..default()
-                                        },
-                                        TextureAtlas {
-                                            index: item_image_atlas_index.into(),
-                                            layout: texture_atlas_layouts.add(layout),
-                                        },
-                                        Tooltip::cursor(tooltip_text.to_string())
-                                            .with_activation(TooltipActivation::IMMEDIATE),
-                                    ))
-                                    .insert(UniqueId("item_in_inventory".to_string()))
-                                    .insert(item.clone())
-                                    .with_children(|button| {
-                                        // If the item is a scroll, add a count indicator inside the button
-                                        if let ItemEnum::Scroll(_, count) = item {
-                                            button.spawn(TextBundle {
-                                                text: Text::from_section(
-                                                    format!("x{}", count),
-                                                    TextFont {
-                                                        font: my_assets.fira_sans_bold.clone(),
-                                                        font_size: 14.0,
-                                                        color: Color::WHITE,
-                                                    },
-                                                ),
-                                                style: Style {
-                                                    position_type: PositionType::Absolute,
-                                                    bottom: Val::Px(0.0),
-                                                    right: Val::Px(5.0),
-                                                    ..default()
-                                                },
-                                                ..default()
-                                            });
-                                        }
-                                    });
-                            } else {
-                                // Spawn empty inventory slot
-                                row_builder
-                                    .spawn(ButtonBundle {
-                                        style: Style {
+                                        Button,
+                                        Node {
                                             width: Val::Px(60.),
                                             height: Val::Px(60.),
                                             border: UiRect::all(Val::Px(3.)),
                                             margin: UiRect::all(Val::Px(5.)),
                                             ..default()
                                         },
-                                        border_color: BorderColor(Color::BLACK),
-                                        border_radius: BorderRadius::all(Val::Px(10.)),
-                                        image: my_assets.empty_inventory_slot.clone().into(),
-                                        ..default()
-                                    })
+                                        BorderColor(Color::BLACK),
+                                        BorderRadius::all(Val::Px(10.)),
+                                        UiImage::from_atlas_image(
+                                            my_assets.get_item_atlas_path(item).clone().into(),
+                                            TextureAtlas {
+                                                index: item_image_atlas_index.into(),
+                                                layout: texture_atlas_layouts.add(layout),
+                                            },
+                                        ),
+                                        // Tooltip::cursor(tooltip_text.to_string())
+                                        //     .with_activation(TooltipActivation::IMMEDIATE),
+                                    ))
+                                    .insert(UniqueId("item_in_inventory".to_string()))
+                                    .insert(item.clone())
+                                    .with_children(|button| {
+                                        // If the item is a scroll, add a count indicator inside the button
+                                        if let ItemEnum::Scroll(_, count) = item {
+                                            button.spawn((
+                                                Text::new(format!("x{}", count)),
+                                                TextFont {
+                                                    font: my_assets.fira_sans_bold.clone(),
+                                                    font_size: 14.0,
+                                                    ..default()
+                                                },
+                                                TextColor(Color::WHITE),
+                                                Node {
+                                                    position_type: PositionType::Absolute,
+                                                    bottom: Val::Px(0.0),
+                                                    right: Val::Px(5.0),
+                                                    ..default()
+                                                },
+                                            ));
+                                        }
+                                    });
+                            } else {
+                                // Spawn empty inventory slot
+                                row_builder
+                                    .spawn((
+                                        Button,
+                                        Node {
+                                            width: Val::Px(60.),
+                                            height: Val::Px(60.),
+                                            border: UiRect::all(Val::Px(3.)),
+                                            margin: UiRect::all(Val::Px(5.)),
+                                            ..default()
+                                        },
+                                        BorderColor(Color::BLACK),
+                                        BorderRadius::all(Val::Px(10.)),
+                                        UiImage {
+                                            image: my_assets.empty_inventory_slot.clone(),
+                                            ..default()
+                                        },
+                                    ))
                                     .insert(UniqueId("item_in_inventory0".to_string()));
                             }
                         }

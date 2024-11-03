@@ -16,9 +16,12 @@ pub fn recruit_infos(
     player_stats: &Res<PlayerStats>,
 ) {
     parent
-        .spawn(ImageBundle {
-            image: my_assets.inventory_container.clone().into(),
-            style: Style {
+        .spawn((
+            UiImage {
+                image: my_assets.inventory_container.clone().into(),
+                ..default()
+            },
+            Node {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Column,
                 justify_content: JustifyContent::Center,
@@ -32,9 +35,8 @@ pub fn recruit_infos(
                 },
                 ..default()
             },
-            z_index: ZIndex::Global(2),
-            ..default()
-        })
+            ZIndex(2),
+        ))
         .insert(Name::new("Barrack > recruit overview > recruit infos"))
         .with_children(|parent| {
             // Top container (holds Weapons and Armor buttons)
@@ -58,13 +60,14 @@ pub fn recruit_infos(
                         })
                         .with_children(|weapon_column| {
                             // Header for Weapon
-                            weapon_column.spawn(TextBundle::from_section(
-                                "Weapon",
+                            weapon_column.spawn((
+                                Text::new("Weapon"),
                                 TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 20.0,
-                                    color: ColorPaletteEnum::DarkBrown.as_color(),
+                                    ..default()
                                 },
+                                TextColor(ColorPaletteEnum::DarkBrown.as_color()),
                             ));
 
                             weapon_button(
@@ -85,13 +88,14 @@ pub fn recruit_infos(
                         })
                         .with_children(|armor_column| {
                             // Header for Armor
-                            armor_column.spawn(TextBundle::from_section(
-                                "Armor",
+                            armor_column.spawn((
+                                Text::new("Armor"),
                                 TextFont {
                                     font: my_assets.fira_sans_bold.clone(),
                                     font_size: 20.0,
-                                    color: ColorPaletteEnum::DarkBrown.as_color(),
+                                    ..default()
                                 },
+                                TextColor(ColorPaletteEnum::DarkBrown.as_color()),
                             ));
 
                             armor_button(
@@ -117,13 +121,14 @@ pub fn recruit_infos(
                 })
                 .with_children(|bottom_container| {
                     // Header for Scrolls
-                    bottom_container.spawn(TextBundle::from_section(
-                        "Scrolls",
+                    bottom_container.spawn((
+                        Text::new("Scrolls"),
                         TextFont {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 20.0,
-                            color: ColorPaletteEnum::DarkBrown.as_color(),
+                            ..default()
                         },
+                        TextColor(ColorPaletteEnum::DarkBrown.as_color()),
                     ));
 
                     // Row container for buttons

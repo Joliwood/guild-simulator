@@ -29,34 +29,31 @@ pub fn mission_ennemy_picture(
         })
         .with_children(|ennemy_block| {
             // Text: "ennemy sent"
-            ennemy_block.spawn(TextBundle {
-                text: Text::from_section(
-                    "ennemy sent",
-                    TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
-                        font_size: 16.0,
-                        color: Color::BLACK,
-                    },
-                ),
-                ..default()
-            });
-
             ennemy_block.spawn((
-                ImageBundle {
-                    image: my_assets.ennemy_image_handle.clone().into(),
-                    style: Style {
-                        position_type: PositionType::Absolute,
-                        width: Val::Percent(100.),
-                        height: Val::Percent(100.),
-                        ..default()
-                    },
-                    z_index: ZIndex::Global(1),
+                Text::new("ennemy sent"),
+                TextFont {
+                    font: my_assets.fira_sans_bold.clone(),
+                    font_size: 16.0,
                     ..default()
                 },
-                TextureAtlas {
-                    index: ennemy.image_atlas_index.into(),
-                    layout: ennemy_texture_atlas_layout.clone(),
+                TextColor(Color::BLACK),
+            ));
+
+            ennemy_block.spawn((
+                UiImage::from_atlas_image(
+                    my_assets.ennemy_image_handle.clone().into(),
+                    TextureAtlas {
+                        index: ennemy.image_atlas_index.into(),
+                        layout: ennemy_texture_atlas_layout.clone(),
+                    },
+                ),
+                Node {
+                    position_type: PositionType::Absolute,
+                    width: Val::Percent(100.),
+                    height: Val::Percent(100.),
+                    ..default()
                 },
+                ZIndex(1),
             ));
         });
 }

@@ -54,38 +54,35 @@ pub fn mission_recap(
                 })
                 .with_children(|parent| {
                     parent.spawn((
-                        ImageBundle {
-                            image: my_assets.ennemy_image_handle.clone().into(),
-                            style: Style {
-                                margin: UiRect {
-                                    top: Val::Px(-100.0),
-                                    ..default()
-                                },
-                                width: Val::Percent(100.0),
-                                height: Val::Px(450.),
+                        UiImage::from_atlas_image(
+                            my_assets.ennemy_image_handle.clone().into(),
+                            TextureAtlas {
+                                index: mission.ennemy.image_atlas_index.into(),
+                                layout: ennemy_texture_atlas_layout.clone(),
+                            },
+                        ),
+                        Node {
+                            margin: UiRect {
+                                top: Val::Px(-100.0),
                                 ..default()
                             },
+                            width: Val::Percent(100.0),
+                            height: Val::Px(450.),
                             ..default()
-                        },
-                        TextureAtlas {
-                            index: mission.ennemy.image_atlas_index.into(),
-                            layout: ennemy_texture_atlas_layout.clone(),
                         },
                     ));
                 });
 
             // Mission description
-            parent.spawn(TextBundle {
-                text: Text::from_section(
-                    mission.description.clone(),
-                    TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
-                        font_size: 16.0,
-                        color: Color::BLACK,
-                    },
-                ),
-                ..default()
-            });
+            parent.spawn((
+                Text::new(mission.description.clone()),
+                TextFont {
+                    font: my_assets.fira_sans_bold.clone(),
+                    font_size: 16.0,
+                    ..default()
+                },
+                TextColor(Color::BLACK),
+            ));
 
             parent
                 // Outer container to hold both rows (Name/Level and Stats)
@@ -98,69 +95,59 @@ pub fn mission_recap(
                 })
                 .with_children(|parent| {
                     // Row 1: Name (left) and Level (right)
-                    parent.spawn(TextBundle {
-                        text: Text::from_section(
-                            format!("Target : {}", mission.ennemy.name),
-                            TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
-                                font_size: 16.0,
-                                color: Color::BLACK,
-                            },
-                        ),
-                        ..default()
-                    });
+                    parent.spawn((
+                        Text::new(format!("Target : {}", mission.ennemy.name)),
+                        TextFont {
+                            font: my_assets.fira_sans_bold.clone(),
+                            font_size: 16.0,
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                    ));
 
                     // Enemy Level
-                    parent.spawn(TextBundle {
-                        text: Text::from_section(
-                            format!("Level : {}", mission.ennemy.level),
-                            TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
-                                font_size: 16.0,
-                                color: Color::BLACK,
-                            },
-                        ),
-                        ..default()
-                    });
+                    parent.spawn((
+                        Text::new(format!("Level : {}", mission.ennemy.level)),
+                        TextFont {
+                            font: my_assets.fira_sans_bold.clone(),
+                            font_size: 16.0,
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                    ));
 
                     // Enemy Strength
-                    parent.spawn(TextBundle {
-                        text: Text::from_section(
-                            format!("Str : {}", mission.ennemy.strength),
-                            TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
-                                font_size: 16.0,
-                                color: Color::BLACK,
-                            },
-                        ),
-                        ..default()
-                    });
+                    parent.spawn((
+                        Text::new(format!("Str : {}", mission.ennemy.strength)),
+                        TextFont {
+                            font: my_assets.fira_sans_bold.clone(),
+                            font_size: 16.0,
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                    ));
 
                     // Enemy Defense
-                    parent.spawn(TextBundle {
-                        text: Text::from_section(
-                            format!("Def : {}", mission.ennemy.endurance),
-                            TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
-                                font_size: 16.0,
-                                color: Color::BLACK,
-                            },
-                        ),
-                        ..default()
-                    });
+                    parent.spawn((
+                        Text::new(format!("Def : {}", mission.ennemy.endurance)),
+                        TextFont {
+                            font: my_assets.fira_sans_bold.clone(),
+                            font_size: 16.0,
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                    ));
 
                     // Enemy Intelligence
-                    parent.spawn(TextBundle {
-                        text: Text::from_section(
-                            format!("Int : {}", mission.ennemy.intelligence),
-                            TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
-                                font_size: 16.0,
-                                color: Color::BLACK,
-                            },
-                        ),
-                        ..default()
-                    });
+                    parent.spawn((
+                        Text::new(format!("Int : {}", mission.ennemy.intelligence)),
+                        TextFont {
+                            font: my_assets.fira_sans_bold.clone(),
+                            font_size: 16.0,
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                    ));
                 });
         });
 }

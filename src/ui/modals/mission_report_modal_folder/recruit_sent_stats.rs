@@ -30,55 +30,47 @@ pub fn recruit_sent_stats(
         })
         .with_children(|stats_column| {
             // Text: "Level"
-            stats_column.spawn(TextBundle {
-                text: Text::from_section(
-                    format!("Level: {}", recruit_sent.level),
-                    TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
-                        font_size: 16.0,
-                        color: Color::BLACK,
-                    },
-                ),
-                ..default()
-            });
+            stats_column.spawn((
+                Text::new(format!("Level: {}", recruit_sent.level)),
+                TextFont {
+                    font: my_assets.fira_sans_bold.clone(),
+                    font_size: 16.0,
+                    ..default()
+                },
+                TextColor(Color::BLACK),
+            ));
 
             // Text: "Strength"
-            stats_column.spawn(TextBundle {
-                text: Text::from_section(
-                    format!("Strength: {}", recruit_strength),
-                    TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
-                        font_size: 16.0,
-                        color: Color::BLACK,
-                    },
-                ),
-                ..default()
-            });
+            stats_column.spawn((
+                Text::new(format!("Strength: {}", recruit_strength)),
+                TextFont {
+                    font: my_assets.fira_sans_bold.clone(),
+                    font_size: 16.0,
+                    ..default()
+                },
+                TextColor(Color::BLACK),
+            ));
 
             // Text: "Endurance"
-            stats_column.spawn(TextBundle {
-                text: Text::from_section(
-                    format!("Endurance: {}", recruit_endurance),
-                    TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
-                        font_size: 16.0,
-                        color: Color::BLACK,
-                    },
-                ),
-                ..default()
-            });
+            stats_column.spawn((
+                Text::new(format!("Endurance: {}", recruit_endurance)),
+                TextFont {
+                    font: my_assets.fira_sans_bold.clone(),
+                    font_size: 16.0,
+                    ..default()
+                },
+                TextColor(Color::BLACK),
+            ));
 
             // Text: "Intelligence"
-            stats_column.spawn(TextBundle {
-                text: Text::from_section(
-                    format!("Intelligence: {}", recruit_intelligence),
-                    TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
-                        font_size: 16.0,
-                        color: Color::BLACK,
-                    },
-                ),
-                ..default()
-            });
+            stats_column.spawn((
+                Text::new(format!("Intelligence: {}", recruit_intelligence)),
+                TextFont {
+                    font: my_assets.fira_sans_bold.clone(),
+                    font_size: 16.0,
+                    ..default()
+                },
+                TextColor(Color::BLACK),
+            ));
         });
 }

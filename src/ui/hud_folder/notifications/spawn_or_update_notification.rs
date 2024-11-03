@@ -42,48 +42,49 @@ pub fn spawn_or_update_notification(
             .with_children(|parent| {
                 parent
                     .spawn((
-                        ButtonBundle {
-                            style: Style {
-                                display: Display::Flex,
-                                align_items: AlignItems::Center,
-                                justify_content: JustifyContent::Center,
-                                width: Val::Px(40.),
-                                height: Val::Px(40.),
-                                padding: UiRect {
-                                    left: Val::Px(10.),
-                                    right: Val::ZERO,
-                                    top: Val::ZERO,
-                                    bottom: Val::ZERO,
-                                },
-                                ..default()
-                            },
-                            image: my_assets.notification_atlas.clone().into(),
-                            border_radius: BorderRadius {
-                                top_left: Val::Px(10.),
-                                top_right: Val::ZERO,
-                                bottom_left: Val::Px(10.),
-                                bottom_right: Val::ZERO,
+                        Button,
+                        Node {
+                            display: Display::Flex,
+                            align_items: AlignItems::Center,
+                            justify_content: JustifyContent::Center,
+                            width: Val::Px(40.),
+                            height: Val::Px(40.),
+                            padding: UiRect {
+                                left: Val::Px(10.),
+                                right: Val::ZERO,
+                                top: Val::ZERO,
+                                bottom: Val::ZERO,
                             },
                             ..default()
                         },
-                        TextureAtlas {
-                            index: 0,
-                            layout: texture_atlas_layout.clone(),
+                        BorderRadius {
+                            top_left: Val::Px(10.),
+                            top_right: Val::ZERO,
+                            bottom_left: Val::Px(10.),
+                            bottom_right: Val::ZERO,
                         },
-                        Tooltip::cursor(get_mission_notification_tooltip_text(
-                            mission_notifications_number as u8,
-                        ))
-                        .with_activation(TooltipActivation::IMMEDIATE),
+                        UiImage::from_atlas_image(
+                            my_assets.notification_atlas.clone().into(),
+                            TextureAtlas {
+                                index: 0,
+                                layout: texture_atlas_layout.clone(),
+                            },
+                        ),
+                        // Tooltip::cursor(get_mission_notification_tooltip_text(
+                        //     mission_notifications_number as u8,
+                        // ))
+                        // .with_activation(TooltipActivation::IMMEDIATE),
                     ))
                     .insert(MissionNotificationTrigger)
                     .with_children(|parent| {
-                        parent.spawn(TextBundle::from_section(
-                            format!("x{}", mission_notifications_number),
+                        parent.spawn((
+                            Text::new(format!("x{}", mission_notifications_number)),
                             TextFont {
                                 font: my_assets.fira_sans_bold.clone(),
                                 font_size: 25.,
-                                color: ColorPaletteEnum::DarkBrown.as_color(),
+                                ..default()
                             },
+                            TextColor(ColorPaletteEnum::DarkBrown.as_color()),
                         ));
                     });
             });

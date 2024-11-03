@@ -20,17 +20,15 @@ pub fn loots_earned(
         })
         .with_children(|parent| {
             // Loots Text
-            parent.spawn(TextBundle {
-                text: Text::from_section(
-                    "Loots",
-                    TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
-                        font_size: 18.0,
-                        color: Color::BLACK,
-                    },
-                ),
-                ..default()
-            });
+            parent.spawn((
+                Text::new("Loots"),
+                TextFont {
+                    font: my_assets.fira_sans_bold.clone(),
+                    font_size: 18.0,
+                    ..default()
+                },
+                TextColor(Color::BLACK),
+            ));
 
             parent
                 .spawn(Node {
@@ -41,56 +39,54 @@ pub fn loots_earned(
                 })
                 .with_children(|parent| {
                     // Loots in text
-                    parent.spawn(TextBundle {
-                        text: Text::from_section(
-                            format!(
-                                "+ {} Golds | + {} XP for recruit",
-                                golds_gained, experience_gained
-                            ),
-                            TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
-                                font_size: 16.0,
-                                color: Color::BLACK,
-                            },
-                        ),
-                        ..default()
-                    });
-
-                    // Loots in display row
-                    parent
-                        .spawn(Node {
-                            flex_direction: FlexDirection::Row,
-                            justify_content: JustifyContent::SpaceBetween,
+                    parent.spawn((
+                        Text::new(format!(
+                            "+ {} Golds | + {} XP for recruit",
+                            golds_gained, experience_gained
+                        )),
+                        TextFont {
+                            font: my_assets.fira_sans_bold.clone(),
+                            font_size: 16.0,
                             ..default()
-                        })
-                        .with_children(|parent| {
-                            for loot in mission_report.loots.iter() {
-                                let item_image_atlas_index = loot.get_atlas_index();
-                                let layout = loot.get_item_layout();
-                                let tooltip_text = loot.get_item_loot_tooltip_description();
-                                parent.spawn((
-                                    ButtonBundle {
-                                        image: my_assets.get_item_atlas_path(loot).clone().into(),
-                                        style: Style {
-                                            width: Val::Px(50.0),
-                                            height: Val::Px(50.0),
-                                            border: UiRect::all(Val::Px(3.)),
-                                            margin: UiRect::all(Val::Px(5.)),
-                                            ..default()
-                                        },
-                                        border_color: BorderColor(Color::BLACK),
-                                        border_radius: BorderRadius::all(Val::Px(10.)),
-                                        ..default()
-                                    },
-                                    TextureAtlas {
-                                        index: item_image_atlas_index.into(),
-                                        layout: texture_atlas_layouts.add(layout),
-                                    },
-                                    Tooltip::cursor(tooltip_text.to_string())
-                                        .with_activation(TooltipActivation::IMMEDIATE),
-                                ));
-                            }
-                        });
+                        },
+                        TextColor(Color::BLACK),
+                    ));
+                });
+
+            // Loots in display row
+            parent
+                .spawn(Node {
+                    flex_direction: FlexDirection::Row,
+                    justify_content: JustifyContent::SpaceBetween,
+                    ..default()
+                })
+                .with_children(|parent| {
+                    for loot in mission_report.loots.iter() {
+                        let item_image_atlas_index = loot.get_atlas_index();
+                        let layout = loot.get_item_layout();
+                        let tooltip_text = loot.get_item_loot_tooltip_description();
+                        parent.spawn((
+                            Button,
+                            Node {
+                                width: Val::Px(50.0),
+                                height: Val::Px(50.0),
+                                border: UiRect::all(Val::Px(3.)),
+                                margin: UiRect::all(Val::Px(5.)),
+                                ..default()
+                            },
+                            BorderColor(Color::BLACK),
+                            BorderRadius::all(Val::Px(10.)),
+                            UiImage::from_atlas_image(
+                                my_assets.get_item_atlas_path(loot).clone().into(),
+                                TextureAtlas {
+                                    index: item_image_atlas_index.into(),
+                                    layout: texture_atlas_layouts.add(layout),
+                                },
+                            ),
+                            // Tooltip::cursor(tooltip_text.to_string())
+                            //     .with_activation(TooltipActivation::IMMEDIATE),
+                        ));
+                    }
                 });
         });
 }

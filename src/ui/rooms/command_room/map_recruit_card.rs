@@ -13,8 +13,9 @@ pub fn map_recruit_card(
     recruit_texture_atlas_layout: Handle<TextureAtlasLayout>,
 ) {
     left_container
-        .spawn(ButtonBundle {
-            style: Style {
+        .spawn((
+            Button,
+            Node {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Row,
                 align_items: AlignItems::Center,
@@ -33,14 +34,16 @@ pub fn map_recruit_card(
                     x: OverflowAxis::Hidden,
                     y: OverflowAxis::Hidden,
                 },
+                // background_color: Color::BLACK.into(),
                 ..default()
             },
-            // background_color: Color::BLACK.into(),
-            image: my_assets.recruit_card.clone().into(),
-            border_color: BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
-            border_radius: BorderRadius::all(Val::Px(10.)),
-            ..default()
-        })
+            BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
+            BorderRadius::all(Val::Px(10.)),
+            UiImage {
+                image: my_assets.recruit_card.clone().into(),
+                ..default()
+            },
+        ))
         // .insert((
         //     UniqueId("assign_recruit_to_mission".to_string()),
         //     recruit.clone(),
@@ -88,12 +91,10 @@ pub fn map_recruit_card(
         .with_children(|button| {
             button
                 .spawn((
-                    ButtonBundle {
-                        style: Style {
-                            justify_content: JustifyContent::Center,
-                            align_items: AlignItems::Center,
-                            ..default()
-                        },
+                    Button,
+                    Node {
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
                         ..default()
                     },
                     Tooltip::cursor(

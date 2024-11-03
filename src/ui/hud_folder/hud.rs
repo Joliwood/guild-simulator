@@ -25,9 +25,12 @@ pub fn hud(
 
     commands
         // Main Container
-        .spawn(ImageBundle {
-            image: my_assets.hud.clone().into(),
-            style: Style {
+        .spawn((
+            UiImage {
+                image: my_assets.hud.clone().into(),
+                ..default()
+            },
+            Node {
                 width: Val::Percent(100.),
                 height: Val::Px(50.),
                 position_type: PositionType::Absolute,
@@ -36,9 +39,8 @@ pub fn hud(
                 display: Display::Flex,
                 ..default()
             },
-            z_index: ZIndex::Global(3),
-            ..default()
-        })
+            ZIndex(3),
+        ))
         .insert(Name::new("HUD"))
         // Left Container
         .with_children(|parent| {
@@ -69,58 +71,62 @@ pub fn hud(
                 .with_children(|middle_container| {
                     middle_container
                         .spawn((
-                            ButtonBundle {
-                                image: my_assets.hud_icon_atlas.clone().into(),
-                                style: Style {
-                                    width: Val::Px(30.),
-                                    height: Val::Px(30.),
-                                    ..default()
-                                },
+                            Button,
+                            Node {
+                                width: Val::Px(30.),
+                                height: Val::Px(30.),
                                 ..default()
                             },
-                            TextureAtlas {
-                                index: 4,
-                                layout: hud_icons_texture_atlas_layout.clone(),
-                            },
-                            Tooltip::cursor("Go to the command room\n\nShortcut: press 'S'"),
+                            UiImage::from_atlas_image(
+                                my_assets.hud_icon_atlas.clone().into(),
+                                TextureAtlas {
+                                    index: 4,
+                                    layout: hud_icons_texture_atlas_layout.clone(),
+                                },
+                            ),
+                            // Tooltip::cursor("Go to the command room\n\nShortcut: press 'S'"),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::CommandRoom));
 
                     middle_container
                         .spawn((
-                            ButtonBundle {
-                                image: my_assets.hud_icon_atlas.clone().into(),
-                                style: Style {
-                                    width: Val::Px(30.0),
-                                    height: Val::Px(30.),
-                                    ..default()
-                                },
+                            Button,
+                            Node {
+                                width: Val::Px(30.0),
+                                height: Val::Px(30.),
                                 ..default()
                             },
-                            TextureAtlas {
-                                index: 1,
-                                layout: hud_icons_texture_atlas_layout.clone(),
-                            },
-                            Tooltip::cursor("Go to the office room\n\nShortcut: press 'W/Z'"),
+                            UiImage::from_atlas_image(
+                                my_assets.hud_icon_atlas.clone().into(),
+                                TextureAtlas {
+                                    index: 1,
+                                    layout: hud_icons_texture_atlas_layout.clone(),
+                                },
+                            ),
+                            // TextureAtlas {
+                            //     index: 1,
+                            //     layout: hud_icons_texture_atlas_layout.clone(),
+                            // },
+                            // Tooltip::cursor("Go to the office room\n\nShortcut: press 'W/Z'"),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::Office));
 
                     middle_container
                         .spawn((
-                            ButtonBundle {
-                                image: my_assets.hud_icon_atlas.clone().into(),
-                                style: Style {
-                                    width: Val::Px(30.0),
-                                    height: Val::Px(30.),
-                                    ..default()
-                                },
+                            Button,
+                            Node {
+                                width: Val::Px(30.0),
+                                height: Val::Px(30.),
                                 ..default()
                             },
-                            TextureAtlas {
-                                index: 2,
-                                layout: hud_icons_texture_atlas_layout.clone(),
-                            },
-                            Tooltip::cursor("Go to the barrack room\n\nShortcut: press 'D'"),
+                            UiImage::from_atlas_image(
+                                my_assets.hud_icon_atlas.clone().into(),
+                                TextureAtlas {
+                                    index: 2,
+                                    layout: hud_icons_texture_atlas_layout.clone(),
+                                },
+                            ),
+                            // Tooltip::cursor("Go to the barrack room\n\nShortcut: press 'D'"),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::Barrack));
                 });

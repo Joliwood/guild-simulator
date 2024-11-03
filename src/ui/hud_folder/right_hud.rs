@@ -28,150 +28,135 @@ pub fn right_hud(
             // Recruits length
             right_container
                 .spawn((
-                    ButtonBundle {
-                        style: Style {
-                            display: Display::Flex,
-                            column_gap: Val::Px(5.),
-                            ..default()
-                        },
+                    Button,
+                    Node {
+                        display: Display::Flex,
+                        column_gap: Val::Px(5.),
                         ..default()
                     },
-                    Tooltip::cursor("You have this many recruits"),
+                    // Tooltip::cursor("You have this many recruits"),
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        ImageBundle {
-                            image: my_assets.hud_icon_atlas.clone().into(),
-                            style: Style {
-                                width: Val::Px(16.),
-                                height: Val::Px(16.),
-                                ..default()
+                        UiImage::from_atlas_image(
+                            my_assets.hud_icon_atlas.clone().into(),
+                            TextureAtlas {
+                                index: 0,
+                                layout: texture_atlas_layouts.clone(),
                             },
+                        ),
+                        Node {
+                            width: Val::Px(16.),
+                            height: Val::Px(16.),
                             ..default()
-                        },
-                        TextureAtlas {
-                            index: 0,
-                            layout: texture_atlas_layouts.clone(),
                         },
                     ));
                     parent
-                        .spawn(TextBundle {
-                            text: Text::from_section(
-                                player_stats.recruits.len().to_string(),
-                                TextFont {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 14.0,
-                                    color: Color::WHITE,
-                                },
-                            ),
-                            ..default()
-                        })
+                        .spawn((
+                            Text::new(player_stats.recruits.len().to_string()),
+                            TextFont {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(Color::WHITE),
+                        ))
                         .insert(RecruitCountTrigger);
                 });
 
             // Reputation score
             right_container
                 .spawn((
-                    ButtonBundle {
-                        style: Style {
-                            display: Display::Flex,
-                            column_gap: Val::Px(5.),
-                            ..default()
-                        },
+                    Button,
+                    Node {
+                        display: Display::Flex,
+                        column_gap: Val::Px(5.),
                         ..default()
                     },
-                    Tooltip::cursor("Your reputation score"),
+                    // Tooltip::cursor("Your reputation score"),
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        ImageBundle {
-                            image: my_assets.hud_icon_atlas.clone().into(),
-                            style: Style {
-                                width: Val::Px(16.),
-                                height: Val::Px(16.),
-                                ..default()
+                        UiImage::from_atlas_image(
+                            my_assets.hud_icon_atlas.clone().into(),
+                            TextureAtlas {
+                                index: 6,
+                                layout: texture_atlas_layouts.clone(),
                             },
+                        ),
+                        Node {
+                            width: Val::Px(16.),
+                            height: Val::Px(16.),
                             ..default()
-                        },
-                        TextureAtlas {
-                            index: 6,
-                            layout: texture_atlas_layouts.clone(),
                         },
                     ));
                     parent
-                        .spawn(TextBundle {
-                            text: Text::from_section(
-                                player_stats.reputation.to_string(),
-                                TextFont {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 14.0,
-                                    color: Color::WHITE,
-                                },
-                            ),
-                            ..default()
-                        })
+                        .spawn((
+                            Text::new(player_stats.reputation.to_string()),
+                            TextFont {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(Color::WHITE),
+                        ))
                         .insert(ReputationCountTrigger);
                 });
 
             // Toxicity score
             right_container
                 .spawn((
-                    ButtonBundle {
-                        style: Style {
-                            display: Display::Flex,
-                            column_gap: Val::Px(5.),
-                            ..default()
-                        },
+                    Button,
+                    Node {
+                        display: Display::Flex,
+                        column_gap: Val::Px(5.),
                         ..default()
                     },
-                    Tooltip::cursor("Your toxicity score"),
+                    // Tooltip::cursor("Your toxicity score"),
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        ImageBundle {
-                            image: my_assets.hud_icon_atlas.clone().into(),
-                            style: Style {
-                                width: Val::Px(16.),
-                                height: Val::Px(16.),
-                                ..default()
+                        UiImage::from_atlas_image(
+                            my_assets.hud_icon_atlas.clone().into(),
+                            TextureAtlas {
+                                index: 5,
+                                layout: texture_atlas_layouts.clone(),
                             },
+                        ),
+                        Node {
+                            width: Val::Px(16.),
+                            height: Val::Px(16.),
                             ..default()
-                        },
-                        TextureAtlas {
-                            index: 5,
-                            layout: texture_atlas_layouts.clone(),
                         },
                     ));
                     parent
-                        .spawn(TextBundle {
-                            text: Text::from_section(
-                                player_stats.toxicity.to_string(),
-                                TextFont {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 14.0,
-                                    color: Color::WHITE,
-                                },
-                            ),
-                            ..default()
-                        })
+                        .spawn((
+                            Text::new(player_stats.toxicity.to_string()),
+                            TextFont {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(Color::WHITE),
+                        ))
                         .insert(ToxicityCountTrigger);
                 });
 
             right_container.spawn((
-                ButtonBundle {
-                    image: my_assets.hud_icon_atlas.clone().into(),
-                    style: Style {
-                        width: Val::Px(16.),
-                        height: Val::Px(16.),
-                        ..default()
-                    },
+                Button,
+                Node {
+                    width: Val::Px(16.),
+                    height: Val::Px(16.),
                     ..default()
                 },
-                TextureAtlas {
-                    index: 7,
-                    layout: texture_atlas_layouts.clone(),
-                },
-                Tooltip::cursor("Settings menu (not implemented yet)"),
+                UiImage::from_atlas_image(
+                    my_assets.hud_icon_atlas.clone().into(),
+                    TextureAtlas {
+                        index: 7,
+                        layout: texture_atlas_layouts.clone(),
+                    },
+                ),
+                // Tooltip::cursor("Settings menu (not implemented yet)"),
             ));
         });
 }

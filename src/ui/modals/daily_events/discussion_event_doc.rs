@@ -23,9 +23,12 @@ pub fn discussion_event_doc(
         texture_atlas_layouts.add(daily_discussions_layout);
 
     commands
-        .spawn(ImageBundle {
-            image: my_assets.daily_event_document.clone().into(),
-            style: Style {
+        .spawn((
+            UiImage {
+                image: my_assets.daily_event_document.clone().into(),
+                ..default()
+            },
+            Node {
                 display: Display::Flex,
                 align_self: AlignSelf::Center,
                 justify_self: JustifySelf::Center,
@@ -40,9 +43,8 @@ pub fn discussion_event_doc(
                 position_type: PositionType::Absolute,
                 ..default()
             },
-            z_index: ZIndex::Global(2),
-            ..default()
-        })
+            ZIndex(2),
+        ))
         .insert(SelectAnswerTrigger)
         .with_children(|parent| {
             // Container with flex column layout
@@ -58,88 +60,81 @@ pub fn discussion_event_doc(
                 })
                 .with_children(|column| {
                     // Title at the top
-                    column.spawn(TextBundle {
-                        text: Text::from_section(
-                            discussion.title.clone(),
-                            TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
-                                font_size: 18.0,
-                                color: Color::BLACK,
-                            },
-                        ),
-                        style: Style {
+                    column.spawn((
+                        Text::new(discussion.title.clone()),
+                        TextFont {
+                            font: my_assets.fira_sans_bold.clone(),
+                            font_size: 18.0,
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                        Node {
                             margin: UiRect::bottom(Val::Px(8.)),
                             ..default()
                         },
-                        ..default()
-                    });
+                    ));
 
                     // Image below the title
                     column.spawn((
-                        ImageBundle {
-                            image: my_assets.daily_discussions_atlas.clone().into(),
-                            style: Style {
-                                width: Val::Percent(100.),
-                                height: Val::Px(150.),
-                                margin: UiRect::bottom(Val::Px(8.)),
-                                ..default()
+                        UiImage::from_atlas_image(
+                            my_assets.daily_discussions_atlas.clone().into(),
+                            TextureAtlas {
+                                index: discussion.image_atlas_index.into(),
+                                layout: daily_discussions_texture_atlas_layout.clone(),
                             },
-                            z_index: ZIndex::Global(1),
+                        ),
+                        Node {
+                            width: Val::Percent(100.),
+                            height: Val::Px(150.),
+                            margin: UiRect::bottom(Val::Px(8.)),
                             ..default()
                         },
-                        TextureAtlas {
-                            index: discussion.image_atlas_index.into(),
-                            layout: daily_discussions_texture_atlas_layout.clone(),
-                        },
+                        ZIndex(1),
                     ));
 
                     // Description below the image
-                    column.spawn(TextBundle {
-                        text: Text::from_section(
-                            discussion.description.clone(),
-                            TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
-                                font_size: 14.0,
-                                color: Color::BLACK,
-                            },
-                        ),
-                        style: Style {
+                    column.spawn((
+                        Text::new(discussion.description.clone()),
+                        TextFont {
+                            font: my_assets.fira_sans_bold.clone(),
+                            font_size: 14.0,
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                        Node {
                             margin: UiRect::bottom(Val::Px(12.)),
                             ..default()
                         },
-                        ..default()
-                    });
+                    ));
 
                     // Map through answers and display each below the description
                     for answer in discussion.answers.iter() {
                         column
-                            .spawn(ButtonBundle {
-                                style: Style {
+                            .spawn((
+                                Button,
+                                Node {
                                     width: Val::Percent(100.0),
                                     margin: UiRect::top(Val::Px(4.0)),
                                     padding: UiRect::all(Val::Px(8.0)),
                                     border: UiRect::all(Val::Px(1.)),
+                                    // WIP - 0.15 migrating
+                                    // border_radius: BorderRadius::all(Val::Px(5.)),
+                                    // background_color: Color::srgba(0., 0., 0., 0.7).into(),
                                     ..default()
                                 },
-                                border_radius: BorderRadius::all(Val::Px(5.)),
-                                background_color: Color::srgba(0., 0., 0., 0.7).into(),
-                                ..default()
-                            })
+                            ))
                             .insert(answer.clone())
                             .insert(discussion.clone())
                             .with_children(|button| {
-                                button.spawn(TextBundle {
-                                    text: Text::from_section(
-                                        answer.message.clone(),
-                                        TextFont {
-                                            font: my_assets.fira_sans_bold.clone(),
-                                            font_size: 14.0,
-                                            color: Color::BLACK,
-                                        },
-                                    ),
-                                    style: Style { ..default() },
-                                    ..default()
-                                });
+                                button.spawn((
+                                    Text::new(answer.message.clone()),
+                                    TextFont {
+                                        font: my_assets.fira_sans_bold.clone(),
+                                        font_size: 14.0,
+                                        ..default()
+                                    },
+                                    TextColor(Color::BLACK),
+                                ));
                             });
                     }
                 });

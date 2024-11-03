@@ -54,64 +54,63 @@ pub fn mission_order_modal(
 
         if let Some(mission) = &selected_mission.mission {
             commands
-                .spawn(Node {
-                    position_type: PositionType::Absolute,
-                    align_items: AlignItems::Center,
-                    flex_direction: FlexDirection::Column,
-                    justify_content: JustifyContent::Center,
-                    row_gap: Val::Px(10.0),
-                    width: Val::Px(570.0),
-                    height: Val::Px(470.0),
-                    margin: UiRect::all(Val::Auto),
-                    padding: UiRect::all(Val::Px(10.0)),
-                    border: UiRect::all(Val::Px(3.0)),
-                    // WIP - v0.15 migrating
-                    // border_radius: BorderRadius::all(Val::Px(20.0)),
-                    // border_color: BorderColor(Color::BLACK),
-                    // background_color: BackgroundColor(WOOD_COLOR),
-                    // z_index: ZIndex::Global(1),
-                    ..default()
-                })
+                .spawn((
+                    Node {
+                        position_type: PositionType::Absolute,
+                        align_items: AlignItems::Center,
+                        flex_direction: FlexDirection::Column,
+                        justify_content: JustifyContent::Center,
+                        row_gap: Val::Px(10.0),
+                        width: Val::Px(570.0),
+                        height: Val::Px(470.0),
+                        margin: UiRect::all(Val::Auto),
+                        padding: UiRect::all(Val::Px(10.0)),
+                        border: UiRect::all(Val::Px(3.0)),
+                        ..default()
+                    },
+                    BorderRadius::all(Val::Px(20.0)),
+                    BorderColor(Color::BLACK),
+                    BackgroundColor(WOOD_COLOR),
+                    ZIndex(1),
+                ))
                 .insert(Name::new("Mission details modal"))
                 .insert(MissionModalContentTrigger)
                 .with_children(|parent| {
                     parent
                         .spawn((
-                            ButtonBundle {
-                                style: Style {
-                                    position_type: PositionType::Absolute,
-                                    right: Val::Px(5.),
-                                    top: Val::Px(5.),
-                                    width: Val::Px(30.),
-                                    height: Val::Px(30.),
-                                    border: UiRect::all(Val::Px(3.)),
-                                    ..default()
-                                },
-                                image: my_assets.buttons_atlas.clone().into(),
-                                border_color: BorderColor(WOOD_COLOR),
-                                border_radius: BorderRadius::all(Val::Px(10.)),
+                            Button,
+                            Node {
+                                position_type: PositionType::Absolute,
+                                right: Val::Px(5.),
+                                top: Val::Px(5.),
+                                width: Val::Px(30.),
+                                height: Val::Px(30.),
+                                border: UiRect::all(Val::Px(3.)),
                                 ..default()
                             },
-                            TextureAtlas {
-                                index: 16,
-                                layout: buttons_texture_atlas_layout.clone(),
-                            },
+                            BorderColor(WOOD_COLOR),
+                            BorderRadius::all(Val::Px(10.)),
+                            UiImage::from_atlas_image(
+                                my_assets.buttons_atlas.clone().into(),
+                                TextureAtlas {
+                                    index: 16,
+                                    layout: buttons_texture_atlas_layout.clone(),
+                                },
+                            ),
                         ))
                         .insert(UniqueId("close_mission_modal".to_string()));
 
                     // Title
                     parent
-                        .spawn(TextBundle {
-                            text: Text::from_section(
-                                mission.name.to_string(),
-                                TextFont {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 20.0,
-                                    color: Color::BLACK,
-                                },
-                            ),
-                            ..default()
-                        })
+                        .spawn((
+                            Text::new(mission.name.to_string()),
+                            TextFont {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 20.0,
+                                ..default()
+                            },
+                            TextColor(Color::BLACK),
+                        ))
                         .insert(Name::new("Mission details modal > title"));
 
                     // Main contents / loots
@@ -144,25 +143,23 @@ pub fn mission_order_modal(
 
                                     if selected_mission.percent_of_victory.is_some() {
                                         // Percent of Win (centered)
-                                        parent.spawn(TextBundle {
-                                            text: Text::from_section(
-                                                format!(
-                                                    "{}%",
-                                                    selected_mission.percent_of_victory.unwrap()
-                                                ),
-                                                TextFont {
-                                                    font: my_assets.fira_sans_bold.clone(),
-                                                    font_size: 18.0,
-                                                    color: Color::BLACK,
-                                                },
-                                            ),
-                                            style: Style {
+                                        parent.spawn((
+                                            Text::new(format!(
+                                                "{}%",
+                                                selected_mission.percent_of_victory.unwrap()
+                                            )),
+                                            TextFont {
+                                                font: my_assets.fira_sans_bold.clone(),
+                                                font_size: 18.0,
+                                                ..default()
+                                            },
+                                            TextColor(Color::BLACK),
+                                            Node {
                                                 align_self: AlignSelf::Center,
                                                 justify_self: JustifySelf::Center,
                                                 ..default()
                                             },
-                                            ..default()
-                                        });
+                                        ));
                                     }
 
                                     recruit_recap(

@@ -19,7 +19,7 @@ pub fn recruit_sent_picture(
 
     // Recruit Send Block
     commands
-        .spawn(NoNodedeBundle {
+        .spawn(Node {
             display: Display::Flex,
             width: Val::Px(100.),
             height: Val::Px(200.),
@@ -29,34 +29,31 @@ pub fn recruit_sent_picture(
         })
         .with_children(|recruit_block| {
             // Text: "Recruit sent"
-            recruit_block.spawn(TextBundle {
-                text: Text::from_section(
-                    "Recruit sent",
-                    TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
-                        font_size: 16.0,
-                        color: Color::BLACK,
-                    },
-                ),
-                ..default()
-            });
-
             recruit_block.spawn((
-                ImageBundle {
-                    image: my_assets.recruit_picture_atlas.clone().into(),
-                    style: Style {
-                        position_type: PositionType::Absolute,
-                        width: Val::Percent(100.),
-                        height: Val::Percent(100.),
-                        ..default()
-                    },
-                    z_index: ZIndex::Global(1),
+                Text::new("Recruit sent"),
+                TextFont {
+                    font: my_assets.fira_sans_bold.clone(),
+                    font_size: 16.0,
                     ..default()
                 },
-                TextureAtlas {
-                    index: recruit_sent.image_atlas_index.into(),
-                    layout: recruit_texture_atlas_layout.clone(),
+                TextColor(Color::BLACK),
+            ));
+
+            recruit_block.spawn((
+                UiImage::from_atlas_image(
+                    my_assets.recruit_picture_atlas.clone().into(),
+                    TextureAtlas {
+                        index: recruit_sent.image_atlas_index.into(),
+                        layout: recruit_texture_atlas_layout.clone(),
+                    },
+                ),
+                Node {
+                    position_type: PositionType::Absolute,
+                    width: Val::Percent(100.),
+                    height: Val::Percent(100.),
+                    ..default()
                 },
+                ZIndex(1),
             ));
         });
 }

@@ -41,17 +41,15 @@ pub fn loots_and_start(
                 })
                 .with_children(|parent| {
                     // Loots in text
-                    parent.spawn(TextBundle {
-                        text: Text::from_section(
-                            "Loots :",
-                            TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
-                                font_size: 16.0,
-                                color: Color::BLACK,
-                            },
-                        ),
-                        ..default()
-                    });
+                    parent.spawn((
+                        Text::new("Loots :"),
+                        TextFont {
+                            font: my_assets.fira_sans_bold.clone(),
+                            font_size: 16.0,
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                    ));
 
                     // Loots in display row
                     parent
@@ -66,28 +64,28 @@ pub fn loots_and_start(
                                 let layout = loot.get_item_layout();
                                 let tooltip_text = loot.get_item_loot_tooltip_description();
                                 parent.spawn((
-                                    ButtonBundle {
-                                        image: my_assets
+                                    Button,
+                                    Node {
+                                        width: Val::Px(50.0),
+                                        height: Val::Px(50.0),
+                                        border: UiRect::all(Val::Px(3.)),
+                                        margin: UiRect::all(Val::Px(5.)),
+                                        ..default()
+                                    },
+                                    BorderColor(Color::BLACK),
+                                    BorderRadius::all(Val::Px(10.)),
+                                    UiImage::from_atlas_image(
+                                        my_assets
                                             .get_item_loot_atlas_path(&loot.item)
                                             .clone()
                                             .into(),
-                                        style: Style {
-                                            width: Val::Px(50.0),
-                                            height: Val::Px(50.0),
-                                            border: UiRect::all(Val::Px(3.)),
-                                            margin: UiRect::all(Val::Px(5.)),
-                                            ..default()
+                                        TextureAtlas {
+                                            index: item_image_atlas_index.into(),
+                                            layout: texture_atlas_layouts.add(layout),
                                         },
-                                        border_color: BorderColor(Color::BLACK),
-                                        border_radius: BorderRadius::all(Val::Px(10.)),
-                                        ..default()
-                                    },
-                                    TextureAtlas {
-                                        index: item_image_atlas_index.into(),
-                                        layout: texture_atlas_layouts.add(layout),
-                                    },
-                                    Tooltip::cursor(tooltip_text.to_string())
-                                        .with_activation(TooltipActivation::IMMEDIATE),
+                                    ),
+                                    // Tooltip::cursor(tooltip_text.to_string())
+                                    //     .with_activation(TooltipActivation::IMMEDIATE),
                                 ));
                             }
                         });
@@ -97,21 +95,19 @@ pub fn loots_and_start(
             parent
                 .spawn(CustomButton::MissionStart.bundle(my_assets))
                 .with_children(|button| {
-                    button.spawn(TextBundle {
-                        text: Text::from_section(
-                            "Start the mission",
-                            TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
-                                font_size: 16.0,
-                                color: Color::WHITE,
-                            },
-                        ),
-                        style: Style {
+                    button.spawn((
+                        Text::new("Start the mission"),
+                        TextFont {
+                            font: my_assets.fira_sans_bold.clone(),
+                            font_size: 16.0,
+                            ..default()
+                        },
+                        TextColor(Color::WHITE),
+                        Node {
                             margin: UiRect::all(Val::Auto),
                             ..default()
                         },
-                        ..default()
-                    });
+                    ));
                 })
                 .insert(if selected_mission.recruit_id.is_some() {
                     UniqueId("start_mission".to_string())

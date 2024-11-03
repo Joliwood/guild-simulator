@@ -12,22 +12,25 @@ pub fn daily_event_documents(
 
     if daily_events_number > 0 {
         elements_on_desk
-            .spawn(ButtonBundle {
-                style: Style {
+            .spawn((
+                Button,
+                Node {
                     position_type: PositionType::Absolute,
                     right: Val::Px(50.),
                     top: Val::Px(250.),
                     ..default()
                 },
-                ..default()
-            })
+            ))
             // .insert(MissionReportButtonTrigger)
             .insert(DailyEventTrigger)
             .with_children(|mission_report_button| {
                 mission_report_button
-                    .spawn(ImageBundle {
-                        image: my_assets.daily_event_documents_on_desk.clone().into(),
-                        style: Style {
+                    .spawn((
+                        UiImage {
+                            image: my_assets.daily_event_documents_on_desk.clone().into(),
+                            ..default()
+                        },
+                        Node {
                             display: Display::Flex,
                             align_items: AlignItems::Center,
                             justify_content: JustifyContent::Center,
@@ -35,16 +38,18 @@ pub fn daily_event_documents(
                             height: Val::Px(133. + 66.5),
                             ..default()
                         },
-                        ..default()
-                    })
+                    ))
                     // .insert(MissionReport)
                     .insert(Interaction::default())
                     .with_children(|parent| {
                         // if mission_reports_number > 0 {
                         parent
-                            .spawn(ImageBundle {
-                                image: my_assets.notification_token_in_wood.clone().into(),
-                                style: Style {
+                            .spawn((
+                                UiImage {
+                                    image: my_assets.notification_token_in_wood.clone().into(),
+                                    ..default()
+                                },
+                                Node {
                                     display: Display::Flex,
                                     align_items: AlignItems::Center,
                                     justify_content: JustifyContent::Center,
@@ -54,8 +59,7 @@ pub fn daily_event_documents(
                                     top: Val::Px(5.),
                                     ..default()
                                 },
-                                ..default()
-                            })
+                            ))
                             .with_children(|overlay| {
                                 overlay.spawn(TextBundle::from_section(
                                     format!("{}", daily_events_number),

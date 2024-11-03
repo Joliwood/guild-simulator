@@ -30,8 +30,9 @@ pub fn map_card(
     let missions_finished_number = map.get_finished_missions_number();
 
     column
-        .spawn(ButtonBundle {
-            style: Style {
+        .spawn((
+            Button,
+            Node {
                 flex_direction: FlexDirection::Column,
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Center,
@@ -42,35 +43,36 @@ pub fn map_card(
                     x: OverflowAxis::Clip,
                     y: OverflowAxis::Clip,
                 },
-                ..Default::default()
+                ..default()
             },
-            z_index: ZIndex::Global(2),
-            border_color: BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
-            border_radius: BorderRadius::all(Val::Px(5.)),
-            image: my_assets.map_card.clone().into(),
-            ..Default::default()
-        })
+            ZIndex(2),
+            BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
+            BorderRadius::all(Val::Px(5.)),
+            UiImage {
+                image: my_assets.map_card.clone().into(),
+                ..default()
+            },
+        ))
         .with_children(|map_container| {
             // Map Image
             map_container.spawn((
-                ImageBundle {
-                    image: my_assets.map_atlas.clone().into(),
-                    style: Style {
-                        position_type: PositionType::Absolute,
-                        top: Val::Px(3.),
-                        bottom: Val::Px(10.),
-                        left: Val::Px(3.),
-                        height: Val::Px(70. - 6.),
-                        aspect_ratio: Some(270. / 200.),
-                        ..default()
+                UiImage::from_atlas_image(
+                    my_assets.map_atlas.clone().into(),
+                    TextureAtlas {
+                        index: map.image_atlas_index.into(),
+                        layout: map_atlas_layout.clone(),
                     },
-                    z_index: ZIndex::Global(1),
+                ),
+                Node {
+                    position_type: PositionType::Absolute,
+                    top: Val::Px(3.),
+                    bottom: Val::Px(10.),
+                    left: Val::Px(3.),
+                    height: Val::Px(70. - 6.),
+                    aspect_ratio: Some(270. / 200.),
                     ..default()
                 },
-                TextureAtlas {
-                    index: map.image_atlas_index.into(),
-                    layout: map_atlas_layout.clone(),
-                },
+                ZIndex(1),
             ));
 
             // Map Name (Top-Right)

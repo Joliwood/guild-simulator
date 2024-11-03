@@ -21,8 +21,9 @@ pub fn recruit_card(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     left_container
-        .spawn(ButtonBundle {
-            style: Style {
+        .spawn((
+            Button,
+            Node {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Row,
                 align_items: AlignItems::Center,
@@ -42,10 +43,9 @@ pub fn recruit_card(
                 },
                 ..default()
             },
-            border_color: BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
-            border_radius: BorderRadius::all(Val::Px(10.)),
-            ..default()
-        })
+            BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
+            BorderRadius::all(Val::Px(10.)),
+        ))
         .insert((UniqueId("recruit_button".to_string()), recruit.clone()))
         .with_children(|parent| {
             // Add an overlay if the recruit is in a mission
@@ -74,17 +74,15 @@ pub fn recruit_card(
                         ..default()
                     })
                     .with_children(|overlay| {
-                        overlay.spawn(TextBundle {
-                            text: Text::from_section(
-                                recruit.state.get_description(),
-                                TextFont {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 20.0,
-                                    color: Color::WHITE,
-                                },
-                            ),
-                            ..default()
-                        });
+                        overlay.spawn((
+                            Text::new(recruit.state.get_description()),
+                            TextFont {
+                                font: my_assets.fira_sans_bold.clone(),
+                                font_size: 20.0,
+                                ..default()
+                            },
+                            TextColor(Color::WHITE),
+                        ));
                     });
             }
         })
@@ -113,19 +111,18 @@ pub fn recruit_card(
                 .with_children(|frame| {
                     // Image that is 200x400, clipped by the parent container
                     frame.spawn((
-                        ImageBundle {
-                            image: my_assets.recruit_picture_atlas.clone().into(),
-                            style: Style {
-                                width: Val::Px(80.),
-                                height: Val::Px(140.),
-                                position_type: PositionType::Absolute,
-                                ..default()
+                        UiImage::from_atlas_image(
+                            my_assets.recruit_picture_atlas.clone().into(),
+                            TextureAtlas {
+                                index: recruit.image_atlas_index.into(),
+                                layout: recruit_texture_atlas_layout.clone(),
                             },
+                        ),
+                        Node {
+                            width: Val::Px(80.),
+                            height: Val::Px(140.),
+                            position_type: PositionType::Absolute,
                             ..default()
-                        },
-                        TextureAtlas {
-                            index: recruit.image_atlas_index.into(),
-                            layout: recruit_texture_atlas_layout.clone(),
                         },
                     ));
                 });
@@ -146,33 +143,36 @@ pub fn recruit_card(
                 })
                 .with_children(|name_class_container| {
                     // Recruit name
-                    name_class_container.spawn(TextBundle::from_section(
-                        recruit.name.clone(),
+                    name_class_container.spawn((
+                        Text::new(recruit.name.clone()),
                         TextFont {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 20.0,
-                            color: ColorPaletteEnum::DarkBrown.as_color(),
+                            ..default()
                         },
+                        TextColor(ColorPaletteEnum::DarkBrown.as_color()),
                     ));
 
                     // Recruit class
-                    name_class_container.spawn(TextBundle::from_section(
-                        recruit.class.to_string(),
+                    name_class_container.spawn((
+                        Text::new(recruit.class.to_string()),
                         TextFont {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 18.0,
-                            color: ColorPaletteEnum::DarkBrown.as_color(),
+                            ..default()
                         },
+                        TextColor(ColorPaletteEnum::DarkBrown.as_color()),
                     ));
 
                     // Recruit level
-                    name_class_container.spawn(TextBundle::from_section(
-                        format!("Level: {}", recruit.level),
+                    name_class_container.spawn((
+                        Text::new(format!("Level: {}", recruit.level)),
                         TextFont {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 18.0,
-                            color: ColorPaletteEnum::DarkBrown.as_color(),
+                            ..default()
                         },
+                        TextColor(ColorPaletteEnum::DarkBrown.as_color()),
                     ));
                 });
 
@@ -186,13 +186,17 @@ pub fn recruit_card(
                 })
                 .with_children(|stats_container| {
                     // Recruit XP
-                    stats_container.spawn(TextBundle::from_section(
-                        format!("XP: {}/{}", recruit.experience, recruit.max_experience),
+                    stats_container.spawn((
+                        Text::new(format!(
+                            "XP: {}/{}",
+                            recruit.experience, recruit.max_experience
+                        )),
                         TextFont {
                             font: my_assets.fira_sans_bold.clone(),
                             font_size: 18.0,
-                            color: ColorPaletteEnum::DarkBrown.as_color(),
+                            ..default()
                         },
+                        TextColor(ColorPaletteEnum::DarkBrown.as_color()),
                     ));
 
                     let get_additional_strength_from_items =
