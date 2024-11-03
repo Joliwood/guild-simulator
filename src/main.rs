@@ -84,6 +84,7 @@ fn main() -> AppExit {
             (
                 systems::updates::update_buttons::move_room_from_keyboard,
                 systems::inputs::mouse_systems::mouse_click_system,
+                systems::inputs::escape::close_modal_on_escape,
                 systems::updates::hud::update_gold_counter::update_gold_counter,
                 systems::updates::hud::update_guild_level::update_guild_level,
                 systems::updates::hud::update_day_counter::update_day_counter,
