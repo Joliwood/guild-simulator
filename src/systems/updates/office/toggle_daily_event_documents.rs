@@ -2,22 +2,39 @@ use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
     my_assets::MyAssets,
-    structs::{general_structs::DailyEventsModalVisible, trigger_structs::DailyEventTrigger},
+    structs::{
+        general_structs::{
+            DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
+        },
+        recruits::SelectedRecruitForMission,
+        trigger_structs::DailyEventTrigger,
+    },
+    utils::reset_modals_visibility,
 };
 use bevy::prelude::*;
 
+#[allow(clippy::too_many_arguments)]
 pub fn toggle_daily_event_documents(
     my_assets: Res<MyAssets>,
     mut commands: Commands,
     mut query: Query<&Interaction, (Changed<Interaction>, With<DailyEventTrigger>)>,
     mut windows: Query<&mut Window>,
     mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
+    mut mission_modal_visibility: ResMut<MissionModalVisible>,
+    mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
+    mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
 ) {
     let mut window = windows.single_mut();
 
     for interaction in query.iter_mut() {
         match *interaction {
             Interaction::Pressed => {
+                reset_modals_visibility(
+                    &mut mission_modal_visibility,
+                    &mut mission_reports_modal_visibility,
+                    &mut daily_events_modal_visibility,
+                    &mut selected_recruit_for_mission,
+                );
                 daily_events_modal_visibility.0 = true;
                 play_sound(&my_assets, &mut commands, SoundEnum::PickingGolds);
             }
