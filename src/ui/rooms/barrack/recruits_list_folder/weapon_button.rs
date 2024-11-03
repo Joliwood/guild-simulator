@@ -23,7 +23,7 @@ pub fn weapon_button(
 
         top_container
             .spawn((
-                Buitton,
+                Button,
                 Node {
                     width: Val::Px(40.),
                     height: Val::Px(40.),

@@ -15,12 +15,23 @@ pub enum CustomButton {
 }
 
 impl CustomButton {
-    pub fn bundle(&self, my_assets: &Res<MyAssets>) -> ButtonBundle {
+    pub fn bundle(
+        &self,
+        my_assets: &Res<MyAssets>,
+    ) -> (
+        Button,
+        Node,
+        BorderRadius,
+        BackgroundColor,
+        UiImage,
+        BorderColor,
+    ) {
         // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
 
         match self {
-            CustomButton::Primary => ButtonBundle {
-                style: Style {
+            CustomButton::Primary => (
+                Button,
+                Node {
                     border: UiRect::all(Val::Px(5.)),
                     width: Val::Px(150.),
                     height: Val::Px(65.),
@@ -28,12 +39,14 @@ impl CustomButton {
                     align_items: AlignItems::Center,
                     ..default()
                 },
-                border_radius: BorderRadius::MAX,
-                background_color: BackgroundColor(WOOD_COLOR),
-                ..Default::default()
-            },
-            CustomButton::GoldButton => ButtonBundle {
-                style: Style {
+                BorderRadius::MAX,
+                BackgroundColor(WOOD_COLOR),
+                UiImage::default(),
+                BorderColor(Color::BLACK),
+            ),
+            CustomButton::GoldButton => (
+                Button,
+                Node {
                     margin: UiRect::all(Val::Px(10.)),
                     width: Val::Px(60.),
                     height: Val::Px(60.),
@@ -42,53 +55,56 @@ impl CustomButton {
                     align_items: AlignItems::Center,
                     ..default()
                 },
-                border_radius: BorderRadius::MAX,
-                // Test for insert image asset for button
-                // image: UiImage::new(my_assets.load("../assets/images/cursors/cursor_grab.png")),
-                // image: UiImage::new(image_assets.test_button),
-                ..Default::default()
-            },
+                BorderRadius::MAX,
+                BackgroundColor::DEFAULT,
+                UiImage::default(),
+                BorderColor::DEFAULT,
+            ),
             // image_assets
-            CustomButton::RoomArrow => ButtonBundle {
-                style: Style {
+            CustomButton::RoomArrow => (
+                Button,
+                Node {
                     display: Display::Flex,
                     justify_content: JustifyContent::Center,
                     width: Val::Percent(100.),
                     ..default()
                 },
-                border_color: BorderColor(Color::BLACK),
-                image: UiImage::default().with_color(NORMAL_BUTTON),
-                ..default()
-            },
-            CustomButton::SquareIcon => ButtonBundle {
-                style: Style {
+                BorderRadius::MAX,
+                BackgroundColor::DEFAULT,
+                UiImage::default().with_color(NORMAL_BUTTON),
+                BorderColor(Color::BLACK),
+            ),
+            CustomButton::SquareIcon => (
+                Button,
+                Node {
                     display: Display::Flex,
                     justify_content: JustifyContent::Center,
                     width: Val::Px(50.),
                     aspect_ratio: Some(1.),
                     ..default()
                 },
-                border_radius: BorderRadius::all(Val::Px(10.)),
-                background_color: BackgroundColor(WOOD_COLOR),
-                border_color: BorderColor(Color::BLACK),
-                image: UiImage::default().with_color(NORMAL_BUTTON),
-                ..default()
-            },
-            CustomButton::EarnGold => ButtonBundle {
-                style: Style {
+                BorderRadius::all(Val::Px(10.)),
+                BackgroundColor(WOOD_COLOR),
+                UiImage::default().with_color(NORMAL_BUTTON),
+                BorderColor(Color::BLACK),
+            ),
+            CustomButton::EarnGold => (
+                Button,
+                Node {
                     margin: UiRect::all(Val::Px(10.)),
                     width: Val::Px(60.),
                     height: Val::Px(60.),
                     border: UiRect::all(Val::Px(3.)),
                     ..default()
                 },
-                image: my_assets.buttons_atlas.clone().into(),
-                border_color: BorderColor(WOOD_COLOR),
-                border_radius: BorderRadius::all(Val::Px(10.)),
-                ..default()
-            },
-            CustomButton::MissionStart => ButtonBundle {
-                style: Style {
+                BorderRadius::all(Val::Px(10.)),
+                BackgroundColor::DEFAULT,
+                my_assets.buttons_atlas.clone().into(),
+                BorderColor(WOOD_COLOR),
+            ),
+            CustomButton::MissionStart => (
+                Button,
+                Node {
                     justify_self: JustifySelf::Center,
                     align_self: AlignSelf::Center,
                     width: Val::Px(200.),
@@ -96,22 +112,34 @@ impl CustomButton {
                     border: UiRect::all(Val::Px(2.)),
                     ..default()
                 },
-                image: my_assets.wood_box_container.clone().into(),
-                border_color: BorderColor(Color::BLACK),
-                border_radius: BorderRadius::all(Val::Px(10.)),
-                ..default()
-            },
+                BorderRadius::all(Val::Px(10.)),
+                BackgroundColor::DEFAULT,
+                my_assets.wood_box_container.clone().into(),
+                BorderColor(Color::BLACK),
+            ),
             _ => panic!("The mission button has to be called in the mission_bundle method"),
         }
     }
 
-    pub fn mission_bundle(&self, my_assets: &Res<MyAssets>, mission_id: u16) -> ButtonBundle {
+    pub fn mission_bundle(
+        &self,
+        my_assets: &Res<MyAssets>,
+        mission_id: u16,
+    ) -> (
+        Button,
+        Node,
+        BorderRadius,
+        BackgroundColor,
+        UiImage,
+        BorderColor,
+    ) {
         let mission_image = my_assets.get_mission_image(mission_id);
         let mission_position = get_mission_position(mission_id);
 
         match self {
-            CustomButton::MissionOnMap => ButtonBundle {
-                style: Style {
+            CustomButton::MissionStart => (
+                Button,
+                Node {
                     position_type: PositionType::Absolute,
                     left: Val::Px(mission_position.0),
                     top: Val::Px(mission_position.1),
@@ -122,11 +150,11 @@ impl CustomButton {
                     border: UiRect::all(Val::Px(2.)),
                     ..default()
                 },
-                image: mission_image.clone().into(),
-                border_color: BorderColor(Color::BLACK),
-                border_radius: BorderRadius::all(Val::Px(10.)),
-                ..default()
-            },
+                BorderRadius::all(Val::Px(10.)),
+                BackgroundColor::DEFAULT,
+                mission_image.clone().into(),
+                BorderColor(Color::BLACK),
+            ),
             _ => panic!("This button is not a mission on map button"),
         }
     }

@@ -45,3 +45,13 @@ pub fn recruit_endurance(
         ..default()
     });
 }
+
+// bottom_container.spawn((
+//     Text::new("Scrolls"),
+//     TextFont {
+//         font: my_assets.fira_sans_bold.clone(),
+//         font_size: 20.0,
+//         ..default()
+//     },
+//     TextColor(ColorPaletteEnum::DarkBrown.as_color()),
+// ));

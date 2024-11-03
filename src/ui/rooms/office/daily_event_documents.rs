@@ -61,13 +61,14 @@ pub fn daily_event_documents(
                                 },
                             ))
                             .with_children(|overlay| {
-                                overlay.spawn(TextBundle::from_section(
-                                    format!("{}", daily_events_number),
+                                overlay.spawn((
+                                    Text::new(format!("{}", daily_events_number)),
                                     TextFont {
                                         font: my_assets.fira_sans_bold.clone(),
                                         font_size: 25.0,
-                                        color: Color::BLACK,
+                                        ..default()
                                     },
+                                    TextColor(Color::BLACK),
                                 ));
                             });
                     });

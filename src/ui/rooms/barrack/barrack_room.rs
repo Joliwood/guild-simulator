@@ -9,7 +9,6 @@ use crate::{
         player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
         trigger_structs::ResetRoomTrigger,
     },
-    ui::styles::containers_styles::node_container_style,
 };
 use bevy::prelude::*;
 
@@ -21,30 +20,32 @@ pub fn spawn_room_barrack(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     commands
-        .spawn(Node {
-            display: Display::Flex,
-            flex_direction: FlexDirection::Row,
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Stretch,
-            margin: UiRect::all(Val::Auto),
-            ..node_container_style()
-                // WIP - 0.15 migrating
-            // z_index: ZIndex::Global(-1),
-            ..default()
-        })
+        .spawn((
+            Node {
+                display: Display::Flex,
+                flex_direction: FlexDirection::Row,
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Stretch,
+                margin: UiRect::all(Val::Auto),
+                ..default()
+            },
+            ZIndex(-1),
+        ))
         .insert(Name::new("Room barrack"))
         .insert(ResetRoomTrigger)
         .with_children(|parent| {
-            parent.spawn(ImageBundle {
-                style: Style {
+            parent.spawn((
+                UiImage {
+                    image: my_assets.barrack_background.clone().into(),
+                    ..default()
+                },
+                Node {
                     position_type: PositionType::Absolute,
                     top: Val::Px(0.),
                     height: Val::Vh(100.),
                     ..default()
                 },
-                image: my_assets.barrack_background.clone().into(),
-                ..default()
-            });
+            ));
 
             spawn_left_container(parent, my_assets, player_stats, texture_atlas_layouts);
             recruit_overview(

@@ -23,28 +23,29 @@ pub fn recruit_frame(
         get_selected_recruit_for_equipment(selected_recruit_for_equipment);
 
     parent
-        .spawn(ImageBundle {
-            image: my_assets.recruit_frame.clone().into(),
-            style: Style {
+        .spawn((
+            UiImage {
+                image: my_assets.recruit_frame.clone().into(),
+                ..default()
+            },
+            Node {
                 width: Val::Px(180.),
                 height: Val::Px(330.),
                 ..default()
             },
-            z_index: ZIndex::Global(2),
-            ..default()
-        })
+            ZIndex(2),
+        ))
         .insert(Name::new("Barrack > recruit overview > recruit frame"))
         .with_children(|parent| {
-            parent.spawn(TextBundle {
-                text: Text::from_section(
-                    selected_recruit_for_equipment_data.name.to_string(),
-                    TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
-                        font_size: 20.0,
-                        color: Color::BLACK,
-                    },
-                ),
-                style: Style {
+            parent.spawn((
+                Text::new(selected_recruit_for_equipment_data.name.to_string()),
+                TextFont {
+                    font: my_assets.fira_sans_bold.clone(),
+                    font_size: 20.0,
+                    ..default()
+                },
+                TextColor(Color::BLACK),
+                Node {
                     position_type: PositionType::Absolute,
                     margin: UiRect {
                         top: Val::Px(20.0),
@@ -54,26 +55,24 @@ pub fn recruit_frame(
                     },
                     ..Default::default()
                 },
-                z_index: ZIndex::Global(3),
-                ..Default::default()
-            });
+                ZIndex(3),
+            ));
 
             parent.spawn((
-                ImageBundle {
-                    image: my_assets.recruit_picture_atlas.clone().into(),
-                    style: Style {
-                        position_type: PositionType::Absolute,
-                        width: Val::Percent(100.),
-                        height: Val::Percent(100.),
-                        ..default()
+                UiImage::from_atlas_image(
+                    my_assets.recruit_picture_atlas.clone().into(),
+                    TextureAtlas {
+                        index: selected_recruit_for_equipment_data.image_atlas_index.into(),
+                        layout: recruit_texture_atlas_layout.clone(),
                     },
-                    z_index: ZIndex::Global(1),
+                ),
+                Node {
+                    position_type: PositionType::Absolute,
+                    width: Val::Percent(100.),
+                    height: Val::Percent(100.),
                     ..default()
                 },
-                TextureAtlas {
-                    index: selected_recruit_for_equipment_data.image_atlas_index.into(),
-                    layout: recruit_texture_atlas_layout.clone(),
-                },
+                ZIndex(1),
             ));
         });
 }
