@@ -2,11 +2,11 @@
 use super::{
     daily_events_folder::discussions::{Answer, ImpactAction},
     equipments::ItemEnum,
-    general_structs::{load_armor, load_scroll, load_weapon},
+    // general_structs::{load_armor, load_scroll, load_weapon},
     recruits::RecruitStats,
 };
 use crate::{
-    content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
+    // content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
     enums::{RecruitStateEnum, RoomEnum},
 };
 use bevy::prelude::*;
@@ -36,37 +36,37 @@ pub struct PlayerStats {
 
 impl Default for PlayerStats {
     fn default() -> Self {
-        let mut inventory = vec![];
-        let first_weapon = load_weapon(WeaponsEnum::AxeOfFury);
-        let second_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
-        let second_same_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
-        let first_scroll = load_scroll(ScrollsEnum::ScrollOfEndurance);
-        let second_scroll = load_scroll(ScrollsEnum::ScrollOfSpeed);
-        let first_armor = load_armor(ArmorsEnum::GauntletsOfPower);
-        let second_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
-        let second_same_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
+        // let mut inventory = vec![];
+        // let first_weapon = load_weapon(WeaponsEnum::AxeOfFury);
+        // let second_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
+        // let second_same_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
+        // let first_scroll = load_scroll(ScrollsEnum::ScrollOfEndurance);
+        // let second_scroll = load_scroll(ScrollsEnum::ScrollOfSpeed);
+        // let first_armor = load_armor(ArmorsEnum::GauntletsOfPower);
+        // let second_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
+        // let second_same_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
 
-        inventory.push(ItemEnum::Weapon(first_weapon));
-        inventory.push(ItemEnum::Weapon(second_weapon));
-        inventory.push(ItemEnum::Weapon(second_same_weapon));
-        inventory.push(ItemEnum::Scroll(first_scroll, 1));
-        inventory.push(ItemEnum::Scroll(second_scroll, 3));
-        inventory.push(ItemEnum::Armor(first_armor));
-        inventory.push(ItemEnum::Armor(second_armor));
-        inventory.push(ItemEnum::Armor(second_same_armor));
+        // inventory.push(ItemEnum::Weapon(first_weapon));
+        // inventory.push(ItemEnum::Weapon(second_weapon));
+        // inventory.push(ItemEnum::Weapon(second_same_weapon));
+        // inventory.push(ItemEnum::Scroll(first_scroll, 1));
+        // inventory.push(ItemEnum::Scroll(second_scroll, 3));
+        // inventory.push(ItemEnum::Armor(first_armor));
+        // inventory.push(ItemEnum::Armor(second_armor));
+        // inventory.push(ItemEnum::Armor(second_same_armor));
 
         Self {
             day: 1,
             experience: 0,
             golds: 0,
             guild_level: 1,
-            inventory,
+            inventory: vec![],
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![],
-            room: RoomEnum::Office,
-            toxicity: 50,
-            reputation: 50,
+            room: RoomEnum::Barrack,
+            toxicity: 0,
+            reputation: 10,
             stats: Stats {
                 golds_earned: 0,
                 mission_completed: 0,
@@ -199,27 +199,11 @@ impl PlayerStats {
     }
 
     pub fn gain_toxitiy(&mut self, toxicity: i8) {
-        self.toxicity += toxicity;
-
-        if self.toxicity > 100 {
-            self.toxicity = 100;
-        }
-
-        if toxicity < 0 {
-            self.toxicity = 0;
-        }
+        self.toxicity = (self.toxicity + toxicity).clamp(0, 100);
     }
 
     pub fn gain_reputation(&mut self, reputation: i8) {
-        self.reputation += reputation;
-
-        if self.reputation > 100 {
-            self.reputation = 100;
-        }
-
-        if reputation < 0 {
-            self.reputation = 0;
-        }
+        self.reputation = (self.reputation + reputation).clamp(0, 100);
     }
 
     pub fn apply_equipment_impact(&mut self, answer: &Answer) {
@@ -249,6 +233,12 @@ impl PlayerStats {
                     ImpactAction::Remove(item) => self.remove_item(item.clone()),
                 }
             }
+        }
+    }
+
+    pub fn remove_recruit_by_id(&mut self, id: Uuid) {
+        if let Some(recruit_index) = self.recruits.iter().position(|recruit| recruit.id == id) {
+            self.recruits.remove(recruit_index);
         }
     }
 }

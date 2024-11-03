@@ -1,5 +1,4 @@
-pub mod buttons;
-pub mod interface;
+pub mod hud_folder;
 pub mod modals;
 pub mod rooms;
 pub mod styles;

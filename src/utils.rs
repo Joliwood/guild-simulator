@@ -1,5 +1,5 @@
 use crate::{
-    enums::{RecruitEnum, RecruitStateEnum, RoomDirectionEnum, RoomEnum},
+    enums::{RecruitEnum, RecruitStateEnum},
     structs::{
         equipments::ItemEnum,
         general_structs::{
@@ -20,57 +20,69 @@ use bevy::{
 };
 use uuid::Uuid;
 
-/// Determines the new room based on the given direction and current player stats.
-///
-/// ## Parameters
-/// - `player_stats`: The current player stats containing the current room.
-/// - `direction`: The direction in which the room change is requested.
-///
-/// ## Returns
-/// The new room enum corresponding to the direction.
-///
-/// ## Permanently the store room has been removed for V0
-pub fn get_new_room(
-    player_stats: &ResMut<PlayerStats>,
-    direction: RoomDirectionEnum,
+// /// Determines the new room based on the given direction and current player stats.
+// ///
+// /// ## Parameters
+// /// - `player_stats`: The current player stats containing the current room.
+// /// - `direction`: The direction in which the room change is requested.
+// ///
+// /// ## Returns
+// /// The new room enum corresponding to the direction.
+// ///
+// /// ## Permanently the store room has been removed for V0
+// pub fn get_new_room(
+//     player_stats: &ResMut<PlayerStats>,
+//     direction: RoomDirectionEnum,
+//     mission_modal_visibility: &mut ResMut<MissionModalVisible>,
+//     mission_reports_modal_visibility: &mut ResMut<MissionReportsModalVisible>,
+//     selected_recruit_for_mission: &mut ResMut<SelectedRecruitForMission>,
+//     daily_events_modal_visibility: &mut ResMut<DailyEventsModalVisible>,
+// ) -> Option<RoomEnum> {
+//     // Close any open modals
+//     mission_modal_visibility.0 = false;
+//     mission_reports_modal_visibility.0 = false;
+//     daily_events_modal_visibility.0 = false;
+//     selected_recruit_for_mission.0 = None;
+
+//     match player_stats.room {
+//         RoomEnum::Office => match direction {
+//             RoomDirectionEnum::Right => Some(RoomEnum::Barrack),
+//             // RoomDirectionEnum::Left => Some(RoomEnum::Store),
+//             RoomDirectionEnum::Left => None,
+//             RoomDirectionEnum::Bottom => Some(RoomEnum::CommandRoom),
+//             RoomDirectionEnum::Top => None,
+//         },
+//         RoomEnum::Barrack => match direction {
+//             RoomDirectionEnum::Right => None,
+//             RoomDirectionEnum::Left => Some(RoomEnum::Office),
+//             RoomDirectionEnum::Bottom => None,
+//             RoomDirectionEnum::Top => None,
+//         },
+//         RoomEnum::Store => match direction {
+//             RoomDirectionEnum::Right => Some(RoomEnum::Office),
+//             RoomDirectionEnum::Left => None,
+//             RoomDirectionEnum::Bottom => None,
+//             RoomDirectionEnum::Top => None,
+//         },
+//         RoomEnum::CommandRoom => match direction {
+//             RoomDirectionEnum::Right => None,
+//             RoomDirectionEnum::Left => None,
+//             RoomDirectionEnum::Bottom => None,
+//             RoomDirectionEnum::Top => Some(RoomEnum::Office),
+//         },
+//     }
+// }
+
+pub fn reset_modals_visibility(
     mission_modal_visibility: &mut ResMut<MissionModalVisible>,
     mission_reports_modal_visibility: &mut ResMut<MissionReportsModalVisible>,
-    selected_recruit_for_mission: &mut ResMut<SelectedRecruitForMission>,
     daily_events_modal_visibility: &mut ResMut<DailyEventsModalVisible>,
-) -> Option<RoomEnum> {
-    // Close any open modals
+    selected_recruit_for_mission: &mut ResMut<SelectedRecruitForMission>,
+) {
     mission_modal_visibility.0 = false;
     mission_reports_modal_visibility.0 = false;
     daily_events_modal_visibility.0 = false;
     selected_recruit_for_mission.0 = None;
-
-    match player_stats.room {
-        RoomEnum::Office => match direction {
-            RoomDirectionEnum::Right => Some(RoomEnum::Barrack),
-            // RoomDirectionEnum::Left => Some(RoomEnum::Store),
-            RoomDirectionEnum::Left => None,
-            RoomDirectionEnum::Bottom => Some(RoomEnum::CommandRoom),
-            RoomDirectionEnum::Top => None,
-        },
-        RoomEnum::Barrack => match direction {
-            RoomDirectionEnum::Right => None,
-            RoomDirectionEnum::Left => Some(RoomEnum::Office),
-            RoomDirectionEnum::Bottom => None,
-            RoomDirectionEnum::Top => None,
-        },
-        RoomEnum::Store => match direction {
-            RoomDirectionEnum::Right => Some(RoomEnum::Office),
-            RoomDirectionEnum::Left => None,
-            RoomDirectionEnum::Bottom => None,
-            RoomDirectionEnum::Top => None,
-        },
-        RoomEnum::CommandRoom => match direction {
-            RoomDirectionEnum::Right => None,
-            RoomDirectionEnum::Left => None,
-            RoomDirectionEnum::Bottom => None,
-            RoomDirectionEnum::Top => Some(RoomEnum::Office),
-        },
-    }
 }
 
 /// Calculates the total points of a recruit based on its strength, endurance
@@ -502,23 +514,13 @@ pub fn finish_mission(
         let golds_earned = missions.get_golds_earned_by_mission_id(mission_id).unwrap() as i32;
         new_mission_report.golds_gained = Some(golds_earned);
 
-        // ! WIP - Has to be when the player sign the report
-
-        // missions.unlock_missions_by_mission_id(mission_id);
-
         let mission = missions.get_mission_by_id(mission_id);
 
         if mission.is_none() {
             return;
         }
 
-        // player_stats.add_loots_to_inventory_by_item_loot(mission.unwrap().loots);
-
-        // ? WIP
-
         new_mission_report.calculate_loots(mission.unwrap().loots.clone());
-
-        // new_mission_report.loots = mission.unwrap().loots;
     }
 
     // Create a new mission_report

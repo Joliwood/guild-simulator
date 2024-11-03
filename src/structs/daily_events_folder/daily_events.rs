@@ -167,10 +167,6 @@ impl DailyEvents {
         self.0.last()
     }
 
-    pub fn push_daily_event(&mut self, daily_event: DailyEvent) {
-        self.0.push(daily_event);
-    }
-
     pub fn get_random_number_of_daily_events(
         &self,
         n: usize,
@@ -186,7 +182,7 @@ impl DailyEvents {
 
         for _ in 0..n {
             let random_number = rand::thread_rng().gen_range(0..100);
-            if random_number <= 66 {
+            if random_number <= 80 {
                 daily_discussion_number += 1;
             } else {
                 daily_spontaneous_application_number += 1;

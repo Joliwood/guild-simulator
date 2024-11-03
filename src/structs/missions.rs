@@ -103,13 +103,6 @@ impl MissionReports {
         self.0.push(report);
     }
 
-    pub fn get_mission_report_by_id(&self, mission_id: u16) -> Option<MissionReport> {
-        if let Some(report) = self.0.iter().find(|report| report.mission_id == mission_id) {
-            return Some(report.clone());
-        }
-        None
-    }
-
     pub fn get_last_mission_report(&self) -> Option<MissionReport> {
         if let Some(report) = self.0.last() {
             return Some(report.clone());
@@ -179,10 +172,6 @@ impl Missions {
             return Some(mission.clone());
         }
         None
-    }
-
-    pub fn get_mission_by_name(&self, name: &str) -> Option<Mission> {
-        return self.0.iter().find(|mission| mission.name == name).cloned();
     }
 
     pub fn assign_recruit_id_to_mission(&mut self, mission_id: u16, recruit_id: Uuid) {
@@ -275,13 +264,6 @@ impl Missions {
                 }
             }
         }
-    }
-
-    pub fn get_map_id_by_mission_id(&self, mission_id: u16) -> Option<u16> {
-        if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
-            return Some(mission.id);
-        }
-        None
     }
 }
 
@@ -478,17 +460,17 @@ impl Default for Missions {
                 recruit_send: None,
                 ennemy: Ennemy {
                     image_atlas_index: 5,
-                    endurance: 10,
+                    endurance: 5,
                     experience: 0,
                     intelligence: 5,
                     level: 1,
                     name: "Ennemy 1".to_string(),
-                    strength: 10,
+                    strength: 7,
                 },
                 unlocked: true,
                 description: "A basic camp, we think we could find some resources here. We need to send a recruit to check it out."
                 .to_string(),
-                golds: 50,
+                golds: 5,
                 loots: Loots(
                     vec![
                         ItemLoot {
@@ -522,13 +504,26 @@ impl Default for Missions {
                     intelligence: 7,
                     level: 2,
                     name: "Ennemy 2".to_string(),
-                    strength: 15,
+                    strength: 5,
                 },
                 unlocked: true,
                 description: "More extended camp, we think we could find some resources here. We need to send a recruit to check it out.".to_string(),
-                golds: 80,
+                golds: 10,
                 loots: Loots(
-                    vec![],
+                    vec![
+                        ItemLoot {
+                            item: ItemLootEnum::Weapon(WeaponsEnum::BowOfTheEagle),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Armor(ArmorsEnum::BreastplateOfTheDragon),
+                            percent: 10,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfEndurance),
+                            percent: 10,
+                        },
+                    ],
                 ),
                 unlock_mission_ids: vec![3],
             },
@@ -551,9 +546,22 @@ impl Default for Missions {
                 },
                 unlocked: false,
                 description: "A very extended camp, the final one of the tuto".to_string(),
-                golds: 150,
+                golds: 30,
                 loots: Loots(
-                    vec![],
+                    vec![
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfSpeed),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfPower),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheAncients),
+                            percent: 50,
+                        },
+                    ],
                 ),
                 unlock_mission_ids: vec![],
             },
@@ -577,7 +585,7 @@ impl Default for Missions {
                 unlocked: false,
                 description: "A basic camp, we think we could find some resources here. We need to send a recruit to check it out."
                 .to_string(),
-                golds: 50,
+                golds: 12,
                 loots: Loots(
                     vec![
                         ItemLoot {
@@ -615,9 +623,22 @@ impl Default for Missions {
                 },
                 unlocked: false,
                 description: "More extended camp, we think we could find some resources here. We need to send a recruit to check it out.".to_string(),
-                golds: 80,
+                golds: 15,
                 loots: Loots(
-                    vec![],
+                    vec![
+                        ItemLoot {
+                            item: ItemLootEnum::Weapon(WeaponsEnum::BowOfTheEagle),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Armor(ArmorsEnum::BreastplateOfTheDragon),
+                            percent: 10,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
+                            percent: 10,
+                        },
+                    ],
                 ),
                 unlock_mission_ids: vec![6],
             },
@@ -640,9 +661,22 @@ impl Default for Missions {
                 },
                 unlocked: false,
                 description: "A very extended camp, the final one of the tuto".to_string(),
-                golds: 150,
+                golds: 50,
                 loots: Loots(
-                    vec![],
+                    vec![
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfSpeed),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfPower),
+                            percent: 50,
+                        },
+                        ItemLoot {
+                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheAncients),
+                            percent: 50,
+                        },
+                    ],
                 ),
                 unlock_mission_ids: vec![],
             },

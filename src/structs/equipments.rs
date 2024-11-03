@@ -109,19 +109,3 @@ pub struct Scroll {
     pub price: u16,
     pub strength: Option<u32>,
 }
-
-// ! Structs for the workflow with ron files
-// #[derive(Debug, Deserialize)]
-// pub struct Weapons {
-//     pub items: Vec<Weapon>,
-// }
-
-// #[derive(Debug, Deserialize)]
-// pub struct Scrolls {
-//     pub items: Vec<Scroll>,
-// }
-
-// #[derive(Debug, Deserialize)]
-// pub struct Armors {
-//     pub items: Vec<Armor>,
-// }
