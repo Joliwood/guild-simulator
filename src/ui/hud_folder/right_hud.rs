@@ -1,5 +1,5 @@
 use crate::{
-    my_assets::MyAssets,
+    my_assets::FONT_FIRA,
     structs::{
         player_stats::PlayerStats,
         trigger_structs::{RecruitCountTrigger, ReputationCountTrigger, ToxicityCountTrigger},
@@ -10,7 +10,7 @@ use pyri_tooltip::Tooltip;
 
 pub fn right_hud(
     commands: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: Handle<TextureAtlasLayout>,
 ) {
@@ -39,7 +39,7 @@ pub fn right_hud(
                 .with_children(|parent| {
                     parent.spawn((
                         UiImage::from_atlas_image(
-                            my_assets.hud_icon_atlas.clone().into(),
+                            my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 0,
                                 layout: texture_atlas_layouts.clone(),
@@ -55,7 +55,7 @@ pub fn right_hud(
                         .spawn((
                             Text::new(player_stats.recruits.len().to_string()),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
                                 ..default()
                             },
@@ -78,7 +78,7 @@ pub fn right_hud(
                 .with_children(|parent| {
                     parent.spawn((
                         UiImage::from_atlas_image(
-                            my_assets.hud_icon_atlas.clone().into(),
+                            my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 6,
                                 layout: texture_atlas_layouts.clone(),
@@ -94,7 +94,7 @@ pub fn right_hud(
                         .spawn((
                             Text::new(player_stats.reputation.to_string()),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
                                 ..default()
                             },
@@ -117,7 +117,7 @@ pub fn right_hud(
                 .with_children(|parent| {
                     parent.spawn((
                         UiImage::from_atlas_image(
-                            my_assets.hud_icon_atlas.clone().into(),
+                            my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 5,
                                 layout: texture_atlas_layouts.clone(),
@@ -133,7 +133,7 @@ pub fn right_hud(
                         .spawn((
                             Text::new(player_stats.toxicity.to_string()),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
                                 ..default()
                             },
@@ -150,7 +150,7 @@ pub fn right_hud(
                     ..default()
                 },
                 UiImage::from_atlas_image(
-                    my_assets.hud_icon_atlas.clone().into(),
+                    my_assets.load("images/hud/hud_icon_atlas.png"),
                     TextureAtlas {
                         index: 7,
                         layout: texture_atlas_layouts.clone(),

@@ -1,11 +1,11 @@
 use super::recruit_card::recruit_card;
-use crate::{my_assets::MyAssets, structs::player_stats::PlayerStats};
+use crate::structs::player_stats::PlayerStats;
 use bevy::prelude::*;
 
 /// Spawns the left container, displaying the player's recruits.
 pub fn spawn_left_container(
     parent: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
@@ -41,7 +41,7 @@ pub fn spawn_left_container(
             // Background image
             left_container.spawn((
                 UiImage {
-                    image: my_assets.inventory_container.clone().into(),
+                    image: my_assets.load("images/rooms/barrack/inventory_container.png"),
                     ..default()
                 },
                 Node {

@@ -1,5 +1,5 @@
 use crate::{
-    my_assets::MyAssets,
+    my_assets::FONT_FIRA,
     structs::{
         daily_events_folder::discussions::DailyDiscussion, trigger_structs::SelectAnswerTrigger,
     },
@@ -8,7 +8,7 @@ use bevy::prelude::*;
 
 pub fn discussion_event_doc(
     commands: &mut Commands,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     discussion: DailyDiscussion,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
@@ -25,7 +25,7 @@ pub fn discussion_event_doc(
     commands
         .spawn((
             UiImage {
-                image: my_assets.daily_event_document.clone().into(),
+                image: my_assets.load("images/rooms/office/daily_event_document.png"),
                 ..default()
             },
             Node {
@@ -63,7 +63,7 @@ pub fn discussion_event_doc(
                     column.spawn((
                         Text::new(discussion.title.clone()),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 18.0,
                             ..default()
                         },
@@ -77,7 +77,7 @@ pub fn discussion_event_doc(
                     // Image below the title
                     column.spawn((
                         UiImage::from_atlas_image(
-                            my_assets.daily_discussions_atlas.clone().into(),
+                            my_assets.load("images/daily_events/daily_discussions_atlas.png"),
                             TextureAtlas {
                                 index: discussion.image_atlas_index.into(),
                                 layout: daily_discussions_texture_atlas_layout.clone(),
@@ -96,7 +96,7 @@ pub fn discussion_event_doc(
                     column.spawn((
                         Text::new(discussion.description.clone()),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 14.0,
                             ..default()
                         },
@@ -129,7 +129,7 @@ pub fn discussion_event_doc(
                                 button.spawn((
                                     Text::new(answer.message.clone()),
                                     TextFont {
-                                        font: my_assets.fira_sans_bold.clone(),
+                                        font: my_assets.load(FONT_FIRA),
                                         font_size: 14.0,
                                         ..default()
                                     },

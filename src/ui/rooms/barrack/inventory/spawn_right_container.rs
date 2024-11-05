@@ -1,10 +1,10 @@
 use super::spawn_inventory::spawn_inventory;
-use crate::{enums::ColorPaletteEnum, my_assets::MyAssets, structs::player_stats::PlayerStats};
+use crate::{enums::ColorPaletteEnum, my_assets::FONT_FIRA, structs::player_stats::PlayerStats};
 use bevy::prelude::*;
 
 pub fn spawn_right_container(
     parent: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
@@ -12,7 +12,7 @@ pub fn spawn_right_container(
     parent
         .spawn((
             UiImage {
-                image: my_assets.inventory_container.clone().into(),
+                image: my_assets.load("images/rooms/barrack/inventory_container.png"),
                 ..default()
             },
             Node {
@@ -33,7 +33,7 @@ pub fn spawn_right_container(
             parent.spawn((
                 Text::new("Inventory"),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 30.,
                     ..default()
                 },

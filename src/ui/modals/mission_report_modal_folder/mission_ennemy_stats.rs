@@ -1,10 +1,10 @@
-use crate::{my_assets::MyAssets, structs::general_structs::Ennemy};
+use crate::{my_assets::FONT_FIRA, structs::general_structs::Ennemy};
 use bevy::prelude::*;
 
 pub fn mission_ennemy_stats(
     commands: &mut ChildBuilder,
     ennemy_stats: &Ennemy,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
 ) {
     // ennemy Send Stats
     commands
@@ -24,7 +24,7 @@ pub fn mission_ennemy_stats(
             stats_column.spawn((
                 Text::new(format!("Level: {}", ennemy_stats.level)),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 16.0,
                     ..default()
                 },
@@ -35,7 +35,7 @@ pub fn mission_ennemy_stats(
             stats_column.spawn((
                 Text::new(format!("Strength: {}", ennemy_stats.strength)),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 16.0,
                     ..default()
                 },
@@ -46,7 +46,7 @@ pub fn mission_ennemy_stats(
             stats_column.spawn((
                 Text::new(format!("Endurance: {}", ennemy_stats.endurance)),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 16.0,
                     ..default()
                 },
@@ -57,7 +57,7 @@ pub fn mission_ennemy_stats(
             stats_column.spawn((
                 Text::new(format!("Intelligence: {}", ennemy_stats.intelligence)),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 16.0,
                     ..default()
                 },

@@ -1,7 +1,6 @@
 use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
-    my_assets::MyAssets,
     structs::{
         daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
         missions::{MissionReports, Missions},
@@ -21,7 +20,7 @@ pub fn sleep_button_system(
         Changed<Interaction>,
     >,
     mut player_stats: ResMut<PlayerStats>,
-    my_assets: Res<MyAssets>,
+    my_assets: Res<AssetServer>,
     mut missions: ResMut<Missions>,
     mut mission_reports: ResMut<MissionReports>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,

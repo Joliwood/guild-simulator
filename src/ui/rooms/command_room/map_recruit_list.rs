@@ -1,13 +1,10 @@
 use super::map_recruit_card::map_recruit_card;
-use crate::{
-    my_assets::MyAssets, structs::player_stats::PlayerStats,
-    utils::sort_recruits_by_total_merged_stats,
-};
+use crate::{structs::player_stats::PlayerStats, utils::sort_recruits_by_total_merged_stats};
 use bevy::prelude::*;
 
 pub fn map_recruit_list(
     parent: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {

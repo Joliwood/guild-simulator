@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 use crate::{
-    my_assets::MyAssets, systems::systems_constants::NORMAL_BUTTON, ui::ui_constants::WOOD_COLOR,
+    my_assets::get_mission_image, systems::systems_constants::NORMAL_BUTTON,
+    ui::ui_constants::WOOD_COLOR,
 };
 use bevy::prelude::*;
 
@@ -17,7 +18,7 @@ pub enum CustomButton {
 impl CustomButton {
     pub fn bundle(
         &self,
-        my_assets: &Res<MyAssets>,
+        my_assets: &Res<AssetServer>,
     ) -> (
         Button,
         Node,
@@ -99,7 +100,8 @@ impl CustomButton {
                 },
                 BorderRadius::all(Val::Px(10.)),
                 BackgroundColor::DEFAULT,
-                my_assets.buttons_atlas.clone().into(),
+                // my_assets.buttons_atlas.clone().into(),
+                my_assets.load("images/hud/buttons_atlas.png").into(),
                 BorderColor(WOOD_COLOR),
             ),
             CustomButton::MissionStart => (
@@ -114,7 +116,10 @@ impl CustomButton {
                 },
                 BorderRadius::all(Val::Px(10.)),
                 BackgroundColor::DEFAULT,
-                my_assets.wood_box_container.clone().into(),
+                // my_assets.wood_box_container.clone().into(),
+                my_assets
+                    .load("images/rooms/command_room/wood_box_container.png")
+                    .into(),
                 BorderColor(Color::BLACK),
             ),
             _ => panic!("The mission button has to be called in the mission_bundle method"),
@@ -123,7 +128,7 @@ impl CustomButton {
 
     pub fn mission_bundle(
         &self,
-        my_assets: &Res<MyAssets>,
+        my_assets: &Res<AssetServer>,
         mission_id: u16,
     ) -> (
         Button,
@@ -133,7 +138,7 @@ impl CustomButton {
         UiImage,
         BorderColor,
     ) {
-        let mission_image = my_assets.get_mission_image(mission_id);
+        let mission_image = get_mission_image(mission_id);
         let mission_position = get_mission_position(mission_id);
 
         match self {
@@ -152,7 +157,7 @@ impl CustomButton {
                 },
                 BorderRadius::all(Val::Px(10.)),
                 BackgroundColor::DEFAULT,
-                mission_image.clone().into(),
+                my_assets.load(mission_image).into(),
                 BorderColor(Color::BLACK),
             ),
             _ => panic!("This button is not a mission on map button"),

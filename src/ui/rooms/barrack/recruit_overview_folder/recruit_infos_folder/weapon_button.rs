@@ -1,5 +1,5 @@
 use crate::{
-    my_assets::MyAssets,
+    my_assets::get_item_atlas_path,
     structs::{
         equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats,
         recruits::SelectedRecruitForEquipment,
@@ -12,7 +12,7 @@ use pyri_tooltip::{Tooltip, TooltipActivation};
 pub fn weapon_button(
     player_stats: &Res<PlayerStats>,
     weapon_column: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
@@ -33,7 +33,7 @@ pub fn weapon_button(
                 BorderColor(Color::BLACK),
                 BorderRadius::all(Val::Px(10.)),
                 UiImage {
-                    image: my_assets.empty_inventory_slot.clone().into(),
+                    image: my_assets.load("images/equipments/empty_inventory_slot.png"),
                     ..default()
                 },
             ))
@@ -50,6 +50,7 @@ pub fn weapon_button(
         let item_image_atlas_index = get_item_image_atlas_index(&item);
         let layout = get_item_layout(&item);
         let tooltip_text = get_item_tooltip_description(&item);
+        let item_atlas_path = get_item_atlas_path(&item);
 
         // Weapon button
         weapon_column
@@ -65,7 +66,7 @@ pub fn weapon_button(
                 BorderColor(Color::BLACK),
                 BorderRadius::all(Val::Px(10.)),
                 UiImage::from_atlas_image(
-                    my_assets.get_item_atlas_path(&item).clone().into(),
+                    my_assets.load(item_atlas_path),
                     TextureAtlas {
                         index: item_image_atlas_index.into(),
                         layout: texture_atlas_layouts.add(layout),
@@ -89,7 +90,7 @@ pub fn weapon_button(
                 BorderColor(Color::BLACK),
                 BorderRadius::all(Val::Px(10.)),
                 UiImage {
-                    image: my_assets.empty_inventory_slot.clone().into(),
+                    image: my_assets.load("images/equipments/empty_inventory_slot.png"),
                     ..default()
                 },
             ))

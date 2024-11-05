@@ -2,20 +2,17 @@ use super::{
     map_description::map_description, map_list::map_list, map_on_table::map_on_table,
     map_recruit_list::map_recruit_list,
 };
-use crate::{
-    my_assets::MyAssets,
-    structs::{
-        maps::{Maps, SelectedMapId},
-        missions::Missions,
-        player_stats::PlayerStats,
-        trigger_structs::ResetRoomTrigger,
-    },
+use crate::structs::{
+    maps::{Maps, SelectedMapId},
+    missions::Missions,
+    player_stats::PlayerStats,
+    trigger_structs::ResetRoomTrigger,
 };
 use bevy::prelude::*;
 
 #[allow(clippy::too_many_arguments)]
 pub fn room_command_room(
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     commands: &mut Commands,
     missions: Res<Missions>,
     selected_map_id: Res<SelectedMapId>,
@@ -33,7 +30,7 @@ pub fn room_command_room(
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn((
                 UiImage {
-                    image: my_assets.command_room_background.clone().into(),
+                    image: my_assets.load("images/rooms/command_room/command_room_background.png"),
                     ..default()
                 },
                 Node {
@@ -52,7 +49,7 @@ pub fn room_command_room(
             ui_container
                 .spawn((
                     UiImage {
-                        image: my_assets.command_table.clone().into(),
+                        image: my_assets.load("images/rooms/command_room/command_table.png"),
                         ..default()
                     },
                     Node {

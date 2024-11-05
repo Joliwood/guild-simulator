@@ -1,11 +1,11 @@
-use crate::my_assets::MyAssets;
+use crate::my_assets::FONT_FIRA;
 use crate::structs::missions::MissionReports;
 use crate::structs::trigger_structs::MissionReportTrigger;
 // use crate::structs::trigger_structs::MissionReportButtonTrigger;
 use bevy::prelude::*;
 
 pub fn mission_report_documents(
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     elements_on_desk: &mut ChildBuilder,
     mission_reports: &Res<MissionReports>,
 ) {
@@ -28,7 +28,8 @@ pub fn mission_report_documents(
                 mission_report_button
                     .spawn((
                         UiImage {
-                            image: my_assets.mission_notification_document.clone().into(),
+                            image: my_assets
+                                .load("images/rooms/office/mission_notification_document.png"),
                             ..default()
                         },
                         Node {
@@ -47,7 +48,8 @@ pub fn mission_report_documents(
                         parent
                             .spawn((
                                 UiImage {
-                                    image: my_assets.notification_token_in_wood.clone().into(),
+                                    image: my_assets
+                                        .load("images/rooms/office/notification_token_in_wood.png"),
                                     ..default()
                                 },
                                 Node {
@@ -65,7 +67,7 @@ pub fn mission_report_documents(
                                 overlay.spawn((
                                     Text::new(format!("{}", mission_reports_number)),
                                     TextFont {
-                                        font: my_assets.fira_sans_bold.clone(),
+                                        font: my_assets.load(FONT_FIRA),
                                         font_size: 25.0,
                                         ..default()
                                     },

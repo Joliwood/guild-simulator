@@ -1,7 +1,6 @@
 use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
-    my_assets::MyAssets,
     structs::{
         equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats,
         recruits::SelectedRecruitForEquipment,
@@ -14,7 +13,7 @@ use bevy::prelude::*;
 
 pub fn select_item_in_inventory(
     mut commands: Commands,
-    my_assets: Res<MyAssets>,
+    my_assets: Res<AssetServer>,
     mut interaction_query: Query<
         (
             &Interaction,

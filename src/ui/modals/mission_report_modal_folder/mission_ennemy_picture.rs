@@ -1,10 +1,10 @@
-use crate::{my_assets::MyAssets, structs::general_structs::Ennemy};
+use crate::{my_assets::FONT_FIRA, structs::general_structs::Ennemy};
 use bevy::prelude::*;
 
 pub fn mission_ennemy_picture(
     commands: &mut ChildBuilder,
     ennemy: &Ennemy,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let ennemy_layout = TextureAtlasLayout::from_grid(
@@ -32,7 +32,7 @@ pub fn mission_ennemy_picture(
             ennemy_block.spawn((
                 Text::new("ennemy sent"),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 16.0,
                     ..default()
                 },
@@ -41,7 +41,7 @@ pub fn mission_ennemy_picture(
 
             ennemy_block.spawn((
                 UiImage::from_atlas_image(
-                    my_assets.ennemy_image_handle.clone().into(),
+                    my_assets.load("images/missions/ennemy_picture_atlas.png"),
                     TextureAtlas {
                         index: ennemy.image_atlas_index.into(),
                         layout: ennemy_texture_atlas_layout.clone(),

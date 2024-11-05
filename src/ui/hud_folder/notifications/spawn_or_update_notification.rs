@@ -1,6 +1,6 @@
 use crate::{
     enums::ColorPaletteEnum,
-    my_assets::MyAssets,
+    my_assets::FONT_FIRA,
     structs::{
         missions::MissionReports,
         trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
@@ -12,7 +12,7 @@ use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn spawn_or_update_notification(
     commands: &mut Commands,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
     mission_reports: &mut ResMut<MissionReports>,
 ) {
@@ -64,7 +64,7 @@ pub fn spawn_or_update_notification(
                             bottom_right: Val::ZERO,
                         },
                         UiImage::from_atlas_image(
-                            my_assets.notification_atlas.clone().into(),
+                            my_assets.load("images/hud/notification_atlas.png"),
                             TextureAtlas {
                                 index: 0,
                                 layout: texture_atlas_layout.clone(),
@@ -80,7 +80,7 @@ pub fn spawn_or_update_notification(
                         parent.spawn((
                             Text::new(format!("x{}", mission_notifications_number)),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 25.,
                                 ..default()
                             },

@@ -1,9 +1,9 @@
-use crate::{my_assets::MyAssets, structs::missions::Mission};
+use crate::{my_assets::FONT_FIRA, structs::missions::Mission};
 use bevy::prelude::*;
 
 pub fn mission_recap(
     parent: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     mission: &Mission,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
@@ -55,7 +55,7 @@ pub fn mission_recap(
                 .with_children(|parent| {
                     parent.spawn((
                         UiImage::from_atlas_image(
-                            my_assets.ennemy_image_handle.clone().into(),
+                            my_assets.load("images/missions/ennemy_picture_atlas.png"),
                             TextureAtlas {
                                 index: mission.ennemy.image_atlas_index.into(),
                                 layout: ennemy_texture_atlas_layout.clone(),
@@ -77,7 +77,7 @@ pub fn mission_recap(
             parent.spawn((
                 Text::new(mission.description.clone()),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 16.0,
                     ..default()
                 },
@@ -98,7 +98,7 @@ pub fn mission_recap(
                     parent.spawn((
                         Text::new(format!("Target : {}", mission.ennemy.name)),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 16.0,
                             ..default()
                         },
@@ -109,7 +109,7 @@ pub fn mission_recap(
                     parent.spawn((
                         Text::new(format!("Level : {}", mission.ennemy.level)),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 16.0,
                             ..default()
                         },
@@ -120,7 +120,7 @@ pub fn mission_recap(
                     parent.spawn((
                         Text::new(format!("Str : {}", mission.ennemy.strength)),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 16.0,
                             ..default()
                         },
@@ -131,7 +131,7 @@ pub fn mission_recap(
                     parent.spawn((
                         Text::new(format!("Def : {}", mission.ennemy.endurance)),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 16.0,
                             ..default()
                         },
@@ -142,7 +142,7 @@ pub fn mission_recap(
                     parent.spawn((
                         Text::new(format!("Int : {}", mission.ennemy.intelligence)),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 16.0,
                             ..default()
                         },

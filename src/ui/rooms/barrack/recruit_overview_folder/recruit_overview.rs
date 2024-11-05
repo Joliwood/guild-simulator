@@ -1,14 +1,11 @@
 use super::{recruit_frame::recruit_frame, recruit_infos_folder::recruit_infos::recruit_infos};
-use crate::{
-    my_assets::MyAssets,
-    structs::{player_stats::PlayerStats, recruits::SelectedRecruitForEquipment},
-};
+use crate::structs::{player_stats::PlayerStats, recruits::SelectedRecruitForEquipment};
 use bevy::prelude::*;
 
 pub fn recruit_overview(
     player_stats: &Res<PlayerStats>,
     parent: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {

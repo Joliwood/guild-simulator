@@ -1,5 +1,5 @@
 use crate::{
-    my_assets::MyAssets,
+    my_assets::FONT_FIRA,
     structs::{
         player_stats::PlayerStats,
         trigger_structs::{GoldCountTrigger, GuildLvlTrigger, PlayerDayTrigger},
@@ -10,7 +10,7 @@ use pyri_tooltip::Tooltip;
 
 pub fn left_hud(
     commands: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &Handle<TextureAtlasLayout>,
 ) {
@@ -39,7 +39,7 @@ pub fn left_hud(
                 .with_children(|parent| {
                     parent.spawn((
                         UiImage::from_atlas_image(
-                            my_assets.hud_icon_atlas.clone().into(),
+                            my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 3,
                                 layout: texture_atlas_layouts.clone(),
@@ -56,7 +56,7 @@ pub fn left_hud(
                         .spawn((
                             Text::new(player_stats.golds.to_string()),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
                                 ..default()
                             },
@@ -69,7 +69,7 @@ pub fn left_hud(
                 .spawn((
                     Text::new(format!("Lvl : {}", player_stats.guild_level)),
                     TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
+                        font: my_assets.load(FONT_FIRA),
                         font_size: 14.0,
                         ..default()
                     },
@@ -81,7 +81,7 @@ pub fn left_hud(
                 .spawn((
                     Text::new(format!("Day : {}", player_stats.day)),
                     TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
+                        font: my_assets.load(FONT_FIRA),
                         font_size: 14.0,
                         ..default()
                     },

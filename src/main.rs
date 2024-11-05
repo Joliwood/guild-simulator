@@ -14,14 +14,16 @@ mod systems;
 mod ui;
 mod utils;
 
+// use std::sync::Arc;
+
 use bevy::{
     asset::AssetMetaCheck,
     prelude::*,
     window::{CursorGrabMode, SystemCursorIcon},
     winit::cursor::CursorIcon,
 };
-use bevy_asset_loader::asset_collection::AssetCollectionApp;
-use my_assets::MyAssets;
+// use bevy_asset_loader::asset_collection::AssetCollectionApp;
+// use my_assets::{MyAssets, MyAssetsLoader};
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 // use pyri_tooltip::prelude::*;
 use structs::{
@@ -45,10 +47,10 @@ fn main() -> AppExit {
     App::new()
         .add_plugins((
             DefaultPlugins
-            .set(AssetPlugin {
-                meta_check: AssetMetaCheck::Never,
-                ..default()
-            })
+            // .set(AssetPlugin {
+            //     meta_check: AssetMetaCheck::Never,
+            //     ..default()
+            // })
             .set(WindowPlugin {
                 primary_window: Some(Window {
                     canvas: Some("#mygame-canvas".into()),
@@ -60,7 +62,9 @@ fn main() -> AppExit {
             // WorldInspectorPlugin::new(),
             // TooltipPlugin::default(),
         ))
-        .init_asset_loader::<MyAssets>()
+        // .init_asset::<MyAssets>()
+        // .init_asset_loader::<MyAssetsLoader>()
+        // .init_asset_loader::<Arc<MyAssets>>()
         .insert_resource(PlayerStats::default())
         .insert_resource(MissionReports::default())
         .insert_resource(Missions::default())

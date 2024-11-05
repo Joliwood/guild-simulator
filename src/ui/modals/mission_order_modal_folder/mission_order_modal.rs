@@ -2,7 +2,7 @@ use super::{
     loots_and_start::loots_and_start, mission_recap::mission_recap, recruit_recap::recruit_recap,
 };
 use crate::{
-    my_assets::MyAssets,
+    my_assets::FONT_FIRA,
     structs::{
         general_structs::{MissionModalVisible, UniqueId},
         missions::{Missions, SelectedMission},
@@ -17,7 +17,7 @@ use bevy::prelude::*;
 #[allow(clippy::too_many_arguments)]
 pub fn mission_order_modal(
     mut commands: Commands,
-    my_assets: Res<MyAssets>,
+    my_assets: Res<AssetServer>,
     mission_modal_visibility: Res<MissionModalVisible>,
     query: Query<Entity, With<MissionModalContentTrigger>>,
     player_stats: Res<PlayerStats>,
@@ -91,7 +91,7 @@ pub fn mission_order_modal(
                             BorderColor(WOOD_COLOR),
                             BorderRadius::all(Val::Px(10.)),
                             UiImage::from_atlas_image(
-                                my_assets.buttons_atlas.clone().into(),
+                                my_assets.load("images/hud/buttons_atlas.png"),
                                 TextureAtlas {
                                     index: 16,
                                     layout: buttons_texture_atlas_layout.clone(),
@@ -105,7 +105,7 @@ pub fn mission_order_modal(
                         .spawn((
                             Text::new(mission.name.to_string()),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 20.0,
                                 ..default()
                             },
@@ -149,7 +149,7 @@ pub fn mission_order_modal(
                                                 selected_mission.percent_of_victory.unwrap()
                                             )),
                                             TextFont {
-                                                font: my_assets.fira_sans_bold.clone(),
+                                                font: my_assets.load(FONT_FIRA),
                                                 font_size: 18.0,
                                                 ..default()
                                             },

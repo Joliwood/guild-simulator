@@ -1,10 +1,13 @@
-use crate::{my_assets::MyAssets, structs::missions::MissionReport};
+use crate::{
+    my_assets::{get_item_atlas_path, FONT_FIRA},
+    structs::missions::MissionReport,
+};
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn loots_earned(
     parent: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     golds_gained: i32,
     experience_gained: u32,
     mission_report: &MissionReport,
@@ -23,7 +26,7 @@ pub fn loots_earned(
             parent.spawn((
                 Text::new("Loots"),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 18.0,
                     ..default()
                 },
@@ -45,7 +48,7 @@ pub fn loots_earned(
                             golds_gained, experience_gained
                         )),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 16.0,
                             ..default()
                         },
@@ -65,6 +68,7 @@ pub fn loots_earned(
                         let item_image_atlas_index = loot.get_atlas_index();
                         let layout = loot.get_item_layout();
                         let tooltip_text = loot.get_item_loot_tooltip_description();
+                        let item_atlas_path = get_item_atlas_path(&loot);
                         parent.spawn((
                             Button,
                             Node {
@@ -77,7 +81,7 @@ pub fn loots_earned(
                             BorderColor(Color::BLACK),
                             BorderRadius::all(Val::Px(10.)),
                             UiImage::from_atlas_image(
-                                my_assets.get_item_atlas_path(loot).clone().into(),
+                                my_assets.load(item_atlas_path),
                                 TextureAtlas {
                                     index: item_image_atlas_index.into(),
                                     layout: texture_atlas_layouts.add(layout),

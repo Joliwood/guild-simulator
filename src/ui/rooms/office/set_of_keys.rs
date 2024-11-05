@@ -1,15 +1,12 @@
-use crate::{
-    my_assets::MyAssets,
-    structs::{
-        daily_events_folder::daily_events::DailyEvents, missions::MissionReports,
-        trigger_structs::SleepButtonTrigger,
-    },
+use crate::structs::{
+    daily_events_folder::daily_events::DailyEvents, missions::MissionReports,
+    trigger_structs::SleepButtonTrigger,
 };
 use bevy::prelude::*;
 use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn set_of_keys(
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     elements_on_desk: &mut ChildBuilder,
     mission_reports: &Res<MissionReports>,
     daily_events: &Res<DailyEvents>,
@@ -47,7 +44,7 @@ pub fn set_of_keys(
         .with_children(|sleep_button| {
             sleep_button.spawn((
                 UiImage {
-                    image: my_assets.set_of_keys_container.clone().into(),
+                    image: my_assets.load("images/rooms/office/set_of_keys_container.png"),
                     ..default()
                 },
                 Node {
@@ -61,7 +58,7 @@ pub fn set_of_keys(
     button.with_children(|parent| {
         parent.spawn((
             UiImage {
-                image: my_assets.set_of_keys.clone().into(),
+                image: my_assets.load("images/rooms/office/set_of_keys.png"),
                 ..default()
             },
             Node {

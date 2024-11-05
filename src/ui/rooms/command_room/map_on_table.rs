@@ -1,6 +1,7 @@
 use crate::{
     custom_components::CustomButton,
-    my_assets::MyAssets,
+    enums::MapImageEnum,
+    my_assets::FONT_FIRA,
     structs::{general_structs::UniqueId, maps::Map, missions::Missions},
 };
 use bevy::prelude::*;
@@ -8,7 +9,7 @@ use bevy::prelude::*;
 // External function for the center area (1 big child)
 pub fn map_on_table(
     parent: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     map: &Option<Map>,
     missions: &Res<Missions>,
 ) {
@@ -28,7 +29,8 @@ pub fn map_on_table(
                 button
                     .spawn((
                         UiImage {
-                            image: my_assets.get_image_map(map.clone().unwrap().image).into(),
+                            // image: my_assets
+                            //     .load(MapImageEnum::get_path(&map.clone().unwrap().image)),
                             ..default()
                         },
                         Node {
@@ -45,15 +47,33 @@ pub fn map_on_table(
                         for mission in missions.iter().filter(|mission| mission.unlocked) {
                             if mission.recruit_send.is_none() {
                                 map.spawn(
-                                    CustomButton::MissionOnMap
-                                        .mission_bundle(my_assets, mission.id),
+                                    // ! WIP - CRASH
+                                    // CustomButton::MissionOnMap
+                                    //     .mission_bundle(my_assets, mission.id),
+                                    Node {
+                                        display: Display::Flex,
+                                        justify_content: JustifyContent::Center,
+                                        align_items: AlignItems::Center,
+                                        width: Val::Percent(100.),
+                                        height: Val::Percent(100.),
+                                        ..default()
+                                    },
                                 )
                                 .insert(UniqueId("select_mission_button".to_string()))
                                 .insert(mission.clone());
                             } else {
                                 map.spawn(
-                                    CustomButton::MissionOnMap
-                                        .mission_bundle(my_assets, mission.id),
+                                    // ! WIP - CRASH
+                                    // CustomButton::MissionOnMap
+                                    //     .mission_bundle(my_assets, mission.id),
+                                    Node {
+                                        display: Display::Flex,
+                                        justify_content: JustifyContent::Center,
+                                        align_items: AlignItems::Center,
+                                        width: Val::Percent(100.),
+                                        height: Val::Percent(100.),
+                                        ..default()
+                                    },
                                 )
                                 .with_children(|button| {
                                     // Black filter overlay with centered text
@@ -76,7 +96,7 @@ pub fn map_on_table(
                                             overlay.spawn((
                                                 Text::new("A recruit has already been sent"),
                                                 TextFont {
-                                                    font: my_assets.fira_sans_bold.clone(),
+                                                    font: my_assets.load(FONT_FIRA),
                                                     font_size: 18.0,
                                                     ..default()
                                                 },

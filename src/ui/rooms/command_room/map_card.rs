@@ -1,9 +1,9 @@
-use crate::{enums::ColorPaletteEnum, my_assets::MyAssets, structs::maps::Map};
+use crate::{enums::ColorPaletteEnum, my_assets::FONT_FIRA, structs::maps::Map};
 use bevy::prelude::*;
 
 pub fn map_card(
     column: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     map: &Map,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
@@ -49,7 +49,7 @@ pub fn map_card(
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
             BorderRadius::all(Val::Px(5.)),
             UiImage {
-                image: my_assets.map_card.clone().into(),
+                image: my_assets.load("images/maps/map_card.png"),
                 ..default()
             },
         ))
@@ -57,7 +57,7 @@ pub fn map_card(
             // Map Image
             map_container.spawn((
                 UiImage::from_atlas_image(
-                    my_assets.map_atlas.clone().into(),
+                    my_assets.load("images/maps/map_atlas.png"),
                     TextureAtlas {
                         index: map.image_atlas_index.into(),
                         layout: map_atlas_layout.clone(),
@@ -79,7 +79,7 @@ pub fn map_card(
             map_container.spawn((
                 Text::new(map.name.clone()),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,
                     ..default()
                 },
@@ -108,7 +108,7 @@ pub fn map_card(
                     icon_container.spawn((
                         Text::new(map.recommanded_power_level.to_string()),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 16.0,
                             ..default()
                         },
@@ -118,7 +118,7 @@ pub fn map_card(
                     if map.limited_in_time {
                         icon_container.spawn((
                             UiImage {
-                                image: my_assets.limited_time.clone().into(),
+                                image: my_assets.load("images/maps/limited_time.png"),
                                 ..default()
                             },
                             Node {
@@ -133,7 +133,7 @@ pub fn map_card(
                         icon_container.spawn((
                             Text::new(missions_finished_text),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 16.0,
                                 ..default()
                             },
@@ -145,7 +145,7 @@ pub fn map_card(
             // Center text
             map_container.spawn((
                 UiImage::from_atlas_image(
-                    my_assets.map_type_atlas.clone().into(),
+                    my_assets.load("images/maps/map_type_atlas.png"),
                     TextureAtlas {
                         index: icon_atlas_index.into(),
                         layout: map_type_atlas_layout.clone(),

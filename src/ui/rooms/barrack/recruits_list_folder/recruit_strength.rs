@@ -1,14 +1,14 @@
 use bevy::prelude::*;
 
-use crate::{enums::ColorPaletteEnum, my_assets::MyAssets};
+use crate::{enums::ColorPaletteEnum, my_assets::FONT_FIRA};
 
 pub fn recruit_strength(
     stats_container: &mut ChildBuilder,
     recruit_strength: u32,
     additional_strength: u32,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
 ) {
-    let base_font: Handle<Font> = my_assets.fira_sans_bold.clone();
+    let base_font: Handle<Font> = my_assets.load(FONT_FIRA);
 
     // let base_strength_text = TextSection {
     //     value: format!("STR: {}", recruit_strength),

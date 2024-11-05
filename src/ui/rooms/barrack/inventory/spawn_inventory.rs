@@ -1,5 +1,5 @@
 use crate::{
-    my_assets::MyAssets,
+    my_assets::{get_item_atlas_path, FONT_FIRA},
     structs::{equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats},
     utils::{get_item_image_atlas_index, get_item_layout, get_item_tooltip_description},
 };
@@ -9,7 +9,7 @@ use pyri_tooltip::{Tooltip, TooltipActivation};
 pub fn spawn_inventory(
     parent: &mut ChildBuilder,
     player_stats: &Res<PlayerStats>,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let inventory_size = player_stats.max_inventory_size;
@@ -45,6 +45,7 @@ pub fn spawn_inventory(
                                 let item_image_atlas_index = get_item_image_atlas_index(item);
                                 let layout = get_item_layout(item);
                                 let tooltip_text = get_item_tooltip_description(item);
+                                let item_atlas_path = get_item_atlas_path(item);
 
                                 // Spawn button for the item
                                 row_builder
@@ -60,7 +61,7 @@ pub fn spawn_inventory(
                                         BorderColor(Color::BLACK),
                                         BorderRadius::all(Val::Px(10.)),
                                         UiImage::from_atlas_image(
-                                            my_assets.get_item_atlas_path(item).clone().into(),
+                                            my_assets.load(item_atlas_path),
                                             TextureAtlas {
                                                 index: item_image_atlas_index.into(),
                                                 layout: texture_atlas_layouts.add(layout),
@@ -77,7 +78,7 @@ pub fn spawn_inventory(
                                             button.spawn((
                                                 Text::new(format!("x{}", count)),
                                                 TextFont {
-                                                    font: my_assets.fira_sans_bold.clone(),
+                                                    font: my_assets.load(FONT_FIRA),
                                                     font_size: 14.0,
                                                     ..default()
                                                 },
@@ -106,8 +107,9 @@ pub fn spawn_inventory(
                                         BorderColor(Color::BLACK),
                                         BorderRadius::all(Val::Px(10.)),
                                         UiImage {
-                                            image: my_assets.empty_inventory_slot.clone(),
-                                            ..default()
+                                            image: my_assets
+                                                .load("images/equipments/empty_inventory_slot.png"),
+                                            ..Default::default()
                                         },
                                     ))
                                     .insert(UniqueId("item_in_inventory0".to_string()));

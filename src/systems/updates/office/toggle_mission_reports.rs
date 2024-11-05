@@ -1,7 +1,6 @@
 use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
-    my_assets::MyAssets,
     structs::{
         general_structs::{
             DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
@@ -15,7 +14,7 @@ use bevy::prelude::*;
 
 #[allow(clippy::too_many_arguments)]
 pub fn toggle_mission_reports(
-    my_assets: Res<MyAssets>,
+    my_assets: Res<AssetServer>,
     mut commands: Commands,
     mut query: Query<&Interaction, (Changed<Interaction>, With<MissionReportTrigger>)>,
     mut windows: Query<&mut Window>,

@@ -1,6 +1,5 @@
 use crate::{
     enums::RoomEnum,
-    my_assets::MyAssets,
     structs::{
         daily_events_folder::daily_events::DailyEvents,
         general_structs::MissionReportsModalVisible,
@@ -27,7 +26,7 @@ use bevy::prelude::*;
 /// - `commands`: Bevy's commands to spawn/despawn entities
 /// - `query`: Query to find and despawn existing room entities
 pub fn update_room(
-    my_assets: Res<MyAssets>,
+    my_assets: Res<AssetServer>,
     player_stats: Res<PlayerStats>,
     mut commands: Commands,
     query: Query<Entity, With<ResetRoomTrigger>>,

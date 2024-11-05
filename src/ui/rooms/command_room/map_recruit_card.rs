@@ -1,6 +1,6 @@
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
-    my_assets::MyAssets,
+    my_assets::FONT_FIRA,
     structs::{general_structs::UniqueId, recruits::RecruitStats},
 };
 use bevy::prelude::*;
@@ -8,7 +8,7 @@ use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn map_recruit_card(
     left_container: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     recruit: &RecruitStats,
     recruit_texture_atlas_layout: Handle<TextureAtlasLayout>,
 ) {
@@ -40,7 +40,7 @@ pub fn map_recruit_card(
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
             BorderRadius::all(Val::Px(10.)),
             UiImage {
-                image: my_assets.recruit_card.clone().into(),
+                image: my_assets.load("images/rooms/command_room/recruit_card.png"),
                 ..default()
             },
         ))
@@ -77,7 +77,7 @@ pub fn map_recruit_card(
                         overlay.spawn((
                             Text::new(recruit.state.get_description()),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 16.0,
                                 ..default()
                             },
@@ -107,7 +107,7 @@ pub fn map_recruit_card(
                     parent.spawn((
                         Text::new(recruit.get_total_merged_stats().to_string()),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 18.0,
                             ..default()
                         },
@@ -119,7 +119,7 @@ pub fn map_recruit_card(
             button.spawn((
                 Text::new(recruit.name.clone()),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 16.0,
                     ..default()
                 },
@@ -146,7 +146,7 @@ pub fn map_recruit_card(
                 .with_children(|parent| {
                     parent.spawn((
                         UiImage::from_atlas_image(
-                            my_assets.recruit_picture_atlas.clone().into(),
+                            my_assets.load("images/recruits/recruit_picture_atlas.png"),
                             TextureAtlas {
                                 index: recruit.image_atlas_index.into(),
                                 layout: recruit_texture_atlas_layout.clone(),

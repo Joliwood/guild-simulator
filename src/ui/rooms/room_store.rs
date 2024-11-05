@@ -1,7 +1,7 @@
-use crate::{my_assets::MyAssets, structs::trigger_structs::ResetRoomTrigger};
+use crate::structs::trigger_structs::ResetRoomTrigger;
 use bevy::prelude::*;
 
-pub fn room_store(my_assets: &Res<MyAssets>, commands: &mut Commands) {
+pub fn room_store(my_assets: &Res<AssetServer>, commands: &mut Commands) {
     // let imager_handler: Handle<Image> = my_assets.load("images/store.png");
 
     commands
@@ -18,7 +18,7 @@ pub fn room_store(my_assets: &Res<MyAssets>, commands: &mut Commands) {
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn((
                 UiImage {
-                    image: my_assets.store.clone().into(),
+                    image: my_assets.load("images/rooms/store/store.png"),
                     ..default()
                 },
                 Node {

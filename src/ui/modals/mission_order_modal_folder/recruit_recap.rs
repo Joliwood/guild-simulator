@@ -1,5 +1,5 @@
 use crate::{
-    my_assets::MyAssets,
+    my_assets::FONT_FIRA,
     structs::{player_stats::PlayerStats, recruits::SelectedRecruitForMission},
     ui::rooms::barrack::recruits_list_folder::{
         armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
@@ -10,7 +10,7 @@ use bevy::prelude::*;
 pub fn recruit_recap(
     parent: &mut ChildBuilder,
     selected_recruit_for_mission: Res<SelectedRecruitForMission>,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
     player_stats: &Res<PlayerStats>,
 ) {
@@ -52,7 +52,7 @@ pub fn recruit_recap(
                 parent.spawn((
                     Text::new("No recruit selected"),
                     TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
+                        font: my_assets.load(FONT_FIRA),
                         font_size: 16.0,
                         ..default()
                     },
@@ -82,7 +82,7 @@ pub fn recruit_recap(
                         // Recruit image
                         parent.spawn((
                             UiImage::from_atlas_image(
-                                my_assets.recruit_picture_atlas.clone().into(),
+                                my_assets.load("images/recruits/recruit_picture_atlas.png"),
                                 TextureAtlas {
                                     index: recruit.image_atlas_index.into(),
                                     layout: recruit_texture_atlas_layout.clone(),
@@ -110,7 +110,7 @@ pub fn recruit_recap(
                         parent.spawn((
                             Text::new(format!("Recruit : {}", recruit.name)),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 16.0,
                                 ..default()
                             },
@@ -121,7 +121,7 @@ pub fn recruit_recap(
                         parent.spawn((
                             Text::new(format!("Level : {}", recruit.level)),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 16.0,
                                 ..default()
                             },
@@ -132,7 +132,7 @@ pub fn recruit_recap(
                         parent.spawn((
                             Text::new(format!("Str : {}", recruit.strength)),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 16.0,
                                 ..default()
                             },
@@ -143,7 +143,7 @@ pub fn recruit_recap(
                         parent.spawn((
                             Text::new(format!("Def : {}", recruit.endurance)),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 16.0,
                                 ..default()
                             },
@@ -154,7 +154,7 @@ pub fn recruit_recap(
                         parent.spawn((
                             Text::new(format!("Int : {}", recruit.intelligence)),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 16.0,
                                 ..default()
                             },

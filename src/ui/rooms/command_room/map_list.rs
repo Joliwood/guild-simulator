@@ -1,10 +1,10 @@
 use super::map_card::map_card;
-use crate::{my_assets::MyAssets, structs::maps::Maps};
+use crate::structs::maps::Maps;
 use bevy::prelude::*;
 
 pub fn map_list(
     parent: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     maps: &Res<Maps>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {

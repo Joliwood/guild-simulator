@@ -1,12 +1,12 @@
 use crate::{
-    my_assets::MyAssets, structs::recruits::SelectedRecruitForEquipment,
+    my_assets::FONT_FIRA, structs::recruits::SelectedRecruitForEquipment,
     utils::get_selected_recruit_for_equipment,
 };
 use bevy::prelude::*;
 
 pub fn recruit_frame(
     parent: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
@@ -25,7 +25,7 @@ pub fn recruit_frame(
     parent
         .spawn((
             UiImage {
-                image: my_assets.recruit_frame.clone().into(),
+                image: my_assets.load("images/rooms/barrack/recruit_frame.png"),
                 ..default()
             },
             Node {
@@ -40,7 +40,7 @@ pub fn recruit_frame(
             parent.spawn((
                 Text::new(selected_recruit_for_equipment_data.name.to_string()),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 20.0,
                     ..default()
                 },
@@ -60,7 +60,7 @@ pub fn recruit_frame(
 
             parent.spawn((
                 UiImage::from_atlas_image(
-                    my_assets.recruit_picture_atlas.clone().into(),
+                    my_assets.load("images/recruits/recruit_picture_atlas.png"),
                     TextureAtlas {
                         index: selected_recruit_for_equipment_data.image_atlas_index.into(),
                         layout: recruit_texture_atlas_layout.clone(),

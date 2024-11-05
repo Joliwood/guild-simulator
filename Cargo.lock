@@ -1386,7 +1386,7 @@ checksum = "d1c8e79955687af7109cf1ae22e9070f771da4a5a42c087555ed840bd5aac75b"
 dependencies = [
  "bevy_reflect 0.15.0-rc.2",
  "derive_more",
- "glam 0.29.1",
+ "glam 0.29.2",
  "itertools",
  "rand",
  "rand_distr",
@@ -1432,7 +1432,7 @@ version = "0.15.0-rc.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7cf6ff5125970a88a9612d23ac48fccc4cc365b50eebfd703b8e0b1278399514"
 dependencies = [
- "glam 0.29.1",
+ "glam 0.29.2",
 ]
 
 [[package]]
@@ -1559,7 +1559,7 @@ dependencies = [
  "disqualified",
  "downcast-rs",
  "erased-serde",
- "glam 0.29.1",
+ "glam 0.29.2",
  "petgraph",
  "serde",
  "smallvec",
@@ -2986,7 +2986,7 @@ checksum = "b0a05902cf601ed11d564128448097b98ebe3c6574bd7b6a653a3d56d54aa020"
 dependencies = [
  "const_panic",
  "encase_derive 0.10.0",
- "glam 0.29.1",
+ "glam 0.29.2",
  "thiserror",
 ]
 
@@ -3372,9 +3372,9 @@ dependencies = [
 
 [[package]]
 name = "glam"
-version = "0.29.1"
+version = "0.29.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "480c9417a5dc586fc0c0cb67891170e59cc11e9dc79ba1c11ddd2c56ca3f3b90"
+checksum = "dc46dd3ec48fdd8e693a98d2b8bafae273a2d54c1de02a2a7e3d57d501f39677"
 dependencies = [
  "bytemuck",
  "rand",
@@ -3550,6 +3550,7 @@ dependencies = [
  "rand",
  "rand_core",
  "serde",
+ "thiserror",
  "uuid",
  "winit",
 ]
@@ -3619,7 +3620,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "741ab88b8cc670443da777c3daab02cebf5a3caccfc04e3c052f55c94d1643fe"
 dependencies = [
  "constgebra",
- "glam 0.29.1",
+ "glam 0.29.2",
 ]
 
 [[package]]
@@ -5428,18 +5429,18 @@ dependencies = [
 
 [[package]]
 name = "thiserror"
-version = "1.0.64"
+version = "1.0.68"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d50af8abc119fb8bb6dbabcfa89656f46f84aa0ac7688088608076ad2b459a84"
+checksum = "02dd99dc800bbb97186339685293e1cc5d9df1f8fae2d0aecd9ff1c77efea892"
 dependencies = [
  "thiserror-impl",
 ]
 
 [[package]]
 name = "thiserror-impl"
-version = "1.0.64"
+version = "1.0.68"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "08904e7672f5eb876eaaf87e0ce17857500934f4981c4a0ab2b4aa98baac7fc3"
+checksum = "a7c61ec9a6f64d2793d8a45faba21efbe3ced62a886d44c36a009b2b519b4c7e"
 dependencies = [
  "proc-macro2",
  "quote",

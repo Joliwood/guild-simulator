@@ -1,10 +1,10 @@
-use crate::{my_assets::MyAssets, structs::recruits::RecruitStats};
+use crate::{my_assets::FONT_FIRA, structs::recruits::RecruitStats};
 use bevy::prelude::*;
 
 pub fn recruit_sent_stats(
     commands: &mut ChildBuilder,
     recruit_sent: &RecruitStats,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
 ) {
     let recruit_strength =
         recruit_sent.strength + recruit_sent.get_additional_strength_from_items() as u16;
@@ -33,7 +33,7 @@ pub fn recruit_sent_stats(
             stats_column.spawn((
                 Text::new(format!("Level: {}", recruit_sent.level)),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 16.0,
                     ..default()
                 },
@@ -44,7 +44,7 @@ pub fn recruit_sent_stats(
             stats_column.spawn((
                 Text::new(format!("Strength: {}", recruit_strength)),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 16.0,
                     ..default()
                 },
@@ -55,7 +55,7 @@ pub fn recruit_sent_stats(
             stats_column.spawn((
                 Text::new(format!("Endurance: {}", recruit_endurance)),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 16.0,
                     ..default()
                 },
@@ -66,7 +66,7 @@ pub fn recruit_sent_stats(
             stats_column.spawn((
                 Text::new(format!("Intelligence: {}", recruit_intelligence)),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 16.0,
                     ..default()
                 },

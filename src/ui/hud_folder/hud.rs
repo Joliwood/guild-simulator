@@ -1,14 +1,13 @@
 use super::{left_hud::left_hud, right_hud::right_hud};
 use crate::{
     enums::RoomEnum,
-    my_assets::MyAssets,
     structs::{player_stats::PlayerStats, trigger_structs::RoomButtonTrigger},
 };
 use bevy::prelude::*;
 use pyri_tooltip::Tooltip;
 
 pub fn hud(
-    my_assets: Res<MyAssets>,
+    my_assets: Res<AssetServer>,
     mut commands: Commands,
     player_stats: Res<PlayerStats>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
@@ -27,7 +26,7 @@ pub fn hud(
         // Main Container
         .spawn((
             UiImage {
-                image: my_assets.hud.clone().into(),
+                image: my_assets.load("images/hud/hud3.png"),
                 ..default()
             },
             Node {
@@ -78,7 +77,7 @@ pub fn hud(
                                 ..default()
                             },
                             UiImage::from_atlas_image(
-                                my_assets.hud_icon_atlas.clone().into(),
+                                my_assets.load("images/hud/hud_icon_atlas.png"),
                                 TextureAtlas {
                                     index: 4,
                                     layout: hud_icons_texture_atlas_layout.clone(),
@@ -97,7 +96,7 @@ pub fn hud(
                                 ..default()
                             },
                             UiImage::from_atlas_image(
-                                my_assets.hud_icon_atlas.clone().into(),
+                                my_assets.load("images/hud/hud_icon_atlas.png"),
                                 TextureAtlas {
                                     index: 1,
                                     layout: hud_icons_texture_atlas_layout.clone(),
@@ -120,7 +119,7 @@ pub fn hud(
                                 ..default()
                             },
                             UiImage::from_atlas_image(
-                                my_assets.hud_icon_atlas.clone().into(),
+                                my_assets.load("images/hud/hud_icon_atlas.png"),
                                 TextureAtlas {
                                     index: 2,
                                     layout: hud_icons_texture_atlas_layout.clone(),

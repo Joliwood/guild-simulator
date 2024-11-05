@@ -1,10 +1,10 @@
-use crate::{my_assets::MyAssets, structs::recruits::RecruitStats};
+use crate::{my_assets::FONT_FIRA, structs::recruits::RecruitStats};
 use bevy::prelude::*;
 
 pub fn recruit_sent_picture(
     commands: &mut ChildBuilder,
     recruit_sent: &RecruitStats,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let recruit_layout = TextureAtlasLayout::from_grid(
@@ -32,7 +32,7 @@ pub fn recruit_sent_picture(
             recruit_block.spawn((
                 Text::new("Recruit sent"),
                 TextFont {
-                    font: my_assets.fira_sans_bold.clone(),
+                    font: my_assets.load(FONT_FIRA),
                     font_size: 16.0,
                     ..default()
                 },
@@ -41,7 +41,7 @@ pub fn recruit_sent_picture(
 
             recruit_block.spawn((
                 UiImage::from_atlas_image(
-                    my_assets.recruit_picture_atlas.clone().into(),
+                    my_assets.load("images/recruits/recruit_picture_atlas.png"),
                     TextureAtlas {
                         index: recruit_sent.image_atlas_index.into(),
                         layout: recruit_texture_atlas_layout.clone(),

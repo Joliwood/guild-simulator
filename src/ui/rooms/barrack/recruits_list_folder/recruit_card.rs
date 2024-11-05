@@ -4,7 +4,7 @@ use super::{
 };
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
-    my_assets::MyAssets,
+    my_assets::FONT_FIRA,
     structs::{general_structs::UniqueId, player_stats::PlayerStats, recruits::RecruitStats},
     ui::rooms::barrack::recruits_list_folder::{
         armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
@@ -14,7 +14,7 @@ use bevy::prelude::*;
 
 pub fn recruit_card(
     left_container: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
     recruit: &RecruitStats,
     recruit_texture_atlas_layout: Handle<TextureAtlasLayout>,
@@ -77,7 +77,7 @@ pub fn recruit_card(
                         overlay.spawn((
                             Text::new(recruit.state.get_description()),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 20.0,
                                 ..default()
                             },
@@ -112,7 +112,7 @@ pub fn recruit_card(
                     // Image that is 200x400, clipped by the parent container
                     frame.spawn((
                         UiImage::from_atlas_image(
-                            my_assets.recruit_picture_atlas.clone().into(),
+                            my_assets.load("images/recruits/recruit_picture_atlas.png"),
                             TextureAtlas {
                                 index: recruit.image_atlas_index.into(),
                                 layout: recruit_texture_atlas_layout.clone(),
@@ -146,7 +146,7 @@ pub fn recruit_card(
                     name_class_container.spawn((
                         Text::new(recruit.name.clone()),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 20.0,
                             ..default()
                         },
@@ -157,7 +157,7 @@ pub fn recruit_card(
                     name_class_container.spawn((
                         Text::new(recruit.class.to_string()),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 18.0,
                             ..default()
                         },
@@ -168,7 +168,7 @@ pub fn recruit_card(
                     name_class_container.spawn((
                         Text::new(format!("Level: {}", recruit.level)),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 18.0,
                             ..default()
                         },
@@ -192,7 +192,7 @@ pub fn recruit_card(
                             recruit.experience, recruit.max_experience
                         )),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 18.0,
                             ..default()
                         },

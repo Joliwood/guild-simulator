@@ -3,17 +3,14 @@ use super::{
     recruit_overview_folder::recruit_overview::recruit_overview,
     recruits_list_folder::recruits_list::spawn_left_container,
 };
-use crate::{
-    my_assets::MyAssets,
-    structs::{
-        player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
-        trigger_structs::ResetRoomTrigger,
-    },
+use crate::structs::{
+    player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
+    trigger_structs::ResetRoomTrigger,
 };
 use bevy::prelude::*;
 
 pub fn spawn_room_barrack(
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     commands: &mut Commands,
     player_stats: &Res<PlayerStats>,
     selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
@@ -36,7 +33,7 @@ pub fn spawn_room_barrack(
         .with_children(|parent| {
             parent.spawn((
                 UiImage {
-                    image: my_assets.barrack_background.clone().into(),
+                    image: my_assets.load("images/rooms/barrack/barrack_background.png"),
                     ..default()
                 },
                 Node {

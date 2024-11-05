@@ -5,7 +5,7 @@ use super::{
 };
 use crate::{
     enums::ColorPaletteEnum,
-    my_assets::MyAssets,
+    my_assets::FONT_FIRA,
     structs::{
         general_structs::MissionReportsModalVisible,
         missions::{MissionReports, Missions},
@@ -19,7 +19,7 @@ use bevy::prelude::*;
 // Function to spawn the mission report modal
 pub fn mission_report_modal(
     mut commands: Commands,
-    my_assets: Res<MyAssets>,
+    my_assets: Res<AssetServer>,
     query: Query<Entity, With<MissionReportModalContentTrigger>>,
     mission_reports_modal_visibility: Res<MissionReportsModalVisible>,
     mission_reports: Res<MissionReports>,
@@ -76,7 +76,7 @@ pub fn mission_report_modal(
         commands
             .spawn((
                 UiImage {
-                    image: my_assets.inventory_container.clone().into(),
+                    image: my_assets.load("images/rooms/barrack/inventory_container.png"),
                     ..default()
                 },
                 Node {
@@ -100,7 +100,7 @@ pub fn mission_report_modal(
                 parent.spawn((
                     Text::new(format!("Report of the mission: {}", mission.name)),
                     TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
+                        font: my_assets.load(FONT_FIRA),
                         font_size: 20.0,
                         ..default()
                     },
@@ -111,7 +111,7 @@ pub fn mission_report_modal(
                 parent.spawn((
                     Text::new(success_message),
                     TextFont {
-                        font: my_assets.fira_sans_bold.clone(),
+                        font: my_assets.load(FONT_FIRA),
                         font_size: 18.0,
                         ..default()
                     },
@@ -144,7 +144,7 @@ pub fn mission_report_modal(
                         row.spawn((
                             Text::new("-- VS --"),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 16.0,
                                 ..default()
                             },
@@ -176,7 +176,7 @@ pub fn mission_report_modal(
                         row.spawn((
                             Text::new(format!("-- {}% --", percent_of_victory)),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 16.0,
                                 ..default()
                             },
@@ -199,7 +199,7 @@ pub fn mission_report_modal(
                 //     text: Text::from_section(
                 //         "Loots",
                 //         TextFont {
-                //             font: my_assets.fira_sans_bold.clone(),
+                //             font: my_assets.load(FONT_FIRA),
                 //             font_size: 18.0,
                 //             color: Color::BLACK,
                 //         },
@@ -212,7 +212,7 @@ pub fn mission_report_modal(
                 //     text: Text::from_section(
                 //         format!("{} golds + {} xp", golds_gained, experience_gained),
                 //         TextFont {
-                //             font: my_assets.fira_sans_bold.clone(),
+                //             font: my_assets.load(FONT_FIRA),
                 //             font_size: 16.0,
                 //             color: Color::BLACK,
                 //         },
@@ -242,7 +242,7 @@ pub fn mission_report_modal(
                         button.spawn((
                             Text::new("Sign the report"),
                             TextFont {
-                                font: my_assets.fira_sans_bold.clone(),
+                                font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
                                 ..default()
                             },

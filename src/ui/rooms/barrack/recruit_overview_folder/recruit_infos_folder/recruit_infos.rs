@@ -3,14 +3,14 @@ use super::{
 };
 use crate::{
     enums::ColorPaletteEnum,
-    my_assets::MyAssets,
+    my_assets::FONT_FIRA,
     structs::{player_stats::PlayerStats, recruits::SelectedRecruitForEquipment},
 };
 use bevy::prelude::*;
 
 pub fn recruit_infos(
     parent: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
     player_stats: &Res<PlayerStats>,
@@ -18,7 +18,7 @@ pub fn recruit_infos(
     parent
         .spawn((
             UiImage {
-                image: my_assets.inventory_container.clone().into(),
+                image: my_assets.load("images/rooms/barrack/inventory_container.png"),
                 ..default()
             },
             Node {
@@ -63,7 +63,7 @@ pub fn recruit_infos(
                             weapon_column.spawn((
                                 Text::new("Weapon"),
                                 TextFont {
-                                    font: my_assets.fira_sans_bold.clone(),
+                                    font: my_assets.load(FONT_FIRA),
                                     font_size: 20.0,
                                     ..default()
                                 },
@@ -91,7 +91,7 @@ pub fn recruit_infos(
                             armor_column.spawn((
                                 Text::new("Armor"),
                                 TextFont {
-                                    font: my_assets.fira_sans_bold.clone(),
+                                    font: my_assets.load(FONT_FIRA),
                                     font_size: 20.0,
                                     ..default()
                                 },
@@ -124,7 +124,7 @@ pub fn recruit_infos(
                     bottom_container.spawn((
                         Text::new("Scrolls"),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 20.0,
                             ..default()
                         },

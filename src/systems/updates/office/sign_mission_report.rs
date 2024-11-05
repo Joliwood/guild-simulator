@@ -1,7 +1,6 @@
 use crate::{
     audio::play_sound::play_sound,
     enums::{ColorPaletteEnum, RecruitStateEnum, SoundEnum},
-    my_assets::MyAssets,
     structs::{
         general_structs::MissionReportsModalVisible,
         maps::Maps,
@@ -31,7 +30,7 @@ pub fn sign_mission_report(
     mut player_stats: ResMut<PlayerStats>,
     mut missions: ResMut<Missions>,
     mut mission_reports: ResMut<MissionReports>,
-    my_assets: Res<MyAssets>,
+    my_assets: Res<AssetServer>,
     mut commands: Commands,
     mut maps: ResMut<Maps>,
 ) {

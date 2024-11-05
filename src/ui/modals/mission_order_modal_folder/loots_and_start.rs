@@ -1,18 +1,17 @@
-use bevy::prelude::*;
-use pyri_tooltip::{Tooltip, TooltipActivation};
-
 use crate::{
     custom_components::CustomButton,
-    my_assets::MyAssets,
+    my_assets::{get_item_loot_atlas_path, FONT_FIRA},
     structs::{
         general_structs::UniqueId,
         missions::{Missions, SelectedMission},
     },
 };
+use bevy::prelude::*;
+use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn loots_and_start(
     parent: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     missions: &Res<Missions>,
     selected_mission: &Res<SelectedMission>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
@@ -44,7 +43,7 @@ pub fn loots_and_start(
                     parent.spawn((
                         Text::new("Loots :"),
                         TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
+                            font: my_assets.load(FONT_FIRA),
                             font_size: 16.0,
                             ..default()
                         },
@@ -63,6 +62,7 @@ pub fn loots_and_start(
                                 let item_image_atlas_index = loot.get_atlas_index();
                                 let layout = loot.get_item_layout();
                                 let tooltip_text = loot.get_item_loot_tooltip_description();
+                                let item_loot_atlas_path = get_item_loot_atlas_path(&loot.item);
                                 parent.spawn((
                                     Button,
                                     Node {
@@ -75,10 +75,7 @@ pub fn loots_and_start(
                                     BorderColor(Color::BLACK),
                                     BorderRadius::all(Val::Px(10.)),
                                     UiImage::from_atlas_image(
-                                        my_assets
-                                            .get_item_loot_atlas_path(&loot.item)
-                                            .clone()
-                                            .into(),
+                                        my_assets.load(item_loot_atlas_path),
                                         TextureAtlas {
                                             index: item_image_atlas_index.into(),
                                             layout: texture_atlas_layouts.add(layout),
@@ -92,27 +89,27 @@ pub fn loots_and_start(
                 });
 
             // Button inside the middle container
-            parent
-                .spawn(CustomButton::MissionStart.bundle(my_assets))
-                .with_children(|button| {
-                    button.spawn((
-                        Text::new("Start the mission"),
-                        TextFont {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 16.0,
-                            ..default()
-                        },
-                        TextColor(Color::WHITE),
-                        Node {
-                            margin: UiRect::all(Val::Auto),
-                            ..default()
-                        },
-                    ));
-                })
-                .insert(if selected_mission.recruit_id.is_some() {
-                    UniqueId("start_mission".to_string())
-                } else {
-                    UniqueId("".to_string())
-                });
+            //     parent
+            //         .spawn(CustomButton::MissionStart.bundle(my_assets))
+            //         .with_children(|button| {
+            //             button.spawn((
+            //                 Text::new("Start the mission"),
+            //                 TextFont {
+            //                     font: my_assets.load(FONT_FIRA),
+            //                     font_size: 16.0,
+            //                     ..default()
+            //                 },
+            //                 TextColor(Color::WHITE),
+            //                 Node {
+            //                     margin: UiRect::all(Val::Auto),
+            //                     ..default()
+            //                 },
+            //             ));
+            //         })
+            //         .insert(if selected_mission.recruit_id.is_some() {
+            //             UniqueId("start_mission".to_string())
+            //         } else {
+            //             UniqueId("".to_string())
+            //         });
         });
 }
