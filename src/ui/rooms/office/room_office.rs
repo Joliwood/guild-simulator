@@ -16,7 +16,6 @@ pub fn room_office(
     _mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
     daily_events: &Res<DailyEvents>,
 ) {
-    info!("Spawning office room");
     commands
         .spawn(Node {
             width: Val::Vw(100.),
@@ -41,7 +40,7 @@ pub fn room_office(
                         justify_content: JustifyContent::Center,
                         ..default()
                     },
-                    ZIndex(-1),
+                    GlobalZIndex(-1),
                 ))
                 // Nested image background node
                 .with_children(|desk_container: &mut ChildBuilder| {

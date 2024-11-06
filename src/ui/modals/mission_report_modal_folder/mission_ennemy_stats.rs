@@ -25,7 +25,7 @@ pub fn mission_ennemy_stats(
                 Text::new(format!("Level: {}", ennemy_stats.level)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 16.0,
+                    font_size: 14.0,
                     ..default()
                 },
                 TextColor(Color::BLACK),
@@ -36,7 +36,7 @@ pub fn mission_ennemy_stats(
                 Text::new(format!("Strength: {}", ennemy_stats.strength)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 16.0,
+                    font_size: 14.0,
                     ..default()
                 },
                 TextColor(Color::BLACK),
@@ -47,7 +47,7 @@ pub fn mission_ennemy_stats(
                 Text::new(format!("Endurance: {}", ennemy_stats.endurance)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 16.0,
+                    font_size: 14.0,
                     ..default()
                 },
                 TextColor(Color::BLACK),
@@ -58,7 +58,7 @@ pub fn mission_ennemy_stats(
                 Text::new(format!("Intelligence: {}", ennemy_stats.intelligence)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 16.0,
+                    font_size: 14.0,
                     ..default()
                 },
                 TextColor(Color::BLACK),

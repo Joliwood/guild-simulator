@@ -97,7 +97,7 @@ pub fn map_on_table(
                                                 Text::new("A recruit has already been sent"),
                                                 TextFont {
                                                     font: my_assets.load(FONT_FIRA),
-                                                    font_size: 18.0,
+                                                    font_size: 16.0,
                                                     ..default()
                                                 },
                                                 TextColor(Color::WHITE),

@@ -35,7 +35,7 @@ pub fn map_description(
                     Text::new(map.name.clone()),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
-                        font_size: 16.0,
+                        font_size: 14.0,
                         ..default()
                     },
                     TextColor(Color::BLACK),
@@ -45,7 +45,7 @@ pub fn map_description(
                     Text::new(map.description.clone()),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
-                        font_size: 14.0,
+                        font_size: 12.0,
                         ..default()
                     },
                     TextColor(Color::BLACK),

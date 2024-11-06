@@ -15,7 +15,7 @@ pub fn recruit_recap(
     player_stats: &Res<PlayerStats>,
 ) {
     let recruit_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(1400, 400),
+        UVec2::new(200, 400),
         7,
         1,
         Some(UVec2::new(0, 0)),
@@ -54,7 +54,7 @@ pub fn recruit_recap(
                     Text::new("No recruit selected"),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
-                        font_size: 16.0,
+                        font_size: 14.0,
                         ..default()
                     },
                     Node {
@@ -112,7 +112,7 @@ pub fn recruit_recap(
                             Text::new(format!("Recruit : {}", recruit.name)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
-                                font_size: 16.0,
+                                font_size: 14.0,
                                 ..default()
                             },
                             TextColor(Color::BLACK),
@@ -123,7 +123,7 @@ pub fn recruit_recap(
                             Text::new(format!("Level : {}", recruit.level)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
-                                font_size: 16.0,
+                                font_size: 14.0,
                                 ..default()
                             },
                             TextColor(Color::BLACK),
@@ -134,7 +134,7 @@ pub fn recruit_recap(
                             Text::new(format!("Str : {}", recruit.strength)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
-                                font_size: 16.0,
+                                font_size: 14.0,
                                 ..default()
                             },
                             TextColor(Color::BLACK),
@@ -145,7 +145,7 @@ pub fn recruit_recap(
                             Text::new(format!("Def : {}", recruit.endurance)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
-                                font_size: 16.0,
+                                font_size: 14.0,
                                 ..default()
                             },
                             TextColor(Color::BLACK),
@@ -156,7 +156,7 @@ pub fn recruit_recap(
                             Text::new(format!("Int : {}", recruit.intelligence)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
-                                font_size: 16.0,
+                                font_size: 14.0,
                                 ..default()
                             },
                             TextColor(Color::BLACK),

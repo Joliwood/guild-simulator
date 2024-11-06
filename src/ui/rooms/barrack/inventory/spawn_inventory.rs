@@ -79,7 +79,7 @@ pub fn spawn_inventory(
                                                 Text::new(format!("x{}", count)),
                                                 TextFont {
                                                     font: my_assets.load(FONT_FIRA),
-                                                    font_size: 14.0,
+                                                    font_size: 12.0,
                                                     ..default()
                                                 },
                                                 TextColor(Color::WHITE),

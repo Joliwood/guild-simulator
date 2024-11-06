@@ -27,7 +27,7 @@ pub fn loots_earned(
                 Text::new("Loots"),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 18.0,
+                    font_size: 16.0,
                     ..default()
                 },
                 TextColor(Color::BLACK),
@@ -49,7 +49,7 @@ pub fn loots_earned(
                         )),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 16.0,
+                            font_size: 14.0,
                             ..default()
                         },
                         TextColor(Color::BLACK),

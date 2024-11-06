@@ -27,7 +27,7 @@ pub fn mission_order_modal(
     selected_recruit_for_mission: Res<SelectedRecruitForMission>,
 ) {
     let buttons_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(5436, 3809),
+        UVec2::new(16, 16),
         5,
         6,
         Some(UVec2::new(0, 0)),
@@ -71,7 +71,7 @@ pub fn mission_order_modal(
                     BorderRadius::all(Val::Px(20.0)),
                     BorderColor(Color::BLACK),
                     BackgroundColor(WOOD_COLOR),
-                    ZIndex(1),
+                    GlobalZIndex(1),
                 ))
                 .insert(Name::new("Mission details modal"))
                 .insert(MissionModalContentTrigger)
@@ -106,7 +106,7 @@ pub fn mission_order_modal(
                             Text::new(mission.name.to_string()),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
-                                font_size: 20.0,
+                                font_size: 18.0,
                                 ..default()
                             },
                             TextColor(Color::BLACK),
@@ -150,7 +150,7 @@ pub fn mission_order_modal(
                                             )),
                                             TextFont {
                                                 font: my_assets.load(FONT_FIRA),
-                                                font_size: 18.0,
+                                                font_size: 16.0,
                                                 ..default()
                                             },
                                             TextColor(Color::BLACK),

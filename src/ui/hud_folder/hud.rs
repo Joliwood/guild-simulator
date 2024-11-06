@@ -13,7 +13,7 @@ pub fn hud(
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let hud_icons_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(4000, 500),
+        UVec2::new(500, 500),
         8,
         1,
         Some(UVec2::new(0, 0)),
@@ -38,7 +38,7 @@ pub fn hud(
                 display: Display::Flex,
                 ..default()
             },
-            ZIndex(3),
+           GlobalZIndex(3),
         ))
         .insert(Name::new("HUD"))
         // Left Container

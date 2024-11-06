@@ -11,7 +11,7 @@ pub fn recruit_frame(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let recruit_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(1400, 400),
+        UVec2::new(200, 400),
         7,
         1,
         Some(UVec2::new(0, 0)),
@@ -33,7 +33,7 @@ pub fn recruit_frame(
                 height: Val::Px(330.),
                 ..default()
             },
-            ZIndex(2),
+            GlobalZIndex(2),
         ))
         .insert(Name::new("Barrack > recruit overview > recruit frame"))
         .with_children(|parent| {
@@ -41,7 +41,7 @@ pub fn recruit_frame(
                 Text::new(selected_recruit_for_equipment_data.name.to_string()),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 20.0,
+                    font_size: 18.0,
                     ..default()
                 },
                 TextColor(Color::BLACK),
@@ -55,7 +55,7 @@ pub fn recruit_frame(
                     },
                     ..Default::default()
                 },
-                ZIndex(3),
+                GlobalZIndex(3),
             ));
 
             parent.spawn((
@@ -72,7 +72,7 @@ pub fn recruit_frame(
                     height: Val::Percent(100.),
                     ..default()
                 },
-                ZIndex(1),
+                GlobalZIndex(1),
             ));
         });
 }

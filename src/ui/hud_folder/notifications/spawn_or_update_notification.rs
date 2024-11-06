@@ -17,7 +17,7 @@ pub fn spawn_or_update_notification(
     mission_reports: &mut ResMut<MissionReports>,
 ) {
     let layout = TextureAtlasLayout::from_grid(
-        UVec2::new(200, 50),
+        UVec2::new(50, 50),
         4,
         1,
         Some(UVec2::new(0, 0)),

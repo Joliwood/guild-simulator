@@ -70,7 +70,7 @@ pub fn map_recruit_card(
                             },
                             ..default()
                         },
-                        ZIndex(1),
+                        GlobalZIndex(1),
                         BorderRadius::all(Val::Px(10.)),
                         BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.8)),
                     ))
@@ -79,7 +79,7 @@ pub fn map_recruit_card(
                             Text::new(recruit.state.get_description()),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
-                                font_size: 16.0,
+                                font_size: 14.0,
                                 ..default()
                             },
                             TextColor(Color::WHITE),
@@ -109,7 +109,7 @@ pub fn map_recruit_card(
                         Text::new(recruit.get_total_merged_stats().to_string()),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 18.0,
+                            font_size: 16.0,
                             ..default()
                         },
                         TextColor(Color::BLACK),
@@ -121,7 +121,7 @@ pub fn map_recruit_card(
                 Text::new(recruit.name.clone()),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 16.0,
+                    font_size: 14.0,
                     ..default()
                 },
                 TextColor(Color::BLACK),

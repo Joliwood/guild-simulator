@@ -57,7 +57,7 @@ pub fn left_hud(
                             Text::new(player_stats.golds.to_string()),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
-                                font_size: 14.0,
+                                font_size: 12.0,
                                 ..default()
                             },
                             TextColor(Color::WHITE),
@@ -70,7 +70,7 @@ pub fn left_hud(
                     Text::new(format!("Lvl : {}", player_stats.guild_level)),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
-                        font_size: 14.0,
+                        font_size: 12.0,
                         ..default()
                     },
                     TextColor(Color::WHITE),
@@ -82,7 +82,7 @@ pub fn left_hud(
                     Text::new(format!("Day : {}", player_stats.day)),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
-                        font_size: 14.0,
+                        font_size: 12.0,
                         ..default()
                     },
                     TextColor(Color::WHITE),

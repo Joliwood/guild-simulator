@@ -28,7 +28,7 @@ pub fn spawn_room_barrack(
                 margin: UiRect::all(Val::Auto),
                 ..default()
             },
-            ZIndex(-1),
+           GlobalZIndex(-1),
         ))
         .insert(Name::new("Room barrack"))
         .insert(ResetRoomTrigger)

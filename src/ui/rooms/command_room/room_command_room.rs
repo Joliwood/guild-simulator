@@ -48,7 +48,7 @@ pub fn room_command_room(
                     height: Val::Percent(100.0),
                     ..default()
                 },
-                ZIndex(-1),
+                GlobalZIndex(-1),
             ));
         })
         // Command Table with all child elements inside it
@@ -69,7 +69,7 @@ pub fn room_command_room(
                         padding: UiRect::all(Val::Px(80.)),
                         ..default()
                     },
-                    ZIndex(0),
+                    GlobalZIndex(0),
                 ))
                 .with_children(|table| {
                     // Left Column

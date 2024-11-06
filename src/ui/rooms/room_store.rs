@@ -27,7 +27,7 @@ pub fn room_store(my_assets: &Res<AssetServer>, commands: &mut Commands) {
                     height: Val::Percent(100.0),
                     ..default()
                 },
-                ZIndex(-1),
+                GlobalZIndex(-1),
             ));
         });
 }

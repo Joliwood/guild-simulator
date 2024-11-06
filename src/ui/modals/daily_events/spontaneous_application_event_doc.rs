@@ -14,7 +14,7 @@ pub fn spontaneous_application_event_doc(
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let daily_spontaneous_applications_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(801, 701),
+        UVec2::new(800, 350),
         1,
         2,
         Some(UVec2::new(0, 0)),
@@ -44,7 +44,7 @@ pub fn spontaneous_application_event_doc(
                 position_type: PositionType::Absolute,
                 ..default()
             },
-            ZIndex(2),
+            GlobalZIndex(2),
         ))
         .insert(SelectAnswerTrigger)
         .with_children(|parent| {
@@ -65,7 +65,7 @@ pub fn spontaneous_application_event_doc(
                         Text::new(spontaneous_application.title.clone()),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 18.0,
+                            font_size: 16.0,
                             ..default()
                         },
                         TextColor(Color::BLACK),
@@ -92,7 +92,7 @@ pub fn spontaneous_application_event_doc(
                             margin: UiRect::bottom(Val::Px(8.)),
                             ..default()
                         },
-                        ZIndex(1),
+                        GlobalZIndex(1),
                     ));
 
                     // Description below the image
@@ -100,7 +100,7 @@ pub fn spontaneous_application_event_doc(
                         Text::new(spontaneous_application.description.clone()),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 14.0,
+                            font_size: 12.0,
                             ..default()
                         },
                         TextColor(Color::BLACK),
@@ -132,7 +132,7 @@ pub fn spontaneous_application_event_doc(
                                     Text::new(answer.message.clone()),
                                     TextFont {
                                         font: my_assets.load(FONT_FIRA),
-                                        font_size: 14.0,
+                                        font_size: 12.0,
                                         ..default()
                                     },
                                     TextColor(Color::BLACK),

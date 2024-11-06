@@ -8,7 +8,7 @@ pub fn map_card(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let map_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(270, 400),
+        UVec2::new(270, 200),
         1,
         2,
         Some(UVec2::new(0, 0)),
@@ -18,7 +18,7 @@ pub fn map_card(
     let icon_atlas_index = map.map_type.get_icon_atlas_index();
 
     let map_type_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(401, 101),
+        UVec2::new(100, 100),
         4,
         1,
         Some(UVec2::new(0, 0)),
@@ -45,7 +45,7 @@ pub fn map_card(
                 },
                 ..default()
             },
-            ZIndex(2),
+            GlobalZIndex(2),
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
             BorderRadius::all(Val::Px(5.)),
             UiImage {
@@ -72,7 +72,7 @@ pub fn map_card(
                     aspect_ratio: Some(270. / 200.),
                     ..default()
                 },
-                ZIndex(1),
+                GlobalZIndex(1),
             ));
 
             // Map Name (Top-Right)
@@ -80,7 +80,7 @@ pub fn map_card(
                 Text::new(map.name.clone()),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 14.0,
+                    font_size: 12.0,
                     ..default()
                 },
                 TextColor(Color::BLACK),
@@ -109,7 +109,7 @@ pub fn map_card(
                         Text::new(map.recommanded_power_level.to_string()),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 16.0,
+                            font_size: 14.0,
                             ..default()
                         },
                         TextColor(Color::BLACK),
@@ -134,7 +134,7 @@ pub fn map_card(
                             Text::new(missions_finished_text),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
-                                font_size: 16.0,
+                                font_size: 14.0,
                                 ..default()
                             },
                             TextColor(Color::BLACK),

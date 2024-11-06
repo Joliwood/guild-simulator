@@ -92,7 +92,7 @@ pub fn mission_report_modal(
                     top: Val::Px(155.),
                     ..default()
                 },
-                ZIndex(-1),
+                GlobalZIndex(-1),
             ))
             .insert(MissionReportModalContentTrigger)
             .with_children(|parent| {
@@ -101,7 +101,7 @@ pub fn mission_report_modal(
                     Text::new(format!("Report of the mission: {}", mission.name)),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
-                        font_size: 20.0,
+                        font_size: 18.0,
                         ..default()
                     },
                     TextColor(Color::BLACK),
@@ -112,7 +112,7 @@ pub fn mission_report_modal(
                     Text::new(success_message),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
-                        font_size: 18.0,
+                        font_size: 16.0,
                         ..default()
                     },
                     TextColor(if last_mission_report.success {
@@ -145,7 +145,7 @@ pub fn mission_report_modal(
                             Text::new("-- VS --"),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
-                                font_size: 16.0,
+                                font_size: 14.0,
                                 ..default()
                             },
                             TextColor(Color::BLACK),
@@ -177,7 +177,7 @@ pub fn mission_report_modal(
                             Text::new(format!("-- {}% --", percent_of_victory)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
-                                font_size: 16.0,
+                                font_size: 14.0,
                                 ..default()
                             },
                             TextColor(Color::BLACK),
@@ -200,7 +200,7 @@ pub fn mission_report_modal(
                 //         "Loots",
                 //         TextFont {
                 //             font: my_assets.load(FONT_FIRA),
-                //             font_size: 18.0,
+                //             font_size: 16.0,
                 //             color: Color::BLACK,
                 //         },
                 //     ),
@@ -213,7 +213,7 @@ pub fn mission_report_modal(
                 //         format!("{} golds + {} xp", golds_gained, experience_gained),
                 //         TextFont {
                 //             font: my_assets.load(FONT_FIRA),
-                //             font_size: 16.0,
+                //             font_size: 14.0,
                 //             color: Color::BLACK,
                 //         },
                 //     ),
@@ -243,7 +243,7 @@ pub fn mission_report_modal(
                             Text::new("Sign the report"),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
-                                font_size: 14.0,
+                                font_size: 12.0,
                                 ..default()
                             },
                             TextColor(Color::WHITE),

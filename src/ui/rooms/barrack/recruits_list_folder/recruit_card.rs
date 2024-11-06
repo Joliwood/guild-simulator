@@ -70,7 +70,7 @@ pub fn recruit_card(
                             },
                             ..default()
                         },
-                        ZIndex(1),
+                        GlobalZIndex(1),
                         BorderRadius::all(Val::Px(10.)),
                         BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.8)),
                     ))
@@ -79,7 +79,7 @@ pub fn recruit_card(
                             Text::new(recruit.state.get_description()),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
-                                font_size: 20.0,
+                                font_size: 18.0,
                                 ..default()
                             },
                             TextColor(Color::WHITE),
@@ -149,7 +149,7 @@ pub fn recruit_card(
                         Text::new(recruit.name.clone()),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 20.0,
+                            font_size: 18.0,
                             ..default()
                         },
                         TextColor(ColorPaletteEnum::DarkBrown.as_color()),
@@ -160,7 +160,7 @@ pub fn recruit_card(
                         Text::new(recruit.class.to_string()),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 18.0,
+                            font_size: 16.0,
                             ..default()
                         },
                         TextColor(ColorPaletteEnum::DarkBrown.as_color()),
@@ -171,7 +171,7 @@ pub fn recruit_card(
                         Text::new(format!("Level: {}", recruit.level)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 18.0,
+                            font_size: 16.0,
                             ..default()
                         },
                         TextColor(ColorPaletteEnum::DarkBrown.as_color()),
@@ -195,7 +195,7 @@ pub fn recruit_card(
                         )),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 18.0,
+                            font_size: 16.0,
                             ..default()
                         },
                         TextColor(ColorPaletteEnum::DarkBrown.as_color()),

@@ -14,7 +14,7 @@ pub fn recruit_intelligence(
     //     value: format!("INT: {}", recruit_intelligence),
     //     style: TextFont {
     //         font: base_font.clone(),
-    //         font_size: 14.0,
+    //         font_size: 12.0,
     //         color: ColorPaletteEnum::DarkBrown.as_color(),
     //     },
     // };
@@ -24,7 +24,7 @@ pub fn recruit_intelligence(
     //         value: format!(" (+{})", additional_intelligence),
     //         style: TextFont {
     //             font: base_font.clone(),
-    //             font_size: 14.0,
+    //             font_size: 12.0,
     //             color: Color::srgb(0.0, 107.0 / 255.0, 29.0 / 255.0),
     //         },
     //     }
@@ -34,7 +34,7 @@ pub fn recruit_intelligence(
     //         value: String::new(),
     //         style: TextFont {
     //             font: base_font,
-    //             font_size: 14.0,
+    //             font_size: 12.0,
     //             color: Color::NONE,
     //         },
     //     }

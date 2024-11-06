@@ -8,7 +8,7 @@ pub fn recruit_sent_picture(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let recruit_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(1400, 400),
+        UVec2::new(200, 400),
         7,
         1,
         Some(UVec2::new(0, 0)),
@@ -33,7 +33,7 @@ pub fn recruit_sent_picture(
                 Text::new("Recruit sent"),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 16.0,
+                    font_size: 14.0,
                     ..default()
                 },
                 TextColor(Color::BLACK),
@@ -53,7 +53,7 @@ pub fn recruit_sent_picture(
                     height: Val::Percent(100.),
                     ..default()
                 },
-                ZIndex(1),
+                GlobalZIndex(1),
             ));
         });
 }

@@ -34,7 +34,7 @@ pub fn recruit_sent_stats(
                 Text::new(format!("Level: {}", recruit_sent.level)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 16.0,
+                    font_size: 14.0,
                     ..default()
                 },
                 TextColor(Color::BLACK),
@@ -45,7 +45,7 @@ pub fn recruit_sent_stats(
                 Text::new(format!("Strength: {}", recruit_strength)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 16.0,
+                    font_size: 14.0,
                     ..default()
                 },
                 TextColor(Color::BLACK),
@@ -56,7 +56,7 @@ pub fn recruit_sent_stats(
                 Text::new(format!("Endurance: {}", recruit_endurance)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 16.0,
+                    font_size: 14.0,
                     ..default()
                 },
                 TextColor(Color::BLACK),
@@ -67,7 +67,7 @@ pub fn recruit_sent_stats(
                 Text::new(format!("Intelligence: {}", recruit_intelligence)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 16.0,
+                    font_size: 14.0,
                     ..default()
                 },
                 TextColor(Color::BLACK),

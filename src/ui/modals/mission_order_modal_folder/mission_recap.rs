@@ -8,7 +8,7 @@ pub fn mission_recap(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let ennemy_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(1200, 200),
+        UVec2::new(200, 200),
         6,
         1,
         Some(UVec2::new(0, 0)),
@@ -79,7 +79,7 @@ pub fn mission_recap(
                 Text::new(mission.description.clone()),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 16.0,
+                    font_size: 14.0,
                     ..default()
                 },
                 TextColor(Color::BLACK),
@@ -100,7 +100,7 @@ pub fn mission_recap(
                         Text::new(format!("Target : {}", mission.ennemy.name)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 16.0,
+                            font_size: 14.0,
                             ..default()
                         },
                         TextColor(Color::BLACK),
@@ -111,7 +111,7 @@ pub fn mission_recap(
                         Text::new(format!("Level : {}", mission.ennemy.level)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 16.0,
+                            font_size: 14.0,
                             ..default()
                         },
                         TextColor(Color::BLACK),
@@ -122,7 +122,7 @@ pub fn mission_recap(
                         Text::new(format!("Str : {}", mission.ennemy.strength)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 16.0,
+                            font_size: 14.0,
                             ..default()
                         },
                         TextColor(Color::BLACK),
@@ -133,7 +133,7 @@ pub fn mission_recap(
                         Text::new(format!("Def : {}", mission.ennemy.endurance)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 16.0,
+                            font_size: 14.0,
                             ..default()
                         },
                         TextColor(Color::BLACK),
@@ -144,7 +144,7 @@ pub fn mission_recap(
                         Text::new(format!("Int : {}", mission.ennemy.intelligence)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 16.0,
+                            font_size: 14.0,
                             ..default()
                         },
                         TextColor(Color::BLACK),

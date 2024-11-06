@@ -44,7 +44,7 @@ pub fn loots_and_start(
                         Text::new("Loots :"),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 16.0,
+                            font_size: 14.0,
                             ..default()
                         },
                         TextColor(Color::BLACK),
@@ -96,7 +96,7 @@ pub fn loots_and_start(
             //                 Text::new("Start the mission"),
             //                 TextFont {
             //                     font: my_assets.load(FONT_FIRA),
-            //                     font_size: 16.0,
+            //                     font_size: 14.0,
             //                     ..default()
             //                 },
             //                 TextColor(Color::WHITE),

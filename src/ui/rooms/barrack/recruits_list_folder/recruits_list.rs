@@ -10,7 +10,7 @@ pub fn spawn_left_container(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let recruit_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(1400, 400),
+        UVec2::new(200, 400),
         7,
         1,
         Some(UVec2::new(0, 0)),

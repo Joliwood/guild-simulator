@@ -35,7 +35,7 @@ pub fn recruit_infos(
                 },
                 ..default()
             },
-            ZIndex(2),
+            GlobalZIndex(2),
         ))
         .insert(Name::new("Barrack > recruit overview > recruit infos"))
         .with_children(|parent| {
@@ -64,7 +64,7 @@ pub fn recruit_infos(
                                 Text::new("Weapon"),
                                 TextFont {
                                     font: my_assets.load(FONT_FIRA),
-                                    font_size: 20.0,
+                                    font_size: 18.0,
                                     ..default()
                                 },
                                 TextColor(ColorPaletteEnum::DarkBrown.as_color()),
@@ -92,7 +92,7 @@ pub fn recruit_infos(
                                 Text::new("Armor"),
                                 TextFont {
                                     font: my_assets.load(FONT_FIRA),
-                                    font_size: 20.0,
+                                    font_size: 18.0,
                                     ..default()
                                 },
                                 TextColor(ColorPaletteEnum::DarkBrown.as_color()),
@@ -125,7 +125,7 @@ pub fn recruit_infos(
                         Text::new("Scrolls"),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 20.0,
+                            font_size: 18.0,
                             ..default()
                         },
                         TextColor(ColorPaletteEnum::DarkBrown.as_color()),
