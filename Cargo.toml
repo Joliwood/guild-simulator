@@ -6,9 +6,9 @@ authors = ["Guillaume Jolibois <jolibois.contact@gmail.com>"]
 exclude = ["dist", "build", "assets", "credits"]
 
 [dependencies]
-bevy = { version = "0.15.0-rc.1" }
+bevy = { version = "0.15.0-rc.3" }
 bevy-inspector-egui  = { git = "https://github.com/jakobhellermann/bevy-inspector-egui", tag = "v0.25.0" }
-bevy_asset_loader = { version = "0.21.0", features = ["2d"]}
+bevy_asset_loader = { version = "0.15.0-rc.3", features = ["2d"]}
 bevy-settings = "0.6.0"
 rand_core = "0.6.4"
 uuid = "1.10.0"
@@ -22,6 +22,8 @@ colored = "2.0"
 # keep the following in sync with Bevy's dependencies
 winit = { version = "0.30", default-features = false }
 thiserror = "1.0.68"
+bevy_ui = { version = "0.15.0-rc.3" }
+bevy_text = { version = "0.15.0-rc.3" }
 
 # This is used by trunk as it doesn't support custom profiles: https://github.com/trunk-rs/trunk/issues/605
 # xbuild also uses this profile for building android AABs because I couldn't find a configuration for it
