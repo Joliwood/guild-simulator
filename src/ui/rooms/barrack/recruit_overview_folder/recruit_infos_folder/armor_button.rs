@@ -4,10 +4,14 @@ use crate::{
         equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats,
         recruits::SelectedRecruitForEquipment,
     },
-    utils::{get_item_image_atlas_index, get_item_layout, get_item_tooltip_description},
+    utils::{
+        get_item_image_atlas_index,
+        get_item_layout,
+        // get_item_tooltip_description
+    },
 };
 use bevy::prelude::*;
-use pyri_tooltip::{Tooltip, TooltipActivation};
+// use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn armor_button(
     player_stats: &Res<PlayerStats>,
@@ -49,7 +53,7 @@ pub fn armor_button(
         let item = ItemEnum::Armor(recruit_armor);
         let item_image_atlas_index = get_item_image_atlas_index(&item);
         let layout = get_item_layout(&item);
-        let tooltip_text = get_item_tooltip_description(&item);
+        // let tooltip_text = get_item_tooltip_description(&item);
         let item_atlas_path = get_item_atlas_path(&item);
 
         // Armor button

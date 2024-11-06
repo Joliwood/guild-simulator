@@ -2,11 +2,12 @@
 use super::{
     daily_events_folder::discussions::{Answer, ImpactAction},
     equipments::ItemEnum,
-    // general_structs::{load_armor, load_scroll, load_weapon},
+    general_structs::load_weapon,
     recruits::RecruitStats,
 };
 use crate::{
     // content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
+    content::equipments::weapons::WeaponsEnum,
     enums::{RecruitStateEnum, RoomEnum},
 };
 use bevy::prelude::*;
@@ -36,8 +37,8 @@ pub struct PlayerStats {
 
 impl Default for PlayerStats {
     fn default() -> Self {
-        // let mut inventory = vec![];
-        // let first_weapon = load_weapon(WeaponsEnum::AxeOfFury);
+        let mut inventory = vec![];
+        let first_weapon = load_weapon(WeaponsEnum::AxeOfFury);
         // let second_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
         // let second_same_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
         // let first_scroll = load_scroll(ScrollsEnum::ScrollOfEndurance);
@@ -46,7 +47,7 @@ impl Default for PlayerStats {
         // let second_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
         // let second_same_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
 
-        // inventory.push(ItemEnum::Weapon(first_weapon));
+        inventory.push(ItemEnum::Weapon(first_weapon));
         // inventory.push(ItemEnum::Weapon(second_weapon));
         // inventory.push(ItemEnum::Weapon(second_same_weapon));
         // inventory.push(ItemEnum::Scroll(first_scroll, 1));
@@ -60,11 +61,11 @@ impl Default for PlayerStats {
             experience: 0,
             golds: 0,
             guild_level: 1,
-            inventory: vec![],
+            inventory,
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![],
-            room: RoomEnum::CommandRoom,
+            room: RoomEnum::Barrack,
             toxicity: 0,
             reputation: 10,
             stats: Stats {

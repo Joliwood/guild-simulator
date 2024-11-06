@@ -3,7 +3,7 @@ use crate::structs::{
     trigger_structs::SleepButtonTrigger,
 };
 use bevy::prelude::*;
-use pyri_tooltip::{Tooltip, TooltipActivation};
+// use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn set_of_keys(
     my_assets: &Res<AssetServer>,
@@ -11,7 +11,7 @@ pub fn set_of_keys(
     mission_reports: &Res<MissionReports>,
     daily_events: &Res<DailyEvents>,
 ) {
-    let tooltip_text =  "You have to read and sign all documents\non your desk before going to sleep.\n\nNo pain no gains !\nAs the kids say";
+    // let tooltip_text =  "You have to read and sign all documents\non your desk before going to sleep.\n\nNo pain no gains !\nAs the kids say";
 
     // Create the main button
     let mut button = elements_on_desk.spawn((

@@ -7,6 +7,6 @@ pub fn update_toxicity_counter(
     mut writer: TextUiWriter,
 ) {
     if player_stats.is_changed() {
-        *writer.text(*query, 0) = player_stats.golds.to_string();
+        *writer.text(*query, 0) = player_stats.toxicity.to_string();
     }
 }

@@ -1,6 +1,5 @@
-use bevy::prelude::*;
-
 use crate::{enums::ColorPaletteEnum, my_assets::FONT_FIRA};
+use bevy::prelude::*;
 
 pub fn recruit_strength(
     stats_container: &mut ChildBuilder,
@@ -8,43 +7,29 @@ pub fn recruit_strength(
     additional_strength: u32,
     my_assets: &Res<AssetServer>,
 ) {
-    let base_font: Handle<Font> = my_assets.load(FONT_FIRA);
+    stats_container
+        .spawn(Node::default())
+        .with_children(|node| {
+            node.spawn((
+                Text::new(format!("STR: {}", recruit_strength)),
+                TextColor(ColorPaletteEnum::DarkBrown.as_color()),
+                TextFont {
+                    font: my_assets.load(FONT_FIRA),
+                    font_size: 12.0,
+                    ..default()
+                },
+            ));
 
-    // let base_strength_text = TextSection {
-    //     value: format!("STR: {}", recruit_strength),
-    //     style: TextFont {
-    //         font: base_font.clone(),
-    //         font_size: 12.0,
-    //         color: ColorPaletteEnum::DarkBrown.as_color(),
-    //     },
-    // };
-
-    // let additional_strength_text = if additional_strength > 0 {
-    //     TextSection {
-    //         value: format!(" (+{})", additional_strength),
-    //         style: TextFont {
-    //             font: base_font.clone(),
-    //             font_size: 12.0,
-    //             color: Color::srgb(0.0, 107.0 / 255.0, 29.0 / 255.0),
-    //         },
-    //     }
-    // } else {
-    //     // Empty section if additional strength is zero or less
-    //     TextSection {
-    //         value: String::new(),
-    //         style: TextFont {
-    //             font: base_font,
-    //             font_size: 12.0,
-    //             color: Color::NONE,
-    //         },
-    //     }
-    // };
-
-    stats_container.spawn((
-        // text: Text::from_sections([base_strength_text, additional_strength_text]),
-        Text::new(format!(
-            "STR: {} (+{})",
-            recruit_strength, additional_strength
-        )),
-    ));
+            if additional_strength > 0 {
+                node.spawn((
+                    Text::new(format!(" (+{})", additional_strength)),
+                    TextColor(Color::srgb(0.0, 107.0 / 255.0, 29.0 / 255.0)),
+                    TextFont {
+                        font: my_assets.load(FONT_FIRA),
+                        font_size: 12.0,
+                        ..default()
+                    },
+                ));
+            }
+        });
 }

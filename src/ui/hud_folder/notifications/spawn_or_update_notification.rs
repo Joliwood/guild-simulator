@@ -8,7 +8,7 @@ use crate::{
     utils::get_mission_notification_tooltip_text,
 };
 use bevy::prelude::*;
-use pyri_tooltip::{Tooltip, TooltipActivation};
+// use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn spawn_or_update_notification(
     commands: &mut Commands,

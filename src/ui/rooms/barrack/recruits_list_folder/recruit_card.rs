@@ -31,8 +31,8 @@ pub fn recruit_card(
                 width: Val::Percent(100.0),
                 height: Val::Px(100.0),
                 padding: UiRect {
-                    top: Val::Px(15.),
-                    bottom: Val::Px(15.),
+                    top: Val::Px(7.),
+                    bottom: Val::Px(7.),
                     left: Val::Px(7.),
                     right: Val::Px(7.),
                 },
@@ -147,9 +147,13 @@ pub fn recruit_card(
                     // Recruit name
                     name_class_container.spawn((
                         Text::new(recruit.name.clone()),
+                        TextLayout {
+                            linebreak: LineBreak::NoWrap,
+                            ..default()
+                        },
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 18.0,
+                            font_size: 16.0,
                             ..default()
                         },
                         TextColor(ColorPaletteEnum::DarkBrown.as_color()),
@@ -160,7 +164,7 @@ pub fn recruit_card(
                         Text::new(recruit.class.to_string()),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 16.0,
+                            font_size: 14.0,
                             ..default()
                         },
                         TextColor(ColorPaletteEnum::DarkBrown.as_color()),
@@ -171,7 +175,7 @@ pub fn recruit_card(
                         Text::new(format!("Level: {}", recruit.level)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 16.0,
+                            font_size: 14.0,
                             ..default()
                         },
                         TextColor(ColorPaletteEnum::DarkBrown.as_color()),
@@ -250,7 +254,6 @@ pub fn recruit_card(
                         })
                         .with_children(|top_container| {
                             weapon_button(top_container, my_assets, recruit, texture_atlas_layouts);
-
                             armor_button(top_container, my_assets, recruit, texture_atlas_layouts);
                         });
 

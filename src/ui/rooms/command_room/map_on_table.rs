@@ -29,8 +29,8 @@ pub fn map_on_table(
                 button
                     .spawn((
                         UiImage {
-                            // image: my_assets
-                            //     .load(MapImageEnum::get_path(&map.clone().unwrap().image)),
+                            image: my_assets
+                                .load(MapImageEnum::get_path(&map.clone().unwrap().image)),
                             ..default()
                         },
                         Node {
@@ -48,32 +48,32 @@ pub fn map_on_table(
                             if mission.recruit_send.is_none() {
                                 map.spawn(
                                     // ! WIP - CRASH
-                                    // CustomButton::MissionOnMap
-                                    //     .mission_bundle(my_assets, mission.id),
-                                    Node {
-                                        display: Display::Flex,
-                                        justify_content: JustifyContent::Center,
-                                        align_items: AlignItems::Center,
-                                        width: Val::Percent(100.),
-                                        height: Val::Percent(100.),
-                                        ..default()
-                                    },
+                                    CustomButton::MissionOnMap
+                                        .mission_bundle(my_assets, mission.id),
+                                    // Node {
+                                    //     display: Display::Flex,
+                                    //     justify_content: JustifyContent::Center,
+                                    //     align_items: AlignItems::Center,
+                                    //     width: Val::Percent(100.),
+                                    //     height: Val::Percent(100.),
+                                    //     ..default()
+                                    // },
                                 )
                                 .insert(UniqueId("select_mission_button".to_string()))
                                 .insert(mission.clone());
                             } else {
                                 map.spawn(
                                     // ! WIP - CRASH
-                                    // CustomButton::MissionOnMap
-                                    //     .mission_bundle(my_assets, mission.id),
-                                    Node {
-                                        display: Display::Flex,
-                                        justify_content: JustifyContent::Center,
-                                        align_items: AlignItems::Center,
-                                        width: Val::Percent(100.),
-                                        height: Val::Percent(100.),
-                                        ..default()
-                                    },
+                                    CustomButton::MissionOnMap
+                                        .mission_bundle(my_assets, mission.id),
+                                    // Node {
+                                    //     display: Display::Flex,
+                                    //     justify_content: JustifyContent::Center,
+                                    //     align_items: AlignItems::Center,
+                                    //     width: Val::Percent(100.),
+                                    //     height: Val::Percent(100.),
+                                    //     ..default()
+                                    // },
                                 )
                                 .with_children(|button| {
                                     // Black filter overlay with centered text

@@ -22,7 +22,8 @@ pub fn select_item_in_inventory(
             &mut BorderColor,
             &ItemEnum,
         ),
-        Changed<Interaction>,
+        // Changed<Interaction>,
+        (Changed<Interaction>, With<Button>),
     >,
     mut windows: Query<&mut Window>,
     mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
@@ -30,7 +31,9 @@ pub fn select_item_in_inventory(
 ) {
     let mut window = windows.single_mut();
 
-    for (interaction, mut color, unique_id, mut border_color, item) in &mut interaction_query {
+    for (interaction, mut background_color, unique_id, mut border_color, item) in
+        &mut interaction_query
+    {
         if unique_id.0 == "item_in_inventory" {
             match *interaction {
                 Interaction::Pressed => {
@@ -56,12 +59,12 @@ pub fn select_item_in_inventory(
                 }
                 Interaction::Hovered => {
                     // window.cursor.icon = CursorIcon::Pointer;
-                    *color = HOVERED_BUTTON.into();
+                    *background_color = HOVERED_BUTTON.into();
                     border_color.0 = Color::WHITE;
                 }
                 Interaction::None => {
                     // window.cursor.icon = CursorIcon::Default;
-                    *color = BackgroundColor(WOOD_COLOR);
+                    *background_color = BackgroundColor(WOOD_COLOR);
                     border_color.0 = Color::BLACK;
                 }
             }

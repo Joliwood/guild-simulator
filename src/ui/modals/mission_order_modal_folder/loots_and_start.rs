@@ -7,7 +7,7 @@ use crate::{
     },
 };
 use bevy::prelude::*;
-use pyri_tooltip::{Tooltip, TooltipActivation};
+// use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn loots_and_start(
     parent: &mut ChildBuilder,
@@ -61,7 +61,7 @@ pub fn loots_and_start(
                             for loot in mission_loots.0.iter() {
                                 let item_image_atlas_index = loot.get_atlas_index();
                                 let layout = loot.get_item_layout();
-                                let tooltip_text = loot.get_item_loot_tooltip_description();
+                                // let tooltip_text = loot.get_item_loot_tooltip_description();
                                 let item_loot_atlas_path = get_item_loot_atlas_path(&loot.item);
                                 parent.spawn((
                                     Button,
@@ -89,27 +89,27 @@ pub fn loots_and_start(
                 });
 
             // Button inside the middle container
-            //     parent
-            //         .spawn(CustomButton::MissionStart.bundle(my_assets))
-            //         .with_children(|button| {
-            //             button.spawn((
-            //                 Text::new("Start the mission"),
-            //                 TextFont {
-            //                     font: my_assets.load(FONT_FIRA),
-            //                     font_size: 14.0,
-            //                     ..default()
-            //                 },
-            //                 TextColor(Color::WHITE),
-            //                 Node {
-            //                     margin: UiRect::all(Val::Auto),
-            //                     ..default()
-            //                 },
-            //             ));
-            //         })
-            //         .insert(if selected_mission.recruit_id.is_some() {
-            //             UniqueId("start_mission".to_string())
-            //         } else {
-            //             UniqueId("".to_string())
-            //         });
+            parent
+                .spawn(CustomButton::MissionStart.bundle(my_assets))
+                .with_children(|button| {
+                    button.spawn((
+                        Text::new("Start the mission"),
+                        TextFont {
+                            font: my_assets.load(FONT_FIRA),
+                            font_size: 14.0,
+                            ..default()
+                        },
+                        TextColor(Color::WHITE),
+                        Node {
+                            margin: UiRect::all(Val::Auto),
+                            ..default()
+                        },
+                    ));
+                })
+                .insert(if selected_mission.recruit_id.is_some() {
+                    UniqueId("start_mission".to_string())
+                } else {
+                    UniqueId("".to_string())
+                });
         });
 }

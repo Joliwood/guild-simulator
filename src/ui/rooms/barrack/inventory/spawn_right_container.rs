@@ -34,7 +34,7 @@ pub fn spawn_right_container(
                 Text::new("Inventory"),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
-                    font_size: 30.,
+                    font_size: 26.,
                     ..default()
                 },
                 TextColor(ColorPaletteEnum::DarkBrown.as_color()),

@@ -4,7 +4,7 @@ use crate::{
     structs::{general_structs::UniqueId, recruits::RecruitStats},
 };
 use bevy::prelude::*;
-use pyri_tooltip::{Tooltip, TooltipActivation};
+// use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn map_recruit_card(
     left_container: &mut ChildBuilder,
@@ -20,7 +20,7 @@ pub fn map_recruit_card(
                 flex_direction: FlexDirection::Row,
                 align_items: AlignItems::Center,
                 justify_content: JustifyContent::FlexStart,
-                column_gap: Val::Px(20.),
+                column_gap: Val::Px(12.),
                 width: Val::Percent(100.),
                 height: Val::Px(40.),
                 padding: UiRect {
@@ -40,15 +40,16 @@ pub fn map_recruit_card(
             BorderRadius::all(Val::Px(10.)),
             UiImage {
                 image: my_assets.load("images/rooms/command_room/recruit_card.png"),
+                image_mode: NodeImageMode::Stretch,
                 ..default()
             },
             BackgroundColor(Color::BLACK),
         ))
+        .insert((UniqueId("map_recruit_button".to_string()), recruit.clone()))
         // .insert((
         //     UniqueId("assign_recruit_to_mission".to_string()),
         //     recruit.clone(),
         // ))
-        .insert((UniqueId("map_recruit_button".to_string()), recruit.clone()))
         .with_children(|parent| {
             // Add an overlay if the recruit is in a mission
             if recruit.state == RecruitStateEnum::InMission
@@ -64,6 +65,7 @@ pub fn map_recruit_card(
                             height: Val::Percent(100.0),
                             align_items: AlignItems::Center,
                             justify_content: JustifyContent::FlexStart,
+                            // column_gap: Val::Px(5.),
                             padding: UiRect {
                                 left: Val::Px(42.),
                                 ..default()
@@ -92,6 +94,8 @@ pub fn map_recruit_card(
                 .spawn((
                     Button,
                     Node {
+                        // display: Display::Flex,
+                        // column_gap: Val::Px(5.),
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
                         ..default()
@@ -124,7 +128,7 @@ pub fn map_recruit_card(
                     font_size: 14.0,
                     ..default()
                 },
-                TextColor(Color::BLACK),
+                TextColor(Color::WHITE),
             ));
 
             button

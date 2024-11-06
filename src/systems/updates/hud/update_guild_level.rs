@@ -7,6 +7,6 @@ pub fn update_guild_level(
     mut writer: TextUiWriter,
 ) {
     if player_stats.is_changed() {
-        *writer.text(*query, 0) = player_stats.guild_level.to_string();
+        *writer.text(*query, 0) = format!("Lvl : {}", player_stats.guild_level);
     }
 }

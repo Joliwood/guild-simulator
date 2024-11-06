@@ -96,7 +96,8 @@ pub fn mission_order_modal(
                                     index: 16,
                                     layout: buttons_texture_atlas_layout.clone(),
                                 },
-                            ),
+                            )
+                            .with_mode(NodeImageMode::Stretch),
                         ))
                         .insert(UniqueId("close_mission_modal".to_string()));
 

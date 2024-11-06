@@ -1,4 +1,8 @@
-use crate::{enums::ColorPaletteEnum, my_assets::FONT_FIRA, structs::maps::Map};
+use crate::{
+    enums::ColorPaletteEnum,
+    my_assets::FONT_FIRA,
+    structs::{maps::Map, trigger_structs::SelectMapTrigger},
+};
 use bevy::prelude::*;
 
 pub fn map_card(
@@ -50,8 +54,10 @@ pub fn map_card(
             BorderRadius::all(Val::Px(5.)),
             UiImage {
                 image: my_assets.load("images/maps/map_card.png"),
+                image_mode: NodeImageMode::Stretch,
                 ..default()
             },
+            SelectMapTrigger,
         ))
         .with_children(|map_container| {
             // Map Image

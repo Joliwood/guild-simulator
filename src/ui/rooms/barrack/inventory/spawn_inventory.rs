@@ -1,10 +1,14 @@
 use crate::{
     my_assets::{get_item_atlas_path, FONT_FIRA},
     structs::{equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats},
-    utils::{get_item_image_atlas_index, get_item_layout, get_item_tooltip_description},
+    utils::{
+        get_item_image_atlas_index,
+        get_item_layout,
+        // get_item_tooltip_description
+    },
 };
 use bevy::prelude::*;
-use pyri_tooltip::{Tooltip, TooltipActivation};
+// use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn spawn_inventory(
     parent: &mut ChildBuilder,
@@ -44,7 +48,7 @@ pub fn spawn_inventory(
                                 let item = &player_stats.inventory[index];
                                 let item_image_atlas_index = get_item_image_atlas_index(item);
                                 let layout = get_item_layout(item);
-                                let tooltip_text = get_item_tooltip_description(item);
+                                // let tooltip_text = get_item_tooltip_description(item);
                                 let item_atlas_path = get_item_atlas_path(item);
 
                                 // Spawn button for the item
@@ -66,9 +70,8 @@ pub fn spawn_inventory(
                                                 index: item_image_atlas_index.into(),
                                                 layout: texture_atlas_layouts.add(layout),
                                             },
-                                        ),
-                                        // Tooltip::cursor(tooltip_text.to_string())
-                                        //     .with_activation(TooltipActivation::IMMEDIATE),
+                                        )
+                                        .with_mode(NodeImageMode::Stretch),
                                     ))
                                     .insert(UniqueId("item_in_inventory".to_string()))
                                     .insert(item.clone())
@@ -94,25 +97,23 @@ pub fn spawn_inventory(
                                     });
                             } else {
                                 // Spawn empty inventory slot
-                                row_builder
-                                    .spawn((
-                                        Button,
-                                        Node {
-                                            width: Val::Px(60.),
-                                            height: Val::Px(60.),
-                                            border: UiRect::all(Val::Px(3.)),
-                                            margin: UiRect::all(Val::Px(5.)),
-                                            ..default()
-                                        },
-                                        BorderColor(Color::BLACK),
-                                        BorderRadius::all(Val::Px(10.)),
-                                        UiImage {
-                                            image: my_assets
-                                                .load("images/equipments/empty_inventory_slot.png"),
-                                            ..Default::default()
-                                        },
-                                    ))
-                                    .insert(UniqueId("item_in_inventory0".to_string()));
+                                row_builder.spawn((
+                                    Button,
+                                    Node {
+                                        width: Val::Px(60.),
+                                        height: Val::Px(60.),
+                                        border: UiRect::all(Val::Px(3.)),
+                                        margin: UiRect::all(Val::Px(5.)),
+                                        ..default()
+                                    },
+                                    BorderColor(Color::BLACK),
+                                    BorderRadius::all(Val::Px(10.)),
+                                    UiImage {
+                                        image: my_assets
+                                            .load("images/equipments/empty_inventory_slot.png"),
+                                        ..Default::default()
+                                    },
+                                ));
                             }
                         }
                     }

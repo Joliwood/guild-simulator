@@ -7,8 +7,6 @@
 // use bevy_asset_loader::asset_collection::AssetCollection;
 // use serde::Deserialize;
 
-use bevy::log::info;
-
 use crate::{
     // enums::{MapImageEnum, SoundEnum},
     structs::{equipments::ItemEnum, missions::ItemLootEnum},
@@ -240,7 +238,6 @@ pub fn get_item_loot_atlas_path(item: &ItemLootEnum) -> String {
 }
 
 pub fn get_mission_image(mission_id: u16) -> String {
-    info!("get_mission_image : mission_id = {}", mission_id);
     return match mission_id {
         0 => "images/missions/c1_mission_1.png".into(),
         1 => "images/missions/c1_mission_1.png".into(),

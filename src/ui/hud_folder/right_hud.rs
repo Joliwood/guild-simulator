@@ -6,7 +6,7 @@ use crate::{
     },
 };
 use bevy::prelude::*;
-use pyri_tooltip::Tooltip;
+// use pyri_tooltip::Tooltip;
 
 pub fn right_hud(
     commands: &mut ChildBuilder,

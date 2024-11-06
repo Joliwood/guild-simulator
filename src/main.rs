@@ -99,6 +99,7 @@ fn main() -> AppExit {
                 systems::inputs::escape::close_modal_on_escape,
                 systems::updates::hud::update_gold_counter::update_gold_counter,
                 systems::updates::hud::update_guild_level::update_guild_level,
+                systems::updates::command_room::select_map::select_map,
                 systems::updates::hud::update_day_counter::update_day_counter,
                 systems::updates::hud::update_recruit_counter::update_recruit_counter,
                 systems::updates::hud::update_reputation_counter::update_reputation_counter,

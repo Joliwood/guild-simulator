@@ -116,10 +116,11 @@ impl CustomButton {
                 },
                 BorderRadius::all(Val::Px(10.)),
                 BackgroundColor::DEFAULT,
-                // my_assets.wood_box_container.clone().into(),
-                my_assets
-                    .load("images/rooms/command_room/wood_box_container.png")
-                    .into(),
+                UiImage {
+                    image: my_assets.load("images/rooms/command_room/wood_box_container.png"),
+                    image_mode: NodeImageMode::Stretch,
+                    ..default()
+                },
                 BorderColor(Color::BLACK),
             ),
             _ => panic!("The mission button has to be called in the mission_bundle method"),
@@ -142,7 +143,7 @@ impl CustomButton {
         let mission_position = get_mission_position(mission_id);
 
         match self {
-            CustomButton::MissionStart => (
+            CustomButton::MissionOnMap => (
                 Button,
                 Node {
                     position_type: PositionType::Absolute,

@@ -14,10 +14,7 @@ use crate::{
 
 #[allow(clippy::too_many_arguments)]
 pub fn start_mission_button(
-    mut interaction_query: Query<
-        (&Interaction, &mut BackgroundColor, &UniqueId),
-        Changed<Interaction>,
-    >,
+    mut interaction_query: Query<(&Interaction, &mut BorderColor, &UniqueId), Changed<Interaction>>,
     mut missions: ResMut<Missions>,
     mut player_stats: ResMut<PlayerStats>,
     mut windows: Query<&mut Window>,
@@ -28,7 +25,7 @@ pub fn start_mission_button(
 ) {
     let mut window = windows.single_mut();
 
-    for (interaction, mut color, unique_id) in &mut interaction_query {
+    for (interaction, mut border_color, unique_id) in &mut interaction_query {
         // TODO - Start the mission with provided id of mission + recruit (not disponible)
         if selected_mission.recruit_id.is_some() && unique_id.0 == "start_mission" {
             match *interaction {
@@ -83,11 +80,11 @@ pub fn start_mission_button(
                 }
                 Interaction::Hovered => {
                     // window.cursor.icon = CursorIcon::Pointer;
-                    *color = HOVERED_BUTTON.into();
+                    *border_color = BorderColor(Color::WHITE);
                 }
                 Interaction::None => {
                     // window.cursor.icon = CursorIcon::Default;
-                    *color = BackgroundColor(WOOD_COLOR);
+                    *border_color = BorderColor(Color::BLACK);
                 }
             }
         }

@@ -92,7 +92,7 @@ pub fn mission_report_modal(
                     top: Val::Px(155.),
                     ..default()
                 },
-                GlobalZIndex(-1),
+                GlobalZIndex(0),
             ))
             .insert(MissionReportModalContentTrigger)
             .with_children(|parent| {

@@ -4140,8 +4140,6 @@ dependencies = [
  "bevy 0.15.0-rc.3",
  "bevy-settings",
  "bevy_asset_loader",
- "bevy_text 0.15.0-rc.3",
- "bevy_ui 0.15.0-rc.3",
  "bevy_ui_mod_alerts",
  "colored",
  "embed-resource",

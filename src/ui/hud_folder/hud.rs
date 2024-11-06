@@ -4,7 +4,7 @@ use crate::{
     structs::{player_stats::PlayerStats, trigger_structs::RoomButtonTrigger},
 };
 use bevy::prelude::*;
-use pyri_tooltip::Tooltip;
+// use pyri_tooltip::Tooltip;
 
 pub fn hud(
     my_assets: Res<AssetServer>,
@@ -38,7 +38,7 @@ pub fn hud(
                 display: Display::Flex,
                 ..default()
             },
-           GlobalZIndex(3),
+            GlobalZIndex(3),
         ))
         .insert(Name::new("HUD"))
         // Left Container

@@ -7,6 +7,6 @@ pub fn update_day_counter(
     mut writer: TextUiWriter,
 ) {
     if player_stats.is_changed() {
-        *writer.text(*query, 0) = player_stats.day.to_string();
+        *writer.text(*query, 0) = format!("Day : {}", player_stats.day);
     }
 }

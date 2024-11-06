@@ -113,28 +113,6 @@ impl RecruitStats {
         self.intelligence *= 2;
     }
 
-    // pub fn get_item(&self, item: ItemEnum) -> Option<ItemEnum> {
-    //     match item {
-    //         ItemEnum::Weapon(_weapon) => {
-    //             if let Some(weapon) = &self.recruit_inventory.weapon {
-    //                 return Some(ItemEnum::Weapon(weapon.clone()));
-    //             }
-    //         }
-    //         ItemEnum::Armor(_armor) => {
-    //             if let Some(armor) = &self.recruit_inventory.armor {
-    //                 return Some(ItemEnum::Armor(armor.clone()));
-    //             }
-    //         }
-    //         ItemEnum::Scroll(_scroll, _) => {
-    //             if let Some(scroll) = self.recruit_inventory.scrolls.first() {
-    //                 return Some(ItemEnum::Scroll(scroll.clone(), 1));
-    //             }
-    //         }
-    //     }
-
-    //     None
-    // }
-
     pub fn equip_item(&mut self, item: &ItemEnum) {
         match item {
             ItemEnum::Weapon(weapon) => {

@@ -3,7 +3,7 @@ use crate::{
     structs::missions::MissionReport,
 };
 use bevy::prelude::*;
-use pyri_tooltip::{Tooltip, TooltipActivation};
+// use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn loots_earned(
     parent: &mut ChildBuilder,
@@ -67,7 +67,7 @@ pub fn loots_earned(
                     for loot in mission_report.loots.iter() {
                         let item_image_atlas_index = loot.get_atlas_index();
                         let layout = loot.get_item_layout();
-                        let tooltip_text = loot.get_item_loot_tooltip_description();
+                        // let tooltip_text = loot.get_item_loot_tooltip_description();
                         let item_atlas_path = get_item_atlas_path(&loot);
                         parent.spawn((
                             Button,
