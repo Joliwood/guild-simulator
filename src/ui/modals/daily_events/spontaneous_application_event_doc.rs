@@ -120,11 +120,10 @@ pub fn spontaneous_application_event_doc(
                                     margin: UiRect::top(Val::Px(4.0)),
                                     padding: UiRect::all(Val::Px(8.0)),
                                     border: UiRect::all(Val::Px(1.)),
-                                    // WIP - 0.15 migrating
-                                    // border_radius: BorderRadius::all(Val::Px(5.)),
-                                    // background_color: Color::srgba(0., 0., 0., 0.7).into(),
                                     ..default()
                                 },
+                                BorderRadius::all(Val::Px(5.)),
+                                BackgroundColor(Color::srgba(0., 0., 0., 0.7)),
                             ))
                             .insert(answer.clone())
                             .insert(spontaneous_application.clone())

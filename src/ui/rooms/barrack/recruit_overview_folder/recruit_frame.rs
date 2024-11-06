@@ -62,8 +62,8 @@ pub fn recruit_frame(
                 UiImage::from_atlas_image(
                     my_assets.load("images/recruits/recruit_picture_atlas.png"),
                     TextureAtlas {
-                        index: selected_recruit_for_equipment_data.image_atlas_index.into(),
                         layout: recruit_texture_atlas_layout.clone(),
+                        index: selected_recruit_for_equipment_data.image_atlas_index.into(),
                     },
                 ),
                 Node {

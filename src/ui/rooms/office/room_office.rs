@@ -16,8 +16,13 @@ pub fn room_office(
     _mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
     daily_events: &Res<DailyEvents>,
 ) {
+    info!("Spawning office room");
     commands
-        .spawn(Node::default())
+        .spawn(Node {
+            width: Val::Vw(100.),
+            height: Val::Vh(100.),
+            ..default()
+        })
         .insert(Name::new("Office room"))
         .insert(ResetRoomTrigger)
         // Image background node
@@ -28,15 +33,15 @@ pub fn room_office(
                         image: my_assets.load("images/rooms/office/office_room_background.png"),
                         ..default()
                     },
-                    // Node {
-                    //     width: Val::Percent(100.0),
-                    //     height: Val::Percent(100.0),
-                    //     display: Display::Flex,
-                    //     align_content: AlignContent::Center,
-                    //     justify_content: JustifyContent::Center,
-                    //     ..default()
-                    // },
-                    // ZIndex(-1),
+                    Node {
+                        width: Val::Percent(100.0),
+                        height: Val::Percent(100.0),
+                        display: Display::Flex,
+                        align_content: AlignContent::Center,
+                        justify_content: JustifyContent::Center,
+                        ..default()
+                    },
+                    ZIndex(-1),
                 ))
                 // Nested image background node
                 .with_children(|desk_container: &mut ChildBuilder| {

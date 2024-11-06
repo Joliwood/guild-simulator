@@ -19,6 +19,8 @@ pub fn spawn_room_barrack(
     commands
         .spawn((
             Node {
+                width: Val::Vw(100.),
+                height: Val::Vh(100.),
                 display: Display::Flex,
                 flex_direction: FlexDirection::Row,
                 justify_content: JustifyContent::Center,

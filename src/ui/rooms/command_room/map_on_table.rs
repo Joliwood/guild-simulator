@@ -78,20 +78,20 @@ pub fn map_on_table(
                                 .with_children(|button| {
                                     // Black filter overlay with centered text
                                     button
-                                        .spawn(Node {
-                                            position_type: PositionType::Absolute,
-                                            top: Val::Px(0.0),
-                                            bottom: Val::Px(0.0),
-                                            left: Val::Px(0.0),
-                                            right: Val::Px(0.0),
-                                            padding: UiRect::all(Val::Px(10.)),
-                                            justify_content: JustifyContent::Center,
-                                            align_items: AlignItems::Center,
-                                            // WIP - 0.15 migrating
-                                            // background_color: Color::srgba(0.0, 0.0, 0.0, 0.8)
-                                            //     .into(),
-                                            ..default()
-                                        })
+                                        .spawn((
+                                            Node {
+                                                position_type: PositionType::Absolute,
+                                                top: Val::Px(0.0),
+                                                bottom: Val::Px(0.0),
+                                                left: Val::Px(0.0),
+                                                right: Val::Px(0.0),
+                                                padding: UiRect::all(Val::Px(10.)),
+                                                justify_content: JustifyContent::Center,
+                                                align_items: AlignItems::Center,
+                                                ..default()
+                                            },
+                                            BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.8)),
+                                        ))
                                         .with_children(|overlay| {
                                             overlay.spawn((
                                                 Text::new("A recruit has already been sent"),

@@ -18,13 +18,6 @@ use crate::{
 use bevy::prelude::*;
 
 #[allow(clippy::too_many_arguments)]
-/// Checks for changes in PlayerStats and updates the room accordingly
-///
-/// # Parameters
-/// - `my_assets`: Bevy's asset server to load assets
-/// - `player_stats`: The player stats to determine the current room
-/// - `commands`: Bevy's commands to spawn/despawn entities
-/// - `query`: Query to find and despawn existing room entities
 pub fn update_room(
     my_assets: Res<AssetServer>,
     player_stats: Res<PlayerStats>,

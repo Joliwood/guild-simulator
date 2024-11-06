@@ -34,7 +34,6 @@ pub fn map_recruit_card(
                     x: OverflowAxis::Hidden,
                     y: OverflowAxis::Hidden,
                 },
-                // background_color: Color::BLACK.into(),
                 ..default()
             },
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
@@ -43,6 +42,7 @@ pub fn map_recruit_card(
                 image: my_assets.load("images/rooms/command_room/recruit_card.png"),
                 ..default()
             },
+            BackgroundColor(Color::BLACK),
         ))
         // .insert((
         //     UniqueId("assign_recruit_to_mission".to_string()),
@@ -55,24 +55,25 @@ pub fn map_recruit_card(
                 || recruit.state == RecruitStateEnum::WaitingReportSignature
             {
                 parent
-                    .spawn(Node {
-                        position_type: PositionType::Absolute,
-                        left: Val::Px(0.),
-                        right: Val::Px(0.),
-                        width: Val::Percent(100.0),
-                        height: Val::Percent(100.0),
-                        align_items: AlignItems::Center,
-                        justify_content: JustifyContent::FlexStart,
-                        padding: UiRect {
-                            left: Val::Px(42.),
+                    .spawn((
+                        Node {
+                            position_type: PositionType::Absolute,
+                            left: Val::Px(0.),
+                            right: Val::Px(0.),
+                            width: Val::Percent(100.0),
+                            height: Val::Percent(100.0),
+                            align_items: AlignItems::Center,
+                            justify_content: JustifyContent::FlexStart,
+                            padding: UiRect {
+                                left: Val::Px(42.),
+                                ..default()
+                            },
                             ..default()
                         },
-                        // WIP - 0.15 migrating
-                        // z_index: ZIndex::Global(1),
-                        // border_radius: BorderRadius::all(Val::Px(10.)),
-                        // background_color: Color::srgba(0.0, 0.0, 0.0, 0.8).into(),
-                        ..default()
-                    })
+                        ZIndex(1),
+                        BorderRadius::all(Val::Px(10.)),
+                        BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.8)),
+                    ))
                     .with_children(|overlay| {
                         overlay.spawn((
                             Text::new(recruit.state.get_description()),

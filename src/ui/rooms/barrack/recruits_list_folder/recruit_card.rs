@@ -53,26 +53,27 @@ pub fn recruit_card(
                 || recruit.state == RecruitStateEnum::WaitingReportSignature
             {
                 parent
-                    .spawn(Node {
-                        position_type: PositionType::Absolute,
-                        left: Val::Px(0.),
-                        right: Val::Px(0.),
-                        width: Val::Percent(100.0),
-                        height: Val::Percent(100.0),
-                        align_items: AlignItems::Center,
-                        justify_content: JustifyContent::Center,
-                        padding: UiRect {
-                            top: Val::ZERO,
-                            bottom: Val::ZERO,
-                            left: Val::Percent(25.),
-                            right: Val::Percent(25.),
+                    .spawn((
+                        Node {
+                            position_type: PositionType::Absolute,
+                            left: Val::Px(0.),
+                            right: Val::Px(0.),
+                            width: Val::Percent(100.0),
+                            height: Val::Percent(100.0),
+                            align_items: AlignItems::Center,
+                            justify_content: JustifyContent::Center,
+                            padding: UiRect {
+                                top: Val::ZERO,
+                                bottom: Val::ZERO,
+                                left: Val::Percent(25.),
+                                right: Val::Percent(25.),
+                            },
+                            ..default()
                         },
-                        // WIP - 0.15 migrating
-                        // z_index: ZIndex::Global(1),
-                        // border_radius: BorderRadius::all(Val::Px(10.)),
-                        // background_color: Color::srgba(0.0, 0.0, 0.0, 0.8).into(),
-                        ..default()
-                    })
+                        ZIndex(1),
+                        BorderRadius::all(Val::Px(10.)),
+                        BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.8)),
+                    ))
                     .with_children(|overlay| {
                         overlay.spawn((
                             Text::new(recruit.state.get_description()),
@@ -89,25 +90,26 @@ pub fn recruit_card(
         .with_children(|button| {
             // Recruit portrait image (left-most side)
             button
-                .spawn(Node {
-                    width: Val::Px(80.0),
-                    height: Val::Px(80.0),
-                    margin: UiRect {
-                        top: Val::Px(0.),
-                        bottom: Val::Px(0.),
-                        left: Val::Px(5.),
-                        right: Val::Px(10.),
+                .spawn((
+                    Node {
+                        width: Val::Px(80.0),
+                        height: Val::Px(80.0),
+                        margin: UiRect {
+                            top: Val::Px(0.),
+                            bottom: Val::Px(0.),
+                            left: Val::Px(5.),
+                            right: Val::Px(10.),
+                        },
+                        overflow: Overflow {
+                            x: OverflowAxis::Hidden,
+                            y: OverflowAxis::Hidden,
+                        },
+                        align_items: AlignItems::FlexStart,
+                        justify_content: JustifyContent::Center,
+                        ..default()
                     },
-                    overflow: Overflow {
-                        x: OverflowAxis::Hidden,
-                        y: OverflowAxis::Hidden,
-                    },
-                    align_items: AlignItems::FlexStart,
-                    justify_content: JustifyContent::Center,
-                    // WIP - 0.15 migrating
-                    // background_color: BackgroundColor(Color::NONE),
-                    ..default()
-                })
+                    BackgroundColor(Color::NONE),
+                ))
                 .with_children(|frame| {
                     // Image that is 200x400, clipped by the parent container
                     frame.spawn((

@@ -19,27 +19,28 @@ pub fn mission_recap(
 
     // Mission Image and Description (A / B)
     parent
-        .spawn(Node {
-            flex_direction: FlexDirection::Column,
-            row_gap: Val::Px(20.0),
-            justify_content: JustifyContent::FlexStart,
-            width: Val::Percent(50.0),
-            overflow: Overflow {
-                x: OverflowAxis::Hidden,
-                y: OverflowAxis::Hidden,
+        .spawn((
+            Node {
+                flex_direction: FlexDirection::Column,
+                row_gap: Val::Px(20.0),
+                justify_content: JustifyContent::FlexStart,
+                width: Val::Percent(50.0),
+                overflow: Overflow {
+                    x: OverflowAxis::Hidden,
+                    y: OverflowAxis::Hidden,
+                },
+                border: UiRect::all(Val::Px(2.)),
+                padding: UiRect {
+                    top: Val::Px(10.),
+                    left: Val::Px(10.),
+                    right: Val::Px(10.),
+                    bottom: Val::Px(10.),
+                },
+                ..default()
             },
-            border: UiRect::all(Val::Px(2.)),
-            padding: UiRect {
-                top: Val::Px(10.),
-                left: Val::Px(10.),
-                right: Val::Px(10.),
-                bottom: Val::Px(10.),
-            },
-            // WIP - 0.15 migrating
-            // border_color: BorderColor(Color::BLACK),
-            // border_radius: BorderRadius::all(Val::Px(10.)),
-            ..default()
-        })
+            BorderColor(Color::BLACK),
+            BorderRadius::all(Val::Px(10.)),
+        ))
         .with_children(|parent| {
             // Mission image
             parent

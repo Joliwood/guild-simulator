@@ -26,27 +26,28 @@ pub fn recruit_recap(
 
     // Recruits (Image / Name / Stats / Node Container)
     parent
-        .spawn(Node {
-            width: Val::Percent(40.0),
-            flex_direction: FlexDirection::Column,
-            justify_content: JustifyContent::FlexStart,
-            row_gap: Val::Px(10.0),
-            overflow: Overflow {
-                x: OverflowAxis::Hidden,
-                y: OverflowAxis::Hidden,
+        .spawn((
+            Node {
+                width: Val::Percent(40.0),
+                flex_direction: FlexDirection::Column,
+                justify_content: JustifyContent::FlexStart,
+                row_gap: Val::Px(10.0),
+                overflow: Overflow {
+                    x: OverflowAxis::Hidden,
+                    y: OverflowAxis::Hidden,
+                },
+                border: UiRect::all(Val::Px(2.)),
+                padding: UiRect {
+                    top: Val::Px(10.),
+                    left: Val::Px(10.),
+                    right: Val::Px(10.),
+                    bottom: Val::Px(10.),
+                },
+                ..default()
             },
-            border: UiRect::all(Val::Px(2.)),
-            padding: UiRect {
-                top: Val::Px(10.),
-                left: Val::Px(10.),
-                right: Val::Px(10.),
-                bottom: Val::Px(10.),
-            },
-            // WIP - 0.15 migrating
-            // border_color: BorderColor(Color::BLACK),
-            // border_radius: BorderRadius::all(Val::Px(10.)),
-            ..default()
-        })
+            BorderColor(Color::BLACK),
+            BorderRadius::all(Val::Px(10.)),
+        ))
         .with_children(|parent| {
             if selected_recruit_for_mission.0.is_none() {
                 parent.spawn((

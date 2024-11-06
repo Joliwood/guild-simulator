@@ -23,7 +23,14 @@ pub fn room_command_room(
     let selected_map = maps.get_map_by_optional_id(selected_map_id.0);
 
     commands
-        .spawn(Node::default())
+        .spawn(Node {
+            width: Val::Vw(100.),
+            height: Val::Vh(100.),
+            display: Display::Flex,
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
+            ..default()
+        })
         .insert(Name::new("Command room"))
         .insert(ResetRoomTrigger)
         // Background Image for the Command Room
@@ -35,8 +42,8 @@ pub fn room_command_room(
                 },
                 Node {
                     position_type: PositionType::Absolute,
-                    justify_content: JustifyContent::Center,
-                    align_items: AlignItems::Center,
+                    // justify_content: JustifyContent::Center,
+                    // align_items: AlignItems::Center,
                     width: Val::Percent(100.0),
                     height: Val::Percent(100.0),
                     ..default()
