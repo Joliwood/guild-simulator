@@ -33,9 +33,7 @@ impl Maps {
 
     pub fn finish_mission_by_id(&mut self, mission_id: u16) {
         for map in self.0.iter_mut() {
-            info!("finish_mission_by_id {:?}", map.mission_ids_finished);
             map.finish_mission_by_id(mission_id);
-            info!("finish_mission_by_id {:?}", map.mission_ids_finished);
         }
     }
 }
@@ -76,7 +74,6 @@ pub struct Map {
 
 impl Map {
     pub fn finish_mission_by_id(&mut self, mission_id: u16) {
-        info!("finish_mission_by_id {:?}", self.mission_ids_finished);
         if !self.mission_ids_finished.contains(&mission_id) {
             self.mission_ids_finished.push(mission_id);
         }

@@ -28,7 +28,7 @@ pub fn mission_report_modal(
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // Despawn existing modals if visibility is set to false
-    if mission_reports_modal_visibility.is_changed() && !mission_reports_modal_visibility.0 {
+    if mission_reports_modal_visibility.is_changed() || !mission_reports_modal_visibility.0 {
         for entity in query.iter() {
             commands.entity(entity).despawn_recursive();
         }

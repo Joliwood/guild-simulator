@@ -3,12 +3,12 @@ use super::{
     daily_events_folder::discussions::{Answer, ImpactAction},
     equipments::ItemEnum,
     general_structs::load_weapon,
-    recruits::RecruitStats,
+    recruits::{RecruitInventory, RecruitStats},
 };
 use crate::{
     // content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
     content::equipments::weapons::WeaponsEnum,
-    enums::{RecruitStateEnum, RoomEnum},
+    enums::{RecruitEnum, RecruitStateEnum, RoomEnum},
 };
 use bevy::prelude::*;
 use uuid::Uuid;
@@ -37,8 +37,8 @@ pub struct PlayerStats {
 
 impl Default for PlayerStats {
     fn default() -> Self {
-        let mut inventory = vec![];
-        let first_weapon = load_weapon(WeaponsEnum::AxeOfFury);
+        let inventory = vec![];
+        // let first_weapon = load_weapon(WeaponsEnum::AxeOfFury);
         // let second_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
         // let second_same_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
         // let first_scroll = load_scroll(ScrollsEnum::ScrollOfEndurance);
@@ -47,7 +47,7 @@ impl Default for PlayerStats {
         // let second_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
         // let second_same_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
 
-        inventory.push(ItemEnum::Weapon(first_weapon));
+        // inventory.push(ItemEnum::Weapon(first_weapon));
         // inventory.push(ItemEnum::Weapon(second_weapon));
         // inventory.push(ItemEnum::Weapon(second_same_weapon));
         // inventory.push(ItemEnum::Scroll(first_scroll, 1));
@@ -64,7 +64,116 @@ impl Default for PlayerStats {
             inventory,
             max_experience: 100,
             max_inventory_size: 50,
-            recruits: vec![],
+            recruits: vec![
+                // RecruitStats {
+                //     class: RecruitEnum::Rogue,
+                //     endurance: 5,
+                //     experience: 0,
+                //     id: Uuid::new_v4(),
+                //     image_atlas_index: 3,
+                //     intelligence: 1,
+                //     level: 1,
+                //     max_experience: 100,
+                //     name: "Big noob".to_string(),
+                //     recruit_inventory: RecruitInventory {
+                //         armor: None,
+                //         weapon: None,
+                //         scrolls: vec![],
+                //     },
+                //     state: RecruitStateEnum::Available,
+                //     strength: 5,
+                // },
+                // RecruitStats {
+                //     class: RecruitEnum::Mage,
+                //     endurance: 8,
+                //     experience: 0,
+                //     id: Uuid::new_v4(),
+                //     image_atlas_index: 1,
+                //     intelligence: 0,
+                //     level: 1,
+                //     max_experience: 100,
+                //     name: "Hubert".to_string(),
+                //     recruit_inventory: RecruitInventory {
+                //         armor: None,
+                //         weapon: None,
+                //         scrolls: vec![],
+                //     },
+                //     state: RecruitStateEnum::Available,
+                //     strength: 12,
+                // },
+                // RecruitStats {
+                //     class: RecruitEnum::Warrior,
+                //     endurance: 10,
+                //     experience: 0,
+                //     id: Uuid::new_v4(),
+                //     image_atlas_index: 2,
+                //     intelligence: 0,
+                //     level: 1,
+                //     max_experience: 100,
+                //     name: "Gorak".to_string(),
+                //     recruit_inventory: RecruitInventory {
+                //         armor: None,
+                //         weapon: None,
+                //         scrolls: vec![],
+                //     },
+                //     state: RecruitStateEnum::Available,
+                //     strength: 15,
+                // },
+                // RecruitStats {
+                //     class: RecruitEnum::Rogue,
+                //     endurance: 5,
+                //     experience: 0,
+                //     id: Uuid::new_v4(),
+                //     image_atlas_index: 3,
+                //     intelligence: 1,
+                //     level: 1,
+                //     max_experience: 100,
+                //     name: "Big noob".to_string(),
+                //     recruit_inventory: RecruitInventory {
+                //         armor: None,
+                //         weapon: None,
+                //         scrolls: vec![],
+                //     },
+                //     state: RecruitStateEnum::Available,
+                //     strength: 5,
+                // },
+                // RecruitStats {
+                //     class: RecruitEnum::Mage,
+                //     endurance: 8,
+                //     experience: 0,
+                //     id: Uuid::new_v4(),
+                //     image_atlas_index: 1,
+                //     intelligence: 0,
+                //     level: 1,
+                //     max_experience: 100,
+                //     name: "Hubert".to_string(),
+                //     recruit_inventory: RecruitInventory {
+                //         armor: None,
+                //         weapon: None,
+                //         scrolls: vec![],
+                //     },
+                //     state: RecruitStateEnum::Available,
+                //     strength: 12,
+                // },
+                // RecruitStats {
+                //     class: RecruitEnum::Warrior,
+                //     endurance: 10,
+                //     experience: 0,
+                //     id: Uuid::new_v4(),
+                //     image_atlas_index: 2,
+                //     intelligence: 0,
+                //     level: 1,
+                //     max_experience: 100,
+                //     name: "Gorak".to_string(),
+                //     recruit_inventory: RecruitInventory {
+                //         armor: None,
+                //         weapon: None,
+                //         scrolls: vec![],
+                //     },
+                //     state: RecruitStateEnum::Available,
+                //     strength: 15,
+                // },
+            ],
             room: RoomEnum::Barrack,
             toxicity: 0,
             reputation: 10,
