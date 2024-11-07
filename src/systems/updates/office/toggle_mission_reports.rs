@@ -23,7 +23,7 @@ pub fn toggle_mission_reports(
     mut mission_modal_visibility: ResMut<MissionModalVisible>,
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
 
     for interaction in query.iter_mut() {
         match *interaction {

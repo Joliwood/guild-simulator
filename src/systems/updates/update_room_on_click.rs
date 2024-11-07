@@ -10,7 +10,10 @@ use crate::{
     },
     utils::reset_modals_visibility,
 };
-use bevy::{prelude::*, window::CursorOptions};
+use bevy::{
+    prelude::*,
+    //  window::CursorOptions
+};
 
 // System to update room based on button clicks
 pub fn update_room_on_click(
@@ -25,7 +28,7 @@ pub fn update_room_on_click(
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
     mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
 
     for (interaction, room_button, mut _background_color) in interaction_query.iter_mut() {
         match interaction {

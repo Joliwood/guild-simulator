@@ -68,7 +68,7 @@ pub fn loots_earned(
                         let item_image_atlas_index = loot.get_atlas_index();
                         let layout = loot.get_item_layout();
                         // let tooltip_text = loot.get_item_loot_tooltip_description();
-                        let item_atlas_path = get_item_atlas_path(&loot);
+                        let item_atlas_path = get_item_atlas_path(loot);
                         parent.spawn((
                             Button,
                             Node {

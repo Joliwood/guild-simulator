@@ -34,7 +34,7 @@ pub fn sign_mission_report(
     mut commands: Commands,
     mut maps: ResMut<Maps>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
 
     for (interaction, mut node, _button, mut color, mission_report) in interaction_query.iter_mut()
     {

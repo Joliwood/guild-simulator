@@ -19,12 +19,12 @@ pub fn close_mission_modal(
         ),
         Changed<Interaction>,
     >,
-    mut windows: Query<&mut Window>,
+    _windows: Query<&mut Window>,
     mut modal_visible: ResMut<MissionModalVisible>,
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
     mut selected_mission: ResMut<SelectedMission>,
 ) {
-    let mut window = windows.single_mut();
+    // let mut window = windows.single_mut();
 
     for (interaction, mut color, unique_id, mut border_color) in &mut interaction_query {
         if unique_id.0 == "close_mission_modal" {

@@ -8,8 +8,8 @@ use crate::{
         player_stats::PlayerStats,
         recruits::{SelectedRecruitForEquipment, SelectedRecruitForMission},
     },
-    systems::systems_constants::HOVERED_BUTTON,
-    ui::ui_constants::WOOD_COLOR,
+    // systems::systems_constants::HOVERED_BUTTON,
+    // ui::ui_constants::WOOD_COLOR,
 };
 
 #[allow(clippy::too_many_arguments)]
@@ -23,7 +23,7 @@ pub fn start_mission_button(
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
     mut modal_visible: ResMut<MissionModalVisible>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
 
     for (interaction, mut border_color, unique_id) in &mut interaction_query {
         // TODO - Start the mission with provided id of mission + recruit (not disponible)

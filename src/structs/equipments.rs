@@ -45,6 +45,7 @@ impl ItemEnum {
         }
     }
 
+    #[allow(dead_code)]
     pub fn get_item_loot_tooltip_description(&self) -> String {
         match self {
             ItemEnum::Weapon(weapon) => format!(

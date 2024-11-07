@@ -18,7 +18,7 @@ pub fn select_recruit_for_equipment_button(
     mut windows: Query<&mut Window>,
     mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
 
     for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
         let recruit_state = recruit.clone().state;

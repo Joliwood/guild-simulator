@@ -203,6 +203,7 @@ pub fn get_item_layout(item: &ItemEnum) -> TextureAtlasLayout {
     };
 }
 
+#[allow(dead_code)]
 /// Get the tooltip description of an item
 ///
 /// For now, only supports texts
@@ -278,6 +279,7 @@ pub fn calculate_price_range(price: u16) -> (u16, u16) {
     (lower_range, upper_range)
 }
 
+#[allow(dead_code)]
 pub fn get_mission_notification_tooltip_text(completed_mission_number: u8) -> String {
     let mission_word = if completed_mission_number > 1 {
         "missions"

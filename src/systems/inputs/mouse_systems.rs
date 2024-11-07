@@ -2,7 +2,7 @@ use bevy::{
     ecs::system::Res,
     input::{mouse::MouseButton, ButtonInput},
     prelude::*,
-    window::CursorGrabMode,
+    // window::CursorGrabMode,
     // window::CursorGrabMode,
 };
 
@@ -11,7 +11,7 @@ pub fn mouse_click_system(
     mouse_button_input: Res<ButtonInput<MouseButton>>,
     mut windows: Query<&mut Window>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
 
     if mouse_button_input.pressed(MouseButton::Left) {
         // window.cursor.icon = CursorIcon::Grabbing;

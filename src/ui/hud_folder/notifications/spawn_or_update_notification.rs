@@ -5,7 +5,7 @@ use crate::{
         missions::MissionReports,
         trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
     },
-    utils::get_mission_notification_tooltip_text,
+    // utils::get_mission_notification_tooltip_text,
 };
 use bevy::prelude::*;
 // use pyri_tooltip::{Tooltip, TooltipActivation};

@@ -2,13 +2,20 @@
 use super::{
     daily_events_folder::discussions::{Answer, ImpactAction},
     equipments::ItemEnum,
-    general_structs::load_weapon,
-    recruits::{RecruitInventory, RecruitStats},
+    // general_structs::load_weapon,
+    recruits::{
+        // RecruitInventory,
+        RecruitStats,
+    },
 };
 use crate::{
     // content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
-    content::equipments::weapons::WeaponsEnum,
-    enums::{RecruitEnum, RecruitStateEnum, RoomEnum},
+    // content::equipments::weapons::WeaponsEnum,
+    enums::{
+        // RecruitEnum,
+        RecruitStateEnum,
+        RoomEnum,
+    },
 };
 use bevy::prelude::*;
 use uuid::Uuid;

@@ -8,6 +8,7 @@ mod audio;
 mod content;
 mod custom_components;
 mod enums;
+mod locales;
 mod my_assets;
 mod structs;
 mod systems;
@@ -18,11 +19,14 @@ use bevy::{
     input::mouse::{MouseScrollUnit, MouseWheel},
     picking::focus::HoverMap,
     prelude::*,
+    window::WindowTheme,
 };
+// use my_assets::Locales;
 // use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use my_assets::{MyAssets, MyAssetsLoader};
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 // use pyri_tooltip::prelude::*;
+// use bevy_fluent::prelude::*;
 use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
     general_structs::{
@@ -34,6 +38,9 @@ use structs::{
     player_stats::PlayerStats,
     recruits::{SelectedRecruitForEquipment, SelectedRecruitForMission},
 };
+
+// use crate::locales::{en, fr};
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, SystemSet)]
 pub struct MySystems;
 
@@ -50,11 +57,15 @@ fn main() -> AppExit {
             // })
             .set(WindowPlugin {
                 primary_window: Some(Window {
+                    title: "Guild simulator".into(),
+                    resizable: true,
+                    window_theme: Some(WindowTheme::Dark),
                     canvas: Some("#mygame-canvas".into()),
                     ..default()
                 }),
                 ..default()
             }),
+            // Plugin::build(FluentPlugin),
             // Desactivate on testing
             // WorldInspectorPlugin::new(),
             // TooltipPlugin::default(),
@@ -75,6 +86,8 @@ fn main() -> AppExit {
         .insert_resource(Maps::default())
         .insert_resource(DailyEvents::default())
         .insert_resource(DailyEventTargets::default())
+        // .insert_resource(Locale::new(fr::FR).with_default(en::US))
+        // .insert_resource(Locales(vec![fr::FR, en::US]))
         .add_systems(
             Startup,
             (

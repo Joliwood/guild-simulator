@@ -17,12 +17,12 @@ pub fn assign_recruit_to_mission(
         (&Interaction, &mut BackgroundColor, &UniqueId, &RecruitStats),
         Changed<Interaction>,
     >,
-    mut windows: Query<&mut Window>,
+    _windows: Query<&mut Window>,
     player_stats: Res<PlayerStats>,
     mut selected_mission: ResMut<SelectedMission>,
     mut missions: ResMut<Missions>,
 ) {
-    let mut window = windows.single_mut();
+    // let mut window = windows.single_mut();
 
     for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
         if unique_id.0 == "assign_recruit_to_mission"

@@ -1,10 +1,10 @@
 use super::recruit_card::recruit_card;
 use crate::structs::player_stats::PlayerStats;
 use bevy::{
-    a11y::{
-        accesskit::{Node as Accessible, NodeBuilder, Role},
-        AccessibilityNode,
-    },
+    // a11y::{
+    //     accesskit::{Node as Accessible, NodeBuilder, Role},
+    //     AccessibilityNode,
+    // },
     prelude::*,
 };
 
@@ -44,7 +44,7 @@ pub fn spawn_left_container(
                 // overflow: Overflow::scroll_y(),
                 ..default()
             },
-            AccessibilityNode(NodeBuilder::new(Role::List)),
+            // AccessibilityNode(NodeBuilder::new(Role::List)),
         ))
         .insert(Name::new("Barrack > Recruits list"))
         .with_children(|left_container| {

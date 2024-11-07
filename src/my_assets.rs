@@ -7,6 +7,11 @@
 // use bevy_asset_loader::asset_collection::AssetCollection;
 // use serde::Deserialize;
 
+// use std::ops::Deref;
+
+// use bevy::prelude::Resource;
+// use unic_langid::LanguageIdentifier;
+
 use crate::{
     // enums::{MapImageEnum, SoundEnum},
     structs::{equipments::ItemEnum, missions::ItemLootEnum},
@@ -249,3 +254,22 @@ pub fn get_mission_image(mission_id: u16) -> String {
         _ => "images/missions/c1_mission_1.png".into(),
     };
 }
+
+// #[derive(Resource)]
+// pub struct Locales(pub Vec<LanguageIdentifier>);
+
+// impl Locales {
+//     pub fn index(&self, locale: &LanguageIdentifier) -> usize {
+//         self.iter()
+//             .position(|item| item == locale)
+//             .expect("index not found")
+//     }
+// }
+
+// impl Deref for Locales {
+//     type Target = Vec<LanguageIdentifier>;
+
+//     fn deref(&self) -> &Self::Target {
+//         &self.0
+//     }
+// }

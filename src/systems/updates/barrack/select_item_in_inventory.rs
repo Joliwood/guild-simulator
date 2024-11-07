@@ -9,7 +9,10 @@ use crate::{
     ui::ui_constants::WOOD_COLOR,
     utils::equip_recruit_inventory,
 };
-use bevy::{prelude::*, window::CursorGrabMode};
+use bevy::{
+    prelude::*,
+    // window::CursorGrabMode
+};
 
 pub fn select_item_in_inventory(
     mut commands: Commands,
@@ -25,7 +28,7 @@ pub fn select_item_in_inventory(
         // Changed<Interaction>,
         (Changed<Interaction>, With<Button>),
     >,
-    mut window: Single<&mut Window>,
+    _window: Single<&mut Window>,
     mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
     mut player_stats: ResMut<PlayerStats>,
 ) {

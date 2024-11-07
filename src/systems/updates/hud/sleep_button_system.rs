@@ -29,7 +29,7 @@ pub fn sleep_button_system(
     mut daily_events: ResMut<DailyEvents>,
     mut daily_event_targets: ResMut<DailyEventTargets>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
 
     for (interaction, _button, mut border_color) in interaction_query.iter_mut() {
         if !mission_reports.0.is_empty() || !daily_events.0.is_empty() {

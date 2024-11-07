@@ -102,10 +102,6 @@ pub fn hud(
                                     layout: hud_icons_texture_atlas_layout.clone(),
                                 },
                             ),
-                            // TextureAtlas {
-                            //     index: 1,
-                            //     layout: hud_icons_texture_atlas_layout.clone(),
-                            // },
                             // Tooltip::cursor("Go to the office room\n\nShortcut: press 'W/Z'"),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::Office));

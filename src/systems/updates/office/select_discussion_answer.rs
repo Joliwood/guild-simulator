@@ -25,7 +25,7 @@ pub fn select_discussion_answer(
     mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
     mut player_stats: ResMut<PlayerStats>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
     for (interaction, mut background_color, answer, discussion, spontaneous_application) in
         query.iter_mut()
     {

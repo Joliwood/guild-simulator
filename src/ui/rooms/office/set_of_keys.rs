@@ -8,8 +8,8 @@ use bevy::prelude::*;
 pub fn set_of_keys(
     my_assets: &Res<AssetServer>,
     elements_on_desk: &mut ChildBuilder,
-    mission_reports: &Res<MissionReports>,
-    daily_events: &Res<DailyEvents>,
+    _mission_reports: &Res<MissionReports>,
+    _daily_events: &Res<DailyEvents>,
 ) {
     // let tooltip_text =  "You have to read and sign all documents\non your desk before going to sleep.\n\nNo pain no gains !\nAs the kids say";
 

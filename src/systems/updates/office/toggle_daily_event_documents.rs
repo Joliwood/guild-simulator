@@ -23,7 +23,7 @@ pub fn toggle_daily_event_documents(
     mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
 
     for interaction in query.iter_mut() {
         match *interaction {

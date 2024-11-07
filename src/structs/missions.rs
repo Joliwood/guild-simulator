@@ -324,6 +324,7 @@ impl ItemLoot {
         };
     }
 
+    #[allow(dead_code)]
     pub fn get_item_loot_tooltip_description(&self) -> String {
         return match self {
             ItemLoot {
