@@ -11,11 +11,11 @@ pub struct GoldCountTrigger;
 #[derive(Component)]
 pub struct ResetRoomTrigger;
 
-#[derive(Component)]
-pub struct SelectedMissionRecruitIdTrigger;
+// #[derive(Component)]
+// pub struct SelectedMissionRecruitIdTrigger;
 
-#[derive(Component)]
-pub struct SelectedMissionPercentOfVictoryTrigger;
+// #[derive(Component)]
+// pub struct SelectedMissionPercentOfVictoryTrigger;
 
 #[derive(Component)]
 pub struct MissionModalContentTrigger;
@@ -64,3 +64,6 @@ pub struct ToxicityCountTrigger;
 
 #[derive(Component)]
 pub struct RoomButtonTrigger(pub RoomEnum);
+
+#[derive(Component)]
+pub struct SelectMapTrigger;

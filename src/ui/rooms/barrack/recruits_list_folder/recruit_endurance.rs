@@ -1,47 +1,35 @@
+use crate::{enums::ColorPaletteEnum, my_assets::FONT_FIRA};
 use bevy::prelude::*;
-
-use crate::{enums::ColorPaletteEnum, my_assets::MyAssets};
 
 pub fn recruit_endurance(
     stats_container: &mut ChildBuilder,
     recruit_endurance: u32,
     additional_endurance: u32,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
 ) {
-    let base_font: Handle<Font> = my_assets.fira_sans_bold.clone();
+    stats_container
+        .spawn(Node::default())
+        .with_children(|node| {
+            node.spawn((
+                Text::new(format!("END: {}", recruit_endurance)),
+                TextColor(ColorPaletteEnum::DarkBrown.as_color()),
+                TextFont {
+                    font: my_assets.load(FONT_FIRA),
+                    font_size: 12.0,
+                    ..default()
+                },
+            ));
 
-    let base_endurance_text = TextSection {
-        value: format!("END: {}", recruit_endurance),
-        style: TextStyle {
-            font: base_font.clone(),
-            font_size: 14.0,
-            color: ColorPaletteEnum::DarkBrown.as_color(),
-        },
-    };
-
-    let additional_endurance_text = if additional_endurance > 0 {
-        TextSection {
-            value: format!(" (+{})", additional_endurance),
-            style: TextStyle {
-                font: base_font.clone(),
-                font_size: 14.0,
-                color: Color::srgb(0.0, 107.0 / 255.0, 29.0 / 255.0),
-            },
-        }
-    } else {
-        // Empty section if additional endurance is zero or less
-        TextSection {
-            value: String::new(),
-            style: TextStyle {
-                font: base_font,
-                font_size: 14.0,
-                color: Color::NONE,
-            },
-        }
-    };
-
-    stats_container.spawn(TextBundle {
-        text: Text::from_sections([base_endurance_text, additional_endurance_text]),
-        ..default()
-    });
+            if additional_endurance > 0 {
+                node.spawn((
+                    Text::new(format!(" (+{})", additional_endurance)),
+                    TextColor(Color::srgb(0.0, 107.0 / 255.0, 29.0 / 255.0)),
+                    TextFont {
+                        font: my_assets.load(FONT_FIRA),
+                        font_size: 12.0,
+                        ..default()
+                    },
+                ));
+            }
+        });
 }

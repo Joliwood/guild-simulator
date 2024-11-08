@@ -18,7 +18,7 @@ pub fn select_recruit_for_equipment_button(
     mut windows: Query<&mut Window>,
     mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
 
     for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
         let recruit_state = recruit.clone().state;
@@ -31,11 +31,11 @@ pub fn select_recruit_for_equipment_button(
                     selected_recruit_for_equipment.0 = Some(recruit.clone());
                 }
                 Interaction::Hovered => {
-                    window.cursor.icon = CursorIcon::Pointer;
+                    // window.cursor.icon = CursorIcon::Pointer;
                     *color = HOVERED_BUTTON.into();
                 }
                 Interaction::None => {
-                    window.cursor.icon = CursorIcon::Default;
+                    // window.cursor.icon = CursorIcon::Default;
                     *color = BackgroundColor(WOOD_COLOR);
                 }
             }

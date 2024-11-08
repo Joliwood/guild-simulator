@@ -1,7 +1,7 @@
 use crate::ui::interface::gold_counter::MyAssets;
 use bevy::prelude::*;
 
-pub fn talents_on_desk(my_assets: &Res<MyAssets>, elements_on_desk: &mut ChildBuilder) {
+pub fn talents_on_desk(my_assets: &Res<AssetServer>, elements_on_desk: &mut ChildBuilder) {
     elements_on_desk.spawn(ImageBundle {
         image: my_assets.talents_on_desk.clone().into(),
         style: Style {

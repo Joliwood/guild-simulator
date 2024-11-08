@@ -22,7 +22,7 @@ pub fn select_recruit_for_mission_button(
     player_stats: Res<PlayerStats>,
     mut missions: ResMut<Missions>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
 
     for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
         let recruit_state = recruit.clone().state;
@@ -55,11 +55,11 @@ pub fn select_recruit_for_mission_button(
                     );
                 }
                 Interaction::Hovered => {
-                    window.cursor.icon = CursorIcon::Pointer;
+                    // window.cursor.icon = CursorIcon::Pointer;
                     *color = BorderColor(Color::WHITE);
                 }
                 Interaction::None => {
-                    window.cursor.icon = CursorIcon::Default;
+                    // window.cursor.icon = CursorIcon::Default;
                     *color = HOVERED_BUTTON.into();
                 }
             }

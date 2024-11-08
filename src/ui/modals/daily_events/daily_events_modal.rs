@@ -3,7 +3,6 @@ use crate::{
     content::daily_events::{
         discussions::get_daily_discussion, spontaneous_applications::get_spontaneous_application,
     },
-    my_assets::MyAssets,
     structs::{
         daily_events_folder::daily_events::{DailyEvent, DailyEventTypeEnum, DailyEvents},
         general_structs::DailyEventsModalVisible,
@@ -18,7 +17,7 @@ use bevy::prelude::*;
 // Show daily events documents on desk
 pub fn daily_events_modal(
     mut commands: Commands,
-    my_assets: Res<MyAssets>,
+    my_assets: Res<AssetServer>,
     query: Query<Entity, With<SelectAnswerTrigger>>,
     daily_events_modal_visibility: Res<DailyEventsModalVisible>,
     daily_events: Res<DailyEvents>,

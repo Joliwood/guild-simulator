@@ -8,16 +8,13 @@ use crate::{
         player_stats::PlayerStats,
         recruits::{SelectedRecruitForEquipment, SelectedRecruitForMission},
     },
-    systems::systems_constants::HOVERED_BUTTON,
-    ui::ui_constants::WOOD_COLOR,
+    // systems::systems_constants::HOVERED_BUTTON,
+    // ui::ui_constants::WOOD_COLOR,
 };
 
 #[allow(clippy::too_many_arguments)]
 pub fn start_mission_button(
-    mut interaction_query: Query<
-        (&Interaction, &mut BackgroundColor, &UniqueId),
-        Changed<Interaction>,
-    >,
+    mut interaction_query: Query<(&Interaction, &mut BorderColor, &UniqueId), Changed<Interaction>>,
     mut missions: ResMut<Missions>,
     mut player_stats: ResMut<PlayerStats>,
     mut windows: Query<&mut Window>,
@@ -26,9 +23,9 @@ pub fn start_mission_button(
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
     mut modal_visible: ResMut<MissionModalVisible>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
 
-    for (interaction, mut color, unique_id) in &mut interaction_query {
+    for (interaction, mut border_color, unique_id) in &mut interaction_query {
         // TODO - Start the mission with provided id of mission + recruit (not disponible)
         if selected_mission.recruit_id.is_some() && unique_id.0 == "start_mission" {
             match *interaction {
@@ -82,12 +79,12 @@ pub fn start_mission_button(
                     selected_recruit_for_mission.0 = None;
                 }
                 Interaction::Hovered => {
-                    window.cursor.icon = CursorIcon::Pointer;
-                    *color = HOVERED_BUTTON.into();
+                    // window.cursor.icon = CursorIcon::Pointer;
+                    *border_color = BorderColor(Color::WHITE);
                 }
                 Interaction::None => {
-                    window.cursor.icon = CursorIcon::Default;
-                    *color = BackgroundColor(WOOD_COLOR);
+                    // window.cursor.icon = CursorIcon::Default;
+                    *border_color = BorderColor(Color::BLACK);
                 }
             }
         }

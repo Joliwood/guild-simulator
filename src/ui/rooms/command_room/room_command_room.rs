@@ -2,21 +2,17 @@ use super::{
     map_description::map_description, map_list::map_list, map_on_table::map_on_table,
     map_recruit_list::map_recruit_list,
 };
-use crate::{
-    my_assets::MyAssets,
-    structs::{
-        maps::{Maps, SelectedMapId},
-        missions::Missions,
-        player_stats::PlayerStats,
-        trigger_structs::ResetRoomTrigger,
-    },
-    ui::styles::containers_styles::node_container_style,
+use crate::structs::{
+    maps::{Maps, SelectedMapId},
+    missions::Missions,
+    player_stats::PlayerStats,
+    trigger_structs::ResetRoomTrigger,
 };
 use bevy::prelude::*;
 
 #[allow(clippy::too_many_arguments)]
 pub fn room_command_room(
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     commands: &mut Commands,
     missions: Res<Missions>,
     selected_map_id: Res<SelectedMapId>,
@@ -27,34 +23,43 @@ pub fn room_command_room(
     let selected_map = maps.get_map_by_optional_id(selected_map_id.0);
 
     commands
-        .spawn(NodeBundle {
-            style: node_container_style(),
+        .spawn(Node {
+            width: Val::Vw(100.),
+            height: Val::Vh(100.),
+            display: Display::Flex,
+            justify_content: JustifyContent::Center,
+            align_items: AlignItems::Center,
             ..default()
         })
         .insert(Name::new("Command room"))
         .insert(ResetRoomTrigger)
         // Background Image for the Command Room
         .with_children(|ui_container: &mut ChildBuilder| {
-            ui_container.spawn(ImageBundle {
-                image: my_assets.command_room_background.clone().into(),
-                style: Style {
+            ui_container.spawn((
+                UiImage {
+                    image: my_assets.load("images/rooms/command_room/command_room_background.png"),
+                    ..default()
+                },
+                Node {
                     position_type: PositionType::Absolute,
-                    justify_content: JustifyContent::Center,
-                    align_items: AlignItems::Center,
+                    // justify_content: JustifyContent::Center,
+                    // align_items: AlignItems::Center,
                     width: Val::Percent(100.0),
                     height: Val::Percent(100.0),
                     ..default()
                 },
-                z_index: ZIndex::Global(-1),
-                ..default()
-            });
+                GlobalZIndex(-1),
+            ));
         })
         // Command Table with all child elements inside it
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
-                .spawn(ImageBundle {
-                    image: my_assets.command_table.clone().into(),
-                    style: Style {
+                .spawn((
+                    UiImage {
+                        image: my_assets.load("images/rooms/command_room/command_table.png"),
+                        ..default()
+                    },
+                    Node {
                         flex_direction: FlexDirection::Row,
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
@@ -64,26 +69,22 @@ pub fn room_command_room(
                         padding: UiRect::all(Val::Px(80.)),
                         ..default()
                     },
-                    z_index: ZIndex::Global(0),
-                    ..default()
-                })
+                    GlobalZIndex(0),
+                ))
                 .with_children(|table| {
                     // Left Column
                     table
-                        .spawn(NodeBundle {
-                            style: Style {
-                                position_type: PositionType::Relative,
-                                display: Display::Flex,
-                                flex_direction: FlexDirection::Column,
-                                justify_content: JustifyContent::SpaceBetween,
-                                align_items: AlignItems::FlexStart,
-                                width: Val::Percent(20.),
-                                height: Val::Percent(100.),
-                                overflow: Overflow {
-                                    x: OverflowAxis::Hidden,
-                                    y: OverflowAxis::Hidden,
-                                },
-                                ..default()
+                        .spawn(Node {
+                            position_type: PositionType::Relative,
+                            display: Display::Flex,
+                            flex_direction: FlexDirection::Column,
+                            justify_content: JustifyContent::SpaceBetween,
+                            align_items: AlignItems::FlexStart,
+                            width: Val::Percent(20.),
+                            height: Val::Percent(100.),
+                            overflow: Overflow {
+                                x: OverflowAxis::Hidden,
+                                y: OverflowAxis::Hidden,
                             },
                             ..default()
                         })
@@ -94,14 +95,11 @@ pub fn room_command_room(
 
                     // Center Area (Big node)
                     table
-                        .spawn(NodeBundle {
-                            style: Style {
-                                width: Val::Percent(60.0),
-                                height: Val::Percent(100.0),
-                                justify_content: JustifyContent::Center,
-                                align_items: AlignItems::Center,
-                                ..default()
-                            },
+                        .spawn(Node {
+                            width: Val::Percent(60.0),
+                            height: Val::Percent(100.0),
+                            justify_content: JustifyContent::Center,
+                            align_items: AlignItems::Center,
                             ..default()
                         })
                         .with_children(|center| {
@@ -111,15 +109,12 @@ pub fn room_command_room(
 
                     // Right Column
                     table
-                        .spawn(NodeBundle {
-                            style: Style {
-                                flex_direction: FlexDirection::Column,
-                                justify_content: JustifyContent::SpaceBetween,
-                                align_items: AlignItems::FlexEnd,
-                                width: Val::Percent(20.0),
-                                height: Val::Percent(100.0),
-                                ..default()
-                            },
+                        .spawn(Node {
+                            flex_direction: FlexDirection::Column,
+                            justify_content: JustifyContent::SpaceBetween,
+                            align_items: AlignItems::FlexEnd,
+                            width: Val::Percent(20.0),
+                            height: Val::Percent(100.0),
                             ..default()
                         })
                         .with_children(|right_column| {

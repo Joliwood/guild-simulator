@@ -1,10 +1,10 @@
-use crate::my_assets::MyAssets;
+use crate::my_assets::FONT_FIRA;
 use crate::structs::daily_events_folder::daily_events::DailyEvents;
 use crate::structs::trigger_structs::DailyEventTrigger;
 use bevy::prelude::*;
 
 pub fn daily_event_documents(
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     elements_on_desk: &mut ChildBuilder,
     daily_events: &Res<DailyEvents>,
 ) {
@@ -12,22 +12,26 @@ pub fn daily_event_documents(
 
     if daily_events_number > 0 {
         elements_on_desk
-            .spawn(ButtonBundle {
-                style: Style {
+            .spawn((
+                Button,
+                Node {
                     position_type: PositionType::Absolute,
                     right: Val::Px(50.),
                     top: Val::Px(250.),
                     ..default()
                 },
-                ..default()
-            })
+            ))
             // .insert(MissionReportButtonTrigger)
             .insert(DailyEventTrigger)
             .with_children(|mission_report_button| {
                 mission_report_button
-                    .spawn(ImageBundle {
-                        image: my_assets.daily_event_documents_on_desk.clone().into(),
-                        style: Style {
+                    .spawn((
+                        UiImage {
+                            image: my_assets
+                                .load("images/rooms/office/daily_event_documents_on_desk.png"),
+                            ..default()
+                        },
+                        Node {
                             display: Display::Flex,
                             align_items: AlignItems::Center,
                             justify_content: JustifyContent::Center,
@@ -35,16 +39,19 @@ pub fn daily_event_documents(
                             height: Val::Px(133. + 66.5),
                             ..default()
                         },
-                        ..default()
-                    })
+                    ))
                     // .insert(MissionReport)
                     .insert(Interaction::default())
                     .with_children(|parent| {
                         // if mission_reports_number > 0 {
                         parent
-                            .spawn(ImageBundle {
-                                image: my_assets.notification_token_in_wood.clone().into(),
-                                style: Style {
+                            .spawn((
+                                UiImage {
+                                    image: my_assets
+                                        .load("images/rooms/office/notification_token_in_wood.png"),
+                                    ..default()
+                                },
+                                Node {
                                     display: Display::Flex,
                                     align_items: AlignItems::Center,
                                     justify_content: JustifyContent::Center,
@@ -54,16 +61,16 @@ pub fn daily_event_documents(
                                     top: Val::Px(5.),
                                     ..default()
                                 },
-                                ..default()
-                            })
+                            ))
                             .with_children(|overlay| {
-                                overlay.spawn(TextBundle::from_section(
-                                    format!("{}", daily_events_number),
-                                    TextStyle {
-                                        font: my_assets.fira_sans_bold.clone(),
+                                overlay.spawn((
+                                    Text::new(format!("{}", daily_events_number)),
+                                    TextFont {
+                                        font: my_assets.load(FONT_FIRA),
                                         font_size: 25.0,
-                                        color: Color::BLACK,
+                                        ..default()
                                     },
+                                    TextColor(Color::BLACK),
                                 ));
                             });
                     });

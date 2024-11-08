@@ -5,7 +5,7 @@ use super::{
 };
 use crate::{
     enums::ColorPaletteEnum,
-    my_assets::MyAssets,
+    my_assets::FONT_FIRA,
     structs::{
         general_structs::MissionReportsModalVisible,
         missions::{MissionReports, Missions},
@@ -19,7 +19,7 @@ use bevy::prelude::*;
 // Function to spawn the mission report modal
 pub fn mission_report_modal(
     mut commands: Commands,
-    my_assets: Res<MyAssets>,
+    my_assets: Res<AssetServer>,
     query: Query<Entity, With<MissionReportModalContentTrigger>>,
     mission_reports_modal_visibility: Res<MissionReportsModalVisible>,
     mission_reports: Res<MissionReports>,
@@ -28,7 +28,7 @@ pub fn mission_report_modal(
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // Despawn existing modals if visibility is set to false
-    if mission_reports_modal_visibility.is_changed() && !mission_reports_modal_visibility.0 {
+    if mission_reports_modal_visibility.is_changed() || !mission_reports_modal_visibility.0 {
         for entity in query.iter() {
             commands.entity(entity).despawn_recursive();
         }
@@ -74,9 +74,12 @@ pub fn mission_report_modal(
 
         // Spawn the mission report modal container
         commands
-            .spawn(ImageBundle {
-                image: my_assets.inventory_container.clone().into(),
-                style: Style {
+            .spawn((
+                UiImage {
+                    image: my_assets.load("images/rooms/barrack/inventory_container.png"),
+                    ..default()
+                },
+                Node {
                     width: Val::Px(300.),
                     height: Val::Px(450.),
                     display: Display::Flex,
@@ -89,52 +92,44 @@ pub fn mission_report_modal(
                     top: Val::Px(155.),
                     ..default()
                 },
-                z_index: ZIndex::Global(-1),
-                ..default()
-            })
+                GlobalZIndex(0),
+            ))
             .insert(MissionReportModalContentTrigger)
             .with_children(|parent| {
                 // Title: "Report of the mission : name_mission"
-                parent.spawn(TextBundle {
-                    text: Text::from_section(
-                        format!("Report of the mission: {}", mission.name),
-                        TextStyle {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 20.0,
-                            color: Color::BLACK,
-                        },
-                    ),
-                    ..default()
-                });
+                parent.spawn((
+                    Text::new(format!("Report of the mission: {}", mission.name)),
+                    TextFont {
+                        font: my_assets.load(FONT_FIRA),
+                        font_size: 18.0,
+                        ..default()
+                    },
+                    TextColor(Color::BLACK),
+                ));
 
                 // Mission Success or Failure Message
-                parent.spawn(TextBundle {
-                    text: Text::from_section(
-                        success_message,
-                        TextStyle {
-                            font: my_assets.fira_sans_bold.clone(),
-                            font_size: 18.0,
-                            color: if last_mission_report.success {
-                                Color::srgb(0.0, 0.5, 0.0)
-                            } else {
-                                Color::srgb(0.5, 0.0, 0.0)
-                            },
-                        },
-                    ),
-                    ..default()
-                });
+                parent.spawn((
+                    Text::new(success_message),
+                    TextFont {
+                        font: my_assets.load(FONT_FIRA),
+                        font_size: 16.0,
+                        ..default()
+                    },
+                    TextColor(if last_mission_report.success {
+                        Color::srgb(0.0, 0.5, 0.0)
+                    } else {
+                        Color::srgb(0.5, 0.0, 0.0)
+                    }),
+                ));
 
                 // Recruit Send / Versus / Enemy Block
                 parent
-                    .spawn(NodeBundle {
-                        style: Style {
-                            display: Display::Flex,
-                            flex_direction: FlexDirection::Row,
-                            align_items: AlignItems::Center,
-                            justify_content: JustifyContent::SpaceBetween,
-                            width: Val::Percent(100.0),
-                            ..default()
-                        },
+                    .spawn(Node {
+                        display: Display::Flex,
+                        flex_direction: FlexDirection::Row,
+                        align_items: AlignItems::Center,
+                        justify_content: JustifyContent::SpaceBetween,
+                        width: Val::Percent(100.0),
                         ..default()
                     })
                     .with_children(|row| {
@@ -146,17 +141,15 @@ pub fn mission_report_modal(
                         );
 
                         // Text "Versus"
-                        row.spawn(TextBundle {
-                            text: Text::from_section(
-                                "-- VS --",
-                                TextStyle {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 16.0,
-                                    color: Color::BLACK,
-                                },
-                            ),
-                            ..default()
-                        });
+                        row.spawn((
+                            Text::new("-- VS --"),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(Color::BLACK),
+                        ));
 
                         mission_ennemy_picture(
                             row,
@@ -168,32 +161,27 @@ pub fn mission_report_modal(
 
                 // Recruit Send Stats / Percent of Victory / Enemy Stats
                 parent
-                    .spawn(NodeBundle {
-                        style: Style {
-                            display: Display::Flex,
-                            flex_direction: FlexDirection::Row,
-                            align_items: AlignItems::Center,
-                            justify_content: JustifyContent::SpaceBetween,
-                            width: Val::Percent(100.0),
-                            ..default()
-                        },
+                    .spawn(Node {
+                        display: Display::Flex,
+                        flex_direction: FlexDirection::Row,
+                        align_items: AlignItems::Center,
+                        justify_content: JustifyContent::SpaceBetween,
+                        width: Val::Percent(100.0),
                         ..default()
                     })
                     .with_children(|row| {
                         recruit_sent_stats_fn(row, &recruit_sent_stats, &my_assets);
 
                         // Percent of Victory
-                        row.spawn(TextBundle {
-                            text: Text::from_section(
-                                format!("-- {}% --", percent_of_victory),
-                                TextStyle {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 16.0,
-                                    color: Color::BLACK,
-                                },
-                            ),
-                            ..default()
-                        });
+                        row.spawn((
+                            Text::new(format!("-- {}% --", percent_of_victory)),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(Color::BLACK),
+                        ));
 
                         mission_ennemy_stats(row, &ennemy, &my_assets);
                     });
@@ -210,9 +198,9 @@ pub fn mission_report_modal(
                 // parent.spawn(TextBundle {
                 //     text: Text::from_section(
                 //         "Loots",
-                //         TextStyle {
-                //             font: my_assets.fira_sans_bold.clone(),
-                //             font_size: 18.0,
+                //         TextFont {
+                //             font: my_assets.load(FONT_FIRA),
+                //             font_size: 16.0,
                 //             color: Color::BLACK,
                 //         },
                 //     ),
@@ -223,9 +211,9 @@ pub fn mission_report_modal(
                 // parent.spawn(TextBundle {
                 //     text: Text::from_section(
                 //         format!("{} golds + {} xp", golds_gained, experience_gained),
-                //         TextStyle {
-                //             font: my_assets.fira_sans_bold.clone(),
-                //             font_size: 16.0,
+                //         TextFont {
+                //             font: my_assets.load(FONT_FIRA),
+                //             font_size: 14.0,
                 //             color: Color::BLACK,
                 //         },
                 //     ),
@@ -234,8 +222,9 @@ pub fn mission_report_modal(
 
                 // After the existing children have been added
                 parent
-                    .spawn(ButtonBundle {
-                        style: Style {
+                    .spawn((
+                        Button,
+                        Node {
                             position_type: PositionType::Absolute,
                             bottom: Val::Px(10.0),
                             right: Val::Px(10.0),
@@ -245,23 +234,20 @@ pub fn mission_report_modal(
                             align_items: AlignItems::Center,
                             ..default()
                         },
-                        border_color: BorderColor(Color::BLACK),
-                        border_radius: BorderRadius::all(Val::Px(10.0)),
-                        background_color: BackgroundColor(ColorPaletteEnum::DarkBrown.as_color()),
-                        ..default()
-                    })
+                        BorderColor(Color::BLACK),
+                        BorderRadius::all(Val::Px(10.0)),
+                        BackgroundColor(ColorPaletteEnum::DarkBrown.as_color()),
+                    ))
                     .with_children(|button| {
-                        button.spawn(TextBundle {
-                            text: Text::from_section(
-                                "Sign the report",
-                                TextStyle {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 14.0,
-                                    color: Color::WHITE,
-                                },
-                            ),
-                            ..default()
-                        });
+                        button.spawn((
+                            Text::new("Sign the report"),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 12.0,
+                                ..default()
+                            },
+                            TextColor(Color::WHITE),
+                        ));
                     })
                     .insert(last_mission_report.clone())
                     .insert(MissionReportModalSignButtonTrigger);

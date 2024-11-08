@@ -1,18 +1,21 @@
 use super::spawn_inventory::spawn_inventory;
-use crate::{enums::ColorPaletteEnum, my_assets::MyAssets, structs::player_stats::PlayerStats};
+use crate::{enums::ColorPaletteEnum, my_assets::FONT_FIRA, structs::player_stats::PlayerStats};
 use bevy::prelude::*;
 
 pub fn spawn_right_container(
     parent: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // Container for the inventory
     parent
-        .spawn(ImageBundle {
-            image: my_assets.inventory_container.clone().into(),
-            style: Style {
+        .spawn((
+            UiImage {
+                image: my_assets.load("images/rooms/barrack/inventory_container.png"),
+                ..default()
+            },
+            Node {
                 display: Display::Flex,
                 align_self: AlignSelf::Center,
                 flex_direction: FlexDirection::Column,
@@ -24,17 +27,17 @@ pub fn spawn_right_container(
                 padding: UiRect::all(Val::Px(15.0)),
                 ..default()
             },
-            ..default()
-        })
+        ))
         .insert(Name::new("Room barrack > inventory"))
         .with_children(|parent| {
-            parent.spawn(TextBundle::from_section(
-                "Inventory",
-                TextStyle {
-                    font: my_assets.fira_sans_bold.clone(),
-                    font_size: 30.,
-                    color: ColorPaletteEnum::DarkBrown.as_color(),
+            parent.spawn((
+                Text::new("Inventory"),
+                TextFont {
+                    font: my_assets.load(FONT_FIRA),
+                    font_size: 26.,
+                    ..default()
                 },
+                TextColor(ColorPaletteEnum::DarkBrown.as_color()),
             ));
             // Spawn the inventory below the buttons
             spawn_inventory(parent, player_stats, my_assets, texture_atlas_layouts);

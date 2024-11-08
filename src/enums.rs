@@ -143,3 +143,11 @@ pub enum MapImageEnum {
     // Campaign1,
     // Campaign2,
 }
+
+impl MapImageEnum {
+    pub fn get_path(&self) -> &'static str {
+        match self {
+            MapImageEnum::CampagnTuto => "images/maps/map_tuto.png",
+        }
+    }
+}

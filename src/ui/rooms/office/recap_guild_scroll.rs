@@ -1,7 +1,7 @@
 use crate::ui::interface::gold_counter::MyAssets;
 use bevy::prelude::*;
 
-pub fn recap_guild_scroll(my_assets: &Res<MyAssets>, elements_on_desk: &mut ChildBuilder) {
+pub fn recap_guild_scroll(my_assets: &Res<AssetServer>, elements_on_desk: &mut ChildBuilder) {
     elements_on_desk.spawn(ImageBundle {
         image: my_assets.recap_guild_scroll.clone().into(),
         style: Style {

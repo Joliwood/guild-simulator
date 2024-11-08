@@ -1,5 +1,5 @@
 use crate::{
-    my_assets::MyAssets,
+    my_assets::FONT_FIRA,
     structs::{
         daily_events_folder::spontaneous_applications::SpontaneousApplication,
         trigger_structs::SelectAnswerTrigger,
@@ -9,12 +9,12 @@ use bevy::prelude::*;
 
 pub fn spontaneous_application_event_doc(
     commands: &mut Commands,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     spontaneous_application: SpontaneousApplication,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     let daily_spontaneous_applications_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(801, 701),
+        UVec2::new(800, 350),
         1,
         2,
         Some(UVec2::new(0, 0)),
@@ -24,9 +24,12 @@ pub fn spontaneous_application_event_doc(
         texture_atlas_layouts.add(daily_spontaneous_applications_layout);
 
     commands
-        .spawn(ImageBundle {
-            image: my_assets.daily_event_document.clone().into(),
-            style: Style {
+        .spawn((
+            UiImage {
+                image: my_assets.load("images/rooms/office/daily_event_document.png"),
+                ..default()
+            },
+            Node {
                 display: Display::Flex,
                 align_self: AlignSelf::Center,
                 justify_self: JustifySelf::Center,
@@ -41,112 +44,99 @@ pub fn spontaneous_application_event_doc(
                 position_type: PositionType::Absolute,
                 ..default()
             },
-            z_index: ZIndex::Global(2),
-            ..default()
-        })
+            GlobalZIndex(2),
+        ))
         .insert(SelectAnswerTrigger)
         .with_children(|parent| {
             // Container with flex column layout
             parent
-                .spawn(NodeBundle {
-                    style: Style {
-                        display: Display::Flex,
-                        flex_direction: FlexDirection::Column,
-                        align_items: AlignItems::Center,
-                        justify_content: JustifyContent::FlexStart,
-                        width: Val::Percent(100.),
-                        height: Val::Percent(100.),
-                        ..default()
-                    },
+                .spawn(Node {
+                    display: Display::Flex,
+                    flex_direction: FlexDirection::Column,
+                    align_items: AlignItems::Center,
+                    justify_content: JustifyContent::FlexStart,
+                    width: Val::Percent(100.),
+                    height: Val::Percent(100.),
                     ..default()
                 })
                 .with_children(|column| {
                     // Title at the top
-                    column.spawn(TextBundle {
-                        text: Text::from_section(
-                            spontaneous_application.title.clone(),
-                            TextStyle {
-                                font: my_assets.fira_sans_bold.clone(),
-                                font_size: 18.0,
-                                color: Color::BLACK,
-                            },
-                        ),
-                        style: Style {
+                    column.spawn((
+                        Text::new(spontaneous_application.title.clone()),
+                        TextFont {
+                            font: my_assets.load(FONT_FIRA),
+                            font_size: 16.0,
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                        Node {
                             margin: UiRect::bottom(Val::Px(8.)),
                             ..default()
                         },
-                        ..default()
-                    });
+                    ));
 
                     // Image below the title
                     column.spawn((
-                        ImageBundle {
-                            image: my_assets
-                                .daily_spontaneous_applications_atlas
-                                .clone()
-                                .into(),
-                            style: Style {
-                                width: Val::Percent(100.),
-                                height: Val::Px(150.),
-                                margin: UiRect::bottom(Val::Px(8.)),
-                                ..default()
+                        UiImage::from_atlas_image(
+                            my_assets.load(
+                                "images/daily_events/daily_spontaneous_applications_atlas.png",
+                            ),
+                            TextureAtlas {
+                                index: spontaneous_application.image_atlas_index.into(),
+                                layout: daily_spontaneous_applications_texture_atlas_layout.clone(),
                             },
-                            z_index: ZIndex::Global(1),
+                        ),
+                        Node {
+                            width: Val::Percent(100.),
+                            height: Val::Px(150.),
+                            margin: UiRect::bottom(Val::Px(8.)),
                             ..default()
                         },
-                        TextureAtlas {
-                            index: spontaneous_application.image_atlas_index.into(),
-                            layout: daily_spontaneous_applications_texture_atlas_layout.clone(),
-                        },
+                        GlobalZIndex(1),
                     ));
 
                     // Description below the image
-                    column.spawn(TextBundle {
-                        text: Text::from_section(
-                            spontaneous_application.description.clone(),
-                            TextStyle {
-                                font: my_assets.fira_sans_bold.clone(),
-                                font_size: 14.0,
-                                color: Color::BLACK,
-                            },
-                        ),
-                        style: Style {
+                    column.spawn((
+                        Text::new(spontaneous_application.description.clone()),
+                        TextFont {
+                            font: my_assets.load(FONT_FIRA),
+                            font_size: 12.0,
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                        Node {
                             margin: UiRect::bottom(Val::Px(12.)),
                             ..default()
                         },
-                        ..default()
-                    });
+                    ));
 
                     // Map through answers and display each below the description
                     for answer in spontaneous_application.answers.iter() {
                         column
-                            .spawn(ButtonBundle {
-                                style: Style {
+                            .spawn((
+                                Button,
+                                Node {
                                     width: Val::Percent(100.0),
                                     margin: UiRect::top(Val::Px(4.0)),
                                     padding: UiRect::all(Val::Px(8.0)),
                                     border: UiRect::all(Val::Px(1.)),
                                     ..default()
                                 },
-                                border_radius: BorderRadius::all(Val::Px(5.)),
-                                background_color: Color::srgba(0., 0., 0., 0.7).into(),
-                                ..default()
-                            })
+                                BorderRadius::all(Val::Px(5.)),
+                                BackgroundColor(Color::srgba(0., 0., 0., 0.7)),
+                            ))
                             .insert(answer.clone())
                             .insert(spontaneous_application.clone())
                             .with_children(|button| {
-                                button.spawn(TextBundle {
-                                    text: Text::from_section(
-                                        answer.message.clone(),
-                                        TextStyle {
-                                            font: my_assets.fira_sans_bold.clone(),
-                                            font_size: 14.0,
-                                            color: Color::BLACK,
-                                        },
-                                    ),
-                                    style: Style { ..default() },
-                                    ..default()
-                                });
+                                button.spawn((
+                                    Text::new(answer.message.clone()),
+                                    TextFont {
+                                        font: my_assets.load(FONT_FIRA),
+                                        font_size: 12.0,
+                                        ..default()
+                                    },
+                                    TextColor(Color::BLACK),
+                                ));
                             });
                     }
                 });

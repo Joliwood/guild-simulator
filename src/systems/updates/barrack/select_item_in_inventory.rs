@@ -1,7 +1,6 @@
 use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
-    my_assets::MyAssets,
     structs::{
         equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats,
         recruits::SelectedRecruitForEquipment,
@@ -10,11 +9,14 @@ use crate::{
     ui::ui_constants::WOOD_COLOR,
     utils::equip_recruit_inventory,
 };
-use bevy::prelude::*;
+use bevy::{
+    prelude::*,
+    // window::CursorGrabMode
+};
 
 pub fn select_item_in_inventory(
     mut commands: Commands,
-    my_assets: Res<MyAssets>,
+    my_assets: Res<AssetServer>,
     mut interaction_query: Query<
         (
             &Interaction,
@@ -23,15 +25,18 @@ pub fn select_item_in_inventory(
             &mut BorderColor,
             &ItemEnum,
         ),
-        Changed<Interaction>,
+        // Changed<Interaction>,
+        (Changed<Interaction>, With<Button>),
     >,
-    mut windows: Query<&mut Window>,
+    _window: Single<&mut Window>,
     mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
     mut player_stats: ResMut<PlayerStats>,
 ) {
-    let mut window = windows.single_mut();
+    // let mut window = windows.single_mut();
 
-    for (interaction, mut color, unique_id, mut border_color, item) in &mut interaction_query {
+    for (interaction, mut background_color, unique_id, mut border_color, item) in
+        &mut interaction_query
+    {
         if unique_id.0 == "item_in_inventory" {
             match *interaction {
                 Interaction::Pressed => {
@@ -56,13 +61,13 @@ pub fn select_item_in_inventory(
                     }
                 }
                 Interaction::Hovered => {
-                    window.cursor.icon = CursorIcon::Pointer;
-                    *color = HOVERED_BUTTON.into();
+                    // window.cursor.icon = CursorIcon::Pointer;
+                    *background_color = HOVERED_BUTTON.into();
                     border_color.0 = Color::WHITE;
                 }
                 Interaction::None => {
-                    window.cursor.icon = CursorIcon::Default;
-                    *color = BackgroundColor(WOOD_COLOR);
+                    // window.cursor.icon = CursorIcon::Default;
+                    *background_color = BackgroundColor(WOOD_COLOR);
                     border_color.0 = Color::BLACK;
                 }
             }

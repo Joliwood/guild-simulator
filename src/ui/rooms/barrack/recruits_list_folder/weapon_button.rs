@@ -1,14 +1,18 @@
 use crate::{
-    my_assets::MyAssets,
+    my_assets::get_item_atlas_path,
     structs::{equipments::ItemEnum, general_structs::UniqueId, recruits::RecruitStats},
-    utils::{get_item_image_atlas_index, get_item_layout, get_item_tooltip_description},
+    utils::{
+        get_item_image_atlas_index,
+        get_item_layout,
+        // get_item_tooltip_description
+    },
 };
 use bevy::prelude::*;
-use pyri_tooltip::{Tooltip, TooltipActivation};
+// use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn weapon_button(
     top_container: &mut ChildBuilder,
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     recruit_stats: &RecruitStats,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
@@ -19,45 +23,49 @@ pub fn weapon_button(
         let item = ItemEnum::Weapon(recruit_stats_weapon);
         let item_image_atlas_index = get_item_image_atlas_index(&item);
         let layout = get_item_layout(&item);
-        let tooltip_text = get_item_tooltip_description(&item);
+        // let tooltip_text = get_item_tooltip_description(&item);
+        let item_atlas_path = get_item_atlas_path(&item);
 
         top_container
             .spawn((
-                ButtonBundle {
-                    style: Style {
-                        width: Val::Px(40.),
-                        height: Val::Px(40.),
-                        border: UiRect::all(Val::Px(3.)),
-                        ..default()
-                    },
-                    border_color: BorderColor(Color::BLACK),
-                    border_radius: BorderRadius::all(Val::Px(10.)),
-                    image: my_assets.get_item_atlas_path(&item).clone().into(),
-                    ..default()
-                },
-                TextureAtlas {
-                    index: item_image_atlas_index.into(),
-                    layout: texture_atlas_layouts.add(layout),
-                },
-                Tooltip::cursor(tooltip_text.to_string())
-                    .with_activation(TooltipActivation::IMMEDIATE),
-            ))
-            .insert(UniqueId("item_in_inventory".to_string()));
-    } else {
-        // Empty weapon button
-        top_container
-            .spawn(ButtonBundle {
-                style: Style {
+                Button,
+                Node {
                     width: Val::Px(40.),
                     height: Val::Px(40.),
                     border: UiRect::all(Val::Px(3.)),
                     ..default()
                 },
-                border_color: BorderColor(Color::BLACK),
-                border_radius: BorderRadius::all(Val::Px(10.)),
-                image: my_assets.empty_inventory_slot.clone().into(),
-                ..default()
-            })
+                BorderColor(Color::BLACK),
+                BorderRadius::all(Val::Px(10.)),
+                UiImage::from_atlas_image(
+                    my_assets.load(item_atlas_path),
+                    TextureAtlas {
+                        index: item_image_atlas_index.into(),
+                        layout: texture_atlas_layouts.add(layout),
+                    },
+                ),
+                // Tooltip::cursor(tooltip_text.to_string())
+                //     .with_activation(TooltipActivation::IMMEDIATE),
+            ))
+            .insert(UniqueId("item_in_inventory".to_string()));
+    } else {
+        // Empty weapon button
+        top_container
+            .spawn((
+                Button,
+                Node {
+                    width: Val::Px(40.),
+                    height: Val::Px(40.),
+                    border: UiRect::all(Val::Px(3.)),
+                    ..default()
+                },
+                BorderColor(Color::BLACK),
+                BorderRadius::all(Val::Px(10.)),
+                UiImage {
+                    image: my_assets.load("images/equipments/empty_inventory_slot.png"),
+                    ..default()
+                },
+            ))
             .insert(UniqueId("item_in_inventory".to_string()));
     }
 }

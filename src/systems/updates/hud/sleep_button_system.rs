@@ -1,7 +1,6 @@
 use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
-    my_assets::MyAssets,
     structs::{
         daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
         missions::{MissionReports, Missions},
@@ -21,7 +20,7 @@ pub fn sleep_button_system(
         Changed<Interaction>,
     >,
     mut player_stats: ResMut<PlayerStats>,
-    my_assets: Res<MyAssets>,
+    my_assets: Res<AssetServer>,
     mut missions: ResMut<Missions>,
     mut mission_reports: ResMut<MissionReports>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
@@ -30,7 +29,7 @@ pub fn sleep_button_system(
     mut daily_events: ResMut<DailyEvents>,
     mut daily_event_targets: ResMut<DailyEventTargets>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
 
     for (interaction, _button, mut border_color) in interaction_query.iter_mut() {
         if !mission_reports.0.is_empty() || !daily_events.0.is_empty() {
@@ -100,11 +99,11 @@ pub fn sleep_button_system(
                 player_stats.increment_golds(recruit_length as i32 * -2);
             }
             Interaction::Hovered => {
-                window.cursor.icon = CursorIcon::Pointer;
+                // window.cursor.icon = CursorIcon::Pointer;
                 border_color.0 = Color::WHITE;
             }
             Interaction::None => {
-                window.cursor.icon = CursorIcon::Default;
+                // window.cursor.icon = CursorIcon::Default;
                 border_color.0 = Color::NONE;
             }
         }

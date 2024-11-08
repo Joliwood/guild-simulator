@@ -3,49 +3,48 @@ use super::{
     recruit_overview_folder::recruit_overview::recruit_overview,
     recruits_list_folder::recruits_list::spawn_left_container,
 };
-use crate::{
-    my_assets::MyAssets,
-    structs::{
-        player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
-        trigger_structs::ResetRoomTrigger,
-    },
-    ui::styles::containers_styles::node_container_style,
+use crate::structs::{
+    player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
+    trigger_structs::ResetRoomTrigger,
 };
 use bevy::prelude::*;
 
 pub fn spawn_room_barrack(
-    my_assets: &Res<MyAssets>,
+    my_assets: &Res<AssetServer>,
     commands: &mut Commands,
     player_stats: &Res<PlayerStats>,
     selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     commands
-        .spawn(NodeBundle {
-            style: Style {
+        .spawn((
+            Node {
+                width: Val::Vw(100.),
+                height: Val::Vh(100.),
                 display: Display::Flex,
                 flex_direction: FlexDirection::Row,
                 justify_content: JustifyContent::Center,
                 align_items: AlignItems::Stretch,
                 margin: UiRect::all(Val::Auto),
-                ..node_container_style()
+                ..default()
             },
-            z_index: ZIndex::Global(-1),
-            ..default()
-        })
+            GlobalZIndex(-1),
+        ))
         .insert(Name::new("Room barrack"))
         .insert(ResetRoomTrigger)
         .with_children(|parent| {
-            parent.spawn(ImageBundle {
-                style: Style {
+            parent.spawn((
+                UiImage {
+                    image: my_assets.load("images/rooms/barrack/barrack_background.png"),
+                    ..default()
+                },
+                Node {
                     position_type: PositionType::Absolute,
                     top: Val::Px(0.),
                     height: Val::Vh(100.),
                     ..default()
                 },
-                image: my_assets.barrack_background.clone().into(),
-                ..default()
-            });
+            ));
 
             spawn_left_container(parent, my_assets, player_stats, texture_atlas_layouts);
             recruit_overview(

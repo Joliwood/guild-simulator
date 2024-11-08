@@ -295,7 +295,7 @@ impl ItemLoot {
                 item: ItemLootEnum::Armor(_),
                 ..
             } => TextureAtlasLayout::from_grid(
-                UVec2::new(1600, 400),
+                UVec2::new(400, 400),
                 4,
                 1,
                 Some(UVec2::new(0, 0)),
@@ -305,7 +305,7 @@ impl ItemLoot {
                 item: ItemLootEnum::Scroll(_),
                 ..
             } => TextureAtlasLayout::from_grid(
-                UVec2::new(4320, 1080),
+                UVec2::new(1080, 1080),
                 4,
                 1,
                 Some(UVec2::new(0, 0)),
@@ -315,7 +315,7 @@ impl ItemLoot {
                 item: ItemLootEnum::Weapon(_),
                 ..
             } => TextureAtlasLayout::from_grid(
-                UVec2::new(2900, 400),
+                UVec2::new(400, 400),
                 6,
                 1,
                 Some(UVec2::new(0, 0)),
@@ -324,6 +324,7 @@ impl ItemLoot {
         };
     }
 
+    #[allow(dead_code)]
     pub fn get_item_loot_tooltip_description(&self) -> String {
         return match self {
             ItemLoot {

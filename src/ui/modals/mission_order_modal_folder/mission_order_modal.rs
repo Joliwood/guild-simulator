@@ -2,7 +2,7 @@ use super::{
     loots_and_start::loots_and_start, mission_recap::mission_recap, recruit_recap::recruit_recap,
 };
 use crate::{
-    my_assets::MyAssets,
+    my_assets::FONT_FIRA,
     structs::{
         general_structs::{MissionModalVisible, UniqueId},
         missions::{Missions, SelectedMission},
@@ -17,7 +17,7 @@ use bevy::prelude::*;
 #[allow(clippy::too_many_arguments)]
 pub fn mission_order_modal(
     mut commands: Commands,
-    my_assets: Res<MyAssets>,
+    my_assets: Res<AssetServer>,
     mission_modal_visibility: Res<MissionModalVisible>,
     query: Query<Entity, With<MissionModalContentTrigger>>,
     player_stats: Res<PlayerStats>,
@@ -27,7 +27,7 @@ pub fn mission_order_modal(
     selected_recruit_for_mission: Res<SelectedRecruitForMission>,
 ) {
     let buttons_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(5436, 3809),
+        UVec2::new(16, 16),
         5,
         6,
         Some(UVec2::new(0, 0)),
@@ -54,8 +54,8 @@ pub fn mission_order_modal(
 
         if let Some(mission) = &selected_mission.mission {
             commands
-                .spawn(NodeBundle {
-                    style: Style {
+                .spawn((
+                    Node {
                         position_type: PositionType::Absolute,
                         align_items: AlignItems::Center,
                         flex_direction: FlexDirection::Column,
@@ -68,79 +68,70 @@ pub fn mission_order_modal(
                         border: UiRect::all(Val::Px(3.0)),
                         ..default()
                     },
-                    border_radius: BorderRadius::all(Val::Px(20.0)),
-                    border_color: BorderColor(Color::BLACK),
-                    background_color: BackgroundColor(WOOD_COLOR),
-                    z_index: ZIndex::Global(1),
-                    ..default()
-                })
+                    BorderRadius::all(Val::Px(20.0)),
+                    BorderColor(Color::BLACK),
+                    BackgroundColor(WOOD_COLOR),
+                    GlobalZIndex(1),
+                ))
                 .insert(Name::new("Mission details modal"))
                 .insert(MissionModalContentTrigger)
                 .with_children(|parent| {
                     parent
                         .spawn((
-                            ButtonBundle {
-                                style: Style {
-                                    position_type: PositionType::Absolute,
-                                    right: Val::Px(5.),
-                                    top: Val::Px(5.),
-                                    width: Val::Px(30.),
-                                    height: Val::Px(30.),
-                                    border: UiRect::all(Val::Px(3.)),
-                                    ..default()
-                                },
-                                image: my_assets.buttons_atlas.clone().into(),
-                                border_color: BorderColor(WOOD_COLOR),
-                                border_radius: BorderRadius::all(Val::Px(10.)),
+                            Button,
+                            Node {
+                                position_type: PositionType::Absolute,
+                                right: Val::Px(5.),
+                                top: Val::Px(5.),
+                                width: Val::Px(30.),
+                                height: Val::Px(30.),
+                                border: UiRect::all(Val::Px(3.)),
                                 ..default()
                             },
-                            TextureAtlas {
-                                index: 16,
-                                layout: buttons_texture_atlas_layout.clone(),
-                            },
+                            BorderColor(WOOD_COLOR),
+                            BorderRadius::all(Val::Px(10.)),
+                            UiImage::from_atlas_image(
+                                my_assets.load("images/hud/buttons_atlas.png"),
+                                TextureAtlas {
+                                    index: 16,
+                                    layout: buttons_texture_atlas_layout.clone(),
+                                },
+                            )
+                            .with_mode(NodeImageMode::Stretch),
                         ))
                         .insert(UniqueId("close_mission_modal".to_string()));
 
                     // Title
                     parent
-                        .spawn(TextBundle {
-                            text: Text::from_section(
-                                mission.name.to_string(),
-                                TextStyle {
-                                    font: my_assets.fira_sans_bold.clone(),
-                                    font_size: 20.0,
-                                    color: Color::BLACK,
-                                },
-                            ),
-                            ..default()
-                        })
+                        .spawn((
+                            Text::new(mission.name.to_string()),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 18.0,
+                                ..default()
+                            },
+                            TextColor(Color::BLACK),
+                        ))
                         .insert(Name::new("Mission details modal > title"));
 
                     // Main contents / loots
                     parent
-                        .spawn(NodeBundle {
-                            style: Style {
-                                width: Val::Percent(100.0),
-                                height: Val::Percent(100.0),
-                                flex_direction: FlexDirection::Column,
-                                justify_content: JustifyContent::SpaceBetween,
-                                // column_gap: Val::Px(10.0),
-                                ..default()
-                            },
+                        .spawn(Node {
+                            width: Val::Percent(100.0),
+                            height: Val::Percent(100.0),
+                            flex_direction: FlexDirection::Column,
+                            justify_content: JustifyContent::SpaceBetween,
                             ..default()
                         })
                         .with_children(|parent| {
                             // Main contents : mission image and description, percent of win, recruit info, and button
                             parent
-                                .spawn(NodeBundle {
-                                    style: Style {
-                                        flex_direction: FlexDirection::Row,
-                                        justify_content: JustifyContent::SpaceBetween,
-                                        width: Val::Percent(100.0),
-                                        height: Val::Percent(80.),
-                                        row_gap: Val::Px(20.0),
-                                        ..default()
-                                    },
+                                .spawn(Node {
+                                    flex_direction: FlexDirection::Row,
+                                    justify_content: JustifyContent::SpaceBetween,
+                                    width: Val::Percent(100.0),
+                                    height: Val::Percent(80.),
+                                    row_gap: Val::Px(20.0),
                                     ..default()
                                 })
                                 .with_children(|parent| {
@@ -153,25 +144,23 @@ pub fn mission_order_modal(
 
                                     if selected_mission.percent_of_victory.is_some() {
                                         // Percent of Win (centered)
-                                        parent.spawn(TextBundle {
-                                            text: Text::from_section(
-                                                format!(
-                                                    "{}%",
-                                                    selected_mission.percent_of_victory.unwrap()
-                                                ),
-                                                TextStyle {
-                                                    font: my_assets.fira_sans_bold.clone(),
-                                                    font_size: 18.0,
-                                                    color: Color::BLACK,
-                                                },
-                                            ),
-                                            style: Style {
+                                        parent.spawn((
+                                            Text::new(format!(
+                                                "{}%",
+                                                selected_mission.percent_of_victory.unwrap()
+                                            )),
+                                            TextFont {
+                                                font: my_assets.load(FONT_FIRA),
+                                                font_size: 16.0,
+                                                ..default()
+                                            },
+                                            TextColor(Color::BLACK),
+                                            Node {
                                                 align_self: AlignSelf::Center,
                                                 justify_self: JustifySelf::Center,
                                                 ..default()
                                             },
-                                            ..default()
-                                        });
+                                        ));
                                     }
 
                                     recruit_recap(

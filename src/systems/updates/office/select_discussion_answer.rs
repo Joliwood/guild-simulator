@@ -25,7 +25,7 @@ pub fn select_discussion_answer(
     mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
     mut player_stats: ResMut<PlayerStats>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
     for (interaction, mut background_color, answer, discussion, spontaneous_application) in
         query.iter_mut()
     {
@@ -55,11 +55,11 @@ pub fn select_discussion_answer(
                 }
             }
             Interaction::Hovered => {
-                window.cursor.icon = CursorIcon::Pointer;
+                // window.cursor.icon = CursorIcon::Pointer;
                 background_color.0 = Color::srgba(0., 0., 0., 0.4);
             }
             Interaction::None => {
-                window.cursor.icon = CursorIcon::Default;
+                // window.cursor.icon = CursorIcon::Default;
                 background_color.0 = Color::srgba(0., 0., 0., 0.5);
             }
         };

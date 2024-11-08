@@ -1,7 +1,6 @@
 use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
-    my_assets::MyAssets,
     structs::{
         general_structs::{
             DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
@@ -15,7 +14,7 @@ use bevy::prelude::*;
 
 #[allow(clippy::too_many_arguments)]
 pub fn toggle_mission_reports(
-    my_assets: Res<MyAssets>,
+    my_assets: Res<AssetServer>,
     mut commands: Commands,
     mut query: Query<&Interaction, (Changed<Interaction>, With<MissionReportTrigger>)>,
     mut windows: Query<&mut Window>,
@@ -24,7 +23,7 @@ pub fn toggle_mission_reports(
     mut mission_modal_visibility: ResMut<MissionModalVisible>,
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
 ) {
-    let mut window = windows.single_mut();
+    let _window = windows.single_mut();
 
     for interaction in query.iter_mut() {
         match *interaction {
@@ -39,10 +38,10 @@ pub fn toggle_mission_reports(
                 play_sound(&my_assets, &mut commands, SoundEnum::PaperTouch);
             }
             Interaction::Hovered => {
-                window.cursor.icon = CursorIcon::Pointer;
+                // window.cursor.icon = CursorIcon::Pointer;
             }
             Interaction::None => {
-                window.cursor.icon = CursorIcon::Default;
+                // window.cursor.icon = CursorIcon::Default;
             }
         }
     }
