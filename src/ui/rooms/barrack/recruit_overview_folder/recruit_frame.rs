@@ -1,6 +1,6 @@
 use crate::{
-    my_assets::FONT_FIRA, structs::recruits::SelectedRecruitForEquipment,
-    utils::get_selected_recruit_for_equipment,
+    enums::TextureAtlasLayoutEnum, my_assets::FONT_FIRA,
+    structs::recruits::SelectedRecruitForEquipment, utils::get_layout,
 };
 use bevy::prelude::*;
 
@@ -10,17 +10,27 @@ pub fn recruit_frame(
     selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let recruit_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(200, 400),
-        7,
-        1,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
+    let recruit_layout = get_layout(TextureAtlasLayoutEnum::Recruit);
     let recruit_texture_atlas_layout: Handle<TextureAtlasLayout> =
         texture_atlas_layouts.add(recruit_layout);
-    let selected_recruit_for_equipment_data =
-        get_selected_recruit_for_equipment(selected_recruit_for_equipment);
+
+    let selected_recruit_for_equipment =
+        selected_recruit_for_equipment.get_selected_recruit_for_equipment();
+
+    let selected_recruit_for_equipment_name =
+        if let Some(selected_recruit_for_equipment) = &selected_recruit_for_equipment {
+            selected_recruit_for_equipment.name.clone()
+        } else {
+            "".to_string()
+        };
+
+    let selected_recruit_for_equipment_image_atlas_index =
+        if let Some(selected_recruit_for_equipment) = selected_recruit_for_equipment {
+            selected_recruit_for_equipment.image_atlas_index
+        } else {
+            // Empty frame in the atlas
+            4
+        };
 
     parent
         .spawn((
@@ -37,8 +47,9 @@ pub fn recruit_frame(
         ))
         .insert(Name::new("Barrack > recruit overview > recruit frame"))
         .with_children(|parent| {
+            // if let Some(selected_recruit_for_equipment_data) = selected_recruit_for_equipment {
             parent.spawn((
-                Text::new(selected_recruit_for_equipment_data.name.to_string()),
+                Text::new(selected_recruit_for_equipment_name),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 18.0,
@@ -63,7 +74,7 @@ pub fn recruit_frame(
                     my_assets.load("images/recruits/recruit_picture_atlas.png"),
                     TextureAtlas {
                         layout: recruit_texture_atlas_layout.clone(),
-                        index: selected_recruit_for_equipment_data.image_atlas_index.into(),
+                        index: selected_recruit_for_equipment_image_atlas_index.into(),
                     },
                 ),
                 Node {
@@ -74,5 +85,6 @@ pub fn recruit_frame(
                 },
                 GlobalZIndex(1),
             ));
+            // }
         });
 }

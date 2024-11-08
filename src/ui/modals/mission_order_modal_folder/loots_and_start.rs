@@ -1,10 +1,12 @@
 use crate::{
     custom_components::CustomButton,
+    enums::TextureAtlasLayoutEnum,
     my_assets::{get_item_loot_atlas_path, FONT_FIRA},
     structs::{
         general_structs::UniqueId,
         missions::{Missions, SelectedMission},
     },
+    utils::get_layout,
 };
 use bevy::prelude::*;
 // use pyri_tooltip::{Tooltip, TooltipActivation};
@@ -60,7 +62,8 @@ pub fn loots_and_start(
                         .with_children(|parent| {
                             for loot in mission_loots.0.iter() {
                                 let item_image_atlas_index = loot.get_atlas_index();
-                                let layout = loot.get_item_layout();
+                                // let layout = loot.get_item_loot_layout();
+                                let layout = get_layout(TextureAtlasLayoutEnum::Loot(&loot.item));
                                 // let tooltip_text = loot.get_item_loot_tooltip_description();
                                 let item_loot_atlas_path = get_item_loot_atlas_path(&loot.item);
                                 parent.spawn((

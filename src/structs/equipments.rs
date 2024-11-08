@@ -1,7 +1,6 @@
-use bevy::{math::UVec2, prelude::Component, sprite::TextureAtlasLayout};
-use serde::Deserialize;
-
 use crate::enums::ItemRaretyEnum;
+use bevy::prelude::Component;
+use serde::Deserialize;
 
 #[derive(Debug, Clone, Deserialize, Component, PartialEq, Eq, Hash)]
 pub enum ItemEnum {
@@ -16,32 +15,6 @@ impl ItemEnum {
             ItemEnum::Weapon(weapon) => weapon.image_atlas_index,
             ItemEnum::Armor(armor) => armor.image_atlas_index,
             ItemEnum::Scroll(scroll, _) => scroll.image_atlas_index,
-        }
-    }
-
-    pub fn get_item_layout(&self) -> TextureAtlasLayout {
-        match self {
-            ItemEnum::Weapon(_) => TextureAtlasLayout::from_grid(
-                UVec2::new(400, 400),
-                6,
-                1,
-                Some(UVec2::new(0, 0)),
-                Some(UVec2::new(0, 0)),
-            ),
-            ItemEnum::Armor(_) => TextureAtlasLayout::from_grid(
-                UVec2::new(400, 400),
-                4,
-                1,
-                Some(UVec2::new(0, 0)),
-                Some(UVec2::new(0, 0)),
-            ),
-            ItemEnum::Scroll(_, _) => TextureAtlasLayout::from_grid(
-                UVec2::new(1080, 1080),
-                4,
-                1,
-                Some(UVec2::new(0, 0)),
-                Some(UVec2::new(0, 0)),
-            ),
         }
     }
 

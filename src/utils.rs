@@ -1,11 +1,11 @@
 use crate::{
-    enums::{RecruitEnum, RecruitStateEnum},
+    enums::{RecruitStateEnum, TextureAtlasLayoutEnum},
     structs::{
         equipments::ItemEnum,
         general_structs::{
             DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
         },
-        missions::{MissionReport, MissionReports, Missions},
+        missions::{ItemLootEnum, MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
         recruits::{
             RecruitInventory, RecruitStats, SelectedRecruitForEquipment, SelectedRecruitForMission,
@@ -13,12 +13,7 @@ use crate::{
     },
     systems::updates::update_buttons::delete_item_from_player_inventory,
 };
-use bevy::{
-    math::UVec2,
-    prelude::{Res, ResMut},
-    sprite::TextureAtlasLayout,
-};
-use uuid::Uuid;
+use bevy::{math::UVec2, prelude::ResMut, sprite::TextureAtlasLayout};
 
 // /// Determines the new room based on the given direction and current player stats.
 // ///
@@ -174,35 +169,7 @@ pub fn get_item_image_atlas_index(item: &ItemEnum) -> u16 {
     };
 }
 
-/// Get the layout of the image atlas of an item
-///
-/// Has to be updated each time the design will evolve
-pub fn get_item_layout(item: &ItemEnum) -> TextureAtlasLayout {
-    return match item {
-        ItemEnum::Weapon(_) => TextureAtlasLayout::from_grid(
-            UVec2::new(2900, 400),
-            6,
-            1,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        ItemEnum::Armor(_) => TextureAtlasLayout::from_grid(
-            UVec2::new(1600, 400),
-            4,
-            1,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        ItemEnum::Scroll(_, _) => TextureAtlasLayout::from_grid(
-            UVec2::new(4320, 1080),
-            4,
-            1,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-    };
-}
-
+#[allow(dead_code)]
 /// Get the tooltip description of an item
 ///
 /// For now, only supports texts
@@ -278,6 +245,7 @@ pub fn calculate_price_range(price: u16) -> (u16, u16) {
     (lower_range, upper_range)
 }
 
+#[allow(dead_code)]
 pub fn get_mission_notification_tooltip_text(completed_mission_number: u8) -> String {
     let mission_word = if completed_mission_number > 1 {
         "missions"
@@ -294,81 +262,6 @@ reports in your office.
 Click to dismiss.",
         completed_mission_number, mission_word
     )
-}
-
-pub fn get_selected_recruit_for_equipment(
-    selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
-) -> RecruitStats {
-    match selected_recruit_for_equipment.0 {
-        Some(_) => {
-            return RecruitStats {
-                state: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .state
-                    .clone(),
-                recruit_inventory: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .recruit_inventory
-                    .clone(),
-                class: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .class
-                    .clone(),
-                endurance: selected_recruit_for_equipment.0.as_ref().unwrap().endurance,
-                experience: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .experience,
-                id: selected_recruit_for_equipment.0.as_ref().unwrap().id,
-                image_atlas_index: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .image_atlas_index,
-                intelligence: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .intelligence,
-                level: selected_recruit_for_equipment.0.as_ref().unwrap().level,
-                max_experience: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .max_experience,
-                name: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .name
-                    .clone(),
-                strength: selected_recruit_for_equipment.0.as_ref().unwrap().strength,
-            };
-        }
-        None => {
-            return RecruitStats {
-                class: RecruitEnum::Warrior,
-                endurance: 0,
-                experience: 0,
-                id: Uuid::new_v4(),
-                image_atlas_index: 4,
-                intelligence: 0,
-                level: 0,
-                max_experience: 0,
-                name: "".to_string(),
-                recruit_inventory: RecruitInventory::generate_empty_inventory(),
-                state: RecruitStateEnum::Available,
-                strength: 0,
-            };
-        }
-    }
 }
 
 pub fn equip_recruit_inventory(
@@ -530,6 +423,141 @@ pub fn finish_mission(
 pub fn sort_recruits_by_total_merged_stats(mut recruits: Vec<RecruitStats>) -> Vec<RecruitStats> {
     recruits.sort_by_key(|recruit| std::cmp::Reverse(recruit.get_total_merged_stats()));
     return recruits;
+}
+
+pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureAtlasLayout {
+    match texture_atlas_layout_enum {
+        TextureAtlasLayoutEnum::Weapon => TextureAtlasLayout::from_grid(
+            UVec2::new(400, 400),
+            6,
+            1,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+        TextureAtlasLayoutEnum::Armor => TextureAtlasLayout::from_grid(
+            UVec2::new(400, 400),
+            4,
+            1,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+        TextureAtlasLayoutEnum::Scroll => TextureAtlasLayout::from_grid(
+            UVec2::new(1080, 1080),
+            4,
+            1,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+        TextureAtlasLayoutEnum::HudIcon => TextureAtlasLayout::from_grid(
+            UVec2::new(500, 500),
+            8,
+            1,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+        TextureAtlasLayoutEnum::Notification => TextureAtlasLayout::from_grid(
+            UVec2::new(50, 50),
+            4,
+            1,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+        TextureAtlasLayoutEnum::Discussion => TextureAtlasLayout::from_grid(
+            UVec2::new(800, 350),
+            1,
+            10,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+        TextureAtlasLayoutEnum::SpontaneousApplication => TextureAtlasLayout::from_grid(
+            UVec2::new(800, 350),
+            1,
+            2,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+        TextureAtlasLayoutEnum::Loot(item) => match item {
+            ItemLootEnum::Weapon(_) => TextureAtlasLayout::from_grid(
+                UVec2::new(400, 400),
+                6,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            ),
+            ItemLootEnum::Armor(_) => TextureAtlasLayout::from_grid(
+                UVec2::new(400, 400),
+                4,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            ),
+            ItemLootEnum::Scroll(_) => TextureAtlasLayout::from_grid(
+                UVec2::new(1080, 1080),
+                4,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            ),
+        },
+        TextureAtlasLayoutEnum::Item(item) => match item {
+            ItemEnum::Weapon(_) => TextureAtlasLayout::from_grid(
+                UVec2::new(400, 400),
+                6,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            ),
+            ItemEnum::Armor(_) => TextureAtlasLayout::from_grid(
+                UVec2::new(400, 400),
+                4,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            ),
+            ItemEnum::Scroll(_, _) => TextureAtlasLayout::from_grid(
+                UVec2::new(1080, 1080),
+                4,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            ),
+        },
+        TextureAtlasLayoutEnum::Button => TextureAtlasLayout::from_grid(
+            UVec2::new(16, 16),
+            5,
+            6,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+        TextureAtlasLayoutEnum::Recruit => TextureAtlasLayout::from_grid(
+            UVec2::new(200, 400),
+            7,
+            1,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+        TextureAtlasLayoutEnum::Map => TextureAtlasLayout::from_grid(
+            UVec2::new(270, 200),
+            1,
+            2,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+        TextureAtlasLayoutEnum::MapType => TextureAtlasLayout::from_grid(
+            UVec2::new(100, 100),
+            4,
+            1,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+        TextureAtlasLayoutEnum::Ennemy => TextureAtlasLayout::from_grid(
+            UVec2::new(200, 200),
+            6,
+            1,
+            Some(UVec2::new(0, 0)),
+            Some(UVec2::new(0, 0)),
+        ),
+    }
 }
 
 #[cfg(test)]

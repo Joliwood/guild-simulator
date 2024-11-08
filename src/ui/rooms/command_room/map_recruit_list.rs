@@ -1,5 +1,9 @@
 use super::map_recruit_card::map_recruit_card;
-use crate::{structs::player_stats::PlayerStats, utils::sort_recruits_by_total_merged_stats};
+use crate::{
+    enums::TextureAtlasLayoutEnum,
+    structs::player_stats::PlayerStats,
+    utils::{get_layout, sort_recruits_by_total_merged_stats},
+};
 use bevy::prelude::*;
 
 pub fn map_recruit_list(
@@ -8,13 +12,7 @@ pub fn map_recruit_list(
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let recruit_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(200, 400),
-        7,
-        1,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
+    let recruit_layout = get_layout(TextureAtlasLayoutEnum::Recruit);
     let recruit_texture_atlas_layout: Handle<TextureAtlasLayout> =
         texture_atlas_layouts.add(recruit_layout);
 

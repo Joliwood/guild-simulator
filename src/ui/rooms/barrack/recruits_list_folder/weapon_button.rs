@@ -1,11 +1,8 @@
 use crate::{
+    enums::TextureAtlasLayoutEnum,
     my_assets::get_item_atlas_path,
     structs::{equipments::ItemEnum, general_structs::UniqueId, recruits::RecruitStats},
-    utils::{
-        get_item_image_atlas_index,
-        get_item_layout,
-        // get_item_tooltip_description
-    },
+    utils::{get_item_image_atlas_index, get_layout},
 };
 use bevy::prelude::*;
 // use pyri_tooltip::{Tooltip, TooltipActivation};
@@ -22,7 +19,7 @@ pub fn weapon_button(
     if let Some(recruit_stats_weapon) = recruit_stats_weapon {
         let item = ItemEnum::Weapon(recruit_stats_weapon);
         let item_image_atlas_index = get_item_image_atlas_index(&item);
-        let layout = get_item_layout(&item);
+        let item_layout = get_layout(TextureAtlasLayoutEnum::Item(&item));
         // let tooltip_text = get_item_tooltip_description(&item);
         let item_atlas_path = get_item_atlas_path(&item);
 
@@ -41,7 +38,7 @@ pub fn weapon_button(
                     my_assets.load(item_atlas_path),
                     TextureAtlas {
                         index: item_image_atlas_index.into(),
-                        layout: texture_atlas_layouts.add(layout),
+                        layout: texture_atlas_layouts.add(item_layout),
                     },
                 ),
                 // Tooltip::cursor(tooltip_text.to_string())

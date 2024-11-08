@@ -1,9 +1,11 @@
 use crate::{
+    enums::TextureAtlasLayoutEnum,
     my_assets::FONT_FIRA,
     structs::{
         daily_events_folder::spontaneous_applications::SpontaneousApplication,
         trigger_structs::SelectAnswerTrigger,
     },
+    utils::get_layout,
 };
 use bevy::prelude::*;
 
@@ -13,13 +15,8 @@ pub fn spontaneous_application_event_doc(
     spontaneous_application: SpontaneousApplication,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let daily_spontaneous_applications_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(800, 350),
-        1,
-        2,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
+    let daily_spontaneous_applications_layout =
+        get_layout(TextureAtlasLayoutEnum::SpontaneousApplication);
     let daily_spontaneous_applications_texture_atlas_layout: Handle<TextureAtlasLayout> =
         texture_atlas_layouts.add(daily_spontaneous_applications_layout);
 

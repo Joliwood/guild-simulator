@@ -38,6 +38,14 @@ impl SelectedRecruitForEquipment {
 
         None
     }
+
+    pub fn get_selected_recruit_for_equipment(&self) -> Option<RecruitStats> {
+        if let Some(recruit) = &self.0 {
+            return Some(recruit.clone());
+        }
+
+        None
+    }
 }
 
 #[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]

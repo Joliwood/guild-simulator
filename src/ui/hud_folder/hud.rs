@@ -1,7 +1,8 @@
 use super::{left_hud::left_hud, right_hud::right_hud};
 use crate::{
-    enums::RoomEnum,
+    enums::{RoomEnum, TextureAtlasLayoutEnum},
     structs::{player_stats::PlayerStats, trigger_structs::RoomButtonTrigger},
+    utils::get_layout,
 };
 use bevy::prelude::*;
 // use pyri_tooltip::Tooltip;
@@ -12,13 +13,7 @@ pub fn hud(
     player_stats: Res<PlayerStats>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let hud_icons_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(500, 500),
-        8,
-        1,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
+    let hud_icons_layout = get_layout(TextureAtlasLayoutEnum::HudIcon);
     let hud_icons_texture_atlas_layout: Handle<TextureAtlasLayout> =
         texture_atlas_layouts.add(hud_icons_layout);
 

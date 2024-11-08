@@ -1,4 +1,7 @@
-use crate::{my_assets::FONT_FIRA, structs::missions::Mission};
+use crate::{
+    enums::TextureAtlasLayoutEnum, my_assets::FONT_FIRA, structs::missions::Mission,
+    utils::get_layout,
+};
 use bevy::prelude::*;
 
 pub fn mission_recap(
@@ -7,13 +10,7 @@ pub fn mission_recap(
     mission: &Mission,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let ennemy_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(200, 200),
-        6,
-        1,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
+    let ennemy_layout = get_layout(TextureAtlasLayoutEnum::Ennemy);
     let ennemy_texture_atlas_layout: Handle<TextureAtlasLayout> =
         texture_atlas_layouts.add(ennemy_layout);
 

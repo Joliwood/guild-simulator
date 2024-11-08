@@ -1,9 +1,11 @@
 use crate::{
+    enums::TextureAtlasLayoutEnum,
     my_assets::FONT_FIRA,
     structs::{player_stats::PlayerStats, recruits::SelectedRecruitForMission},
     ui::rooms::barrack::recruits_list_folder::{
         armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
     },
+    utils::get_layout,
 };
 use bevy::prelude::*;
 
@@ -14,13 +16,7 @@ pub fn recruit_recap(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
     player_stats: &Res<PlayerStats>,
 ) {
-    let recruit_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(200, 400),
-        7,
-        1,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
+    let recruit_layout = get_layout(TextureAtlasLayoutEnum::Recruit);
     let recruit_texture_atlas_layout: Handle<TextureAtlasLayout> =
         texture_atlas_layouts.add(recruit_layout);
 

@@ -1,7 +1,8 @@
 use crate::{
-    enums::ColorPaletteEnum,
+    enums::{ColorPaletteEnum, TextureAtlasLayoutEnum},
     my_assets::FONT_FIRA,
     structs::{maps::Map, trigger_structs::SelectMapTrigger},
+    utils::get_layout,
 };
 use bevy::prelude::*;
 
@@ -11,23 +12,11 @@ pub fn map_card(
     map: &Map,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let map_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(270, 200),
-        1,
-        2,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
+    let map_layout = get_layout(TextureAtlasLayoutEnum::Map);
     let map_atlas_layout: Handle<TextureAtlasLayout> = texture_atlas_layouts.add(map_layout);
     let icon_atlas_index = map.map_type.get_icon_atlas_index();
 
-    let map_type_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(100, 100),
-        4,
-        1,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
+    let map_type_layout = get_layout(TextureAtlasLayoutEnum::MapType);
     let map_type_atlas_layout: Handle<TextureAtlasLayout> =
         texture_atlas_layouts.add(map_type_layout);
 

@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 
+use crate::structs::{equipments::ItemEnum, missions::ItemLootEnum};
 use bevy::{color::Color, prelude::Component, state::state::States};
 use serde::Deserialize;
 use std::fmt::{self, Display};
@@ -150,4 +151,22 @@ impl MapImageEnum {
             MapImageEnum::CampagnTuto => "images/maps/map_tuto.png",
         }
     }
+}
+
+#[derive(Debug, Clone)]
+pub enum TextureAtlasLayoutEnum<'a> {
+    Armor,
+    Discussion,
+    HudIcon,
+    Notification,
+    Scroll,
+    Weapon,
+    SpontaneousApplication,
+    Loot(&'a ItemLootEnum),
+    Item(&'a ItemEnum),
+    Button,
+    Recruit,
+    Map,
+    MapType,
+    Ennemy,
 }

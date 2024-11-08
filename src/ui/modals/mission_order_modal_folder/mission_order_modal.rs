@@ -2,6 +2,7 @@ use super::{
     loots_and_start::loots_and_start, mission_recap::mission_recap, recruit_recap::recruit_recap,
 };
 use crate::{
+    enums::TextureAtlasLayoutEnum,
     my_assets::FONT_FIRA,
     structs::{
         general_structs::{MissionModalVisible, UniqueId},
@@ -11,6 +12,7 @@ use crate::{
         trigger_structs::MissionModalContentTrigger,
     },
     ui::ui_constants::WOOD_COLOR,
+    utils::get_layout,
 };
 use bevy::prelude::*;
 
@@ -26,13 +28,7 @@ pub fn mission_order_modal(
     missions: Res<Missions>,
     selected_recruit_for_mission: Res<SelectedRecruitForMission>,
 ) {
-    let buttons_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(16, 16),
-        5,
-        6,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
+    let buttons_layout = get_layout(TextureAtlasLayoutEnum::Button);
     let buttons_texture_atlas_layout = texture_atlas_layouts.add(buttons_layout);
 
     // Despawn existing modals
