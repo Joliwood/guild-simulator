@@ -8,19 +8,15 @@ exclude = ["dist", "build", "assets", "credits"]
 [dependencies]
 bevy = { version = "0.15.0-rc.3" }
 # bevy-inspector-egui  = { git = "https://github.com/jakobhellermann/bevy-inspector-egui", tag = "v0.25.0" }
-bevy_asset_loader = { version = "0.15.0-rc.3", features = ["2d"]}
-# bevy-settings = "0.6.0"
-rand_core = "0.6.4"
+# bevy_asset_loader = { version = "0.15.0-rc.3", features = ["2d"]}
 uuid = "1.10.0"
 rand = "0.8.4"
 serde = { version = "1.0", features = ["derive"] }
 pyri_tooltip = "0.1.1"
-bevy_ui_mod_alerts = "0.2.0"
 colored = "2.0"
-
 # keep the following in sync with Bevy's dependencies
-winit = { version = "0.30", default-features = false }
-unic-langid = "0.9.5"
+# winit = { version = "0.30", default-features = false }
+# unic-langid = "0.9.5"
 bevy_fluent = "0.10.0"
 
 # This is used by trunk as it doesn't support custom profiles: https://github.com/trunk-rs/trunk/issues/605
@@ -39,14 +35,11 @@ lto = true
 codegen-units = 1
 strip = true
 
-# ![feature(diagnostic_namespace)]
-
 # Enable a small amount of optimization in debug mode
 [profile.dev]
 opt-level = 1
 
 [target.x86_64h-apple-darwin]
-# Add any specific settings you want here
 
 # Enable a large amount of optimization in the dev profile for dependencies.
 [profile.dev.package."*"]

@@ -1,2 +1,0 @@
-# Exemple of a clippy rule for all the project
-allowed-scripts = ["Latin", "Cyrillic"]
