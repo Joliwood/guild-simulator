@@ -1,9 +1,6 @@
-use crate::{
-    structs::{
-        general_structs::{MissionModalVisible, UniqueId},
-        missions::{Mission, Missions, SelectedMission},
-    },
-    systems::systems_constants::NORMAL_BUTTON,
+use crate::structs::{
+    general_structs::{MissionModalVisible, UniqueId},
+    missions::{Mission, Missions, SelectedMission},
 };
 use bevy::prelude::*;
 
@@ -45,7 +42,7 @@ pub fn select_mission_button(
                     }
                     Interaction::None => {
                         // window.cursor.icon = CursorIcon::Default;
-                        *color = NORMAL_BUTTON.into();
+                        *color = Color::BLACK.into();
                     }
                 }
             }

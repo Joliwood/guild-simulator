@@ -98,7 +98,7 @@ fn main() -> AppExit {
                 systems::updates::hud::update_recruit_counter::update_recruit_counter.run_if(resource_changed::<PlayerStats>),
                 systems::updates::hud::update_reputation_counter::update_reputation_counter.run_if(resource_changed::<PlayerStats>),
                 systems::updates::hud::update_toxicity_counter::update_toxicity_counter.run_if(resource_changed::<PlayerStats>),
-                systems::updates::update_buttons::move_room_from_keyboard,
+                systems::updates::input::move_room_from_keyboard,
                 systems::updates::update_room::update_room,
             ),
         )
@@ -106,7 +106,6 @@ fn main() -> AppExit {
             Update,
             (
                 systems::updates::barrack::select_item_in_inventory::select_item_in_inventory,
-                systems::updates::command_room::assign_recruit_to_mission::assign_recruit_to_mission,
                 systems::updates::command_room::close_mission_modal::close_mission_modal,
                 systems::updates::command_room::start_mission_button::start_mission_button,
                 systems::updates::hud::delete_notifications_on_click::delete_notifications_on_click,

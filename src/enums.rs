@@ -101,6 +101,8 @@ pub enum ColorPaletteEnum {
     Success,
     Warning,
     Brown,
+    Wood,
+    DarkGray,
 }
 
 impl ColorPaletteEnum {
@@ -113,6 +115,11 @@ impl ColorPaletteEnum {
             ColorPaletteEnum::Success => Color::srgb(0.1, 0.8, 0.1),
             ColorPaletteEnum::Warning => Color::srgb(0.9, 0.7, 0.0),
             ColorPaletteEnum::Brown => Color::srgba(0.647, 0.165, 0.165, 0.5),
+            ColorPaletteEnum::Wood => {
+                Color::srgba(193.0 / 255.0, 154.0 / 255.0, 107.0 / 255.0, 1.0)
+            }
+            ColorPaletteEnum::DarkGray => Color::srgba(0.2, 0.2, 0.2, 1.0),
+            // Color::srgb(0.25, 0.25, 0.25)
         }
     }
 }

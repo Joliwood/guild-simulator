@@ -6,11 +6,9 @@ use crate::{
         player_stats::PlayerStats,
         recruits::{RecruitStats, SelectedRecruitForMission},
     },
-    systems::systems_constants::HOVERED_BUTTON,
 };
 use bevy::prelude::*;
 
-/// Select the recruit when the button is pressed
 pub fn select_recruit_for_mission_button(
     mut interaction_query: Query<
         (&Interaction, &mut BorderColor, &UniqueId, &RecruitStats),
@@ -24,7 +22,7 @@ pub fn select_recruit_for_mission_button(
 ) {
     let _window = windows.single_mut();
 
-    for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
+    for (interaction, mut border_color, unique_id, recruit) in &mut interaction_query {
         let recruit_state = recruit.clone().state;
         if unique_id.0 == "map_recruit_button"
             && recruit_state != RecruitStateEnum::InMission
@@ -56,11 +54,11 @@ pub fn select_recruit_for_mission_button(
                 }
                 Interaction::Hovered => {
                     // window.cursor.icon = CursorIcon::Pointer;
-                    *color = BorderColor(Color::WHITE);
+                    *border_color = BorderColor(Color::WHITE);
                 }
                 Interaction::None => {
                     // window.cursor.icon = CursorIcon::Default;
-                    *color = HOVERED_BUTTON.into();
+                    *border_color = BorderColor(Color::BLACK);
                 }
             }
         }

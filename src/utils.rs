@@ -11,7 +11,6 @@ use crate::{
             RecruitInventory, RecruitStats, SelectedRecruitForEquipment, SelectedRecruitForMission,
         },
     },
-    systems::updates::update_buttons::delete_item_from_player_inventory,
 };
 use bevy::{math::UVec2, prelude::ResMut, sprite::TextureAtlasLayout};
 
@@ -286,7 +285,7 @@ pub fn equip_recruit_inventory(
                         .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
                     selected_recruit_for_equipment.0 =
                         player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
-                    delete_item_from_player_inventory(player_stats, item);
+                    player_stats.remove_item(item);
                     return true;
                 }
 
@@ -298,7 +297,7 @@ pub fn equip_recruit_inventory(
                         .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
                     selected_recruit_for_equipment.0 =
                         player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
-                    delete_item_from_player_inventory(player_stats, item);
+                    player_stats.remove_item(item);
                     return true;
                 }
             }
@@ -318,7 +317,7 @@ pub fn equip_recruit_inventory(
                         .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
                     selected_recruit_for_equipment.0 =
                         player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
-                    delete_item_from_player_inventory(player_stats, item);
+                    player_stats.remove_item(item);
                     return true;
                 }
 
@@ -330,7 +329,7 @@ pub fn equip_recruit_inventory(
                         .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
                     selected_recruit_for_equipment.0 =
                         player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
-                    delete_item_from_player_inventory(player_stats, item);
+                    player_stats.remove_item(item);
                     return true;
                 }
             }

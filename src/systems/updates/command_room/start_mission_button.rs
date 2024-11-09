@@ -8,8 +8,6 @@ use crate::{
         player_stats::PlayerStats,
         recruits::{SelectedRecruitForEquipment, SelectedRecruitForMission},
     },
-    // systems::systems_constants::HOVERED_BUTTON,
-    // ui::ui_constants::WOOD_COLOR,
 };
 
 #[allow(clippy::too_many_arguments)]

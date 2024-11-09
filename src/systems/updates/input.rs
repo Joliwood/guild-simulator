@@ -1,7 +1,6 @@
 use crate::{
     enums::RoomEnum,
     structs::{
-        equipments::ItemEnum,
         general_structs::{
             DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
         },
@@ -49,14 +48,4 @@ pub fn move_room_from_keyboard(
         );
         player_stats.room = RoomEnum::Barrack;
     }
-}
-
-pub fn delete_item_from_player_inventory(player_stats: &mut PlayerStats, item: &ItemEnum) {
-    let item_index = player_stats
-        .inventory
-        .iter()
-        .position(|x| x == item)
-        .unwrap();
-
-    player_stats.inventory.remove(item_index);
 }

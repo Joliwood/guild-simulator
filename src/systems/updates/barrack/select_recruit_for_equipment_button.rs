@@ -1,11 +1,9 @@
 use crate::{
-    enums::RecruitStateEnum,
+    enums::{ColorPaletteEnum, RecruitStateEnum},
     structs::{
         general_structs::UniqueId,
         recruits::{RecruitStats, SelectedRecruitForEquipment},
     },
-    systems::systems_constants::HOVERED_BUTTON,
-    ui::ui_constants::WOOD_COLOR,
 };
 use bevy::prelude::*;
 
@@ -32,11 +30,11 @@ pub fn select_recruit_for_equipment_button(
                 }
                 Interaction::Hovered => {
                     // window.cursor.icon = CursorIcon::Pointer;
-                    *color = HOVERED_BUTTON.into();
+                    *color = BackgroundColor(ColorPaletteEnum::Brown.as_color());
                 }
                 Interaction::None => {
                     // window.cursor.icon = CursorIcon::Default;
-                    *color = BackgroundColor(WOOD_COLOR);
+                    *color = BackgroundColor(ColorPaletteEnum::Wood.as_color());
                 }
             }
         }
