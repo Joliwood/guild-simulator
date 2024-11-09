@@ -27,7 +27,7 @@ pub fn close_mission_modal(
                     selected_mission.reset();
                 }
                 Interaction::Hovered => {
-                    // window.cursor.icon = CursorIcon::Pointer;
+                    // window.cursor.icon = CursorIcon::Pointer;@#<><>>>>
                     border_color.0 = Color::WHITE;
                 }
                 Interaction::None => {

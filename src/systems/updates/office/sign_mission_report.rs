@@ -36,7 +36,8 @@ pub fn sign_mission_report(
 ) {
     let _window = windows.single_mut();
 
-    for (interaction, mut node, _button, mut color, mission_report) in interaction_query.iter_mut()
+    for (interaction, mut node, _button_trigger, mut color, mission_report) in
+        interaction_query.iter_mut()
     {
         match *interaction {
             Interaction::Pressed => {

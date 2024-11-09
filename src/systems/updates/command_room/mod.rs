@@ -1,4 +1,3 @@
-// pub mod assign_recruit_to_mission;
 pub mod close_mission_modal;
 pub mod select_map;
 pub mod select_mission_button;

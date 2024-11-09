@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+
 use crate::enums::MapImageEnum;
 use bevy::prelude::*;
 
@@ -10,25 +11,27 @@ impl Maps {
         if let Some(id) = id {
             return self.0.iter().find(|map| map.id == id).cloned();
         }
-        None
+        return None;
     }
 
     pub fn get_map_by_mission_id(&self, mission_id: u16) -> Option<Map> {
-        self.0
+        return self
+            .0
             .iter()
             .find(|map| map.map_mission_ids.contains(&mission_id))
-            .cloned()
+            .cloned();
     }
 
     pub fn get_map_by_id(&self, id: u16) -> Option<Map> {
-        self.0.iter().find(|map| map.id == id).cloned()
+        return self.0.iter().find(|map| map.id == id).cloned();
     }
 
     pub fn get_uuid_of_tuto_map(&self) -> Option<u16> {
-        self.0
+        return self
+            .0
             .iter()
             .find(|map| map.name == "Campagn tuto")
-            .map(|map| map.id)
+            .map(|map| map.id);
     }
 
     pub fn finish_mission_by_id(&mut self, mission_id: u16) {
@@ -49,10 +52,10 @@ pub enum MapTypeEnum {
 impl MapTypeEnum {
     pub fn get_icon_atlas_index(&self) -> u16 {
         match self {
-            MapTypeEnum::BossMission => 1,
-            MapTypeEnum::Campaign => 3,
-            MapTypeEnum::CombatMission => 2,
-            MapTypeEnum::HelpAssistance => 0,
+            MapTypeEnum::BossMission => return 1,
+            MapTypeEnum::Campaign => return 3,
+            MapTypeEnum::CombatMission => return 2,
+            MapTypeEnum::HelpAssistance => return 0,
         }
     }
 }
@@ -80,11 +83,9 @@ impl Map {
     }
 
     pub fn get_finished_missions_number(&self) -> usize {
-        self.mission_ids_finished.len()
+        return self.mission_ids_finished.len();
     }
 }
-
-// let first_map_uuid: Uuid = Uuid::new_v4();
 
 #[derive(Debug, Component, Resource, Clone)]
 pub struct SelectedMapId(pub Option<u16>);

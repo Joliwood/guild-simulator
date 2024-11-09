@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+
 use super::equipments::{Armor, Scroll, Weapon};
 use crate::content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum};
 use bevy::prelude::{Component, Resource};

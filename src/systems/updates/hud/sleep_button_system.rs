@@ -31,7 +31,7 @@ pub fn sleep_button_system(
 ) {
     let _window = windows.single_mut();
 
-    for (interaction, _button, mut border_color) in interaction_query.iter_mut() {
+    for (interaction, _button_trigger, mut border_color) in interaction_query.iter_mut() {
         if !mission_reports.0.is_empty() || !daily_events.0.is_empty() {
             continue;
         }

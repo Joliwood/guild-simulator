@@ -1,27 +1,9 @@
 #![allow(dead_code)]
+
 use super::daily_events::{
-    get_random_index_from_percent_arr, DailyEventTargets, DaySystem, DiscussionTarget,
+    get_random_index_from_percent_arr, Answer, DailyEventTargets, DaySystem, DiscussionTarget,
 };
-use crate::structs::{equipments::ItemEnum, recruits::RecruitStats};
 use bevy::prelude::*;
-
-#[derive(Debug, Clone, PartialEq)]
-pub enum ImpactAction<T> {
-    Add(T),
-    Remove(T),
-}
-
-#[derive(Default, Debug, Component, Resource, Clone, PartialEq)]
-pub struct Answer {
-    pub equipment_impact: Option<Vec<ImpactAction<ItemEnum>>>,
-    pub experience_impact: Option<u32>,
-    pub gold_impact: Option<i32>,
-    pub id: u16,
-    pub message: String,
-    pub recruit_impact: Option<RecruitStats>,
-    pub reputation_impact: Option<i8>,
-    pub toxicity_impact: Option<i8>,
-}
 
 #[derive(Debug, Component, Resource, Clone, PartialEq)]
 pub struct DailyDiscussion {
@@ -78,5 +60,5 @@ pub fn get_random_discussion_indexs(
         available_discussions.remove(selected_index);
     }
 
-    selected_discussions
+    return selected_discussions;
 }

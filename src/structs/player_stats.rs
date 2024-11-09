@@ -1,12 +1,9 @@
 #![allow(dead_code)]
+
 use super::{
-    daily_events_folder::discussions::{Answer, ImpactAction},
+    daily_events_folder::daily_events::{Answer, ImpactAction},
     equipments::ItemEnum,
-    // general_structs::load_weapon,
-    recruits::{
-        // RecruitInventory,
-        RecruitStats,
-    },
+    recruits::RecruitStats,
 };
 use crate::{
     // content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
@@ -117,7 +114,7 @@ impl PlayerStats {
             return Some(item.clone());
         }
 
-        None
+        return None;
     }
 
     pub fn add_item(&mut self, item: ItemEnum) {
@@ -158,7 +155,7 @@ impl PlayerStats {
             return Some(recruit.clone());
         }
 
-        None
+        return None;
     }
 
     pub fn equip_item_to_recruit(&mut self, recruit_id: Uuid, item: &ItemEnum) {
@@ -238,7 +235,7 @@ impl PlayerStats {
             for impact_action in equipment_impact {
                 match impact_action {
                     ImpactAction::Add(item) => self.add_item(item.clone()),
-                    ImpactAction::Remove(item) => self.remove_item(&item),
+                    ImpactAction::Remove(item) => self.remove_item(item),
                 }
             }
         }

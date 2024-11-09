@@ -1,8 +1,4 @@
-pub mod daily_events_folder {
-    pub mod daily_events;
-    pub mod discussions;
-    pub mod spontaneous_applications;
-}
+pub mod daily_events_folder;
 pub mod equipments;
 pub mod general_structs;
 pub mod maps;

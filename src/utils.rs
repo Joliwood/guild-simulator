@@ -173,7 +173,7 @@ pub fn get_item_image_atlas_index(item: &ItemEnum) -> u16 {
 ///
 /// For now, only supports texts
 pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
-    return match item {
+    match item {
         ItemEnum::Weapon(weapon) => {
             let mut description = format!("{}\n", weapon.name);
             let price_range = calculate_price_range(weapon.price);
@@ -192,7 +192,7 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
                 price_range.0, price_range.1
             ));
 
-            description
+            return description;
         }
         ItemEnum::Armor(armor) => {
             let mut description = format!("{}\n", armor.name);
@@ -212,7 +212,7 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
                 price_range.0, price_range.1
             ));
 
-            description
+            return description;
         }
         ItemEnum::Scroll(scroll, quantity) => {
             let mut description = format!("{}\n", scroll.name);
@@ -229,7 +229,7 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
             description.push_str(&format!("\nQuantity: {}", quantity));
             description.push_str(&format!("\n\nPrice: {} G", scroll.price));
 
-            description
+            return description;
         }
     };
 }
@@ -241,7 +241,7 @@ pub fn calculate_price_range(price: u16) -> (u16, u16) {
     let lower_range = (price as f32 * 0.95) as u16;
     let upper_range = (price as f32 * 1.05) as u16;
 
-    (lower_range, upper_range)
+    return (lower_range, upper_range);
 }
 
 #[allow(dead_code)]
@@ -252,7 +252,7 @@ pub fn get_mission_notification_tooltip_text(completed_mission_number: u8) -> St
         "mission"
     };
 
-    format!(
+    return format!(
         "You have completed {} {}.
 
 You should check out your mission
@@ -260,7 +260,7 @@ reports in your office.
 
 Click to dismiss.",
         completed_mission_number, mission_word
-    )
+    );
 }
 
 pub fn equip_recruit_inventory(
@@ -426,136 +426,172 @@ pub fn sort_recruits_by_total_merged_stats(mut recruits: Vec<RecruitStats>) -> V
 
 pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureAtlasLayout {
     match texture_atlas_layout_enum {
-        TextureAtlasLayoutEnum::Weapon => TextureAtlasLayout::from_grid(
-            UVec2::new(400, 400),
-            6,
-            1,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        TextureAtlasLayoutEnum::Armor => TextureAtlasLayout::from_grid(
-            UVec2::new(400, 400),
-            4,
-            1,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        TextureAtlasLayoutEnum::Scroll => TextureAtlasLayout::from_grid(
-            UVec2::new(1080, 1080),
-            4,
-            1,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        TextureAtlasLayoutEnum::HudIcon => TextureAtlasLayout::from_grid(
-            UVec2::new(500, 500),
-            8,
-            1,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        TextureAtlasLayoutEnum::Notification => TextureAtlasLayout::from_grid(
-            UVec2::new(50, 50),
-            4,
-            1,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        TextureAtlasLayoutEnum::Discussion => TextureAtlasLayout::from_grid(
-            UVec2::new(800, 350),
-            1,
-            10,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        TextureAtlasLayoutEnum::SpontaneousApplication => TextureAtlasLayout::from_grid(
-            UVec2::new(800, 350),
-            1,
-            2,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        TextureAtlasLayoutEnum::Loot(item) => match item {
-            ItemLootEnum::Weapon(_) => TextureAtlasLayout::from_grid(
+        TextureAtlasLayoutEnum::Weapon => {
+            return TextureAtlasLayout::from_grid(
                 UVec2::new(400, 400),
                 6,
                 1,
                 Some(UVec2::new(0, 0)),
                 Some(UVec2::new(0, 0)),
-            ),
-            ItemLootEnum::Armor(_) => TextureAtlasLayout::from_grid(
+            )
+        }
+        TextureAtlasLayoutEnum::Armor => {
+            return TextureAtlasLayout::from_grid(
                 UVec2::new(400, 400),
                 4,
                 1,
                 Some(UVec2::new(0, 0)),
                 Some(UVec2::new(0, 0)),
-            ),
-            ItemLootEnum::Scroll(_) => TextureAtlasLayout::from_grid(
+            )
+        }
+        TextureAtlasLayoutEnum::Scroll => {
+            return TextureAtlasLayout::from_grid(
                 UVec2::new(1080, 1080),
                 4,
                 1,
                 Some(UVec2::new(0, 0)),
                 Some(UVec2::new(0, 0)),
-            ),
+            )
+        }
+        TextureAtlasLayoutEnum::HudIcon => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(500, 500),
+                8,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::Notification => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(50, 50),
+                4,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::Discussion => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(800, 350),
+                1,
+                10,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::SpontaneousApplication => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(800, 350),
+                1,
+                2,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::Loot(item) => match item {
+            ItemLootEnum::Weapon(_) => {
+                return TextureAtlasLayout::from_grid(
+                    UVec2::new(400, 400),
+                    6,
+                    1,
+                    Some(UVec2::new(0, 0)),
+                    Some(UVec2::new(0, 0)),
+                )
+            }
+            ItemLootEnum::Armor(_) => {
+                return TextureAtlasLayout::from_grid(
+                    UVec2::new(400, 400),
+                    4,
+                    1,
+                    Some(UVec2::new(0, 0)),
+                    Some(UVec2::new(0, 0)),
+                )
+            }
+            ItemLootEnum::Scroll(_) => {
+                return TextureAtlasLayout::from_grid(
+                    UVec2::new(1080, 1080),
+                    4,
+                    1,
+                    Some(UVec2::new(0, 0)),
+                    Some(UVec2::new(0, 0)),
+                )
+            }
         },
         TextureAtlasLayoutEnum::Item(item) => match item {
-            ItemEnum::Weapon(_) => TextureAtlasLayout::from_grid(
-                UVec2::new(400, 400),
+            ItemEnum::Weapon(_) => {
+                return TextureAtlasLayout::from_grid(
+                    UVec2::new(400, 400),
+                    6,
+                    1,
+                    Some(UVec2::new(0, 0)),
+                    Some(UVec2::new(0, 0)),
+                )
+            }
+            ItemEnum::Armor(_) => {
+                return TextureAtlasLayout::from_grid(
+                    UVec2::new(400, 400),
+                    4,
+                    1,
+                    Some(UVec2::new(0, 0)),
+                    Some(UVec2::new(0, 0)),
+                )
+            }
+            ItemEnum::Scroll(_, _) => {
+                return TextureAtlasLayout::from_grid(
+                    UVec2::new(1080, 1080),
+                    4,
+                    1,
+                    Some(UVec2::new(0, 0)),
+                    Some(UVec2::new(0, 0)),
+                )
+            }
+        },
+        TextureAtlasLayoutEnum::Button => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(16, 16),
+                5,
+                6,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::Recruit => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(200, 400),
+                7,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::Map => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(270, 200),
+                1,
+                2,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::MapType => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(100, 100),
+                4,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::Ennemy => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(200, 200),
                 6,
                 1,
                 Some(UVec2::new(0, 0)),
                 Some(UVec2::new(0, 0)),
-            ),
-            ItemEnum::Armor(_) => TextureAtlasLayout::from_grid(
-                UVec2::new(400, 400),
-                4,
-                1,
-                Some(UVec2::new(0, 0)),
-                Some(UVec2::new(0, 0)),
-            ),
-            ItemEnum::Scroll(_, _) => TextureAtlasLayout::from_grid(
-                UVec2::new(1080, 1080),
-                4,
-                1,
-                Some(UVec2::new(0, 0)),
-                Some(UVec2::new(0, 0)),
-            ),
-        },
-        TextureAtlasLayoutEnum::Button => TextureAtlasLayout::from_grid(
-            UVec2::new(16, 16),
-            5,
-            6,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        TextureAtlasLayoutEnum::Recruit => TextureAtlasLayout::from_grid(
-            UVec2::new(200, 400),
-            7,
-            1,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        TextureAtlasLayoutEnum::Map => TextureAtlasLayout::from_grid(
-            UVec2::new(270, 200),
-            1,
-            2,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        TextureAtlasLayoutEnum::MapType => TextureAtlasLayout::from_grid(
-            UVec2::new(100, 100),
-            4,
-            1,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        TextureAtlasLayoutEnum::Ennemy => TextureAtlasLayout::from_grid(
-            UVec2::new(200, 200),
-            6,
-            1,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
+            )
+        }
     }
 }
 

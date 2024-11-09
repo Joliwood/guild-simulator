@@ -21,7 +21,8 @@ pub fn select_mission_button(
 ) {
     let _window = windows.single_mut();
     if !mission_modal_visibility.0 {
-        for (interaction, mut color, unique_id, mission) in &mut interaction_query {
+        for (interaction, mut background_color, unique_id, mission) in &mut interaction_query {
+            // WIP - Change the method to query it
             if unique_id.0 == "select_mission_button" {
                 match *interaction {
                     Interaction::Pressed => {
@@ -38,11 +39,11 @@ pub fn select_mission_button(
                     }
                     Interaction::Hovered => {
                         // window.cursor.icon = CursorIcon::Pointer;
-                        *color = Color::WHITE.into();
+                        *background_color = Color::WHITE.into();
                     }
                     Interaction::None => {
                         // window.cursor.icon = CursorIcon::Default;
-                        *color = Color::BLACK.into();
+                        *background_color = Color::BLACK.into();
                     }
                 }
             }

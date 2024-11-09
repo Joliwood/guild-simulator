@@ -18,7 +18,7 @@ pub fn select_recruit_for_equipment_button(
 ) {
     let _window = windows.single_mut();
 
-    for (interaction, mut color, unique_id, recruit) in &mut interaction_query {
+    for (interaction, mut background_color, unique_id, recruit) in &mut interaction_query {
         let recruit_state = recruit.clone().state;
         if unique_id.0 == "recruit_button"
             && recruit_state != RecruitStateEnum::InMission
@@ -30,11 +30,11 @@ pub fn select_recruit_for_equipment_button(
                 }
                 Interaction::Hovered => {
                     // window.cursor.icon = CursorIcon::Pointer;
-                    *color = BackgroundColor(ColorPaletteEnum::Brown.as_color());
+                    *background_color = BackgroundColor(ColorPaletteEnum::Brown.as_color());
                 }
                 Interaction::None => {
                     // window.cursor.icon = CursorIcon::Default;
-                    *color = BackgroundColor(ColorPaletteEnum::Wood.as_color());
+                    *background_color = BackgroundColor(ColorPaletteEnum::Wood.as_color());
                 }
             }
         }

@@ -27,6 +27,7 @@ pub fn select_item_in_inventory(
     // let mut window = windows.single_mut();
 
     for (interaction, unique_id, mut border_color, item) in &mut interaction_query {
+        // WIP - Change the method to query it
         if unique_id.0 == "item_in_inventory" {
             match *interaction {
                 Interaction::Pressed => {

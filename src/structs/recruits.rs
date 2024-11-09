@@ -28,7 +28,7 @@ impl SelectedRecruitForEquipment {
             return recruit.recruit_inventory.clone();
         }
 
-        RecruitInventory::generate_empty_inventory()
+        return RecruitInventory::generate_empty_inventory();
     }
 
     pub fn get_id(&self) -> Option<Uuid> {
@@ -36,7 +36,7 @@ impl SelectedRecruitForEquipment {
             return Some(recruit.id);
         }
 
-        None
+        return None;
     }
 
     pub fn get_selected_recruit_for_equipment(&self) -> Option<RecruitStats> {
@@ -44,7 +44,7 @@ impl SelectedRecruitForEquipment {
             return Some(recruit.clone());
         }
 
-        None
+        return None;
     }
 }
 
@@ -84,11 +84,11 @@ pub struct RecruitInventory {
 
 impl RecruitInventory {
     pub fn generate_empty_inventory() -> Self {
-        Self {
+        return Self {
             armor: None,
             weapon: None,
             scrolls: vec![],
-        }
+        };
     }
 
     // pub fn get_weapon(&self) -> Option<Weapon> {
@@ -156,7 +156,7 @@ impl RecruitStats {
             }
         }
 
-        additional_strength
+        return additional_strength;
     }
 
     pub fn get_additional_endurance_from_items(&self) -> u32 {
@@ -180,7 +180,7 @@ impl RecruitStats {
             }
         }
 
-        additional_endurance
+        return additional_endurance;
     }
 
     pub fn get_additional_intelligence_from_items(&self) -> u32 {
@@ -204,7 +204,7 @@ impl RecruitStats {
             }
         }
 
-        additional_intelligence
+        return additional_intelligence;
     }
 
     pub fn get_total_merged_stats(&self) -> u32 {

@@ -1,21 +1,11 @@
-use bevy::prelude::{Component, Resource};
-
 use crate::enums::RoomEnum;
+use bevy::prelude::{Component, Resource};
 
 #[derive(Resource, Component)]
 pub struct GoldCountTrigger;
 
-// #[derive(Component)]
-// pub struct PlayerStatsRoomTrigger;
-
 #[derive(Component)]
 pub struct ResetRoomTrigger;
-
-// #[derive(Component)]
-// pub struct SelectedMissionRecruitIdTrigger;
-
-// #[derive(Component)]
-// pub struct SelectedMissionPercentOfVictoryTrigger;
 
 #[derive(Component)]
 pub struct MissionModalContentTrigger;
@@ -34,9 +24,6 @@ pub struct MissionReportTrigger;
 
 #[derive(Component)]
 pub struct MissionReportModalContentTrigger;
-
-// #[derive(Component)]
-// pub struct MissionReportButtonTrigger;
 
 #[derive(Component)]
 pub struct MissionReportModalSignButtonTrigger;

@@ -12,9 +12,9 @@ pub enum ItemEnum {
 impl ItemEnum {
     pub fn get_atlas_index(&self) -> u16 {
         match self {
-            ItemEnum::Weapon(weapon) => weapon.image_atlas_index,
-            ItemEnum::Armor(armor) => armor.image_atlas_index,
-            ItemEnum::Scroll(scroll, _) => scroll.image_atlas_index,
+            ItemEnum::Weapon(weapon) => return weapon.image_atlas_index,
+            ItemEnum::Armor(armor) => return armor.image_atlas_index,
+            ItemEnum::Scroll(scroll, _) => return scroll.image_atlas_index,
         }
     }
 

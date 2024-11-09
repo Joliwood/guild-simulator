@@ -1,7 +1,7 @@
 use crate::structs::{
     daily_events_folder::{
-        daily_events::DailyEvents,
-        discussions::{Answer, DailyDiscussion},
+        daily_events::{Answer, DailyEvents},
+        discussions::DailyDiscussion,
         spontaneous_applications::SpontaneousApplication,
     },
     general_structs::DailyEventsModalVisible,

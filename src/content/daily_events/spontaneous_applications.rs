@@ -2,7 +2,7 @@ use crate::{
     enums::{RecruitEnum, RecruitStateEnum},
     structs::{
         daily_events_folder::{
-            daily_events::DaySystem, discussions::Answer,
+            daily_events::{Answer, DaySystem},
             spontaneous_applications::SpontaneousApplication,
         },
         recruits::{RecruitInventory, RecruitStats},

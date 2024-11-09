@@ -1,6 +1,5 @@
-use super::{
-    daily_events::{get_random_index_from_percent_arr, DailyEventTargets, DaySystem},
-    discussions::Answer,
+use super::daily_events::{
+    get_random_index_from_percent_arr, Answer, DailyEventTargets, DaySystem,
 };
 use bevy::prelude::*;
 
@@ -64,5 +63,5 @@ pub fn get_random_spontaneous_application_indexs(
         available_spontaneous_applications.remove(selected_index);
     }
 
-    selected_spontaneous_applications
+    return selected_spontaneous_applications;
 }
