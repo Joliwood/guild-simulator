@@ -49,7 +49,7 @@ pub fn mission_report_modal(
             None => return,
         };
 
-        let mission = match missions.get_mission_by_id(last_mission_report.mission_id) {
+        let mission = match missions.get_mission_by_id(&last_mission_report.mission_id) {
             Some(mission) => mission,
             None => return,
         };

@@ -1,4 +1,4 @@
-use super::{left_hud::left_hud, right_hud::right_hud};
+use super::{left_hud::left_hud, right_hud::right_hud, sleep_button::sleep_button};
 use crate::{
     enums::{RoomEnum, TextureAtlasLayoutEnum},
     structs::{player_stats::PlayerStats, trigger_structs::RoomButtonTrigger},
@@ -21,7 +21,7 @@ pub fn hud(
         // Main Container
         .spawn((
             UiImage {
-                image: my_assets.load("images/hud/hud3.png"),
+                image: my_assets.load("images/hud/hud4.png"),
                 ..default()
             },
             Node {
@@ -120,11 +120,19 @@ pub fn hud(
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::Barrack));
                 });
+
             right_hud(
                 parent,
                 &my_assets,
                 &player_stats,
-                hud_icons_texture_atlas_layout,
+                &hud_icons_texture_atlas_layout,
             );
         });
+
+    sleep_button(
+        &mut commands,
+        &my_assets,
+        &player_stats,
+        &mut texture_atlas_layouts,
+    );
 }

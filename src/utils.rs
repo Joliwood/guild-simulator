@@ -279,29 +279,23 @@ pub fn equip_recruit_inventory(
                 selected_recruit_for_equipment_inventory.weapon;
             let selected_recruit_for_equipment_id = selected_recruit_for_equipment.get_id();
 
-            if selected_recruit_for_equipment_id.is_some() {
-                if selected_recruit_for_equipment_weapon.is_none() {
-                    player_stats
-                        .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
-                    selected_recruit_for_equipment.0 =
-                        player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
-                    player_stats.remove_item(item);
-                    return true;
+            if let Some(recruit_id) = selected_recruit_for_equipment_id {
+                // If the recruit already has a weapon, we put it back in the player inventory
+                if let Some(weapon_already_equipped) = selected_recruit_for_equipment_weapon {
+                    player_stats.add_item(ItemEnum::Weapon(weapon_already_equipped));
                 }
 
-                if selected_recruit_for_equipment_weapon.is_some() {
-                    let selected_recruit_for_equipment_item =
-                        ItemEnum::Weapon(selected_recruit_for_equipment_weapon.clone().unwrap());
-                    player_stats.add_item(selected_recruit_for_equipment_item);
-                    player_stats
-                        .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
-                    selected_recruit_for_equipment.0 =
-                        player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
-                    player_stats.remove_item(item);
-                    return true;
-                }
+                // In all cases we ->
+
+                // Equip the weapon to the recruit
+                player_stats.equip_item_to_recruit(recruit_id, item);
+
+                // Update the selected recruit (must be synchronized with player_stats > recruits)
+                selected_recruit_for_equipment.0 = player_stats.get_recruit_by_id(recruit_id);
+
+                // Remove the item from the player inventory
+                player_stats.remove_item(item);
             }
-
             return false;
         }
         ItemEnum::Armor(_armor) => {
@@ -406,7 +400,7 @@ pub fn finish_mission(
         let golds_earned = missions.get_golds_earned_by_mission_id(mission_id).unwrap() as i32;
         new_mission_report.golds_gained = Some(golds_earned);
 
-        let mission = missions.get_mission_by_id(mission_id);
+        let mission = missions.get_mission_by_id(&mission_id);
 
         if mission.is_none() {
             return;
@@ -433,7 +427,7 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
                 1,
                 Some(UVec2::new(0, 0)),
                 Some(UVec2::new(0, 0)),
-            )
+            );
         }
         TextureAtlasLayoutEnum::Armor => {
             return TextureAtlasLayout::from_grid(
@@ -587,6 +581,15 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
             return TextureAtlasLayout::from_grid(
                 UVec2::new(200, 200),
                 6,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::SleepButton => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(400, 400),
+                3,
                 1,
                 Some(UVec2::new(0, 0)),
                 Some(UVec2::new(0, 0)),

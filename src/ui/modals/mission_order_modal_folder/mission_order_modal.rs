@@ -138,13 +138,11 @@ pub fn mission_order_modal(
                                         &mut texture_atlas_layouts,
                                     );
 
-                                    if selected_mission.percent_of_victory.is_some() {
-                                        // Percent of Win (centered)
+                                    if let Some(percent_of_victory) =
+                                        selected_mission.percent_of_victory
+                                    {
                                         parent.spawn((
-                                            Text::new(format!(
-                                                "{}%",
-                                                selected_mission.percent_of_victory.unwrap()
-                                            )),
+                                            Text::new(format!("{}%", percent_of_victory)),
                                             TextFont {
                                                 font: my_assets.load(FONT_FIRA),
                                                 font_size: 16.0,

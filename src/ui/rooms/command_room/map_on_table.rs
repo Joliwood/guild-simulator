@@ -24,13 +24,12 @@ pub fn map_on_table(
             ..default()
         })
         .with_children(|button| {
-            if map.is_some() {
-                let missions = missions.get_missions_by_ids(map.clone().unwrap().map_mission_ids);
+            if let Some(map) = map {
+                let missions = missions.get_missions_by_ids(&map.map_mission_ids);
                 button
                     .spawn((
                         UiImage {
-                            image: my_assets
-                                .load(MapImageEnum::get_path(&map.clone().unwrap().image)),
+                            image: my_assets.load(MapImageEnum::get_path(&map.image)),
                             ..default()
                         },
                         Node {

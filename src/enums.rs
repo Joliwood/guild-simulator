@@ -176,4 +176,5 @@ pub enum TextureAtlasLayoutEnum<'a> {
     Map,
     MapType,
     Ennemy,
+    SleepButton,
 }

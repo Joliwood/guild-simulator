@@ -167,8 +167,8 @@ impl SelectedMission {
 pub struct Missions(pub Vec<Mission>);
 
 impl Missions {
-    pub fn get_mission_by_id(&self, id: u16) -> Option<Mission> {
-        if let Some(mission) = self.0.iter().find(|mission| mission.id == id) {
+    pub fn get_mission_by_id(&self, id: &u16) -> Option<Mission> {
+        if let Some(mission) = self.0.iter().find(|mission| mission.id == *id) {
             return Some(mission.clone());
         }
         None
@@ -236,7 +236,7 @@ impl Missions {
         }
     }
 
-    pub fn get_missions_by_ids(&self, ids: Vec<u16>) -> Vec<Mission> {
+    pub fn get_missions_by_ids(&self, ids: &Vec<u16>) -> Vec<Mission> {
         let mut missions = vec![];
 
         for id in ids {

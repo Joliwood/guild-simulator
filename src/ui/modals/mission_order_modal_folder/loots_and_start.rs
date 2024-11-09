@@ -20,7 +20,7 @@ pub fn loots_and_start(
 ) {
     let selected_mission_id = selected_mission.mission.as_ref().unwrap().id;
     let mission_loots = missions
-        .get_mission_by_id(selected_mission_id)
+        .get_mission_by_id(&selected_mission_id)
         .unwrap()
         .loots;
 

@@ -12,7 +12,7 @@ pub fn right_hud(
     commands: &mut ChildBuilder,
     my_assets: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
-    texture_atlas_layouts: Handle<TextureAtlasLayout>,
+    texture_atlas_layouts: &Handle<TextureAtlasLayout>,
 ) {
     commands
         .spawn(Node {
