@@ -78,8 +78,6 @@ use crate::{
 //     pub notification_token_in_wood: Handle<Image>,
 //     #[asset(path = "images/rooms/office/set_of_keys.png")]
 //     pub set_of_keys: Handle<Image>,
-//     #[asset(path = "images/rooms/office/set_of_keys_container.png")]
-//     pub set_of_keys_container: Handle<Image>,
 //     #[asset(path = "images/rooms/office/daily_event_documents_on_desk.png")]
 //     pub daily_event_documents_on_desk: Handle<Image>,
 //     #[asset(path = "images/rooms/office/daily_event_document.png")]

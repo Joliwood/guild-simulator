@@ -101,6 +101,7 @@ pub fn sleep_button_system(
                 player_stats.increment_golds(recruit_length as i32 * -2);
 
                 day_time.reset();
+                border_color.0 = Color::NONE;
             }
             Interaction::Hovered => {
                 // window.cursor.icon = CursorIcon::Pointer;

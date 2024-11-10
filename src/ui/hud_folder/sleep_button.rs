@@ -4,7 +4,7 @@ use crate::{
     structs::{
         general_structs::DayTime,
         player_stats::PlayerStats,
-        trigger_structs::{PlayerDayTrigger, RealTimeDayProgressBarTrigger},
+        trigger_structs::{PlayerDayTrigger, RealTimeDayProgressBarTrigger, SleepButtonTrigger},
     },
     utils::get_layout,
 };
@@ -39,20 +39,25 @@ pub fn sleep_button(
         .with_children(|parent| {
             parent
                 .spawn((
+                    Button,
                     UiImage::from_atlas_image(
                         my_assets.load("images/hud/sleep_button_atlas.png"),
                         TextureAtlas {
                             index: 1,
                             layout: sleep_button_atlas_layout.clone(),
                         },
-                    ),
+                    )
+                    .with_mode(NodeImageMode::Stretch),
                     Node {
                         width: Val::Px(70.),
                         height: Val::Px(70.),
+                        border: UiRect::all(Val::Px(3.)),
                         ..default()
                     },
                     GlobalZIndex(2),
+                    BorderColor(Color::NONE),
                     BorderRadius::MAX,
+                    SleepButtonTrigger,
                 ))
                 .insert(Name::new("Sleep Button Icon"));
 

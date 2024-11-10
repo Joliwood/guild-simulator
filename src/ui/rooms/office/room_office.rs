@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 use super::{
     daily_event_documents::daily_event_documents,
-    mission_report_documents::mission_report_documents, set_of_keys::set_of_keys,
+    mission_report_documents::mission_report_documents,
 };
 use crate::structs::{
     daily_events_folder::daily_events::DailyEvents, general_structs::MissionReportsModalVisible,
@@ -61,11 +61,9 @@ pub fn room_office(
                         // Adding child nodes with different positions
                         .with_children(|elements_on_desk: &mut ChildBuilder| {
                             mission_report_documents(my_assets, elements_on_desk, mission_reports);
-                            // TODO - Futur features, not necessary for V0
                             // recap_guild_scroll(&asset_server, elements_on_desk);
                             // talents_on_desk(&asset_server, elements_on_desk);
                             daily_event_documents(my_assets, elements_on_desk, daily_events);
-                            set_of_keys(my_assets, elements_on_desk, mission_reports, daily_events);
                         });
                 });
         });

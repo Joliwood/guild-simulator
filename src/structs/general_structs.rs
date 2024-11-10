@@ -6,8 +6,7 @@ use bevy::prelude::{Component, Resource};
 // ! For workflow with ron files
 // use ron::de::from_str;
 
-// For a day that start at 8 AM and end at 10 PM
-pub const MAX_GAME_SECONDS: u32 = (22 - 8) * 60;
+pub const MAX_GAME_SECONDS: u32 = 300;
 
 #[derive(Resource)]
 pub struct MissionNotificationsNumber(pub u8);

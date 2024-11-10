@@ -18,6 +18,7 @@ colored = "2.0"
 # winit = { version = "0.30", default-features = false }
 # unic-langid = "0.9.5"
 bevy_fluent = "0.10.0"
+# accesskit = "0.17.0"
 
 # This is used by trunk as it doesn't support custom profiles: https://github.com/trunk-rs/trunk/issues/605
 # xbuild also uses this profile for building android AABs because I couldn't find a configuration for it
