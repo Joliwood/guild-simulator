@@ -6,6 +6,8 @@ use bevy::prelude::{Component, Resource};
 // ! For workflow with ron files
 // use ron::de::from_str;
 
+pub const MAX_GAME_SECONDS: u32 = 60;
+
 #[derive(Resource)]
 pub struct MissionNotificationsNumber(pub u8);
 
@@ -99,7 +101,7 @@ pub fn load_armor(armor: ArmorsEnum) -> Armor {
 pub struct DayTime {
     pub current_time: f32,
     pub elapsed_time: f32,
-    pub tick_count: u32,
+    pub second_count: u32,
 }
 
 impl DayTime {
@@ -113,6 +115,6 @@ impl DayTime {
     pub fn reset(&mut self) {
         self.current_time = 0.0;
         self.elapsed_time = 0.0;
-        self.tick_count = 0;
+        self.second_count = 0;
     }
 }

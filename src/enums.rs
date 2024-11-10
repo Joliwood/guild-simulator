@@ -96,13 +96,12 @@ impl SoundEnum {
 pub enum ColorPaletteEnum {
     Danger,
     DarkBrown,
-    Info,
-    Primary,
     Success,
     Warning,
     Brown,
     Wood,
     DarkGray,
+    SunnyLight,
 }
 
 impl ColorPaletteEnum {
@@ -110,8 +109,6 @@ impl ColorPaletteEnum {
         match *self {
             ColorPaletteEnum::Danger => Color::srgb(0.9, 0.1, 0.1),
             ColorPaletteEnum::DarkBrown => Color::srgb(0.13, 0.11, 0.09),
-            ColorPaletteEnum::Info => Color::srgb(0.2, 0.7, 0.9),
-            ColorPaletteEnum::Primary => Color::srgb(0.1, 0.2, 0.8),
             ColorPaletteEnum::Success => Color::srgb(0.1, 0.8, 0.1),
             ColorPaletteEnum::Warning => Color::srgb(0.9, 0.7, 0.0),
             ColorPaletteEnum::Brown => Color::srgba(0.647, 0.165, 0.165, 0.5),
@@ -119,7 +116,7 @@ impl ColorPaletteEnum {
                 Color::srgba(193.0 / 255.0, 154.0 / 255.0, 107.0 / 255.0, 1.0)
             }
             ColorPaletteEnum::DarkGray => Color::srgba(0.2, 0.2, 0.2, 1.0),
-            // Color::srgb(0.25, 0.25, 0.25)
+            ColorPaletteEnum::SunnyLight => Color::srgba(0.9686, 0.9686, 0.7137, 1.0),
         }
     }
 }

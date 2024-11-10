@@ -54,3 +54,6 @@ pub struct RoomButtonTrigger(pub RoomEnum);
 
 #[derive(Component)]
 pub struct SelectMapTrigger;
+
+#[derive(Component)]
+pub struct RealTimeDayProgressBarTrigger;

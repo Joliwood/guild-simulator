@@ -1,8 +1,10 @@
 use crate::{
-    enums::TextureAtlasLayoutEnum,
+    enums::{ColorPaletteEnum, TextureAtlasLayoutEnum},
     my_assets::FONT_FIRA,
     structs::{
-        general_structs::DayTime, player_stats::PlayerStats, trigger_structs::PlayerDayTrigger,
+        general_structs::DayTime,
+        player_stats::PlayerStats,
+        trigger_structs::{PlayerDayTrigger, RealTimeDayProgressBarTrigger},
     },
     utils::get_layout,
 };
@@ -11,9 +13,9 @@ use bevy::prelude::*;
 pub fn sleep_button(
     commands: &mut Commands,
     my_assets: &Res<AssetServer>,
-    _player_stats: &Res<PlayerStats>,
+    player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
-    day_time: &Res<DayTime>,
+    _day_time: &Res<DayTime>,
 ) {
     let sleep_button_layout = get_layout(TextureAtlasLayoutEnum::SleepButton);
     let sleep_button_atlas_layout = texture_atlas_layouts.add(sleep_button_layout);
@@ -56,11 +58,10 @@ pub fn sleep_button(
 
             parent
                 .spawn((
-                    // Text::new(format!("Day : {}", player_stats.day)),
-                    Text::new(format!("Time : {}", day_time.tick_count)),
+                    Text::new(format!("Day : {}", player_stats.day)),
                     Node {
                         position_type: PositionType::Absolute,
-                        bottom: Val::Px(4.),
+                        bottom: Val::Px(7.),
                         left: Val::Px(80.),
                         ..default()
                     },
@@ -72,5 +73,25 @@ pub fn sleep_button(
                     TextColor(Color::WHITE),
                 ))
                 .insert(PlayerDayTrigger);
+
+            // Progress bar
+            parent.spawn((
+                UiImage::solid_color(ColorPaletteEnum::Success.as_color()),
+                Node {
+                    position_type: PositionType::Absolute,
+                    bottom: Val::Px(0.),
+                    left: Val::Px(60.),
+                    width: Val::Px(0.0),
+                    height: Val::Px(3.0),
+                    margin: UiRect {
+                        bottom: Val::Px(3.),
+                        ..default()
+                    },
+                    ..default()
+                },
+                BorderRadius::MAX,
+                GlobalZIndex(5),
+                RealTimeDayProgressBarTrigger,
+            ));
         });
 }
