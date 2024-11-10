@@ -79,15 +79,6 @@ pub fn reset_modals_visibility(
     selected_recruit_for_mission.0 = None;
 }
 
-/// Calculates the total points of a recruit based on its strength, endurance
-/// and intelligence.
-///
-/// Basic V1 algorythme to calculate after that the % of victory for each
-/// mission and each recruit assigned
-pub fn get_global_points(strength: u16, endurance: u16, intelligence: u16) -> u16 {
-    return strength + endurance + intelligence;
-}
-
 /// ## Calculates the victory percentage of a mission based on the global points
 ///
 /// - If recruit points = ennemy points / 2 => 0%.
@@ -286,7 +277,6 @@ pub fn equip_recruit_inventory(
                 }
 
                 // In all cases we ->
-
                 // Equip the weapon to the recruit
                 player_stats.equip_item_to_recruit(recruit_id, item);
 
@@ -295,6 +285,8 @@ pub fn equip_recruit_inventory(
 
                 // Remove the item from the player inventory
                 player_stats.remove_item(item);
+
+                return true;
             }
             return false;
         }
@@ -602,12 +594,12 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
 mod tests {
     use super::*;
 
-    #[test]
-    fn test_get_global_points() {
-        assert_eq!(get_global_points(1, 1, 1), 3);
-        assert_eq!(get_global_points(2, 2, 2), 6);
-        assert_eq!(get_global_points(3, 3, 3), 9);
-    }
+    // #[test]
+    // fn test_get_global_points() {
+    //     assert_eq!(get_global_points(1, 1, 1), 3);
+    //     assert_eq!(get_global_points(2, 2, 2), 6);
+    //     assert_eq!(get_global_points(3, 3, 3), 9);
+    // }
 
     #[test]
     fn test_get_victory_percentage() {

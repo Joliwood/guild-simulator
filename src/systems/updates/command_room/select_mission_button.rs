@@ -15,7 +15,7 @@ pub fn select_mission_button(
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
-    missions: Res<Missions>,
+    _missions: Res<Missions>,
     mut selected_mission: ResMut<SelectedMission>,
     mut mission_modal_visibility: ResMut<MissionModalVisible>,
 ) {
@@ -26,14 +26,7 @@ pub fn select_mission_button(
             if unique_id.0 == "select_mission_button" {
                 match *interaction {
                     Interaction::Pressed => {
-                        let mission_id = mission.id;
-
-                        // Search the mission by id in the player_disponible missions
-                        selected_mission.mission = missions
-                            .0
-                            .iter()
-                            .find(|mission| mission.id == mission_id)
-                            .cloned();
+                        selected_mission.mission_id = Some(mission.id);
 
                         mission_modal_visibility.0 = true;
                     }

@@ -5,7 +5,7 @@ use super::{
 };
 use crate::{
     content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
-    utils::{calculate_price_range, get_global_points, get_victory_percentage},
+    utils::{calculate_price_range, get_victory_percentage},
 };
 use bevy::prelude::*;
 use uuid::Uuid;
@@ -123,41 +123,85 @@ impl MissionReports {
 
 #[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct SelectedMission {
-    pub mission: Option<Mission>,
+    // pub mission: Option<Mission>,
+    pub mission_id: Option<u16>,
     pub percent_of_victory: Option<u32>,
     pub recruit_id: Option<Uuid>,
 }
 
 impl SelectedMission {
-    pub fn get_mission(&self) -> Option<Mission> {
-        if let Some(mission) = &self.mission {
-            return Some(mission.clone());
+    // WIP
+    // pub fn get_mission(&self) -> Option<Mission> {
+    //     if let Some(mission) = &self.mission {
+    //         return Some(mission.clone());
+    //     }
+
+    //     None
+    // }
+
+    // pub fn calculate_percent_of_victory(&mut self, player_stats: &Res<PlayerStats>) {
+    //     if self.mission.is_none() {
+    //         return;
+    //     }
+
+    //     let ennemy = self.mission.as_ref().unwrap().ennemy.clone();
+    //     let ennemy_global_points =
+    //         get_global_points(ennemy.strength, ennemy.endurance, ennemy.intelligence);
+
+    //     let recruit_id = self.recruit_id.unwrap();
+    //     let recruit = player_stats.get_recruit_by_id(recruit_id).unwrap();
+    //     let recruit_global_points = recruit.get_total_merged_stats();
+
+    //     let victory_percentage =
+    //         get_victory_percentage(recruit_global_points as u16, ennemy_global_points) as u32;
+
+    //     self.percent_of_victory = Some(victory_percentage);
+    // }
+
+    pub fn calculate_percent_of_victory(
+        &mut self,
+        // missions: &ResMut<Missions>,
+        mission: &Mission,
+        player_stats: &Res<PlayerStats>,
+    ) {
+        // This function should be call only if the mission_id is set
+        if let Some(recruit_id) = self.recruit_id {
+            // let mission = match missions.get_mission_by_id(&mission_id) {
+            //     Some(mission) => mission,
+            //     None => {
+            //         error!(
+            //             "The mission id doesn't exist in all missions for this mission_id : {}",
+            //             mission_id
+            //         );
+            //         return;
+            //     }
+            // };
+
+            let recruit = match player_stats.get_recruit_by_id(recruit_id) {
+                Some(recruit) => recruit,
+                None => {
+                    error!(
+                        "The recruit id doesn't exist in player recruits for this recruit_id : {}",
+                        recruit_id
+                    );
+                    return;
+                }
+            };
+
+            let ennemy_global_points = mission.ennemy.get_global_points();
+            let recruit_global_points = recruit.get_total_merged_stats();
+
+            let victory_percentage =
+                get_victory_percentage(recruit_global_points as u16, ennemy_global_points) as u32;
+
+            self.percent_of_victory = Some(victory_percentage);
         }
-
-        None
-    }
-
-    pub fn calculate_percent_of_victory(&mut self, player_stats: &Res<PlayerStats>) {
-        if self.mission.is_none() {
-            return;
-        }
-
-        let ennemy = self.mission.as_ref().unwrap().ennemy.clone();
-        let ennemy_global_points =
-            get_global_points(ennemy.strength, ennemy.endurance, ennemy.intelligence);
-
-        let recruit_id = self.recruit_id.unwrap();
-        let recruit = player_stats.get_recruit_by_id(recruit_id).unwrap();
-        let recruit_global_points = recruit.get_total_merged_stats();
-
-        let victory_percentage =
-            get_victory_percentage(recruit_global_points as u16, ennemy_global_points) as u32;
-
-        self.percent_of_victory = Some(victory_percentage);
     }
 
     pub fn reset(&mut self) {
-        self.mission = None;
+        // WIP
+        // self.mission = None;
+        self.mission_id = None;
         self.percent_of_victory = None;
         self.recruit_id = None;
     }
@@ -171,10 +215,10 @@ impl Missions {
         if let Some(mission) = self.0.iter().find(|mission| mission.id == *id) {
             return Some(mission.clone());
         }
-        None
+        return None;
     }
 
-    pub fn assign_recruit_id_to_mission(&mut self, mission_id: u16, recruit_id: Uuid) {
+    pub fn assign_recruit_id_to_mission_by_id(&mut self, mission_id: u16, recruit_id: Uuid) {
         if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
             mission.assign_recruit_by_id(recruit_id);
         }
@@ -186,7 +230,7 @@ impl Missions {
         }
     }
 
-    pub fn attribute_days_left_to_mission(&mut self, mission_id: u16) {
+    pub fn attribute_days_left_by_mission_id(&mut self, mission_id: u16) {
         if let Some(mission) = self.0.iter_mut().find(|mission| mission.id == mission_id) {
             mission.attribute_days_left();
         }
@@ -196,14 +240,14 @@ impl Missions {
         if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
             return mission.days_left.is_none();
         }
-        false
+        return false;
     }
 
     pub fn get_recruit_send_id_by_mission_id(&self, mission_id: u16) -> Option<Uuid> {
         if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
             return mission.recruit_send;
         }
-        None
+        return None;
     }
 
     pub fn desassign_recruit_to_mission(&mut self, mission_id: u16) {
@@ -216,14 +260,14 @@ impl Missions {
         if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
             return Some(mission.ennemy.level);
         }
-        None
+        return None;
     }
 
     pub fn get_percent_of_victory_by_mission_id(&self, mission_id: u16) -> Option<u32> {
         if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
             return mission.percent_of_victory;
         }
-        None
+        return None;
     }
 
     pub fn attribute_percent_of_victory_to_mission(
@@ -245,14 +289,14 @@ impl Missions {
             }
         }
 
-        missions
+        return missions;
     }
 
     pub fn get_golds_earned_by_mission_id(&self, mission_id: u16) -> Option<u32> {
         if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
             return Some(mission.golds);
         }
-        None
+        return None;
     }
 
     pub fn unlock_missions_by_mission_id(&mut self, mission_id: u16) {

@@ -41,14 +41,14 @@ pub fn mission_order_modal(
     // Despawn and retrigger if the recruit is changed
     if (selected_recruit_for_mission.is_changed() || mission_modal_visibility.is_changed())
         && mission_modal_visibility.0
-        && selected_mission.mission.is_some()
+        && selected_mission.mission_id.is_some()
     {
         // Despawn existing modals when retriggering
         for entity in query.iter() {
             commands.entity(entity).despawn_recursive();
         }
 
-        if let Some(mission) = &selected_mission.mission {
+        if let Some(mission) = missions.get_mission_by_id(&selected_mission.mission_id.unwrap()) {
             commands
                 .spawn((
                     Node {
@@ -134,7 +134,7 @@ pub fn mission_order_modal(
                                     mission_recap(
                                         parent,
                                         &my_assets,
-                                        mission,
+                                        &mission,
                                         &mut texture_atlas_layouts,
                                     );
 

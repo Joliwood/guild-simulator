@@ -6,7 +6,8 @@ use bevy::prelude::{Component, Resource};
 // ! For workflow with ron files
 // use ron::de::from_str;
 
-pub const MAX_GAME_SECONDS: u32 = 60;
+// For a day that start at 8 AM and end at 10 PM
+pub const MAX_GAME_SECONDS: u32 = (22 - 8) * 60;
 
 #[derive(Resource)]
 pub struct MissionNotificationsNumber(pub u8);
@@ -32,6 +33,12 @@ pub struct Ennemy {
     pub name: String,
     pub strength: u16,
     pub image_atlas_index: u16,
+}
+
+impl Ennemy {
+    pub fn get_global_points(&self) -> u16 {
+        self.endurance + self.intelligence + self.strength
+    }
 }
 
 // ! Version with Ron + serde
