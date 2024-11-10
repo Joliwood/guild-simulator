@@ -26,13 +26,14 @@ use bevy::{prelude::*, window::WindowTheme};
 use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
     general_structs::{
-        DailyEventsModalVisible, MissionModalVisible, MissionNotificationsNumber,
+        DailyEventsModalVisible, DayTime, MissionModalVisible, MissionNotificationsNumber,
         MissionReportsModalVisible,
     },
     maps::{Maps, SelectedMapId},
     missions::{MissionReports, Missions, SelectedMission},
     player_stats::PlayerStats,
     recruits::{SelectedRecruitForEquipment, SelectedRecruitForMission},
+    trigger_structs::PlayerDayTrigger,
 };
 
 fn main() -> AppExit {
@@ -75,6 +76,11 @@ fn main() -> AppExit {
         .insert_resource(DailyEventTargets::default())
         // .insert_resource(Locale::new(fr::FR).with_default(en::US))
         // .insert_resource(Locales(vec![fr::FR, en::US]))
+        .insert_resource(DayTime {
+            current_time: 0.0,
+            elapsed_time: 0.0,
+            tick_count: 0,
+        })
         .add_systems(
             Startup,
             (
@@ -119,7 +125,65 @@ fn main() -> AppExit {
                 ui::modals::daily_events::daily_events_modal::daily_events_modal,
                 ui::modals::mission_order_modal_folder::mission_order_modal::mission_order_modal,
                 ui::modals::mission_report_modal_folder::mission_report_modal::mission_report_modal,
+                update_daytime,
             ),
         )
         .run()
+}
+
+// fn update_daytime(
+//     mut day_time: ResMut<DayTime>,
+//     time: Res<Time>,
+//     query: Single<Entity, (With<PlayerDayTrigger>, With<Text>)>,
+//     writer: TextUiWriter,
+// ) {
+//     day_time.current_time += time.delta_secs();
+//     day_time.elapsed_time += time.delta_secs();
+
+//     // Will execute every second
+//     if day_time.elapsed_time >= 1.0 {
+//         day_time.tick_count += 1;
+//         println!("Time: {}", day_time.tick_count);
+//         day_time.elapsed_time -= 1.0;
+//         update_day_time_counter(day_time.tick_count, query, writer);
+//     }
+// }
+
+fn update_daytime(
+    mut day_time: ResMut<DayTime>,
+    time: Res<Time>,
+    query: Single<Entity, (With<PlayerDayTrigger>, With<Text>)>,
+    writer: TextUiWriter,
+) {
+    // Limite maximale de 840 secondes (14 minutes)
+    const MAX_GAME_SECONDS: u32 = 12;
+
+    // Si le temps maximal est atteint, on arrête d'incrémenter
+    if day_time.tick_count >= MAX_GAME_SECONDS {
+        return;
+    }
+
+    // On ajoute le temps écoulé en secondes au compteur de temps
+    day_time.current_time += time.delta_secs();
+    day_time.elapsed_time += time.delta_secs();
+
+    // Exécute tous les secondes
+    if day_time.elapsed_time >= 1.0 {
+        day_time.tick_count += 1;
+        println!("Time: {}", day_time.tick_count);
+        day_time.elapsed_time -= 1.0;
+
+        // Met à jour l'UI seulement si on n'a pas atteint le maximum
+        if day_time.tick_count < MAX_GAME_SECONDS {
+            update_day_time_counter(day_time.tick_count, query, writer);
+        }
+    }
+}
+
+fn update_day_time_counter(
+    tick_count: u32,
+    query: Single<Entity, (With<PlayerDayTrigger>, With<Text>)>,
+    mut writer: TextUiWriter,
+) {
+    *writer.text(*query, 0) = format!("Time : {}", tick_count);
 }

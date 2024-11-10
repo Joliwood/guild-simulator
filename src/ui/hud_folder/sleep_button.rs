@@ -1,7 +1,9 @@
 use crate::{
     enums::TextureAtlasLayoutEnum,
     my_assets::FONT_FIRA,
-    structs::{player_stats::PlayerStats, trigger_structs::PlayerDayTrigger},
+    structs::{
+        general_structs::DayTime, player_stats::PlayerStats, trigger_structs::PlayerDayTrigger,
+    },
     utils::get_layout,
 };
 use bevy::prelude::*;
@@ -9,8 +11,9 @@ use bevy::prelude::*;
 pub fn sleep_button(
     commands: &mut Commands,
     my_assets: &Res<AssetServer>,
-    player_stats: &Res<PlayerStats>,
+    _player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
+    day_time: &Res<DayTime>,
 ) {
     let sleep_button_layout = get_layout(TextureAtlasLayoutEnum::SleepButton);
     let sleep_button_atlas_layout = texture_atlas_layouts.add(sleep_button_layout);
@@ -53,7 +56,8 @@ pub fn sleep_button(
 
             parent
                 .spawn((
-                    Text::new(format!("Day : {}", player_stats.day)),
+                    // Text::new(format!("Day : {}", player_stats.day)),
+                    Text::new(format!("Time : {}", day_time.tick_count)),
                     Node {
                         position_type: PositionType::Absolute,
                         bottom: Val::Px(4.),

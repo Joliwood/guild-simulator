@@ -3,6 +3,7 @@ use crate::{
     enums::SoundEnum,
     structs::{
         daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
+        general_structs::DayTime,
         missions::{MissionReports, Missions},
         player_stats::PlayerStats,
         trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
@@ -28,6 +29,7 @@ pub fn sleep_button_system(
     mut windows: Query<&mut Window>,
     mut daily_events: ResMut<DailyEvents>,
     mut daily_event_targets: ResMut<DailyEventTargets>,
+    mut day_time: ResMut<DayTime>,
 ) {
     let _window = windows.single_mut();
 
@@ -97,6 +99,8 @@ pub fn sleep_button_system(
 
                 let recruit_length = player_stats.recruits.len();
                 player_stats.increment_golds(recruit_length as i32 * -2);
+
+                day_time.reset();
             }
             Interaction::Hovered => {
                 // window.cursor.icon = CursorIcon::Pointer;

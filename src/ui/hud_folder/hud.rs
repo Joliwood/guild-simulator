@@ -1,7 +1,9 @@
 use super::{left_hud::left_hud, right_hud::right_hud, sleep_button::sleep_button};
 use crate::{
     enums::{RoomEnum, TextureAtlasLayoutEnum},
-    structs::{player_stats::PlayerStats, trigger_structs::RoomButtonTrigger},
+    structs::{
+        general_structs::DayTime, player_stats::PlayerStats, trigger_structs::RoomButtonTrigger,
+    },
     utils::get_layout,
 };
 use bevy::prelude::*;
@@ -12,6 +14,7 @@ pub fn hud(
     mut commands: Commands,
     player_stats: Res<PlayerStats>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    day_time: Res<DayTime>,
 ) {
     let hud_icons_layout = get_layout(TextureAtlasLayoutEnum::HudIcon);
     let hud_icons_texture_atlas_layout: Handle<TextureAtlasLayout> =
@@ -134,5 +137,6 @@ pub fn hud(
         &my_assets,
         &player_stats,
         &mut texture_atlas_layouts,
+        &day_time,
     );
 }
