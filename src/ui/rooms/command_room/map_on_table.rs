@@ -24,13 +24,12 @@ pub fn map_on_table(
             ..default()
         })
         .with_children(|button| {
-            if map.is_some() {
-                let missions = missions.get_missions_by_ids(map.clone().unwrap().map_mission_ids);
+            if let Some(map) = map {
+                let missions = missions.get_missions_by_ids(&map.map_mission_ids);
                 button
                     .spawn((
                         UiImage {
-                            image: my_assets
-                                .load(MapImageEnum::get_path(&map.clone().unwrap().image)),
+                            image: my_assets.load(MapImageEnum::get_path(&map.image)),
                             ..default()
                         },
                         Node {
@@ -47,33 +46,15 @@ pub fn map_on_table(
                         for mission in missions.iter().filter(|mission| mission.unlocked) {
                             if mission.recruit_send.is_none() {
                                 map.spawn(
-                                    // ! WIP - CRASH
                                     CustomButton::MissionOnMap
                                         .mission_bundle(my_assets, mission.id),
-                                    // Node {
-                                    //     display: Display::Flex,
-                                    //     justify_content: JustifyContent::Center,
-                                    //     align_items: AlignItems::Center,
-                                    //     width: Val::Percent(100.),
-                                    //     height: Val::Percent(100.),
-                                    //     ..default()
-                                    // },
                                 )
                                 .insert(UniqueId("select_mission_button".to_string()))
                                 .insert(mission.clone());
                             } else {
                                 map.spawn(
-                                    // ! WIP - CRASH
                                     CustomButton::MissionOnMap
                                         .mission_bundle(my_assets, mission.id),
-                                    // Node {
-                                    //     display: Display::Flex,
-                                    //     justify_content: JustifyContent::Center,
-                                    //     align_items: AlignItems::Center,
-                                    //     width: Val::Percent(100.),
-                                    //     height: Val::Percent(100.),
-                                    //     ..default()
-                                    // },
                                 )
                                 .with_children(|button| {
                                     // Black filter overlay with centered text

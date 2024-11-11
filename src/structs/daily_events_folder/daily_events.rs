@@ -2,9 +2,12 @@ use super::{
     discussions::get_random_discussion_indexs,
     spontaneous_applications::get_random_spontaneous_application_indexs,
 };
-use crate::content::daily_events::{
-    discussions::{get_all_daily_discussions, get_daily_discussion},
-    spontaneous_applications::{get_all_spontaneous_applications, get_spontaneous_application},
+use crate::{
+    content::daily_events::{
+        discussions::{get_all_daily_discussions, get_daily_discussion},
+        spontaneous_applications::{get_all_spontaneous_applications, get_spontaneous_application},
+    },
+    structs::{equipments::ItemEnum, recruits::RecruitStats},
 };
 use bevy::prelude::*;
 use rand::Rng;
@@ -16,7 +19,26 @@ fn calculate_total_apparition_chance(list: &[u16]) -> u16 {
         total += list[i];
         i += 1;
     }
-    total
+    return total;
+}
+
+#[allow(dead_code)]
+#[derive(Debug, Clone, PartialEq)]
+pub enum ImpactAction<T> {
+    Add(T),
+    Remove(T),
+}
+
+#[derive(Default, Debug, Component, Resource, Clone, PartialEq)]
+pub struct Answer {
+    pub equipment_impact: Option<Vec<ImpactAction<ItemEnum>>>,
+    pub experience_impact: Option<u32>,
+    pub gold_impact: Option<i32>,
+    pub id: u16,
+    pub message: String,
+    pub recruit_impact: Option<RecruitStats>,
+    pub reputation_impact: Option<i8>,
+    pub toxicity_impact: Option<i8>,
 }
 
 #[derive(Debug, Component, Resource, Clone, PartialEq)]
@@ -29,7 +51,7 @@ impl Default for DailyEventTargets {
     fn default() -> Self {
         let discussions = get_all_daily_discussions();
         let spontaneous_applications = get_all_spontaneous_applications();
-        Self {
+        return Self {
             daily_discussion_targets: discussions
                 .into_iter()
                 .map(|discussion| DiscussionTarget {
@@ -46,7 +68,7 @@ impl Default for DailyEventTargets {
                     day_system: discussion.day_system,
                 })
                 .collect(),
-        }
+        };
     }
 }
 
@@ -100,7 +122,7 @@ pub fn get_random_index_from_percent_arr(list: &[u16]) -> usize {
     }
 
     // Default to the last element if none were selected (shouldn't happen)
-    list.len() - 1
+    return list.len() - 1;
 }
 
 #[derive(Debug, Component, Resource, Clone, PartialEq)]
@@ -158,7 +180,7 @@ impl Default for DailyEvents {
             }))
             .collect();
 
-        Self(daily_events)
+        return Self(daily_events);
     }
 }
 
@@ -219,7 +241,7 @@ impl DailyEvents {
             daily_events.push(daily_event);
         }
 
-        daily_events
+        return daily_events;
     }
 
     pub fn remove_daily_discussion_by_id(&mut self, discussion_id: u16) {

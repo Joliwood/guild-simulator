@@ -1,10 +1,11 @@
 use crate::{
-    enums::ColorPaletteEnum,
+    enums::{ColorPaletteEnum, TextureAtlasLayoutEnum},
     my_assets::FONT_FIRA,
     structs::{
         missions::MissionReports,
         trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
     },
+    utils::get_layout,
     // utils::get_mission_notification_tooltip_text,
 };
 use bevy::prelude::*;
@@ -16,14 +17,8 @@ pub fn spawn_or_update_notification(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
     mission_reports: &mut ResMut<MissionReports>,
 ) {
-    let layout = TextureAtlasLayout::from_grid(
-        UVec2::new(50, 50),
-        4,
-        1,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
-    let texture_atlas_layout = texture_atlas_layouts.add(layout);
+    let notification_layout = get_layout(TextureAtlasLayoutEnum::Notification);
+    let texture_atlas_layout = texture_atlas_layouts.add(notification_layout);
     let mission_notifications_number = mission_reports.0.len();
 
     if !mission_reports.0.is_empty() {

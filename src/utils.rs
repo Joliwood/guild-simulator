@@ -1,24 +1,18 @@
 use crate::{
-    enums::{RecruitEnum, RecruitStateEnum},
+    enums::{RecruitStateEnum, TextureAtlasLayoutEnum},
     structs::{
         equipments::ItemEnum,
         general_structs::{
             DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
         },
-        missions::{MissionReport, MissionReports, Missions},
+        missions::{ItemLootEnum, MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
         recruits::{
             RecruitInventory, RecruitStats, SelectedRecruitForEquipment, SelectedRecruitForMission,
         },
     },
-    systems::updates::update_buttons::delete_item_from_player_inventory,
 };
-use bevy::{
-    math::UVec2,
-    prelude::{Res, ResMut},
-    sprite::TextureAtlasLayout,
-};
-use uuid::Uuid;
+use bevy::{math::UVec2, prelude::ResMut, sprite::TextureAtlasLayout};
 
 // /// Determines the new room based on the given direction and current player stats.
 // ///
@@ -83,15 +77,6 @@ pub fn reset_modals_visibility(
     mission_reports_modal_visibility.0 = false;
     daily_events_modal_visibility.0 = false;
     selected_recruit_for_mission.0 = None;
-}
-
-/// Calculates the total points of a recruit based on its strength, endurance
-/// and intelligence.
-///
-/// Basic V1 algorythme to calculate after that the % of victory for each
-/// mission and each recruit assigned
-pub fn get_global_points(strength: u16, endurance: u16, intelligence: u16) -> u16 {
-    return strength + endurance + intelligence;
 }
 
 /// ## Calculates the victory percentage of a mission based on the global points
@@ -174,41 +159,12 @@ pub fn get_item_image_atlas_index(item: &ItemEnum) -> u16 {
     };
 }
 
-/// Get the layout of the image atlas of an item
-///
-/// Has to be updated each time the design will evolve
-pub fn get_item_layout(item: &ItemEnum) -> TextureAtlasLayout {
-    return match item {
-        ItemEnum::Weapon(_) => TextureAtlasLayout::from_grid(
-            UVec2::new(400, 400),
-            6,
-            1,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        ItemEnum::Armor(_) => TextureAtlasLayout::from_grid(
-            UVec2::new(400, 400),
-            4,
-            1,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-        ItemEnum::Scroll(_, _) => TextureAtlasLayout::from_grid(
-            UVec2::new(1080, 1080),
-            4,
-            1,
-            Some(UVec2::new(0, 0)),
-            Some(UVec2::new(0, 0)),
-        ),
-    };
-}
-
 #[allow(dead_code)]
 /// Get the tooltip description of an item
 ///
 /// For now, only supports texts
 pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
-    return match item {
+    match item {
         ItemEnum::Weapon(weapon) => {
             let mut description = format!("{}\n", weapon.name);
             let price_range = calculate_price_range(weapon.price);
@@ -227,7 +183,7 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
                 price_range.0, price_range.1
             ));
 
-            description
+            return description;
         }
         ItemEnum::Armor(armor) => {
             let mut description = format!("{}\n", armor.name);
@@ -247,7 +203,7 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
                 price_range.0, price_range.1
             ));
 
-            description
+            return description;
         }
         ItemEnum::Scroll(scroll, quantity) => {
             let mut description = format!("{}\n", scroll.name);
@@ -264,7 +220,7 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
             description.push_str(&format!("\nQuantity: {}", quantity));
             description.push_str(&format!("\n\nPrice: {} G", scroll.price));
 
-            description
+            return description;
         }
     };
 }
@@ -276,7 +232,7 @@ pub fn calculate_price_range(price: u16) -> (u16, u16) {
     let lower_range = (price as f32 * 0.95) as u16;
     let upper_range = (price as f32 * 1.05) as u16;
 
-    (lower_range, upper_range)
+    return (lower_range, upper_range);
 }
 
 #[allow(dead_code)]
@@ -287,7 +243,7 @@ pub fn get_mission_notification_tooltip_text(completed_mission_number: u8) -> St
         "mission"
     };
 
-    format!(
+    return format!(
         "You have completed {} {}.
 
 You should check out your mission
@@ -295,82 +251,7 @@ reports in your office.
 
 Click to dismiss.",
         completed_mission_number, mission_word
-    )
-}
-
-pub fn get_selected_recruit_for_equipment(
-    selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
-) -> RecruitStats {
-    match selected_recruit_for_equipment.0 {
-        Some(_) => {
-            return RecruitStats {
-                state: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .state
-                    .clone(),
-                recruit_inventory: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .recruit_inventory
-                    .clone(),
-                class: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .class
-                    .clone(),
-                endurance: selected_recruit_for_equipment.0.as_ref().unwrap().endurance,
-                experience: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .experience,
-                id: selected_recruit_for_equipment.0.as_ref().unwrap().id,
-                image_atlas_index: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .image_atlas_index,
-                intelligence: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .intelligence,
-                level: selected_recruit_for_equipment.0.as_ref().unwrap().level,
-                max_experience: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .max_experience,
-                name: selected_recruit_for_equipment
-                    .0
-                    .as_ref()
-                    .unwrap()
-                    .name
-                    .clone(),
-                strength: selected_recruit_for_equipment.0.as_ref().unwrap().strength,
-            };
-        }
-        None => {
-            return RecruitStats {
-                class: RecruitEnum::Warrior,
-                endurance: 0,
-                experience: 0,
-                id: Uuid::new_v4(),
-                image_atlas_index: 4,
-                intelligence: 0,
-                level: 0,
-                max_experience: 0,
-                name: "".to_string(),
-                recruit_inventory: RecruitInventory::generate_empty_inventory(),
-                state: RecruitStateEnum::Available,
-                strength: 0,
-            };
-        }
-    }
+    );
 }
 
 pub fn equip_recruit_inventory(
@@ -389,29 +270,24 @@ pub fn equip_recruit_inventory(
                 selected_recruit_for_equipment_inventory.weapon;
             let selected_recruit_for_equipment_id = selected_recruit_for_equipment.get_id();
 
-            if selected_recruit_for_equipment_id.is_some() {
-                if selected_recruit_for_equipment_weapon.is_none() {
-                    player_stats
-                        .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
-                    selected_recruit_for_equipment.0 =
-                        player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
-                    delete_item_from_player_inventory(player_stats, item);
-                    return true;
+            if let Some(recruit_id) = selected_recruit_for_equipment_id {
+                // If the recruit already has a weapon, we put it back in the player inventory
+                if let Some(weapon_already_equipped) = selected_recruit_for_equipment_weapon {
+                    player_stats.add_item(ItemEnum::Weapon(weapon_already_equipped));
                 }
 
-                if selected_recruit_for_equipment_weapon.is_some() {
-                    let selected_recruit_for_equipment_item =
-                        ItemEnum::Weapon(selected_recruit_for_equipment_weapon.clone().unwrap());
-                    player_stats.add_item(selected_recruit_for_equipment_item);
-                    player_stats
-                        .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
-                    selected_recruit_for_equipment.0 =
-                        player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
-                    delete_item_from_player_inventory(player_stats, item);
-                    return true;
-                }
+                // In all cases we ->
+                // Equip the weapon to the recruit
+                player_stats.equip_item_to_recruit(recruit_id, item);
+
+                // Update the selected recruit (must be synchronized with player_stats > recruits)
+                selected_recruit_for_equipment.0 = player_stats.get_recruit_by_id(recruit_id);
+
+                // Remove the item from the player inventory
+                player_stats.remove_item(item);
+
+                return true;
             }
-
             return false;
         }
         ItemEnum::Armor(_armor) => {
@@ -427,7 +303,7 @@ pub fn equip_recruit_inventory(
                         .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
                     selected_recruit_for_equipment.0 =
                         player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
-                    delete_item_from_player_inventory(player_stats, item);
+                    player_stats.remove_item(item);
                     return true;
                 }
 
@@ -439,7 +315,7 @@ pub fn equip_recruit_inventory(
                         .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
                     selected_recruit_for_equipment.0 =
                         player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
-                    delete_item_from_player_inventory(player_stats, item);
+                    player_stats.remove_item(item);
                     return true;
                 }
             }
@@ -516,7 +392,7 @@ pub fn finish_mission(
         let golds_earned = missions.get_golds_earned_by_mission_id(mission_id).unwrap() as i32;
         new_mission_report.golds_gained = Some(golds_earned);
 
-        let mission = missions.get_mission_by_id(mission_id);
+        let mission = missions.get_mission_by_id(&mission_id);
 
         if mission.is_none() {
             return;
@@ -534,16 +410,196 @@ pub fn sort_recruits_by_total_merged_stats(mut recruits: Vec<RecruitStats>) -> V
     return recruits;
 }
 
+pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureAtlasLayout {
+    match texture_atlas_layout_enum {
+        TextureAtlasLayoutEnum::Weapon => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(400, 400),
+                6,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            );
+        }
+        TextureAtlasLayoutEnum::Armor => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(400, 400),
+                4,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::Scroll => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(1080, 1080),
+                4,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::HudIcon => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(500, 500),
+                8,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::Notification => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(50, 50),
+                4,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::Discussion => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(800, 350),
+                1,
+                10,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::SpontaneousApplication => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(800, 350),
+                1,
+                2,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::Loot(item) => match item {
+            ItemLootEnum::Weapon(_) => {
+                return TextureAtlasLayout::from_grid(
+                    UVec2::new(400, 400),
+                    6,
+                    1,
+                    Some(UVec2::new(0, 0)),
+                    Some(UVec2::new(0, 0)),
+                )
+            }
+            ItemLootEnum::Armor(_) => {
+                return TextureAtlasLayout::from_grid(
+                    UVec2::new(400, 400),
+                    4,
+                    1,
+                    Some(UVec2::new(0, 0)),
+                    Some(UVec2::new(0, 0)),
+                )
+            }
+            ItemLootEnum::Scroll(_) => {
+                return TextureAtlasLayout::from_grid(
+                    UVec2::new(1080, 1080),
+                    4,
+                    1,
+                    Some(UVec2::new(0, 0)),
+                    Some(UVec2::new(0, 0)),
+                )
+            }
+        },
+        TextureAtlasLayoutEnum::Item(item) => match item {
+            ItemEnum::Weapon(_) => {
+                return TextureAtlasLayout::from_grid(
+                    UVec2::new(400, 400),
+                    6,
+                    1,
+                    Some(UVec2::new(0, 0)),
+                    Some(UVec2::new(0, 0)),
+                )
+            }
+            ItemEnum::Armor(_) => {
+                return TextureAtlasLayout::from_grid(
+                    UVec2::new(400, 400),
+                    4,
+                    1,
+                    Some(UVec2::new(0, 0)),
+                    Some(UVec2::new(0, 0)),
+                )
+            }
+            ItemEnum::Scroll(_, _) => {
+                return TextureAtlasLayout::from_grid(
+                    UVec2::new(1080, 1080),
+                    4,
+                    1,
+                    Some(UVec2::new(0, 0)),
+                    Some(UVec2::new(0, 0)),
+                )
+            }
+        },
+        TextureAtlasLayoutEnum::Button => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(16, 16),
+                5,
+                6,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::Recruit => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(200, 400),
+                7,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::Map => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(270, 200),
+                1,
+                2,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::MapType => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(100, 100),
+                4,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::Ennemy => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(200, 200),
+                6,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+        TextureAtlasLayoutEnum::SleepButton => {
+            return TextureAtlasLayout::from_grid(
+                UVec2::new(400, 400),
+                3,
+                1,
+                Some(UVec2::new(0, 0)),
+                Some(UVec2::new(0, 0)),
+            )
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    #[test]
-    fn test_get_global_points() {
-        assert_eq!(get_global_points(1, 1, 1), 3);
-        assert_eq!(get_global_points(2, 2, 2), 6);
-        assert_eq!(get_global_points(3, 3, 3), 9);
-    }
+    // #[test]
+    // fn test_get_global_points() {
+    //     assert_eq!(get_global_points(1, 1, 1), 3);
+    //     assert_eq!(get_global_points(2, 2, 2), 6);
+    //     assert_eq!(get_global_points(3, 3, 3), 9);
+    // }
 
     #[test]
     fn test_get_victory_percentage() {

@@ -1,6 +1,8 @@
 use crate::{
+    enums::TextureAtlasLayoutEnum,
     my_assets::{get_item_atlas_path, FONT_FIRA},
     structs::missions::MissionReport,
+    utils::get_layout,
 };
 use bevy::prelude::*;
 // use pyri_tooltip::{Tooltip, TooltipActivation};
@@ -66,7 +68,7 @@ pub fn loots_earned(
                 .with_children(|parent| {
                     for loot in mission_report.loots.iter() {
                         let item_image_atlas_index = loot.get_atlas_index();
-                        let layout = loot.get_item_layout();
+                        let item_layout = get_layout(TextureAtlasLayoutEnum::Item(loot));
                         // let tooltip_text = loot.get_item_loot_tooltip_description();
                         let item_atlas_path = get_item_atlas_path(loot);
                         parent.spawn((
@@ -84,7 +86,7 @@ pub fn loots_earned(
                                 my_assets.load(item_atlas_path),
                                 TextureAtlas {
                                     index: item_image_atlas_index.into(),
-                                    layout: texture_atlas_layouts.add(layout),
+                                    layout: texture_atlas_layouts.add(item_layout),
                                 },
                             ),
                             // Tooltip::cursor(tooltip_text.to_string())

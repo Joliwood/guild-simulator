@@ -1,7 +1,10 @@
-use super::{left_hud::left_hud, right_hud::right_hud};
+use super::{left_hud::left_hud, right_hud::right_hud, sleep_button::sleep_button};
 use crate::{
-    enums::RoomEnum,
-    structs::{player_stats::PlayerStats, trigger_structs::RoomButtonTrigger},
+    enums::{RoomEnum, TextureAtlasLayoutEnum},
+    structs::{
+        general_structs::DayTime, player_stats::PlayerStats, trigger_structs::RoomButtonTrigger,
+    },
+    utils::get_layout,
 };
 use bevy::prelude::*;
 // use pyri_tooltip::Tooltip;
@@ -11,14 +14,9 @@ pub fn hud(
     mut commands: Commands,
     player_stats: Res<PlayerStats>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    _day_time: Res<DayTime>,
 ) {
-    let hud_icons_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(500, 500),
-        8,
-        1,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
+    let hud_icons_layout = get_layout(TextureAtlasLayoutEnum::HudIcon);
     let hud_icons_texture_atlas_layout: Handle<TextureAtlasLayout> =
         texture_atlas_layouts.add(hud_icons_layout);
 
@@ -26,7 +24,7 @@ pub fn hud(
         // Main Container
         .spawn((
             UiImage {
-                image: my_assets.load("images/hud/hud3.png"),
+                image: my_assets.load("images/hud/hud4.png"),
                 ..default()
             },
             Node {
@@ -125,11 +123,20 @@ pub fn hud(
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::Barrack));
                 });
+
             right_hud(
                 parent,
                 &my_assets,
                 &player_stats,
-                hud_icons_texture_atlas_layout,
+                &hud_icons_texture_atlas_layout,
             );
         });
+
+    sleep_button(
+        &mut commands,
+        &my_assets,
+        &player_stats,
+        &mut texture_atlas_layouts,
+        // &day_time,
+    );
 }

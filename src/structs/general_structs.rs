@@ -1,4 +1,5 @@
 #![allow(dead_code)]
+
 use super::equipments::{Armor, Scroll, Weapon};
 use crate::content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum};
 use bevy::prelude::{Component, Resource};
@@ -29,6 +30,12 @@ pub struct Ennemy {
     pub name: String,
     pub strength: u16,
     pub image_atlas_index: u16,
+}
+
+impl Ennemy {
+    pub fn get_global_points(&self) -> u16 {
+        self.endurance + self.intelligence + self.strength
+    }
 }
 
 // ! Version with Ron + serde
@@ -92,4 +99,26 @@ pub fn load_scroll(scroll: ScrollsEnum) -> Scroll {
 
 pub fn load_armor(armor: ArmorsEnum) -> Armor {
     return ArmorsEnum::get_armor(&armor);
+}
+
+#[derive(Default, Resource)]
+pub struct DayTime {
+    pub current_time: f32,
+    pub elapsed_time: f32,
+    pub second_count: u32,
+}
+
+impl DayTime {
+    fn get_hours_minutes(&self) -> (u32, u32) {
+        let total_minutes = self.current_time as u32;
+        let hours = 8 + total_minutes / 60;
+        let minutes = total_minutes % 60;
+        (hours, minutes)
+    }
+
+    pub fn reset(&mut self) {
+        self.current_time = 0.0;
+        self.elapsed_time = 0.0;
+        self.second_count = 0;
+    }
 }

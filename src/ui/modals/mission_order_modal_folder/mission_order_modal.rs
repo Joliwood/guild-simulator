@@ -2,15 +2,17 @@ use super::{
     loots_and_start::loots_and_start, mission_recap::mission_recap, recruit_recap::recruit_recap,
 };
 use crate::{
+    enums::TextureAtlasLayoutEnum,
     my_assets::FONT_FIRA,
     structs::{
-        general_structs::{MissionModalVisible, UniqueId},
+        general_structs::MissionModalVisible,
         missions::{Missions, SelectedMission},
         player_stats::PlayerStats,
         recruits::SelectedRecruitForMission,
-        trigger_structs::MissionModalContentTrigger,
+        trigger_structs::{CloseMissionModalTrigger, MissionModalContentTrigger},
     },
     ui::ui_constants::WOOD_COLOR,
+    utils::get_layout,
 };
 use bevy::prelude::*;
 
@@ -26,13 +28,7 @@ pub fn mission_order_modal(
     missions: Res<Missions>,
     selected_recruit_for_mission: Res<SelectedRecruitForMission>,
 ) {
-    let buttons_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(16, 16),
-        5,
-        6,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
+    let buttons_layout = get_layout(TextureAtlasLayoutEnum::Button);
     let buttons_texture_atlas_layout = texture_atlas_layouts.add(buttons_layout);
 
     // Despawn existing modals
@@ -45,14 +41,14 @@ pub fn mission_order_modal(
     // Despawn and retrigger if the recruit is changed
     if (selected_recruit_for_mission.is_changed() || mission_modal_visibility.is_changed())
         && mission_modal_visibility.0
-        && selected_mission.mission.is_some()
+        && selected_mission.mission_id.is_some()
     {
         // Despawn existing modals when retriggering
         for entity in query.iter() {
             commands.entity(entity).despawn_recursive();
         }
 
-        if let Some(mission) = &selected_mission.mission {
+        if let Some(mission) = missions.get_mission_by_id(&selected_mission.mission_id.unwrap()) {
             commands
                 .spawn((
                     Node {
@@ -76,30 +72,29 @@ pub fn mission_order_modal(
                 .insert(Name::new("Mission details modal"))
                 .insert(MissionModalContentTrigger)
                 .with_children(|parent| {
-                    parent
-                        .spawn((
-                            Button,
-                            Node {
-                                position_type: PositionType::Absolute,
-                                right: Val::Px(5.),
-                                top: Val::Px(5.),
-                                width: Val::Px(30.),
-                                height: Val::Px(30.),
-                                border: UiRect::all(Val::Px(3.)),
-                                ..default()
+                    parent.spawn((
+                        Button,
+                        Node {
+                            position_type: PositionType::Absolute,
+                            right: Val::Px(5.),
+                            top: Val::Px(5.),
+                            width: Val::Px(30.),
+                            height: Val::Px(30.),
+                            border: UiRect::all(Val::Px(3.)),
+                            ..default()
+                        },
+                        BorderColor(WOOD_COLOR),
+                        BorderRadius::all(Val::Px(10.)),
+                        UiImage::from_atlas_image(
+                            my_assets.load("images/hud/buttons_atlas.png"),
+                            TextureAtlas {
+                                index: 16,
+                                layout: buttons_texture_atlas_layout.clone(),
                             },
-                            BorderColor(WOOD_COLOR),
-                            BorderRadius::all(Val::Px(10.)),
-                            UiImage::from_atlas_image(
-                                my_assets.load("images/hud/buttons_atlas.png"),
-                                TextureAtlas {
-                                    index: 16,
-                                    layout: buttons_texture_atlas_layout.clone(),
-                                },
-                            )
-                            .with_mode(NodeImageMode::Stretch),
-                        ))
-                        .insert(UniqueId("close_mission_modal".to_string()));
+                        )
+                        .with_mode(NodeImageMode::Stretch),
+                        CloseMissionModalTrigger,
+                    ));
 
                     // Title
                     parent
@@ -138,17 +133,15 @@ pub fn mission_order_modal(
                                     mission_recap(
                                         parent,
                                         &my_assets,
-                                        mission,
+                                        &mission,
                                         &mut texture_atlas_layouts,
                                     );
 
-                                    if selected_mission.percent_of_victory.is_some() {
-                                        // Percent of Win (centered)
+                                    if let Some(percent_of_victory) =
+                                        selected_mission.percent_of_victory
+                                    {
                                         parent.spawn((
-                                            Text::new(format!(
-                                                "{}%",
-                                                selected_mission.percent_of_victory.unwrap()
-                                            )),
+                                            Text::new(format!("{}%", percent_of_victory)),
                                             TextFont {
                                                 font: my_assets.load(FONT_FIRA),
                                                 font_size: 16.0,

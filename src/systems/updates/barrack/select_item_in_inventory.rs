@@ -2,10 +2,9 @@ use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
     structs::{
-        equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats,
-        recruits::SelectedRecruitForEquipment,
+        equipments::ItemEnum, player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
+        trigger_structs::ItemInInventoryTrigger,
     },
-    systems::systems_constants::HOVERED_BUTTON,
     ui::ui_constants::WOOD_COLOR,
     utils::equip_recruit_inventory,
 };
@@ -18,14 +17,7 @@ pub fn select_item_in_inventory(
     mut commands: Commands,
     my_assets: Res<AssetServer>,
     mut interaction_query: Query<
-        (
-            &Interaction,
-            &mut BackgroundColor,
-            &UniqueId,
-            &mut BorderColor,
-            &ItemEnum,
-        ),
-        // Changed<Interaction>,
+        (&Interaction, &mut BorderColor, &ItemInInventoryTrigger),
         (Changed<Interaction>, With<Button>),
     >,
     _window: Single<&mut Window>,
@@ -34,12 +26,11 @@ pub fn select_item_in_inventory(
 ) {
     // let mut window = windows.single_mut();
 
-    for (interaction, mut background_color, unique_id, mut border_color, item) in
-        &mut interaction_query
-    {
-        if unique_id.0 == "item_in_inventory" {
-            match *interaction {
-                Interaction::Pressed => {
+    for (interaction, mut border_color, item_in_inventory_trigger) in &mut interaction_query {
+        match *interaction {
+            Interaction::Pressed => {
+                if let Some(item) = &item_in_inventory_trigger.0 {
+                    // modal_visible.0 = false;
                     border_color.0 = WOOD_COLOR;
                     let is_recruit_equiped = equip_recruit_inventory(
                         &mut selected_recruit_for_equipment,
@@ -60,16 +51,14 @@ pub fn select_item_in_inventory(
                         }
                     }
                 }
-                Interaction::Hovered => {
-                    // window.cursor.icon = CursorIcon::Pointer;
-                    *background_color = HOVERED_BUTTON.into();
-                    border_color.0 = Color::WHITE;
-                }
-                Interaction::None => {
-                    // window.cursor.icon = CursorIcon::Default;
-                    *background_color = BackgroundColor(WOOD_COLOR);
-                    border_color.0 = Color::BLACK;
-                }
+            }
+            Interaction::Hovered => {
+                // window.cursor.icon = CursorIcon::Pointer;
+                border_color.0 = Color::WHITE;
+            }
+            Interaction::None => {
+                // window.cursor.icon = CursorIcon::Default;
+                border_color.0 = Color::BLACK;
             }
         }
     }

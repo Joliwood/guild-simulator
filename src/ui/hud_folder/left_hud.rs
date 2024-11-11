@@ -2,7 +2,7 @@ use crate::{
     my_assets::FONT_FIRA,
     structs::{
         player_stats::PlayerStats,
-        trigger_structs::{GoldCountTrigger, GuildLvlTrigger, PlayerDayTrigger},
+        trigger_structs::{GoldCountTrigger, GuildLvlTrigger},
     },
 };
 use bevy::prelude::*;
@@ -21,6 +21,10 @@ pub fn left_hud(
             justify_content: JustifyContent::SpaceAround,
             align_items: AlignItems::Center,
             width: Val::Px(205.0),
+            padding: UiRect {
+                right: Val::Px(60.),
+                ..default()
+            },
             height: Val::Px(25.0),
             ..default()
         })
@@ -76,17 +80,5 @@ pub fn left_hud(
                     TextColor(Color::WHITE),
                 ))
                 .insert(GuildLvlTrigger);
-
-            left_container
-                .spawn((
-                    Text::new(format!("Day : {}", player_stats.day)),
-                    TextFont {
-                        font: my_assets.load(FONT_FIRA),
-                        font_size: 12.0,
-                        ..default()
-                    },
-                    TextColor(Color::WHITE),
-                ))
-                .insert(PlayerDayTrigger);
         });
 }

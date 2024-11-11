@@ -1,14 +1,10 @@
 use crate::{
-    enums::{RecruitEnum, RecruitStateEnum},
-    structs::{
-        daily_events_folder::{
-            daily_events::DaySystem, discussions::Answer,
-            spontaneous_applications::SpontaneousApplication,
-        },
-        recruits::{RecruitInventory, RecruitStats},
+    content::recruits::RecruitEnum,
+    structs::daily_events_folder::{
+        daily_events::{Answer, DaySystem},
+        spontaneous_applications::SpontaneousApplication,
     },
 };
-use uuid::Uuid;
 
 // --- To update whenever the content is updated --- //
 const MAX_DAILY_SPONTANEOUS_APPLICATION_NUMBER: u16 = 3;
@@ -36,24 +32,7 @@ pub fn get_spontaneous_application(spontaneous_application_index: &u16) -> Spont
                 Answer {
                     id: 1,
                     message: "Welcome to our guild ! You're hired !".to_string(),
-                    recruit_impact: Some(RecruitStats {
-                        class: RecruitEnum::Warrior,
-                        endurance: 4,
-                        experience: 0,
-                        id: Uuid::new_v4(),
-                        image_atlas_index: 0,
-                        intelligence: 2,
-                        level: 1,
-                        max_experience: 100,
-                        name: "Jean-Louis-David".to_string(),
-                        recruit_inventory: RecruitInventory {
-                            armor: None,
-                            weapon: None,
-                            scrolls: vec![],
-                        },
-                        state: RecruitStateEnum::Available,
-                        strength: 5,
-                    }),
+                    recruit_impact: Some(RecruitEnum::JeanLouisDavid.get_recruit()),
                     ..Default::default()
                 },
             ],
@@ -73,24 +52,7 @@ pub fn get_spontaneous_application(spontaneous_application_index: &u16) -> Spont
                 Answer {
                     id: 1,
                     message: "I see you are a mage but with strength and endurance stats, what is that seriously ? Well I need recruits, come in.. I mean welcome".to_string(),
-                    recruit_impact: Some(RecruitStats {
-                        class: RecruitEnum::Mage,
-                        endurance: 8,
-                        experience: 0,
-                        id: Uuid::new_v4(),
-                        image_atlas_index: 1,
-                        intelligence: 0,
-                        level: 1,
-                        max_experience: 100,
-                        name: "Hubert".to_string(),
-                        recruit_inventory: RecruitInventory {
-                            armor: None,
-                            weapon: None,
-                            scrolls: vec![],
-                        },
-                        state: RecruitStateEnum::Available,
-                        strength: 12,
-                    }),
+                    recruit_impact: Some(RecruitEnum::Hubert.get_recruit()),
                     ..Default::default()
                 },
             ],
@@ -111,24 +73,7 @@ pub fn get_spontaneous_application(spontaneous_application_index: &u16) -> Spont
                     id: 1,
                     message: "We have some dirty missions, let's go !".to_string(),
                     gold_impact: Some(-20),
-                    recruit_impact: Some(RecruitStats {
-                        class: RecruitEnum::Rogue,
-                        endurance: 5,
-                        experience: 0,
-                        id: Uuid::new_v4(),
-                        image_atlas_index: 3,
-                        intelligence: 1,
-                        level: 1,
-                        max_experience: 100,
-                        name: "Big noob".to_string(),
-                        recruit_inventory: RecruitInventory {
-                            armor: None,
-                            weapon: None,
-                            scrolls: vec![],
-                        },
-                        state: RecruitStateEnum::Available,
-                        strength: 5,
-                    }),
+                    recruit_impact: Some(RecruitEnum::BigNoob.get_recruit()),
                     ..Default::default()
                 },
                 Answer {

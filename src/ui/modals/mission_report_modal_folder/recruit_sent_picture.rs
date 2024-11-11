@@ -1,4 +1,7 @@
-use crate::{my_assets::FONT_FIRA, structs::recruits::RecruitStats};
+use crate::{
+    enums::TextureAtlasLayoutEnum, my_assets::FONT_FIRA, structs::recruits::RecruitStats,
+    utils::get_layout,
+};
 use bevy::prelude::*;
 
 pub fn recruit_sent_picture(
@@ -7,13 +10,7 @@ pub fn recruit_sent_picture(
     my_assets: &Res<AssetServer>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    let recruit_layout = TextureAtlasLayout::from_grid(
-        UVec2::new(200, 400),
-        7,
-        1,
-        Some(UVec2::new(0, 0)),
-        Some(UVec2::new(0, 0)),
-    );
+    let recruit_layout = get_layout(TextureAtlasLayoutEnum::Recruit);
     let recruit_texture_atlas_layout: Handle<TextureAtlasLayout> =
         texture_atlas_layouts.add(recruit_layout);
 

@@ -9,11 +9,7 @@ use crate::{
         },
     },
 };
-use bevy::{
-    asset::AssetServer,
-    prelude::{Changed, Commands, DespawnRecursiveExt, Entity, Query, Res, ResMut, With},
-    ui::Interaction,
-};
+use bevy::{asset::AssetServer, prelude::*, ui::Interaction};
 
 pub fn delete_notifications_on_click(
     mut mission_notifications_number: ResMut<MissionNotificationsNumber>,

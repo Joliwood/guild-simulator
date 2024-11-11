@@ -1,22 +1,11 @@
 #![allow(dead_code)]
+
 use super::{
-    daily_events_folder::discussions::{Answer, ImpactAction},
+    daily_events_folder::daily_events::{Answer, ImpactAction},
     equipments::ItemEnum,
-    // general_structs::load_weapon,
-    recruits::{
-        // RecruitInventory,
-        RecruitStats,
-    },
+    recruits::RecruitStats,
 };
-use crate::{
-    // content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
-    // content::equipments::weapons::WeaponsEnum,
-    enums::{
-        // RecruitEnum,
-        RecruitStateEnum,
-        RoomEnum,
-    },
-};
+use crate::enums::{RecruitStateEnum, RoomEnum};
 use bevy::prelude::*;
 use uuid::Uuid;
 
@@ -44,7 +33,7 @@ pub struct PlayerStats {
 
 impl Default for PlayerStats {
     fn default() -> Self {
-        let inventory = vec![];
+        // let inventory = vec![];
         // let first_weapon = load_weapon(WeaponsEnum::AxeOfFury);
         // let second_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
         // let second_same_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
@@ -68,118 +57,15 @@ impl Default for PlayerStats {
             experience: 0,
             golds: 0,
             guild_level: 1,
-            inventory,
+            inventory: vec![],
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![
-                // RecruitStats {
-                //     class: RecruitEnum::Rogue,
-                //     endurance: 5,
-                //     experience: 0,
-                //     id: Uuid::new_v4(),
-                //     image_atlas_index: 3,
-                //     intelligence: 1,
-                //     level: 1,
-                //     max_experience: 100,
-                //     name: "Big noob".to_string(),
-                //     recruit_inventory: RecruitInventory {
-                //         armor: None,
-                //         weapon: None,
-                //         scrolls: vec![],
-                //     },
-                //     state: RecruitStateEnum::Available,
-                //     strength: 5,
-                // },
-                // RecruitStats {
-                //     class: RecruitEnum::Mage,
-                //     endurance: 8,
-                //     experience: 0,
-                //     id: Uuid::new_v4(),
-                //     image_atlas_index: 1,
-                //     intelligence: 0,
-                //     level: 1,
-                //     max_experience: 100,
-                //     name: "Hubert".to_string(),
-                //     recruit_inventory: RecruitInventory {
-                //         armor: None,
-                //         weapon: None,
-                //         scrolls: vec![],
-                //     },
-                //     state: RecruitStateEnum::Available,
-                //     strength: 12,
-                // },
-                // RecruitStats {
-                //     class: RecruitEnum::Warrior,
-                //     endurance: 10,
-                //     experience: 0,
-                //     id: Uuid::new_v4(),
-                //     image_atlas_index: 2,
-                //     intelligence: 0,
-                //     level: 1,
-                //     max_experience: 100,
-                //     name: "Gorak".to_string(),
-                //     recruit_inventory: RecruitInventory {
-                //         armor: None,
-                //         weapon: None,
-                //         scrolls: vec![],
-                //     },
-                //     state: RecruitStateEnum::Available,
-                //     strength: 15,
-                // },
-                // RecruitStats {
-                //     class: RecruitEnum::Rogue,
-                //     endurance: 5,
-                //     experience: 0,
-                //     id: Uuid::new_v4(),
-                //     image_atlas_index: 3,
-                //     intelligence: 1,
-                //     level: 1,
-                //     max_experience: 100,
-                //     name: "Big noob".to_string(),
-                //     recruit_inventory: RecruitInventory {
-                //         armor: None,
-                //         weapon: None,
-                //         scrolls: vec![],
-                //     },
-                //     state: RecruitStateEnum::Available,
-                //     strength: 5,
-                // },
-                // RecruitStats {
-                //     class: RecruitEnum::Mage,
-                //     endurance: 8,
-                //     experience: 0,
-                //     id: Uuid::new_v4(),
-                //     image_atlas_index: 1,
-                //     intelligence: 0,
-                //     level: 1,
-                //     max_experience: 100,
-                //     name: "Hubert".to_string(),
-                //     recruit_inventory: RecruitInventory {
-                //         armor: None,
-                //         weapon: None,
-                //         scrolls: vec![],
-                //     },
-                //     state: RecruitStateEnum::Available,
-                //     strength: 12,
-                // },
-                // RecruitStats {
-                //     class: RecruitEnum::Warrior,
-                //     endurance: 10,
-                //     experience: 0,
-                //     id: Uuid::new_v4(),
-                //     image_atlas_index: 2,
-                //     intelligence: 0,
-                //     level: 1,
-                //     max_experience: 100,
-                //     name: "Gorak".to_string(),
-                //     recruit_inventory: RecruitInventory {
-                //         armor: None,
-                //         weapon: None,
-                //         scrolls: vec![],
-                //     },
-                //     state: RecruitStateEnum::Available,
-                //     strength: 15,
-                // },
+                // RecruitEnum::JeanLouisDavid.get_recruit(),
+                // RecruitEnum::JeanLouisDavid.get_recruit(),
+                // RecruitEnum::JeanLouisDavid.get_recruit(),
+                // RecruitEnum::JeanLouisDavid.get_recruit(),
+                // RecruitEnum::JeanLouisDavid.get_recruit(),
             ],
             room: RoomEnum::Barrack,
             toxicity: 0,
@@ -226,7 +112,7 @@ impl PlayerStats {
             return Some(item.clone());
         }
 
-        None
+        return None;
     }
 
     pub fn add_item(&mut self, item: ItemEnum) {
@@ -256,8 +142,8 @@ impl PlayerStats {
         }
     }
 
-    pub fn remove_item(&mut self, item: ItemEnum) {
-        if let Some(item_index) = self.inventory.iter().position(|i| i == &item) {
+    pub fn remove_item(&mut self, item: &ItemEnum) {
+        if let Some(item_index) = self.inventory.iter().position(|i| i == item) {
             self.inventory.remove(item_index);
         }
     }
@@ -267,7 +153,7 @@ impl PlayerStats {
             return Some(recruit.clone());
         }
 
-        None
+        return None;
     }
 
     pub fn equip_item_to_recruit(&mut self, recruit_id: Uuid, item: &ItemEnum) {
@@ -347,7 +233,7 @@ impl PlayerStats {
             for impact_action in equipment_impact {
                 match impact_action {
                     ImpactAction::Add(item) => self.add_item(item.clone()),
-                    ImpactAction::Remove(item) => self.remove_item(item.clone()),
+                    ImpactAction::Remove(item) => self.remove_item(item),
                 }
             }
         }

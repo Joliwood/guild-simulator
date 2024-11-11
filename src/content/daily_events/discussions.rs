@@ -2,8 +2,8 @@ use crate::{
     content::equipments::{armors::ArmorsEnum, weapons::WeaponsEnum},
     structs::{
         daily_events_folder::{
-            daily_events::DaySystem,
-            discussions::{Answer, DailyDiscussion, ImpactAction},
+            daily_events::{Answer, DaySystem, ImpactAction},
+            discussions::DailyDiscussion,
         },
         equipments::ItemEnum,
     },

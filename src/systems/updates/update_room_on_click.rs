@@ -30,7 +30,7 @@ pub fn update_room_on_click(
 ) {
     let _window = windows.single_mut();
 
-    for (interaction, room_button, mut _background_color) in interaction_query.iter_mut() {
+    for (interaction, room_button_trigger, mut _background_color) in interaction_query.iter_mut() {
         match interaction {
             Interaction::Hovered => {
                 // window.cursor.icon = CursorIcon::Pointer;
@@ -43,7 +43,7 @@ pub fn update_room_on_click(
                     &mut daily_events_modal_visibility,
                     &mut selected_recruit_for_mission,
                 );
-                match room_button.0 {
+                match room_button_trigger.0 {
                     RoomEnum::CommandRoom => player_stats.room = RoomEnum::CommandRoom,
                     RoomEnum::Office => player_stats.room = RoomEnum::Office,
                     RoomEnum::Barrack => player_stats.room = RoomEnum::Barrack,

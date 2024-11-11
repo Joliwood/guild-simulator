@@ -1,11 +1,10 @@
 use crate::{
+    enums::TextureAtlasLayoutEnum,
     my_assets::{get_item_atlas_path, FONT_FIRA},
-    structs::{equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats},
-    utils::{
-        get_item_image_atlas_index,
-        get_item_layout,
-        // get_item_tooltip_description
+    structs::{
+        equipments::ItemEnum, player_stats::PlayerStats, trigger_structs::ItemInInventoryTrigger,
     },
+    utils::{get_item_image_atlas_index, get_layout},
 };
 use bevy::prelude::*;
 // use pyri_tooltip::{Tooltip, TooltipActivation};
@@ -47,7 +46,7 @@ pub fn spawn_inventory(
                             if index < player_stats.inventory.len() {
                                 let item = &player_stats.inventory[index];
                                 let item_image_atlas_index = get_item_image_atlas_index(item);
-                                let layout = get_item_layout(item);
+                                let item_layout = get_layout(TextureAtlasLayoutEnum::Item(item));
                                 // let tooltip_text = get_item_tooltip_description(item);
                                 let item_atlas_path = get_item_atlas_path(item);
 
@@ -68,13 +67,12 @@ pub fn spawn_inventory(
                                             my_assets.load(item_atlas_path),
                                             TextureAtlas {
                                                 index: item_image_atlas_index.into(),
-                                                layout: texture_atlas_layouts.add(layout),
+                                                layout: texture_atlas_layouts.add(item_layout),
                                             },
                                         )
                                         .with_mode(NodeImageMode::Stretch),
+                                        ItemInInventoryTrigger(Some(item.clone())),
                                     ))
-                                    .insert(UniqueId("item_in_inventory".to_string()))
-                                    .insert(item.clone())
                                     .with_children(|button| {
                                         // If the item is a scroll, add a count indicator inside the button
                                         if let ItemEnum::Scroll(_, count) = item {

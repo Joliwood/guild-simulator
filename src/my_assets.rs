@@ -78,8 +78,6 @@ use crate::{
 //     pub notification_token_in_wood: Handle<Image>,
 //     #[asset(path = "images/rooms/office/set_of_keys.png")]
 //     pub set_of_keys: Handle<Image>,
-//     #[asset(path = "images/rooms/office/set_of_keys_container.png")]
-//     pub set_of_keys_container: Handle<Image>,
 //     #[asset(path = "images/rooms/office/daily_event_documents_on_desk.png")]
 //     pub daily_event_documents_on_desk: Handle<Image>,
 //     #[asset(path = "images/rooms/office/daily_event_document.png")]
@@ -227,23 +225,23 @@ use crate::{
 pub const FONT_FIRA: &str = "fonts/FiraSans-Bold.ttf";
 
 pub fn get_item_atlas_path(item: &ItemEnum) -> String {
-    return match item {
+    match item {
         ItemEnum::Weapon(_) => "images/equipments/weapons_atlas.png".into(),
         ItemEnum::Armor(_) => "images/equipments/armors_atlas.png".into(),
         ItemEnum::Scroll(_, _) => "images/equipments/scrolls_atlas.png".into(),
-    };
+    }
 }
 
 pub fn get_item_loot_atlas_path(item: &ItemLootEnum) -> String {
-    return match item {
+    match item {
         ItemLootEnum::Weapon(_) => "images/equipments/weapons_atlas.png".into(),
         ItemLootEnum::Armor(_) => "images/equipments/armors_atlas.png".into(),
         ItemLootEnum::Scroll(_) => "images/equipments/scrolls_atlas.png".into(),
-    };
+    }
 }
 
 pub fn get_mission_image(mission_id: u16) -> String {
-    return match mission_id {
+    match mission_id {
         0 => "images/missions/c1_mission_1.png".into(),
         1 => "images/missions/c1_mission_1.png".into(),
         2 => "images/missions/c1_mission_2.png".into(),
@@ -252,7 +250,7 @@ pub fn get_mission_image(mission_id: u16) -> String {
         5 => "images/missions/c1_mission_5.png".into(),
         6 => "images/missions/c1_mission_6.png".into(),
         _ => "images/missions/c1_mission_1.png".into(),
-    };
+    }
 }
 
 // #[derive(Resource)]

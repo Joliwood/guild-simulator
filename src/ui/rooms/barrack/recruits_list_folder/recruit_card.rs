@@ -10,7 +10,11 @@ use crate::{
         armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
     },
 };
-use bevy::prelude::*;
+// use accesskit::{Node as Accessible, Role};
+use bevy::{
+    // a11y::AccessibilityNode,
+    prelude::*,
+};
 
 pub fn recruit_card(
     left_container: &mut ChildBuilder,
@@ -45,7 +49,12 @@ pub fn recruit_card(
             },
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
             BorderRadius::all(Val::Px(10.)),
+            // AccessibilityNode(Accessible::new(Role::ListItem)),
         ))
+        .insert(PickingBehavior {
+            should_block_lower: false,
+            ..default()
+        })
         .insert((UniqueId("recruit_button".to_string()), recruit.clone()))
         .with_children(|parent| {
             // Add an overlay if the recruit is in a mission

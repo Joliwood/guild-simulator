@@ -1,11 +1,11 @@
 use super::equipments::{Armor, ItemEnum, Scroll, Weapon};
-use crate::enums::{RecruitEnum, RecruitStateEnum};
+use crate::enums::{ClassEnum, RecruitStateEnum};
 use bevy::prelude::{Component, Resource};
 use uuid::Uuid;
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct RecruitStats {
-    pub class: RecruitEnum,
+    pub class: ClassEnum,
     pub endurance: u16,
     pub experience: u32,
     pub id: Uuid,
@@ -28,7 +28,7 @@ impl SelectedRecruitForEquipment {
             return recruit.recruit_inventory.clone();
         }
 
-        RecruitInventory::generate_empty_inventory()
+        return RecruitInventory::generate_empty_inventory();
     }
 
     pub fn get_id(&self) -> Option<Uuid> {
@@ -36,7 +36,15 @@ impl SelectedRecruitForEquipment {
             return Some(recruit.id);
         }
 
-        None
+        return None;
+    }
+
+    pub fn get_selected_recruit_for_equipment(&self) -> Option<RecruitStats> {
+        if let Some(recruit) = &self.0 {
+            return Some(recruit.clone());
+        }
+
+        return None;
     }
 }
 
@@ -67,7 +75,7 @@ impl SelectedRecruitForMission {
     // }
 }
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+#[derive(Default, Debug, Clone, Eq, PartialEq, Hash)]
 pub struct RecruitInventory {
     pub armor: Option<Armor>,
     pub weapon: Option<Weapon>,
@@ -76,20 +84,12 @@ pub struct RecruitInventory {
 
 impl RecruitInventory {
     pub fn generate_empty_inventory() -> Self {
-        Self {
+        return Self {
             armor: None,
             weapon: None,
             scrolls: vec![],
-        }
+        };
     }
-
-    // pub fn get_weapon(&self) -> Option<Weapon> {
-    //     if let Some(weapon) = &self.weapon {
-    //         return Some(weapon.clone());
-    //     }
-
-    //     None
-    // }
 }
 
 impl RecruitStats {
@@ -148,7 +148,7 @@ impl RecruitStats {
             }
         }
 
-        additional_strength
+        return additional_strength;
     }
 
     pub fn get_additional_endurance_from_items(&self) -> u32 {
@@ -172,7 +172,7 @@ impl RecruitStats {
             }
         }
 
-        additional_endurance
+        return additional_endurance;
     }
 
     pub fn get_additional_intelligence_from_items(&self) -> u32 {
@@ -196,7 +196,7 @@ impl RecruitStats {
             }
         }
 
-        additional_intelligence
+        return additional_intelligence;
     }
 
     pub fn get_total_merged_stats(&self) -> u32 {

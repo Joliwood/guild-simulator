@@ -1,5 +1,3 @@
-use bevy::prelude::*;
-
 use crate::{
     structs::{
         general_structs::{
@@ -9,6 +7,7 @@ use crate::{
     },
     utils::reset_modals_visibility,
 };
+use bevy::prelude::*;
 
 pub fn close_modal_on_escape(
     keyboard_input: Res<ButtonInput<KeyCode>>,

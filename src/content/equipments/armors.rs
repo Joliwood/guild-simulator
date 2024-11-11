@@ -7,7 +7,12 @@ pub enum ArmorsEnum {
     HelmetOfTheGuardian,
     BreastplateOfTheDragon,
     GauntletsOfPower,
-    // BootsOfSwiftness,
+    // ⬇ WIP equipment V1 ⬇
+    // WoodenSword,
+    // StringlessBox,
+    // LumberjackAxe,
+    // MagicToothpick,
+    // UnsharpDagger,
 }
 
 impl ArmorsEnum {
@@ -54,16 +59,6 @@ impl ArmorsEnum {
                 rarety: ItemRaretyEnum::UnCommon,
                 strength: Some(7),
             },
-            // ArmorsEnum::BootsOfSwiftness => Armor {
-            //     endurance: Some(18),
-            //     id: 5,
-            //     image_atlas_index: 4,
-            //     intelligence: Some(3),
-            //     name: "Boots of Swiftness".to_string(),
-            //     price: 25,
-            //     rarety: ItemRaretyEnum::Rare,
-            //     strength: None,
-            // },
         }
     }
 }

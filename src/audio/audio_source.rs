@@ -1,7 +1,6 @@
 // use crate::{enums::SoundEnum};
-use bevy::{audio::PlaybackMode, prelude::*};
-
 use crate::enums::SoundEnum;
+use bevy::{audio::PlaybackMode, prelude::*};
 
 pub fn audio_source(my_assets: Res<AssetServer>, mut commands: Commands) {
     // let audio = my_assets.load_sound(SoundEnum::SimpleHolidaysV3);

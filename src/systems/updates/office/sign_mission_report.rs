@@ -8,7 +8,7 @@ use crate::{
         player_stats::PlayerStats,
         trigger_structs::MissionReportModalSignButtonTrigger,
     },
-    systems::systems_constants::HOVERED_BUTTON,
+    // systems::systems_constants::HOVERED_BUTTON,
 };
 use bevy::prelude::*;
 use rand::Rng;
@@ -36,7 +36,8 @@ pub fn sign_mission_report(
 ) {
     let _window = windows.single_mut();
 
-    for (interaction, mut node, _button, mut color, mission_report) in interaction_query.iter_mut()
+    for (interaction, mut node, _button_trigger, mut color, mission_report) in
+        interaction_query.iter_mut()
     {
         match *interaction {
             Interaction::Pressed => {
@@ -96,7 +97,7 @@ pub fn sign_mission_report(
             }
             Interaction::Hovered => {
                 // window.cursor.icon = CursorIcon::Pointer;
-                *color = HOVERED_BUTTON.into();
+                *color = BackgroundColor(ColorPaletteEnum::DarkGray.as_color());
                 // Add a border when hovered
                 node.border = UiRect {
                     left: Val::Px(3.0),
