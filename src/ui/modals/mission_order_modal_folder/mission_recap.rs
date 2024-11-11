@@ -116,29 +116,7 @@ pub fn mission_recap(
 
                     // Enemy Strength
                     parent.spawn((
-                        Text::new(format!("Str : {}", mission.ennemy.strength)),
-                        TextFont {
-                            font: my_assets.load(FONT_FIRA),
-                            font_size: 14.0,
-                            ..default()
-                        },
-                        TextColor(Color::BLACK),
-                    ));
-
-                    // Enemy Defense
-                    parent.spawn((
-                        Text::new(format!("Def : {}", mission.ennemy.endurance)),
-                        TextFont {
-                            font: my_assets.load(FONT_FIRA),
-                            font_size: 14.0,
-                            ..default()
-                        },
-                        TextColor(Color::BLACK),
-                    ));
-
-                    // Enemy Intelligence
-                    parent.spawn((
-                        Text::new(format!("Int : {}", mission.ennemy.intelligence)),
+                        Text::new(format!("Power : {}", mission.ennemy.power)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 14.0,

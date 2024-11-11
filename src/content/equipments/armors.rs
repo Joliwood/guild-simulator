@@ -20,44 +20,36 @@ impl ArmorsEnum {
     pub fn get_armor(&self) -> Armor {
         match self {
             ArmorsEnum::ShieldOfCourage => Armor {
-                endurance: Some(10),
                 id: 1,
                 image_atlas_index: 0,
-                intelligence: None,
                 name: "Shield of Courage".to_string(),
                 price: 5,
                 rarety: ItemRaretyEnum::Common,
-                strength: None,
+                power: 10,
             },
             ArmorsEnum::HelmetOfTheGuardian => Armor {
-                endurance: Some(2),
                 id: 2,
                 image_atlas_index: 1,
-                intelligence: Some(10),
                 name: "Helmet of the Guardian".to_string(),
                 price: 3,
                 rarety: ItemRaretyEnum::Common,
-                strength: None,
+                power: 12,
             },
             ArmorsEnum::BreastplateOfTheDragon => Armor {
-                endurance: Some(6),
                 id: 3,
                 image_atlas_index: 2,
-                intelligence: None,
                 name: "Breastplate of the Dragon".to_string(),
                 price: 7,
                 rarety: ItemRaretyEnum::UnCommon,
-                strength: Some(8),
+                power: 14,
             },
             ArmorsEnum::GauntletsOfPower => Armor {
-                endurance: Some(3),
                 id: 4,
                 image_atlas_index: 3,
-                intelligence: None,
                 name: "Gauntlets of Power".to_string(),
                 price: 40,
                 rarety: ItemRaretyEnum::UnCommon,
-                strength: Some(7),
+                power: 10,
             },
         }
     }

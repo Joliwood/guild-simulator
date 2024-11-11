@@ -110,7 +110,7 @@ pub fn map_recruit_card(
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        Text::new(recruit.get_total_merged_stats().to_string()),
+                        Text::new(recruit.get_total_power().to_string()),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 16.0,

@@ -1,7 +1,3 @@
-use super::{
-    recruit_endurance::recruit_endurance, recruit_intelligence::recruit_intelligence,
-    recruit_strength::recruit_strength,
-};
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
     my_assets::FONT_FIRA,
@@ -15,6 +11,8 @@ use bevy::{
     // a11y::AccessibilityNode,
     prelude::*,
 };
+
+use super::recruit_power::recruit_power;
 
 pub fn recruit_card(
     left_container: &mut ChildBuilder,
@@ -214,30 +212,15 @@ pub fn recruit_card(
                         TextColor(ColorPaletteEnum::DarkBrown.as_color()),
                     ));
 
-                    let get_additional_strength_from_items =
-                        recruit.get_additional_strength_from_items();
+                    // let get_additional_strength_from_items =
+                    //     recruit.get_additional_strength_from_items();
+                    let get_additional_power_from_items = recruit.get_additional_power_from_items();
 
-                    recruit_strength(
+                    recruit_power(
                         // TODO - Fix common type for stats
                         stats_container,
-                        recruit.strength.into(),
-                        get_additional_strength_from_items,
-                        my_assets,
-                    );
-
-                    recruit_endurance(
-                        stats_container,
-                        // TODO - Fix common type for stats
-                        recruit.endurance.into(),
-                        recruit.get_additional_endurance_from_items(),
-                        my_assets,
-                    );
-
-                    recruit_intelligence(
-                        stats_container,
-                        // TODO - Fix common type for stats
-                        recruit.intelligence.into(),
-                        recruit.get_additional_intelligence_from_items(),
+                        recruit.power,
+                        get_additional_power_from_items,
                         my_assets,
                     );
                 });

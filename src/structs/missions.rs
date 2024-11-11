@@ -150,11 +150,12 @@ impl SelectedMission {
                 }
             };
 
-            let ennemy_global_points = mission.ennemy.get_global_points();
-            let recruit_global_points = recruit.get_total_merged_stats();
+            // let ennemy_global_points = mission.ennemy.get_global_points();
+            let recruit_total_power = recruit.get_total_power();
+            // let recruit_global_points = recruit.get_total_merged_stats();
 
             let victory_percentage =
-                get_victory_percentage(recruit_global_points as u16, ennemy_global_points) as u32;
+                get_victory_percentage(recruit_total_power, mission.ennemy.power) as u32;
 
             self.percent_of_victory = Some(victory_percentage);
         }
@@ -301,18 +302,9 @@ impl ItemLoot {
                 ..
             } => {
                 let armor = armor.get_armor();
-                let mut description = format!("{}\n", armor.name);
+                let mut description = format!("{}\n{}", armor.name, armor.power);
                 let price_range = calculate_price_range(armor.price);
 
-                if let Some(endurance) = armor.endurance {
-                    description.push_str(&format!("\nEndurance: {}", endurance));
-                }
-                if let Some(strength) = armor.strength {
-                    description.push_str(&format!("\nStrength: {}", strength));
-                }
-                if let Some(intelligence) = armor.intelligence {
-                    description.push_str(&format!("\nIntelligence: {}", intelligence));
-                }
                 description.push_str(&format!(
                     "\n\nPrice: {} to {} G",
                     price_range.0, price_range.1
@@ -325,18 +317,9 @@ impl ItemLoot {
                 ..
             } => {
                 let scroll = scroll.get_scroll();
-                let mut description = format!("{}\n", scroll.name);
+                let mut description = format!("{}\n{}", scroll.name, scroll.power);
                 let price_range = calculate_price_range(scroll.price);
 
-                if let Some(endurance) = scroll.endurance {
-                    description.push_str(&format!("\nEndurance: {}", endurance));
-                }
-                if let Some(strength) = scroll.strength {
-                    description.push_str(&format!("\nStrength: {}", strength));
-                }
-                if let Some(intelligence) = scroll.intelligence {
-                    description.push_str(&format!("\nIntelligence: {}", intelligence));
-                }
                 description.push_str(&format!(
                     "\n\nPrice: {} to {} G",
                     price_range.0, price_range.1
@@ -349,18 +332,9 @@ impl ItemLoot {
                 ..
             } => {
                 let weapon = weapon.get_weapon();
-                let mut description = format!("{}\n", weapon.name);
+                let mut description = format!("{}\n{}", weapon.name, weapon.power);
                 let price_range = calculate_price_range(weapon.price);
 
-                if let Some(endurance) = weapon.endurance {
-                    description.push_str(&format!("\nEndurance: {}", endurance));
-                }
-                if let Some(strength) = weapon.strength {
-                    description.push_str(&format!("\nStrength: {}", strength));
-                }
-                if let Some(intelligence) = weapon.intelligence {
-                    description.push_str(&format!("\nIntelligence: {}", intelligence));
-                }
                 description.push_str(&format!(
                     "\n\nPrice: {} to {} G",
                     price_range.0, price_range.1

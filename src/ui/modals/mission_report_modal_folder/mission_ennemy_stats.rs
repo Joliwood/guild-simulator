@@ -31,31 +31,9 @@ pub fn mission_ennemy_stats(
                 TextColor(Color::BLACK),
             ));
 
-            // Text: "Strength"
+            // Text: "Power"
             stats_column.spawn((
-                Text::new(format!("Strength: {}", ennemy_stats.strength)),
-                TextFont {
-                    font: my_assets.load(FONT_FIRA),
-                    font_size: 14.0,
-                    ..default()
-                },
-                TextColor(Color::BLACK),
-            ));
-
-            // Text: "Endurance"
-            stats_column.spawn((
-                Text::new(format!("Endurance: {}", ennemy_stats.endurance)),
-                TextFont {
-                    font: my_assets.load(FONT_FIRA),
-                    font_size: 14.0,
-                    ..default()
-                },
-                TextColor(Color::BLACK),
-            ));
-
-            // Text: "Intelligence"
-            stats_column.spawn((
-                Text::new(format!("Intelligence: {}", ennemy_stats.intelligence)),
+                Text::new(format!("Power: {}", ennemy_stats.power)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,

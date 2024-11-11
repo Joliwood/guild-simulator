@@ -6,14 +6,14 @@ pub fn recruit_sent_stats(
     recruit_sent: &RecruitStats,
     my_assets: &Res<AssetServer>,
 ) {
-    let recruit_strength =
-        recruit_sent.strength + recruit_sent.get_additional_strength_from_items() as u16;
+    // let recruit_strength =
+    //     recruit_sent.strength + recruit_sent.get_additional_strength_from_items() as u16;
 
-    let recruit_endurance: u16 =
-        recruit_sent.endurance + recruit_sent.get_additional_endurance_from_items() as u16;
+    // let recruit_endurance: u16 =
+    //     recruit_sent.endurance + recruit_sent.get_additional_endurance_from_items() as u16;
 
-    let recruit_intelligence: u16 =
-        recruit_sent.intelligence + recruit_sent.get_additional_intelligence_from_items() as u16;
+    // let recruit_intelligence: u16 =
+    //     recruit_sent.intelligence + recruit_sent.get_additional_intelligence_from_items() as u16;
 
     // Recruit Send Stats
     commands
@@ -40,9 +40,9 @@ pub fn recruit_sent_stats(
                 TextColor(Color::BLACK),
             ));
 
-            // Text: "Strength"
+            // Text: "Power"
             stats_column.spawn((
-                Text::new(format!("Strength: {}", recruit_strength)),
+                Text::new(format!("Power: {}", recruit_sent.power)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,
@@ -51,26 +51,26 @@ pub fn recruit_sent_stats(
                 TextColor(Color::BLACK),
             ));
 
-            // Text: "Endurance"
-            stats_column.spawn((
-                Text::new(format!("Endurance: {}", recruit_endurance)),
-                TextFont {
-                    font: my_assets.load(FONT_FIRA),
-                    font_size: 14.0,
-                    ..default()
-                },
-                TextColor(Color::BLACK),
-            ));
+            // // Text: "Endurance"
+            // stats_column.spawn((
+            //     Text::new(format!("Endurance: {}", recruit_endurance)),
+            //     TextFont {
+            //         font: my_assets.load(FONT_FIRA),
+            //         font_size: 14.0,
+            //         ..default()
+            //     },
+            //     TextColor(Color::BLACK),
+            // ));
 
-            // Text: "Intelligence"
-            stats_column.spawn((
-                Text::new(format!("Intelligence: {}", recruit_intelligence)),
-                TextFont {
-                    font: my_assets.load(FONT_FIRA),
-                    font_size: 14.0,
-                    ..default()
-                },
-                TextColor(Color::BLACK),
-            ));
+            // // Text: "Intelligence"
+            // stats_column.spawn((
+            //     Text::new(format!("Intelligence: {}", recruit_intelligence)),
+            //     TextFont {
+            //         font: my_assets.load(FONT_FIRA),
+            //         font_size: 14.0,
+            //         ..default()
+            //     },
+            //     TextColor(Color::BLACK),
+            // ));
         });
 }

@@ -87,27 +87,24 @@ pub fn reset_modals_visibility(
 ///
 /// ## Returns
 /// The victory percentage of the mission.
-pub fn get_victory_percentage(recruit_global_points: u16, enemy_global_points: u16) -> f32 {
-    let loose_guaranteed: u16 = enemy_global_points / 2;
-    let victory_guaranteed: u16 = enemy_global_points * 2;
+pub fn get_victory_percentage(recruit_global_power: u32, enemy_global_power: u32) -> f32 {
+    let loose_guaranteed: u32 = enemy_global_power / 2;
+    let victory_guaranteed: u32 = enemy_global_power * 2;
     let percent_per_point_lower_range: f32 = 50.0 / loose_guaranteed as f32;
-    let percent_per_point_upper_range: f32 = 50.0 / enemy_global_points as f32;
+    let percent_per_point_upper_range: f32 = 50.0 / enemy_global_power as f32;
 
-    if recruit_global_points <= loose_guaranteed {
+    if recruit_global_power <= loose_guaranteed {
         return 0.;
-    } else if recruit_global_points > loose_guaranteed
-        && recruit_global_points < enemy_global_points
-    {
-        return (recruit_global_points - loose_guaranteed) as f32 * percent_per_point_lower_range;
-    } else if recruit_global_points == enemy_global_points {
+    } else if recruit_global_power > loose_guaranteed && recruit_global_power < enemy_global_power {
+        return (recruit_global_power - loose_guaranteed) as f32 * percent_per_point_lower_range;
+    } else if recruit_global_power == enemy_global_power {
         return 50.;
-    } else if recruit_global_points > enemy_global_points
-        && recruit_global_points < victory_guaranteed
+    } else if recruit_global_power > enemy_global_power && recruit_global_power < victory_guaranteed
     {
         return 100.
-            - (victory_guaranteed - recruit_global_points) as f32 * percent_per_point_upper_range;
+            - (victory_guaranteed - recruit_global_power) as f32 * percent_per_point_upper_range;
     } else {
-        // recruit_global_points >= enemy_global_points * 2
+        // recruit_global_power >= enemy_global_power * 2
         return 100.;
     }
 }
@@ -166,18 +163,9 @@ pub fn get_item_image_atlas_index(item: &ItemEnum) -> u16 {
 pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
     match item {
         ItemEnum::Weapon(weapon) => {
-            let mut description = format!("{}\n", weapon.name);
+            let mut description = format!("{}\n\n{}", weapon.name, weapon.power);
             let price_range = calculate_price_range(weapon.price);
 
-            if let Some(endurance) = weapon.endurance {
-                description.push_str(&format!("\nEndurance: {}", endurance));
-            }
-            if let Some(strength) = weapon.strength {
-                description.push_str(&format!("\nStrength: {}", strength));
-            }
-            if let Some(intelligence) = weapon.intelligence {
-                description.push_str(&format!("\nIntelligence: {}", intelligence));
-            }
             description.push_str(&format!(
                 "\n\nPrice: {} to {} G",
                 price_range.0, price_range.1
@@ -186,18 +174,9 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
             return description;
         }
         ItemEnum::Armor(armor) => {
-            let mut description = format!("{}\n", armor.name);
+            let mut description = format!("{}\n\n{}", armor.name, armor.power);
             let price_range = calculate_price_range(armor.price);
 
-            if let Some(endurance) = armor.endurance {
-                description.push_str(&format!("\nEndurance: {}", endurance));
-            }
-            if let Some(strength) = armor.strength {
-                description.push_str(&format!("\nStrength: {}", strength));
-            }
-            if let Some(intelligence) = armor.intelligence {
-                description.push_str(&format!("\nIntelligence: {}", intelligence));
-            }
             description.push_str(&format!(
                 "\n\nPrice: {} to {} G",
                 price_range.0, price_range.1
@@ -206,17 +185,8 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
             return description;
         }
         ItemEnum::Scroll(scroll, quantity) => {
-            let mut description = format!("{}\n", scroll.name);
+            let mut description = format!("{}\n\n{}", scroll.name, scroll.power);
 
-            if let Some(endurance) = scroll.endurance {
-                description.push_str(&format!("\nEndurance: {}", endurance));
-            }
-            if let Some(strength) = scroll.strength {
-                description.push_str(&format!("\nStrength: {}", strength));
-            }
-            if let Some(intelligence) = scroll.intelligence {
-                description.push_str(&format!("\nIntelligence: {}", intelligence));
-            }
             description.push_str(&format!("\nQuantity: {}", quantity));
             description.push_str(&format!("\n\nPrice: {} G", scroll.price));
 
@@ -405,8 +375,8 @@ pub fn finish_mission(
     mission_reports.add_mission_report(new_mission_report);
 }
 
-pub fn sort_recruits_by_total_merged_stats(mut recruits: Vec<RecruitStats>) -> Vec<RecruitStats> {
-    recruits.sort_by_key(|recruit| std::cmp::Reverse(recruit.get_total_merged_stats()));
+pub fn sort_recruits_by_total_power(mut recruits: Vec<RecruitStats>) -> Vec<RecruitStats> {
+    recruits.sort_by_key(|recruit| std::cmp::Reverse(recruit.get_total_power()));
     return recruits;
 }
 

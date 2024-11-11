@@ -1,17 +1,17 @@
 use crate::{enums::ColorPaletteEnum, my_assets::FONT_FIRA};
 use bevy::prelude::*;
 
-pub fn recruit_intelligence(
+pub fn recruit_power(
     stats_container: &mut ChildBuilder,
-    recruit_intelligence: u32,
-    additional_intelligence: u32,
+    recruit_power: u32,
+    additional_power: u32,
     my_assets: &Res<AssetServer>,
 ) {
     stats_container
         .spawn(Node::default())
         .with_children(|node| {
             node.spawn((
-                Text::new(format!("INT: {}", recruit_intelligence)),
+                Text::new(format!("PWR:{}", recruit_power)),
                 TextColor(ColorPaletteEnum::DarkBrown.as_color()),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
@@ -20,9 +20,9 @@ pub fn recruit_intelligence(
                 },
             ));
 
-            if additional_intelligence > 0 {
+            if additional_power > 0 {
                 node.spawn((
-                    Text::new(format!(" (+{})", additional_intelligence)),
+                    Text::new(format!("(+{})", additional_power)),
                     TextColor(Color::srgb(0.0, 107.0 / 255.0, 29.0 / 255.0)),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
