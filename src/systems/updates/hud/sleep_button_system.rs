@@ -46,7 +46,7 @@ pub fn sleep_button_system(
                 // play_sound(&my_assets, &mut commands, SoundEnum::CockrelMorning);
 
                 // We iterate on every missions to decrement the days left for every mission that days_left.is_some()
-                let mission_ids: Vec<_> = missions
+                let mission_ids: Vec<u16> = missions
                     .0
                     .iter()
                     .filter(|mission| mission.days_left.is_some())
@@ -55,38 +55,30 @@ pub fn sleep_button_system(
                 for mission_id in mission_ids {
                     missions.decrement_days_left_by_mission_id(mission_id);
                     let is_mission_over = missions.is_mission_over(mission_id);
+
                     if is_mission_over {
-                        let percent_of_victory =
-                            missions.get_percent_of_victory_by_mission_id(mission_id);
+                        if let Some(percent_of_victory) =
+                            missions.get_percent_of_victory_by_mission_id(mission_id)
+                        {
+                            finish_mission(
+                                &mut player_stats,
+                                mission_id,
+                                &mut missions,
+                                percent_of_victory as f32,
+                                &mut mission_reports,
+                            );
 
-                        if percent_of_victory.is_none() {
-                            continue;
+                            for entity in query.iter() {
+                                commands.entity(entity).despawn_recursive();
+                            }
+
+                            spawn_or_update_notification(
+                                &mut commands,
+                                &my_assets,
+                                &mut texture_atlas_layouts,
+                                &mut mission_reports,
+                            );
                         }
-
-                        // WIP - Useless i think, check this
-                        let recruit_id = missions.get_recruit_send_id_by_mission_id(mission_id);
-                        if recruit_id.is_none() {
-                            continue;
-                        }
-
-                        finish_mission(
-                            &mut player_stats,
-                            mission_id,
-                            &mut missions,
-                            percent_of_victory.unwrap() as f32,
-                            &mut mission_reports,
-                        );
-
-                        for entity in query.iter() {
-                            commands.entity(entity).despawn_recursive();
-                        }
-
-                        spawn_or_update_notification(
-                            &mut commands,
-                            &my_assets,
-                            &mut texture_atlas_layouts,
-                            &mut mission_reports,
-                        );
                     }
                 }
 

@@ -23,11 +23,12 @@ mod utils;
 // use crate::locales::{en, fr};
 
 use bevy::{prelude::*, window::WindowTheme};
+use content::constants::MAX_GAME_SECONDS;
 use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
     general_structs::{
         DailyEventsModalVisible, DayTime, MissionModalVisible, MissionNotificationsNumber,
-        MissionReportsModalVisible, MAX_GAME_SECONDS,
+        MissionReportsModalVisible,
     },
     maps::{Maps, SelectedMapId},
     missions::{MissionReports, Missions, SelectedMission},

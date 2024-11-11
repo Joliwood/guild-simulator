@@ -46,33 +46,15 @@ pub fn map_on_table(
                         for mission in missions.iter().filter(|mission| mission.unlocked) {
                             if mission.recruit_send.is_none() {
                                 map.spawn(
-                                    // ! WIP - CRASH
                                     CustomButton::MissionOnMap
                                         .mission_bundle(my_assets, mission.id),
-                                    // Node {
-                                    //     display: Display::Flex,
-                                    //     justify_content: JustifyContent::Center,
-                                    //     align_items: AlignItems::Center,
-                                    //     width: Val::Percent(100.),
-                                    //     height: Val::Percent(100.),
-                                    //     ..default()
-                                    // },
                                 )
                                 .insert(UniqueId("select_mission_button".to_string()))
                                 .insert(mission.clone());
                             } else {
                                 map.spawn(
-                                    // ! WIP - CRASH
                                     CustomButton::MissionOnMap
                                         .mission_bundle(my_assets, mission.id),
-                                    // Node {
-                                    //     display: Display::Flex,
-                                    //     justify_content: JustifyContent::Center,
-                                    //     align_items: AlignItems::Center,
-                                    //     width: Val::Percent(100.),
-                                    //     height: Val::Percent(100.),
-                                    //     ..default()
-                                    // },
                                 )
                                 .with_children(|button| {
                                     // Black filter overlay with centered text

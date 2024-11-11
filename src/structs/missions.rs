@@ -4,7 +4,10 @@ use super::{
     player_stats::PlayerStats,
 };
 use crate::{
-    content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
+    content::{
+        equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
+        missions::generate_all_missions,
+    },
     utils::{calculate_price_range, get_victory_percentage},
 };
 use bevy::prelude::*;
@@ -123,60 +126,19 @@ impl MissionReports {
 
 #[derive(Default, Resource, Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct SelectedMission {
-    // pub mission: Option<Mission>,
     pub mission_id: Option<u16>,
     pub percent_of_victory: Option<u32>,
     pub recruit_id: Option<Uuid>,
 }
 
 impl SelectedMission {
-    // WIP
-    // pub fn get_mission(&self) -> Option<Mission> {
-    //     if let Some(mission) = &self.mission {
-    //         return Some(mission.clone());
-    //     }
-
-    //     None
-    // }
-
-    // pub fn calculate_percent_of_victory(&mut self, player_stats: &Res<PlayerStats>) {
-    //     if self.mission.is_none() {
-    //         return;
-    //     }
-
-    //     let ennemy = self.mission.as_ref().unwrap().ennemy.clone();
-    //     let ennemy_global_points =
-    //         get_global_points(ennemy.strength, ennemy.endurance, ennemy.intelligence);
-
-    //     let recruit_id = self.recruit_id.unwrap();
-    //     let recruit = player_stats.get_recruit_by_id(recruit_id).unwrap();
-    //     let recruit_global_points = recruit.get_total_merged_stats();
-
-    //     let victory_percentage =
-    //         get_victory_percentage(recruit_global_points as u16, ennemy_global_points) as u32;
-
-    //     self.percent_of_victory = Some(victory_percentage);
-    // }
-
     pub fn calculate_percent_of_victory(
         &mut self,
-        // missions: &ResMut<Missions>,
         mission: &Mission,
         player_stats: &Res<PlayerStats>,
     ) {
         // This function should be call only if the mission_id is set
         if let Some(recruit_id) = self.recruit_id {
-            // let mission = match missions.get_mission_by_id(&mission_id) {
-            //     Some(mission) => mission,
-            //     None => {
-            //         error!(
-            //             "The mission id doesn't exist in all missions for this mission_id : {}",
-            //             mission_id
-            //         );
-            //         return;
-            //     }
-            // };
-
             let recruit = match player_stats.get_recruit_by_id(recruit_id) {
                 Some(recruit) => recruit,
                 None => {
@@ -199,8 +161,6 @@ impl SelectedMission {
     }
 
     pub fn reset(&mut self) {
-        // WIP
-        // self.mission = None;
         self.mission_id = None;
         self.percent_of_victory = None;
         self.recruit_id = None;
@@ -459,237 +419,6 @@ impl Mission {
 
 impl Default for Missions {
     fn default() -> Self {
-        Self(vec![
-            Mission {
-                days_left: None,
-                days: 1,
-                id: 1,
-                level: 1,
-                name: "Mission 1".to_string(),
-                percent_of_victory: None,
-                recruit_send: None,
-                ennemy: Ennemy {
-                    image_atlas_index: 5,
-                    endurance: 5,
-                    experience: 0,
-                    intelligence: 5,
-                    level: 1,
-                    name: "Ennemy 1".to_string(),
-                    strength: 7,
-                },
-                unlocked: true,
-                description: "A basic camp, we think we could find some resources here. We need to send a recruit to check it out."
-                .to_string(),
-                golds: 5,
-                loots: Loots(
-                    vec![
-                        ItemLoot {
-                            item: ItemLootEnum::Weapon(WeaponsEnum::SwordOfValor),
-                            percent: 50,
-                        },
-                        ItemLoot {
-                            item: ItemLootEnum::Armor(ArmorsEnum::GauntletsOfPower),
-                            percent: 50,
-                        },
-                        ItemLoot {
-                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
-                            percent: 1,
-                        },
-                    ]
-                ),
-                unlock_mission_ids: vec![4, 5],
-            },
-            Mission {
-                days_left: None,
-                days: 1,
-                id: 2,
-                level: 2,
-                name: "Mission 2".to_string(),
-                percent_of_victory: None,
-                recruit_send: None,
-                ennemy: Ennemy {
-                    image_atlas_index: 4,
-                    endurance: 15,
-                    experience: 0,
-                    intelligence: 7,
-                    level: 2,
-                    name: "Ennemy 2".to_string(),
-                    strength: 5,
-                },
-                unlocked: true,
-                description: "More extended camp, we think we could find some resources here. We need to send a recruit to check it out.".to_string(),
-                golds: 10,
-                loots: Loots(
-                    vec![
-                        ItemLoot {
-                            item: ItemLootEnum::Weapon(WeaponsEnum::BowOfTheEagle),
-                            percent: 50,
-                        },
-                        ItemLoot {
-                            item: ItemLootEnum::Armor(ArmorsEnum::BreastplateOfTheDragon),
-                            percent: 10,
-                        },
-                        ItemLoot {
-                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfEndurance),
-                            percent: 10,
-                        },
-                    ],
-                ),
-                unlock_mission_ids: vec![3],
-            },
-            Mission {
-                days_left: Some(1),
-                days: 2,
-                id: 3,
-                level: 3,
-                name: "Mission 3".to_string(),
-                percent_of_victory: None,
-                recruit_send: None,
-                ennemy: Ennemy {
-                    image_atlas_index: 3,
-                    endurance: 20,
-                    experience: 0,
-                    intelligence: 10,
-                    level: 3,
-                    name: "Ennemy 3".to_string(),
-                    strength: 20,
-                },
-                unlocked: false,
-                description: "A very extended camp, the final one of the tuto".to_string(),
-                golds: 30,
-                loots: Loots(
-                    vec![
-                        ItemLoot {
-                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfSpeed),
-                            percent: 50,
-                        },
-                        ItemLoot {
-                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfPower),
-                            percent: 50,
-                        },
-                        ItemLoot {
-                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheAncients),
-                            percent: 50,
-                        },
-                    ],
-                ),
-                unlock_mission_ids: vec![],
-            },
-            Mission {
-                days_left: None,
-                days: 1,
-                id: 4,
-                level: 1,
-                name: "Mission 4".to_string(),
-                percent_of_victory: None,
-                recruit_send: None,
-                ennemy: Ennemy {
-                    image_atlas_index: 5,
-                    endurance: 10,
-                    experience: 0,
-                    intelligence: 5,
-                    level: 1,
-                    name: "Ennemy 4".to_string(),
-                    strength: 10,
-                },
-                unlocked: false,
-                description: "A basic camp, we think we could find some resources here. We need to send a recruit to check it out."
-                .to_string(),
-                golds: 12,
-                loots: Loots(
-                    vec![
-                        ItemLoot {
-                            item: ItemLootEnum::Weapon(WeaponsEnum::SwordOfValor),
-                            percent: 50,
-                        },
-                        ItemLoot {
-                            item: ItemLootEnum::Armor(ArmorsEnum::GauntletsOfPower),
-                            percent: 50,
-                        },
-                        ItemLoot {
-                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
-                            percent: 50,
-                        },
-                    ]
-                ),
-                unlock_mission_ids: vec![5],
-            },
-            Mission {
-                days_left: None,
-                days: 1,
-                id: 5,
-                level: 2,
-                name: "Mission 5".to_string(),
-                percent_of_victory: None,
-                recruit_send: None,
-                ennemy: Ennemy {
-                    image_atlas_index: 4,
-                    endurance: 15,
-                    experience: 0,
-                    intelligence: 7,
-                    level: 2,
-                    name: "Ennemy 5".to_string(),
-                    strength: 15,
-                },
-                unlocked: false,
-                description: "More extended camp, we think we could find some resources here. We need to send a recruit to check it out.".to_string(),
-                golds: 15,
-                loots: Loots(
-                    vec![
-                        ItemLoot {
-                            item: ItemLootEnum::Weapon(WeaponsEnum::BowOfTheEagle),
-                            percent: 50,
-                        },
-                        ItemLoot {
-                            item: ItemLootEnum::Armor(ArmorsEnum::BreastplateOfTheDragon),
-                            percent: 10,
-                        },
-                        ItemLoot {
-                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
-                            percent: 10,
-                        },
-                    ],
-                ),
-                unlock_mission_ids: vec![6],
-            },
-            Mission {
-                days_left: Some(1),
-                days: 2,
-                id: 6,
-                level: 3,
-                name: "Mission 6".to_string(),
-                percent_of_victory: None,
-                recruit_send: None,
-                ennemy: Ennemy {
-                    image_atlas_index: 3,
-                    endurance: 20,
-                    experience: 0,
-                    intelligence: 10,
-                    level: 3,
-                    name: "Ennemy 6".to_string(),
-                    strength: 20,
-                },
-                unlocked: false,
-                description: "A very extended camp, the final one of the tuto".to_string(),
-                golds: 50,
-                loots: Loots(
-                    vec![
-                        ItemLoot {
-                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfSpeed),
-                            percent: 50,
-                        },
-                        ItemLoot {
-                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfPower),
-                            percent: 50,
-                        },
-                        ItemLoot {
-                            item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheAncients),
-                            percent: 50,
-                        },
-                    ],
-                ),
-                unlock_mission_ids: vec![],
-            },
-        ])
+        return generate_all_missions();
     }
 }

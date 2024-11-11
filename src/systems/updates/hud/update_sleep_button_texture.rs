@@ -1,6 +1,6 @@
-use crate::structs::{
-    general_structs::{DayTime, EVENING_TIME, MIDDAY_TIME},
-    trigger_structs::SleepButtonTrigger,
+use crate::{
+    content::constants::{EVENING_TIME, MIDDAY_TIME},
+    structs::{general_structs::DayTime, trigger_structs::SleepButtonTrigger},
 };
 use bevy::prelude::*;
 

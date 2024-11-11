@@ -6,7 +6,7 @@ use serde::Deserialize;
 use std::fmt::{self, Display};
 
 #[derive(Debug, PartialEq, Clone, Eq, Hash)]
-pub enum RecruitEnum {
+pub enum ClassEnum {
     Hunter,
     Mage,
     Rogue,
@@ -44,7 +44,7 @@ impl Display for RoomEnum {
     }
 }
 
-impl Display for RecruitEnum {
+impl Display for ClassEnum {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{:?}", self)
     }

@@ -1,11 +1,11 @@
 use super::equipments::{Armor, ItemEnum, Scroll, Weapon};
-use crate::enums::{RecruitEnum, RecruitStateEnum};
+use crate::enums::{ClassEnum, RecruitStateEnum};
 use bevy::prelude::{Component, Resource};
 use uuid::Uuid;
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct RecruitStats {
-    pub class: RecruitEnum,
+    pub class: ClassEnum,
     pub endurance: u16,
     pub experience: u32,
     pub id: Uuid,
@@ -75,7 +75,7 @@ impl SelectedRecruitForMission {
     // }
 }
 
-#[derive(Debug, Clone, Eq, PartialEq, Hash)]
+#[derive(Default, Debug, Clone, Eq, PartialEq, Hash)]
 pub struct RecruitInventory {
     pub armor: Option<Armor>,
     pub weapon: Option<Weapon>,
@@ -90,14 +90,6 @@ impl RecruitInventory {
             scrolls: vec![],
         };
     }
-
-    // pub fn get_weapon(&self) -> Option<Weapon> {
-    //     if let Some(weapon) = &self.weapon {
-    //         return Some(weapon.clone());
-    //     }
-
-    //     None
-    // }
 }
 
 impl RecruitStats {

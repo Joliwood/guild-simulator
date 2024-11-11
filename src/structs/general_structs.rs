@@ -6,10 +6,6 @@ use bevy::prelude::{Component, Resource};
 // ! For workflow with ron files
 // use ron::de::from_str;
 
-pub const MAX_GAME_SECONDS: u32 = 15;
-pub const MIDDAY_TIME: u32 = (MAX_GAME_SECONDS as f32 * 0.28) as u32;
-pub const EVENING_TIME: u32 = (MAX_GAME_SECONDS as f32 * 0.79) as u32;
-
 #[derive(Resource)]
 pub struct MissionNotificationsNumber(pub u8);
 

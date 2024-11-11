@@ -14,7 +14,7 @@ pub fn hud(
     mut commands: Commands,
     player_stats: Res<PlayerStats>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
-    day_time: Res<DayTime>,
+    _day_time: Res<DayTime>,
 ) {
     let hud_icons_layout = get_layout(TextureAtlasLayoutEnum::HudIcon);
     let hud_icons_texture_atlas_layout: Handle<TextureAtlasLayout> =
