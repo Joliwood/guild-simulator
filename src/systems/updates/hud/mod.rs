@@ -5,4 +5,5 @@ pub mod update_gold_counter;
 pub mod update_guild_level;
 pub mod update_recruit_counter;
 pub mod update_reputation_counter;
+pub mod update_sleep_button_texture;
 pub mod update_toxicity_counter;

@@ -2,7 +2,7 @@ use crate::{
     enums::{ColorPaletteEnum, TextureAtlasLayoutEnum},
     my_assets::FONT_FIRA,
     structs::{
-        general_structs::DayTime,
+        // general_structs::DayTime,
         player_stats::PlayerStats,
         trigger_structs::{PlayerDayTrigger, RealTimeDayProgressBarTrigger, SleepButtonTrigger},
     },
@@ -15,7 +15,7 @@ pub fn sleep_button(
     my_assets: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
-    _day_time: &Res<DayTime>,
+    // day_time: &Res<DayTime>,
 ) {
     let sleep_button_layout = get_layout(TextureAtlasLayoutEnum::SleepButton);
     let sleep_button_atlas_layout = texture_atlas_layouts.add(sleep_button_layout);

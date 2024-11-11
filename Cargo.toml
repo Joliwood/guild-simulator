@@ -12,12 +12,12 @@ bevy = { version = "0.15.0-rc.3" }
 uuid = "1.10.0"
 rand = "0.8.4"
 serde = { version = "1.0", features = ["derive"] }
-pyri_tooltip = "0.1.1"
+# pyri_tooltip = "0.1.1"
 colored = "2.0"
 # keep the following in sync with Bevy's dependencies
 # winit = { version = "0.30", default-features = false }
 # unic-langid = "0.9.5"
-bevy_fluent = "0.10.0"
+# bevy_fluent = "0.10.0"
 # accesskit = "0.17.0"
 
 # This is used by trunk as it doesn't support custom profiles: https://github.com/trunk-rs/trunk/issues/605

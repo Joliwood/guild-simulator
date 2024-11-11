@@ -123,6 +123,7 @@ fn main() -> AppExit {
                 ui::modals::mission_report_modal_folder::mission_report_modal::mission_report_modal,
                 update_daytime,
                 update_progress_bar,
+                systems::updates::hud::update_sleep_button_texture::update_sleep_button_texture,
             ),
         )
         .run()

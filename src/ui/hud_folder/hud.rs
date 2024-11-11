@@ -137,6 +137,6 @@ pub fn hud(
         &my_assets,
         &player_stats,
         &mut texture_atlas_layouts,
-        &day_time,
+        // &day_time,
     );
 }

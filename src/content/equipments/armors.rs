@@ -8,6 +8,12 @@ pub enum ArmorsEnum {
     BreastplateOfTheDragon,
     GauntletsOfPower,
     // BootsOfSwiftness,
+    // ⬇ WIP equipment V1 ⬇
+    // WoodenSword,
+    // StringlessBox,
+    // LumberjackAxe,
+    // MagicToothpick,
+    // UnsharpDagger,
 }
 
 impl ArmorsEnum {
