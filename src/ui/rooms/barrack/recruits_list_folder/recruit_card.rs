@@ -189,7 +189,6 @@ pub fn recruit_card(
                     ));
                 });
 
-            // Container for recruit stats (strength, armor, intelligence)
             button
                 .spawn(Node {
                     flex_direction: FlexDirection::Column,
@@ -212,8 +211,6 @@ pub fn recruit_card(
                         TextColor(ColorPaletteEnum::DarkBrown.as_color()),
                     ));
 
-                    // let get_additional_strength_from_items =
-                    //     recruit.get_additional_strength_from_items();
                     let get_additional_power_from_items = recruit.get_additional_power_from_items();
 
                     recruit_power(

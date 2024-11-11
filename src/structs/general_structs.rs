@@ -23,21 +23,12 @@ pub struct UniqueId(pub String);
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Component, Resource)]
 pub struct Ennemy {
-    // pub endurance: u16,
     pub experience: u32,
-    // pub intelligence: u16,
     pub level: u8,
     pub name: String,
-    // pub strength: u16,
     pub power: u32,
     pub image_atlas_index: u16,
 }
-
-// impl Ennemy {
-//     pub fn get_global_points(&self) -> u16 {
-//         self.endurance + self.intelligence + self.strength
-//     }
-// }
 
 // ! Version with Ron + serde
 // ! Not working currently with builds

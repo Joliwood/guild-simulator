@@ -125,7 +125,7 @@ pub fn recruit_recap(
                             TextColor(Color::BLACK),
                         ));
 
-                        // Recruit Strength
+                        // Recruit Power
                         parent.spawn((
                             Text::new(format!("Power : {}", recruit.power)),
                             TextFont {
@@ -135,28 +135,6 @@ pub fn recruit_recap(
                             },
                             TextColor(Color::BLACK),
                         ));
-
-                        // // Recruit Defense
-                        // parent.spawn((
-                        //     Text::new(format!("Def : {}", recruit.endurance)),
-                        //     TextFont {
-                        //         font: my_assets.load(FONT_FIRA),
-                        //         font_size: 14.0,
-                        //         ..default()
-                        //     },
-                        //     TextColor(Color::BLACK),
-                        // ));
-
-                        // // Recruit Intelligence
-                        // parent.spawn((
-                        //     Text::new(format!("Int : {}", recruit.intelligence)),
-                        //     TextFont {
-                        //         font: my_assets.load(FONT_FIRA),
-                        //         font_size: 14.0,
-                        //         ..default()
-                        //     },
-                        //     TextColor(Color::BLACK),
-                        // ));
 
                         // Equipments
                         parent

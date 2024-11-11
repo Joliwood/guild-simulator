@@ -114,7 +114,7 @@ pub fn mission_recap(
                         TextColor(Color::BLACK),
                     ));
 
-                    // Enemy Strength
+                    // Enemy Power
                     parent.spawn((
                         Text::new(format!("Power : {}", mission.ennemy.power)),
                         TextFont {

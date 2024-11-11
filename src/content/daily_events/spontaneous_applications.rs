@@ -51,7 +51,7 @@ pub fn get_spontaneous_application(spontaneous_application_index: &u16) -> Spont
             answers: vec![
                 Answer {
                     id: 1,
-                    message: "I see you are a mage but with strength and endurance stats, what is that seriously ? Well I need recruits, come in.. I mean welcome".to_string(),
+                    message: "I see you are a mage, well I need recruits, come in.. I mean welcome".to_string(),
                     recruit_impact: Some(RecruitEnum::Hubert.get_recruit()),
                     ..Default::default()
                 },
