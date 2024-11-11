@@ -1,7 +1,9 @@
 use crate::{
     enums::TextureAtlasLayoutEnum,
     my_assets::get_item_atlas_path,
-    structs::{equipments::ItemEnum, general_structs::UniqueId, recruits::RecruitStats},
+    structs::{
+        equipments::ItemEnum, recruits::RecruitStats, trigger_structs::ItemInInventoryTrigger,
+    },
     utils::{get_item_image_atlas_index, get_layout},
 };
 use bevy::prelude::*;
@@ -23,46 +25,44 @@ pub fn armor_button(
         // let tooltip_text = get_item_tooltip_description(&item);
         let item_atlas_path = get_item_atlas_path(&item);
 
-        top_container
-            .spawn((
-                Button,
-                Node {
-                    width: Val::Px(40.),
-                    height: Val::Px(40.),
-                    border: UiRect::all(Val::Px(3.)),
-                    ..default()
+        top_container.spawn((
+            Button,
+            Node {
+                width: Val::Px(40.),
+                height: Val::Px(40.),
+                border: UiRect::all(Val::Px(3.)),
+                ..default()
+            },
+            BorderColor(Color::BLACK),
+            BorderRadius::all(Val::Px(10.)),
+            UiImage::from_atlas_image(
+                my_assets.load(item_atlas_path),
+                TextureAtlas {
+                    index: item_image_atlas_index.into(),
+                    layout: texture_atlas_layouts.add(item_layout),
                 },
-                BorderColor(Color::BLACK),
-                BorderRadius::all(Val::Px(10.)),
-                UiImage::from_atlas_image(
-                    my_assets.load(item_atlas_path),
-                    TextureAtlas {
-                        index: item_image_atlas_index.into(),
-                        layout: texture_atlas_layouts.add(item_layout),
-                    },
-                ),
-                // Tooltip::cursor(tooltip_text.to_string())
-                //     .with_activation(TooltipActivation::IMMEDIATE),
-            ))
-            .insert(UniqueId("item_in_inventory".to_string()));
+            ),
+            ItemInInventoryTrigger(None),
+            // Tooltip::cursor(tooltip_text.to_string())
+            //     .with_activation(TooltipActivation::IMMEDIATE),
+        ));
     } else {
         // Empty armor button
-        top_container
-            .spawn((
-                Button,
-                Node {
-                    width: Val::Px(40.),
-                    height: Val::Px(40.),
-                    border: UiRect::all(Val::Px(3.)),
-                    ..default()
-                },
-                BorderColor(Color::BLACK),
-                BorderRadius::all(Val::Px(10.)),
-                UiImage {
-                    image: my_assets.load("images/equipments/empty_inventory_slot.png"),
-                    ..default()
-                },
-            ))
-            .insert(UniqueId("item_in_inventory".to_string()));
+        top_container.spawn((
+            Button,
+            Node {
+                width: Val::Px(40.),
+                height: Val::Px(40.),
+                border: UiRect::all(Val::Px(3.)),
+                ..default()
+            },
+            BorderColor(Color::BLACK),
+            BorderRadius::all(Val::Px(10.)),
+            UiImage {
+                image: my_assets.load("images/equipments/empty_inventory_slot.png"),
+                ..default()
+            },
+            ItemInInventoryTrigger(None),
+        ));
     }
 }

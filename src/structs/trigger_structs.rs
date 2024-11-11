@@ -1,6 +1,8 @@
 use crate::enums::RoomEnum;
 use bevy::prelude::{Component, Resource};
 
+use super::equipments::ItemEnum;
+
 #[derive(Resource, Component)]
 pub struct GoldCountTrigger;
 
@@ -57,3 +59,9 @@ pub struct SelectMapTrigger;
 
 #[derive(Component)]
 pub struct RealTimeDayProgressBarTrigger;
+
+#[derive(Component)]
+pub struct CloseMissionModalTrigger;
+
+#[derive(Component)]
+pub struct ItemInInventoryTrigger(pub Option<ItemEnum>);

@@ -5,11 +5,11 @@ use crate::{
     enums::TextureAtlasLayoutEnum,
     my_assets::FONT_FIRA,
     structs::{
-        general_structs::{MissionModalVisible, UniqueId},
+        general_structs::MissionModalVisible,
         missions::{Missions, SelectedMission},
         player_stats::PlayerStats,
         recruits::SelectedRecruitForMission,
-        trigger_structs::MissionModalContentTrigger,
+        trigger_structs::{CloseMissionModalTrigger, MissionModalContentTrigger},
     },
     ui::ui_constants::WOOD_COLOR,
     utils::get_layout,
@@ -72,30 +72,29 @@ pub fn mission_order_modal(
                 .insert(Name::new("Mission details modal"))
                 .insert(MissionModalContentTrigger)
                 .with_children(|parent| {
-                    parent
-                        .spawn((
-                            Button,
-                            Node {
-                                position_type: PositionType::Absolute,
-                                right: Val::Px(5.),
-                                top: Val::Px(5.),
-                                width: Val::Px(30.),
-                                height: Val::Px(30.),
-                                border: UiRect::all(Val::Px(3.)),
-                                ..default()
+                    parent.spawn((
+                        Button,
+                        Node {
+                            position_type: PositionType::Absolute,
+                            right: Val::Px(5.),
+                            top: Val::Px(5.),
+                            width: Val::Px(30.),
+                            height: Val::Px(30.),
+                            border: UiRect::all(Val::Px(3.)),
+                            ..default()
+                        },
+                        BorderColor(WOOD_COLOR),
+                        BorderRadius::all(Val::Px(10.)),
+                        UiImage::from_atlas_image(
+                            my_assets.load("images/hud/buttons_atlas.png"),
+                            TextureAtlas {
+                                index: 16,
+                                layout: buttons_texture_atlas_layout.clone(),
                             },
-                            BorderColor(WOOD_COLOR),
-                            BorderRadius::all(Val::Px(10.)),
-                            UiImage::from_atlas_image(
-                                my_assets.load("images/hud/buttons_atlas.png"),
-                                TextureAtlas {
-                                    index: 16,
-                                    layout: buttons_texture_atlas_layout.clone(),
-                                },
-                            )
-                            .with_mode(NodeImageMode::Stretch),
-                        ))
-                        .insert(UniqueId("close_mission_modal".to_string()));
+                        )
+                        .with_mode(NodeImageMode::Stretch),
+                        CloseMissionModalTrigger,
+                    ));
 
                     // Title
                     parent

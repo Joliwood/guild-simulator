@@ -1,7 +1,9 @@
 use crate::{
     enums::TextureAtlasLayoutEnum,
     my_assets::{get_item_atlas_path, FONT_FIRA},
-    structs::{equipments::ItemEnum, general_structs::UniqueId, player_stats::PlayerStats},
+    structs::{
+        equipments::ItemEnum, player_stats::PlayerStats, trigger_structs::ItemInInventoryTrigger,
+    },
     utils::{get_item_image_atlas_index, get_layout},
 };
 use bevy::prelude::*;
@@ -69,9 +71,8 @@ pub fn spawn_inventory(
                                             },
                                         )
                                         .with_mode(NodeImageMode::Stretch),
+                                        ItemInInventoryTrigger(Some(item.clone())),
                                     ))
-                                    .insert(UniqueId("item_in_inventory".to_string()))
-                                    .insert(item.clone())
                                     .with_children(|button| {
                                         // If the item is a scroll, add a count indicator inside the button
                                         if let ItemEnum::Scroll(_, count) = item {
