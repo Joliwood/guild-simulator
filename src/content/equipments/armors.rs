@@ -1,5 +1,8 @@
 #![allow(dead_code)]
-use crate::{enums::ItemRaretyEnum, structs::equipments::Armor};
+use crate::{
+    enums::{ClassEnum, ItemRaretyEnum},
+    structs::equipments::Armor,
+};
 
 /// Traductions fr :
 /// Toge en cuir usagée + 4 puissance
@@ -44,50 +47,55 @@ impl ArmorsEnum {
                 id: 1,
                 image_atlas_index: 0,
                 name: "Used leather toga".to_string(),
+                power: 4,
                 price: 5,
                 rarety: ItemRaretyEnum::Common,
-                power: 4,
+                ..Default::default()
             },
             ArmorsEnum::ApprenticeCoat => Armor {
                 id: 2,
                 image_atlas_index: 1,
                 name: "Apprentice coat".to_string(),
+                power: 6,
                 price: 7,
                 rarety: ItemRaretyEnum::Common,
-                power: 6,
+                ..Default::default()
             },
             ArmorsEnum::RecycledMagicianRobe => Armor {
                 id: 3,
                 image_atlas_index: 2,
                 name: "Recycled magician robe".to_string(),
+                optimized_for: (vec![ClassEnum::Mage], 5),
+                power: 4,
                 price: 10,
                 rarety: ItemRaretyEnum::Common,
-                // TODO - Add a status optimized for magic classes + 5 power
-                power: 4,
             },
             ArmorsEnum::LeatherTunic => Armor {
                 id: 4,
                 image_atlas_index: 3,
                 name: "Leather tunic".to_string(),
+                power: 12,
                 price: 12,
                 rarety: ItemRaretyEnum::Common,
-                power: 12,
+                ..Default::default()
             },
             ArmorsEnum::MakeshiftVest => Armor {
                 id: 5,
                 image_atlas_index: 4,
                 name: "Makeshift vest".to_string(),
+                power: 5,
                 price: 5,
                 rarety: ItemRaretyEnum::Common,
-                power: 5,
+                ..Default::default()
             },
             ArmorsEnum::TravelToga => Armor {
                 id: 6,
                 image_atlas_index: 5,
                 name: "Travel toga".to_string(),
+                power: 7,
                 price: 7,
                 rarety: ItemRaretyEnum::Common,
-                power: 7,
+                ..Default::default()
             },
         }
     }

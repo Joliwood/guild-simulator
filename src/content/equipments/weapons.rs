@@ -1,5 +1,8 @@
 #![allow(dead_code)]
-use crate::{enums::ItemRaretyEnum, structs::equipments::Weapon};
+use crate::{
+    enums::{ClassEnum, ItemRaretyEnum},
+    structs::equipments::Weapon,
+};
 
 /// Traductions fr :
 /// épée en bois + 10 puissance
@@ -48,6 +51,7 @@ impl WeaponsEnum {
                 price: 10,
                 rarety: ItemRaretyEnum::Common,
                 power: 10,
+                ..Default::default()
             },
             WeaponsEnum::BowWithoutString => Weapon {
                 id: 2,
@@ -55,7 +59,7 @@ impl WeaponsEnum {
                 name: "Bow without string".to_string(),
                 price: 2,
                 rarety: ItemRaretyEnum::Common,
-                // TODO - Add a status optimized for hunters + 5 power + add a text, "maybe a hunter would have strings available to make it effective..."
+                optimized_for: (vec![ClassEnum::Hunter], 5),
                 power: 3,
             },
             WeaponsEnum::LumberjackAxe => Weapon {
@@ -65,6 +69,7 @@ impl WeaponsEnum {
                 price: 5,
                 rarety: ItemRaretyEnum::Common,
                 power: 6,
+                ..Default::default()
             },
             WeaponsEnum::MagicToothpick => Weapon {
                 id: 4,
@@ -72,7 +77,7 @@ impl WeaponsEnum {
                 name: "Magic toothpick".to_string(),
                 price: 2,
                 rarety: ItemRaretyEnum::Common,
-                // TODO - Add a status optimized for magic classes + 5 power
+                optimized_for: (vec![ClassEnum::Mage], 5),
                 power: 2,
             },
             WeaponsEnum::UnsharpDagger => Weapon {
@@ -82,6 +87,7 @@ impl WeaponsEnum {
                 price: 4,
                 rarety: ItemRaretyEnum::Common,
                 power: 4,
+                ..Default::default()
             },
             WeaponsEnum::WalkingStick => Weapon {
                 id: 6,
@@ -90,6 +96,7 @@ impl WeaponsEnum {
                 price: 3,
                 rarety: ItemRaretyEnum::Common,
                 power: 5,
+                ..Default::default()
             },
         }
     }

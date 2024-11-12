@@ -317,7 +317,7 @@ impl ItemLoot {
                 ..
             } => {
                 let scroll = scroll.get_scroll();
-                let mut description = format!("{}\n{}", scroll.name, scroll.power);
+                let mut description = format!("{}\n{:?}", scroll.name, scroll.bonus);
                 let price_range = calculate_price_range(scroll.price);
 
                 description.push_str(&format!(

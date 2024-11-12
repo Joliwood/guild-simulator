@@ -1,5 +1,5 @@
 #![allow(dead_code)]
-use crate::structs::equipments::Scroll;
+use crate::structs::equipments::{BonusEnum, Scroll};
 
 /// Parchemin de puissance brute I -> + 10 puissance
 /// Parchemin de l'avare I -> + 5% de golds rapportées par mission réussite
@@ -51,49 +51,56 @@ impl ScrollsEnum {
                 image_atlas_index: 0,
                 name: "Scroll of Wisdom I".to_string(),
                 price: 5,
-                power: 10,
+                bonus: vec![BonusEnum::RawPower(10)],
+                ..Default::default()
             },
             ScrollsEnum::ScrollOfTheMiserI => Scroll {
                 id: 2,
                 image_atlas_index: 1,
                 name: "Scroll of the Miser I".to_string(),
                 price: 5,
-                power: 5,
+                bonus: vec![BonusEnum::Gold(5)],
+                ..Default::default()
             },
             ScrollsEnum::ScrollOfTheResearcherI => Scroll {
                 id: 3,
                 image_atlas_index: 2,
                 name: "Scroll of the Researcher I".to_string(),
                 price: 5,
-                power: 5,
+                bonus: vec![BonusEnum::LuckyLoot(5)],
+                ..Default::default()
             },
             ScrollsEnum::ScrollOfExperienceI => Scroll {
                 id: 4,
                 image_atlas_index: 3,
                 name: "Scroll of Experience I".to_string(),
                 price: 5,
-                power: 5,
+                bonus: vec![BonusEnum::Experience(5)],
+                ..Default::default()
             },
             ScrollsEnum::ScrollOfReinforcementI => Scroll {
                 id: 5,
                 image_atlas_index: 4,
                 name: "Scroll of Reinforcement I".to_string(),
                 price: 5,
-                power: 5,
+                bonus: vec![BonusEnum::Reinforcement(5)],
+                ..Default::default()
             },
             ScrollsEnum::ScrollOfNaturalGrowthI => Scroll {
                 id: 6,
                 image_atlas_index: 5,
                 name: "Scroll of Natural Growth I".to_string(),
                 price: 5,
-                power: 5,
+                bonus: vec![BonusEnum::NaturalGrowth(5)],
+                ..Default::default()
             },
             ScrollsEnum::ScrollOfGaladornFailedPower => Scroll {
                 id: 7,
                 image_atlas_index: 6,
                 name: "Scroll of Galadorn Failed Power".to_string(),
                 price: 25,
-                power: 1,
+                bonus: vec![BonusEnum::RawPower(1), BonusEnum::Collector(65)],
+                ..Default::default()
             },
         }
     }

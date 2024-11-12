@@ -5,7 +5,7 @@ use bevy::{color::Color, prelude::Component, state::state::States};
 use serde::Deserialize;
 use std::fmt::{self, Display};
 
-#[derive(Debug, PartialEq, Clone, Eq, Hash)]
+#[derive(Debug, PartialEq, Clone, Eq, Hash, Deserialize)]
 pub enum ClassEnum {
     Hunter,
     Mage,
@@ -50,8 +50,9 @@ impl Display for ClassEnum {
     }
 }
 
-#[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
+#[derive(Default, Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub enum ItemRaretyEnum {
+    #[default]
     Common,
     UnCommon,
     Rare,

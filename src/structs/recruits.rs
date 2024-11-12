@@ -1,4 +1,4 @@
-use super::equipments::{Armor, ItemEnum, Scroll, Weapon};
+use super::equipments::{Armor, BonusEnum, ItemEnum, Scroll, Weapon};
 use crate::enums::{ClassEnum, RecruitStateEnum};
 use bevy::prelude::{Component, Resource};
 use uuid::Uuid;
@@ -110,8 +110,10 @@ impl RecruitStats {
             additional_power += armor.power;
         }
 
-        for scroll in &self.recruit_inventory.scrolls {
-            additional_power += scroll.power;
+        if let Some(additionl_power_from_scroll) =
+            get_total_power_with_additional_power(&self.recruit_inventory.scrolls)
+        {
+            additional_power += additionl_power_from_scroll;
         }
 
         return additional_power;
@@ -119,5 +121,25 @@ impl RecruitStats {
 
     pub fn get_total_power(&self) -> u32 {
         return self.get_additional_power_from_items() + self.power;
+    }
+}
+
+pub fn get_total_power_with_additional_power(scrolls: &[Scroll]) -> Option<u32> {
+    let bonuses = scrolls.iter().map(|scroll| &scroll.bonus);
+
+    // Iterate over the bonuses and each time we have a RawPower bonus, we add the value to the total power
+    let total_raw_power: u32 = bonuses
+        .flat_map(|bonus| {
+            bonus.iter().map(|b| match b {
+                BonusEnum::RawPower(value) => *value,
+                _ => 0,
+            })
+        })
+        .sum();
+
+    if total_raw_power > 0 {
+        Some(total_raw_power)
+    } else {
+        None
     }
 }

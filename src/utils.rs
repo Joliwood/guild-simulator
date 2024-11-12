@@ -126,7 +126,7 @@ pub fn is_mission_success(percent_of_victory: f32) -> bool {
 /// - recruit level < 5 ennemy level -> / 10 xp
 /// - recruit level > 3 ennemy level -> x3 xp
 pub fn get_xp_earned(level: u8) -> u32 {
-    return (level * 10).into();
+    return (level * 20).into();
 }
 
 #[allow(dead_code)]
@@ -185,7 +185,7 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
             return description;
         }
         ItemEnum::Scroll(scroll, quantity) => {
-            let mut description = format!("{}\n\n{}", scroll.name, scroll.power);
+            let mut description = format!("{}\n\n{:?}", scroll.name, scroll.bonus);
 
             description.push_str(&format!("\nQuantity: {}", quantity));
             description.push_str(&format!("\n\nPrice: {} G", scroll.price));

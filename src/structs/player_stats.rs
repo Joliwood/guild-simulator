@@ -5,7 +5,10 @@ use super::{
     equipments::ItemEnum,
     recruits::RecruitStats,
 };
-use crate::enums::{RecruitStateEnum, RoomEnum};
+use crate::{
+    content::equipments::scrolls::ScrollsEnum,
+    enums::{RecruitStateEnum, RoomEnum},
+};
 use bevy::prelude::*;
 use uuid::Uuid;
 
@@ -57,7 +60,10 @@ impl Default for PlayerStats {
             experience: 0,
             golds: 0,
             guild_level: 1,
-            inventory: vec![],
+            inventory: vec![
+                ItemEnum::Scroll(ScrollsEnum::ScrollOfRawPowerI.get_scroll(), 2),
+                ItemEnum::Scroll(ScrollsEnum::ScrollOfGaladornFailedPower.get_scroll(), 2),
+            ],
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![
