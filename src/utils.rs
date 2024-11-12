@@ -394,7 +394,7 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
         TextureAtlasLayoutEnum::Armor => {
             return TextureAtlasLayout::from_grid(
                 UVec2::new(400, 400),
-                4,
+                6,
                 1,
                 Some(UVec2::new(0, 0)),
                 Some(UVec2::new(0, 0)),
@@ -403,7 +403,7 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
         TextureAtlasLayoutEnum::Scroll => {
             return TextureAtlasLayout::from_grid(
                 UVec2::new(1080, 1080),
-                4,
+                7,
                 1,
                 Some(UVec2::new(0, 0)),
                 Some(UVec2::new(0, 0)),
@@ -458,7 +458,7 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
             ItemLootEnum::Armor(_) => {
                 return TextureAtlasLayout::from_grid(
                     UVec2::new(400, 400),
-                    4,
+                    6,
                     1,
                     Some(UVec2::new(0, 0)),
                     Some(UVec2::new(0, 0)),
@@ -467,7 +467,7 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
             ItemLootEnum::Scroll(_) => {
                 return TextureAtlasLayout::from_grid(
                     UVec2::new(1080, 1080),
-                    4,
+                    7,
                     1,
                     Some(UVec2::new(0, 0)),
                     Some(UVec2::new(0, 0)),
@@ -487,7 +487,7 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
             ItemEnum::Armor(_) => {
                 return TextureAtlasLayout::from_grid(
                     UVec2::new(400, 400),
-                    4,
+                    6,
                     1,
                     Some(UVec2::new(0, 0)),
                     Some(UVec2::new(0, 0)),
@@ -496,7 +496,7 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
             ItemEnum::Scroll(_, _) => {
                 return TextureAtlasLayout::from_grid(
                     UVec2::new(1080, 1080),
-                    4,
+                    7,
                     1,
                     Some(UVec2::new(0, 0)),
                     Some(UVec2::new(0, 0)),

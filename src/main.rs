@@ -18,11 +18,11 @@ mod utils;
 // use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use my_assets::{MyAssets, MyAssetsLoader};
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
-// use pyri_tooltip::prelude::*;
+use pyri_tooltip::prelude::*;
 // use bevy_fluent::prelude::*;
 // use crate::locales::{en, fr};
 
-use bevy::{prelude::*, window::WindowTheme};
+use bevy::{app::Plugins, prelude::*, window::WindowTheme};
 use content::constants::MAX_GAME_SECONDS;
 use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
@@ -40,6 +40,7 @@ use structs::{
 fn main() -> AppExit {
     App::new()
         .add_plugins((
+            // DefaultPlugins
             DefaultPlugins
             // .set(AssetPlugin {
             //     meta_check: AssetMetaCheck::Never,

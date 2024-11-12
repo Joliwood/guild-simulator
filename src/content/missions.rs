@@ -30,15 +30,15 @@ pub fn generate_all_missions() -> Missions {
             loots: Loots(
                 vec![
                     ItemLoot {
-                        item: ItemLootEnum::Weapon(WeaponsEnum::SwordOfValor),
+                        item: ItemLootEnum::Weapon(WeaponsEnum::MagicToothpick),
                         percent: 50,
                     },
                     ItemLoot {
-                        item: ItemLootEnum::Armor(ArmorsEnum::GauntletsOfPower),
+                        item: ItemLootEnum::Armor(ArmorsEnum::MakeshiftVest),
                         percent: 50,
                     },
                     ItemLoot {
-                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
+                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfExperienceI),
                         percent: 1,
                     },
                 ]
@@ -66,15 +66,15 @@ pub fn generate_all_missions() -> Missions {
             loots: Loots(
                 vec![
                     ItemLoot {
-                        item: ItemLootEnum::Weapon(WeaponsEnum::BowOfTheEagle),
+                        item: ItemLootEnum::Weapon(WeaponsEnum::WalkingStick),
                         percent: 50,
                     },
                     ItemLoot {
-                        item: ItemLootEnum::Armor(ArmorsEnum::BreastplateOfTheDragon),
+                        item: ItemLootEnum::Armor(ArmorsEnum::UsedLeatherToga),
                         percent: 10,
                     },
                     ItemLoot {
-                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfEndurance),
+                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheMiserI),
                         percent: 10,
                     },
                 ],
@@ -102,15 +102,15 @@ pub fn generate_all_missions() -> Missions {
             loots: Loots(
                 vec![
                     ItemLoot {
-                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfSpeed),
+                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfRawPowerI),
+                        percent: 10,
+                    },
+                    ItemLoot {
+                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfReinforcementI),
                         percent: 50,
                     },
                     ItemLoot {
-                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfPower),
-                        percent: 50,
-                    },
-                    ItemLoot {
-                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheAncients),
+                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheMiserI),
                         percent: 50,
                     },
                 ],
@@ -139,15 +139,15 @@ pub fn generate_all_missions() -> Missions {
             loots: Loots(
                 vec![
                     ItemLoot {
-                        item: ItemLootEnum::Weapon(WeaponsEnum::SwordOfValor),
+                        item: ItemLootEnum::Weapon(WeaponsEnum::BowWithoutString),
                         percent: 50,
                     },
                     ItemLoot {
-                        item: ItemLootEnum::Armor(ArmorsEnum::GauntletsOfPower),
+                        item: ItemLootEnum::Armor(ArmorsEnum::ApprenticeCoat),
                         percent: 50,
                     },
                     ItemLoot {
-                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
+                        item: ItemLootEnum::Weapon(WeaponsEnum::UnsharpDagger),
                         percent: 50,
                     },
                 ]
@@ -175,15 +175,19 @@ pub fn generate_all_missions() -> Missions {
             loots: Loots(
                 vec![
                     ItemLoot {
-                        item: ItemLootEnum::Weapon(WeaponsEnum::BowOfTheEagle),
-                        percent: 50,
-                    },
-                    ItemLoot {
-                        item: ItemLootEnum::Armor(ArmorsEnum::BreastplateOfTheDragon),
+                        item: ItemLootEnum::Weapon(WeaponsEnum::WoodenSword),
                         percent: 10,
                     },
                     ItemLoot {
-                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfWisdom),
+                        item: ItemLootEnum::Weapon(WeaponsEnum::LumberjackAxe),
+                        percent: 50,
+                    },
+                    ItemLoot {
+                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheResearcherI),
+                        percent: 10,
+                    },
+                    ItemLoot {
+                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfGaladornFailedPower),
                         percent: 10,
                     },
                 ],
@@ -210,15 +214,15 @@ pub fn generate_all_missions() -> Missions {
             golds: 50,
             loots: Loots(vec![
                 ItemLoot {
-                    item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfSpeed),
+                    item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfNaturalGrowthI),
                     percent: 50,
                 },
                 ItemLoot {
-                    item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfPower),
+                    item: ItemLootEnum::Armor(ArmorsEnum::RecycledMagicianRobe),
                     percent: 50,
                 },
                 ItemLoot {
-                    item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheAncients),
+                    item: ItemLootEnum::Armor(ArmorsEnum::LeatherTunic),
                     percent: 50,
                 },
             ]),

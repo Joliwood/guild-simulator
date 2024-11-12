@@ -303,8 +303,8 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
                     id: 1,
                     message: "Thank you very much, you can be sure that we'll make good use of it, have a nice day and please close the drafty door.".to_string(),
                     equipment_impact: Some(vec![
-                        ImpactAction::Add(ItemEnum::Armor(ArmorsEnum::ShieldOfCourage.get_armor())),
-                        ImpactAction::Add(ItemEnum::Weapon(WeaponsEnum::SpearOfDestiny.get_weapon()))
+                        ImpactAction::Add(ItemEnum::Armor(ArmorsEnum::TravelToga.get_armor())),
+                        ImpactAction::Add(ItemEnum::Weapon(WeaponsEnum::WoodenSword.get_weapon()))
                     ]),
                     ..Default::default()
                 },

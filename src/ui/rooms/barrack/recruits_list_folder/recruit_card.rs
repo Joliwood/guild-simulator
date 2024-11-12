@@ -105,7 +105,7 @@ pub fn recruit_card(
                             top: Val::Px(0.),
                             bottom: Val::Px(0.),
                             left: Val::Px(5.),
-                            right: Val::Px(10.),
+                            right: Val::Px(5.),
                         },
                         overflow: Overflow {
                             x: OverflowAxis::Hidden,
@@ -205,7 +205,7 @@ pub fn recruit_card(
                         )),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
-                            font_size: 16.0,
+                            font_size: 14.0,
                             ..default()
                         },
                         TextColor(ColorPaletteEnum::DarkBrown.as_color()),
