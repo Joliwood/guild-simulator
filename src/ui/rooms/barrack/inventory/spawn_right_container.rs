@@ -1,5 +1,9 @@
 use super::spawn_inventory::spawn_inventory;
-use crate::{enums::ColorPaletteEnum, my_assets::FONT_FIRA, structs::player_stats::PlayerStats};
+use crate::{
+    enums::ColorPaletteEnum,
+    my_assets::FONT_FIRA,
+    structs::{player_stats::PlayerStats, recruits::SelectedRecruitForEquipment},
+};
 use bevy::prelude::*;
 
 pub fn spawn_right_container(
@@ -7,6 +11,7 @@ pub fn spawn_right_container(
     my_assets: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
+    selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
 ) {
     // Container for the inventory
     parent
@@ -40,6 +45,12 @@ pub fn spawn_right_container(
                 TextColor(ColorPaletteEnum::DarkBrown.as_color()),
             ));
             // Spawn the inventory below the buttons
-            spawn_inventory(parent, player_stats, my_assets, texture_atlas_layouts);
+            spawn_inventory(
+                parent,
+                player_stats,
+                my_assets,
+                texture_atlas_layouts,
+                selected_recruit_for_equipment,
+            );
         });
 }

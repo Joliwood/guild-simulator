@@ -70,13 +70,13 @@ pub struct Scroll {
 }
 
 impl Scroll {
+    #[allow(dead_code)]
     pub fn get_raw_power_from_bonus(&self) -> u32 {
         let mut power = 0;
 
         for bonus in &self.bonus {
-            match bonus {
-                BonusEnum::RawPower(value) => power += value,
-                _ => {}
+            if let BonusEnum::RawPower(value) = bonus {
+                power += value;
             }
         }
 

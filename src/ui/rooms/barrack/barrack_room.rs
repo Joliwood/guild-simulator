@@ -54,6 +54,12 @@ pub fn spawn_room_barrack(
                 selected_recruit_for_equipment,
                 texture_atlas_layouts,
             );
-            spawn_right_container(parent, my_assets, player_stats, texture_atlas_layouts);
+            spawn_right_container(
+                parent,
+                my_assets,
+                player_stats,
+                texture_atlas_layouts,
+                selected_recruit_for_equipment,
+            );
         });
 }

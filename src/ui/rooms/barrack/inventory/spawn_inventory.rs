@@ -1,12 +1,14 @@
 use crate::{
-    enums::TextureAtlasLayoutEnum,
+    enums::{ColorPaletteEnum, TextureAtlasLayoutEnum},
     my_assets::{get_item_atlas_path, FONT_FIRA},
     structs::{
-        equipments::ItemEnum, player_stats::PlayerStats, trigger_structs::ItemInInventoryTrigger,
+        equipments::ItemEnum, player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
+        trigger_structs::ItemInInventoryTrigger,
     },
     utils::{get_item_image_atlas_index, get_layout},
 };
 use bevy::prelude::*;
+use std::cmp::Ordering;
 // use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn spawn_inventory(
@@ -14,6 +16,7 @@ pub fn spawn_inventory(
     player_stats: &Res<PlayerStats>,
     my_assets: &Res<AssetServer>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
+    selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
 ) {
     let inventory_size = player_stats.max_inventory_size;
     let columns = 5;
@@ -87,6 +90,64 @@ pub fn spawn_inventory(
                                                 Node {
                                                     position_type: PositionType::Absolute,
                                                     bottom: Val::Px(0.0),
+                                                    right: Val::Px(5.0),
+                                                    ..default()
+                                                },
+                                            ));
+                                        }
+
+                                        if let Some(selected_recruit) =
+                                            selected_recruit_for_equipment.0.as_ref()
+                                        {
+                                            let comparator = match item {
+                                                ItemEnum::Weapon(weapon) => {
+                                                    if let Some(selected_recruit_weapon) =
+                                                        &selected_recruit.recruit_inventory.weapon
+                                                    {
+                                                        match weapon
+                                                            .power
+                                                            .cmp(&selected_recruit_weapon.power)
+                                                        {
+                                                            Ordering::Greater => "+",
+                                                            Ordering::Less => "-",
+                                                            Ordering::Equal => "=",
+                                                        }
+                                                    } else {
+                                                        "+"
+                                                    }
+                                                }
+                                                ItemEnum::Armor(armor) => {
+                                                    if let Some(selected_recruit_armor) =
+                                                        &selected_recruit.recruit_inventory.armor
+                                                    {
+                                                        match armor
+                                                            .power
+                                                            .cmp(&selected_recruit_armor.power)
+                                                        {
+                                                            Ordering::Greater => "+",
+                                                            Ordering::Less => "-",
+                                                            Ordering::Equal => "=",
+                                                        }
+                                                    } else {
+                                                        "+"
+                                                    }
+                                                }
+                                                // We do not show the comparator for scrolls
+                                                _ => "",
+                                            };
+
+                                            // Spawning the button with the computed comparator
+                                            button.spawn((
+                                                Text::new(comparator),
+                                                TextFont {
+                                                    font: my_assets.load(FONT_FIRA),
+                                                    font_size: 18.0,
+                                                    ..default()
+                                                },
+                                                TextColor(ColorPaletteEnum::SunnyLight.as_color()),
+                                                Node {
+                                                    position_type: PositionType::Absolute,
+                                                    top: Val::Px(0.0),
                                                     right: Val::Px(5.0),
                                                     ..default()
                                                 },
