@@ -118,7 +118,7 @@ fn main() -> AppExit {
                 systems::updates::office::sign_mission_report::sign_mission_report,
                 systems::updates::office::toggle_daily_event_documents::toggle_daily_event_documents,
                 systems::updates::office::toggle_mission_reports::toggle_mission_reports,
-                // systems::updates::scroll::scroll,
+                systems::updates::scroll::scroll,
                 systems::updates::update_room_on_click::update_room_on_click,
                 ui::modals::daily_events::daily_events_modal::daily_events_modal,
                 ui::modals::mission_order_modal_folder::mission_order_modal::mission_order_modal,

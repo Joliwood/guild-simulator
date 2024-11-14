@@ -74,9 +74,9 @@ impl Default for PlayerStats {
             recruits: vec![
                 RecruitEnum::Hubert.get_recruit(),
                 RecruitEnum::JeanLouisDavid.get_recruit(),
-                // RecruitEnum::JeanLouisDavid.get_recruit(),
-                // RecruitEnum::JeanLouisDavid.get_recruit(),
-                // RecruitEnum::JeanLouisDavid.get_recruit(),
+                RecruitEnum::JeanLouisDavid.get_recruit(),
+                RecruitEnum::JeanLouisDavid.get_recruit(),
+                RecruitEnum::JeanLouisDavid.get_recruit(),
             ],
             room: RoomEnum::Barrack,
             toxicity: 0,

@@ -1,3 +1,4 @@
+use super::recruit_power::recruit_power;
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
     my_assets::FONT_FIRA,
@@ -6,23 +7,18 @@ use crate::{
         armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
     },
 };
-// use accesskit::{Node as Accessible, Role};
-use bevy::{
-    // a11y::AccessibilityNode,
-    prelude::*,
-};
-
-use super::recruit_power::recruit_power;
+use accesskit::{Node as Accessible, Role};
+use bevy::{a11y::AccessibilityNode, prelude::*};
 
 pub fn recruit_card(
-    left_container: &mut ChildBuilder,
+    parent: &mut ChildBuilder,
     my_assets: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
     recruit: &RecruitStats,
     recruit_texture_atlas_layout: Handle<TextureAtlasLayout>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    left_container
+    parent
         .spawn((
             Button,
             Node {
@@ -39,20 +35,17 @@ pub fn recruit_card(
                     right: Val::Px(7.),
                 },
                 border: UiRect::all(Val::Px(2.0)),
-                overflow: Overflow {
-                    x: OverflowAxis::Hidden,
-                    y: OverflowAxis::Hidden,
-                },
                 ..default()
             },
+            AccessibilityNode(Accessible::new(Role::ListItem)),
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
             BorderRadius::all(Val::Px(10.)),
-            // AccessibilityNode(Accessible::new(Role::ListItem)),
         ))
-        .insert(PickingBehavior {
-            should_block_lower: false,
-            ..default()
-        })
+        // Not working properly at this moment
+        // .insert(PickingBehavior {
+        //     should_block_lower: false,
+        //     is_hoverable: true,
+        // })
         .insert((UniqueId("recruit_button".to_string()), recruit.clone()))
         .with_children(|parent| {
             // Add an overlay if the recruit is in a mission
