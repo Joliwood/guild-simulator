@@ -17,7 +17,7 @@ pub fn room_store(my_assets: &Res<AssetServer>, commands: &mut Commands) {
         // Image background node
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn((
-                UiImage {
+                ImageNode {
                     image: my_assets.load("images/rooms/store/store.png"),
                     ..default()
                 },

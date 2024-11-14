@@ -38,7 +38,7 @@ pub fn right_hud(
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        UiImage::from_atlas_image(
+                        ImageNode::from_atlas_image(
                             my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 0,
@@ -77,7 +77,7 @@ pub fn right_hud(
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        UiImage::from_atlas_image(
+                        ImageNode::from_atlas_image(
                             my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 6,
@@ -116,7 +116,7 @@ pub fn right_hud(
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        UiImage::from_atlas_image(
+                        ImageNode::from_atlas_image(
                             my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 5,
@@ -149,7 +149,7 @@ pub fn right_hud(
                     height: Val::Px(16.),
                     ..default()
                 },
-                UiImage::from_atlas_image(
+                ImageNode::from_atlas_image(
                     my_assets.load("images/hud/hud_icon_atlas.png"),
                     TextureAtlas {
                         index: 7,

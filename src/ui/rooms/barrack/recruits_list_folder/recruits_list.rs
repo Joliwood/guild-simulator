@@ -45,7 +45,7 @@ pub fn spawn_left_container(
             // Background image
             left_container
                 .spawn((
-                    UiImage {
+                    ImageNode {
                         image: my_assets.load("images/rooms/barrack/inventory_container.png"),
                         ..default()
                     },

@@ -64,15 +64,15 @@ impl Default for PlayerStats {
             golds: 0,
             guild_level: 1,
             inventory: vec![
-                ItemEnum::Weapon(WeaponsEnum::WalkingStick.get_weapon()),
-                ItemEnum::Weapon(WeaponsEnum::WalkingStick.get_weapon()),
+                ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
+                ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
                 ItemEnum::Scroll(ScrollsEnum::ScrollOfRawPowerI.get_scroll(), 2),
                 ItemEnum::Scroll(ScrollsEnum::ScrollOfGaladornFailedPower.get_scroll(), 2),
             ],
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![
-                RecruitEnum::JeanLouisDavid.get_recruit(),
+                RecruitEnum::Hubert.get_recruit(),
                 RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),

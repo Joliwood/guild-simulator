@@ -26,7 +26,7 @@ pub fn daily_event_documents(
             .with_children(|mission_report_button| {
                 mission_report_button
                     .spawn((
-                        UiImage {
+                        ImageNode {
                             image: my_assets
                                 .load("images/rooms/office/daily_event_documents_on_desk.png"),
                             ..default()
@@ -46,7 +46,7 @@ pub fn daily_event_documents(
                         // if mission_reports_number > 0 {
                         parent
                             .spawn((
-                                UiImage {
+                                ImageNode {
                                     image: my_assets
                                         .load("images/rooms/office/notification_token_in_wood.png"),
                                     ..default()

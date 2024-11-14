@@ -43,7 +43,7 @@ pub fn set_of_keys(
         .insert(SleepButtonTrigger)
         .with_children(|sleep_button| {
             sleep_button.spawn((
-                UiImage {
+                ImageNode {
                     image: my_assets.load("images/rooms/office/set_of_keys_container.png"),
                     ..default()
                 },
@@ -57,7 +57,7 @@ pub fn set_of_keys(
     // Spawn the image inside the button as a child
     button.with_children(|parent| {
         parent.spawn((
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/rooms/office/set_of_keys.png"),
                 ..default()
             },

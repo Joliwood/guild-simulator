@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 use crate::{my_assets::get_mission_image, ui::ui_constants::WOOD_COLOR};
-use bevy::prelude::*;
+use bevy::{prelude::*, ui::widget::*};
 
 pub enum CustomButton {
     Primary,
@@ -21,7 +21,7 @@ impl CustomButton {
         Node,
         BorderRadius,
         BackgroundColor,
-        UiImage,
+        ImageNode,
         BorderColor,
     ) {
         // the sprite sheet has 16 sprites arranged in a row, and they are all 500px x 500px
@@ -39,7 +39,7 @@ impl CustomButton {
                 },
                 BorderRadius::MAX,
                 BackgroundColor(WOOD_COLOR),
-                UiImage::default(),
+                ImageNode::default(),
                 BorderColor(Color::BLACK),
             ),
             CustomButton::GoldButton => (
@@ -55,7 +55,7 @@ impl CustomButton {
                 },
                 BorderRadius::MAX,
                 BackgroundColor::DEFAULT,
-                UiImage::default(),
+                ImageNode::default(),
                 BorderColor::DEFAULT,
             ),
             // image_assets
@@ -69,7 +69,7 @@ impl CustomButton {
                 },
                 BorderRadius::MAX,
                 BackgroundColor::DEFAULT,
-                UiImage::default().with_color(Color::WHITE),
+                ImageNode::default().with_color(Color::WHITE),
                 BorderColor(Color::BLACK),
             ),
             CustomButton::SquareIcon => (
@@ -83,7 +83,7 @@ impl CustomButton {
                 },
                 BorderRadius::all(Val::Px(10.)),
                 BackgroundColor(WOOD_COLOR),
-                UiImage::default().with_color(Color::WHITE),
+                ImageNode::default().with_color(Color::WHITE),
                 BorderColor(Color::BLACK),
             ),
             CustomButton::EarnGold => (
@@ -113,7 +113,7 @@ impl CustomButton {
                 },
                 BorderRadius::all(Val::Px(10.)),
                 BackgroundColor::DEFAULT,
-                UiImage {
+                ImageNode {
                     image: my_assets.load("images/rooms/command_room/wood_box_container.png"),
                     image_mode: NodeImageMode::Stretch,
                     ..default()
@@ -133,7 +133,7 @@ impl CustomButton {
         Node,
         BorderRadius,
         BackgroundColor,
-        UiImage,
+        ImageNode,
         BorderColor,
     ) {
         let mission_image = get_mission_image(mission_id);

@@ -120,7 +120,7 @@ pub fn recruit_card(
                 .with_children(|frame| {
                     // Image that is 200x400, clipped by the parent container
                     frame.spawn((
-                        UiImage::from_atlas_image(
+                        ImageNode::from_atlas_image(
                             my_assets.load("images/recruits/recruit_picture_atlas.png"),
                             TextureAtlas {
                                 index: recruit.image_atlas_index.into(),

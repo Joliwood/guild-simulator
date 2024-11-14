@@ -28,7 +28,7 @@ pub fn map_on_table(
                 let missions = missions.get_missions_by_ids(&map.map_mission_ids);
                 button
                     .spawn((
-                        UiImage {
+                        ImageNode {
                             image: my_assets.load(MapImageEnum::get_path(&map.image)),
                             ..default()
                         },

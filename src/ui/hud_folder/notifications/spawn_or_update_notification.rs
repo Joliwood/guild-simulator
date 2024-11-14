@@ -58,7 +58,7 @@ pub fn spawn_or_update_notification(
                             bottom_left: Val::Px(10.),
                             bottom_right: Val::ZERO,
                         },
-                        UiImage::from_atlas_image(
+                        ImageNode::from_atlas_image(
                             my_assets.load("images/hud/notification_atlas.png"),
                             TextureAtlas {
                                 index: 0,

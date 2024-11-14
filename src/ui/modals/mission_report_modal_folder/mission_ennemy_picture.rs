@@ -37,7 +37,7 @@ pub fn mission_ennemy_picture(
             ));
 
             ennemy_block.spawn((
-                UiImage::from_atlas_image(
+                ImageNode::from_atlas_image(
                     my_assets.load("images/missions/ennemy_picture_atlas.png"),
                     TextureAtlas {
                         index: ennemy.image_atlas_index.into(),

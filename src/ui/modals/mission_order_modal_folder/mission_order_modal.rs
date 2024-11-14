@@ -14,7 +14,7 @@ use crate::{
     ui::ui_constants::WOOD_COLOR,
     utils::get_layout,
 };
-use bevy::prelude::*;
+use bevy::{prelude::*, ui::widget::NodeImageMode};
 
 #[allow(clippy::too_many_arguments)]
 pub fn mission_order_modal(
@@ -85,7 +85,7 @@ pub fn mission_order_modal(
                         },
                         BorderColor(WOOD_COLOR),
                         BorderRadius::all(Val::Px(10.)),
-                        UiImage::from_atlas_image(
+                        ImageNode::from_atlas_image(
                             my_assets.load("images/hud/buttons_atlas.png"),
                             TextureAtlas {
                                 index: 16,

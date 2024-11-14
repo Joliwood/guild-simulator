@@ -75,7 +75,7 @@ pub fn mission_report_modal(
         // Spawn the mission report modal container
         commands
             .spawn((
-                UiImage {
+                ImageNode {
                     image: my_assets.load("images/rooms/barrack/inventory_container.png"),
                     ..default()
                 },

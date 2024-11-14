@@ -28,7 +28,7 @@ pub fn room_office(
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
                 .spawn((
-                    UiImage {
+                    ImageNode {
                         image: my_assets.load("images/rooms/office/office_room_background.png"),
                         ..default()
                     },
@@ -46,7 +46,7 @@ pub fn room_office(
                 .with_children(|desk_container: &mut ChildBuilder| {
                     desk_container
                         .spawn((
-                            UiImage {
+                            ImageNode {
                                 image: my_assets.load("images/rooms/office/desk.png"),
                                 ..default()
                             },
