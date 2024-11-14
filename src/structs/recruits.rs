@@ -64,6 +64,30 @@ impl RecruitInventory {
             scrolls: vec![],
         };
     }
+
+    pub fn get_power_multiplicator_from_optimized_class(&self, class: &ClassEnum) -> f32 {
+        let mut multiplicator = 1.0;
+
+        if let Some(weapon) = &self.weapon {
+            if weapon.optimized_for.0.contains(class) {
+                multiplicator += weapon.optimized_for.1 as f32 / 100.;
+            }
+        }
+
+        if let Some(armor) = &self.armor {
+            if armor.optimized_for.0.contains(class) {
+                multiplicator += armor.optimized_for.1 as f32 / 100.;
+            }
+        }
+
+        for scroll in &self.scrolls {
+            if scroll.optimized_for.0.contains(class) {
+                multiplicator += scroll.optimized_for.1 as f32 / 100.;
+            }
+        }
+
+        return multiplicator;
+    }
 }
 
 impl RecruitStats {
@@ -100,23 +124,31 @@ impl RecruitStats {
     }
 
     pub fn get_additional_power_from_items(&self) -> u32 {
-        let mut additional_power = 0;
+        let mut additional_raw_power = 0;
 
         if let Some(weapon) = &self.recruit_inventory.weapon {
-            additional_power += weapon.power;
+            additional_raw_power += weapon.power;
         }
 
         if let Some(armor) = &self.recruit_inventory.armor {
-            additional_power += armor.power;
+            additional_raw_power += armor.power;
         }
 
         if let Some(additionl_power_from_scroll) =
             get_total_power_with_additional_power(&self.recruit_inventory.scrolls)
         {
-            additional_power += additionl_power_from_scroll;
+            additional_raw_power += additionl_power_from_scroll;
         }
 
-        return additional_power;
+        let total_recruit_raw_power = self.power + additional_raw_power;
+
+        let multiplicator = self
+            .recruit_inventory
+            .get_power_multiplicator_from_optimized_class(&self.class);
+
+        let total_recruit_power = (total_recruit_raw_power as f32 * multiplicator) as u32;
+
+        return total_recruit_power - self.power;
     }
 
     pub fn get_total_power(&self) -> u32 {
