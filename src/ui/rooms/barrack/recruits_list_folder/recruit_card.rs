@@ -7,8 +7,7 @@ use crate::{
         armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
     },
 };
-use accesskit::{Node as Accessible, Role};
-use bevy::{a11y::AccessibilityNode, prelude::*};
+use bevy::prelude::*;
 
 pub fn recruit_card(
     parent: &mut ChildBuilder,
@@ -37,15 +36,14 @@ pub fn recruit_card(
                 border: UiRect::all(Val::Px(2.0)),
                 ..default()
             },
-            AccessibilityNode(Accessible::new(Role::ListItem)),
+            // AccessibilityNode(Accessible::new(Role::ListItem)),
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
             BorderRadius::all(Val::Px(10.)),
         ))
-        // Not working properly at this moment
-        // .insert(PickingBehavior {
-        //     should_block_lower: false,
-        //     is_hoverable: true,
-        // })
+        .insert(PickingBehavior {
+            should_block_lower: false,
+            ..default()
+        })
         .insert((UniqueId("recruit_button".to_string()), recruit.clone()))
         .with_children(|parent| {
             // Add an overlay if the recruit is in a mission
@@ -74,16 +72,25 @@ pub fn recruit_card(
                         BorderRadius::all(Val::Px(10.)),
                         BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.8)),
                     ))
+                    .insert(PickingBehavior {
+                        should_block_lower: false,
+                        ..default()
+                    })
                     .with_children(|overlay| {
-                        overlay.spawn((
-                            Text::new(recruit.state.get_description()),
-                            TextFont {
-                                font: my_assets.load(FONT_FIRA),
-                                font_size: 18.0,
+                        overlay
+                            .spawn((
+                                Text::new(recruit.state.get_description()),
+                                TextFont {
+                                    font: my_assets.load(FONT_FIRA),
+                                    font_size: 18.0,
+                                    ..default()
+                                },
+                                TextColor(Color::WHITE),
+                            ))
+                            .insert(PickingBehavior {
+                                should_block_lower: false,
                                 ..default()
-                            },
-                            TextColor(Color::WHITE),
-                        ));
+                            });
                     });
             }
         })
@@ -110,23 +117,32 @@ pub fn recruit_card(
                     },
                     BackgroundColor(Color::NONE),
                 ))
+                .insert(PickingBehavior {
+                    should_block_lower: false,
+                    ..default()
+                })
                 .with_children(|frame| {
                     // Image that is 200x400, clipped by the parent container
-                    frame.spawn((
-                        ImageNode::from_atlas_image(
-                            my_assets.load("images/recruits/recruit_picture_atlas.png"),
-                            TextureAtlas {
-                                index: recruit.image_atlas_index.into(),
-                                layout: recruit_texture_atlas_layout.clone(),
+                    frame
+                        .spawn((
+                            ImageNode::from_atlas_image(
+                                my_assets.load("images/recruits/recruit_picture_atlas.png"),
+                                TextureAtlas {
+                                    index: recruit.image_atlas_index.into(),
+                                    layout: recruit_texture_atlas_layout.clone(),
+                                },
+                            ),
+                            Node {
+                                width: Val::Px(80.),
+                                height: Val::Px(140.),
+                                position_type: PositionType::Absolute,
+                                ..default()
                             },
-                        ),
-                        Node {
-                            width: Val::Px(80.),
-                            height: Val::Px(140.),
-                            position_type: PositionType::Absolute,
+                        ))
+                        .insert(PickingBehavior {
+                            should_block_lower: false,
                             ..default()
-                        },
-                    ));
+                        });
                 });
 
             // Container for recruit name and class
@@ -143,43 +159,62 @@ pub fn recruit_card(
                     margin: UiRect::all(Val::Px(5.0)),
                     ..default()
                 })
+                .insert(PickingBehavior {
+                    should_block_lower: false,
+                    ..default()
+                })
                 .with_children(|name_class_container| {
                     // Recruit name
-                    name_class_container.spawn((
-                        Text::new(recruit.name.clone()),
-                        TextLayout {
-                            linebreak: LineBreak::NoWrap,
+                    name_class_container
+                        .spawn((
+                            Text::new(recruit.name.clone()),
+                            TextLayout {
+                                linebreak: LineBreak::NoWrap,
+                                ..default()
+                            },
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 16.0,
+                                ..default()
+                            },
+                            TextColor(ColorPaletteEnum::DarkBrown.as_color()),
+                        ))
+                        .insert(PickingBehavior {
+                            should_block_lower: false,
                             ..default()
-                        },
-                        TextFont {
-                            font: my_assets.load(FONT_FIRA),
-                            font_size: 16.0,
-                            ..default()
-                        },
-                        TextColor(ColorPaletteEnum::DarkBrown.as_color()),
-                    ));
+                        });
 
                     // Recruit class
-                    name_class_container.spawn((
-                        Text::new(recruit.class.to_string()),
-                        TextFont {
-                            font: my_assets.load(FONT_FIRA),
-                            font_size: 14.0,
+                    name_class_container
+                        .spawn((
+                            Text::new(recruit.class.to_string()),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(ColorPaletteEnum::DarkBrown.as_color()),
+                        ))
+                        .insert(PickingBehavior {
+                            should_block_lower: false,
                             ..default()
-                        },
-                        TextColor(ColorPaletteEnum::DarkBrown.as_color()),
-                    ));
+                        });
 
                     // Recruit level
-                    name_class_container.spawn((
-                        Text::new(format!("Level: {}", recruit.level)),
-                        TextFont {
-                            font: my_assets.load(FONT_FIRA),
-                            font_size: 14.0,
+                    name_class_container
+                        .spawn((
+                            Text::new(format!("Level: {}", recruit.level)),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(ColorPaletteEnum::DarkBrown.as_color()),
+                        ))
+                        .insert(PickingBehavior {
+                            should_block_lower: false,
                             ..default()
-                        },
-                        TextColor(ColorPaletteEnum::DarkBrown.as_color()),
-                    ));
+                        });
                 });
 
             button
@@ -189,30 +224,38 @@ pub fn recruit_card(
                     margin: UiRect::all(Val::Px(5.0)),
                     ..default()
                 })
+                .insert(PickingBehavior {
+                    should_block_lower: false,
+                    ..default()
+                })
                 .with_children(|stats_container| {
                     // Recruit XP
-                    stats_container.spawn((
-                        Text::new(format!(
-                            "XP: {}/{}",
-                            recruit.experience, recruit.max_experience
-                        )),
-                        TextFont {
-                            font: my_assets.load(FONT_FIRA),
-                            font_size: 14.0,
+                    stats_container
+                        .spawn((
+                            Text::new(format!(
+                                "XP: {}/{}",
+                                recruit.experience, recruit.max_experience
+                            )),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(ColorPaletteEnum::DarkBrown.as_color()),
+                        ))
+                        .insert(PickingBehavior {
+                            should_block_lower: false,
                             ..default()
-                        },
-                        TextColor(ColorPaletteEnum::DarkBrown.as_color()),
-                    ));
+                        });
 
                     let get_additional_power_from_items = recruit.get_additional_power_from_items();
 
                     recruit_power(
-                        // TODO - Fix common type for stats
                         stats_container,
                         recruit.power,
                         get_additional_power_from_items,
                         my_assets,
-                    );
+                    )
                 });
 
             button
@@ -224,6 +267,10 @@ pub fn recruit_card(
                     justify_content: JustifyContent::Start,
                     ..default()
                 })
+                .insert(PickingBehavior {
+                    should_block_lower: false,
+                    ..default()
+                })
                 .with_children(|equipments_container| {
                     // Top container for weapon and armor
                     equipments_container
@@ -232,6 +279,10 @@ pub fn recruit_card(
                             column_gap: Val::Px(2.0),
                             align_self: AlignSelf::FlexEnd,
                             align_items: AlignItems::Center,
+                            ..default()
+                        })
+                        .insert(PickingBehavior {
+                            should_block_lower: false,
                             ..default()
                         })
                         .with_children(|top_container| {
@@ -247,6 +298,10 @@ pub fn recruit_card(
                             column_gap: Val::Px(2.0),
                             justify_content: JustifyContent::Center,
                             align_items: AlignItems::Center,
+                            ..default()
+                        })
+                        .insert(PickingBehavior {
+                            should_block_lower: false,
                             ..default()
                         })
                         .with_children(|bottom_container| {

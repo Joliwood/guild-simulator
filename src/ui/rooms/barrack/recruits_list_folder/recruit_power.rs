@@ -9,6 +9,10 @@ pub fn recruit_power(
 ) {
     stats_container
         .spawn(Node::default())
+        .insert(PickingBehavior {
+            should_block_lower: false,
+            ..default()
+        })
         .with_children(|node| {
             node.spawn((
                 Text::new(format!("PWR:{}", recruit_power)),
@@ -18,7 +22,11 @@ pub fn recruit_power(
                     font_size: 12.0,
                     ..default()
                 },
-            ));
+            ))
+            .insert(PickingBehavior {
+                should_block_lower: false,
+                ..default()
+            });
 
             if additional_power > 0 {
                 node.spawn((
@@ -29,7 +37,11 @@ pub fn recruit_power(
                         font_size: 12.0,
                         ..default()
                     },
-                ));
+                ))
+                .insert(PickingBehavior {
+                    should_block_lower: false,
+                    ..default()
+                });
             }
         });
 }

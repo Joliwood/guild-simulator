@@ -32,44 +32,54 @@ pub fn scroll_button(
         let item_atlas_path = get_item_atlas_path(&item);
 
         // Scroll button
-        scrolls_row.spawn((
-            Button,
-            Node {
-                width: Val::Px(40.),
-                height: Val::Px(40.),
-                border: UiRect::all(Val::Px(3.)),
-                ..default()
-            },
-            BorderColor(Color::BLACK),
-            BorderRadius::all(Val::Px(10.)),
-            ImageNode::from_atlas_image(
-                my_assets.load(item_atlas_path),
-                TextureAtlas {
-                    index: item_image_atlas_index.into(),
-                    layout: texture_atlas_layouts.add(item_layout),
+        scrolls_row
+            .spawn((
+                Button,
+                Node {
+                    width: Val::Px(40.),
+                    height: Val::Px(40.),
+                    border: UiRect::all(Val::Px(3.)),
+                    ..default()
                 },
-            ),
-            ItemInInventoryTrigger(None),
-            // Tooltip::cursor(tooltip_text.to_string())
-            //     .with_activation(TooltipActivation::IMMEDIATE),
-        ));
+                BorderColor(Color::BLACK),
+                BorderRadius::all(Val::Px(10.)),
+                ImageNode::from_atlas_image(
+                    my_assets.load(item_atlas_path),
+                    TextureAtlas {
+                        index: item_image_atlas_index.into(),
+                        layout: texture_atlas_layouts.add(item_layout),
+                    },
+                ),
+                ItemInInventoryTrigger(None),
+                // Tooltip::cursor(tooltip_text.to_string())
+                //     .with_activation(TooltipActivation::IMMEDIATE),
+            ))
+            .insert(PickingBehavior {
+                should_block_lower: false,
+                ..default()
+            });
     } else {
         // Empty scroll button
-        scrolls_row.spawn((
-            Button,
-            Node {
-                width: Val::Px(40.),
-                height: Val::Px(40.),
-                border: UiRect::all(Val::Px(3.)),
+        scrolls_row
+            .spawn((
+                Button,
+                Node {
+                    width: Val::Px(40.),
+                    height: Val::Px(40.),
+                    border: UiRect::all(Val::Px(3.)),
+                    ..default()
+                },
+                BorderColor(Color::BLACK),
+                BorderRadius::all(Val::Px(10.)),
+                ImageNode {
+                    image: my_assets.load("images/equipments/empty_inventory_slot.png"),
+                    ..default()
+                },
+                ItemInInventoryTrigger(None),
+            ))
+            .insert(PickingBehavior {
+                should_block_lower: false,
                 ..default()
-            },
-            BorderColor(Color::BLACK),
-            BorderRadius::all(Val::Px(10.)),
-            ImageNode {
-                image: my_assets.load("images/equipments/empty_inventory_slot.png"),
-                ..default()
-            },
-            ItemInInventoryTrigger(None),
-        ));
+            });
     }
 }

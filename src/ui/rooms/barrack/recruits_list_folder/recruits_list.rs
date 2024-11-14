@@ -33,34 +33,47 @@ pub fn spawn_left_container(
                     },
                     Node {
                         display: Display::Flex,
-                        flex_direction: FlexDirection::Column,
-                        top: Val::Px(0.),
-                        row_gap: Val::Px(5.0),
+                        justify_content: JustifyContent::Center,
+                        align_items: AlignItems::Center,
                         padding: UiRect {
-                            top: Val::Px(30.),
-                            bottom: Val::Px(25.),
-                            left: Val::Px(25.),
-                            right: Val::Px(25.),
+                            top: Val::Percent(6.),
+                            bottom: Val::Percent(5.),
+                            left: Val::Percent(5.),
+                            right: Val::Percent(6.),
                         },
                         position_type: PositionType::Absolute,
                         width: Val::Percent(100.0),
                         height: Val::Percent(100.0),
-                        overflow: Overflow::scroll_y(),
                         ..default()
                     },
                 ))
                 .with_children(|parent| {
-                    // Barrack room > left container > recruit buttons
-                    for recruit in player_stats.recruits.iter() {
-                        recruit_card(
-                            parent,
-                            my_assets,
-                            player_stats,
-                            recruit,
-                            recruit_texture_atlas_layout.clone(),
-                            texture_atlas_layouts,
-                        );
-                    }
+                    parent
+                        .spawn(Node {
+                            position_type: PositionType::Absolute,
+                            flex_direction: FlexDirection::Column,
+                            row_gap: Val::Px(5.0),
+                            display: Display::Flex,
+                            width: Val::Percent(88.),
+                            height: Val::Percent(89.),
+                            overflow: Overflow::scroll_y(),
+                            ..default()
+                        })
+                        .with_children(|parent| {
+                            for _ in 0..2 {
+                                // Barrack room > left container > recruit buttons
+                                for recruit in player_stats.recruits.iter() {
+                                    recruit_card(
+                                        parent,
+                                        my_assets,
+                                        player_stats,
+                                        recruit,
+                                        recruit_texture_atlas_layout.clone(),
+                                        texture_atlas_layouts,
+                                    );
+                                }
+                            }
+                        });
                 });
         });
 }
