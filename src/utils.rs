@@ -328,51 +328,51 @@ pub fn finish_mission(
     percent_of_victory: f32,
     mission_reports: &mut ResMut<MissionReports>,
 ) {
-    let recruit_id = missions.get_recruit_send_id_by_mission_id(mission_id);
-    if recruit_id.is_none() {
-        return;
-    }
+    if let Some(recruit_id) = missions.get_recruit_send_id_by_mission_id(mission_id) {
+        player_stats.update_state_of_recruit(recruit_id, RecruitStateEnum::WaitingReportSignature);
 
-    player_stats.update_state_of_recruit(
-        recruit_id.unwrap(),
-        RecruitStateEnum::WaitingReportSignature,
-    );
-
-    let is_mission_sucess = is_mission_success(percent_of_victory);
-    let mission_ennemy_level = missions.get_mission_enemmy_level_by_id(mission_id);
-    if mission_ennemy_level.is_none() {
-        return;
-    }
-
-    let mut new_mission_report = MissionReport {
-        percent_of_victory: percent_of_victory as u32,
-        recruit_id: recruit_id.unwrap(),
-        mission_id,
-        success: is_mission_sucess,
-        experience_gained: None,
-        golds_gained: None,
-        mission_ids_to_unlock: vec![],
-        loots: vec![],
-    };
-
-    if is_mission_sucess {
-        let xp_earned = get_xp_earned(mission_ennemy_level.unwrap());
-        new_mission_report.experience_gained = Some(xp_earned);
-
-        let golds_earned = missions.get_golds_earned_by_mission_id(mission_id).unwrap() as i32;
-        new_mission_report.golds_gained = Some(golds_earned);
-
-        let mission = missions.get_mission_by_id(&mission_id);
-
-        if mission.is_none() {
+        let is_mission_sucess = is_mission_success(percent_of_victory);
+        let mission_ennemy_level = missions.get_mission_enemmy_level_by_id(mission_id);
+        if mission_ennemy_level.is_none() {
             return;
         }
 
-        new_mission_report.calculate_loots(mission.unwrap().loots.clone());
-    }
+        let mut new_mission_report = MissionReport {
+            percent_of_victory: percent_of_victory as u32,
+            recruit_id,
+            mission_id,
+            success: is_mission_sucess,
+            experience_gained: None,
+            golds_gained: None,
+            mission_ids_to_unlock: vec![],
+            loots: vec![],
+        };
 
-    // Create a new mission_report
-    mission_reports.add_mission_report(new_mission_report);
+        if is_mission_sucess {
+            let xp_earned = get_xp_earned(mission_ennemy_level.unwrap());
+            new_mission_report.experience_gained = Some(xp_earned);
+
+            let golds_earned = missions.get_golds_earned_by_mission_id(mission_id).unwrap() as i32;
+
+            let mut gold_recruit_multiplicator: f32 = 1.;
+
+            if let Some(recruit) = player_stats.get_recruit_by_id(recruit_id) {
+                gold_recruit_multiplicator = recruit
+                    .recruit_inventory
+                    .get_gold_multiplicator_from_scroll_bonus();
+            }
+
+            new_mission_report.golds_gained =
+                Some((golds_earned as f32 * gold_recruit_multiplicator).round() as i32);
+
+            if let Some(mission) = missions.get_mission_by_id(&mission_id) {
+                new_mission_report.calculate_loots(mission.loots.clone());
+            }
+        }
+
+        // Create a new mission_report
+        mission_reports.add_mission_report(new_mission_report);
+    }
 }
 
 pub fn sort_recruits_by_total_power(mut recruits: Vec<RecruitStats>) -> Vec<RecruitStats> {

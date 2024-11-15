@@ -7,7 +7,7 @@ use crate::{
         discussions::{get_all_daily_discussions, get_daily_discussion},
         spontaneous_applications::{get_all_spontaneous_applications, get_spontaneous_application},
     },
-    structs::{equipments::ItemEnum, recruits::RecruitStats},
+    structs::{equipments::ItemEnum, player_stats::SKIP_TUTO, recruits::RecruitStats},
 };
 use bevy::prelude::*;
 use rand::Rng;
@@ -179,6 +179,10 @@ impl Default for DailyEvents {
                 }
             }))
             .collect();
+
+        if SKIP_TUTO {
+            return Self(vec![]);
+        }
 
         return Self(daily_events);
     }

@@ -88,6 +88,20 @@ impl RecruitInventory {
 
         return multiplicator;
     }
+
+    pub fn get_gold_multiplicator_from_scroll_bonus(&self) -> f32 {
+        let mut multiplicator = 1.0;
+
+        for scroll in &self.scrolls {
+            for bonus in &scroll.bonus {
+                if let BonusEnum::Gold(value) = bonus {
+                    multiplicator += *value as f32 / 100.;
+                }
+            }
+        }
+
+        return multiplicator;
+    }
 }
 
 impl RecruitStats {
