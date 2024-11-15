@@ -41,23 +41,28 @@ pub fn sign_mission_report(
     {
         match *interaction {
             Interaction::Pressed => {
+                let (recruit_id, mission_id) =
+                    (mission_report.recruit_id, mission_report.mission_id);
+
                 player_stats.update_state_of_recruit(
                     mission_report.recruit_id,
                     RecruitStateEnum::Available,
                 );
 
-                missions.desassign_recruit_to_mission(mission_report.mission_id);
+                missions.desassign_recruit_to_mission(mission_id);
 
                 if mission_report.success {
-                    player_stats.gain_xp(mission_report.experience_gained.unwrap());
-                    player_stats.gain_xp_to_recruit(
-                        mission_report.recruit_id,
-                        mission_report.experience_gained.unwrap(),
-                    );
+                    if let Some(xp_earned_from_mission) = mission_report.experience_gained {
+                        player_stats.gain_xp(xp_earned_from_mission);
+                        player_stats.gain_xp_to_recruit(recruit_id, xp_earned_from_mission);
+                    } else {
+                        panic!("A mission should always have xp to earn, check out the mission contents")
+                    }
+
                     player_stats.increment_golds(mission_report.golds_gained.unwrap());
                     play_sound(&my_assets, &mut commands, SoundEnum::PickingGolds);
 
-                    missions.unlock_missions_by_mission_id(mission_report.mission_id);
+                    missions.unlock_missions_by_mission_id(mission_id);
 
                     for loot in mission_report.loots.iter() {
                         player_stats.add_item(loot.clone());
@@ -65,27 +70,25 @@ pub fn sign_mission_report(
                     player_stats.stats.golds_earned += mission_report.golds_gained.unwrap();
                     player_stats.stats.mission_completed += 1;
 
-                    let map_id = maps
-                        .get_map_by_mission_id(mission_report.mission_id)
-                        .unwrap()
-                        .id;
+                    let map_id = maps.get_map_by_mission_id(mission_id).unwrap().id;
 
                     let map = maps.get_map_by_id(map_id);
+
                     if map.is_some() {
-                        maps.finish_mission_by_id(mission_report.mission_id);
+                        maps.finish_mission_by_id(mission_id);
                     } else {
-                        error!("The mission isn't present in any map");
+                        error!("The mission isn't present in any map, check out the mission & map contents");
                     }
                 } else {
                     let random_number_from_0_to_100 = rand::thread_rng().gen_range(1..=100);
                     if random_number_from_0_to_100 < 25 {
                         // The recruit die
-                        player_stats.remove_recruit_by_id(mission_report.recruit_id);
+                        player_stats.remove_recruit_by_id(recruit_id);
                         play_sound(&my_assets, &mut commands, SoundEnum::DeadMale);
                     }
                 }
 
-                mission_reports.remove_mission_report_by_id(mission_report.mission_id);
+                mission_reports.remove_mission_report_by_id(mission_id);
 
                 mission_reports_modal_visibility.0 = false;
 

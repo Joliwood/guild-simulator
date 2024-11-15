@@ -63,7 +63,7 @@ impl Default for PlayerStats {
             inventory: vec![
                 // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
                 // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
-                ItemEnum::Scroll(ScrollsEnum::ScrollOfTheMiserI.get_scroll(), 2),
+                ItemEnum::Scroll(ScrollsEnum::ScrollOfTheResearcherI.get_scroll(), 2),
                 // ItemEnum::Scroll(ScrollsEnum::ScrollOfGaladornFailedPower.get_scroll(), 2),
             ],
             max_experience: 100,

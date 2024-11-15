@@ -26,8 +26,7 @@ pub fn generate_all_missions() -> Missions {
             unlocked: true,
             description: "A basic camp, we think we could find some resources here. We need to send a recruit to check it out."
             .to_string(),
-            // WIP - Rechange after tests to 5
-            golds: 100,
+            golds: 5,
             loots: Loots(
                 vec![
                     ItemLoot {
@@ -36,11 +35,11 @@ pub fn generate_all_missions() -> Missions {
                     },
                     ItemLoot {
                         item: ItemLootEnum::Armor(ArmorsEnum::MakeshiftVest),
-                        percent: 50,
+                        percent: 20,
                     },
                     ItemLoot {
                         item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfExperienceI),
-                        percent: 1,
+                        percent: 30,
                     },
                 ]
             ),
@@ -59,7 +58,7 @@ pub fn generate_all_missions() -> Missions {
                 experience: 0,
                 level: 2,
                 name: "Ennemy 2".to_string(),
-                power: 27,
+                power: 22,
             },
             unlocked: true,
             description: "More extended camp, we think we could find some resources here. We need to send a recruit to check it out.".to_string(),
@@ -95,7 +94,7 @@ pub fn generate_all_missions() -> Missions {
                 experience: 0,
                 level: 3,
                 name: "Ennemy 3".to_string(),
-                power: 50,
+                power: 30,
             },
             unlocked: false,
             description: "A very extended camp, the final one of the tuto".to_string(),
@@ -104,15 +103,15 @@ pub fn generate_all_missions() -> Missions {
                 vec![
                     ItemLoot {
                         item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfRawPowerI),
-                        percent: 10,
+                        percent: 60,
                     },
                     ItemLoot {
                         item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfReinforcementI),
-                        percent: 50,
+                        percent: 20,
                     },
                     ItemLoot {
                         item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfTheMiserI),
-                        percent: 50,
+                        percent: 30,
                     },
                 ],
             ),

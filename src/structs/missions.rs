@@ -1,4 +1,5 @@
 use super::{
+    daily_events_folder::daily_events::get_random_index_from_percent_arr,
     equipments::ItemEnum,
     general_structs::{load_armor, load_scroll, load_weapon, Ennemy},
     player_stats::PlayerStats,
@@ -77,9 +78,15 @@ impl MissionReport {
             }
         };
 
-        // ! WIP - It doesn't take in consideration the % loot of each item !!!
+        // We convert u8 to u16 because we can exceed the max of u8 with loot addition
+        let all_item_chance_vec: Vec<u16> = item_loots
+            .iter()
+            .map(|item| item.percent as u16)
+            .collect::<Vec<u16>>();
+
+        let first_random_item_index = get_random_index_from_percent_arr(&all_item_chance_vec);
+
         // Step 1: Pick one guaranteed random item
-        let first_random_item_index = rand::random::<usize>() % item_loots.len();
         let first_item = &item_loots[first_random_item_index];
         add_item_to_inventory(first_item);
 
@@ -87,11 +94,13 @@ impl MissionReport {
         if item_loots.len() > 1 {
             let second_chance = rand::random::<u8>() % 100;
             if second_chance < 99 {
-                let mut second_random_item_index = rand::random::<usize>() % item_loots.len();
+                let mut second_random_item_index =
+                    get_random_index_from_percent_arr(&all_item_chance_vec);
 
                 // Ensure the second item is different from the first one
                 while second_random_item_index == first_random_item_index {
-                    second_random_item_index = rand::random::<usize>() % item_loots.len();
+                    second_random_item_index =
+                        get_random_index_from_percent_arr(&all_item_chance_vec);
                 }
 
                 let second_item = &item_loots[second_random_item_index];
