@@ -36,6 +36,7 @@ use structs::{
     recruits::{SelectedRecruitForEquipment, SelectedRecruitForMission},
     trigger_structs::{PlayerDayTrigger, RealTimeDayProgressBarTrigger},
 };
+use systems::updates::skip_tuto::skip_tuto;
 
 fn main() -> AppExit {
     App::new()
@@ -126,6 +127,7 @@ fn main() -> AppExit {
                 update_daytime,
                 update_progress_bar,
                 systems::updates::hud::update_sleep_button_texture::update_sleep_button_texture,
+                skip_tuto,
             ),
         )
         .run()

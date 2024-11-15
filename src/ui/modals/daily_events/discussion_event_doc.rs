@@ -2,7 +2,8 @@ use crate::{
     enums::TextureAtlasLayoutEnum,
     my_assets::FONT_FIRA,
     structs::{
-        daily_events_folder::discussions::DailyDiscussion, trigger_structs::SelectAnswerTrigger,
+        daily_events_folder::discussions::DailyDiscussion,
+        trigger_structs::{SelectAnswerTrigger, SkipTutoTrigger},
     },
     utils::get_layout,
 };
@@ -132,6 +133,41 @@ pub fn discussion_event_doc(
                                 ));
                             });
                     }
+
+                    // Only for mayor first welcome message, we can pass all the tuto answers
+                    if discussion.id == 8 {
+                        column
+                            .spawn((
+                                Button,
+                                Node {
+                                    position_type: PositionType::Absolute,
+                                    display: Display::Flex,
+                                    align_items: AlignItems::Center,
+                                    justify_content: JustifyContent::Center,
+                                    bottom: Val::Px(20.),
+                                    left: Val::Px(30.),
+                                    height: Val::Px(30.),
+                                    width: Val::Auto,
+                                    padding: UiRect::all(Val::Px(8.0)),
+                                    border: UiRect::all(Val::Px(1.)),
+                                    ..default()
+                                },
+                                BorderRadius::all(Val::Px(5.)),
+                                BackgroundColor(Color::srgba(0., 0., 0., 0.7)),
+                                SkipTutoTrigger,
+                            ))
+                            .with_children(|button| {
+                                button.spawn((
+                                    Text::new("Skip welcome messages"),
+                                    TextFont {
+                                        font: my_assets.load(FONT_FIRA),
+                                        font_size: 12.0,
+                                        ..default()
+                                    },
+                                    TextColor(Color::BLACK),
+                                ));
+                            });
+                    };
                 });
         });
 }

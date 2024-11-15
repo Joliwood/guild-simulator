@@ -38,7 +38,7 @@ impl RecruitEnum {
                 name: "Hubert".to_string(),
                 recruit_inventory: RecruitInventory::default(),
                 state: RecruitStateEnum::Available,
-                power: 150,
+                power: 15,
             },
             RecruitEnum::BigNoob => RecruitStats {
                 class: ClassEnum::Rogue,

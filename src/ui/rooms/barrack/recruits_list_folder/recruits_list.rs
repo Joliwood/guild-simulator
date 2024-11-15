@@ -60,18 +60,16 @@ pub fn spawn_left_container(
                             ..default()
                         })
                         .with_children(|parent| {
-                            for _ in 0..2 {
-                                // Barrack room > left container > recruit buttons
-                                for recruit in player_stats.recruits.iter() {
-                                    recruit_card(
-                                        parent,
-                                        my_assets,
-                                        player_stats,
-                                        recruit,
-                                        recruit_texture_atlas_layout.clone(),
-                                        texture_atlas_layouts,
-                                    );
-                                }
+                            // Barrack room > left container > recruit buttons
+                            for recruit in player_stats.recruits.iter() {
+                                recruit_card(
+                                    parent,
+                                    my_assets,
+                                    player_stats,
+                                    recruit,
+                                    recruit_texture_atlas_layout.clone(),
+                                    texture_atlas_layouts,
+                                );
                             }
                         });
                 });

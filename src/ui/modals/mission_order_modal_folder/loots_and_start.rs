@@ -1,6 +1,6 @@
 use crate::{
     custom_components::CustomButton,
-    enums::TextureAtlasLayoutEnum,
+    enums::{ColorPaletteEnum, TextureAtlasLayoutEnum},
     my_assets::{get_item_loot_atlas_path, FONT_FIRA},
     structs::{
         general_structs::UniqueId,
@@ -19,8 +19,8 @@ pub fn loots_and_start(
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
     if let Some(mission_id) = selected_mission.mission_id {
-        let mission_loots = match missions.get_mission_by_id(&mission_id) {
-            Some(mission) => mission.loots,
+        let (mission_loots, mission_golds) = match missions.get_mission_by_id(&mission_id) {
+            Some(mission) => (mission.loots, mission.golds),
             None => {
                 error!(
                     "The mission doesn't have any loots, for mission_id : {}",
@@ -95,6 +95,60 @@ pub fn loots_and_start(
                                         //     .with_activation(TooltipActivation::IMMEDIATE),
                                     ));
                                 }
+
+                                let hud_icons_layout = get_layout(TextureAtlasLayoutEnum::HudIcon);
+                                let hud_icons_texture_atlas_layout: Handle<TextureAtlasLayout> =
+                                    texture_atlas_layouts.add(hud_icons_layout);
+
+                                parent
+                                    .spawn((
+                                        Button,
+                                        Node {
+                                            display: Display::Flex,
+                                            justify_content: JustifyContent::Center,
+                                            align_items: AlignItems::Center,
+                                            width: Val::Px(50.0),
+                                            height: Val::Px(50.0),
+                                            border: UiRect::all(Val::Px(3.)),
+                                            margin: UiRect::all(Val::Px(5.)),
+                                            padding: UiRect::all(Val::Px(10.)),
+                                            ..default()
+                                        },
+                                        BorderColor(Color::BLACK),
+                                        BackgroundColor(ColorPaletteEnum::DarkBrown.as_color()),
+                                        BorderRadius::all(Val::Px(10.)),
+                                    ))
+                                    .with_children(|parent| {
+                                        parent.spawn((
+                                            Node {
+                                                position_type: PositionType::Absolute,
+                                                display: Display::Flex,
+                                                justify_content: JustifyContent::Center,
+                                                align_items: AlignItems::Center,
+                                                width: Val::Percent(80.),
+                                                height: Val::Percent(80.),
+                                                ..default()
+                                            },
+                                            ImageNode::from_atlas_image(
+                                                my_assets.load("images/hud/hud_icon_atlas.png"),
+                                                TextureAtlas {
+                                                    index: 3,
+                                                    layout: hud_icons_texture_atlas_layout.clone(),
+                                                },
+                                            ),
+                                        ));
+                                    })
+                                    .with_children(|parent| {
+                                        parent.spawn((
+                                            Text::new(mission_golds.to_string()),
+                                            TextFont {
+                                                font: my_assets.load(FONT_FIRA),
+                                                font_size: 16.0,
+                                                ..default()
+                                            },
+                                            TextColor(Color::WHITE),
+                                        ));
+                                    });
                             });
                     });
 

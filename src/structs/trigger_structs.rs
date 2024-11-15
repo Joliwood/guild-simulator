@@ -65,3 +65,6 @@ pub struct CloseMissionModalTrigger;
 
 #[derive(Component)]
 pub struct ItemInInventoryTrigger(pub Option<ItemEnum>);
+
+#[derive(Component)]
+pub struct SkipTutoTrigger;

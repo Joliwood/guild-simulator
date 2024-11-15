@@ -36,7 +36,6 @@ pub fn recruit_card(
                 border: UiRect::all(Val::Px(2.0)),
                 ..default()
             },
-            // AccessibilityNode(Accessible::new(Role::ListItem)),
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
             BorderRadius::all(Val::Px(10.)),
         ))

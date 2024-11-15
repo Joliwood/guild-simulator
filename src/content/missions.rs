@@ -26,7 +26,8 @@ pub fn generate_all_missions() -> Missions {
             unlocked: true,
             description: "A basic camp, we think we could find some resources here. We need to send a recruit to check it out."
             .to_string(),
-            golds: 5,
+            // WIP - Rechange after tests to 5
+            golds: 100,
             loots: Loots(
                 vec![
                     ItemLoot {

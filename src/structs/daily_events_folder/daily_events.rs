@@ -257,4 +257,15 @@ impl DailyEvents {
             _ => true,
         });
     }
+
+    // WIP - Currently does nothing
+    // pub fn answer_automaticaly_all_discussions_to_first_answer(&mut self) {
+    //     self.0.retain(|event| match &event.daily_event_type {
+    //         DailyEventTypeEnum::Discussion(id) => {
+    //             let discussion = get_daily_discussion(id);
+    //             discussion.answers.len() == 1
+    //         }
+    //         _ => true,
+    //     });
+    // }
 }
