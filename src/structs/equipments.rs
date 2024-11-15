@@ -93,7 +93,7 @@ pub enum BonusEnum {
     Gold(u32),
 
     /// increase the chance to earn a second loot in % for each success mission
-    LuckyLoot(u32),
+    LuckyLoot(u8),
 
     /// Add % experience for each success mission
     Experience(u32),

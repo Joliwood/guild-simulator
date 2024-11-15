@@ -354,19 +354,17 @@ pub fn finish_mission(
 
             let golds_earned = missions.get_golds_earned_by_mission_id(mission_id).unwrap() as i32;
 
-            let mut gold_recruit_multiplicator: f32 = 1.;
-
             if let Some(recruit) = player_stats.get_recruit_by_id(recruit_id) {
-                gold_recruit_multiplicator = recruit
+                let gold_recruit_multiplicator = recruit
                     .recruit_inventory
                     .get_gold_multiplicator_from_scroll_bonus();
-            }
 
-            new_mission_report.golds_gained =
-                Some((golds_earned as f32 * gold_recruit_multiplicator).round() as i32);
+                new_mission_report.golds_gained =
+                    Some((golds_earned as f32 * gold_recruit_multiplicator).round() as i32);
 
-            if let Some(mission) = missions.get_mission_by_id(&mission_id) {
-                new_mission_report.calculate_loots(mission.loots.clone());
+                if let Some(mission) = missions.get_mission_by_id(&mission_id) {
+                    new_mission_report.calculate_loots(mission.loots.clone(), &recruit);
+                }
             }
         }
 

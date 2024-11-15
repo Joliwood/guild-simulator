@@ -12,7 +12,7 @@ use crate::{
 use bevy::prelude::*;
 use rand::Rng;
 
-fn calculate_total_apparition_chance(list: &[u16]) -> u16 {
+pub fn calculate_total_apparition_chance(list: &[u16]) -> u16 {
     let mut total = 0;
     let mut i = 0;
     while i < list.len() {

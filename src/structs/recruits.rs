@@ -102,6 +102,36 @@ impl RecruitInventory {
 
         return multiplicator;
     }
+
+    #[allow(dead_code)]
+    // WIP - Not tested yet
+    pub fn get_experience_multiplicator_from_scroll_bonus(&self) -> f32 {
+        let mut multiplicator = 1.0;
+
+        for scroll in &self.scrolls {
+            for bonus in &scroll.bonus {
+                if let BonusEnum::Experience(value) = bonus {
+                    multiplicator += *value as f32 / 100.;
+                }
+            }
+        }
+
+        return multiplicator;
+    }
+
+    pub fn get_second_loot_chance_to_additionate_from_scroll_bonus(&self) -> u8 {
+        let mut percent_chance_to_add: u8 = 0;
+
+        for scroll in &self.scrolls {
+            for bonus in &scroll.bonus {
+                if let BonusEnum::LuckyLoot(value) = bonus {
+                    percent_chance_to_add += *value;
+                }
+            }
+        }
+
+        return percent_chance_to_add;
+    }
 }
 
 impl RecruitStats {

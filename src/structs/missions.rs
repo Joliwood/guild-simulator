@@ -3,15 +3,18 @@ use super::{
     equipments::ItemEnum,
     general_structs::{load_armor, load_scroll, load_weapon, Ennemy},
     player_stats::PlayerStats,
+    recruits::RecruitStats,
 };
 use crate::{
     content::{
         equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
         missions::generate_all_missions,
     },
+    structs::daily_events_folder::daily_events::calculate_total_apparition_chance,
     utils::{calculate_price_range, get_victory_percentage},
 };
 use bevy::prelude::*;
+use rand::Rng;
 use uuid::Uuid;
 
 #[derive(Default, Debug, Component, Resource)]
@@ -55,7 +58,7 @@ impl MissionReport {
         }
     }
 
-    pub fn calculate_loots(&mut self, loots: Loots) {
+    pub fn calculate_loots(&mut self, loots: Loots, recruit: &RecruitStats) {
         let item_loots = loots.0;
 
         if item_loots.is_empty() {
@@ -79,28 +82,35 @@ impl MissionReport {
         };
 
         // We convert u8 to u16 because we can exceed the max of u8 with loot addition
-        let all_item_chance_vec: Vec<u16> = item_loots
+        let all_item_chance_vec_for_first_loot: Vec<u16> = item_loots
             .iter()
             .map(|item| item.percent as u16)
             .collect::<Vec<u16>>();
 
-        let first_random_item_index = get_random_index_from_percent_arr(&all_item_chance_vec);
+        let first_random_item_index =
+            get_random_index_from_percent_arr(&all_item_chance_vec_for_first_loot);
 
         // Step 1: Pick one guaranteed random item
         let first_item = &item_loots[first_random_item_index];
         add_item_to_inventory(first_item);
 
+        let recruit_second_loot_chance_to_add = recruit
+            .recruit_inventory
+            .get_second_loot_chance_to_additionate_from_scroll_bonus();
+
         // Step 2: 50% chance to pick a second item (must be different)
         if item_loots.len() > 1 {
-            let second_chance = rand::random::<u8>() % 100;
-            if second_chance < 99 {
+            let total_apparition_chance =
+                calculate_total_apparition_chance(&all_item_chance_vec_for_first_loot);
+            let second_chance = rand::thread_rng().gen_range(0..total_apparition_chance) as u8;
+            if second_chance < 50 + recruit_second_loot_chance_to_add {
                 let mut second_random_item_index =
-                    get_random_index_from_percent_arr(&all_item_chance_vec);
+                    get_random_index_from_percent_arr(&all_item_chance_vec_for_first_loot);
 
                 // Ensure the second item is different from the first one
                 while second_random_item_index == first_random_item_index {
                     second_random_item_index =
-                        get_random_index_from_percent_arr(&all_item_chance_vec);
+                        get_random_index_from_percent_arr(&all_item_chance_vec_for_first_loot);
                 }
 
                 let second_item = &item_loots[second_random_item_index];
