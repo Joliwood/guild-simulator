@@ -252,13 +252,16 @@ pub fn recruit_card(
 
                     // let get_additional_power_from_items = recruit.get_additional_power_from_items();
                     let additionnal_physical_power_from_items =
-                        recruit.get_additional_physical_power_from_items();
+                    // recruit.get_additional_physical_power_from_items();
+                        recruit.get_additional_stats_from_items().0;
 
                     let additionnal_magical_power_from_items =
-                        recruit.get_additional_magical_power_from_items();
+                        // recruit.get_additional_magical_power_from_items();
+                        recruit.get_additional_stats_from_items().1;
 
                     let additionnal_defense_from_items =
-                        recruit.get_additional_raw_defense_from_items();
+                        // recruit.get_additional_raw_defense_from_items();
+                        recruit.get_additional_stats_from_items().2;
 
                     recruit_physical_power(
                         stats_container,

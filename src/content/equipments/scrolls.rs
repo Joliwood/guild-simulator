@@ -23,6 +23,11 @@ pub enum ScrollsEnum {
     ScrollOfPhysicalRawPowerI,
 
     /// ## Integrated in :
+    /// TODO - Ajouter à la première mission à la place de la mission 2 en dessous the miser
+    ScrollOfMagicalRawPowerI,
+
+    // TODO - Déplacer sur la dernière ou avant dernière mission pour farmer les premières, c'est plus logique
+    /// ## Integrated in :
     /// - Mission 2
     /// - Mission 3
     ScrollOfTheMiserI,
@@ -48,6 +53,7 @@ pub enum ScrollsEnum {
     ScrollOfGaladornFailedPower,
 
     /// ## Integrated in :
+    /// TODO
     ScrollOfRawNaturalDefense,
 }
 
@@ -56,6 +62,14 @@ impl ScrollsEnum {
     pub fn get_scroll(&self) -> Scroll {
         match self {
             ScrollsEnum::ScrollOfPhysicalRawPowerI => Scroll {
+                id: 1,
+                image_atlas_index: 0,
+                name: "Scroll of Wisdom I".to_string(),
+                price: 5,
+                bonus: vec![BonusEnum::PhysicalRawPower(10)],
+                ..Default::default()
+            },
+            ScrollsEnum::ScrollOfMagicalRawPowerI => Scroll {
                 id: 1,
                 image_atlas_index: 0,
                 name: "Scroll of Wisdom I".to_string(),

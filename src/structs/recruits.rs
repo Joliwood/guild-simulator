@@ -1,6 +1,9 @@
 use super::equipments::{Armor, BonusEnum, ItemEnum, Scroll, Weapon};
 use crate::enums::{ClassEnum, RecruitStateEnum};
-use bevy::prelude::{Component, Resource};
+use bevy::{
+    log::info,
+    prelude::{Component, Resource},
+};
 use uuid::Uuid;
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
@@ -175,12 +178,26 @@ impl RecruitStats {
         }
     }
 
-    pub fn get_additional_physical_power_from_items(&self) -> u32 {
+    /// return in a tuple :
+    /// - additional physical power
+    /// - additional magical power
+    /// - additional defense
+    pub fn get_additional_stats_from_items(&self) -> (u32, u32, u32) {
         let mut additional_physical_raw_power = 0;
+        let mut additional_magical_raw_power = 0;
+        let mut additional_raw_defense = 0;
 
         if let Some(weapon) = &self.recruit_inventory.weapon {
             if let Some(physical_power) = weapon.physical_power {
                 additional_physical_raw_power += physical_power;
+            }
+
+            if let Some(magical_power) = weapon.magical_power {
+                additional_magical_raw_power += magical_power;
+            }
+
+            if let Some(defense) = weapon.defense {
+                additional_raw_defense += defense;
             }
         }
 
@@ -188,119 +205,77 @@ impl RecruitStats {
             if let Some(physical_power) = armor.physical_power {
                 additional_physical_raw_power += physical_power;
             }
-        }
 
-        if let Some(additional_physical_raw_power_from_scroll) =
-            get_total_physical_raw_power_with_additional_power(&self.recruit_inventory.scrolls)
-        {
-            additional_physical_raw_power += additional_physical_raw_power_from_scroll;
-        }
-
-        let total_recruit_physical_raw_power = self.physical_power + additional_physical_raw_power;
-
-        let multiplicator = self
-            .recruit_inventory
-            .get_power_multiplicator_from_optimized_class(&self.class);
-
-        let total_physical_recruit_power =
-            (total_recruit_physical_raw_power as f32 * multiplicator.0) as u32;
-
-        return total_physical_recruit_power - self.physical_power;
-    }
-
-    pub fn get_additional_magical_power_from_items(&self) -> u32 {
-        let mut additional_magical_raw_power = 0;
-
-        if let Some(weapon) = &self.recruit_inventory.weapon {
-            if let Some(magical_power) = weapon.magical_power {
-                additional_magical_raw_power += magical_power;
-            }
-        }
-
-        if let Some(armor) = &self.recruit_inventory.armor {
             if let Some(magical_power) = armor.magical_power {
                 additional_magical_raw_power += magical_power;
             }
+
+            if let Some(defense) = armor.defense {
+                additional_raw_defense += defense;
+            }
         }
 
-        if let Some(additional_magical_raw_power_from_scroll) =
-            get_total_magical_raw_power_with_additional_power(&self.recruit_inventory.scrolls)
-        {
-            additional_magical_raw_power += additional_magical_raw_power_from_scroll;
+        for scroll in &self.recruit_inventory.scrolls {
+            if let Some(physical_power) = scroll.physical_power {
+                additional_physical_raw_power += physical_power;
+            }
+
+            if let Some(magical_power) = scroll.magical_power {
+                additional_magical_raw_power += magical_power;
+            }
+
+            if let Some(defense) = scroll.defense {
+                additional_raw_defense += defense;
+            }
+
+            if let Some(additional_physical_raw_power_from_scroll) =
+                get_total_physical_raw_power_with_additional_power(&self.recruit_inventory.scrolls)
+            {
+                additional_physical_raw_power += additional_physical_raw_power_from_scroll;
+            }
+
+            if let Some(additional_magical_raw_power_from_scroll) =
+                get_total_magical_raw_power_with_additional_power(&self.recruit_inventory.scrolls)
+            {
+                additional_magical_raw_power += additional_magical_raw_power_from_scroll;
+            }
+
+            if let Some(additional_raw_defense_from_scroll) =
+                get_total_raw_defense_from_scrolls(&self.recruit_inventory.scrolls)
+            {
+                additional_raw_defense += additional_raw_defense_from_scroll;
+            }
         }
 
+        let total_recruit_physical_raw_power = self.physical_power + additional_physical_raw_power;
         let total_recruit_magical_raw_power = self.magical_power + additional_magical_raw_power;
 
         let multiplicator = self
             .recruit_inventory
             .get_power_multiplicator_from_optimized_class(&self.class);
 
-        let total_magical_recruit_power =
-            (total_recruit_magical_raw_power as f32 * multiplicator.1) as u32;
+        let additional_physical_power = (total_recruit_physical_raw_power as f32 * multiplicator.0)
+            as u32
+            - self.physical_power;
 
-        return total_magical_recruit_power - self.magical_power;
+        let additional_magical_power =
+            (total_recruit_magical_raw_power as f32 * multiplicator.1) as u32 - self.magical_power;
+
+        return (
+            additional_physical_power,
+            additional_magical_power,
+            additional_raw_defense,
+        );
     }
-
-    pub fn get_additional_raw_defense_from_items(&self) -> u32 {
-        let mut additional_raw_defense = 0;
-
-        if let Some(weapon) = &self.recruit_inventory.weapon {
-            if let Some(defense) = weapon.defense {
-                additional_raw_defense += defense;
-            }
-        }
-
-        if let Some(armor) = &self.recruit_inventory.armor {
-            if let Some(defense) = armor.defense {
-                additional_raw_defense += defense;
-            }
-        }
-
-        if let Some(additional_raw_defense_from_scroll) =
-            get_total_raw_defense_from_scrolls(&self.recruit_inventory.scrolls)
-        {
-            additional_raw_defense += additional_raw_defense_from_scroll;
-        }
-
-        return additional_raw_defense;
-    }
-
-    // #[deprecated]
-    // pub fn get_additional_power_from_items(&self) -> u32 {
-    //     let mut additional_raw_power = 0;
-
-    //     if let Some(weapon) = &self.recruit_inventory.weapon {
-    //         additional_raw_power += weapon.power;
-    //     }
-
-    //     if let Some(armor) = &self.recruit_inventory.armor {
-    //         additional_raw_power += armor.power;
-    //     }
-
-    //     if let Some(additional_power_from_scroll) =
-    //         get_total_power_with_additional_power(&self.recruit_inventory.scrolls)
-    //     {
-    //         additional_raw_power += additional_power_from_scroll;
-    //     }
-
-    //     let total_recruit_raw_power = self.power + additional_raw_power;
-
-    //     let multiplicator = self
-    //         .recruit_inventory
-    //         .get_power_multiplicator_from_optimized_class(&self.class);
-
-    //     let total_recruit_power = (total_recruit_raw_power as f32 * multiplicator) as u32;
-
-    //     return total_recruit_power - self.power;
-    // }
 
     pub fn get_total_power(&self) -> u32 {
         // return self.get_additional_power_from_items() + self.power;
-        return self.get_additional_physical_power_from_items()
+        let additionnal_stats_from_items = self.get_additional_stats_from_items();
+        return additionnal_stats_from_items.0
             + self.physical_power
-            + self.get_additional_magical_power_from_items()
+            + additionnal_stats_from_items.1
             + self.magical_power
-            + self.get_additional_raw_defense_from_items()
+            + additionnal_stats_from_items.2
             + self.defense;
     }
 }
@@ -338,6 +313,8 @@ pub fn get_total_physical_raw_power_with_additional_power(scrolls: &[Scroll]) ->
             })
         })
         .sum();
+
+    info!("total_physical_raw_power: {}", total_physical_raw_power);
 
     if total_physical_raw_power > 0 {
         Some(total_physical_raw_power)

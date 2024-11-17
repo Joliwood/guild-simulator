@@ -125,11 +125,11 @@ pub enum BonusEnum {
     Experience(u32),
 
     #[deprecated]
-    /// Increate the recruit's equipment - all stats by %
+    /// Increate the recruit's equipment (all of them) stats by %
     Reinforcement(u32),
 
     #[deprecated]
-    /// Increate the native recruit stats by %
+    /// Increate the native recruit stats (all of them) by %
     NaturalGrowth(u32),
 
     /// Amount of golds it can be increased when a buyer is interested
