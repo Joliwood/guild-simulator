@@ -58,7 +58,6 @@ pub struct Weapon {
     pub physical_power: Option<u32>,
     pub magical_power: Option<u32>,
     pub defense: Option<u32>,
-    // pub power: u32,
     pub rarety: ItemRaretyEnum,
     /// The first tuple is physical, the second is magic
     pub optimized_for: (Vec<ClassEnum>, (u32, u32)),
@@ -74,7 +73,6 @@ pub struct Armor {
     pub physical_power: Option<u32>,
     pub magical_power: Option<u32>,
     pub defense: Option<u32>,
-    // pub power: u32,
     /// The first tuple is physical, the second is magic
     pub optimized_for: (Vec<ClassEnum>, (u32, u32)),
 }
@@ -90,21 +88,6 @@ pub struct Scroll {
     pub defense: Option<u32>,
     pub bonus: Vec<BonusEnum>,
 }
-
-// impl Scroll {
-//     #[allow(dead_code)]
-//     pub fn get_raw_power_from_bonus(&self) -> u32 {
-//         let mut power = 0;
-
-//         for bonus in &self.bonus {
-//             if let BonusEnum::RawPower(value) = bonus {
-//                 power += value;
-//             }
-//         }
-
-//         return power;
-//     }
-// }
 
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub enum BonusEnum {

@@ -17,7 +17,6 @@ pub struct RecruitStats {
     pub name: String,
     pub recruit_inventory: RecruitInventory,
     pub state: RecruitStateEnum,
-    // pub power: u32,
     pub physical_power: u32,
     pub magical_power: u32,
     pub defense: u32,
@@ -87,13 +86,6 @@ impl RecruitInventory {
                 multiplicator.1 += armor.optimized_for.1 .1 as f32 / 100.;
             }
         }
-
-        // WIP
-        // for scroll in &self.scrolls {
-        //     if scroll.optimized_for.0.contains(class) {
-        //         multiplicator += scroll.optimized_for.1 as f32 / 100.;
-        //     }
-        // }
 
         return multiplicator;
     }
