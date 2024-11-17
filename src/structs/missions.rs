@@ -169,12 +169,14 @@ impl SelectedMission {
                 }
             };
 
-            // let ennemy_global_points = mission.ennemy.get_global_points();
+            let ennemy_global_points = mission.ennemy.physical_power
+                + mission.ennemy.magical_power
+                + mission.ennemy.defense;
             let recruit_total_power = recruit.get_total_power();
             // let recruit_global_points = recruit.get_total_merged_stats();
 
             let victory_percentage =
-                get_victory_percentage(recruit_total_power, mission.ennemy.power) as u32;
+                get_victory_percentage(recruit_total_power, ennemy_global_points) as u32;
 
             self.percent_of_victory = Some(victory_percentage);
         }

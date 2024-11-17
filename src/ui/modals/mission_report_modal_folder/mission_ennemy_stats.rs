@@ -20,7 +20,6 @@ pub fn mission_ennemy_stats(
             ..default()
         })
         .with_children(|stats_column| {
-            // Text: "Level"
             stats_column.spawn((
                 Text::new(format!("Level: {}", ennemy_stats.level)),
                 TextFont {
@@ -31,9 +30,31 @@ pub fn mission_ennemy_stats(
                 TextColor(Color::BLACK),
             ));
 
-            // Text: "Power"
+            // Physical power
             stats_column.spawn((
-                Text::new(format!("Power: {}", ennemy_stats.power)),
+                Text::new(format!("PP: {}", ennemy_stats.physical_power)),
+                TextFont {
+                    font: my_assets.load(FONT_FIRA),
+                    font_size: 14.0,
+                    ..default()
+                },
+                TextColor(Color::BLACK),
+            ));
+
+            // Magical power
+            stats_column.spawn((
+                Text::new(format!("MP: {}", ennemy_stats.magical_power)),
+                TextFont {
+                    font: my_assets.load(FONT_FIRA),
+                    font_size: 14.0,
+                    ..default()
+                },
+                TextColor(Color::BLACK),
+            ));
+
+            // Defense
+            stats_column.spawn((
+                Text::new(format!("DEF: {}", ennemy_stats.defense)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,

@@ -26,7 +26,9 @@ pub struct Ennemy {
     pub experience: u32,
     pub level: u8,
     pub name: String,
-    pub power: u32,
+    pub physical_power: u32,
+    pub magical_power: u32,
+    pub defense: u32,
     pub image_atlas_index: u16,
 }
 
