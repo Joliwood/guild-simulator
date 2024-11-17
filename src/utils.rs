@@ -163,8 +163,20 @@ pub fn get_item_image_atlas_index(item: &ItemEnum) -> u16 {
 pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
     match item {
         ItemEnum::Weapon(weapon) => {
-            let mut description = format!("{}\n\n{}", weapon.name, weapon.power);
+            let mut description = format!("{}\n", weapon.name);
             let price_range = calculate_price_range(weapon.price);
+
+            if let Some(physical_power) = weapon.physical_power {
+                description.push_str(&format!("\nPhysical Power: {}", physical_power));
+            }
+
+            if let Some(magical_power) = weapon.magical_power {
+                description.push_str(&format!("\nMagical Power: {}", magical_power));
+            }
+
+            if let Some(defense) = weapon.defense {
+                description.push_str(&format!("\nDefense: {}", defense));
+            }
 
             description.push_str(&format!(
                 "\n\nPrice: {} to {} G",
@@ -174,8 +186,20 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
             return description;
         }
         ItemEnum::Armor(armor) => {
-            let mut description = format!("{}\n\n{}", armor.name, armor.power);
+            let mut description = format!("{}\n", armor.name);
             let price_range = calculate_price_range(armor.price);
+
+            if let Some(physical_power) = armor.physical_power {
+                description.push_str(&format!("\nPhysical Power: {}", physical_power));
+            }
+
+            if let Some(magical_power) = armor.magical_power {
+                description.push_str(&format!("\nMagical Power: {}", magical_power));
+            }
+
+            if let Some(defense) = armor.defense {
+                description.push_str(&format!("\nDefense: {}", defense));
+            }
 
             description.push_str(&format!(
                 "\n\nPrice: {} to {} G",
@@ -186,6 +210,18 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
         }
         ItemEnum::Scroll(scroll, quantity) => {
             let mut description = format!("{}\n\n{:?}", scroll.name, scroll.bonus);
+
+            if let Some(physical_power) = scroll.physical_power {
+                description.push_str(&format!("\nPhysical Power: {}", physical_power));
+            }
+
+            if let Some(magical_power) = scroll.magical_power {
+                description.push_str(&format!("\nMagical Power: {}", magical_power));
+            }
+
+            if let Some(defense) = scroll.defense {
+                description.push_str(&format!("\nDefense: {}", defense));
+            }
 
             description.push_str(&format!("\nQuantity: {}", quantity));
             description.push_str(&format!("\n\nPrice: {} G", scroll.price));

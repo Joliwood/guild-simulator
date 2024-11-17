@@ -96,42 +96,42 @@ pub fn spawn_inventory(
                                             ));
                                         }
 
-                                        if let Some(selected_recruit) =
+                                        if let Some(_selected_recruit) =
                                             selected_recruit_for_equipment.0.as_ref()
                                         {
                                             let comparator = match item {
-                                                ItemEnum::Weapon(weapon) => {
-                                                    if let Some(selected_recruit_weapon) =
-                                                        &selected_recruit.recruit_inventory.weapon
-                                                    {
-                                                        match weapon
-                                                            .power
-                                                            .cmp(&selected_recruit_weapon.power)
-                                                        {
-                                                            Ordering::Greater => "+",
-                                                            Ordering::Less => "-",
-                                                            Ordering::Equal => "=",
-                                                        }
-                                                    } else {
-                                                        "+"
-                                                    }
-                                                }
-                                                ItemEnum::Armor(armor) => {
-                                                    if let Some(selected_recruit_armor) =
-                                                        &selected_recruit.recruit_inventory.armor
-                                                    {
-                                                        match armor
-                                                            .power
-                                                            .cmp(&selected_recruit_armor.power)
-                                                        {
-                                                            Ordering::Greater => "+",
-                                                            Ordering::Less => "-",
-                                                            Ordering::Equal => "=",
-                                                        }
-                                                    } else {
-                                                        "+"
-                                                    }
-                                                }
+                                                // ItemEnum::Weapon(weapon) => {
+                                                //     if let Some(selected_recruit_weapon) =
+                                                //         &selected_recruit.recruit_inventory.weapon
+                                                //     {
+                                                //         match weapon
+                                                //             .power
+                                                //             .cmp(&selected_recruit_weapon.power)
+                                                //         {
+                                                //             Ordering::Greater => "+",
+                                                //             Ordering::Less => "-",
+                                                //             Ordering::Equal => "=",
+                                                //         }
+                                                //     } else {
+                                                //         "+"
+                                                //     }
+                                                // }
+                                                // ItemEnum::Armor(armor) => {
+                                                //     if let Some(selected_recruit_armor) =
+                                                //         &selected_recruit.recruit_inventory.armor
+                                                //     {
+                                                //         match armor
+                                                //             .power
+                                                //             .cmp(&selected_recruit_armor.power)
+                                                //         {
+                                                //             Ordering::Greater => "+",
+                                                //             Ordering::Less => "-",
+                                                //             Ordering::Equal => "=",
+                                                //         }
+                                                //     } else {
+                                                //         "+"
+                                                //     }
+                                                // }
                                                 // We do not show the comparator for scrolls
                                                 _ => "",
                                             };

@@ -8,13 +8,19 @@ use crate::structs::equipments::{BonusEnum, Scroll};
 /// Parchemin de renforcement I -> +5% de puissance sur les équipements
 /// Parchemin d'acroissement naturel I -> +5% sur la puissance native de la recrue
 /// Parchemin de puissance raté de Galadorn -> +1 puissance (mais a été signé par le célèbre archimage Galadorn, il a une forte valeur pour tous les fans de magie)
+///
+/// Parchemin d'accroissement musculaire = +5 puissance physique
+/// Parchemin de concentration arcanique = 5% puissance magique
+/// Parchemin de vivacité : Augmente la défense 3 + puissance physique de 2
+/// Parchemin d'irrigation arcanique + 5 puissance magique
+/// Parchemin de défense naturelle brute +5 défense
 
 #[allow(clippy::enum_variant_names)]
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub enum ScrollsEnum {
     /// ## Integrated in :
     /// - Mission 3
-    ScrollOfRawPowerI,
+    ScrollOfPhysicalRawPowerI,
 
     /// ## Integrated in :
     /// - Mission 2
@@ -40,18 +46,21 @@ pub enum ScrollsEnum {
     /// ## Integrated in :
     /// - Mission 5
     ScrollOfGaladornFailedPower,
+
+    /// ## Integrated in :
+    ScrollOfRawNaturalDefense,
 }
 
 impl ScrollsEnum {
     /// Get a scroll by its enum variant
     pub fn get_scroll(&self) -> Scroll {
         match self {
-            ScrollsEnum::ScrollOfRawPowerI => Scroll {
+            ScrollsEnum::ScrollOfPhysicalRawPowerI => Scroll {
                 id: 1,
                 image_atlas_index: 0,
                 name: "Scroll of Wisdom I".to_string(),
                 price: 5,
-                bonus: vec![BonusEnum::RawPower(10)],
+                bonus: vec![BonusEnum::PhysicalRawPower(10)],
                 ..Default::default()
             },
             ScrollsEnum::ScrollOfTheMiserI => Scroll {
@@ -99,7 +108,15 @@ impl ScrollsEnum {
                 image_atlas_index: 6,
                 name: "Scroll of Galadorn Failed Power".to_string(),
                 price: 25,
-                bonus: vec![BonusEnum::RawPower(1), BonusEnum::Collector(65)],
+                bonus: vec![BonusEnum::MagicalRawPower(1), BonusEnum::Collector(65)],
+                ..Default::default()
+            },
+            ScrollsEnum::ScrollOfRawNaturalDefense => Scroll {
+                id: 8,
+                image_atlas_index: 6,
+                name: "Scroll of Raw Natural Defense".to_string(),
+                price: 7,
+                bonus: vec![BonusEnum::NaturalRawDefense(1)],
                 ..Default::default()
             },
         }

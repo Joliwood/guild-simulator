@@ -1,4 +1,7 @@
-use super::recruit_power::recruit_power;
+use super::{
+    recruit_defense::recruit_defense, recruit_magical_power::recruit_magical_power,
+    recruit_physical_power::recruit_physical_power,
+};
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
     my_assets::FONT_FIRA,
@@ -247,14 +250,36 @@ pub fn recruit_card(
                             ..default()
                         });
 
-                    let get_additional_power_from_items = recruit.get_additional_power_from_items();
+                    // let get_additional_power_from_items = recruit.get_additional_power_from_items();
+                    let additionnal_physical_power_from_items =
+                        recruit.get_additional_physical_power_from_items();
 
-                    recruit_power(
+                    let additionnal_magical_power_from_items =
+                        recruit.get_additional_magical_power_from_items();
+
+                    let additionnal_defense_from_items =
+                        recruit.get_additional_raw_defense_from_items();
+
+                    recruit_physical_power(
                         stats_container,
-                        recruit.power,
-                        get_additional_power_from_items,
+                        recruit,
+                        additionnal_physical_power_from_items,
                         my_assets,
-                    )
+                    );
+
+                    recruit_magical_power(
+                        stats_container,
+                        recruit,
+                        additionnal_magical_power_from_items,
+                        my_assets,
+                    );
+
+                    recruit_defense(
+                        stats_container,
+                        recruit,
+                        additionnal_defense_from_items,
+                        my_assets,
+                    );
                 });
 
             button

@@ -127,7 +127,7 @@ pub fn recruit_recap(
 
                         // Recruit Power
                         parent.spawn((
-                            Text::new(format!("Power : {}", recruit.power)),
+                            Text::new(format!("PP : {}", recruit.physical_power)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,

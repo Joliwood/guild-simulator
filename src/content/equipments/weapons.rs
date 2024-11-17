@@ -50,7 +50,8 @@ impl WeaponsEnum {
                 name: "Wooden sword".to_string(),
                 price: 10,
                 rarety: ItemRaretyEnum::Common,
-                power: 10,
+                physical_power: Some(7),
+                defense: Some(3),
                 ..Default::default()
             },
             WeaponsEnum::BowWithoutString => Weapon {
@@ -59,8 +60,9 @@ impl WeaponsEnum {
                 name: "Bow without string".to_string(),
                 price: 2,
                 rarety: ItemRaretyEnum::Common,
-                optimized_for: (vec![ClassEnum::Hunter], 5),
-                power: 3,
+                optimized_for: (vec![ClassEnum::Hunter], (5, 0)),
+                physical_power: Some(3),
+                ..Default::default()
             },
             WeaponsEnum::LumberjackAxe => Weapon {
                 id: 3,
@@ -68,7 +70,7 @@ impl WeaponsEnum {
                 name: "Lumberjack axe".to_string(),
                 price: 5,
                 rarety: ItemRaretyEnum::Common,
-                power: 6,
+                physical_power: Some(6),
                 ..Default::default()
             },
             WeaponsEnum::MagicToothpick => Weapon {
@@ -77,8 +79,10 @@ impl WeaponsEnum {
                 name: "Magic toothpick".to_string(),
                 price: 2,
                 rarety: ItemRaretyEnum::Common,
-                optimized_for: (vec![ClassEnum::Mage], 5),
-                power: 2,
+                optimized_for: (vec![ClassEnum::Mage], (0, 5)),
+                physical_power: Some(1),
+                magical_power: Some(1),
+                ..Default::default()
             },
             WeaponsEnum::UnsharpDagger => Weapon {
                 id: 5,
@@ -86,16 +90,18 @@ impl WeaponsEnum {
                 name: "Unsharp dagger".to_string(),
                 price: 4,
                 rarety: ItemRaretyEnum::Common,
-                power: 4,
+                physical_power: Some(4),
                 ..Default::default()
             },
             WeaponsEnum::WalkingStick => Weapon {
                 id: 6,
                 image_atlas_index: 5,
                 name: "Walking stick".to_string(),
-                price: 3,
+                price: 4,
                 rarety: ItemRaretyEnum::Common,
-                power: 5,
+                physical_power: Some(2),
+                magical_power: Some(3),
+                defense: Some(1),
                 ..Default::default()
             },
         }

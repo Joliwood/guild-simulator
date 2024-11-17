@@ -63,17 +63,17 @@ impl Default for PlayerStats {
             inventory: vec![
                 // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
                 // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
-                ItemEnum::Scroll(ScrollsEnum::ScrollOfTheResearcherI.get_scroll(), 2),
+                // ItemEnum::Scroll(ScrollsEnum::ScrollOfTheResearcherI.get_scroll(), 2),
                 // ItemEnum::Scroll(ScrollsEnum::ScrollOfGaladornFailedPower.get_scroll(), 2),
             ],
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![
-                RecruitEnum::Hubert.get_recruit(),
+                // RecruitEnum::Hubert.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
-                // RecruitEnum::JeanLouisDavid.get_recruit(),
-                // RecruitEnum::JeanLouisDavid.get_recruit(),
-                // RecruitEnum::JeanLouisDavid.get_recruit(),
+                RecruitEnum::JeanLouisDavid.get_recruit(),
+                RecruitEnum::JeanLouisDavid.get_recruit(),
+                RecruitEnum::JeanLouisDavid.get_recruit(),
             ],
             room: RoomEnum::Office,
             toxicity: 0,
@@ -86,7 +86,7 @@ impl Default for PlayerStats {
     }
 }
 
-pub const SKIP_TUTO: bool = true;
+pub const SKIP_TUTO: bool = false;
 
 impl PlayerStats {
     pub fn increment_golds(&mut self, amount: i32) {

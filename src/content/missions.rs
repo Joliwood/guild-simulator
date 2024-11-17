@@ -102,7 +102,7 @@ pub fn generate_all_missions() -> Missions {
             loots: Loots(
                 vec![
                     ItemLoot {
-                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfRawPowerI),
+                        item: ItemLootEnum::Scroll(ScrollsEnum::ScrollOfPhysicalRawPowerI),
                         percent: 60,
                     },
                     ItemLoot {

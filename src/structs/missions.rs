@@ -321,8 +321,20 @@ impl ItemLoot {
                 ..
             } => {
                 let armor = armor.get_armor();
-                let mut description = format!("{}\n{}", armor.name, armor.power);
+                let mut description = armor.name.to_string();
                 let price_range = calculate_price_range(armor.price);
+
+                if let Some(physical_power) = armor.physical_power {
+                    description.push_str(&format!("\nPhysical Power: {}", physical_power));
+                }
+
+                if let Some(magical_power) = armor.magical_power {
+                    description.push_str(&format!("\nMagical Power: {}", magical_power));
+                }
+
+                if let Some(defense) = armor.defense {
+                    description.push_str(&format!("\nDefense: {}", defense));
+                }
 
                 description.push_str(&format!(
                     "\n\nPrice: {} to {} G",
@@ -339,6 +351,18 @@ impl ItemLoot {
                 let mut description = format!("{}\n{:?}", scroll.name, scroll.bonus);
                 let price_range = calculate_price_range(scroll.price);
 
+                if let Some(physical_power) = scroll.physical_power {
+                    description.push_str(&format!("\nPhysical Power: {}", physical_power));
+                }
+
+                if let Some(magical_power) = scroll.magical_power {
+                    description.push_str(&format!("\nMagical Power: {}", magical_power));
+                }
+
+                if let Some(defense) = scroll.defense {
+                    description.push_str(&format!("\nDefense: {}", defense));
+                }
+
                 description.push_str(&format!(
                     "\n\nPrice: {} to {} G",
                     price_range.0, price_range.1
@@ -351,8 +375,20 @@ impl ItemLoot {
                 ..
             } => {
                 let weapon = weapon.get_weapon();
-                let mut description = format!("{}\n{}", weapon.name, weapon.power);
+                let mut description = weapon.name.to_string();
                 let price_range = calculate_price_range(weapon.price);
+
+                if let Some(physical_power) = weapon.physical_power {
+                    description.push_str(&format!("\nPhysical Power: {}", physical_power));
+                }
+
+                if let Some(magical_power) = weapon.magical_power {
+                    description.push_str(&format!("\nMagical Power: {}", magical_power));
+                }
+
+                if let Some(defense) = weapon.defense {
+                    description.push_str(&format!("\nDefense: {}", defense));
+                }
 
                 description.push_str(&format!(
                     "\n\nPrice: {} to {} G",

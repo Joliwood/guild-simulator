@@ -33,7 +33,7 @@ pub fn recruit_sent_stats(
 
             // Text: "Power"
             stats_column.spawn((
-                Text::new(format!("Power: {}", recruit_sent.power)),
+                Text::new(format!("PP: {}", recruit_sent.physical_power)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,
