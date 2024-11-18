@@ -11,7 +11,7 @@ use crate::{
         missions::generate_all_missions,
     },
     structs::daily_events_folder::daily_events::calculate_total_apparition_chance,
-    utils::{calculate_price_range, get_victory_percentage},
+    utils::{calculate_fight, calculate_price_range, get_victory_percentage},
 };
 use bevy::prelude::*;
 use rand::Rng;
@@ -169,14 +169,16 @@ impl SelectedMission {
                 }
             };
 
-            let ennemy_global_points = mission.ennemy.physical_power
-                + mission.ennemy.magical_power
-                + mission.ennemy.defense;
-            let recruit_total_power = recruit.get_total_power();
+            // let ennemy_global_points = mission.ennemy.physical_power
+            //     + mission.ennemy.magical_power
+            //     + mission.ennemy.defense;
+            // let recruit_total_power = recruit.get_total_power();
             // let recruit_global_points = recruit.get_total_merged_stats();
 
-            let victory_percentage =
-                get_victory_percentage(recruit_total_power, ennemy_global_points) as u32;
+            let victory_percentage = calculate_fight(&recruit, &mission.ennemy) as u32;
+
+            // let victory_percentage =
+            //     get_victory_percentage(recruit_total_power, ennemy_global_points) as u32;
 
             self.percent_of_victory = Some(victory_percentage);
         }

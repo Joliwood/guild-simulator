@@ -6,7 +6,7 @@ use bevy::{
 };
 use uuid::Uuid;
 
-#[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]
+#[derive(Default, Debug, Component, Clone, Eq, PartialEq, Hash)]
 pub struct RecruitStats {
     pub class: ClassEnum,
     pub experience: u32,

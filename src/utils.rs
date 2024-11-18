@@ -3,7 +3,7 @@ use crate::{
     structs::{
         equipments::ItemEnum,
         general_structs::{
-            DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
+            DailyEventsModalVisible, Ennemy, MissionModalVisible, MissionReportsModalVisible,
         },
         missions::{ItemLootEnum, MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
@@ -11,6 +11,7 @@ use crate::{
             RecruitInventory, RecruitStats, SelectedRecruitForEquipment, SelectedRecruitForMission,
         },
     },
+    ui::rooms::barrack::recruits_list_folder::recruit_defense,
 };
 use bevy::{math::UVec2, prelude::ResMut, sprite::TextureAtlasLayout};
 
@@ -594,16 +595,66 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
     }
 }
 
+const DILUTION_RATIO: f32 = 100.;
+
+/// ## Explaination of the calcul :
+///
+/// - a = b * (1 + (c / (c + 100)))
+/// - real_physical_power = ennemy_physical_power * (1 + (recruit_defense / (recruit_defense + 100))).
+///
+/// If the recruit has no defense, so the physical power will not be diluted.
+///
+/// If the recruit has way more in defense than the ennemy in physical power, the result will follow a logarithmic curve
+///
+/// ## Example 1 :
+/// - ennemy_physical_power = 75
+/// - recruit_defense = 24
+/// - result will be -> 60.48
+///
+/// ## Example 2
+/// - ennemy_physical_power = 75
+/// - recruit_defense = 68
+/// - result will be -> 44.64
+///
+/// ## Example 3
+/// - ennemy_physical_power = 75
+/// - recruit_defense = 4
+/// - result will be -> 72.12
+///
+/// ## Example 4
+/// - ennemy_physical_power = 75
+/// - recruit_defense = 141
+/// - result will be -> 31.12
+fn calculate_physical_fight(recruit: &RecruitStats, ennemy: &Ennemy) -> f32 {
+    let ennemy_physical_power = ennemy.get_physical_fight_part();
+    let recruit_defense = recruit.defense as f32;
+
+    return ennemy_physical_power * (1. + (recruit_defense / (recruit_defense + DILUTION_RATIO)));
+}
+
+fn calculate_magical_fight(recruit: &RecruitStats, ennemy: &Ennemy) -> f32 {
+    let ennemy_magical_power = ennemy.get_magical_fight_part();
+    let recruit_defense = recruit.defense as f32;
+
+    return ennemy_magical_power * (1. + (recruit_defense / (recruit_defense + DILUTION_RATIO)));
+}
+
+pub fn calculate_fight(recruit: &RecruitStats, ennemy: &Ennemy) -> f32 {
+    let victory_percentage_physical_part = ennemy.get_physical_fight_part();
+    let victory_percentage_magical_part = ennemy.get_magical_fight_part();
+
+    let physical_fight = calculate_physical_fight(recruit, ennemy);
+    let magical_fight = calculate_magical_fight(recruit, ennemy);
+
+    let physical_final_percentage = physical_fight * victory_percentage_physical_part / 100.;
+    let magical_final_percentage = magical_fight * victory_percentage_magical_part / 100.;
+
+    return physical_final_percentage + magical_final_percentage;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    // #[test]
-    // fn test_get_global_points() {
-    //     assert_eq!(get_global_points(1, 1, 1), 3);
-    //     assert_eq!(get_global_points(2, 2, 2), 6);
-    //     assert_eq!(get_global_points(3, 3, 3), 9);
-    // }
 
     #[test]
     fn test_get_victory_percentage() {
@@ -613,5 +664,59 @@ mod tests {
         assert_eq!(get_victory_percentage(25, 20), 62.5);
         assert_eq!(get_victory_percentage(40, 20), 100.);
         assert_eq!(get_victory_percentage(50, 20), 100.);
+    }
+
+    #[test]
+    fn test_calculate_fight() {
+        // Physical fight example
+        assert_eq!(
+            calculate_fight(
+                &RecruitStats {
+                    physical_power: 82,
+                    defense: 56,
+                    ..Default::default()
+                },
+                &Ennemy {
+                    physical_power: 82,
+                    defense: 56,
+                    ..Default::default()
+                }
+            ),
+            52.229298
+        );
+
+        // Should work with 0 physical power
+        assert_eq!(
+            calculate_fight(
+                &recruit,
+                &Ennemy {
+                    experience: 0,
+                    level: 0,
+                    name: "".to_string(),
+                    physical_power: 0,
+                    magical_power: 75,
+                    defense: 56,
+                    image_atlas_index: 0,
+                }
+            ),
+            0.
+        );
+
+        // Should return 100 if magical power is 0
+        assert_eq!(
+            calculate_fight(
+                &recruit,
+                &Ennemy {
+                    experience: 0,
+                    level: 0,
+                    name: "".to_string(),
+                    physical_power: 82,
+                    magical_power: 0,
+                    defense: 56,
+                    image_atlas_index: 0,
+                }
+            ),
+            100.
+        );
     }
 }
