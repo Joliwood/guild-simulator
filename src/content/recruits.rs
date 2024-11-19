@@ -26,7 +26,7 @@ impl RecruitEnum {
                 name: "Jean-Louis-David".to_string(),
                 recruit_inventory: RecruitInventory::default(),
                 state: RecruitStateEnum::Available,
-                physical_power: 6,
+                physical_power: 12,
                 magical_power: 0,
                 defense: 4,
             },

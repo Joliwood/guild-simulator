@@ -270,6 +270,15 @@ impl RecruitStats {
             + additionnal_stats_from_items.2
             + self.defense;
     }
+
+    pub fn get_total_stats(&self) -> (u32, u32, u32) {
+        let additionnal_stats_from_items = self.get_additional_stats_from_items();
+        return (
+            additionnal_stats_from_items.0 + self.physical_power,
+            additionnal_stats_from_items.1 + self.magical_power,
+            additionnal_stats_from_items.2 + self.defense,
+        );
+    }
 }
 
 // #[deprecated]

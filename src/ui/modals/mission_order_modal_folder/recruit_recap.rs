@@ -125,9 +125,31 @@ pub fn recruit_recap(
                             TextColor(Color::BLACK),
                         ));
 
-                        // Recruit Power
+                        // Recruit physical power
                         parent.spawn((
                             Text::new(format!("PP : {}", recruit.physical_power)),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(Color::BLACK),
+                        ));
+
+                        // Recruit magical power
+                        parent.spawn((
+                            Text::new(format!("MP : {}", recruit.magical_power)),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(Color::BLACK),
+                        ));
+
+                        // Recruit defense
+                        parent.spawn((
+                            Text::new(format!("DEF : {}", recruit.defense)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
