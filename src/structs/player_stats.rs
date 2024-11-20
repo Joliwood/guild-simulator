@@ -49,7 +49,7 @@ impl Default for PlayerStats {
                 ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
                 // ItemEnum::Armor(ArmorsEnum::LeatherTunic.get_armor()),
                 // ItemEnum::Armor(ArmorsEnum::LeatherTunic.get_armor()),
-                ItemEnum::Scroll(ScrollsEnum::ScrollOfReinforcementI.get_scroll(), 2),
+                ItemEnum::Scroll(ScrollsEnum::ScrollOfExperienceI.get_scroll(), 2),
                 // ItemEnum::Scroll(ScrollsEnum::ScrollOfGaladornFailedPower.get_scroll(), 2),
             ],
             max_experience: 100,

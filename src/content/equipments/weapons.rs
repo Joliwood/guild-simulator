@@ -80,7 +80,7 @@ impl WeaponsEnum {
                 price: 2,
                 rarety: ItemRaretyEnum::Common,
                 optimized_for: (vec![ClassEnum::Mage], (5)),
-                attack: Some(100),
+                attack: Some(2),
                 ..Default::default()
             },
             WeaponsEnum::UnsharpDagger => Weapon {
