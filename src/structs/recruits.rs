@@ -1,12 +1,6 @@
 use super::equipments::{Armor, BonusEnum, ItemEnum, Scroll, Weapon};
-use crate::{
-    enums::{ClassEnum, RecruitStateEnum},
-    utils::merge_multiplicators,
-};
-use bevy::{
-    log::info,
-    prelude::{Component, Resource},
-};
+use crate::enums::{ClassEnum, RecruitStateEnum};
+use bevy::prelude::{Component, Resource};
 use uuid::Uuid;
 
 #[derive(Default, Debug, Component, Clone, Eq, PartialEq, Hash)]
@@ -273,107 +267,34 @@ impl RecruitStats {
     /// - additional attack
     /// - additional defense
     pub fn get_additional_stats_from_items(&self) -> (u32, u32) {
-        //     let mut additional_raw_defense = 0;
-        //     let mut additional_raw_attack = 0;
-
-        //     if let Some(weapon) = &self.recruit_inventory.weapon {
-        //         if let Some(attack) = weapon.attack {
-        //             additional_attack += attack;
-        //         }
-
-        //         if let Some(defense) = weapon.defense {
-        //             additional_raw_defense += defense;
-        //         }
-        //     }
-
-        //     if let Some(armor) = &self.recruit_inventory.armor {
-        //         if let Some(attack) = armor.attack {
-        //             additional_attack += attack;
-        //         }
-
-        //         if let Some(defense) = armor.defense {
-        //             additional_raw_defense += defense;
-        //         }
-        //     }
-
-        //     for scroll in &self.recruit_inventory.scrolls {
-        //         if let Some(attack) = scroll.attack {
-        //             additional_attack += attack;
-        //         }
-
-        //         if let Some(defense) = scroll.defense {
-        //             additional_raw_defense += defense;
-        //         }
-
-        //         if let Some(additional_raw_attack_from_scroll) =
-        //             get_total_raw_attack_with_additional_attack(&self.recruit_inventory.scrolls)
-        //         {
-        //             additional_attack += additional_raw_attack_from_scroll;
-        //         }
-
-        //         if let Some(additional_raw_defense_from_scroll) =
-        //             get_total_raw_defense_from_scrolls(&self.recruit_inventory.scrolls)
-        //         {
-        //             additional_raw_defense += additional_raw_defense_from_scroll;
-        //         }
-        //     }
-
-        //     let total_recruit_attack = self.attack + additional_raw_attack;
-
-        //     let attack_multiplicator_from_optimized_class = self
-        //         .recruit_inventory
-        //         .get_attack_multiplicator_from_optimized_class(&self.class);
-
-        //     let defense_multiplicator_from_optimized_class = self
-        //         .recruit_inventory
-        //         .get_attack_multiplicator_from_optimized_class(&self.class);
-
-        //     let equipment_stats_multiplicator = self
-        //         .recruit_inventory
-        //         .get_equipment_stats_multiplicator_from_scroll_bonus();
-
-        //     let attack_multiplicator = merge_multiplicators(vec![
-        //         attack_multiplicator_from_optimized_class,
-        //         equipment_stats_multiplicator,
-        //     ]);
-
-        //     let additional_attack =
-        //         ((total_recruit_attack as f64 - self.attack as f64) * attack_multiplicator) as u32;
-
-        //     let additional_defense =
-        //         (additional_raw_defense as f64 * equipment_stats_multiplicator) as u32;
-
-        //     return (additional_attack, additional_defense);
-
         let total_stats = self.get_total_stats();
-
         return (total_stats.0 - self.attack, total_stats.1 - self.defense);
     }
 
+    /// ## This method is used to get the total stats of a recruit
+    ///
+    /// Return in a tuple :
+    /// - total attack
+    /// - total defense
+    ///
+    /// The total stats are calculated as follows:
+    ///
+    /// ## Recruit only part
+    /// - 1 - Add the raw stats of the recruit
+    /// - 2 - Multiply the raw stats of the recruit by the bonus in %
+    ///
+    /// ## Equipment part
+    /// - 3 - Multiply the bonus in % of the items
+    ///
+    /// ## Global part
+    /// - 4 - Merge the recruit and equipment stats
+    /// - 5 - Add the optimized_for bonus in % on the total (we favor the optimization of classes)
     pub fn get_total_stats(&self) -> (u32, u32) {
         let mut total_recruit_stats = (self.attack as f64, self.defense as f64);
         let mut total_equipment_stats = self.recruit_inventory.get_stats_from_items();
         let mut total_stats = (0., 0.);
-        // let additionnal_stats_from_items = self.get_additional_stats_from_items();
-        // return (
-        //     additionnal_stats_from_items.0 + self.attack,
-        //     additionnal_stats_from_items.1 + self.defense,
-        // );
 
-        // Section recrue
-        // 1 - AJoute les stats brutes natives à la recrue
-        // 2 - Ajoute le bonus natif en % à la recrue
-
-        // Section équipement
-        // 3 - Ajoute les bonus en % des items
-
-        // Section globale
-        // 4 - On merge les stats recrue et équipement
-        // 5 - On ajoute le bonus optimized_for en % sur le total (on favorise l'opti des classes)
-
-        // --- //
-
-        // 1
+        // --- 1 --- //
         let raw_stats_from_recruit_natural_bonus = self
             .recruit_inventory
             .get_raw_recruit_stats_from_scroll_bonus();
@@ -381,7 +302,7 @@ impl RecruitStats {
         total_recruit_stats.0 += raw_stats_from_recruit_natural_bonus.0;
         total_recruit_stats.1 += raw_stats_from_recruit_natural_bonus.1;
 
-        // 2
+        // --- 2 --- //
         let recruit_stats_multiplicator = self
             .recruit_inventory
             .get_recruit_stats_multiplicator_from_scroll_bonus();
@@ -389,7 +310,7 @@ impl RecruitStats {
         total_recruit_stats.0 *= recruit_stats_multiplicator;
         total_recruit_stats.1 *= recruit_stats_multiplicator;
 
-        // 3
+        // --- 3 --- //
         let equipment_stats_multiplicator_from_scroll_bonus = self
             .recruit_inventory
             .get_equipment_stats_multiplicator_from_scroll_bonus();
@@ -397,61 +318,17 @@ impl RecruitStats {
         total_equipment_stats.0 *= equipment_stats_multiplicator_from_scroll_bonus;
         total_equipment_stats.1 *= equipment_stats_multiplicator_from_scroll_bonus;
 
-        info!("total_equipment_stats is : {:?}", total_equipment_stats);
-
-        // 4
+        // --- 4 --- //
         total_stats.0 = total_recruit_stats.0 + total_equipment_stats.0;
         total_stats.1 = total_recruit_stats.1 + total_equipment_stats.1;
 
-        // 5
+        // --- 5 --- //
         let attack_multiplicator_from_optimized_class = self
             .recruit_inventory
             .get_attack_multiplicator_from_optimized_class(&self.class);
 
         total_stats.0 *= attack_multiplicator_from_optimized_class;
 
-        info!("Total stats for recruit {} : {:?}", self.name, total_stats);
-
         return (total_stats.0 as u32, total_stats.1 as u32);
     }
 }
-
-// pub fn get_total_raw_attack_with_additional_attack(scrolls: &[Scroll]) -> Option<u32> {
-//     let bonuses = scrolls.iter().map(|scroll| &scroll.bonus);
-
-//     // Iterate over the bonuses and each time we have a RawPower bonus, we add the value to the total power
-//     let total_raw_attack: u32 = bonuses
-//         .flat_map(|bonus| {
-//             bonus.iter().map(|b| match b {
-//                 BonusEnum::RawAttack(value) => *value,
-//                 _ => 0,
-//             })
-//         })
-//         .sum();
-
-//     if total_raw_attack > 0 {
-//         Some(total_raw_attack)
-//     } else {
-//         None
-//     }
-// }
-
-// pub fn get_total_raw_defense_from_scrolls(scrolls: &[Scroll]) -> Option<u32> {
-//     let bonuses = scrolls.iter().map(|scroll| &scroll.bonus);
-
-//     // Iterate over the bonuses and each time we have a RawPower bonus, we add the value to the total power
-//     let total_raw_defense: u32 = bonuses
-//         .flat_map(|bonus| {
-//             bonus.iter().map(|b| match b {
-//                 BonusEnum::NaturalRawDefense(value) => *value,
-//                 _ => 0,
-//             })
-//         })
-//         .sum();
-
-//     if total_raw_defense > 0 {
-//         Some(total_raw_defense)
-//     } else {
-//         None
-//     }
-// }

@@ -27,16 +27,16 @@ pub fn select_mission_button(
                 match *interaction {
                     Interaction::Pressed => {
                         selected_mission.mission_id = Some(mission.id);
-                        background_color.0 = Color::BLACK;
+                        // background_color.0 = Color::BLACK;
                         mission_modal_visibility.0 = true;
                     }
                     Interaction::Hovered => {
                         // window.cursor.icon = CursorIcon::Pointer;
-                        background_color.0 = Color::WHITE;
+                        // background_color.0 = Color::WHITE;
                     }
                     Interaction::None => {
                         // window.cursor.icon = CursorIcon::Default;
-                        background_color.0 = Color::BLACK;
+                        // background_color.0 = Color::BLACK;
                     }
                 }
             }
