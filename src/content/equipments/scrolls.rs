@@ -92,9 +92,9 @@ impl ScrollsEnum {
             ScrollsEnum::ScrollOfReinforcementI => Scroll {
                 id: 5,
                 image_atlas_index: 4,
-                name: "Scroll of Reinforcement I".to_string(),
+                name: "Scroll of EnhanceEquipment I".to_string(),
                 price: 5,
-                bonus: vec![BonusEnum::Reinforcement(5)],
+                bonus: vec![BonusEnum::EnhanceEquipment(5)],
                 ..Default::default()
             },
             ScrollsEnum::ScrollOfNaturalGrowthI => Scroll {

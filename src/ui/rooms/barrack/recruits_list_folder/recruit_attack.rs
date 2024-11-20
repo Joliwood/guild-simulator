@@ -7,6 +7,10 @@ pub fn recruit_attack(
     additionnal_attack_from_items: u32,
     my_assets: &Res<AssetServer>,
 ) {
+    // let equipment_stats_multiplicator = recruit
+    //     .recruit_inventory
+    //     .get_equipment_stats_multiplicator_from_scroll_bonus();
+
     stats_container
         .spawn(Node::default())
         .insert(PickingBehavior {

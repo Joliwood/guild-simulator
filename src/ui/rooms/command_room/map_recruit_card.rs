@@ -12,6 +12,8 @@ pub fn map_recruit_card(
     recruit: &RecruitStats,
     recruit_texture_atlas_layout: Handle<TextureAtlasLayout>,
 ) {
+    let recruit_attack = recruit.get_total_stats().0;
+
     left_container
         .spawn((
             Button,
@@ -110,7 +112,7 @@ pub fn map_recruit_card(
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        Text::new(recruit.get_total_stats().0.to_string()),
+                        Text::new(recruit_attack.to_string()),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 16.0,

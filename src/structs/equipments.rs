@@ -96,7 +96,7 @@ pub enum BonusEnum {
     Experience(u32),
 
     /// Increate the recruit's equipment (all of them) stats by %
-    Reinforcement(u32),
+    EnhanceEquipment(u32),
 
     /// Increate the native recruit stats (all of them) by %
     NaturalGrowth(u32),
@@ -106,4 +106,7 @@ pub enum BonusEnum {
 
     /// Increase the native recruit defense
     NaturalRawDefense(u32),
+
+    /// Increase the native recruit attack
+    NaturalRawAttack(u32),
 }

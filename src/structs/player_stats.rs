@@ -6,7 +6,10 @@ use super::{
     recruits::RecruitStats,
 };
 use crate::{
-    content::equipments::scrolls::ScrollsEnum,
+    content::{
+        equipments::{scrolls::ScrollsEnum, weapons::WeaponsEnum},
+        recruits::RecruitEnum,
+    },
     enums::{RecruitStateEnum, RoomEnum},
 };
 use bevy::prelude::*;
@@ -36,43 +39,24 @@ pub struct PlayerStats {
 
 impl Default for PlayerStats {
     fn default() -> Self {
-        // let inventory = vec![];
-        // let first_weapon = load_weapon(WeaponsEnum::AxeOfFury);
-        // let second_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
-        // let second_same_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
-        // let first_scroll = load_scroll(ScrollsEnum::ScrollOfEndurance);
-        // let second_scroll = load_scroll(ScrollsEnum::ScrollOfSpeed);
-        // let first_armor = load_armor(ArmorsEnum::GauntletsOfPower);
-        // let second_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
-        // let second_same_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
-
-        // inventory.push(ItemEnum::Weapon(first_weapon));
-        // inventory.push(ItemEnum::Weapon(second_weapon));
-        // inventory.push(ItemEnum::Weapon(second_same_weapon));
-        // inventory.push(ItemEnum::Scroll(first_scroll, 1));
-        // inventory.push(ItemEnum::Scroll(second_scroll, 3));
-        // inventory.push(ItemEnum::Armor(first_armor));
-        // inventory.push(ItemEnum::Armor(second_armor));
-        // inventory.push(ItemEnum::Armor(second_same_armor));
-
         Self {
             day: 1,
             experience: 0,
             golds: 0,
             guild_level: 1,
             inventory: vec![
-                // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
-                // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
+                ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
+                ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
                 // ItemEnum::Armor(ArmorsEnum::LeatherTunic.get_armor()),
                 // ItemEnum::Armor(ArmorsEnum::LeatherTunic.get_armor()),
-                ItemEnum::Scroll(ScrollsEnum::ScrollOfExperienceI.get_scroll(), 2),
+                ItemEnum::Scroll(ScrollsEnum::ScrollOfReinforcementI.get_scroll(), 2),
                 // ItemEnum::Scroll(ScrollsEnum::ScrollOfGaladornFailedPower.get_scroll(), 2),
             ],
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![
-                // RecruitEnum::Hubert.get_recruit(),
-                // RecruitEnum::JeanLouisDavid.get_recruit(),
+                RecruitEnum::Hubert.get_recruit(),
+                RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
@@ -88,7 +72,7 @@ impl Default for PlayerStats {
     }
 }
 
-pub const SKIP_TUTO: bool = false;
+pub const SKIP_TUTO: bool = true;
 
 impl PlayerStats {
     pub fn increment_golds(&mut self, amount: i32) {

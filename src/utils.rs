@@ -638,6 +638,22 @@ pub fn calculate_fight(recruit: &RecruitStats, ennemy: &Ennemy) -> f32 {
     return fight_percentage;
 }
 
+/// Addition all multiplicators and soustract number of multiplicators at the end
+pub fn merge_multiplicators(multiplicators: Vec<f64>) -> f64 {
+    let mut total_multiplicator = 1.0;
+    let mut multiplicators_count = 0.;
+
+    for multiplicator in multiplicators {
+        total_multiplicator += multiplicator;
+        multiplicators_count += 1.;
+    }
+
+    let total = total_multiplicator - multiplicators_count;
+
+    // To correct the floating-point arithmetic precision
+    return (total * 100.0).round() / 100.0;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -661,5 +677,11 @@ mod tests {
         assert_eq!(calculate_real_attack(180., 180.), 90.);
         assert_eq!(calculate_real_attack(180., 0.), 180.);
         assert_eq!(calculate_real_attack(112., 551.), 18.92006);
+    }
+
+    #[test]
+    fn test_merge_multiplicators() {
+        assert_eq!(merge_multiplicators(vec![1.05, 1.05]), 1.1);
+        assert_eq!(merge_multiplicators(vec![1.05, 1.05, 1.05]), 1.15);
     }
 }
