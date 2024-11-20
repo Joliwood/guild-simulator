@@ -30,20 +30,9 @@ pub fn mission_ennemy_stats(
                 TextColor(Color::BLACK),
             ));
 
-            // Physical power
+            // Attack
             stats_column.spawn((
-                Text::new(format!("PP: {}", ennemy_stats.physical_power)),
-                TextFont {
-                    font: my_assets.load(FONT_FIRA),
-                    font_size: 14.0,
-                    ..default()
-                },
-                TextColor(Color::BLACK),
-            ));
-
-            // Magical power
-            stats_column.spawn((
-                Text::new(format!("MP: {}", ennemy_stats.magical_power)),
+                Text::new(format!("ATT: {}", ennemy_stats.attack)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,

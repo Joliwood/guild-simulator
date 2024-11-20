@@ -1,9 +1,6 @@
 use super::equipments::{Armor, BonusEnum, ItemEnum, Scroll, Weapon};
 use crate::enums::{ClassEnum, RecruitStateEnum};
-use bevy::{
-    log::info,
-    prelude::{Component, Resource},
-};
+use bevy::prelude::{Component, Resource};
 use uuid::Uuid;
 
 #[derive(Default, Debug, Component, Clone, Eq, PartialEq, Hash)]
@@ -17,8 +14,7 @@ pub struct RecruitStats {
     pub name: String,
     pub recruit_inventory: RecruitInventory,
     pub state: RecruitStateEnum,
-    pub physical_power: u32,
-    pub magical_power: u32,
+    pub attack: u32,
     pub defense: u32,
 }
 
@@ -70,20 +66,20 @@ impl RecruitInventory {
         };
     }
 
-    pub fn get_power_multiplicator_from_optimized_class(&self, class: &ClassEnum) -> (f32, f32) {
-        let mut multiplicator = (1.0, 1.0);
+    pub fn get_power_multiplicator_from_optimized_class(&self, class: &ClassEnum) -> f32 {
+        let mut multiplicator = 1.0;
 
         if let Some(weapon) = &self.weapon {
             if weapon.optimized_for.0.contains(class) {
-                multiplicator.0 += weapon.optimized_for.1 .0 as f32 / 100.;
-                multiplicator.1 += weapon.optimized_for.1 .1 as f32 / 100.;
+                multiplicator += weapon.optimized_for.1 as f32 / 100.;
+                // multiplicator.1 += weapon.optimized_for.1 .1 as f32 / 100.;
             }
         }
 
         if let Some(armor) = &self.armor {
             if armor.optimized_for.0.contains(class) {
-                multiplicator.0 += armor.optimized_for.1 .0 as f32 / 100.;
-                multiplicator.1 += armor.optimized_for.1 .1 as f32 / 100.;
+                multiplicator += armor.optimized_for.1 as f32 / 100.;
+                // multiplicator.1 += armor.optimized_for.1 .1 as f32 / 100.;
             }
         }
 
@@ -151,8 +147,7 @@ impl RecruitStats {
         self.level += 1;
         // Set the max experience to the current experience * 2
         self.max_experience *= 2;
-        self.physical_power *= 2;
-        self.magical_power *= 2;
+        self.attack *= 2;
         self.defense *= 2;
     }
 
@@ -171,21 +166,15 @@ impl RecruitStats {
     }
 
     /// return in a tuple :
-    /// - additional physical power
-    /// - additional magical power
+    /// - additional attack
     /// - additional defense
-    pub fn get_additional_stats_from_items(&self) -> (u32, u32, u32) {
-        let mut additional_physical_raw_power = 0;
-        let mut additional_magical_raw_power = 0;
+    pub fn get_additional_stats_from_items(&self) -> (u32, u32) {
         let mut additional_raw_defense = 0;
+        let mut additional_attack = 0;
 
         if let Some(weapon) = &self.recruit_inventory.weapon {
-            if let Some(physical_power) = weapon.physical_power {
-                additional_physical_raw_power += physical_power;
-            }
-
-            if let Some(magical_power) = weapon.magical_power {
-                additional_magical_raw_power += magical_power;
+            if let Some(attack) = weapon.attack {
+                additional_attack += attack;
             }
 
             if let Some(defense) = weapon.defense {
@@ -194,12 +183,8 @@ impl RecruitStats {
         }
 
         if let Some(armor) = &self.recruit_inventory.armor {
-            if let Some(physical_power) = armor.physical_power {
-                additional_physical_raw_power += physical_power;
-            }
-
-            if let Some(magical_power) = armor.magical_power {
-                additional_magical_raw_power += magical_power;
+            if let Some(attack) = armor.attack {
+                additional_attack += attack;
             }
 
             if let Some(defense) = armor.defense {
@@ -208,28 +193,18 @@ impl RecruitStats {
         }
 
         for scroll in &self.recruit_inventory.scrolls {
-            if let Some(physical_power) = scroll.physical_power {
-                additional_physical_raw_power += physical_power;
-            }
-
-            if let Some(magical_power) = scroll.magical_power {
-                additional_magical_raw_power += magical_power;
+            if let Some(attack) = scroll.attack {
+                additional_attack += attack;
             }
 
             if let Some(defense) = scroll.defense {
                 additional_raw_defense += defense;
             }
 
-            if let Some(additional_physical_raw_power_from_scroll) =
-                get_total_physical_raw_power_with_additional_power(&self.recruit_inventory.scrolls)
+            if let Some(additional_raw_attack_from_scroll) =
+                get_total_raw_attack_with_additional_attack(&self.recruit_inventory.scrolls)
             {
-                additional_physical_raw_power += additional_physical_raw_power_from_scroll;
-            }
-
-            if let Some(additional_magical_raw_power_from_scroll) =
-                get_total_magical_raw_power_with_additional_power(&self.recruit_inventory.scrolls)
-            {
-                additional_magical_raw_power += additional_magical_raw_power_from_scroll;
+                additional_attack += additional_raw_attack_from_scroll;
             }
 
             if let Some(additional_raw_defense_from_scroll) =
@@ -239,106 +214,41 @@ impl RecruitStats {
             }
         }
 
-        let total_recruit_physical_raw_power = self.physical_power + additional_physical_raw_power;
-        let total_recruit_magical_raw_power = self.magical_power + additional_magical_raw_power;
+        let total_recruit_attack = self.attack + additional_attack;
 
         let multiplicator = self
             .recruit_inventory
             .get_power_multiplicator_from_optimized_class(&self.class);
 
-        let additional_physical_power = (total_recruit_physical_raw_power as f32 * multiplicator.0)
-            as u32
-            - self.physical_power;
+        let additional_attack = (total_recruit_attack as f32 * multiplicator) as u32 - self.attack;
 
-        let additional_magical_power =
-            (total_recruit_magical_raw_power as f32 * multiplicator.1) as u32 - self.magical_power;
-
-        return (
-            additional_physical_power,
-            additional_magical_power,
-            additional_raw_defense,
-        );
+        return (additional_attack, additional_raw_defense);
     }
 
-    pub fn get_total_power(&self) -> u32 {
-        // return self.get_additional_power_from_items() + self.power;
-        let additionnal_stats_from_items = self.get_additional_stats_from_items();
-        return additionnal_stats_from_items.0
-            + self.physical_power
-            + additionnal_stats_from_items.1
-            + self.magical_power
-            + additionnal_stats_from_items.2
-            + self.defense;
-    }
-
-    pub fn get_total_stats(&self) -> (u32, u32, u32) {
+    pub fn get_total_stats(&self) -> (u32, u32) {
         let additionnal_stats_from_items = self.get_additional_stats_from_items();
         return (
-            additionnal_stats_from_items.0 + self.physical_power,
-            additionnal_stats_from_items.1 + self.magical_power,
-            additionnal_stats_from_items.2 + self.defense,
+            additionnal_stats_from_items.0 + self.attack,
+            additionnal_stats_from_items.1 + self.defense,
         );
     }
 }
 
-// #[deprecated]
-// pub fn get_total_power_with_additional_power(scrolls: &[Scroll]) -> Option<u32> {
-//     let bonuses = scrolls.iter().map(|scroll| &scroll.bonus);
-
-//     // Iterate over the bonuses and each time we have a RawPower bonus, we add the value to the total power
-//     let total_raw_power: u32 = bonuses
-//         .flat_map(|bonus| {
-//             bonus.iter().map(|b| match b {
-//                 BonusEnum::RawPower(value) => *value,
-//                 _ => 0,
-//             })
-//         })
-//         .sum();
-
-//     if total_raw_power > 0 {
-//         Some(total_raw_power)
-//     } else {
-//         None
-//     }
-// }
-
-pub fn get_total_physical_raw_power_with_additional_power(scrolls: &[Scroll]) -> Option<u32> {
+pub fn get_total_raw_attack_with_additional_attack(scrolls: &[Scroll]) -> Option<u32> {
     let bonuses = scrolls.iter().map(|scroll| &scroll.bonus);
 
     // Iterate over the bonuses and each time we have a RawPower bonus, we add the value to the total power
-    let total_physical_raw_power: u32 = bonuses
+    let total_raw_attack: u32 = bonuses
         .flat_map(|bonus| {
             bonus.iter().map(|b| match b {
-                BonusEnum::PhysicalRawPower(value) => *value,
+                BonusEnum::RawAttack(value) => *value,
                 _ => 0,
             })
         })
         .sum();
 
-    info!("total_physical_raw_power: {}", total_physical_raw_power);
-
-    if total_physical_raw_power > 0 {
-        Some(total_physical_raw_power)
-    } else {
-        None
-    }
-}
-
-pub fn get_total_magical_raw_power_with_additional_power(scrolls: &[Scroll]) -> Option<u32> {
-    let bonuses = scrolls.iter().map(|scroll| &scroll.bonus);
-
-    // Iterate over the bonuses and each time we have a RawPower bonus, we add the value to the total power
-    let total_magical_raw_power: u32 = bonuses
-        .flat_map(|bonus| {
-            bonus.iter().map(|b| match b {
-                BonusEnum::MagicalRawPower(value) => *value,
-                _ => 0,
-            })
-        })
-        .sum();
-
-    if total_magical_raw_power > 0 {
-        Some(total_magical_raw_power)
+    if total_raw_attack > 0 {
+        Some(total_raw_attack)
     } else {
         None
     }

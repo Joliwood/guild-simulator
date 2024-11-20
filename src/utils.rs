@@ -11,7 +11,6 @@ use crate::{
             RecruitInventory, RecruitStats, SelectedRecruitForEquipment, SelectedRecruitForMission,
         },
     },
-    ui::rooms::barrack::recruits_list_folder::recruit_defense,
 };
 use bevy::{math::UVec2, prelude::ResMut, sprite::TextureAtlasLayout};
 
@@ -165,12 +164,8 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
             let mut description = format!("{}\n", weapon.name);
             let price_range = calculate_price_range(weapon.price);
 
-            if let Some(physical_power) = weapon.physical_power {
-                description.push_str(&format!("\nPhysical Power: {}", physical_power));
-            }
-
-            if let Some(magical_power) = weapon.magical_power {
-                description.push_str(&format!("\nMagical Power: {}", magical_power));
+            if let Some(attack) = weapon.attack {
+                description.push_str(&format!("\nAttack: {}", attack));
             }
 
             if let Some(defense) = weapon.defense {
@@ -188,12 +183,8 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
             let mut description = format!("{}\n", armor.name);
             let price_range = calculate_price_range(armor.price);
 
-            if let Some(physical_power) = armor.physical_power {
-                description.push_str(&format!("\nPhysical Power: {}", physical_power));
-            }
-
-            if let Some(magical_power) = armor.magical_power {
-                description.push_str(&format!("\nMagical Power: {}", magical_power));
+            if let Some(attack) = armor.attack {
+                description.push_str(&format!("\nAttack: {}", attack));
             }
 
             if let Some(defense) = armor.defense {
@@ -210,12 +201,8 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
         ItemEnum::Scroll(scroll, quantity) => {
             let mut description = format!("{}\n\n{:?}", scroll.name, scroll.bonus);
 
-            if let Some(physical_power) = scroll.physical_power {
-                description.push_str(&format!("\nPhysical Power: {}", physical_power));
-            }
-
-            if let Some(magical_power) = scroll.magical_power {
-                description.push_str(&format!("\nMagical Power: {}", magical_power));
+            if let Some(attack) = scroll.attack {
+                description.push_str(&format!("\nAttack: {}", attack));
             }
 
             if let Some(defense) = scroll.defense {
@@ -409,7 +396,9 @@ pub fn finish_mission(
 }
 
 pub fn sort_recruits_by_total_power(mut recruits: Vec<RecruitStats>) -> Vec<RecruitStats> {
-    recruits.sort_by_key(|recruit| std::cmp::Reverse(recruit.get_total_power()));
+    recruits.sort_by_key(|recruit| {
+        std::cmp::Reverse((recruit.get_total_stats().0 + recruit.get_total_stats().1) as i32)
+    });
     return recruits;
 }
 
@@ -593,65 +582,60 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
     }
 }
 
-const DILUTION_RATIO: f32 = 100.;
-
 /// ## Explaination of the calcul :
 ///
-/// - a = b * (1 + (c / (c + 100)))
-/// - real_physical_power = ennemy_physical_power * (1 + (recruit_defense / (recruit_defense + 100))).
+/// - a = b * (1 + (c / (c + b)))
+/// - real_attack = ennemy_attack * (1 + (recruit_defense / (recruit_defense + ennemy_attack))).
 ///
-/// If the recruit has no defense, so the physical power will not be diluted.
+/// If the recruit has no defense, so the attack will not be diluted.
 ///
-/// If the recruit has way more in defense than the ennemy in physical power, the result will follow a logarithmic curve
+/// If the recruit has way more in defense than the ennemy in attack, the result will follow a logarithmic curve
 ///
 /// ## Example 1 :
-/// - ennemy_physical_power = 75
+/// - ennemy_attack = 75
 /// - recruit_defense = 24
-/// - result will be -> 60.48
+/// - result will be -> 56.81
 ///
 /// ## Example 2
-/// - ennemy_physical_power = 75
+/// - ennemy_attack = 75
 /// - recruit_defense = 68
-/// - result will be -> 44.64
+/// - result will be -> 39.33
 ///
 /// ## Example 3
-/// - ennemy_physical_power = 75
+/// - ennemy_attack = 75
 /// - recruit_defense = 4
-/// - result will be -> 72.12
+/// - result will be -> 71.20
 ///
 /// ## Example 4
-/// - ennemy_physical_power = 75
+/// - ennemy_attack = 75
 /// - recruit_defense = 141
-/// - result will be -> 31.12
-fn calculate_real_power(power: f32, defense: f32) -> f32 {
-    return power * (1. - (defense / (defense + DILUTION_RATIO)));
+/// - result will be -> 26.04
+///
+/// ## Example 5
+/// - ennemy_attack = 180
+/// - recruit_defense = 180
+/// - result will be -> 90 (50% of the attack)
+///
+/// ## Example 6
+/// - ennemy_attack = 180
+/// - recruit_defense = 0
+/// - result will be -> 180 (100% of the attack)
+fn calculate_real_attack(attack: f32, defense: f32) -> f32 {
+    return attack * (1. - (defense / (defense + attack)));
 }
 
 pub fn calculate_fight(recruit: &RecruitStats, ennemy: &Ennemy) -> f32 {
-    let victory_percentage_physical_part = ennemy.get_physical_fight_part();
-    let victory_percentage_magical_part = ennemy.get_magical_fight_part();
-
     let recruit_total_stats = recruit.get_total_stats();
 
-    let recruit_real_physical_power =
-        calculate_real_power(recruit_total_stats.0 as f32, ennemy.defense as f32);
-    let recruit_real_magical_power =
-        calculate_real_power(recruit_total_stats.1 as f32, ennemy.defense as f32);
+    let recruit_real_attack =
+        calculate_real_attack(recruit_total_stats.0 as f32, ennemy.defense as f32);
 
-    let ennemy_real_physical_power =
-        calculate_real_power(ennemy.physical_power as f32, recruit_total_stats.2 as f32);
-    let ennemy_real_magical_power =
-        calculate_real_power(ennemy.magical_power as f32, recruit_total_stats.2 as f32);
+    let ennemy_real_attack =
+        calculate_real_attack(ennemy.attack as f32, recruit_total_stats.1 as f32);
 
-    let physical_fight =
-        get_victory_percentage(recruit_real_physical_power, ennemy_real_physical_power);
-    let magical_fight =
-        get_victory_percentage(recruit_real_magical_power, ennemy_real_magical_power);
+    let fight_percentage = get_victory_percentage(recruit_real_attack, ennemy_real_attack);
 
-    let physical_final_percentage = physical_fight * victory_percentage_physical_part / 100.;
-    let magical_final_percentage = magical_fight * victory_percentage_magical_part / 100.;
-
-    return physical_final_percentage + magical_final_percentage;
+    return fight_percentage;
 }
 
 #[cfg(test)]
@@ -669,45 +653,13 @@ mod tests {
     }
 
     #[test]
-    fn test_calculate_real_power() {
-        // Physical fight example resumed in the rdoc
-        assert_eq!(calculate_real_power(75., 24.), 60.48387);
-        assert_eq!(calculate_real_power(75., 68.), 44.642857);
-        assert_eq!(calculate_real_power(75., 4.), 72.11538);
-        assert_eq!(calculate_real_power(75., 141.), 31.12033);
-
-        // // Should work with 0 physical power
-        // assert_eq!(
-        //     calculate_fight(
-        //         &recruit,
-        //         &Ennemy {
-        //             experience: 0,
-        //             level: 0,
-        //             name: "".to_string(),
-        //             physical_power: 0,
-        //             magical_power: 75,
-        //             defense: 56,
-        //             image_atlas_index: 0,
-        //         }
-        //     ),
-        //     0.
-        // );
-
-        // // Should return 100 if magical power is 0
-        // assert_eq!(
-        //     calculate_fight(
-        //         &recruit,
-        //         &Ennemy {
-        //             experience: 0,
-        //             level: 0,
-        //             name: "".to_string(),
-        //             physical_power: 82,
-        //             magical_power: 0,
-        //             defense: 56,
-        //             image_atlas_index: 0,
-        //         }
-        //     ),
-        //     100.
-        // );
+    fn test_calculate_real_attack() {
+        assert_eq!(calculate_real_attack(75., 24.), 56.81818);
+        assert_eq!(calculate_real_attack(75., 68.), 39.335663);
+        assert_eq!(calculate_real_attack(75., 4.), 71.20253);
+        assert_eq!(calculate_real_attack(75., 141.), 26.041666);
+        assert_eq!(calculate_real_attack(180., 180.), 90.);
+        assert_eq!(calculate_real_attack(180., 0.), 180.);
+        assert_eq!(calculate_real_attack(112., 551.), 18.92006);
     }
 }

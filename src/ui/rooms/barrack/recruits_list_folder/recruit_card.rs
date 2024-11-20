@@ -1,7 +1,3 @@
-use super::{
-    recruit_defense::recruit_defense, recruit_magical_power::recruit_magical_power,
-    recruit_physical_power::recruit_physical_power,
-};
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
     my_assets::FONT_FIRA,
@@ -11,6 +7,8 @@ use crate::{
     },
 };
 use bevy::prelude::*;
+
+use super::{recruit_attack::recruit_attack, recruit_defense::recruit_defense};
 
 pub fn recruit_card(
     parent: &mut ChildBuilder,
@@ -250,30 +248,15 @@ pub fn recruit_card(
                             ..default()
                         });
 
-                    // let get_additional_power_from_items = recruit.get_additional_power_from_items();
-                    let additionnal_physical_power_from_items =
-                    // recruit.get_additional_physical_power_from_items();
-                        recruit.get_additional_stats_from_items().0;
-
-                    let additionnal_magical_power_from_items =
-                        // recruit.get_additional_magical_power_from_items();
-                        recruit.get_additional_stats_from_items().1;
+                    let additionnal_attack_from_items = recruit.get_additional_stats_from_items().0;
 
                     let additionnal_defense_from_items =
-                        // recruit.get_additional_raw_defense_from_items();
-                        recruit.get_additional_stats_from_items().2;
+                        recruit.get_additional_stats_from_items().1;
 
-                    recruit_physical_power(
+                    recruit_attack(
                         stats_container,
                         recruit,
-                        additionnal_physical_power_from_items,
-                        my_assets,
-                    );
-
-                    recruit_magical_power(
-                        stats_container,
-                        recruit,
-                        additionnal_magical_power_from_items,
+                        additionnal_attack_from_items,
                         my_assets,
                     );
 

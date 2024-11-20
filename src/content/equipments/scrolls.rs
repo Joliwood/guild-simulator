@@ -20,11 +20,7 @@ use crate::structs::equipments::{BonusEnum, Scroll};
 pub enum ScrollsEnum {
     /// ## Integrated in :
     /// - Mission 3
-    ScrollOfPhysicalRawPowerI,
-
-    /// ## Integrated in :
-    /// TODO - Ajouter à la première mission à la place de la mission 2 en dessous the miser
-    ScrollOfMagicalRawPowerI,
+    ScrollOfRawAttackI,
 
     // TODO - Déplacer sur la dernière ou avant dernière mission pour farmer les premières, c'est plus logique
     /// ## Integrated in :
@@ -61,20 +57,12 @@ impl ScrollsEnum {
     /// Get a scroll by its enum variant
     pub fn get_scroll(&self) -> Scroll {
         match self {
-            ScrollsEnum::ScrollOfPhysicalRawPowerI => Scroll {
+            ScrollsEnum::ScrollOfRawAttackI => Scroll {
                 id: 1,
                 image_atlas_index: 0,
                 name: "Scroll of Wisdom I".to_string(),
                 price: 5,
-                bonus: vec![BonusEnum::PhysicalRawPower(10)],
-                ..Default::default()
-            },
-            ScrollsEnum::ScrollOfMagicalRawPowerI => Scroll {
-                id: 1,
-                image_atlas_index: 0,
-                name: "Scroll of Wisdom I".to_string(),
-                price: 5,
-                bonus: vec![BonusEnum::PhysicalRawPower(10)],
+                bonus: vec![BonusEnum::RawAttack(10)],
                 ..Default::default()
             },
             ScrollsEnum::ScrollOfTheMiserI => Scroll {
@@ -122,7 +110,7 @@ impl ScrollsEnum {
                 image_atlas_index: 6,
                 name: "Scroll of Galadorn Failed Power".to_string(),
                 price: 25,
-                bonus: vec![BonusEnum::MagicalRawPower(1), BonusEnum::Collector(65)],
+                bonus: vec![BonusEnum::RawAttack(1), BonusEnum::Collector(65)],
                 ..Default::default()
             },
             ScrollsEnum::ScrollOfRawNaturalDefense => Scroll {

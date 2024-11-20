@@ -26,28 +26,9 @@ pub struct Ennemy {
     pub experience: u32,
     pub level: u8,
     pub name: String,
-    pub physical_power: u32,
-    pub magical_power: u32,
+    pub attack: u32,
     pub defense: u32,
     pub image_atlas_index: u16,
-}
-
-impl Ennemy {
-    // Function to return the % part of the fight that is physical
-    pub fn get_physical_fight_part(&self) -> f32 {
-        let calcul: f32 = self.physical_power as f32
-            / (self.physical_power as f32 + self.magical_power as f32)
-            * 100.;
-        return calcul;
-    }
-
-    // Function to return the % part of the fight that is magical
-    pub fn get_magical_fight_part(&self) -> f32 {
-        let calcul: f32 = self.magical_power as f32
-            / (self.physical_power as f32 + self.magical_power as f32)
-            * 100.;
-        return calcul;
-    }
 }
 
 // ! Version with Ron + serde
@@ -132,106 +113,5 @@ impl DayTime {
         self.current_time = 0.0;
         self.elapsed_time = 0.0;
         self.second_count = 0;
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn get_physical_fight_part() {
-        // Basic example
-        assert_eq!(
-            Ennemy {
-                experience: 0,
-                level: 0,
-                name: "".to_string(),
-                physical_power: 82,
-                magical_power: 75,
-                defense: 56,
-                image_atlas_index: 0,
-            }
-            .get_physical_fight_part(),
-            52.229298
-        );
-
-        // Should work with 0 physical power
-        assert_eq!(
-            Ennemy {
-                experience: 0,
-                level: 0,
-                name: "".to_string(),
-                physical_power: 0,
-                magical_power: 75,
-                defense: 56,
-                image_atlas_index: 0,
-            }
-            .get_physical_fight_part(),
-            0.
-        );
-
-        // Should return 100 if magical power is 0
-        assert_eq!(
-            Ennemy {
-                experience: 0,
-                level: 0,
-                name: "".to_string(),
-                physical_power: 82,
-                magical_power: 0,
-                defense: 56,
-                image_atlas_index: 0,
-            }
-            .get_physical_fight_part(),
-            100.
-        );
-    }
-
-    #[test]
-    fn get_magical_fight_part() {
-        // Basic example
-        assert_eq!(
-            Ennemy {
-                experience: 0,
-                level: 0,
-                name: "".to_string(),
-                physical_power: 82,
-                magical_power: 75,
-                defense: 56,
-                image_atlas_index: 0,
-            }
-            .get_magical_fight_part(),
-            47.7707
-        );
-
-        // Should work with 0 magical power
-        assert_eq!(
-            Ennemy {
-                experience: 0,
-                level: 0,
-                name: "".to_string(),
-                physical_power: 82,
-                magical_power: 0,
-                defense: 56,
-                image_atlas_index: 0,
-            }
-            .get_magical_fight_part(),
-            0.
-        );
-
-        // Should return 100 if physical power is 0
-        assert_eq!(
-            Ennemy {
-                experience: 0,
-                level: 0,
-                name: "".to_string(),
-                physical_power: 0,
-                magical_power: 75,
-                defense: 56,
-                image_atlas_index: 0,
-            }
-            .get_magical_fight_part(),
-            100.
-        );
     }
 }

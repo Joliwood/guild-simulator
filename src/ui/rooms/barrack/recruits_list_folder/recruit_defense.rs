@@ -4,7 +4,7 @@ use bevy::prelude::*;
 pub fn recruit_defense(
     stats_container: &mut ChildBuilder,
     recruit: &RecruitStats,
-    additional_defense: u32,
+    additional_defense_from_items: u32,
     my_assets: &Res<AssetServer>,
 ) {
     stats_container
@@ -15,9 +15,6 @@ pub fn recruit_defense(
         })
         .with_children(|node| {
             node.spawn((
-                // PP : Physical power
-                // MP : Magical power
-                // DEF : Defense
                 Text::new(format!("DEF:{}", recruit.defense)),
                 TextColor(ColorPaletteEnum::DarkBrown.as_color()),
                 TextFont {
@@ -31,9 +28,9 @@ pub fn recruit_defense(
                 ..default()
             });
 
-            if additional_defense > 0 {
+            if additional_defense_from_items > 0 {
                 node.spawn((
-                    Text::new(format!("(+{})", additional_defense)),
+                    Text::new(format!("(+{})", additional_defense_from_items)),
                     TextColor(Color::srgb(0.0, 107.0 / 255.0, 29.0 / 255.0)),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),

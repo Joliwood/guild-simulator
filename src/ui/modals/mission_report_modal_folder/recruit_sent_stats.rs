@@ -31,9 +31,9 @@ pub fn recruit_sent_stats(
                 TextColor(Color::BLACK),
             ));
 
-            // Text: "Power"
+            // Text: "Attack"
             stats_column.spawn((
-                Text::new(format!("PP: {}", recruit_sent.physical_power)),
+                Text::new(format!("ATT: {}", recruit_sent.attack)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,

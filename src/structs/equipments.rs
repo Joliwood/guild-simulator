@@ -22,27 +22,24 @@ impl ItemEnum {
     pub fn get_item_loot_tooltip_description(&self) -> String {
         match self {
             ItemEnum::Weapon(weapon) => format!(
-                "{}\nPrice: {}\nPhysical power: {}\n Magical power: {}\n Defense: {}",
+                "{}\nPrice: {}\nAttack: {}\n Defense: {}",
                 weapon.name,
                 weapon.price,
-                weapon.physical_power.unwrap_or(0),
-                weapon.magical_power.unwrap_or(0),
+                weapon.attack.unwrap_or(0),
                 weapon.defense.unwrap_or(0)
             ),
             ItemEnum::Armor(armor) => format!(
-                "{}\nPrice: {}\nPhysical power: {}\n Magical power: {}\n Defense: {}",
+                "{}\nPrice: {}\nAttack: {}\n Defense: {}",
                 armor.name,
                 armor.price,
-                armor.physical_power.unwrap_or(0),
-                armor.magical_power.unwrap_or(0),
+                armor.attack.unwrap_or(0),
                 armor.defense.unwrap_or(0)
             ),
             ItemEnum::Scroll(scroll, _) => format!(
-                "{}\nPrice: {}\nPhysical power: {}\n Magical power: {}\n Defense: {}",
+                "{}\nPrice: {}\nAttack: {}\n Defense: {}",
                 scroll.name,
                 scroll.price,
-                scroll.physical_power.unwrap_or(0),
-                scroll.magical_power.unwrap_or(0),
+                scroll.attack.unwrap_or(0),
                 scroll.defense.unwrap_or(0)
             ),
         }
@@ -55,12 +52,10 @@ pub struct Weapon {
     pub image_atlas_index: u16,
     pub name: String,
     pub price: u16,
-    pub physical_power: Option<u32>,
-    pub magical_power: Option<u32>,
+    pub attack: Option<u32>,
     pub defense: Option<u32>,
     pub rarety: ItemRaretyEnum,
-    /// The first tuple is physical, the second is magic
-    pub optimized_for: (Vec<ClassEnum>, (u32, u32)),
+    pub optimized_for: (Vec<ClassEnum>, u32),
 }
 
 #[derive(Default, Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
@@ -70,11 +65,9 @@ pub struct Armor {
     pub name: String,
     pub price: u16,
     pub rarety: ItemRaretyEnum,
-    pub physical_power: Option<u32>,
-    pub magical_power: Option<u32>,
+    pub attack: Option<u32>,
     pub defense: Option<u32>,
-    /// The first tuple is physical, the second is magic
-    pub optimized_for: (Vec<ClassEnum>, (u32, u32)),
+    pub optimized_for: (Vec<ClassEnum>, u32),
 }
 
 #[derive(Default, Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
@@ -83,35 +76,28 @@ pub struct Scroll {
     pub image_atlas_index: u16,
     pub name: String,
     pub price: u16,
-    pub physical_power: Option<u32>,
-    pub magical_power: Option<u32>,
+    pub attack: Option<u32>,
     pub defense: Option<u32>,
     pub bonus: Vec<BonusEnum>,
 }
 
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub enum BonusEnum {
-    // TODO - To check the logic
-    /// Physical raw power
-    PhysicalRawPower(u32),
-
-    /// Magical raw power
-    MagicalRawPower(u32),
+    /// Raw attack
+    RawAttack(u32),
 
     /// Add % golds for each success mission
     Gold(u32),
 
-    /// increase the chance to earn a second loot in % for each success mission
+    /// Increase the chance to earn a second loot in % for each success mission
     LuckyLoot(u8),
 
     /// Add % experience for each success mission
     Experience(u32),
 
-    #[deprecated]
     /// Increate the recruit's equipment (all of them) stats by %
     Reinforcement(u32),
 
-    #[deprecated]
     /// Increate the native recruit stats (all of them) by %
     NaturalGrowth(u32),
 

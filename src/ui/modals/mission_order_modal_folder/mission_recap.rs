@@ -114,20 +114,9 @@ pub fn mission_recap(
                         TextColor(Color::BLACK),
                     ));
 
-                    // Enemy physical power
+                    // Enemy attack
                     parent.spawn((
-                        Text::new(format!("PP : {}", mission.ennemy.physical_power)),
-                        TextFont {
-                            font: my_assets.load(FONT_FIRA),
-                            font_size: 14.0,
-                            ..default()
-                        },
-                        TextColor(Color::BLACK),
-                    ));
-
-                    // Enemy magical power<
-                    parent.spawn((
-                        Text::new(format!("MP : {}", mission.ennemy.physical_power)),
+                        Text::new(format!("ATT : {}", mission.ennemy.attack)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 14.0,
@@ -138,7 +127,7 @@ pub fn mission_recap(
 
                     // Enemy defense
                     parent.spawn((
-                        Text::new(format!("DEF : {}", mission.ennemy.physical_power)),
+                        Text::new(format!("DEF : {}", mission.ennemy.defense)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 14.0,
