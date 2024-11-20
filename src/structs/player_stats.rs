@@ -5,7 +5,10 @@ use super::{
     equipments::ItemEnum,
     recruits::RecruitStats,
 };
-use crate::enums::{RecruitStateEnum, RoomEnum};
+use crate::{
+    content::equipments::scrolls::ScrollsEnum,
+    enums::{RecruitStateEnum, RoomEnum},
+};
 use bevy::prelude::*;
 use uuid::Uuid;
 
@@ -62,7 +65,7 @@ impl Default for PlayerStats {
                 // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
                 // ItemEnum::Armor(ArmorsEnum::LeatherTunic.get_armor()),
                 // ItemEnum::Armor(ArmorsEnum::LeatherTunic.get_armor()),
-                // ItemEnum::Scroll(ScrollsEnum::ScrollOfTheResearcherI.get_scroll(), 2),
+                ItemEnum::Scroll(ScrollsEnum::ScrollOfExperienceI.get_scroll(), 2),
                 // ItemEnum::Scroll(ScrollsEnum::ScrollOfGaladornFailedPower.get_scroll(), 2),
             ],
             max_experience: 100,
@@ -181,7 +184,11 @@ impl PlayerStats {
             .iter_mut()
             .find(|recruit| recruit.id == recruit_id)
         {
-            recruit.gain_xp(xp);
+            let recruit_xp_multiplicator = recruit
+                .recruit_inventory
+                .get_experience_multiplicator_from_scroll_bonus();
+
+            recruit.gain_xp((xp as f64 * recruit_xp_multiplicator) as u32);
         }
     }
 

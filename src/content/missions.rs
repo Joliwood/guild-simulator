@@ -57,7 +57,7 @@ pub fn generate_all_missions() -> Missions {
             ennemy: Ennemy {
                 image_atlas_index: 4,
                 experience: 0,
-                level: 2,
+                level: 1,
                 name: "Ennemy 2".to_string(),
                 attack: 12,
                 defense: 10,

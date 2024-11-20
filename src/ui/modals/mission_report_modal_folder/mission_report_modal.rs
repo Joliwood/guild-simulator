@@ -67,10 +67,15 @@ pub fn mission_report_modal(
                 None => return,
             };
 
+        let recruit_xp_multiplicator = recruit_sent_stats
+            .recruit_inventory
+            .get_experience_multiplicator_from_scroll_bonus();
+
         let ennemy = mission.ennemy;
         let percent_of_victory = last_mission_report.percent_of_victory;
         let golds_gained = last_mission_report.golds_gained.unwrap_or(0);
-        let experience_gained = last_mission_report.experience_gained.unwrap_or(0);
+        let experience_gained = (last_mission_report.experience_gained.unwrap_or(0) as f64
+            * recruit_xp_multiplicator) as u32;
 
         // Spawn the mission report modal container
         commands
