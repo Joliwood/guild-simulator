@@ -24,7 +24,7 @@ pub fn map_recruit_card(
                 justify_content: JustifyContent::FlexStart,
                 column_gap: Val::Px(12.),
                 width: Val::Percent(100.),
-                height: Val::Px(40.),
+                height: Val::Px(50.),
                 padding: UiRect {
                     top: Val::Px(3.),
                     bottom: Val::Px(3.),
@@ -41,7 +41,7 @@ pub fn map_recruit_card(
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
             BorderRadius::all(Val::Px(10.)),
             ImageNode {
-                image: my_assets.load("images/rooms/command_room/recruit_card.png"),
+                image: my_assets.load("images/rooms/command_room/recruit_card_3.png"),
                 image_mode: NodeImageMode::Stretch,
                 ..default()
             },

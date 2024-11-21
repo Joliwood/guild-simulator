@@ -19,12 +19,12 @@ pub fn map_description(
                 row_gap: Val::Px(10.),
                 align_items: AlignItems::FlexStart,
                 width: Val::Percent(100.),
-                height: Val::Percent(35.),
+                height: Val::Percent(34.),
                 padding: UiRect {
-                    left: Val::Px(25.),
-                    right: Val::Px(25.),
+                    left: Val::Px(20.),
+                    right: Val::Px(20.),
                     top: Val::Px(20.),
-                    bottom: Val::Px(20.),
+                    bottom: Val::Px(10.),
                 },
                 ..default()
             },
