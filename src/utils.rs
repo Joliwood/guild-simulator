@@ -424,8 +424,8 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
         }
         TextureAtlasLayoutEnum::Scroll => {
             return TextureAtlasLayout::from_grid(
-                UVec2::new(1080, 1080),
-                7,
+                UVec2::new(400, 400),
+                8,
                 1,
                 Some(UVec2::new(0, 0)),
                 Some(UVec2::new(0, 0)),
@@ -488,8 +488,8 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
             }
             ItemLootEnum::Scroll(_) => {
                 return TextureAtlasLayout::from_grid(
-                    UVec2::new(1080, 1080),
-                    7,
+                    UVec2::new(400, 400),
+                    8,
                     1,
                     Some(UVec2::new(0, 0)),
                     Some(UVec2::new(0, 0)),
@@ -517,8 +517,8 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
             }
             ItemEnum::Scroll(_, _) => {
                 return TextureAtlasLayout::from_grid(
-                    UVec2::new(1080, 1080),
-                    7,
+                    UVec2::new(400, 400),
+                    8,
                     1,
                     Some(UVec2::new(0, 0)),
                     Some(UVec2::new(0, 0)),
@@ -584,41 +584,41 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
 
 /// ## Explaination of the calcul :
 ///
-/// - a = b * (1 + (c / (c + b)))
-/// - real_attack = ennemy_attack * (1 + (recruit_defense / (recruit_defense + ennemy_attack))).
+/// - a = b * (1 - (c / (c + b)))
+/// - real_attack = attack * (1 - (defense_opponent / (defense_opponent + attack))).
 ///
 /// If the recruit has no defense, so the attack will not be diluted.
 ///
 /// If the recruit has way more in defense than the ennemy in attack, the result will follow a logarithmic curve
 ///
 /// ## Example 1 :
-/// - ennemy_attack = 75
-/// - recruit_defense = 24
+/// - attack = 75
+/// - defense_opponent = 24
 /// - result will be -> 56.81
 ///
 /// ## Example 2
-/// - ennemy_attack = 75
-/// - recruit_defense = 68
+/// - attack = 75
+/// - defense_opponent = 68
 /// - result will be -> 39.33
 ///
 /// ## Example 3
-/// - ennemy_attack = 75
-/// - recruit_defense = 4
+/// - attack = 75
+/// - defense_opponent = 4
 /// - result will be -> 71.20
 ///
 /// ## Example 4
-/// - ennemy_attack = 75
-/// - recruit_defense = 141
+/// - attack = 75
+/// - defense_opponent = 141
 /// - result will be -> 26.04
 ///
 /// ## Example 5
-/// - ennemy_attack = 180
-/// - recruit_defense = 180
+/// - attack = 180
+/// - defense_opponent = 180
 /// - result will be -> 90 (50% of the attack)
 ///
 /// ## Example 6
-/// - ennemy_attack = 180
-/// - recruit_defense = 0
+/// - attack = 180
+/// - defense_opponent = 0
 /// - result will be -> 180 (100% of the attack)
 fn calculate_real_attack(attack: f32, defense: f32) -> f32 {
     return attack * (1. - (defense / (defense + attack)));
@@ -636,22 +636,6 @@ pub fn calculate_fight(recruit: &RecruitStats, ennemy: &Ennemy) -> f32 {
     let fight_percentage = get_victory_percentage(recruit_real_attack, ennemy_real_attack);
 
     return fight_percentage;
-}
-
-/// Addition all multiplicators and soustract number of multiplicators at the end
-pub fn merge_multiplicators(multiplicators: Vec<f64>) -> f64 {
-    let mut total_multiplicator = 1.0;
-    let mut multiplicators_count = 0.;
-
-    for multiplicator in multiplicators {
-        total_multiplicator += multiplicator;
-        multiplicators_count += 1.;
-    }
-
-    let total = total_multiplicator - multiplicators_count;
-
-    // To correct the floating-point arithmetic precision
-    return (total * 100.0).round() / 100.0;
 }
 
 #[cfg(test)]
@@ -677,11 +661,5 @@ mod tests {
         assert_eq!(calculate_real_attack(180., 180.), 90.);
         assert_eq!(calculate_real_attack(180., 0.), 180.);
         assert_eq!(calculate_real_attack(112., 551.), 18.92006);
-    }
-
-    #[test]
-    fn test_merge_multiplicators() {
-        assert_eq!(merge_multiplicators(vec![1.05, 1.05]), 1.1);
-        assert_eq!(merge_multiplicators(vec![1.05, 1.05, 1.05]), 1.15);
     }
 }

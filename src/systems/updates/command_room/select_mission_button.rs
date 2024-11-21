@@ -21,7 +21,7 @@ pub fn select_mission_button(
 ) {
     let _window = windows.single_mut();
     if !mission_modal_visibility.0 {
-        for (interaction, mut background_color, unique_id, mission) in &mut interaction_query {
+        for (interaction, mut _background_color, unique_id, mission) in &mut interaction_query {
             // WIP - Change the method to query it
             if unique_id.0 == "select_mission_button" {
                 match *interaction {
