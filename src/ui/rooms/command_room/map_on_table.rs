@@ -28,7 +28,7 @@ pub fn map_on_table(
                 let missions = missions.get_missions_by_ids(&map.map_mission_ids);
                 parent
                     .spawn((
-                        ImageNode {
+                        UiImage {
                             image: my_assets.load(MapImageEnum::get_path(&map.image)),
                             ..default()
                         },
@@ -53,7 +53,7 @@ pub fn map_on_table(
                                     // .mission_bundle(my_assets, mission.id),
                                     (
                                         Button,
-                                        ImageNode {
+                                        UiImage {
                                             image: my_assets
                                                 .load("images/missions/mission_icon.png"),
                                             ..default()
@@ -80,7 +80,7 @@ pub fn map_on_table(
                                     //         .mission_bundle(my_assets, mission.id),
                                     // );
                                     parent.spawn((
-                                        ImageNode {
+                                        UiImage {
                                             image: my_assets.load(mission_image_path),
                                             ..default()
                                         },

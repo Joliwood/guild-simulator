@@ -3,8 +3,11 @@ use crate::{
     my_assets::FONT_FIRA,
     structs::{general_structs::UniqueId, recruits::RecruitStats},
 };
-use bevy::{prelude::*, ui::widget::NodeImageMode};
-// use pyri_tooltip::{Tooltip, TooltipActivation};
+use bevy::{
+    prelude::*,
+    // ui::widget::NodeImageMode
+};
+use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn map_recruit_card(
     left_container: &mut ChildBuilder,
@@ -41,7 +44,7 @@ pub fn map_recruit_card(
             },
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
             BorderRadius::all(Val::Px(7.)),
-            ImageNode {
+            UiImage {
                 image: my_assets.load("images/rooms/command_room/recruit_card_4.png"),
                 image_mode: NodeImageMode::Stretch,
                 ..default()
@@ -104,13 +107,13 @@ pub fn map_recruit_card(
                         width: Val::Px(30.),
                         ..default()
                     },
-                    //                     Tooltip::cursor(
-                    //                         "This score represent the
-                    // total power of the recruit, based on
-                    // his/her stats, equipment and level."
-                    //                             .to_string(),
-                    //                     )
-                    //                     .with_activation(TooltipActivation::IDLE),
+                    Tooltip::cursor(
+                        "This score represent the
+                    total power of the recruit, based on
+                    his/her stats, equipment and level."
+                            .to_string(),
+                    )
+                    .with_activation(TooltipActivation::IDLE),
                 ))
                 .with_children(|parent| {
                     parent.spawn((
@@ -207,7 +210,7 @@ pub fn map_recruit_card(
                 })
                 .with_children(|parent| {
                     parent.spawn((
-                        ImageNode::from_atlas_image(
+                        UiImage::from_atlas_image(
                             my_assets.load("images/recruits/recruit_picture_atlas.png"),
                             TextureAtlas {
                                 index: recruit.image_atlas_index.into(),

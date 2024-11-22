@@ -9,7 +9,7 @@ use crate::{
     utils::get_layout,
 };
 use bevy::prelude::*;
-// use pyri_tooltip::{Tooltip, TooltipActivation};
+use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn loots_and_start(
     parent: &mut ChildBuilder,
@@ -68,10 +68,9 @@ pub fn loots_and_start(
                             .with_children(|parent| {
                                 for loot in mission_loots.0.iter() {
                                     let item_image_atlas_index = loot.get_atlas_index();
-                                    // let layout = loot.get_item_loot_layout();
                                     let layout =
                                         get_layout(TextureAtlasLayoutEnum::Loot(&loot.item));
-                                    // let tooltip_text = loot.get_item_loot_tooltip_description();
+                                    let tooltip_text = loot.get_item_loot_tooltip_description();
                                     let item_loot_atlas_path = get_item_loot_atlas_path(&loot.item);
                                     parent.spawn((
                                         Button,
@@ -84,15 +83,15 @@ pub fn loots_and_start(
                                         },
                                         BorderColor(Color::BLACK),
                                         BorderRadius::all(Val::Px(10.)),
-                                        ImageNode::from_atlas_image(
+                                        UiImage::from_atlas_image(
                                             my_assets.load(item_loot_atlas_path),
                                             TextureAtlas {
                                                 index: item_image_atlas_index.into(),
                                                 layout: texture_atlas_layouts.add(layout),
                                             },
                                         ),
-                                        // Tooltip::cursor(tooltip_text.to_string())
-                                        //     .with_activation(TooltipActivation::IMMEDIATE),
+                                        Tooltip::cursor(tooltip_text.to_string())
+                                            .with_activation(TooltipActivation::IMMEDIATE),
                                     ));
                                 }
 
@@ -129,7 +128,7 @@ pub fn loots_and_start(
                                                 height: Val::Percent(80.),
                                                 ..default()
                                             },
-                                            ImageNode::from_atlas_image(
+                                            UiImage::from_atlas_image(
                                                 my_assets.load("images/hud/hud_icon_atlas.png"),
                                                 TextureAtlas {
                                                     index: 3,

@@ -6,10 +6,10 @@ use crate::{
         trigger_structs::{MissionNotificationTrigger, NotificationToastTrigger},
     },
     utils::get_layout,
-    // utils::get_mission_notification_tooltip_text,
+    utils::get_mission_notification_tooltip_text,
 };
 use bevy::prelude::*;
-// use pyri_tooltip::{Tooltip, TooltipActivation};
+use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn spawn_or_update_notification(
     commands: &mut Commands,
@@ -58,17 +58,17 @@ pub fn spawn_or_update_notification(
                             bottom_left: Val::Px(10.),
                             bottom_right: Val::ZERO,
                         },
-                        ImageNode::from_atlas_image(
+                        UiImage::from_atlas_image(
                             my_assets.load("images/hud/notification_atlas.png"),
                             TextureAtlas {
                                 index: 0,
                                 layout: texture_atlas_layout.clone(),
                             },
                         ),
-                        // Tooltip::cursor(get_mission_notification_tooltip_text(
-                        //     mission_notifications_number as u8,
-                        // ))
-                        // .with_activation(TooltipActivation::IMMEDIATE),
+                        Tooltip::cursor(get_mission_notification_tooltip_text(
+                            mission_notifications_number as u8,
+                        ))
+                        .with_activation(TooltipActivation::IMMEDIATE),
                     ))
                     .insert(MissionNotificationTrigger)
                     .with_children(|parent| {

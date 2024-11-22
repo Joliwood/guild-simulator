@@ -37,7 +37,7 @@ pub fn recruit_sent_picture(
             ));
 
             recruit_block.spawn((
-                ImageNode::from_atlas_image(
+                UiImage::from_atlas_image(
                     my_assets.load("images/recruits/recruit_picture_atlas.png"),
                     TextureAtlas {
                         index: recruit_sent.image_atlas_index.into(),

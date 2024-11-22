@@ -4,7 +4,10 @@ use crate::{
     structs::{maps::Map, trigger_structs::SelectMapTrigger},
     utils::get_layout,
 };
-use bevy::{prelude::*, ui::widget::NodeImageMode};
+use bevy::{
+    prelude::*,
+    // ui::widget::NodeImageMode
+};
 
 pub fn map_card(
     column: &mut ChildBuilder,
@@ -41,7 +44,7 @@ pub fn map_card(
             GlobalZIndex(2),
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
             BorderRadius::all(Val::Px(5.)),
-            ImageNode {
+            UiImage {
                 image: my_assets.load("images/maps/map_card.png"),
                 image_mode: NodeImageMode::Stretch,
                 ..default()
@@ -51,7 +54,7 @@ pub fn map_card(
         .with_children(|map_container| {
             // Map Image
             map_container.spawn((
-                ImageNode::from_atlas_image(
+                UiImage::from_atlas_image(
                     my_assets.load("images/maps/map_atlas.png"),
                     TextureAtlas {
                         index: map.image_atlas_index.into(),
@@ -112,7 +115,7 @@ pub fn map_card(
 
                     if map.limited_in_time {
                         icon_container.spawn((
-                            ImageNode {
+                            UiImage {
                                 image: my_assets.load("images/maps/limited_time.png"),
                                 ..default()
                             },
@@ -139,7 +142,7 @@ pub fn map_card(
 
             // Center text
             map_container.spawn((
-                ImageNode::from_atlas_image(
+                UiImage::from_atlas_image(
                     my_assets.load("images/maps/map_type_atlas.png"),
                     TextureAtlas {
                         index: icon_atlas_index.into(),

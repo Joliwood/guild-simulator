@@ -6,7 +6,7 @@ use crate::{
     },
 };
 use bevy::prelude::*;
-// use pyri_tooltip::Tooltip;
+use pyri_tooltip::Tooltip;
 
 pub fn right_hud(
     commands: &mut ChildBuilder,
@@ -34,11 +34,11 @@ pub fn right_hud(
                         column_gap: Val::Px(5.),
                         ..default()
                     },
-                    // Tooltip::cursor("You have this many recruits"),
+                    Tooltip::cursor("You have this many recruits"),
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        ImageNode::from_atlas_image(
+                        UiImage::from_atlas_image(
                             my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 0,
@@ -73,11 +73,11 @@ pub fn right_hud(
                         column_gap: Val::Px(5.),
                         ..default()
                     },
-                    // Tooltip::cursor("Your reputation score"),
+                    Tooltip::cursor("Your reputation score"),
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        ImageNode::from_atlas_image(
+                        UiImage::from_atlas_image(
                             my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 6,
@@ -112,11 +112,11 @@ pub fn right_hud(
                         column_gap: Val::Px(5.),
                         ..default()
                     },
-                    // Tooltip::cursor("Your toxicity score"),
+                    Tooltip::cursor("Your toxicity score"),
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        ImageNode::from_atlas_image(
+                        UiImage::from_atlas_image(
                             my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 5,
@@ -149,14 +149,14 @@ pub fn right_hud(
                     height: Val::Px(16.),
                     ..default()
                 },
-                ImageNode::from_atlas_image(
+                UiImage::from_atlas_image(
                     my_assets.load("images/hud/hud_icon_atlas.png"),
                     TextureAtlas {
                         index: 7,
                         layout: texture_atlas_layouts.clone(),
                     },
                 ),
-                // Tooltip::cursor("Settings menu (not implemented yet)"),
+                Tooltip::cursor("Settings menu (not implemented yet)"),
             ));
         });
 }

@@ -27,7 +27,7 @@ pub fn mission_report_documents(
             .with_children(|mission_report_button| {
                 mission_report_button
                     .spawn((
-                        ImageNode {
+                        UiImage {
                             image: my_assets
                                 .load("images/rooms/office/mission_notification_document.png"),
                             ..default()
@@ -47,7 +47,7 @@ pub fn mission_report_documents(
                         // if mission_reports_number > 0 {
                         parent
                             .spawn((
-                                ImageNode {
+                                UiImage {
                                     image: my_assets
                                         .load("images/rooms/office/notification_token_in_wood.png"),
                                     ..default()

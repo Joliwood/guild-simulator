@@ -18,7 +18,7 @@ mod utils;
 // use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use my_assets::{MyAssets, MyAssetsLoader};
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
-// use pyri_tooltip::prelude::*;
+use pyri_tooltip::prelude::*;
 // use bevy_fluent::prelude::*;
 // use crate::locales::{en, fr};
 
@@ -59,7 +59,7 @@ fn main() -> AppExit {
             }),
             // Plugin::build(FluentPlugin),
             // WorldInspectorPlugin::new(),
-            // TooltipPlugin::default(),
+            TooltipPlugin::default(),
         ))
         // .init_asset::<MyAssets>()
         // .init_collection::<MyAssets>()

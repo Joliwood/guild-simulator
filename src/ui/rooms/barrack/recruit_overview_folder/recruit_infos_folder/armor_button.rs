@@ -5,14 +5,10 @@ use crate::{
         equipments::ItemEnum, player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
         trigger_structs::ItemInInventoryTrigger,
     },
-    utils::{
-        get_item_image_atlas_index,
-        get_layout,
-        // get_item_tooltip_description
-    },
+    utils::{get_item_image_atlas_index, get_item_tooltip_description, get_layout},
 };
 use bevy::prelude::*;
-// use pyri_tooltip::{Tooltip, TooltipActivation};
+use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn armor_button(
     player_stats: &Res<PlayerStats>,
@@ -36,7 +32,7 @@ pub fn armor_button(
             },
             BorderColor(Color::BLACK),
             BorderRadius::all(Val::Px(10.)),
-            ImageNode {
+            UiImage {
                 image: my_assets.load("images/equipments/empty_inventory_slot.png"),
                 ..default()
             },
@@ -53,7 +49,7 @@ pub fn armor_button(
         let item = ItemEnum::Armor(recruit_armor);
         let item_image_atlas_index = get_item_image_atlas_index(&item);
         let item_layout = get_layout(TextureAtlasLayoutEnum::Item(&item));
-        // let tooltip_text = get_item_tooltip_description(&item);
+        let tooltip_text = get_item_tooltip_description(&item);
         let item_atlas_path = get_item_atlas_path(&item);
 
         // Armor button
@@ -66,7 +62,7 @@ pub fn armor_button(
                 margin: UiRect::all(Val::Px(5.)),
                 ..default()
             },
-            ImageNode::from_atlas_image(
+            UiImage::from_atlas_image(
                 my_assets.load(item_atlas_path),
                 TextureAtlas {
                     index: item_image_atlas_index.into(),
@@ -76,8 +72,7 @@ pub fn armor_button(
             BorderColor(Color::BLACK),
             BorderRadius::all(Val::Px(10.)),
             ItemInInventoryTrigger(None),
-            // Tooltip::cursor(tooltip_text.to_string())
-            //     .with_activation(TooltipActivation::IMMEDIATE),
+            Tooltip::cursor(tooltip_text.to_string()).with_activation(TooltipActivation::IMMEDIATE),
         ));
     } else {
         // Empty armor button
@@ -90,7 +85,7 @@ pub fn armor_button(
                 margin: UiRect::all(Val::Px(5.)),
                 ..default()
             },
-            ImageNode {
+            UiImage {
                 image: my_assets.load("images/equipments/empty_inventory_slot.png"),
                 ..default()
             },

@@ -7,7 +7,7 @@ use crate::{
     utils::get_layout,
 };
 use bevy::prelude::*;
-// use pyri_tooltip::Tooltip;
+use pyri_tooltip::Tooltip;
 
 pub fn hud(
     my_assets: Res<AssetServer>,
@@ -23,7 +23,7 @@ pub fn hud(
     commands
         // Main Container
         .spawn((
-            ImageNode {
+            UiImage {
                 image: my_assets.load("images/hud/hud4.png"),
                 ..default()
             },
@@ -74,14 +74,14 @@ pub fn hud(
                                 height: Val::Px(30.),
                                 ..default()
                             },
-                            ImageNode::from_atlas_image(
+                            UiImage::from_atlas_image(
                                 my_assets.load("images/hud/hud_icon_atlas.png"),
                                 TextureAtlas {
                                     index: 4,
                                     layout: hud_icons_texture_atlas_layout.clone(),
                                 },
                             ),
-                            // Tooltip::cursor("Go to the command room\n\nShortcut: press 'S'"),
+                            Tooltip::cursor("Go to the command room\n\nShortcut: press 'S'"),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::CommandRoom));
 
@@ -93,14 +93,14 @@ pub fn hud(
                                 height: Val::Px(30.),
                                 ..default()
                             },
-                            ImageNode::from_atlas_image(
+                            UiImage::from_atlas_image(
                                 my_assets.load("images/hud/hud_icon_atlas.png"),
                                 TextureAtlas {
                                     index: 1,
                                     layout: hud_icons_texture_atlas_layout.clone(),
                                 },
                             ),
-                            // Tooltip::cursor("Go to the office room\n\nShortcut: press 'W/Z'"),
+                            Tooltip::cursor("Go to the office room\n\nShortcut: press 'W/Z'"),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::Office));
 
@@ -112,14 +112,14 @@ pub fn hud(
                                 height: Val::Px(30.),
                                 ..default()
                             },
-                            ImageNode::from_atlas_image(
+                            UiImage::from_atlas_image(
                                 my_assets.load("images/hud/hud_icon_atlas.png"),
                                 TextureAtlas {
                                     index: 2,
                                     layout: hud_icons_texture_atlas_layout.clone(),
                                 },
                             ),
-                            // Tooltip::cursor("Go to the barrack room\n\nShortcut: press 'D'"),
+                            Tooltip::cursor("Go to the barrack room\n\nShortcut: press 'D'"),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::Barrack));
                 });

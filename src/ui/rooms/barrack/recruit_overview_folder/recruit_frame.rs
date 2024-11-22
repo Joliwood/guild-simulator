@@ -34,7 +34,7 @@ pub fn recruit_frame(
 
     parent
         .spawn((
-            ImageNode {
+            UiImage {
                 image: my_assets.load("images/rooms/barrack/recruit_frame.png"),
                 ..default()
             },
@@ -70,7 +70,7 @@ pub fn recruit_frame(
             ));
 
             parent.spawn((
-                ImageNode::from_atlas_image(
+                UiImage::from_atlas_image(
                     my_assets.load("images/recruits/recruit_picture_atlas.png"),
                     TextureAtlas {
                         layout: recruit_texture_atlas_layout.clone(),

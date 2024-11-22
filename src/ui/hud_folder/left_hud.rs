@@ -6,7 +6,7 @@ use crate::{
     },
 };
 use bevy::prelude::*;
-// use pyri_tooltip::Tooltip;
+use pyri_tooltip::Tooltip;
 
 pub fn left_hud(
     commands: &mut ChildBuilder,
@@ -38,11 +38,11 @@ pub fn left_hud(
                         column_gap: Val::Px(5.),
                         ..default()
                     },
-                    // Tooltip::cursor("Your golds"),
+                    Tooltip::cursor("Your golds"),
                 ))
                 .with_children(|parent| {
                     parent.spawn((
-                        ImageNode::from_atlas_image(
+                        UiImage::from_atlas_image(
                             my_assets.load("images/hud/hud_icon_atlas.png"),
                             TextureAtlas {
                                 index: 3,

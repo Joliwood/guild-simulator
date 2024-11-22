@@ -34,7 +34,7 @@ pub fn spawn_room_barrack(
         .insert(ResetRoomTrigger)
         .with_children(|parent| {
             parent.spawn((
-                ImageNode {
+                UiImage {
                     image: my_assets.load("images/rooms/barrack/barrack_background.png"),
                     ..default()
                 },

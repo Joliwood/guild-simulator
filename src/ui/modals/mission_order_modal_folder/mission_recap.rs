@@ -52,7 +52,7 @@ pub fn mission_recap(
                 })
                 .with_children(|parent| {
                     parent.spawn((
-                        ImageNode::from_atlas_image(
+                        UiImage::from_atlas_image(
                             my_assets.load("images/missions/ennemy_picture_atlas.png"),
                             TextureAtlas {
                                 index: mission.ennemy.image_atlas_index.into(),

@@ -5,7 +5,7 @@ use crate::{
     utils::get_layout,
 };
 use bevy::prelude::*;
-// use pyri_tooltip::{Tooltip, TooltipActivation};
+use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn loots_earned(
     parent: &mut ChildBuilder,
@@ -69,7 +69,7 @@ pub fn loots_earned(
                     for loot in mission_report.loots.iter() {
                         let item_image_atlas_index = loot.get_atlas_index();
                         let item_layout = get_layout(TextureAtlasLayoutEnum::Item(loot));
-                        // let tooltip_text = loot.get_item_loot_tooltip_description();
+                        let tooltip_text = loot.get_item_loot_tooltip_description();
                         let item_atlas_path = get_item_atlas_path(loot);
                         parent.spawn((
                             Button,
@@ -82,15 +82,15 @@ pub fn loots_earned(
                             },
                             BorderColor(Color::BLACK),
                             BorderRadius::all(Val::Px(10.)),
-                            ImageNode::from_atlas_image(
+                            UiImage::from_atlas_image(
                                 my_assets.load(item_atlas_path),
                                 TextureAtlas {
                                     index: item_image_atlas_index.into(),
                                     layout: texture_atlas_layouts.add(item_layout),
                                 },
                             ),
-                            // Tooltip::cursor(tooltip_text.to_string())
-                            //     .with_activation(TooltipActivation::IMMEDIATE),
+                            Tooltip::cursor(tooltip_text.to_string())
+                                .with_activation(TooltipActivation::IMMEDIATE),
                         ));
                     }
                 });

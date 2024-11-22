@@ -78,7 +78,7 @@ pub fn recruit_recap(
                     .with_children(|parent| {
                         // Recruit image
                         parent.spawn((
-                            ImageNode::from_atlas_image(
+                            UiImage::from_atlas_image(
                                 my_assets.load("images/recruits/recruit_picture_atlas.png"),
                                 TextureAtlas {
                                     index: recruit.image_atlas_index.into(),

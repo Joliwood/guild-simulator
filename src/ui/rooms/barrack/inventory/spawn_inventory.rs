@@ -5,10 +5,13 @@ use crate::{
         equipments::ItemEnum, player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
         trigger_structs::ItemInInventoryTrigger,
     },
-    utils::{get_item_image_atlas_index, get_layout},
+    utils::{get_item_image_atlas_index, get_item_tooltip_description, get_layout},
 };
-use bevy::{prelude::*, ui::widget::NodeImageMode};
-// use pyri_tooltip::{Tooltip, TooltipActivation};
+use bevy::{
+    prelude::*,
+    // ui::widget::NodeImageMode
+};
+use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn spawn_inventory(
     parent: &mut ChildBuilder,
@@ -49,7 +52,7 @@ pub fn spawn_inventory(
                                 let item = &player_stats.inventory[index];
                                 let item_image_atlas_index = get_item_image_atlas_index(item);
                                 let item_layout = get_layout(TextureAtlasLayoutEnum::Item(item));
-                                // let tooltip_text = get_item_tooltip_description(item);
+                                let tooltip_text = get_item_tooltip_description(item);
                                 let item_atlas_path = get_item_atlas_path(item);
 
                                 // Spawn button for the item
@@ -65,7 +68,7 @@ pub fn spawn_inventory(
                                         },
                                         BorderColor(Color::BLACK),
                                         BorderRadius::all(Val::Px(10.)),
-                                        ImageNode::from_atlas_image(
+                                        UiImage::from_atlas_image(
                                             my_assets.load(item_atlas_path),
                                             TextureAtlas {
                                                 index: item_image_atlas_index.into(),
@@ -74,6 +77,8 @@ pub fn spawn_inventory(
                                         )
                                         .with_mode(NodeImageMode::Stretch),
                                         ItemInInventoryTrigger(Some(item.clone())),
+                                        Tooltip::cursor(tooltip_text.to_string())
+                                            .with_activation(TooltipActivation::IMMEDIATE),
                                     ))
                                     .with_children(|button| {
                                         // If the item is a scroll, add a count indicator inside the button
@@ -108,7 +113,7 @@ pub fn spawn_inventory(
                                     },
                                     BorderColor(Color::BLACK),
                                     BorderRadius::all(Val::Px(10.)),
-                                    ImageNode {
+                                    UiImage {
                                         image: my_assets
                                             .load("images/equipments/empty_inventory_slot.png"),
                                         ..Default::default()
