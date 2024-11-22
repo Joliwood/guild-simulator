@@ -18,7 +18,6 @@ pub fn map_recruit_list(
 
     parent
         .spawn(Node {
-            // image: my_assets.inventory_container.clone().into(),
             display: Display::Flex,
             flex_direction: FlexDirection::Column,
             justify_content: JustifyContent::FlexStart,
@@ -27,10 +26,8 @@ pub fn map_recruit_list(
             width: Val::Percent(100.),
             height: Val::Percent(100.),
             padding: UiRect {
-                left: Val::Px(6.),
-                right: Val::Px(6.),
-                top: Val::Px(10.),
-                bottom: Val::Px(10.),
+                left: Val::Px(2.),
+                ..default()
             },
             ..default()
         })

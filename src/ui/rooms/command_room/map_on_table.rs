@@ -74,8 +74,6 @@ pub fn map_on_table(
                                         GlobalZIndex(2),
                                     ),
                                 )
-                                // .insert(UniqueId("select_mission_button".to_string()))
-                                // .insert(mission.clone())
                                 .with_children(|parent| {
                                     // parent.spawn(
                                     //     CustomButton::MissionOnMap

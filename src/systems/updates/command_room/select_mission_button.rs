@@ -11,7 +11,7 @@ use bevy::prelude::*;
 /// - 3 - We open de details mission modal
 pub fn select_mission_button(
     mut interaction_query: Query<
-        (&Interaction, &mut BackgroundColor, &UniqueId, &Mission),
+        (&Interaction, &UniqueId, &Mission, &mut Transform),
         Changed<Interaction>,
     >,
     mut windows: Query<&mut Window>,
@@ -21,22 +21,20 @@ pub fn select_mission_button(
 ) {
     let _window = windows.single_mut();
     if !mission_modal_visibility.0 {
-        for (interaction, mut _background_color, unique_id, mission) in &mut interaction_query {
+        for (interaction, unique_id, mission, mut transform) in &mut interaction_query {
             // WIP - Change the method to query it
             if unique_id.0 == "select_mission_button" {
                 match *interaction {
                     Interaction::Pressed => {
+                        transform.scale = Vec3::splat(1.0);
                         selected_mission.mission_id = Some(mission.id);
-                        // background_color.0 = Color::BLACK;
                         mission_modal_visibility.0 = true;
                     }
                     Interaction::Hovered => {
-                        // window.cursor.icon = CursorIcon::Pointer;
-                        // background_color.0 = Color::WHITE;
+                        transform.scale = Vec3::splat(1.05);
                     }
                     Interaction::None => {
-                        // window.cursor.icon = CursorIcon::Default;
-                        // background_color.0 = Color::BLACK;
+                        transform.scale = Vec3::splat(1.0);
                     }
                 }
             }
