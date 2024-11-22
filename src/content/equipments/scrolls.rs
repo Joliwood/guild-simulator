@@ -118,7 +118,7 @@ impl ScrollsEnum {
                 image_atlas_index: 7,
                 name: "Scroll of Raw Natural Defense".to_string(),
                 price: 7,
-                bonus: vec![BonusEnum::NaturalRawDefense(1)],
+                bonus: vec![BonusEnum::NaturalRawDefense(5)],
                 ..Default::default()
             },
         }

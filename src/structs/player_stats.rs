@@ -6,10 +6,10 @@ use super::{
     recruits::RecruitStats,
 };
 use crate::{
-    content::{
-        equipments::{scrolls::ScrollsEnum, weapons::WeaponsEnum},
-        recruits::RecruitEnum,
-    },
+    // content::{
+    //     equipments::{scrolls::ScrollsEnum, weapons::WeaponsEnum},
+    //     recruits::RecruitEnum,
+    // },
     enums::{RecruitStateEnum, RoomEnum},
 };
 use bevy::prelude::*;
@@ -45,18 +45,18 @@ impl Default for PlayerStats {
             golds: 0,
             guild_level: 1,
             inventory: vec![
-                ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
-                ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
+                // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
+                // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
                 // ItemEnum::Armor(ArmorsEnum::LeatherTunic.get_armor()),
                 // ItemEnum::Armor(ArmorsEnum::LeatherTunic.get_armor()),
-                ItemEnum::Scroll(ScrollsEnum::ScrollOfRawNaturalDefense.get_scroll(), 2),
+                // ItemEnum::Scroll(ScrollsEnum::ScrollOfRawNaturalDefense.get_scroll(), 2),
                 // ItemEnum::Scroll(ScrollsEnum::ScrollOfGaladornFailedPower.get_scroll(), 2),
             ],
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![
-                RecruitEnum::Hubert.get_recruit(),
-                RecruitEnum::JeanLouisDavid.get_recruit(),
+                // RecruitEnum::Hubert.get_recruit(),
+                // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
@@ -72,7 +72,7 @@ impl Default for PlayerStats {
     }
 }
 
-pub const SKIP_TUTO: bool = true;
+pub const SKIP_TUTO: bool = false;
 
 impl PlayerStats {
     pub fn increment_golds(&mut self, amount: i32) {
