@@ -155,7 +155,7 @@ pub enum MapImageEnum {
 impl MapImageEnum {
     pub fn get_path(&self) -> &'static str {
         match self {
-            MapImageEnum::CampagnTuto => "images/maps/map_tuto.png",
+            MapImageEnum::CampagnTuto => "images/maps/map_tuto_v1.png",
         }
     }
 }
