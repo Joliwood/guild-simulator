@@ -2,18 +2,23 @@ use crate::{
     enums::TextureAtlasLayoutEnum,
     my_assets::{get_item_atlas_path, FONT_FIRA},
     structs::{
-        equipments::ItemEnum, player_stats::PlayerStats, trigger_structs::ItemInInventoryTrigger,
+        equipments::ItemEnum, player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
+        trigger_structs::ItemInInventoryTrigger,
     },
-    utils::{get_item_image_atlas_index, get_layout},
+    utils::{get_item_image_atlas_index, get_item_tooltip_description, get_layout},
 };
-use bevy::prelude::*;
-// use pyri_tooltip::{Tooltip, TooltipActivation};
+use bevy::{
+    prelude::*,
+    // ui::widget::NodeImageMode
+};
+use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn spawn_inventory(
     parent: &mut ChildBuilder,
     player_stats: &Res<PlayerStats>,
     my_assets: &Res<AssetServer>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
+    _selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
 ) {
     let inventory_size = player_stats.max_inventory_size;
     let columns = 5;
@@ -47,7 +52,7 @@ pub fn spawn_inventory(
                                 let item = &player_stats.inventory[index];
                                 let item_image_atlas_index = get_item_image_atlas_index(item);
                                 let item_layout = get_layout(TextureAtlasLayoutEnum::Item(item));
-                                // let tooltip_text = get_item_tooltip_description(item);
+                                let tooltip_text = get_item_tooltip_description(item);
                                 let item_atlas_path = get_item_atlas_path(item);
 
                                 // Spawn button for the item
@@ -72,6 +77,8 @@ pub fn spawn_inventory(
                                         )
                                         .with_mode(NodeImageMode::Stretch),
                                         ItemInInventoryTrigger(Some(item.clone())),
+                                        Tooltip::cursor(t!(tooltip_text).to_string())
+                                            .with_activation(TooltipActivation::IMMEDIATE),
                                     ))
                                     .with_children(|button| {
                                         // If the item is a scroll, add a count indicator inside the button

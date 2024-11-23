@@ -19,50 +19,46 @@ pub fn get_spontaneous_application(spontaneous_application_index: &u16) -> Spont
     match spontaneous_application_index {
         1 => SpontaneousApplication {
             apparition_chance: 100,
-            description: "Hello, the mayor sent me because I have some humm... worries let's say... In short, I've got debts to pay, mainly due to the increase in beer prices at the inn, which I didn't insure... I'm a new man, believe me! Do you have a job for a repentant man?".to_string(),
+            description: "spontaneous_app1_desc".to_string(),
             id: 1,
             image_atlas_index: 0,
-            title: "Proposal from a person in debt".to_string(),
+            title: "spontaneous_app1_title".to_string(),
             day_system: DaySystem {
                 cooldown: 0,
                 max_day: Some(1),
                 min_day: 1,
             },
-            answers: vec![
-                Answer {
-                    id: 1,
-                    message: "Welcome to our guild ! You're hired !".to_string(),
-                    recruit_impact: Some(RecruitEnum::JeanLouisDavid.get_recruit()),
-                    ..Default::default()
-                },
-            ],
+            answers: vec![Answer {
+                id: 1,
+                message: "spontaneous_app2_answer1_msg".to_string(),
+                recruit_impact: Some(RecruitEnum::JeanLouisDavid.get_recruit()),
+                ..Default::default()
+            }],
         },
         2 => SpontaneousApplication {
             apparition_chance: 100,
-            description: "Hello ! So you're the new club on the block? Well, I was sent here because I made some blunders... So here's my confession: I set fire to the library, but I didn't mean to! You've got to believe me... at the same time, if the town had installed street lighting, I wouldn't have been clutching an oil lamp as I slid down the library steps... I think I'll have to work for a while to pay off my debt to the city...".to_string(),
+            description: "spontaneous_app2_desc".to_string(),
             id: 2,
             image_atlas_index: 1,
-            title: "He says his name is Hubert...".to_string(),
+            title: "spontaneous_app2_title".to_string(),
             day_system: DaySystem {
                 cooldown: 0,
                 max_day: Some(1),
                 min_day: 1,
             },
-            answers: vec![
-                Answer {
-                    id: 1,
-                    message: "I see you are a mage but with strength and endurance stats, what is that seriously ? Well I need recruits, come in.. I mean welcome".to_string(),
-                    recruit_impact: Some(RecruitEnum::Hubert.get_recruit()),
-                    ..Default::default()
-                },
-            ],
+            answers: vec![Answer {
+                id: 1,
+                message: "spontaneous_app2_answer1_msg".to_string(),
+                recruit_impact: Some(RecruitEnum::Hubert.get_recruit()),
+                ..Default::default()
+            }],
         },
         3 => SpontaneousApplication {
             apparition_chance: 70,
-            description: "Hello, I am not really good, but I can do things... I suppose... but nothing is free !".to_string(),
+            description: "spontaneous_app3_desc".to_string(),
             id: 3,
             image_atlas_index: 0,
-            title: "A big noob approach".to_string(),
+            title: "spontaneous_app3_title".to_string(),
             day_system: DaySystem {
                 cooldown: 3,
                 max_day: None,
@@ -71,14 +67,14 @@ pub fn get_spontaneous_application(spontaneous_application_index: &u16) -> Spont
             answers: vec![
                 Answer {
                     id: 1,
-                    message: "We have some dirty missions, let's go !".to_string(),
+                    message: "spontaneous_app3_answer1_msg".to_string(),
                     gold_impact: Some(-20),
                     recruit_impact: Some(RecruitEnum::BigNoob.get_recruit()),
                     ..Default::default()
                 },
                 Answer {
                     id: 2,
-                    message: "I don't have time for you sorry, have a good day".to_string(),
+                    message: "spontaneous_app3_answer2_msg".to_string(),
                     ..Default::default()
                 },
             ],

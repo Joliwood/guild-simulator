@@ -25,9 +25,8 @@ pub fn recruit_sent_picture(
             ..default()
         })
         .with_children(|recruit_block| {
-            // Text: "Recruit sent"
             recruit_block.spawn((
-                Text::new("Recruit sent"),
+                Text::new(t!("recruit_sent")),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,

@@ -67,10 +67,15 @@ pub fn mission_report_modal(
                 None => return,
             };
 
+        let recruit_xp_multiplicator = recruit_sent_stats
+            .recruit_inventory
+            .get_experience_multiplicator_from_scroll_bonus();
+
         let ennemy = mission.ennemy;
         let percent_of_victory = last_mission_report.percent_of_victory;
         let golds_gained = last_mission_report.golds_gained.unwrap_or(0);
-        let experience_gained = last_mission_report.experience_gained.unwrap_or(0);
+        let experience_gained = (last_mission_report.experience_gained.unwrap_or(0) as f64
+            * recruit_xp_multiplicator) as u32;
 
         // Spawn the mission report modal container
         commands
@@ -98,7 +103,11 @@ pub fn mission_report_modal(
             .with_children(|parent| {
                 // Title: "Report of the mission : name_mission"
                 parent.spawn((
-                    Text::new(format!("Report of the mission: {}", mission.name)),
+                    Text::new(format!(
+                        "{}: {}",
+                        t!("mission_report_desc"),
+                        t!(mission.name)
+                    )),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
                         font_size: 18.0,
@@ -109,7 +118,7 @@ pub fn mission_report_modal(
 
                 // Mission Success or Failure Message
                 parent.spawn((
-                    Text::new(success_message),
+                    Text::new(t!(success_message)),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
                         font_size: 16.0,
@@ -194,31 +203,6 @@ pub fn mission_report_modal(
                     &last_mission_report,
                     &mut texture_atlas_layouts,
                 );
-                // // Loots Text
-                // parent.spawn(TextBundle {
-                //     text: Text::from_section(
-                //         "Loots",
-                //         TextFont {
-                //             font: my_assets.load(FONT_FIRA),
-                //             font_size: 16.0,
-                //             color: Color::BLACK,
-                //         },
-                //     ),
-                //     ..default()
-                // });
-
-                // // Golds and Experience Gained
-                // parent.spawn(TextBundle {
-                //     text: Text::from_section(
-                //         format!("{} golds + {} xp", golds_gained, experience_gained),
-                //         TextFont {
-                //             font: my_assets.load(FONT_FIRA),
-                //             font_size: 14.0,
-                //             color: Color::BLACK,
-                //         },
-                //     ),
-                //     ..default()
-                // });
 
                 // After the existing children have been added
                 parent
@@ -240,7 +224,7 @@ pub fn mission_report_modal(
                     ))
                     .with_children(|button| {
                         button.spawn((
-                            Text::new("Sign the report"),
+                            Text::new(t!("sign_report")),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 12.0,

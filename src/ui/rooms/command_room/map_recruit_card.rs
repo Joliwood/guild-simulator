@@ -4,7 +4,6 @@ use crate::{
     structs::{general_structs::UniqueId, recruits::RecruitStats},
 };
 use bevy::prelude::*;
-// use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn map_recruit_card(
     left_container: &mut ChildBuilder,
@@ -12,6 +11,9 @@ pub fn map_recruit_card(
     recruit: &RecruitStats,
     recruit_texture_atlas_layout: Handle<TextureAtlasLayout>,
 ) {
+    let recruit_attack = recruit.get_total_stats().0;
+    let recruit_defense = recruit.get_total_stats().1;
+
     left_container
         .spawn((
             Button,
@@ -22,7 +24,7 @@ pub fn map_recruit_card(
                 justify_content: JustifyContent::FlexStart,
                 column_gap: Val::Px(12.),
                 width: Val::Percent(100.),
-                height: Val::Px(40.),
+                height: Val::Px(60.),
                 padding: UiRect {
                     top: Val::Px(3.),
                     bottom: Val::Px(3.),
@@ -37,13 +39,13 @@ pub fn map_recruit_card(
                 ..default()
             },
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
-            BorderRadius::all(Val::Px(10.)),
+            BorderRadius::all(Val::Px(7.)),
             UiImage {
-                image: my_assets.load("images/rooms/command_room/recruit_card.png"),
+                image: my_assets.load("images/rooms/command_room/recruit_card_4.png"),
                 image_mode: NodeImageMode::Stretch,
                 ..default()
             },
-            BackgroundColor(Color::BLACK),
+            GlobalZIndex(3),
         ))
         .insert((UniqueId("map_recruit_button".to_string()), recruit.clone()))
         // .insert((
@@ -65,7 +67,6 @@ pub fn map_recruit_card(
                             height: Val::Percent(100.0),
                             align_items: AlignItems::Center,
                             justify_content: JustifyContent::FlexStart,
-                            // column_gap: Val::Px(5.),
                             padding: UiRect {
                                 left: Val::Px(42.),
                                 ..default()
@@ -78,7 +79,7 @@ pub fn map_recruit_card(
                     ))
                     .with_children(|overlay| {
                         overlay.spawn((
-                            Text::new(recruit.state.get_description()),
+                            Text::new(t!(recruit.state.get_description())),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
@@ -91,29 +92,39 @@ pub fn map_recruit_card(
         })
         .with_children(|button| {
             button
-                .spawn((
-                    Button,
-                    Node {
-                        // display: Display::Flex,
-                        // column_gap: Val::Px(5.),
-                        justify_content: JustifyContent::Center,
-                        align_items: AlignItems::Center,
-                        ..default()
-                    },
-                    //                     Tooltip::cursor(
-                    //                         "This score represent the
-                    // total power of the recruit, based on
-                    // his/her stats, equipment and level."
-                    //                             .to_string(),
-                    //                     )
-                    //                     .with_activation(TooltipActivation::IDLE),
-                ))
+                .spawn(Node {
+                    display: Display::Flex,
+                    flex_direction: FlexDirection::Column,
+                    row_gap: Val::Px(5.),
+                    justify_content: JustifyContent::SpaceBetween,
+                    align_items: AlignItems::Center,
+                    width: Val::Px(30.),
+                    ..default()
+                })
                 .with_children(|parent| {
                     parent.spawn((
-                        Text::new(recruit.get_total_merged_stats().to_string()),
+                        Text::new(recruit_attack.to_string()),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 16.0,
+                            ..default()
+                        },
+                        TextLayout {
+                            justify: JustifyText::Center,
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                    ));
+
+                    parent.spawn((
+                        Text::new(recruit_defense.to_string()),
+                        TextFont {
+                            font: my_assets.load(FONT_FIRA),
+                            font_size: 16.0,
+                            ..default()
+                        },
+                        TextLayout {
+                            justify: JustifyText::Center,
                             ..default()
                         },
                         TextColor(Color::BLACK),
@@ -121,27 +132,62 @@ pub fn map_recruit_card(
                 });
 
             // Recruit name
-            button.spawn((
-                Text::new(recruit.name.clone()),
-                TextFont {
-                    font: my_assets.load(FONT_FIRA),
-                    font_size: 14.0,
+            button
+                .spawn((Node {
+                    position_type: PositionType::Absolute,
+                    display: Display::Flex,
+                    flex_direction: FlexDirection::Column,
+                    row_gap: Val::Px(5.),
+                    left: Val::Px(47.),
+                    width: Val::Percent(45.),
+                    height: Val::Percent(100.),
+                    align_items: AlignItems::Center,
+                    justify_content: JustifyContent::Center,
+                    overflow: Overflow {
+                        x: OverflowAxis::Hidden,
+                        y: OverflowAxis::Hidden,
+                    },
                     ..default()
-                },
-                TextColor(Color::WHITE),
-            ));
+                },))
+                .with_children(|parent| {
+                    parent.spawn((
+                        Text::new(t!(&recruit.name)),
+                        TextFont {
+                            font: my_assets.load(FONT_FIRA),
+                            font_size: 12.0,
+                            ..default()
+                        },
+                        TextLayout {
+                            justify: JustifyText::Center,
+                            linebreak: LineBreak::NoWrap,
+                        },
+                        Node {
+                            overflow: Overflow {
+                                x: OverflowAxis::Clip,
+                                ..default()
+                            },
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                    ));
+
+                    parent.spawn((
+                        Text::new(t!(recruit.class.to_string())),
+                        TextFont {
+                            font: my_assets.load(FONT_FIRA),
+                            font_size: 12.0,
+                            ..default()
+                        },
+                        TextColor(Color::BLACK),
+                    ));
+                });
 
             button
                 .spawn(Node {
                     width: Val::Px(72.),
                     position_type: PositionType::Absolute,
                     right: Val::Px(0.),
-                    height: Val::Percent(65.),
-                    padding: UiRect {
-                        left: Val::Px(3.),
-                        right: Val::Px(5.),
-                        ..default()
-                    },
+                    height: Val::Percent(100.),
                     overflow: Overflow {
                         x: OverflowAxis::Hidden,
                         y: OverflowAxis::Hidden,
@@ -158,14 +204,13 @@ pub fn map_recruit_card(
                             },
                         ),
                         Node {
-                            margin: UiRect {
-                                top: Val::Px(-10.),
-                                ..default()
-                            },
+                            position_type: PositionType::Absolute,
+                            right: Val::Px(0.),
                             width: Val::Percent(100.),
-                            height: Val::Px(70. * 2.),
+                            height: Val::Px(60. * 2.),
                             ..default()
                         },
+                        GlobalZIndex(2),
                     ));
                 });
         });

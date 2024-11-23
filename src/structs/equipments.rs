@@ -1,4 +1,7 @@
-use crate::enums::ItemRaretyEnum;
+use crate::{
+    enums::{ClassEnum, ItemRaretyEnum},
+    utils::calculate_price_range,
+};
 use bevy::prelude::Component;
 use serde::Deserialize;
 
@@ -18,68 +21,143 @@ impl ItemEnum {
         }
     }
 
-    #[allow(dead_code)]
     pub fn get_item_loot_tooltip_description(&self) -> String {
         match self {
-            ItemEnum::Weapon(weapon) => format!(
-                "{}\nPrice: {}\nStrength: {}\nIntelligence: {}\nEndurance: {}",
-                weapon.name,
-                weapon.price,
-                weapon.strength.unwrap_or(0),
-                weapon.intelligence.unwrap_or(0),
-                weapon.endurance.unwrap_or(0)
-            ),
-            ItemEnum::Armor(armor) => format!(
-                "{}\nPrice: {}\nStrength: {}\nIntelligence: {}\nEndurance: {}",
-                armor.name,
-                armor.price,
-                armor.strength.unwrap_or(0),
-                armor.intelligence.unwrap_or(0),
-                armor.endurance.unwrap_or(0)
-            ),
-            ItemEnum::Scroll(scroll, _) => format!(
-                "{}\nPrice: {}\nStrength: {}\nIntelligence: {}\nEndurance: {}",
-                scroll.name,
-                scroll.price,
-                scroll.strength.unwrap_or(0),
-                scroll.intelligence.unwrap_or(0),
-                scroll.endurance.unwrap_or(0)
-            ),
+            ItemEnum::Weapon(weapon) => {
+                let mut description = weapon.name.to_string();
+                let price_range = calculate_price_range(weapon.price);
+
+                if let Some(attack) = weapon.attack {
+                    description.push_str(&format!("\n{}: {}", t!("attack"), attack));
+                }
+
+                if let Some(defense) = weapon.defense {
+                    description.push_str(&format!("\n{}: {}", t!("defense"), defense));
+                }
+
+                description.push_str(&format!(
+                    "\n\n{}: {} {} {} G",
+                    t!("price"),
+                    price_range.0,
+                    t!("to"),
+                    price_range.1
+                ));
+
+                description
+            }
+            ItemEnum::Armor(armor) => {
+                let mut description = armor.name.to_string();
+                let price_range = calculate_price_range(armor.price);
+
+                if let Some(attack) = armor.attack {
+                    description.push_str(&format!("\n{}: {}", t!("attack"), attack));
+                }
+
+                if let Some(defense) = armor.defense {
+                    description.push_str(&format!("\n{}: {}", t!("defense"), defense));
+                }
+
+                description.push_str(&format!(
+                    "\n\n{}: {} {} {} G",
+                    t!("price"),
+                    price_range.0,
+                    t!("to"),
+                    price_range.1
+                ));
+
+                description
+            }
+            ItemEnum::Scroll(scroll, _) => {
+                let mut description = scroll.name.to_string();
+                let price_range = calculate_price_range(scroll.price);
+
+                if let Some(attack) = scroll.attack {
+                    description.push_str(&format!("\n\n{}: {}", t!("attack"), attack));
+                }
+
+                if let Some(defense) = scroll.defense {
+                    description.push_str(&format!("\n{}: {}", t!("defense"), defense));
+                }
+
+                for bonus in scroll.bonus.iter() {
+                    description.push_str(&format!("\n{:?}", bonus));
+                }
+
+                description.push_str(&format!(
+                    "\n\n{}: {} {} {} G",
+                    t!("price"),
+                    price_range.0,
+                    t!("to"),
+                    price_range.1
+                ));
+
+                description
+            }
         }
     }
 }
 
-#[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
+#[derive(Default, Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub struct Weapon {
-    pub endurance: Option<u32>,
     pub id: u16,
     pub image_atlas_index: u16,
-    pub intelligence: Option<u32>,
     pub name: String,
     pub price: u16,
-    pub strength: Option<u32>,
+    pub attack: Option<u32>,
+    pub defense: Option<u32>,
     pub rarety: ItemRaretyEnum,
+    pub optimized_for: (Vec<ClassEnum>, u32),
 }
 
-#[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
+#[derive(Default, Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub struct Armor {
-    pub endurance: Option<u32>,
     pub id: u16,
     pub image_atlas_index: u16,
-    pub intelligence: Option<u32>,
     pub name: String,
     pub price: u16,
-    pub strength: Option<u32>,
     pub rarety: ItemRaretyEnum,
+    pub attack: Option<u32>,
+    pub defense: Option<u32>,
+    pub optimized_for: (Vec<ClassEnum>, u32),
+}
+
+#[derive(Default, Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
+pub struct Scroll {
+    pub id: u16,
+    pub image_atlas_index: u16,
+    pub name: String,
+    pub price: u16,
+    pub attack: Option<u32>,
+    pub defense: Option<u32>,
+    pub bonus: Vec<BonusEnum>,
 }
 
 #[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
-pub struct Scroll {
-    pub endurance: Option<u32>,
-    pub id: u16,
-    pub image_atlas_index: u16,
-    pub intelligence: Option<u32>,
-    pub name: String,
-    pub price: u16,
-    pub strength: Option<u32>,
+pub enum BonusEnum {
+    /// Raw attack
+    RawAttack(u32),
+
+    /// Add % golds for each success mission
+    Gold(u32),
+
+    /// Increase the chance to earn a second loot in % for each success mission
+    LuckyLoot(u8),
+
+    /// Add % experience for each success mission
+    Experience(u32),
+
+    /// Increate the recruit's equipment (all of them) stats by %
+    EnhanceEquipment(u32),
+
+    /// Increate the native recruit stats (all of them) by %
+    NaturalGrowth(u32),
+
+    /// Amount of golds it can be increased when a buyer is interested
+    Collector(u32),
+
+    /// Increase the native recruit defense
+    NaturalRawDefense(u32),
+
+    /// Increase the native recruit attack
+    NaturalRawAttack(u32),
 }

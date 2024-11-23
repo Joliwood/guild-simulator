@@ -47,7 +47,7 @@ pub fn recruit_recap(
         .with_children(|parent| {
             if selected_recruit_for_mission.0.is_none() {
                 parent.spawn((
-                    Text::new("No recruit selected"),
+                    Text::new(t!("no_recruit_selected")),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
                         font_size: 14.0,
@@ -105,7 +105,7 @@ pub fn recruit_recap(
                     .with_children(|parent| {
                         // Recruit Name
                         parent.spawn((
-                            Text::new(format!("Recruit : {}", recruit.name)),
+                            Text::new(format!("{} : {}", t!("recruit"), recruit.name)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
@@ -116,7 +116,7 @@ pub fn recruit_recap(
 
                         // Recruit Level
                         parent.spawn((
-                            Text::new(format!("Level : {}", recruit.level)),
+                            Text::new(format!("{} : {}", t!("level"), recruit.level)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
@@ -125,9 +125,9 @@ pub fn recruit_recap(
                             TextColor(Color::BLACK),
                         ));
 
-                        // Recruit Strength
+                        // Recruit attack
                         parent.spawn((
-                            Text::new(format!("Str : {}", recruit.strength)),
+                            Text::new(format!("ATT : {}", recruit.get_total_stats().0)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
@@ -136,20 +136,9 @@ pub fn recruit_recap(
                             TextColor(Color::BLACK),
                         ));
 
-                        // Recruit Defense
+                        // Recruit defense
                         parent.spawn((
-                            Text::new(format!("Def : {}", recruit.endurance)),
-                            TextFont {
-                                font: my_assets.load(FONT_FIRA),
-                                font_size: 14.0,
-                                ..default()
-                            },
-                            TextColor(Color::BLACK),
-                        ));
-
-                        // Recruit Intelligence
-                        parent.spawn((
-                            Text::new(format!("Int : {}", recruit.intelligence)),
+                            Text::new(format!("DEF : {}", recruit.get_total_stats().1)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,

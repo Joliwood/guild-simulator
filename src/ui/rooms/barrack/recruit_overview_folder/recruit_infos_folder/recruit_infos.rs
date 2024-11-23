@@ -61,7 +61,7 @@ pub fn recruit_infos(
                         .with_children(|weapon_column| {
                             // Header for Weapon
                             weapon_column.spawn((
-                                Text::new("Weapon"),
+                                Text::new(t!("weapon")),
                                 TextFont {
                                     font: my_assets.load(FONT_FIRA),
                                     font_size: 18.0,
@@ -89,7 +89,7 @@ pub fn recruit_infos(
                         .with_children(|armor_column| {
                             // Header for Armor
                             armor_column.spawn((
-                                Text::new("Armor"),
+                                Text::new(t!("armor")),
                                 TextFont {
                                     font: my_assets.load(FONT_FIRA),
                                     font_size: 18.0,
@@ -122,7 +122,7 @@ pub fn recruit_infos(
                 .with_children(|bottom_container| {
                     // Header for Scrolls
                     bottom_container.spawn((
-                        Text::new("Scrolls"),
+                        Text::new(t!("scrolls")),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 18.0,

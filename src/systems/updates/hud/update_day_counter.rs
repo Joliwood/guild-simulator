@@ -6,5 +6,5 @@ pub fn update_day_counter(
     query: Single<Entity, (With<PlayerDayTrigger>, With<Text>)>,
     mut writer: TextUiWriter,
 ) {
-    *writer.text(*query, 0) = format!("Day : {}", player_stats.day);
+    *writer.text(*query, 0) = format!("{} : {}", t!("day"), player_stats.day);
 }

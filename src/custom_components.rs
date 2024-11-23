@@ -1,5 +1,15 @@
 #![allow(dead_code)]
-use crate::{my_assets::get_mission_image, ui::ui_constants::WOOD_COLOR};
+
+use crate::{
+    enums::{ColorPaletteEnum, RoomEnum},
+    my_assets::{get_mission_image, FONT_FIRA},
+    structs::trigger_structs::{
+        BarrackRoomNotificationContainerTrigger, BarrackRoomNotificationTrigger,
+        CommandRoomNotificationContainerTrigger, CommandRoomNotificationTrigger,
+        OfficeRoomNotificationContainerTrigger, OfficeRoomNotificationTrigger,
+    },
+    ui::ui_constants::WOOD_COLOR,
+};
 use bevy::prelude::*;
 
 pub enum CustomButton {
@@ -165,12 +175,65 @@ impl CustomButton {
 
 pub fn get_mission_position(mission_id: u16) -> (f32, f32) {
     match mission_id {
-        1 => (370., 270.),
-        2 => (200., 270.),
-        3 => (35., 270.),
-        4 => (370., 60.),
-        5 => (200., 60.),
-        6 => (35., 60.),
+        1 => (432., 270.),
+        2 => (236., 270.),
+        3 => (45., 270.),
+        4 => (432., 60.),
+        5 => (236., 60.),
+        6 => (45., 60.),
         _ => panic!("Mission id not found"),
     }
+}
+
+pub fn notification_count_indicator(
+    parent: &mut ChildBuilder,
+    notification_count: u8,
+    my_assets: &Res<AssetServer>,
+    room_enum: RoomEnum,
+) {
+    parent
+        .spawn((
+            Node {
+                position_type: PositionType::Absolute,
+                bottom: Val::Px(-5.),
+                right: Val::Px(-10.),
+                width: Val::Px(16.),
+                height: Val::Px(16.),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                ..default()
+            },
+            BorderRadius::MAX,
+            BackgroundColor(ColorPaletteEnum::Danger.as_color()),
+        ))
+        .insert_if(CommandRoomNotificationContainerTrigger, || {
+            room_enum == RoomEnum::CommandRoom
+        })
+        .insert_if(OfficeRoomNotificationContainerTrigger, || {
+            room_enum == RoomEnum::Office
+        })
+        .insert_if(BarrackRoomNotificationContainerTrigger, || {
+            room_enum == RoomEnum::Barrack
+        })
+        .with_children(|indicator| {
+            indicator
+                .spawn((
+                    Text::new(notification_count.to_string()),
+                    TextFont {
+                        font: my_assets.load(FONT_FIRA),
+                        font_size: 10.0,
+                        ..default()
+                    },
+                    TextColor(Color::WHITE),
+                ))
+                .insert_if(CommandRoomNotificationTrigger, || {
+                    room_enum == RoomEnum::CommandRoom
+                })
+                .insert_if(OfficeRoomNotificationTrigger, || {
+                    room_enum == RoomEnum::Office
+                })
+                .insert_if(BarrackRoomNotificationTrigger, || {
+                    room_enum == RoomEnum::Barrack
+                });
+        });
 }

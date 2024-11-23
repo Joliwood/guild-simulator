@@ -5,14 +5,10 @@ use crate::{
         equipments::ItemEnum, player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
         trigger_structs::ItemInInventoryTrigger,
     },
-    utils::{
-        get_item_image_atlas_index,
-        get_layout,
-        // get_item_tooltip_description
-    },
+    utils::{get_item_image_atlas_index, get_item_tooltip_description, get_layout},
 };
 use bevy::prelude::*;
-// use pyri_tooltip::{Tooltip, TooltipActivation};
+use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn scroll_button(
     player_stats: &Res<PlayerStats>,
@@ -55,7 +51,7 @@ pub fn scroll_button(
         let item = ItemEnum::Scroll(recruit_scroll.clone(), 1);
         let item_image_atlas_index = get_item_image_atlas_index(&item);
         let item_layout = get_layout(TextureAtlasLayoutEnum::Item(&item));
-        // let tooltip_text = get_item_tooltip_description(&item);
+        let tooltip_text = get_item_tooltip_description(&item);
         let item_atlas_path = get_item_atlas_path(&item);
 
         // Scroll button
@@ -78,8 +74,8 @@ pub fn scroll_button(
                 },
             ),
             ItemInInventoryTrigger(None),
-            // Tooltip::cursor(tooltip_text.to_string())
-            //     .with_activation(TooltipActivation::IMMEDIATE),
+            Tooltip::cursor(t!(tooltip_text).to_string())
+                .with_activation(TooltipActivation::IMMEDIATE),
         ));
     } else {
         // Empty scroll button

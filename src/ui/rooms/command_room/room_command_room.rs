@@ -63,10 +63,15 @@ pub fn room_command_room(
                         flex_direction: FlexDirection::Row,
                         justify_content: JustifyContent::Center,
                         align_items: AlignItems::Center,
-                        column_gap: Val::Px(30.0),
+                        column_gap: Val::Px(10.0),
                         width: Val::Px(1170.0),
-                        height: Val::Px(650.0),
-                        padding: UiRect::all(Val::Px(80.)),
+                        height: Val::Px(600.0),
+                        padding: UiRect {
+                            left: Val::Px(50.0),
+                            right: Val::Px(50.0),
+                            top: Val::Px(50.0),
+                            bottom: Val::Px(35.0),
+                        },
                         ..default()
                     },
                     GlobalZIndex(0),
@@ -96,10 +101,14 @@ pub fn room_command_room(
                     // Center Area (Big node)
                     table
                         .spawn(Node {
-                            width: Val::Percent(60.0),
+                            width: Val::Percent(65.0),
                             height: Val::Percent(100.0),
                             justify_content: JustifyContent::Center,
                             align_items: AlignItems::Center,
+                            padding: UiRect {
+                                bottom: Val::Px(20.0),
+                                ..default()
+                            },
                             ..default()
                         })
                         .with_children(|center| {

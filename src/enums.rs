@@ -5,11 +5,12 @@ use bevy::{color::Color, prelude::Component, state::state::States};
 use serde::Deserialize;
 use std::fmt::{self, Display};
 
-#[derive(Debug, PartialEq, Clone, Eq, Hash)]
+#[derive(Default, Debug, PartialEq, Clone, Eq, Hash, Deserialize)]
 pub enum ClassEnum {
     Hunter,
     Mage,
     Rogue,
+    #[default]
     Warrior,
 }
 
@@ -50,8 +51,9 @@ impl Display for ClassEnum {
     }
 }
 
-#[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
+#[derive(Default, Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub enum ItemRaretyEnum {
+    #[default]
     Common,
     UnCommon,
     Rare,
@@ -121,8 +123,9 @@ impl ColorPaletteEnum {
     }
 }
 
-#[derive(Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
+#[derive(Default, Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub enum RecruitStateEnum {
+    #[default]
     Available,
     Injured,
     InMission,
@@ -152,7 +155,7 @@ pub enum MapImageEnum {
 impl MapImageEnum {
     pub fn get_path(&self) -> &'static str {
         match self {
-            MapImageEnum::CampagnTuto => "images/maps/map_tuto.png",
+            MapImageEnum::CampagnTuto => "images/maps/map_tuto_v1.png",
         }
     }
 }
@@ -162,7 +165,6 @@ pub enum TextureAtlasLayoutEnum<'a> {
     Armor,
     Discussion,
     HudIcon,
-    Notification,
     Scroll,
     Weapon,
     SpontaneousApplication,

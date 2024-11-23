@@ -3,16 +3,156 @@
 use super::{
     daily_events_folder::daily_events::{Answer, ImpactAction},
     equipments::ItemEnum,
+    general_structs::NotificationCount,
     recruits::RecruitStats,
 };
 use crate::enums::{RecruitStateEnum, RoomEnum};
 use bevy::prelude::*;
 use uuid::Uuid;
 
-#[derive(Component, Resource, Clone)]
+#[derive(Default, Component, Resource, Clone)]
 pub struct Stats {
     pub golds_earned: i32,
     pub mission_completed: u16,
+}
+
+/// Tutorial struct
+///
+/// When it is None, the tutorial is not available
+/// When it is Some(false), the tutorial is available but not done
+/// When it is Some(true), the tutorial is done
+#[derive(Default, Component, Resource, Clone)]
+pub struct Tuto {
+    pub is_barrack_room_tuto_done: Option<bool>,
+    pub is_command_room_tuto_done: Option<bool>,
+    pub is_first_daily_events_done: Option<bool>,
+}
+
+impl Tuto {
+    pub fn count_tuto_available(&self) -> u8 {
+        let mut count = 0;
+        if let Some(is_barrack_room_tuto_done) = self.is_barrack_room_tuto_done {
+            if !is_barrack_room_tuto_done {
+                count += 1;
+            }
+        }
+        if let Some(is_command_room_tuto_done) = self.is_command_room_tuto_done {
+            if !is_command_room_tuto_done {
+                count += 1;
+            }
+        }
+        if let Some(is_first_daily_events_done) = self.is_first_daily_events_done {
+            if !is_first_daily_events_done {
+                count += 1;
+            }
+        }
+
+        return count;
+    }
+
+    pub fn reset(&mut self) {
+        self.is_barrack_room_tuto_done = Some(true);
+        self.is_command_room_tuto_done = Some(true);
+        self.is_first_daily_events_done = Some(true);
+    }
+}
+
+pub enum TutoEnum {
+    BarrackRoom,
+    CommandRoom,
+    DailyEvents,
+}
+
+#[derive(Debug, Component, Resource, Clone)]
+pub struct TutoMessage {
+    pub id: u8,
+    pub title: String,
+    pub messages: Vec<String>,
+}
+
+#[derive(Debug, Component, Resource, Clone)]
+pub struct TutoMessages(pub Vec<TutoMessage>);
+
+impl Default for TutoMessages {
+    fn default() -> Self {
+        Self(vec![TutoMessage {
+            id: 0,
+            title: t!("tuto_message_init_title").to_string(),
+            messages: vec![
+                t!("tuto_message_init_desc_1").to_string(),
+                t!("tuto_message_init_desc_2").to_string(),
+                t!("tuto_message_init_desc_3").to_string(),
+            ],
+        }])
+    }
+}
+
+impl TutoMessages {
+    pub fn get_first_tuto_message(&self) -> Option<&TutoMessage> {
+        self.0.first()
+    }
+
+    fn remove_initial_tuto_message(&mut self) {
+        self.0.retain(|tuto_message| tuto_message.id != 0);
+    }
+
+    pub fn add_tuto_message(&mut self, tuto_type: TutoEnum) {
+        Self::remove_initial_tuto_message(self);
+
+        match tuto_type {
+            TutoEnum::BarrackRoom => {
+                self.0.push(TutoMessage {
+                    id: 1,
+                    title: t!("tuto_message_barrack_title").to_string(),
+                    messages: vec![
+                        t!("tuto_message_barrack_desc_1").to_string(),
+                        t!("tuto_message_barrack_desc_2").to_string(),
+                    ],
+                });
+            }
+            TutoEnum::CommandRoom => {
+                self.0.push(TutoMessage {
+                    id: 2,
+                    title: t!("tuto_message_command_room_title").to_string(),
+                    messages: vec![
+                        t!("tuto_message_command_room_desc_1").to_string(),
+                        t!("tuto_message_command_room_desc_2").to_string(),
+                        t!("tuto_message_command_room_desc_3").to_string(),
+                    ],
+                });
+            }
+            TutoEnum::DailyEvents => {
+                self.0.push(TutoMessage {
+                    id: 3,
+                    title: t!("tuto_message_daily_events_title").to_string(),
+                    messages: vec![
+                        t!("tuto_message_daily_events_desc_1").to_string(),
+                        t!("tuto_message_daily_events_desc_2").to_string(),
+                        t!("tuto_message_daily_events_desc_3").to_string(),
+                        t!("tuto_message_daily_events_desc_4").to_string(),
+                    ],
+                });
+            }
+        }
+    }
+
+    pub fn remove_first_tuto_message(&mut self, player_stats: &mut ResMut<PlayerStats>) {
+        if let Some(tuto_message) = self.0.first() {
+            match tuto_message.id {
+                1 => {
+                    player_stats.tuto.is_barrack_room_tuto_done = Some(true);
+                }
+                2 => {
+                    player_stats.tuto.is_command_room_tuto_done = Some(true);
+                }
+                3 => {
+                    player_stats.tuto.is_first_daily_events_done = Some(true);
+                }
+                _ => {}
+            }
+        }
+        self.0.remove(0);
+    }
 }
 
 #[derive(Component, Resource, Clone)]
@@ -29,54 +169,43 @@ pub struct PlayerStats {
     pub toxicity: i8,
     pub stats: Stats,
     pub reputation: i8,
+    pub tuto: Tuto,
 }
 
 impl Default for PlayerStats {
     fn default() -> Self {
-        // let inventory = vec![];
-        // let first_weapon = load_weapon(WeaponsEnum::AxeOfFury);
-        // let second_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
-        // let second_same_weapon = load_weapon(WeaponsEnum::MaceOfTheThunder);
-        // let first_scroll = load_scroll(ScrollsEnum::ScrollOfEndurance);
-        // let second_scroll = load_scroll(ScrollsEnum::ScrollOfSpeed);
-        // let first_armor = load_armor(ArmorsEnum::GauntletsOfPower);
-        // let second_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
-        // let second_same_armor = load_armor(ArmorsEnum::HelmetOfTheGuardian);
-
-        // inventory.push(ItemEnum::Weapon(first_weapon));
-        // inventory.push(ItemEnum::Weapon(second_weapon));
-        // inventory.push(ItemEnum::Weapon(second_same_weapon));
-        // inventory.push(ItemEnum::Scroll(first_scroll, 1));
-        // inventory.push(ItemEnum::Scroll(second_scroll, 3));
-        // inventory.push(ItemEnum::Armor(first_armor));
-        // inventory.push(ItemEnum::Armor(second_armor));
-        // inventory.push(ItemEnum::Armor(second_same_armor));
-
         Self {
             day: 1,
             experience: 0,
             golds: 0,
             guild_level: 1,
-            inventory: vec![],
+            inventory: vec![
+                // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
+                // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
+                // ItemEnum::Armor(ArmorsEnum::LeatherTunic.get_armor()),
+                // ItemEnum::Armor(ArmorsEnum::LeatherTunic.get_armor()),
+                // ItemEnum::Scroll(ScrollsEnum::ScrollOfRawAttackI.get_scroll(), 2),
+                // ItemEnum::Scroll(ScrollsEnum::ScrollOfGaladornFailedPower.get_scroll(), 2),
+            ],
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![
-                // RecruitEnum::JeanLouisDavid.get_recruit(),
+                // RecruitEnum::Hubert.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
             ],
-            room: RoomEnum::Barrack,
+            room: RoomEnum::Office,
             toxicity: 0,
             reputation: 10,
-            stats: Stats {
-                golds_earned: 0,
-                mission_completed: 0,
-            },
+            stats: Stats::default(),
+            tuto: Tuto::default(),
         }
     }
 }
+
+pub const SKIP_TUTO: bool = false;
 
 impl PlayerStats {
     pub fn increment_golds(&mut self, amount: i32) {
@@ -172,7 +301,11 @@ impl PlayerStats {
             .iter_mut()
             .find(|recruit| recruit.id == recruit_id)
         {
-            recruit.gain_xp(xp);
+            let recruit_xp_multiplicator = recruit
+                .recruit_inventory
+                .get_experience_multiplicator_from_scroll_bonus();
+
+            recruit.gain_xp((xp as f64 * recruit_xp_multiplicator) as u32);
         }
     }
 
@@ -209,7 +342,11 @@ impl PlayerStats {
         self.reputation = (self.reputation + reputation).clamp(0, 100);
     }
 
-    pub fn apply_equipment_impact(&mut self, answer: &Answer) {
+    pub fn apply_equipment_impact(
+        &mut self,
+        answer: &Answer,
+        notification_count: &mut ResMut<NotificationCount>,
+    ) {
         if let Some(experience_impact) = &answer.experience_impact {
             self.gain_xp(*experience_impact);
         }
@@ -220,6 +357,7 @@ impl PlayerStats {
 
         if let Some(recruit_impact) = &answer.recruit_impact {
             self.recruits.push(recruit_impact.clone());
+            notification_count.increment_barrack_count(1, self);
         }
 
         if let Some(reputation_impact) = &answer.reputation_impact {
@@ -236,6 +374,8 @@ impl PlayerStats {
                     ImpactAction::Remove(item) => self.remove_item(item),
                 }
             }
+
+            notification_count.increment_barrack_count(equipment_impact.len() as u8, self);
         }
     }
 

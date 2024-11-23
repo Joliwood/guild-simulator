@@ -1,63 +1,95 @@
 #![allow(dead_code)]
-use crate::{enums::ItemRaretyEnum, structs::equipments::Armor};
+use crate::{
+    enums::{ClassEnum, ItemRaretyEnum},
+    structs::equipments::Armor,
+};
 
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub enum ArmorsEnum {
-    ShieldOfCourage,
-    HelmetOfTheGuardian,
-    BreastplateOfTheDragon,
-    GauntletsOfPower,
-    // ⬇ WIP equipment V1 ⬇
-    // WoodenSword,
-    // StringlessBox,
-    // LumberjackAxe,
-    // MagicToothpick,
-    // UnsharpDagger,
+    /// ## Integrated in :
+    /// - Mission 2
+    UsedLeatherToga,
+
+    /// ## Integrated in :
+    /// - Mission 4
+    ApprenticeCoat,
+
+    /// ## Integrated in :
+    /// - Mission 6
+    RecycledMagicianRobe,
+
+    /// ## Integrated in :
+    /// - Mission 6
+    LeatherTunic,
+
+    /// ## Integrated in :
+    /// - Mission 1
+    MakeshiftVest,
+
+    /// ## Integrated in :
+    /// - Daily discussion 10
+    TravelToga,
 }
 
 impl ArmorsEnum {
     /// Get an armor by its enum variant
     pub fn get_armor(&self) -> Armor {
         match self {
-            ArmorsEnum::ShieldOfCourage => Armor {
-                endurance: Some(10),
+            ArmorsEnum::UsedLeatherToga => Armor {
                 id: 1,
                 image_atlas_index: 0,
-                intelligence: None,
-                name: "Shield of Courage".to_string(),
+                name: t!("armor1_name").to_string(),
+                defense: Some(4),
                 price: 5,
                 rarety: ItemRaretyEnum::Common,
-                strength: None,
+                ..Default::default()
             },
-            ArmorsEnum::HelmetOfTheGuardian => Armor {
-                endurance: Some(2),
+            ArmorsEnum::ApprenticeCoat => Armor {
                 id: 2,
                 image_atlas_index: 1,
-                intelligence: Some(10),
-                name: "Helmet of the Guardian".to_string(),
-                price: 3,
+                name: t!("armor2_name").to_string(),
+                defense: Some(6),
+                price: 7,
                 rarety: ItemRaretyEnum::Common,
-                strength: None,
+                ..Default::default()
             },
-            ArmorsEnum::BreastplateOfTheDragon => Armor {
-                endurance: Some(6),
+            ArmorsEnum::RecycledMagicianRobe => Armor {
                 id: 3,
                 image_atlas_index: 2,
-                intelligence: None,
-                name: "Breastplate of the Dragon".to_string(),
-                price: 7,
-                rarety: ItemRaretyEnum::UnCommon,
-                strength: Some(8),
+                name: t!("armor3_name").to_string(),
+                optimized_for: (vec![ClassEnum::Mage], (5)),
+                defense: Some(4),
+                price: 10,
+                rarety: ItemRaretyEnum::Common,
+                ..Default::default()
             },
-            ArmorsEnum::GauntletsOfPower => Armor {
-                endurance: Some(3),
+            ArmorsEnum::LeatherTunic => Armor {
                 id: 4,
                 image_atlas_index: 3,
-                intelligence: None,
-                name: "Gauntlets of Power".to_string(),
-                price: 40,
-                rarety: ItemRaretyEnum::UnCommon,
-                strength: Some(7),
+                name: t!("armor4_name").to_string(),
+                optimized_for: (vec![ClassEnum::Hunter, ClassEnum::Rogue], (3)),
+                defense: Some(12),
+                price: 12,
+                rarety: ItemRaretyEnum::Common,
+                ..Default::default()
+            },
+            ArmorsEnum::MakeshiftVest => Armor {
+                id: 5,
+                image_atlas_index: 4,
+                name: t!("armor5_name").to_string(),
+                defense: Some(5),
+                price: 5,
+                rarety: ItemRaretyEnum::Common,
+                ..Default::default()
+            },
+            ArmorsEnum::TravelToga => Armor {
+                id: 6,
+                image_atlas_index: 5,
+                name: t!("armor6_name").to_string(),
+                defense: Some(7),
+                price: 7,
+                rarety: ItemRaretyEnum::Common,
+                ..Default::default()
             },
         }
     }

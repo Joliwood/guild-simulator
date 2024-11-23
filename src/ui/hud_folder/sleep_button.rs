@@ -2,7 +2,6 @@ use crate::{
     enums::{ColorPaletteEnum, TextureAtlasLayoutEnum},
     my_assets::FONT_FIRA,
     structs::{
-        // general_structs::DayTime,
         player_stats::PlayerStats,
         trigger_structs::{PlayerDayTrigger, RealTimeDayProgressBarTrigger, SleepButtonTrigger},
     },
@@ -19,6 +18,7 @@ pub fn sleep_button(
 ) {
     let sleep_button_layout = get_layout(TextureAtlasLayoutEnum::SleepButton);
     let sleep_button_atlas_layout = texture_atlas_layouts.add(sleep_button_layout);
+    // let text_hello = t!("hello");
 
     commands
         .spawn((
@@ -61,23 +61,23 @@ pub fn sleep_button(
                 ))
                 .insert(Name::new("Sleep Button Icon"));
 
-            parent
-                .spawn((
-                    Text::new(format!("Day : {}", player_stats.day)),
-                    Node {
-                        position_type: PositionType::Absolute,
-                        bottom: Val::Px(7.),
-                        left: Val::Px(80.),
-                        ..default()
-                    },
-                    TextFont {
-                        font: my_assets.load(FONT_FIRA),
-                        font_size: 12.0,
-                        ..default()
-                    },
-                    TextColor(Color::WHITE),
-                ))
-                .insert(PlayerDayTrigger);
+            parent.spawn((
+                Text::new(format!("{} : {}", t!("day"), player_stats.day)),
+                Node {
+                    position_type: PositionType::Absolute,
+                    bottom: Val::Px(7.),
+                    left: Val::Px(80.),
+                    ..default()
+                },
+                TextFont {
+                    font: my_assets.load(FONT_FIRA),
+                    font_size: 12.0,
+                    ..default()
+                },
+                TextColor(Color::WHITE),
+                PlayerDayTrigger,
+            ));
+            // .insert(PlayerDayTrigger);
 
             // Progress bar
             parent.spawn((

@@ -1,7 +1,3 @@
-use super::{
-    recruit_endurance::recruit_endurance, recruit_intelligence::recruit_intelligence,
-    recruit_strength::recruit_strength,
-};
 use crate::{
     enums::{ColorPaletteEnum, RecruitStateEnum},
     my_assets::FONT_FIRA,
@@ -10,23 +6,26 @@ use crate::{
         armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
     },
 };
-// use accesskit::{Node as Accessible, Role};
-use bevy::{
-    // a11y::AccessibilityNode,
-    prelude::*,
-};
+use bevy::prelude::*;
+
+use super::{recruit_attack::recruit_attack, recruit_defense::recruit_defense};
 
 pub fn recruit_card(
-    left_container: &mut ChildBuilder,
+    parent: &mut ChildBuilder,
     my_assets: &Res<AssetServer>,
     player_stats: &Res<PlayerStats>,
     recruit: &RecruitStats,
     recruit_texture_atlas_layout: Handle<TextureAtlasLayout>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    left_container
+    parent
         .spawn((
             Button,
+            UiImage {
+                image: my_assets.load("images/rooms/barrack/recruit_card_background.png"),
+                ..default()
+            }
+            .with_mode(NodeImageMode::Stretch),
             Node {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Row,
@@ -41,15 +40,10 @@ pub fn recruit_card(
                     right: Val::Px(7.),
                 },
                 border: UiRect::all(Val::Px(2.0)),
-                overflow: Overflow {
-                    x: OverflowAxis::Hidden,
-                    y: OverflowAxis::Hidden,
-                },
                 ..default()
             },
-            BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
+            BorderColor(Color::BLACK),
             BorderRadius::all(Val::Px(10.)),
-            // AccessibilityNode(Accessible::new(Role::ListItem)),
         ))
         .insert(PickingBehavior {
             should_block_lower: false,
@@ -83,16 +77,25 @@ pub fn recruit_card(
                         BorderRadius::all(Val::Px(10.)),
                         BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.8)),
                     ))
+                    .insert(PickingBehavior {
+                        should_block_lower: false,
+                        ..default()
+                    })
                     .with_children(|overlay| {
-                        overlay.spawn((
-                            Text::new(recruit.state.get_description()),
-                            TextFont {
-                                font: my_assets.load(FONT_FIRA),
-                                font_size: 18.0,
+                        overlay
+                            .spawn((
+                                Text::new(t!(recruit.state.get_description())),
+                                TextFont {
+                                    font: my_assets.load(FONT_FIRA),
+                                    font_size: 18.0,
+                                    ..default()
+                                },
+                                TextColor(Color::WHITE),
+                            ))
+                            .insert(PickingBehavior {
+                                should_block_lower: false,
                                 ..default()
-                            },
-                            TextColor(Color::WHITE),
-                        ));
+                            });
                     });
             }
         })
@@ -100,6 +103,10 @@ pub fn recruit_card(
             // Recruit portrait image (left-most side)
             button
                 .spawn((
+                    UiImage {
+                        image: my_assets.load("images/rooms/barrack/recruit_avatar_card_frame.png"),
+                        ..default()
+                    },
                     Node {
                         width: Val::Px(80.0),
                         height: Val::Px(80.0),
@@ -107,35 +114,67 @@ pub fn recruit_card(
                             top: Val::Px(0.),
                             bottom: Val::Px(0.),
                             left: Val::Px(5.),
-                            right: Val::Px(10.),
+                            right: Val::Px(5.),
                         },
                         overflow: Overflow {
                             x: OverflowAxis::Hidden,
                             y: OverflowAxis::Hidden,
                         },
-                        align_items: AlignItems::FlexStart,
+                        align_items: AlignItems::Center,
                         justify_content: JustifyContent::Center,
                         ..default()
                     },
-                    BackgroundColor(Color::NONE),
+                    GlobalZIndex(5),
                 ))
-                .with_children(|frame| {
-                    // Image that is 200x400, clipped by the parent container
-                    frame.spawn((
-                        UiImage::from_atlas_image(
-                            my_assets.load("images/recruits/recruit_picture_atlas.png"),
-                            TextureAtlas {
-                                index: recruit.image_atlas_index.into(),
-                                layout: recruit_texture_atlas_layout.clone(),
+                .insert(PickingBehavior {
+                    should_block_lower: false,
+                    ..default()
+                })
+                .with_children(|button| {
+                    button
+                        .spawn((
+                            Node {
+                                position_type: PositionType::Absolute,
+                                width: Val::Percent(100.0),
+                                height: Val::Percent(100.0),
+                                align_items: AlignItems::FlexStart,
+                                justify_content: JustifyContent::Center,
+                                overflow: Overflow {
+                                    x: OverflowAxis::Clip,
+                                    y: OverflowAxis::Clip,
+                                },
+                                ..default()
                             },
-                        ),
-                        Node {
-                            width: Val::Px(80.),
-                            height: Val::Px(140.),
-                            position_type: PositionType::Absolute,
+                            BackgroundColor(Color::NONE),
+                            GlobalZIndex(3),
+                        ))
+                        .insert(PickingBehavior {
+                            should_block_lower: false,
                             ..default()
-                        },
-                    ));
+                        })
+                        .with_children(|frame| {
+                            // Image that is 200x400, clipped by the parent container
+                            frame
+                                .spawn((
+                                    UiImage::from_atlas_image(
+                                        my_assets.load("images/recruits/recruit_picture_atlas.png"),
+                                        TextureAtlas {
+                                            index: recruit.image_atlas_index.into(),
+                                            layout: recruit_texture_atlas_layout.clone(),
+                                        },
+                                    ),
+                                    Node {
+                                        width: Val::Px(80.),
+                                        height: Val::Px(140.),
+                                        position_type: PositionType::Absolute,
+                                        ..default()
+                                    },
+                                ))
+                                .insert(PickingBehavior {
+                                    should_block_lower: false,
+                                    ..default()
+                                });
+                        });
                 });
 
             // Container for recruit name and class
@@ -152,46 +191,64 @@ pub fn recruit_card(
                     margin: UiRect::all(Val::Px(5.0)),
                     ..default()
                 })
+                .insert(PickingBehavior {
+                    should_block_lower: false,
+                    ..default()
+                })
                 .with_children(|name_class_container| {
                     // Recruit name
-                    name_class_container.spawn((
-                        Text::new(recruit.name.clone()),
-                        TextLayout {
-                            linebreak: LineBreak::NoWrap,
+                    name_class_container
+                        .spawn((
+                            Text::new(t!(recruit.name.clone())),
+                            TextLayout {
+                                linebreak: LineBreak::NoWrap,
+                                ..default()
+                            },
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 16.0,
+                                ..default()
+                            },
+                            TextColor(ColorPaletteEnum::DarkBrown.as_color()),
+                        ))
+                        .insert(PickingBehavior {
+                            should_block_lower: false,
                             ..default()
-                        },
-                        TextFont {
-                            font: my_assets.load(FONT_FIRA),
-                            font_size: 16.0,
-                            ..default()
-                        },
-                        TextColor(ColorPaletteEnum::DarkBrown.as_color()),
-                    ));
+                        });
 
                     // Recruit class
-                    name_class_container.spawn((
-                        Text::new(recruit.class.to_string()),
-                        TextFont {
-                            font: my_assets.load(FONT_FIRA),
-                            font_size: 14.0,
+                    name_class_container
+                        .spawn((
+                            Text::new(t!(recruit.class.to_string())),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(ColorPaletteEnum::DarkBrown.as_color()),
+                        ))
+                        .insert(PickingBehavior {
+                            should_block_lower: false,
                             ..default()
-                        },
-                        TextColor(ColorPaletteEnum::DarkBrown.as_color()),
-                    ));
+                        });
 
                     // Recruit level
-                    name_class_container.spawn((
-                        Text::new(format!("Level: {}", recruit.level)),
-                        TextFont {
-                            font: my_assets.load(FONT_FIRA),
-                            font_size: 14.0,
+                    name_class_container
+                        .spawn((
+                            Text::new(format!("{}: {}", t!("level"), recruit.level)),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(ColorPaletteEnum::DarkBrown.as_color()),
+                        ))
+                        .insert(PickingBehavior {
+                            should_block_lower: false,
                             ..default()
-                        },
-                        TextColor(ColorPaletteEnum::DarkBrown.as_color()),
-                    ));
+                        });
                 });
 
-            // Container for recruit stats (strength, armor, intelligence)
             button
                 .spawn(Node {
                     flex_direction: FlexDirection::Column,
@@ -199,45 +256,46 @@ pub fn recruit_card(
                     margin: UiRect::all(Val::Px(5.0)),
                     ..default()
                 })
+                .insert(PickingBehavior {
+                    should_block_lower: false,
+                    ..default()
+                })
                 .with_children(|stats_container| {
                     // Recruit XP
-                    stats_container.spawn((
-                        Text::new(format!(
-                            "XP: {}/{}",
-                            recruit.experience, recruit.max_experience
-                        )),
-                        TextFont {
-                            font: my_assets.load(FONT_FIRA),
-                            font_size: 16.0,
+                    stats_container
+                        .spawn((
+                            Text::new(format!(
+                                "XP: {}/{}",
+                                recruit.experience, recruit.max_experience
+                            )),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(ColorPaletteEnum::DarkBrown.as_color()),
+                        ))
+                        .insert(PickingBehavior {
+                            should_block_lower: false,
                             ..default()
-                        },
-                        TextColor(ColorPaletteEnum::DarkBrown.as_color()),
-                    ));
+                        });
 
-                    let get_additional_strength_from_items =
-                        recruit.get_additional_strength_from_items();
+                    let additionnal_attack_from_items = recruit.get_additional_stats_from_items().0;
 
-                    recruit_strength(
-                        // TODO - Fix common type for stats
+                    let additionnal_defense_from_items =
+                        recruit.get_additional_stats_from_items().1;
+
+                    recruit_attack(
                         stats_container,
-                        recruit.strength.into(),
-                        get_additional_strength_from_items,
+                        recruit,
+                        additionnal_attack_from_items,
                         my_assets,
                     );
 
-                    recruit_endurance(
+                    recruit_defense(
                         stats_container,
-                        // TODO - Fix common type for stats
-                        recruit.endurance.into(),
-                        recruit.get_additional_endurance_from_items(),
-                        my_assets,
-                    );
-
-                    recruit_intelligence(
-                        stats_container,
-                        // TODO - Fix common type for stats
-                        recruit.intelligence.into(),
-                        recruit.get_additional_intelligence_from_items(),
+                        recruit,
+                        additionnal_defense_from_items,
                         my_assets,
                     );
                 });
@@ -251,6 +309,10 @@ pub fn recruit_card(
                     justify_content: JustifyContent::Start,
                     ..default()
                 })
+                .insert(PickingBehavior {
+                    should_block_lower: false,
+                    ..default()
+                })
                 .with_children(|equipments_container| {
                     // Top container for weapon and armor
                     equipments_container
@@ -259,6 +321,10 @@ pub fn recruit_card(
                             column_gap: Val::Px(2.0),
                             align_self: AlignSelf::FlexEnd,
                             align_items: AlignItems::Center,
+                            ..default()
+                        })
+                        .insert(PickingBehavior {
+                            should_block_lower: false,
                             ..default()
                         })
                         .with_children(|top_container| {
@@ -274,6 +340,10 @@ pub fn recruit_card(
                             column_gap: Val::Px(2.0),
                             justify_content: JustifyContent::Center,
                             align_items: AlignItems::Center,
+                            ..default()
+                        })
+                        .insert(PickingBehavior {
+                            should_block_lower: false,
                             ..default()
                         })
                         .with_children(|bottom_container| {

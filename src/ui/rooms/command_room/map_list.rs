@@ -21,8 +21,8 @@ pub fn map_list(
             padding: UiRect {
                 left: Val::Px(1.),
                 right: Val::Px(5.),
-                top: Val::Px(5.),
                 bottom: Val::Px(5.),
+                ..default()
             },
             ..default()
         })

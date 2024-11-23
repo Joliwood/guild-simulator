@@ -100,7 +100,7 @@ impl Default for Maps {
     fn default() -> Self {
         Self(vec![
             Map {
-                description: "Map gived by the mayor, marking vagrant camps causing trouble. Taking out their leader could make the town safer.".to_string(),
+                description: "campaign1_desc".to_string(),
                 id: 1,
                 image_atlas_index: 0,
                 image: MapImageEnum::CampagnTuto,
@@ -108,12 +108,12 @@ impl Default for Maps {
                 map_mission_ids: vec![1, 2, 3, 4, 5, 6],
                 map_type: MapTypeEnum::Campaign,
                 mission_ids_finished: vec![],
-                name: "Troublemaker's Area".to_string(),
+                name: "campaign1_name".to_string(),
                 recommanded_power_level: 25,
                 unlocked: true,
             },
             Map {
-                description: "Campaign 1 description".to_string(),
+                description: "campaign2_desc".to_string(),
                 id: 2,
                 image_atlas_index: 1,
                 image: MapImageEnum::CampagnTuto,
@@ -121,12 +121,12 @@ impl Default for Maps {
                 map_mission_ids: vec![],
                 map_type: MapTypeEnum::BossMission,
                 mission_ids_finished: vec![],
-                name: "Campaign 2".to_string(),
+                name: "campaign2_name".to_string(),
                 recommanded_power_level: 40,
                 unlocked: true,
             },
             Map {
-                description: "Campaign 2 description".to_string(),
+                description: "campaign3_desc".to_string(),
                 id: 3,
                 image_atlas_index: 1,
                 image: MapImageEnum::CampagnTuto,
@@ -134,7 +134,7 @@ impl Default for Maps {
                 map_mission_ids: vec![],
                 map_type: MapTypeEnum::Campaign,
                 mission_ids_finished: vec![],
-                name: "Campaign 2".to_string(),
+                name: "campaign3_name".to_string(),
                 recommanded_power_level: 40,
                 unlocked: false,
             },

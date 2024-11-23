@@ -1,68 +1,98 @@
 #![allow(dead_code)]
-use crate::{enums::ItemRaretyEnum, structs::equipments::Weapon};
+use crate::{
+    enums::{ClassEnum, ItemRaretyEnum},
+    structs::equipments::Weapon,
+};
 
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub enum WeaponsEnum {
-    SwordOfValor,
-    AxeOfFury,
-    SpearOfDestiny,
-    BowOfTheEagle,
-    MaceOfTheThunder,
+    /// ## Integrated in :
+    /// - Mission 5
+    /// - Daily discussion 10
+    WoodenSword,
+
+    /// ## Integrated in :
+    /// - Mission 4
+    BowWithoutString,
+
+    /// ## Integrated in :
+    /// - Mission 5
+    LumberjackAxe,
+
+    /// ## Integrated in :
+    /// - Mission 1
+    MagicToothpick,
+
+    /// ## Integrated in :
+    /// - Mission 4
+    UnsharpDagger,
+
+    /// ## Integrated in :
+    /// - Mission 2
+    WalkingStick,
 }
 
 impl WeaponsEnum {
     /// Get a weapon by its enum variant
     pub fn get_weapon(&self) -> Weapon {
         match self {
-            WeaponsEnum::SwordOfValor => Weapon {
-                endurance: Some(5),
+            WeaponsEnum::WoodenSword => Weapon {
                 id: 1,
                 image_atlas_index: 0,
-                intelligence: None,
-                name: "Sword of Valor".to_string(),
+                name: t!("weapon1_name").to_string(),
                 price: 10,
                 rarety: ItemRaretyEnum::Common,
-                strength: Some(7),
+                attack: Some(7),
+                defense: Some(3),
+                ..Default::default()
             },
-            WeaponsEnum::AxeOfFury => Weapon {
-                endurance: None,
+            WeaponsEnum::BowWithoutString => Weapon {
                 id: 2,
                 image_atlas_index: 1,
-                intelligence: None,
-                name: "Axe of Fury".to_string(),
+                name: t!("weapon2_name").to_string(),
                 price: 2,
                 rarety: ItemRaretyEnum::Common,
-                strength: Some(5),
+                optimized_for: (vec![ClassEnum::Hunter], (5)),
+                attack: Some(3),
+                ..Default::default()
             },
-            WeaponsEnum::SpearOfDestiny => Weapon {
-                endurance: None,
+            WeaponsEnum::LumberjackAxe => Weapon {
                 id: 3,
                 image_atlas_index: 2,
-                intelligence: Some(5),
-                name: "Spear of Destiny".to_string(),
+                name: t!("weapon3_name").to_string(),
                 price: 5,
                 rarety: ItemRaretyEnum::Common,
-                strength: Some(2),
+                attack: Some(6),
+                ..Default::default()
             },
-            WeaponsEnum::BowOfTheEagle => Weapon {
-                endurance: None,
+            WeaponsEnum::MagicToothpick => Weapon {
                 id: 4,
                 image_atlas_index: 3,
-                intelligence: Some(8),
-                name: "Bow of the Eagle".to_string(),
-                price: 12,
+                name: t!("weapon4_name").to_string(),
+                price: 2,
                 rarety: ItemRaretyEnum::Common,
-                strength: Some(3),
+                optimized_for: (vec![ClassEnum::Mage], (5)),
+                attack: Some(2),
+                ..Default::default()
             },
-            WeaponsEnum::MaceOfTheThunder => Weapon {
-                endurance: None,
+            WeaponsEnum::UnsharpDagger => Weapon {
                 id: 5,
                 image_atlas_index: 4,
-                intelligence: None,
-                name: "Mace of the Thunder".to_string(),
-                price: 12,
-                rarety: ItemRaretyEnum::UnCommon,
-                strength: Some(6),
+                name: t!("weapon5_name").to_string(),
+                price: 4,
+                rarety: ItemRaretyEnum::Common,
+                attack: Some(4),
+                ..Default::default()
+            },
+            WeaponsEnum::WalkingStick => Weapon {
+                id: 6,
+                image_atlas_index: 5,
+                name: t!("weapon6_name").to_string(),
+                price: 4,
+                rarety: ItemRaretyEnum::Common,
+                attack: Some(5),
+                defense: Some(1),
+                ..Default::default()
             },
         }
     }

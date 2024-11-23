@@ -1,13 +1,16 @@
 use super::{left_hud::left_hud, right_hud::right_hud, sleep_button::sleep_button};
 use crate::{
+    custom_components::notification_count_indicator,
     enums::{RoomEnum, TextureAtlasLayoutEnum},
     structs::{
-        general_structs::DayTime, player_stats::PlayerStats, trigger_structs::RoomButtonTrigger,
+        general_structs::{DayTime, NotificationCount},
+        player_stats::PlayerStats,
+        trigger_structs::RoomButtonTrigger,
     },
     utils::get_layout,
 };
 use bevy::prelude::*;
-// use pyri_tooltip::Tooltip;
+use pyri_tooltip::Tooltip;
 
 pub fn hud(
     my_assets: Res<AssetServer>,
@@ -15,6 +18,7 @@ pub fn hud(
     player_stats: Res<PlayerStats>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     _day_time: Res<DayTime>,
+    notification_count: Res<NotificationCount>,
 ) {
     let hud_icons_layout = get_layout(TextureAtlasLayoutEnum::HudIcon);
     let hud_icons_texture_atlas_layout: Handle<TextureAtlasLayout> =
@@ -72,6 +76,7 @@ pub fn hud(
                             Node {
                                 width: Val::Px(30.),
                                 height: Val::Px(30.),
+                                position_type: PositionType::Relative,
                                 ..default()
                             },
                             UiImage::from_atlas_image(
@@ -81,9 +86,17 @@ pub fn hud(
                                     layout: hud_icons_texture_atlas_layout.clone(),
                                 },
                             ),
-                            // Tooltip::cursor("Go to the command room\n\nShortcut: press 'S'"),
+                            Tooltip::cursor(t!("tooltip_command_room_indications").to_string()),
                         ))
-                        .insert(RoomButtonTrigger(RoomEnum::CommandRoom));
+                        .insert(RoomButtonTrigger(RoomEnum::CommandRoom))
+                        .with_children(|parent| {
+                            notification_count_indicator(
+                                parent,
+                                notification_count.command_room_count,
+                                &my_assets,
+                                RoomEnum::CommandRoom,
+                            );
+                        });
 
                     middle_container
                         .spawn((
@@ -100,9 +113,17 @@ pub fn hud(
                                     layout: hud_icons_texture_atlas_layout.clone(),
                                 },
                             ),
-                            // Tooltip::cursor("Go to the office room\n\nShortcut: press 'W/Z'"),
+                            Tooltip::cursor(t!("tooltip_office_room_indications").to_string()),
                         ))
-                        .insert(RoomButtonTrigger(RoomEnum::Office));
+                        .insert(RoomButtonTrigger(RoomEnum::Office))
+                        .with_children(|parent| {
+                            notification_count_indicator(
+                                parent,
+                                notification_count.office_count,
+                                &my_assets,
+                                RoomEnum::Office,
+                            );
+                        });
 
                     middle_container
                         .spawn((
@@ -119,9 +140,17 @@ pub fn hud(
                                     layout: hud_icons_texture_atlas_layout.clone(),
                                 },
                             ),
-                            // Tooltip::cursor("Go to the barrack room\n\nShortcut: press 'D'"),
+                            Tooltip::cursor(t!("tooltip_barrack_room_indications").to_string()),
                         ))
-                        .insert(RoomButtonTrigger(RoomEnum::Barrack));
+                        .insert(RoomButtonTrigger(RoomEnum::Barrack))
+                        .with_children(|parent| {
+                            notification_count_indicator(
+                                parent,
+                                notification_count.barrack_count,
+                                &my_assets,
+                                RoomEnum::Barrack,
+                            );
+                        });
                 });
 
             right_hud(

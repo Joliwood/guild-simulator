@@ -1,16 +1,20 @@
 use super::{
+    daily_events_folder::daily_events::get_random_index_from_percent_arr,
     equipments::ItemEnum,
     general_structs::{load_armor, load_scroll, load_weapon, Ennemy},
     player_stats::PlayerStats,
+    recruits::RecruitStats,
 };
 use crate::{
     content::{
         equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
         missions::generate_all_missions,
     },
-    utils::{calculate_price_range, get_victory_percentage},
+    structs::daily_events_folder::daily_events::calculate_total_apparition_chance,
+    utils::{calculate_fight, calculate_price_range},
 };
 use bevy::prelude::*;
+use rand::Rng;
 use uuid::Uuid;
 
 #[derive(Default, Debug, Component, Resource)]
@@ -54,7 +58,7 @@ impl MissionReport {
         }
     }
 
-    pub fn calculate_loots(&mut self, loots: Loots) {
+    pub fn calculate_loots(&mut self, loots: Loots, recruit: &RecruitStats) {
         let item_loots = loots.0;
 
         if item_loots.is_empty() {
@@ -77,21 +81,36 @@ impl MissionReport {
             }
         };
 
-        // ! WIP - It doesn't take in consideration the % loot of each item !!!
+        // We convert u8 to u16 because we can exceed the max of u8 with loot addition
+        let all_item_chance_vec_for_first_loot: Vec<u16> = item_loots
+            .iter()
+            .map(|item| item.percent as u16)
+            .collect::<Vec<u16>>();
+
+        let first_random_item_index =
+            get_random_index_from_percent_arr(&all_item_chance_vec_for_first_loot);
+
         // Step 1: Pick one guaranteed random item
-        let first_random_item_index = rand::random::<usize>() % item_loots.len();
         let first_item = &item_loots[first_random_item_index];
         add_item_to_inventory(first_item);
 
+        let recruit_second_loot_chance_to_add = recruit
+            .recruit_inventory
+            .get_second_loot_chance_to_additionate_from_scroll_bonus();
+
         // Step 2: 50% chance to pick a second item (must be different)
         if item_loots.len() > 1 {
-            let second_chance = rand::random::<u8>() % 100;
-            if second_chance < 99 {
-                let mut second_random_item_index = rand::random::<usize>() % item_loots.len();
+            let total_apparition_chance =
+                calculate_total_apparition_chance(&all_item_chance_vec_for_first_loot);
+            let second_chance = rand::thread_rng().gen_range(0..total_apparition_chance) as u8;
+            if second_chance < 50 + recruit_second_loot_chance_to_add {
+                let mut second_random_item_index =
+                    get_random_index_from_percent_arr(&all_item_chance_vec_for_first_loot);
 
                 // Ensure the second item is different from the first one
                 while second_random_item_index == first_random_item_index {
-                    second_random_item_index = rand::random::<usize>() % item_loots.len();
+                    second_random_item_index =
+                        get_random_index_from_percent_arr(&all_item_chance_vec_for_first_loot);
                 }
 
                 let second_item = &item_loots[second_random_item_index];
@@ -150,11 +169,7 @@ impl SelectedMission {
                 }
             };
 
-            let ennemy_global_points = mission.ennemy.get_global_points();
-            let recruit_global_points = recruit.get_total_merged_stats();
-
-            let victory_percentage =
-                get_victory_percentage(recruit_global_points as u16, ennemy_global_points) as u32;
+            let victory_percentage = calculate_fight(&recruit, &mission.ennemy) as u32;
 
             self.percent_of_victory = Some(victory_percentage);
         }
@@ -293,7 +308,6 @@ impl ItemLoot {
         }
     }
 
-    #[allow(dead_code)]
     pub fn get_item_loot_tooltip_description(&self) -> String {
         return match self {
             ItemLoot {
@@ -301,21 +315,23 @@ impl ItemLoot {
                 ..
             } => {
                 let armor = armor.get_armor();
-                let mut description = format!("{}\n", armor.name);
+                let mut description = armor.name.to_string();
                 let price_range = calculate_price_range(armor.price);
 
-                if let Some(endurance) = armor.endurance {
-                    description.push_str(&format!("\nEndurance: {}", endurance));
+                if let Some(attack) = armor.attack {
+                    description.push_str(&format!("\n{}: {}", t!("attack"), attack));
                 }
-                if let Some(strength) = armor.strength {
-                    description.push_str(&format!("\nStrength: {}", strength));
+
+                if let Some(defense) = armor.defense {
+                    description.push_str(&format!("\n{}: {}", t!("defense"), defense));
                 }
-                if let Some(intelligence) = armor.intelligence {
-                    description.push_str(&format!("\nIntelligence: {}", intelligence));
-                }
+
                 description.push_str(&format!(
-                    "\n\nPrice: {} to {} G",
-                    price_range.0, price_range.1
+                    "\n\n{}: {} {} {} G",
+                    t!("price"),
+                    price_range.0,
+                    t!("to"),
+                    price_range.1
                 ));
 
                 description
@@ -325,21 +341,27 @@ impl ItemLoot {
                 ..
             } => {
                 let scroll = scroll.get_scroll();
-                let mut description = format!("{}\n", scroll.name);
+                let mut description = scroll.name.to_string();
                 let price_range = calculate_price_range(scroll.price);
 
-                if let Some(endurance) = scroll.endurance {
-                    description.push_str(&format!("\nEndurance: {}", endurance));
+                if let Some(attack) = scroll.attack {
+                    description.push_str(&format!("\n\n{}: {}", t!("attack"), attack));
                 }
-                if let Some(strength) = scroll.strength {
-                    description.push_str(&format!("\nStrength: {}", strength));
+
+                if let Some(defense) = scroll.defense {
+                    description.push_str(&format!("\n{}: {}", t!("defense"), defense));
                 }
-                if let Some(intelligence) = scroll.intelligence {
-                    description.push_str(&format!("\nIntelligence: {}", intelligence));
+
+                for bonus in scroll.bonus.iter() {
+                    description.push_str(&format!("\n{:?}", bonus));
                 }
+
                 description.push_str(&format!(
-                    "\n\nPrice: {} to {} G",
-                    price_range.0, price_range.1
+                    "\n\n{}: {} {} {} G",
+                    t!("price"),
+                    price_range.0,
+                    t!("to"),
+                    price_range.1
                 ));
 
                 description
@@ -349,21 +371,23 @@ impl ItemLoot {
                 ..
             } => {
                 let weapon = weapon.get_weapon();
-                let mut description = format!("{}\n", weapon.name);
+                let mut description = weapon.name.to_string();
                 let price_range = calculate_price_range(weapon.price);
 
-                if let Some(endurance) = weapon.endurance {
-                    description.push_str(&format!("\nEndurance: {}", endurance));
+                if let Some(attack) = weapon.attack {
+                    description.push_str(&format!("\n{}: {}", t!("attack"), attack));
                 }
-                if let Some(strength) = weapon.strength {
-                    description.push_str(&format!("\nStrength: {}", strength));
+
+                if let Some(defense) = weapon.defense {
+                    description.push_str(&format!("\n{}: {}", t!("defense"), defense));
                 }
-                if let Some(intelligence) = weapon.intelligence {
-                    description.push_str(&format!("\nIntelligence: {}", intelligence));
-                }
+
                 description.push_str(&format!(
-                    "\n\nPrice: {} to {} G",
-                    price_range.0, price_range.1
+                    "\n\n{}: {} {} {} G",
+                    t!("price"),
+                    price_range.0,
+                    t!("to"),
+                    price_range.1
                 ));
 
                 description

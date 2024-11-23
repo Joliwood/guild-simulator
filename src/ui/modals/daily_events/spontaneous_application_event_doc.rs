@@ -59,7 +59,7 @@ pub fn spontaneous_application_event_doc(
                 .with_children(|column| {
                     // Title at the top
                     column.spawn((
-                        Text::new(spontaneous_application.title.clone()),
+                        Text::new(t!(&spontaneous_application.title)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 16.0,
@@ -94,7 +94,7 @@ pub fn spontaneous_application_event_doc(
 
                     // Description below the image
                     column.spawn((
-                        Text::new(spontaneous_application.description.clone()),
+                        Text::new(t!(&spontaneous_application.description)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 12.0,
@@ -126,7 +126,7 @@ pub fn spontaneous_application_event_doc(
                             .insert(spontaneous_application.clone())
                             .with_children(|button| {
                                 button.spawn((
-                                    Text::new(answer.message.clone()),
+                                    Text::new(t!(&answer.message)),
                                     TextFont {
                                         font: my_assets.load(FONT_FIRA),
                                         font_size: 12.0,

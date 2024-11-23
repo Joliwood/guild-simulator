@@ -19,12 +19,12 @@ pub fn map_description(
                 row_gap: Val::Px(10.),
                 align_items: AlignItems::FlexStart,
                 width: Val::Percent(100.),
-                height: Val::Percent(35.),
+                height: Val::Percent(34.),
                 padding: UiRect {
-                    left: Val::Px(25.),
-                    right: Val::Px(25.),
+                    left: Val::Px(20.),
+                    right: Val::Px(20.),
                     top: Val::Px(20.),
-                    bottom: Val::Px(20.),
+                    bottom: Val::Px(10.),
                 },
                 ..default()
             },
@@ -32,7 +32,7 @@ pub fn map_description(
         .with_children(|column| {
             if let Some(map) = selected_map {
                 column.spawn((
-                    Text::new(map.name.clone()),
+                    Text::new(t!(&map.name)),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
                         font_size: 14.0,
@@ -42,7 +42,7 @@ pub fn map_description(
                 ));
 
                 column.spawn((
-                    Text::new(map.description.clone()),
+                    Text::new(t!(&map.description)),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
                         font_size: 12.0,
