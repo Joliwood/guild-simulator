@@ -44,7 +44,7 @@ pub fn weapon_button(
                     },
                 ),
                 ItemInInventoryTrigger(None),
-                Tooltip::cursor(tooltip_text.to_string())
+                Tooltip::cursor(t!(tooltip_text).to_string())
                     .with_activation(TooltipActivation::IMMEDIATE),
             ))
             .insert(PickingBehavior {

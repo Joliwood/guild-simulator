@@ -122,7 +122,7 @@ pub fn map_on_table(
                                         ))
                                         .with_children(|overlay| {
                                             overlay.spawn((
-                                                Text::new("A recruit has already been sent"),
+                                                Text::new(t!("recruit_already_sent")),
                                                 TextFont {
                                                     font: my_assets.load(FONT_FIRA),
                                                     font_size: 16.0,

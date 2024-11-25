@@ -6,7 +6,7 @@ use crate::{
     },
     utils::get_layout,
 };
-use bevy::prelude::*;
+use bevy::{prelude::*, scene::ron::to_string};
 use pyri_tooltip::Tooltip;
 
 pub fn hud(
@@ -81,7 +81,7 @@ pub fn hud(
                                     layout: hud_icons_texture_atlas_layout.clone(),
                                 },
                             ),
-                            Tooltip::cursor("Go to the command room\n\nShortcut: press 'S'"),
+                            Tooltip::cursor(t!("tooltip_command_room_indications").to_string()),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::CommandRoom));
 
@@ -100,7 +100,7 @@ pub fn hud(
                                     layout: hud_icons_texture_atlas_layout.clone(),
                                 },
                             ),
-                            Tooltip::cursor("Go to the office room\n\nShortcut: press 'W/Z'"),
+                            Tooltip::cursor(t!("tooltip_office_room_indications").to_string()),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::Office));
 
@@ -119,7 +119,7 @@ pub fn hud(
                                     layout: hud_icons_texture_atlas_layout.clone(),
                                 },
                             ),
-                            Tooltip::cursor("Go to the barrack room\n\nShortcut: press 'D'"),
+                            Tooltip::cursor(t!("tooltip_barrack_room_indications").to_string()),
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::Barrack));
                 });

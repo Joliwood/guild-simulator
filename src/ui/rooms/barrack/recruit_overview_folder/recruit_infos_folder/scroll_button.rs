@@ -74,7 +74,8 @@ pub fn scroll_button(
                 },
             ),
             ItemInInventoryTrigger(None),
-            Tooltip::cursor(tooltip_text.to_string()).with_activation(TooltipActivation::IMMEDIATE),
+            Tooltip::cursor(t!(tooltip_text).to_string())
+                .with_activation(TooltipActivation::IMMEDIATE),
         ));
     } else {
         // Empty scroll button

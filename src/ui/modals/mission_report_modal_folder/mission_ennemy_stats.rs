@@ -21,7 +21,7 @@ pub fn mission_ennemy_stats(
         })
         .with_children(|stats_column| {
             stats_column.spawn((
-                Text::new(format!("Level: {}", ennemy_stats.level)),
+                Text::new(format!("{}: {}", t!("level"), ennemy_stats.level)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,

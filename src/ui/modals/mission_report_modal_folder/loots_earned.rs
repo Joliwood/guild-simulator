@@ -26,7 +26,7 @@ pub fn loots_earned(
         .with_children(|parent| {
             // Loots Text
             parent.spawn((
-                Text::new("Loots"),
+                Text::new(t!("loots")),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 16.0,
@@ -46,8 +46,11 @@ pub fn loots_earned(
                     // Loots in text
                     parent.spawn((
                         Text::new(format!(
-                            "+ {} Golds | + {} XP for recruit",
-                            golds_gained, experience_gained
+                            "+ {} {} | + {} XP {}",
+                            golds_gained,
+                            t!("golds"),
+                            experience_gained,
+                            t!("for_recruit")
                         )),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),

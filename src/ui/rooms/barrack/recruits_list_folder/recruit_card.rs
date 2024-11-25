@@ -79,7 +79,7 @@ pub fn recruit_card(
                     .with_children(|overlay| {
                         overlay
                             .spawn((
-                                Text::new(recruit.state.get_description()),
+                                Text::new(t!(recruit.state.get_description())),
                                 TextFont {
                                     font: my_assets.load(FONT_FIRA),
                                     font_size: 18.0,
@@ -167,7 +167,7 @@ pub fn recruit_card(
                     // Recruit name
                     name_class_container
                         .spawn((
-                            Text::new(recruit.name.clone()),
+                            Text::new(t!(recruit.name.clone())),
                             TextLayout {
                                 linebreak: LineBreak::NoWrap,
                                 ..default()
@@ -187,7 +187,7 @@ pub fn recruit_card(
                     // Recruit class
                     name_class_container
                         .spawn((
-                            Text::new(recruit.class.to_string()),
+                            Text::new(t!(recruit.class.to_string())),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
@@ -203,7 +203,7 @@ pub fn recruit_card(
                     // Recruit level
                     name_class_container
                         .spawn((
-                            Text::new(format!("Level: {}", recruit.level)),
+                            Text::new(format!("{}: {}", t!("level"), recruit.level)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,

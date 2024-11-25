@@ -75,7 +75,7 @@ pub fn map_card(
 
             // Map Name (Top-Right)
             map_container.spawn((
-                Text::new(map.name.clone()),
+                Text::new(t!(&map.name)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 12.0,
@@ -104,7 +104,7 @@ pub fn map_card(
                 })
                 .with_children(|icon_container| {
                     icon_container.spawn((
-                        Text::new(map.recommanded_power_level.to_string()),
+                        Text::new(t!(map.recommanded_power_level.to_string())),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 14.0,
@@ -129,7 +129,7 @@ pub fn map_card(
                         let missions_finished_text =
                             format!("{}/{}", missions_finished_number, map.map_mission_ids.len());
                         icon_container.spawn((
-                            Text::new(missions_finished_text),
+                            Text::new(t!(missions_finished_text)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,

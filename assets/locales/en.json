@@ -58,16 +58,16 @@
   "discussion10_desc": "Hello, I've just seen that you've moved to our beautiful town, so welcome! I've already done my share of work, you know, but perhaps my old equipment could be of use to you, here...",
   "discussion10_answer1_msg": "Thank you very much, you can be sure that we'll make good use of it, have a nice day and please close the drafty door.",
 
-  "spontaneous_app1_title": "Hello, the mayor sent me because I have some humm... worries let's say... In short, I've got debts to pay, mainly due to the increase in beer prices at the inn, which I didn't insure... I'm a new man, believe me! Do you have a job for a repentant man?",
-  "spontaneous_app1_desc": "Proposal from a person in debt",
+  "spontaneous_app1_title": "Proposal from a person in debt",
+  "spontaneous_app1_desc": "Hello, the mayor sent me because I have some humm... worries let's say... In short, I've got debts to pay, mainly due to the increase in beer prices at the inn, which I didn't insure... I'm a new man, believe me! Do you have a job for a repentant man?",
   "spontaneous_app1_answer1_msg": "Welcome to our guild ! You're hired !",
 
-  "spontaneous_app2_title": "Hello ! So you're the new club on the block? Well, I was sent here because I made some blunders... So here's my confession: I set fire to the library, but I didn't mean to! You've got to believe me... at the same time, if the town had installed street lighting, I wouldn't have been clutching an oil lamp as I slid down the library steps... I think I'll have to work for a while to pay off my debt to the city...",
-  "spontaneous_app2_desc": "He says his name is Hubert...",
+  "spontaneous_app2_title": "He says his name is Hubert...",
+  "spontaneous_app2_desc": "Hello ! So you're the new club on the block? Well, I was sent here because I made some blunders... So here's my confession: I set fire to the library, but I didn't mean to! You've got to believe me... at the same time, if the town had installed street lighting, I wouldn't have been clutching an oil lamp as I slid down the library steps... I think I'll have to work for a while to pay off my debt to the city...",
   "spontaneous_app2_answer1_msg": "I see you are a mage, well I need recruits, come in.. I mean welcome",
 
-  "spontaneous_app3_title": "Hello, I am not really good, but I can do things... I suppose... but nothing is free !",
-  "spontaneous_app3_desc": "A big noob approachs",
+  "spontaneous_app3_title": "A big noob approachs",
+  "spontaneous_app3_desc": "Hello, I am not really good, but I can do things... I suppose... but nothing is free !",
   "spontaneous_app3_answer1_msg": "We have some dirty missions, let's go !",
   "spontaneous_app3_answer2_msg": "I don't have time for you sorry, have a good day",
 
@@ -131,5 +131,33 @@
   "defense": "Defense",
   "price": "Price",
 
-  "to": "to"
+  "to": "to",
+  "day": "Day",
+  "lvl": "Lvl",
+  "loots": "Loots",
+  "target": "Target",
+  "recruit": "Recruit",
+  "golds": "Golds",
+  "for_recruit": "for recruit",
+  "weapon": "Weapon",
+  "scrolls": "Scrolls",
+  "armor": "Armor",
+
+  "tooltip_command_room_indications": "Gssso to the command room\n\nShortcut: press 'S'",
+  "tooltip_office_room_indications": "Go to the office room\n\nShortcut: press 'W/Z'",
+  "tooltip_barrack_room_indications": "Go to the barrack room\n\nShortcut: press 'D'",
+  "tooltip_hud_golds": "Your golds",
+  "tooltip_recruit_nb": "You have this many recruits",
+  "tooltip_reputation": "Your reputation score",
+  "tooltip_toxicity": "Your toxicity score",
+  "tooltip_settings_menu": "Settings menu (not implemented yet)",
+
+  "start_mission": "Start the mission",
+  "no_recruit_selected": "No recruit selected",
+  "ennemy_sent": "ennemy sent",
+  "mission_report_desc": "Report of the mission",
+  "sign_report": "Sign the report",
+  "recruit_sent": "Recruit sent",
+  "inventory": "Inventory",
+  "recruit_already_sent": "A recruit has already been sent"
 }

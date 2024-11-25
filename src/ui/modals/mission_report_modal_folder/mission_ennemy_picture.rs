@@ -27,7 +27,7 @@ pub fn mission_ennemy_picture(
         .with_children(|ennemy_block| {
             // Text: "ennemy sent"
             ennemy_block.spawn((
-                Text::new("ennemy sent"),
+                Text::new(t!("ennemy_sent")),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,

@@ -73,7 +73,7 @@ pub fn mission_recap(
 
             // Mission description
             parent.spawn((
-                Text::new(mission.description.clone()),
+                Text::new(t!(&mission.description)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,
@@ -94,7 +94,7 @@ pub fn mission_recap(
                 .with_children(|parent| {
                     // Row 1: Name (left) and Level (right)
                     parent.spawn((
-                        Text::new(format!("Target : {}", mission.ennemy.name)),
+                        Text::new(format!("{} : {}", t!("target"), mission.ennemy.name)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 14.0,
@@ -105,7 +105,7 @@ pub fn mission_recap(
 
                     // Enemy Level
                     parent.spawn((
-                        Text::new(format!("Level : {}", mission.ennemy.level)),
+                        Text::new(format!("{} : {}", t!("level"), mission.ennemy.level)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 14.0,

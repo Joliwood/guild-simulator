@@ -83,7 +83,7 @@ pub fn map_recruit_card(
                     ))
                     .with_children(|overlay| {
                         overlay.spawn((
-                            Text::new(recruit.state.get_description()),
+                            Text::new(t!(recruit.state.get_description())),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
@@ -165,7 +165,7 @@ pub fn map_recruit_card(
                 },))
                 .with_children(|parent| {
                     parent.spawn((
-                        Text::new(recruit.name.clone()),
+                        Text::new(t!(&recruit.name)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 12.0,
@@ -186,7 +186,7 @@ pub fn map_recruit_card(
                     ));
 
                     parent.spawn((
-                        Text::new(recruit.class.to_string()),
+                        Text::new(t!(recruit.class.to_string())),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 12.0,

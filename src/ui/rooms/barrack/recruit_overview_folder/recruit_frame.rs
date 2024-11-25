@@ -49,7 +49,7 @@ pub fn recruit_frame(
         .with_children(|parent| {
             // if let Some(selected_recruit_for_equipment_data) = selected_recruit_for_equipment {
             parent.spawn((
-                Text::new(selected_recruit_for_equipment_name),
+                Text::new(t!(selected_recruit_for_equipment_name)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 18.0,

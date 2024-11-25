@@ -36,7 +36,7 @@ pub fn spawn_right_container(
         .insert(Name::new("Room barrack > inventory"))
         .with_children(|parent| {
             parent.spawn((
-                Text::new("Inventory"),
+                Text::new(t!("inventory")),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 26.,

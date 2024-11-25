@@ -96,7 +96,7 @@ fn main() -> AppExit {
                 systems::updates::command_room::select_map::select_map,
                 systems::updates::command_room::select_mission_button::select_mission_button,
                 systems::updates::command_room::select_recruit_for_mission_button::select_recruit_for_mission_button,
-                // systems::updates::hud::update_day_counter::update_day_counter.run_if(resource_changed::<PlayerStats>),
+                systems::updates::hud::update_day_counter::update_day_counter.run_if(resource_changed::<PlayerStats>),
                 systems::updates::hud::update_gold_counter::update_gold_counter.run_if(resource_changed::<PlayerStats>),
                 systems::updates::hud::update_guild_level::update_guild_level.run_if(resource_changed::<PlayerStats>),
                 systems::updates::hud::update_recruit_counter::update_recruit_counter.run_if(resource_changed::<PlayerStats>),

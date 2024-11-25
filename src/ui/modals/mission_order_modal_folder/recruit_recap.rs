@@ -47,7 +47,7 @@ pub fn recruit_recap(
         .with_children(|parent| {
             if selected_recruit_for_mission.0.is_none() {
                 parent.spawn((
-                    Text::new("No recruit selected"),
+                    Text::new(t!("no_recruit_selected")),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
                         font_size: 14.0,
@@ -105,7 +105,7 @@ pub fn recruit_recap(
                     .with_children(|parent| {
                         // Recruit Name
                         parent.spawn((
-                            Text::new(format!("Recruit : {}", recruit.name)),
+                            Text::new(format!("{} : {}", t!("recruit"), recruit.name)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
@@ -116,7 +116,7 @@ pub fn recruit_recap(
 
                         // Recruit Level
                         parent.spawn((
-                            Text::new(format!("Level : {}", recruit.level)),
+                            Text::new(format!("{} : {}", t!("level"), recruit.level)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,

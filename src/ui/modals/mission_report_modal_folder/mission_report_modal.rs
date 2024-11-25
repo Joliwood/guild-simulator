@@ -103,7 +103,7 @@ pub fn mission_report_modal(
             .with_children(|parent| {
                 // Title: "Report of the mission : name_mission"
                 parent.spawn((
-                    Text::new(format!("Report of the mission: {}", mission.name)),
+                    Text::new(format!("{}: {}", t!("mission_report_desc"), mission.name)),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
                         font_size: 18.0,
@@ -114,7 +114,7 @@ pub fn mission_report_modal(
 
                 // Mission Success or Failure Message
                 parent.spawn((
-                    Text::new(success_message),
+                    Text::new(t!(success_message)),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
                         font_size: 16.0,
@@ -245,7 +245,7 @@ pub fn mission_report_modal(
                     ))
                     .with_children(|button| {
                         button.spawn((
-                            Text::new("Sign the report"),
+                            Text::new(t!("sign_report")),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 12.0,

@@ -49,7 +49,7 @@ pub fn loots_and_start(
                     .with_children(|parent| {
                         // Loots in text
                         parent.spawn((
-                            Text::new("Loots :"),
+                            Text::new(format!("{} :", t!("loots"))),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
@@ -156,7 +156,7 @@ pub fn loots_and_start(
                     .spawn(CustomButton::MissionStart.bundle(my_assets))
                     .with_children(|button| {
                         button.spawn((
-                            Text::new("Start the mission"),
+                            Text::new(t!("start_mission")),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,

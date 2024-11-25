@@ -92,7 +92,7 @@ pub fn discussion_event_doc(
 
                     // Description below the image
                     column.spawn((
-                        Text::new(discussion.description.clone()),
+                        Text::new(t!(&discussion.description)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 12.0,
@@ -124,7 +124,7 @@ pub fn discussion_event_doc(
                             .insert(discussion.clone())
                             .with_children(|button| {
                                 button.spawn((
-                                    Text::new(answer.message.clone()),
+                                    Text::new(t!(&answer.message).to_string()),
                                     TextFont {
                                         font: my_assets.load(FONT_FIRA),
                                         font_size: 12.0,

@@ -22,7 +22,7 @@ pub fn recruit_sent_stats(
         .with_children(|stats_column| {
             // Text: "Level"
             stats_column.spawn((
-                Text::new(format!("Level: {}", recruit_sent.level)),
+                Text::new(format!("{}: {}", t!("level"), recruit_sent.level)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,

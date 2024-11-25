@@ -34,7 +34,7 @@ pub fn right_hud(
                         column_gap: Val::Px(5.),
                         ..default()
                     },
-                    Tooltip::cursor("You have this many recruits"),
+                    Tooltip::cursor(t!("tooltip_recruit_nb").to_string()),
                 ))
                 .with_children(|parent| {
                     parent.spawn((
@@ -73,7 +73,7 @@ pub fn right_hud(
                         column_gap: Val::Px(5.),
                         ..default()
                     },
-                    Tooltip::cursor("Your reputation score"),
+                    Tooltip::cursor(t!("tooltip_reputation").to_string()),
                 ))
                 .with_children(|parent| {
                     parent.spawn((
@@ -112,7 +112,7 @@ pub fn right_hud(
                         column_gap: Val::Px(5.),
                         ..default()
                     },
-                    Tooltip::cursor("Your toxicity score"),
+                    Tooltip::cursor(t!("tooltip_toxicity").to_string()),
                 ))
                 .with_children(|parent| {
                     parent.spawn((
@@ -156,7 +156,7 @@ pub fn right_hud(
                         layout: texture_atlas_layouts.clone(),
                     },
                 ),
-                Tooltip::cursor("Settings menu (not implemented yet)"),
+                Tooltip::cursor(t!("tooltip_settings_menu").to_string()),
             ));
         });
 }

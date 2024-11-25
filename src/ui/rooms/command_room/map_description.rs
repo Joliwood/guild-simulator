@@ -32,7 +32,7 @@ pub fn map_description(
         .with_children(|column| {
             if let Some(map) = selected_map {
                 column.spawn((
-                    Text::new(map.name.clone()),
+                    Text::new(t!(&map.name)),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
                         font_size: 14.0,
@@ -42,7 +42,7 @@ pub fn map_description(
                 ));
 
                 column.spawn((
-                    Text::new(map.description.clone()),
+                    Text::new(t!(&map.description)),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
                         font_size: 12.0,
