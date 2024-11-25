@@ -22,8 +22,8 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
     match daily_discussion_index {
         1 => DailyDiscussion {
             id: 1,
-            title: "Contempt for the little people".to_string(),
-            description: "Ever since your guild arrived, I've had the impression that we little people don't care any more. In your quest for power, have you forgotten about us?".to_string(),
+            title: "discussion1_title".to_string(),
+            description: "discussion1_description".to_string(),
             image_atlas_index: 0,
             apparition_chance: 25,
             answers: vec![
@@ -255,7 +255,7 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
         },
         8 => DailyDiscussion {
             id: 8,
-            title: "Mayor's welcome message".to_string(),
+            title: "discussion8_title".to_string(),
             description: "Hello ! I'm delighted that you've accepted my offer to come and live in our beloved town, so welcome! As you know, there's plenty of work in the area. I've managed to find two people for you to recruit, and you should have received their proposals by now. I've provided you with a map of the surrounding area, where we're having a bit of trouble with vagrants causing trouble in the area, so it would be a good start if you could get rid of them for us...".to_string(),
             image_atlas_index: 7,
             apparition_chance: 100,

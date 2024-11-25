@@ -12,6 +12,7 @@ use bevy::{
     prelude::*,
     //  ui::widget::NodeImageMode
 };
+use rust_i18n::t;
 
 pub fn sleep_button(
     commands: &mut Commands,
@@ -22,6 +23,7 @@ pub fn sleep_button(
 ) {
     let sleep_button_layout = get_layout(TextureAtlasLayoutEnum::SleepButton);
     let sleep_button_atlas_layout = texture_atlas_layouts.add(sleep_button_layout);
+    // let text_hello = t!("hello");
 
     commands
         .spawn((
@@ -66,7 +68,7 @@ pub fn sleep_button(
 
             parent
                 .spawn((
-                    Text::new(format!("Day : {}", player_stats.day)),
+                    Text::new(format!("{} : {}", t!("day"), player_stats.day)),
                     Node {
                         position_type: PositionType::Absolute,
                         bottom: Val::Px(7.),

@@ -18,6 +18,7 @@ use bevy::{
     prelude::*,
     // ui::widget::NodeImageMode
 };
+use rust_i18n::t;
 
 #[allow(clippy::too_many_arguments)]
 pub fn mission_order_modal(
@@ -102,7 +103,7 @@ pub fn mission_order_modal(
                     // Title
                     parent
                         .spawn((
-                            Text::new(mission.name.to_string()),
+                            Text::new(t!(&mission.name)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 18.0,

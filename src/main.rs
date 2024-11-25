@@ -6,7 +6,7 @@ mod audio;
 mod content;
 mod custom_components;
 mod enums;
-mod locales;
+// mod locales;
 mod my_assets;
 mod structs;
 mod systems;
@@ -19,10 +19,9 @@ mod utils;
 // use my_assets::{MyAssets, MyAssetsLoader};
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
-// use bevy_fluent::prelude::*;
 // use crate::locales::{en, fr};
 
-use bevy::{prelude::*, window::WindowTheme};
+use bevy::{asset::AssetMetaCheck, prelude::*, window::WindowTheme};
 use content::constants::MAX_GAME_SECONDS;
 use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
@@ -43,10 +42,10 @@ fn main() -> AppExit {
         .add_plugins((
             // DefaultPlugins
             DefaultPlugins
-            // .set(AssetPlugin {
-            //     meta_check: AssetMetaCheck::Never,
-            //     ..default()
-            // })
+            .set(AssetPlugin {
+                meta_check: AssetMetaCheck::Never,
+                ..default()
+            })
             .set(WindowPlugin {
                 primary_window: Some(Window {
                     title: "Guild simulator".into(),
@@ -57,7 +56,6 @@ fn main() -> AppExit {
                 }),
                 ..default()
             }),
-            // Plugin::build(FluentPlugin),
             // WorldInspectorPlugin::new(),
             TooltipPlugin::default(),
         ))
@@ -86,6 +84,7 @@ fn main() -> AppExit {
                 audio::audio_source::audio_source,
                 systems::camera::camera_setup::camera_setup,
                 ui::hud_folder::hud::hud,
+                setup_i18n,
             ),
         )
         .add_systems(
@@ -97,7 +96,7 @@ fn main() -> AppExit {
                 systems::updates::command_room::select_map::select_map,
                 systems::updates::command_room::select_mission_button::select_mission_button,
                 systems::updates::command_room::select_recruit_for_mission_button::select_recruit_for_mission_button,
-                systems::updates::hud::update_day_counter::update_day_counter.run_if(resource_changed::<PlayerStats>),
+                // systems::updates::hud::update_day_counter::update_day_counter.run_if(resource_changed::<PlayerStats>),
                 systems::updates::hud::update_gold_counter::update_gold_counter.run_if(resource_changed::<PlayerStats>),
                 systems::updates::hud::update_guild_level::update_guild_level.run_if(resource_changed::<PlayerStats>),
                 systems::updates::hud::update_recruit_counter::update_recruit_counter.run_if(resource_changed::<PlayerStats>),
@@ -166,4 +165,17 @@ fn update_progress_bar(
     for mut node in query.iter_mut() {
         node.width = Val::Px(progress_ratio * 70.);
     }
+}
+
+// Load I18n macro, for allow you use `t!` macro in anywhere.
+#[macro_use]
+extern crate rust_i18n;
+
+// Config fallback missing translations to "en" locale.
+// Use `fallback` option to set fallback locale.
+//
+i18n!("assets/locales", fallback = "en");
+
+fn setup_i18n() {
+    rust_i18n::set_locale("fr");
 }

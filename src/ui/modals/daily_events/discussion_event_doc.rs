@@ -8,6 +8,7 @@ use crate::{
     utils::get_layout,
 };
 use bevy::prelude::*;
+use rust_i18n::t;
 
 pub fn discussion_event_doc(
     commands: &mut Commands,
@@ -58,7 +59,7 @@ pub fn discussion_event_doc(
                 .with_children(|column| {
                     // Title at the top
                     column.spawn((
-                        Text::new(discussion.title.clone()),
+                        Text::new(t!(&discussion.title)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 16.0,
