@@ -23,27 +23,27 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
         1 => DailyDiscussion {
             id: 1,
             title: "discussion1_title".to_string(),
-            description: "discussion1_description".to_string(),
+            description: "discussion1_desc".to_string(),
             image_atlas_index: 0,
             apparition_chance: 25,
             answers: vec![
                 Answer {
                     id: 1,
-                    message: "We've never forgotten the village. Come to us if you need help.".to_string(),
+                    message: "discussion1_answer1_msg".to_string(),
                     reputation_impact: Some(1),
                     toxicity_impact: Some(-1),
                     ..Default::default()
                 },
                 Answer {
                     id: 2,
-                    message: "It's natural for the strong to progress and the weak to fade away.".to_string(),
+                    message: "discussion1_answer2_msg".to_string(),
                     reputation_impact: Some(-2),
                     toxicity_impact: Some(3),
                     ..Default::default()
                 },
                 Answer {
                     id: 3,
-                    message: "Our recruits are available to anyone who can afford our services. Hehe".to_string(),
+                    message: "discussion1_answer3_msg".to_string(),
                     reputation_impact: Some(-1),
                     toxicity_impact: Some(1),
                     ..Default::default()
@@ -57,14 +57,14 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
         },
         2 => DailyDiscussion {
             id: 2,
-            title: "Shop robbed".to_string(),
-            description: "Some rascals tore up my stall chasing a thief. I don't know how I'm going to be able to meet my customer demands. Could you help me solve my problem?".to_string(),
+            title: "discussion2_title".to_string(),
+            description: "discussion2_desc".to_string(),
             image_atlas_index: 1,
             apparition_chance: 35,
             answers: vec![
                 Answer {
                     id: 1,
-                    message: "We'll help you with compensation, we'll make the city safer, we'll make the city safer for everyone.".to_string(),
+                    message: "discussion2_answer1_msg".to_string(),
                     gold_impact: Some(-10),
                     toxicity_impact: Some(-3),
                     reputation_impact: Some(3),
@@ -72,12 +72,12 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
                 },
                 Answer {
                     id: 2,
-                    message: "We can't do anything for the moment, but we'll make sure the city is safer.".to_string(),
+                    message: "discussion2_answer2_msg".to_string(),
                     ..Default::default()
                 },
                 Answer {
                     id: 3,
-                    message: "Wow, it's a good thing it wasn't our place, there'll always be less competition in business, go on, leave me to my business, please!".to_string(),
+                    message: "discussion2_answer3_msg".to_string(),
                     toxicity_impact: Some(-1),
                     reputation_impact: Some(-2),
                     ..Default::default()
@@ -91,26 +91,26 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
         },
         3 => DailyDiscussion {
             id: 3,
-            title: "Noise pollution".to_string(),
-            description: "Hello, I'm part of the neighborhood, your recruits make too much noise at night with their training. Can you ask them to quiet down?".to_string(),
+            title: "discussion3_title".to_string(),
+            description: "discussion3_desc".to_string(),
             image_atlas_index: 2,
             apparition_chance: 15,
             answers: vec![
                 Answer {
                     id: 1,
-                    message: "We'll keep the noise down, and apologize for any inconvenience.".to_string(),
+                    message: "discussion3_answer1_msg".to_string(),
                     reputation_impact: Some(1),
                     ..Default::default()
                 },
                 Answer {
                     id: 2,
-                    message: "They need training. You'll have to put up with that.".to_string(),
+                    message: "discussion3_answer2_msg".to_string(),
                     reputation_impact: Some(-1),
                     ..Default::default()
                 },
                 Answer {
                     id: 3,
-                    message: "Hey.. psst come in, let's just say that if I gave you a few golds, we'd forget all about this nasty story?".to_string(),
+                    message: "discussion3_answer3_msg".to_string(),
                     gold_impact: Some(-5),
                     reputation_impact: Some(1),
                     ..Default::default()
@@ -124,27 +124,27 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
         },
         4 => DailyDiscussion {
             id: 4,
-            title: "Fresco by a local artist".to_string(),
-            description: "I'd like to immortalize your adventurers in a fresco to decorate the village square.".to_string(),
+            title: "discussion4_title".to_string(),
+            description: "discussion4_desc".to_string(),
             image_atlas_index: 3,
             apparition_chance: 5,
             answers: vec![
                 Answer {
                     id: 1,
-                    message: "What an excellent idea! We will finance this project.".to_string(),
+                    message: "discussion4_answer1_msg".to_string(),
                     gold_impact: Some(-5),
                     reputation_impact: Some(2),
                     ..Default::default()
                 },
                 Answer {
                     id: 2,
-                    message: "Sounds good, but you'll have to raise the funds yourself.".to_string(),
+                    message: "discussion4_answer2_msg".to_string(),
                     reputation_impact: Some(-1),
                     ..Default::default()
                 },
                 Answer {
                     id: 3,
-                    message: "Our employees d.. hum .. I mean our heroes don't need frescoes to prove their worth.".to_string(),
+                    message: "discussion4_answer3_msg".to_string(),
                     toxicity_impact: Some(1),
                     reputation_impact: Some(-2),
                     ..Default::default()
@@ -158,14 +158,14 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
         },
         5 => DailyDiscussion {
             id: 5,
-            title: "Village medicines need".to_string(),
-            description: "We're running out of medicines for the sick and wounded in the village. Can you help us find some, or, failing that, give us a grant? It's for the common good, you know...".to_string(),
+            title: "discussion5_title".to_string(),
+            description: "discussion5_desc".to_string(),
             image_atlas_index: 4,
             apparition_chance: 25,
             answers: vec![
                 Answer {
                     id: 1,
-                    message: "We'll give you a grant to buy the necessary medicines.".to_string(),
+                    message: "discussion5_answer1_msg".to_string(),
                     gold_impact: Some(-10),
                     toxicity_impact: Some(-2),
                     reputation_impact: Some(2),
@@ -173,19 +173,19 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
                 },
                 Answer {
                     id: 2,
-                    message: "We'll help you find the necessary medicines whenever we'll have the time, mark my words sir !".to_string(),
+                    message: "discussion5_answer2_msg".to_string(),
                     reputation_impact: Some(1),
                     ..Default::default()
                 },
                 Answer {
                     id: 3,
-                    message: "We can't help you, but we'll make sure the village is safe.".to_string(),
+                    message: "discussion5_answer3_msg".to_string(),
                     reputation_impact: Some(-1),
                     ..Default::default()
                 },
                 Answer {
                     id: 4,
-                    message: "Common interest, common interest... You're talking to a private company, my dear sir, do you know that?".to_string(),
+                    message: "discussion5_answer4_msg".to_string(),
                     reputation_impact: Some(-3),
                     ..Default::default()
                 },
@@ -198,31 +198,31 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
         },
         6 => DailyDiscussion {
             id: 6,
-            title: "The miracle worker".to_string(),
-            description: "A miracle worker offers to pray for you and your guild, and of course assures you that the ancient gods will only respond if an offering can be made.".to_string(),
+            title: "discussion6_title".to_string(),
+            description: "discussion6_desc".to_string(),
             image_atlas_index: 5,
             apparition_chance: 20,
             answers: vec![
                 Answer {
                     id: 1,
-                    message: "We'll make an offering to the gods. Take this my friend.".to_string(),
+                    message: "discussion6_answer1_msg".to_string(),
                     gold_impact: Some(-5),
                     ..Default::default()
                 },
                 Answer {
                     id: 2,
-                    message: "We don't need the help of the gods, we're doing very well on our own.".to_string(),
+                    message: "discussion6_answer2_msg".to_string(),
                     ..Default::default()
                 },
                 Answer {
                     id: 3,
-                    message: "We'll make an offering to the gods, but we'll make sure it's a good investment.".to_string(),
+                    message: "discussion6_answer3_msg".to_string(),
                     gold_impact: Some(-10),
                     ..Default::default()
                 },
                 Answer {
                     id: 4,
-                    message: "I only believe in finances my dear sir, how do you expect my dear recruits to support themselves if I start doing anything at all ?".to_string(),
+                    message: "discussion6_answer4_msg".to_string(),
                     toxicity_impact: Some(-1),
                     ..Default::default()
                 },
@@ -235,18 +235,16 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
         },
         7 => DailyDiscussion {
             id: 7,
-            title: "Welcome from a grandmother".to_string(),
-            description: "A grandmother who tells us that what we're doing is a good thing, that it can bring a little security to the town".to_string(),
+            title: "discussion7_title".to_string(),
+            description: "discussion7_desc".to_string(),
             image_atlas_index: 6,
             apparition_chance: 100,
-            answers: vec![
-                Answer {
-                    gold_impact: Some(10),
-                    id: 1,
-                    message: "Thank you mdam, it's a pleasure".to_string(),
-                    ..Default::default()
-                },
-            ],
+            answers: vec![Answer {
+                gold_impact: Some(10),
+                id: 1,
+                message: "discussion7_answer1_msg".to_string(),
+                ..Default::default()
+            }],
             day_system: DaySystem {
                 cooldown: 0,
                 min_day: 1,
@@ -256,17 +254,15 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
         8 => DailyDiscussion {
             id: 8,
             title: "discussion8_title".to_string(),
-            description: "Hello ! I'm delighted that you've accepted my offer to come and live in our beloved town, so welcome! As you know, there's plenty of work in the area. I've managed to find two people for you to recruit, and you should have received their proposals by now. I've provided you with a map of the surrounding area, where we're having a bit of trouble with vagrants causing trouble in the area, so it would be a good start if you could get rid of them for us...".to_string(),
+            description: "discussion8_desc".to_string(),
             image_atlas_index: 7,
             apparition_chance: 100,
-            answers: vec![
-                Answer {
-                    gold_impact: Some(50),
-                    id: 1,
-                    message: "Thank you for welcoming me to your city. I intend to develop this guild with a master's hand, and I'm sure our business will bear fruit.".to_string(),
-                    ..Default::default()
-                },
-            ],
+            answers: vec![Answer {
+                gold_impact: Some(50),
+                id: 1,
+                message: "discussion8_answer1_msg".to_string(),
+                ..Default::default()
+            }],
             day_system: DaySystem {
                 cooldown: 0,
                 min_day: 1,
@@ -275,17 +271,15 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
         },
         9 => DailyDiscussion {
             id: 9,
-            title: "Welcome from the merchant guild".to_string(),
-            description: "We're delighted to welcome you to the region, and hope your business flourishes. I've registered your guild in our network's merchant directory. That way, they can come and offer you a wide variety of transactions. We hope to hear from you soon.".to_string(),
+            title: "discussion9_title".to_string(),
+            description: "discussion9_desc".to_string(),
             image_atlas_index: 8,
             apparition_chance: 100,
-            answers: vec![
-                Answer {
-                    id: 1,
-                    message: "Tell him it will be a pleasure to do business with his guild's merchants.".to_string(),
-                    ..Default::default()
-                },
-            ],
+            answers: vec![Answer {
+                id: 1,
+                message: "discussion9_answer1_msg".to_string(),
+                ..Default::default()
+            }],
             day_system: DaySystem {
                 cooldown: 0,
                 min_day: 1,
@@ -294,21 +288,19 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
         },
         10 => DailyDiscussion {
             id: 10,
-            title: "Welcome from a retired warrior".to_string(),
-            description: "Hello, I've just seen that you've moved to our beautiful town, so welcome! I've already done my share of work, you know, but perhaps my old equipment could be of use to you, here...".to_string(),
+            title: "discussion10_title".to_string(),
+            description: "discussion10_desc".to_string(),
             image_atlas_index: 9,
             apparition_chance: 100,
-            answers: vec![
-                Answer {
-                    id: 1,
-                    message: "Thank you very much, you can be sure that we'll make good use of it, have a nice day and please close the drafty door.".to_string(),
-                    equipment_impact: Some(vec![
-                        ImpactAction::Add(ItemEnum::Armor(ArmorsEnum::TravelToga.get_armor())),
-                        ImpactAction::Add(ItemEnum::Weapon(WeaponsEnum::WoodenSword.get_weapon()))
-                    ]),
-                    ..Default::default()
-                },
-            ],
+            answers: vec![Answer {
+                id: 1,
+                message: "discussion10_answer1_msg".to_string(),
+                equipment_impact: Some(vec![
+                    ImpactAction::Add(ItemEnum::Armor(ArmorsEnum::TravelToga.get_armor())),
+                    ImpactAction::Add(ItemEnum::Weapon(WeaponsEnum::WoodenSword.get_weapon())),
+                ]),
+                ..Default::default()
+            }],
             day_system: DaySystem {
                 cooldown: 0,
                 min_day: 1,

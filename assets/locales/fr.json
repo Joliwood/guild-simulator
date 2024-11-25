@@ -3,7 +3,64 @@
   "hello": "alors déjà bonjour",
   "aa": "aozuaozau",
   "azpo": "azpo français",
+
   "discussion1_title": "Contempt for the little people",
-  "discussion1_description": "Ever since your guild arrived, I've had the impression that we little people don't care any more. In your quest for power, have you forgotten about us?",
-  "discussion8_title": "Mayor's welcome message"
+  "discussion1_desc": "Ever since your guild arrived, I've had the impression that we little people don't care any more. In your quest for power, have you forgotten about us?",
+  "discussion1_answer1_msg": "We've never forgotten the village. Come to us if you need help.",
+  "discussion1_answer2_msg": "It's natural for the strong to progress and the weak to fade away.",
+  "discussion1_answer3_msg": "Our recruits are available to anyone who can afford our services. Hehe",
+
+  "discussion2_title": "Shop robbed",
+  "discussion2_desc": "Some rascals tore up my stall chasing a thief. I don't know how I'm going to be able to meet my customer demands. Could you help me solve my problem?",
+  "discussion2_answer1_msg": "We'll help you with compensation, we'll make the city safer, we'll make the city safer for everyone.",
+  "discussion2_answer2_msg": "We can't do anything for the moment, but we'll make sure the city is safer.",
+  "discussion2_answer3_msg": "",
+
+  "discussion3_title": "",
+  "discussion3_desc": "",
+  "discussion3_answer1_msg": "",
+  "discussion3_answer2_msg": "",
+  "discussion3_answer3_msg": "",
+
+  "discussion4_title": "",
+  "discussion4_desc": "",
+  "discussion4_answer1_msg": "",
+  "discussion4_answer2_msg": "",
+  "discussion4_answer3_msg": "",
+
+  "discussion5_title": "",
+  "discussion5_desc": "",
+  "discussion5_answer1_msg": "",
+  "discussion5_answer2_msg": "",
+  "discussion5_answer3_msg": "",
+
+  "discussion6_title": "",
+  "discussion6_desc": "",
+  "discussion6_answer1_msg": "",
+  "discussion6_answer2_msg": "",
+  "discussion6_answer3_msg": "",
+
+  "discussion7_title": "",
+  "discussion7_desc": "",
+  "discussion7_answer1_msg": "",
+  "discussion7_answer2_msg": "",
+  "discussion7_answer3_msg": "",
+
+  "discussion8_title": "",
+  "discussion8_desc": "",
+  "discussion8_answer1_msg": "",
+  "discussion8_answer2_msg": "",
+  "discussion8_answer3_msg": "",
+
+  "discussion9_title": "",
+  "discussion9_desc": "",
+  "discussion9_answer1_msg": "",
+  "discussion9_answer2_msg": "",
+  "discussion9_answer3_msg": "",
+
+  "discussion10_title": "",
+  "discussion10_desc": "",
+  "discussion10_answer1_msg": "",
+  "discussion10_answer2_msg": "",
+  "discussion10_answer3_msg": ""
 }

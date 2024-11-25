@@ -47,7 +47,7 @@ impl WeaponsEnum {
             WeaponsEnum::WoodenSword => Weapon {
                 id: 1,
                 image_atlas_index: 0,
-                name: "Wooden sword".to_string(),
+                name: "weapon1_name".to_string(),
                 price: 10,
                 rarety: ItemRaretyEnum::Common,
                 attack: Some(7),
@@ -57,7 +57,7 @@ impl WeaponsEnum {
             WeaponsEnum::BowWithoutString => Weapon {
                 id: 2,
                 image_atlas_index: 1,
-                name: "Bow without string".to_string(),
+                name: "weapon2_name".to_string(),
                 price: 2,
                 rarety: ItemRaretyEnum::Common,
                 optimized_for: (vec![ClassEnum::Hunter], (5)),
@@ -67,7 +67,7 @@ impl WeaponsEnum {
             WeaponsEnum::LumberjackAxe => Weapon {
                 id: 3,
                 image_atlas_index: 2,
-                name: "Lumberjack axe".to_string(),
+                name: "weapon3_name".to_string(),
                 price: 5,
                 rarety: ItemRaretyEnum::Common,
                 attack: Some(6),
@@ -76,7 +76,7 @@ impl WeaponsEnum {
             WeaponsEnum::MagicToothpick => Weapon {
                 id: 4,
                 image_atlas_index: 3,
-                name: "Magic toothpick".to_string(),
+                name: "weapon4_name".to_string(),
                 price: 2,
                 rarety: ItemRaretyEnum::Common,
                 optimized_for: (vec![ClassEnum::Mage], (5)),
@@ -86,7 +86,7 @@ impl WeaponsEnum {
             WeaponsEnum::UnsharpDagger => Weapon {
                 id: 5,
                 image_atlas_index: 4,
-                name: "Unsharp dagger".to_string(),
+                name: "weapon5_name".to_string(),
                 price: 4,
                 rarety: ItemRaretyEnum::Common,
                 attack: Some(4),
@@ -95,7 +95,7 @@ impl WeaponsEnum {
             WeaponsEnum::WalkingStick => Weapon {
                 id: 6,
                 image_atlas_index: 5,
-                name: "Walking stick".to_string(),
+                name: "weapon6_name".to_string(),
                 price: 4,
                 rarety: ItemRaretyEnum::Common,
                 attack: Some(5),

@@ -308,7 +308,6 @@ impl ItemLoot {
         }
     }
 
-    #[allow(dead_code)]
     pub fn get_item_loot_tooltip_description(&self) -> String {
         return match self {
             ItemLoot {
@@ -320,16 +319,19 @@ impl ItemLoot {
                 let price_range = calculate_price_range(armor.price);
 
                 if let Some(attack) = armor.attack {
-                    description.push_str(&format!("\nAttack: {}", attack));
+                    description.push_str(&format!("\n{}: {}", t!("attack"), attack));
                 }
 
                 if let Some(defense) = armor.defense {
-                    description.push_str(&format!("\nDefense: {}", defense));
+                    description.push_str(&format!("\n{}: {}", t!("defense"), defense));
                 }
 
                 description.push_str(&format!(
-                    "\n\nPrice: {} to {} G",
-                    price_range.0, price_range.1
+                    "\n\n{}: {} {} {} G",
+                    t!("price"),
+                    price_range.0,
+                    t!("to"),
+                    price_range.1
                 ));
 
                 description
@@ -343,16 +345,19 @@ impl ItemLoot {
                 let price_range = calculate_price_range(scroll.price);
 
                 if let Some(attack) = scroll.attack {
-                    description.push_str(&format!("\nAttack: {}", attack));
+                    description.push_str(&format!("\n{}: {}", t!("attack"), attack));
                 }
 
                 if let Some(defense) = scroll.defense {
-                    description.push_str(&format!("\nDefense: {}", defense));
+                    description.push_str(&format!("\n{}: {}", t!("defense"), defense));
                 }
 
                 description.push_str(&format!(
-                    "\n\nPrice: {} to {} G",
-                    price_range.0, price_range.1
+                    "\n\n{}: {} {} {} G",
+                    t!("price"),
+                    price_range.0,
+                    t!("to"),
+                    price_range.1
                 ));
 
                 description
@@ -366,16 +371,19 @@ impl ItemLoot {
                 let price_range = calculate_price_range(weapon.price);
 
                 if let Some(attack) = weapon.attack {
-                    description.push_str(&format!("\nAttack: {}", attack));
+                    description.push_str(&format!("\n{}: {}", t!("attack"), attack));
                 }
 
                 if let Some(defense) = weapon.defense {
-                    description.push_str(&format!("\nDefense: {}", defense));
+                    description.push_str(&format!("\n{}: {}", t!("defense"), defense));
                 }
 
                 description.push_str(&format!(
-                    "\n\nPrice: {} to {} G",
-                    price_range.0, price_range.1
+                    "\n\n{}: {} {} {} G",
+                    t!("price"),
+                    price_range.0,
+                    t!("to"),
+                    price_range.1
                 ));
 
                 description

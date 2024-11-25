@@ -60,7 +60,7 @@ impl ScrollsEnum {
             ScrollsEnum::ScrollOfRawAttackI => Scroll {
                 id: 1,
                 image_atlas_index: 0,
-                name: "Scroll of Wisdom I".to_string(),
+                name: "scroll1_name".to_string(),
                 price: 5,
                 bonus: vec![BonusEnum::RawAttack(10)],
                 ..Default::default()
@@ -68,7 +68,7 @@ impl ScrollsEnum {
             ScrollsEnum::ScrollOfTheMiserI => Scroll {
                 id: 2,
                 image_atlas_index: 1,
-                name: "Scroll of the Miser I".to_string(),
+                name: "scroll2_name".to_string(),
                 price: 5,
                 bonus: vec![BonusEnum::Gold(5)],
                 ..Default::default()
@@ -76,7 +76,7 @@ impl ScrollsEnum {
             ScrollsEnum::ScrollOfTheResearcherI => Scroll {
                 id: 3,
                 image_atlas_index: 2,
-                name: "Scroll of the Researcher I".to_string(),
+                name: "scroll3_name".to_string(),
                 price: 5,
                 bonus: vec![BonusEnum::LuckyLoot(5)],
                 ..Default::default()
@@ -84,7 +84,7 @@ impl ScrollsEnum {
             ScrollsEnum::ScrollOfExperienceI => Scroll {
                 id: 4,
                 image_atlas_index: 3,
-                name: "Scroll of Experience I".to_string(),
+                name: "scroll4_name".to_string(),
                 price: 5,
                 bonus: vec![BonusEnum::Experience(5)],
                 ..Default::default()
@@ -92,7 +92,7 @@ impl ScrollsEnum {
             ScrollsEnum::ScrollOfReinforcementI => Scroll {
                 id: 5,
                 image_atlas_index: 4,
-                name: "Scroll of EnhanceEquipment I".to_string(),
+                name: "scroll5_name".to_string(),
                 price: 5,
                 bonus: vec![BonusEnum::EnhanceEquipment(5)],
                 ..Default::default()
@@ -100,7 +100,7 @@ impl ScrollsEnum {
             ScrollsEnum::ScrollOfNaturalGrowthI => Scroll {
                 id: 6,
                 image_atlas_index: 5,
-                name: "Scroll of Natural Growth I".to_string(),
+                name: "scroll6_name".to_string(),
                 price: 5,
                 bonus: vec![BonusEnum::NaturalGrowth(5)],
                 ..Default::default()
@@ -108,7 +108,7 @@ impl ScrollsEnum {
             ScrollsEnum::ScrollOfGaladornFailedPower => Scroll {
                 id: 7,
                 image_atlas_index: 6,
-                name: "Scroll of Galadorn Failed Power".to_string(),
+                name: "scroll7_name".to_string(),
                 price: 25,
                 bonus: vec![BonusEnum::RawAttack(1), BonusEnum::Collector(65)],
                 ..Default::default()
@@ -116,7 +116,7 @@ impl ScrollsEnum {
             ScrollsEnum::ScrollOfRawNaturalDefense => Scroll {
                 id: 8,
                 image_atlas_index: 7,
-                name: "Scroll of Raw Natural Defense".to_string(),
+                name: "scroll8_name".to_string(),
                 price: 7,
                 bonus: vec![BonusEnum::NaturalRawDefense(5)],
                 ..Default::default()
