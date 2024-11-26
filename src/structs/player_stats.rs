@@ -6,10 +6,7 @@ use super::{
     recruits::RecruitStats,
 };
 use crate::{
-    // content::{
-    //     equipments::{scrolls::ScrollsEnum, weapons::WeaponsEnum},
-    //     recruits::RecruitEnum,
-    // },
+    content::recruits::RecruitEnum,
     enums::{RecruitStateEnum, RoomEnum},
 };
 use bevy::prelude::*;
@@ -57,7 +54,7 @@ impl Default for PlayerStats {
             recruits: vec![
                 // RecruitEnum::Hubert.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
-                // RecruitEnum::JeanLouisDavid.get_recruit(),
+                RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
             ],

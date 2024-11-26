@@ -160,5 +160,7 @@
   "sign_report": "Sign the report",
   "recruit_sent": "Recruit sent",
   "inventory": "Inventory",
-  "recruit_already_sent": "A recruit has already been sent"
+  "recruit_already_sent": "A recruit has already been sent",
+  "must_select_recruit_to_start_mission": "You must select a recruit\nto start a mission.",
+  "risky_mission_warning": "Beware, this mission is risky !\nIf the recruit fails, he could come back injured..."
 }

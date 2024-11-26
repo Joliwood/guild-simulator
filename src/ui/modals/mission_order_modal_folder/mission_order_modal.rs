@@ -2,7 +2,7 @@ use super::{
     loots_and_start::loots_and_start, mission_recap::mission_recap, recruit_recap::recruit_recap,
 };
 use crate::{
-    enums::TextureAtlasLayoutEnum,
+    enums::{ColorPaletteEnum, TextureAtlasLayoutEnum},
     my_assets::FONT_FIRA,
     structs::{
         general_structs::MissionModalVisible,
@@ -18,6 +18,7 @@ use bevy::{
     prelude::*,
     // ui::widget::NodeImageMode
 };
+use pyri_tooltip::Tooltip;
 use rust_i18n::t;
 
 #[allow(clippy::too_many_arguments)]
@@ -144,20 +145,44 @@ pub fn mission_order_modal(
                                     if let Some(percent_of_victory) =
                                         selected_mission.percent_of_victory
                                     {
-                                        parent.spawn((
-                                            Text::new(format!("{}%", percent_of_victory)),
-                                            TextFont {
-                                                font: my_assets.load(FONT_FIRA),
-                                                font_size: 16.0,
+                                        parent
+                                            .spawn((Node {
+                                                flex_direction: FlexDirection::Row,
+                                                align_items: AlignItems::Center,
                                                 ..default()
-                                            },
-                                            TextColor(Color::BLACK),
-                                            Node {
-                                                align_self: AlignSelf::Center,
-                                                justify_self: JustifySelf::Center,
-                                                ..default()
-                                            },
-                                        ));
+                                            },))
+                                            .with_children(|parent| {
+                                                parent.spawn((
+                                                    Text::new(format!("{}%", percent_of_victory)),
+                                                    TextFont {
+                                                        font: my_assets.load(FONT_FIRA),
+                                                        font_size: 16.0,
+                                                        ..default()
+                                                    },
+                                                    TextColor(Color::BLACK),
+                                                ));
+
+                                                if percent_of_victory < 50 {
+                                                    parent.spawn((
+                                                        Text::new("!"),
+                                                        TextFont {
+                                                            font: my_assets.load(FONT_FIRA),
+                                                            font_size: 16.0,
+                                                            ..default()
+                                                        },
+                                                        TextColor(
+                                                            ColorPaletteEnum::Danger.as_color(),
+                                                        ),
+                                                        Node {
+                                                            margin: UiRect::left(Val::Px(5.0)),
+                                                            ..default()
+                                                        },
+                                                        Tooltip::cursor(
+                                                            t!("risky_mission_warning").to_string(),
+                                                        ),
+                                                    ));
+                                                }
+                                            });
                                     }
 
                                     recruit_recap(

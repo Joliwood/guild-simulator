@@ -173,7 +173,11 @@ pub fn loots_and_start(
                         UniqueId("start_mission".to_string())
                     } else {
                         UniqueId("".to_string())
-                    });
+                    })
+                    .insert_if(
+                        Tooltip::cursor(t!("must_select_recruit_to_start_mission").to_string()),
+                        || selected_mission.recruit_id.is_none(),
+                    );
             });
     }
 }

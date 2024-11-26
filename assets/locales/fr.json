@@ -160,5 +160,7 @@
   "sign_report": "Signer le rapport",
   "recruit_sent": "Recrue envoyée",
   "inventory": "Inventaire",
-  "recruit_already_sent": "Une recrue a déjà été envoyée"
+  "recruit_already_sent": "Une recrue a déjà été envoyée",
+  "must_select_recruit_to_start_mission": "Vous devez sélectionner une\nrecrue pour commencer la mission.",
+  "risky_mission_warning": "Attention, cette mission est risquée !\nSi votre recrue échoue, elle aura des\nchances de revenir blessée..."
 }
