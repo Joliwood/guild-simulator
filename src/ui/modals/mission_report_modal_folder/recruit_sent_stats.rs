@@ -20,7 +20,6 @@ pub fn recruit_sent_stats(
             ..default()
         })
         .with_children(|stats_column| {
-            // Text: "Level"
             stats_column.spawn((
                 Text::new(format!("{}: {}", t!("level"), recruit_sent.level)),
                 TextFont {
@@ -31,7 +30,6 @@ pub fn recruit_sent_stats(
                 TextColor(Color::BLACK),
             ));
 
-            // Text: "Attack"
             stats_column.spawn((
                 Text::new(format!("ATT: {}", recruit_sent.attack)),
                 TextFont {

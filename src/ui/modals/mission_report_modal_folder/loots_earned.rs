@@ -92,7 +92,7 @@ pub fn loots_earned(
                                     layout: texture_atlas_layouts.add(item_layout),
                                 },
                             ),
-                            Tooltip::cursor(tooltip_text.to_string())
+                            Tooltip::cursor(t!(tooltip_text).to_string())
                                 .with_activation(TooltipActivation::IMMEDIATE),
                         ));
                     }

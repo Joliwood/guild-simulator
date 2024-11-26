@@ -142,6 +142,7 @@
   "weapon": "Arme",
   "scrolls": "Parchemins",
   "armor": "Armure",
+  "quantity": "Quantité",
 
   "tooltip_command_room_indications": "Aller dans la salle de commandement\n\nRaccourci : appuyez sur 'S'",
   "tooltip_office_room_indications": "Aller dans le bureau\n\nRaccourci : appuyez sur 'W/Z'",

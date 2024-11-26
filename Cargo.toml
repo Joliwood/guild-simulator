@@ -36,9 +36,16 @@ lto = true
 codegen-units = 1
 strip = true
 
-# Enable a small amount of optimization in debug mode
 [profile.dev]
-opt-level = 1
+opt-level = 3               # Moderate optimizations; 0-3, higher improves runtime at the cost of build time
+debug = true                 # Retain debug information for debuggers
+debug-assertions = true      # Keep debug assertions like `assert!` enabled
+overflow-checks = true       # Enable runtime overflow checks
+lto = "off"                  # Disable Link Time Optimization for faster builds
+codegen-units = 4            # Parallelize code generation to improve build times
+incremental = true           # Enable incremental compilation to speed up rebuilds
+panic = "unwind"             # Preserve unwinding for easier debugging (can be "abort" for slight performance boost)
+strip = false                # Retain debug symbols in binaries
 
 [target.x86_64h-apple-darwin]
 

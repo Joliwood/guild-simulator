@@ -46,7 +46,7 @@ impl ArmorsEnum {
             ArmorsEnum::UsedLeatherToga => Armor {
                 id: 1,
                 image_atlas_index: 0,
-                name: "armor1_name".to_string(),
+                name: t!("armor1_name").to_string(),
                 defense: Some(4),
                 price: 5,
                 rarety: ItemRaretyEnum::Common,
@@ -55,7 +55,7 @@ impl ArmorsEnum {
             ArmorsEnum::ApprenticeCoat => Armor {
                 id: 2,
                 image_atlas_index: 1,
-                name: "armor2_name".to_string(),
+                name: t!("armor2_name").to_string(),
                 defense: Some(6),
                 price: 7,
                 rarety: ItemRaretyEnum::Common,
@@ -64,7 +64,7 @@ impl ArmorsEnum {
             ArmorsEnum::RecycledMagicianRobe => Armor {
                 id: 3,
                 image_atlas_index: 2,
-                name: "armor3_name".to_string(),
+                name: t!("armor3_name").to_string(),
                 optimized_for: (vec![ClassEnum::Mage], (5)),
                 defense: Some(4),
                 price: 10,
@@ -74,7 +74,7 @@ impl ArmorsEnum {
             ArmorsEnum::LeatherTunic => Armor {
                 id: 4,
                 image_atlas_index: 3,
-                name: "armor4_name".to_string(),
+                name: t!("armor4_name").to_string(),
                 optimized_for: (vec![ClassEnum::Hunter, ClassEnum::Rogue], (3)),
                 defense: Some(12),
                 price: 12,
@@ -84,7 +84,7 @@ impl ArmorsEnum {
             ArmorsEnum::MakeshiftVest => Armor {
                 id: 5,
                 image_atlas_index: 4,
-                name: "armor5_name".to_string(),
+                name: t!("armor5_name").to_string(),
                 defense: Some(5),
                 price: 5,
                 rarety: ItemRaretyEnum::Common,
@@ -93,7 +93,7 @@ impl ArmorsEnum {
             ArmorsEnum::TravelToga => Armor {
                 id: 6,
                 image_atlas_index: 5,
-                name: "armor6_name".to_string(),
+                name: t!("armor6_name").to_string(),
                 defense: Some(7),
                 price: 7,
                 rarety: ItemRaretyEnum::Common,

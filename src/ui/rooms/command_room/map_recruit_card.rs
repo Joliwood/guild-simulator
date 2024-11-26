@@ -3,11 +3,7 @@ use crate::{
     my_assets::FONT_FIRA,
     structs::{general_structs::UniqueId, recruits::RecruitStats},
 };
-use bevy::{
-    prelude::*,
-    // ui::widget::NodeImageMode
-};
-use pyri_tooltip::{Tooltip, TooltipActivation};
+use bevy::prelude::*;
 
 pub fn map_recruit_card(
     left_container: &mut ChildBuilder,
@@ -96,25 +92,15 @@ pub fn map_recruit_card(
         })
         .with_children(|button| {
             button
-                .spawn((
-                    // Button,
-                    Node {
-                        display: Display::Flex,
-                        flex_direction: FlexDirection::Column,
-                        row_gap: Val::Px(5.),
-                        justify_content: JustifyContent::SpaceBetween,
-                        align_items: AlignItems::Center,
-                        width: Val::Px(30.),
-                        ..default()
-                    },
-                    Tooltip::cursor(
-                        "This score represent the
-                    total power of the recruit, based on
-                    his/her stats, equipment and level."
-                            .to_string(),
-                    )
-                    .with_activation(TooltipActivation::IDLE),
-                ))
+                .spawn(Node {
+                    display: Display::Flex,
+                    flex_direction: FlexDirection::Column,
+                    row_gap: Val::Px(5.),
+                    justify_content: JustifyContent::SpaceBetween,
+                    align_items: AlignItems::Center,
+                    width: Val::Px(30.),
+                    ..default()
+                })
                 .with_children(|parent| {
                     parent.spawn((
                         Text::new(recruit_attack.to_string()),

@@ -165,16 +165,19 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
             let price_range = calculate_price_range(weapon.price);
 
             if let Some(attack) = weapon.attack {
-                description.push_str(&format!("\nAttack: {}", attack));
+                description.push_str(&format!("\n{}: {}", t!("attack"), attack));
             }
 
             if let Some(defense) = weapon.defense {
-                description.push_str(&format!("\nDefense: {}", defense));
+                description.push_str(&format!("\n{}: {}", t!("defense"), defense));
             }
 
             description.push_str(&format!(
-                "\n\nPrice: {} to {} G",
-                price_range.0, price_range.1
+                "\n\n{}: {} {} {} G",
+                t!("price"),
+                price_range.0,
+                t!("to"),
+                price_range.1
             ));
 
             return description;
@@ -184,16 +187,19 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
             let price_range = calculate_price_range(armor.price);
 
             if let Some(attack) = armor.attack {
-                description.push_str(&format!("\nAttack: {}", attack));
+                description.push_str(&format!("\n{}: {}", t!("attack"), attack));
             }
 
             if let Some(defense) = armor.defense {
-                description.push_str(&format!("\nDefense: {}", defense));
+                description.push_str(&format!("\n{}: {}", t!("defense"), defense));
             }
 
             description.push_str(&format!(
-                "\n\nPrice: {} to {} G",
-                price_range.0, price_range.1
+                "\n\n{}: {} {} {} G",
+                t!("price"),
+                price_range.0,
+                t!("to"),
+                price_range.1
             ));
 
             return description;
@@ -202,15 +208,15 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
             let mut description = format!("{}\n\n{:?}", scroll.name, scroll.bonus);
 
             if let Some(attack) = scroll.attack {
-                description.push_str(&format!("\nAttack: {}", attack));
+                description.push_str(&format!("\n{}: {}", t!("attack"), attack));
             }
 
             if let Some(defense) = scroll.defense {
-                description.push_str(&format!("\nDefense: {}", defense));
+                description.push_str(&format!("\n{}: {}", t!("defense"), defense));
             }
 
-            description.push_str(&format!("\nQuantity: {}", quantity));
-            description.push_str(&format!("\n\nPrice: {} G", scroll.price));
+            description.push_str(&format!("\n\n{}: {}", t!("quantity"), quantity));
+            description.push_str(&format!("\n\n{}: {} G", t!("price"), scroll.price));
 
             return description;
         }
@@ -227,12 +233,11 @@ pub fn calculate_price_range(price: u16) -> (u16, u16) {
     return (lower_range, upper_range);
 }
 
-#[allow(dead_code)]
 pub fn get_mission_notification_tooltip_text(completed_mission_number: u8) -> String {
     let mission_word = if completed_mission_number > 1 {
-        "missions"
+        t!("missions")
     } else {
-        "mission"
+        t!("mission")
     };
 
     return format!(

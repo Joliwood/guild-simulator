@@ -90,7 +90,7 @@ pub fn loots_and_start(
                                                 layout: texture_atlas_layouts.add(layout),
                                             },
                                         ),
-                                        Tooltip::cursor(tooltip_text.to_string())
+                                        Tooltip::cursor(t!(tooltip_text).to_string())
                                             .with_activation(TooltipActivation::IMMEDIATE),
                                     ));
                                 }

@@ -77,7 +77,7 @@ pub fn spawn_inventory(
                                         )
                                         .with_mode(NodeImageMode::Stretch),
                                         ItemInInventoryTrigger(Some(item.clone())),
-                                        Tooltip::cursor(tooltip_text.to_string())
+                                        Tooltip::cursor(t!(tooltip_text).to_string())
                                             .with_activation(TooltipActivation::IMMEDIATE),
                                     ))
                                     .with_children(|button| {

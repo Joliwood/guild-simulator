@@ -199,31 +199,6 @@ pub fn mission_report_modal(
                     &last_mission_report,
                     &mut texture_atlas_layouts,
                 );
-                // // Loots Text
-                // parent.spawn(TextBundle {
-                //     text: Text::from_section(
-                //         "Loots",
-                //         TextFont {
-                //             font: my_assets.load(FONT_FIRA),
-                //             font_size: 16.0,
-                //             color: Color::BLACK,
-                //         },
-                //     ),
-                //     ..default()
-                // });
-
-                // // Golds and Experience Gained
-                // parent.spawn(TextBundle {
-                //     text: Text::from_section(
-                //         format!("{} golds + {} xp", golds_gained, experience_gained),
-                //         TextFont {
-                //             font: my_assets.load(FONT_FIRA),
-                //             font_size: 14.0,
-                //             color: Color::BLACK,
-                //         },
-                //     ),
-                //     ..default()
-                // });
 
                 // After the existing children have been added
                 parent

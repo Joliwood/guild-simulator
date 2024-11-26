@@ -94,7 +94,7 @@ pub fn mission_recap(
                 .with_children(|parent| {
                     // Row 1: Name (left) and Level (right)
                     parent.spawn((
-                        Text::new(format!("{} : {}", t!("target"), mission.ennemy.name)),
+                        Text::new(format!("{} : {}", t!("target"), t!(&mission.ennemy.name))),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 14.0,

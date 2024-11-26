@@ -25,7 +25,6 @@ pub fn mission_ennemy_picture(
             ..default()
         })
         .with_children(|ennemy_block| {
-            // Text: "ennemy sent"
             ennemy_block.spawn((
                 Text::new(t!("ennemy_sent")),
                 TextFont {
