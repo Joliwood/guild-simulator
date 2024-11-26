@@ -68,3 +68,9 @@ pub struct ItemInInventoryTrigger(pub Option<ItemEnum>);
 
 #[derive(Component)]
 pub struct SkipTutoTrigger;
+
+#[derive(Component)]
+pub struct CommandRoomNotificationTrigger;
+
+#[derive(Component)]
+pub struct CommandRoomNotificationContainerTrigger;

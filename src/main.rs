@@ -34,7 +34,10 @@ use structs::{
     missions::{MissionReports, Missions, SelectedMission},
     player_stats::PlayerStats,
     recruits::{SelectedRecruitForEquipment, SelectedRecruitForMission},
-    trigger_structs::{PlayerDayTrigger, RealTimeDayProgressBarTrigger, RoomButtonTrigger},
+    trigger_structs::{
+        CommandRoomNotificationContainerTrigger, CommandRoomNotificationTrigger, PlayerDayTrigger,
+        RealTimeDayProgressBarTrigger, RoomButtonTrigger,
+    },
 };
 use systems::updates::skip_tuto::skip_tuto;
 
@@ -127,6 +130,7 @@ fn main() -> AppExit {
                 update_progress_bar,
                 systems::updates::hud::update_sleep_button_texture::update_sleep_button_texture,
                 skip_tuto,
+                update_notification_indicators_text.run_if(resource_changed::<NotificationCount>),
             ),
         )
         .run()
@@ -188,8 +192,7 @@ fn setup_i18n() {
 //     // Only run if notification_count changed
 //     if notification_count.is_changed() {
 //         // Determine the count based on the room type
-//         let room_trigger = query.single(); // Get the room trigger entity
-//         if let Ok(room_button) = room_trigger {
+//         if let Ok(room_button) = query.single() {
 //             let count = match room_button {
 //                 RoomEnum::CommandRoom => notification_count.command_room_count,
 //                 RoomEnum::Office => notification_count.office_count,
@@ -207,3 +210,20 @@ fn setup_i18n() {
 //         }
 //     }
 // }
+
+pub fn update_notification_indicators_text(
+    notification_count: Res<NotificationCount>,
+    query_text: Single<Entity, (With<CommandRoomNotificationTrigger>, With<Text>)>,
+    mut query_container: Query<(&mut Node, &CommandRoomNotificationContainerTrigger)>,
+    mut writer: TextUiWriter,
+) {
+    *writer.text(*query_text, 0) = notification_count.command_room_count.to_string();
+
+    for (mut node, _) in query_container.iter_mut() {
+        node.display = if notification_count.command_room_count > 0 {
+            Display::Flex
+        } else {
+            Display::None
+        };
+    }
+}

@@ -3,6 +3,12 @@
 use crate::{
     enums::ColorPaletteEnum,
     my_assets::{get_mission_image, FONT_FIRA},
+    structs::{
+        general_structs::NotificationCount,
+        trigger_structs::{
+            CommandRoomNotificationContainerTrigger, CommandRoomNotificationTrigger,
+        },
+    },
     ui::ui_constants::WOOD_COLOR,
 };
 use bevy::prelude::*;
@@ -185,32 +191,32 @@ pub fn notification_count_indicator(
     notification_count: u8,
     my_assets: &Res<AssetServer>,
 ) {
-    if notification_count > 0 {
-        parent
-            .spawn((
-                Node {
-                    position_type: PositionType::Absolute,
-                    bottom: Val::Px(-5.),
-                    right: Val::Px(-10.),
-                    width: Val::Px(16.),
-                    height: Val::Px(16.),
-                    justify_content: JustifyContent::Center,
-                    align_items: AlignItems::Center,
+    parent
+        .spawn((
+            Node {
+                position_type: PositionType::Absolute,
+                bottom: Val::Px(-5.),
+                right: Val::Px(-10.),
+                width: Val::Px(16.),
+                height: Val::Px(16.),
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                ..default()
+            },
+            CommandRoomNotificationContainerTrigger,
+            BorderRadius::MAX,
+            BackgroundColor(ColorPaletteEnum::Danger.as_color()),
+        ))
+        .with_children(|indicator| {
+            indicator.spawn((
+                Text::new(notification_count.to_string()),
+                TextFont {
+                    font: my_assets.load(FONT_FIRA),
+                    font_size: 10.0,
                     ..default()
                 },
-                BorderRadius::MAX,
-                BackgroundColor(ColorPaletteEnum::Danger.as_color()),
-            ))
-            .with_children(|indicator| {
-                indicator.spawn((
-                    Text::new(notification_count.to_string()),
-                    TextFont {
-                        font: my_assets.load(FONT_FIRA),
-                        font_size: 10.0,
-                        ..default()
-                    },
-                    TextColor(Color::WHITE),
-                ));
-            });
-    }
+                TextColor(Color::WHITE),
+                CommandRoomNotificationTrigger,
+            ));
+        });
 }

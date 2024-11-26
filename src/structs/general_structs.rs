@@ -116,7 +116,7 @@ impl DayTime {
     }
 }
 
-#[derive(Resource)]
+#[derive(Debug, Resource)]
 pub struct NotificationCount {
     pub command_room_count: u8,
     pub office_count: u8,

@@ -1,5 +1,8 @@
 use crate::structs::{player_stats::PlayerStats, trigger_structs::PlayerDayTrigger};
-use bevy::prelude::{Entity, Res, Single, Text, TextUiWriter, With};
+use bevy::{
+    log::info,
+    prelude::{Entity, Res, Single, Text, TextUiWriter, With},
+};
 
 pub fn update_day_counter(
     player_stats: Res<PlayerStats>,
