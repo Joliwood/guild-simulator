@@ -13,6 +13,7 @@ mod systems;
 mod ui;
 mod utils;
 
+use enums::RoomEnum;
 // ! Stand-by
 // use my_assets::Locales;
 // use bevy_asset_loader::asset_collection::AssetCollectionApp;
@@ -27,13 +28,13 @@ use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
     general_structs::{
         DailyEventsModalVisible, DayTime, MissionModalVisible, MissionNotificationsNumber,
-        MissionReportsModalVisible,
+        MissionReportsModalVisible, NotificationCount,
     },
     maps::{Maps, SelectedMapId},
     missions::{MissionReports, Missions, SelectedMission},
     player_stats::PlayerStats,
     recruits::{SelectedRecruitForEquipment, SelectedRecruitForMission},
-    trigger_structs::{PlayerDayTrigger, RealTimeDayProgressBarTrigger},
+    trigger_structs::{PlayerDayTrigger, RealTimeDayProgressBarTrigger, RoomButtonTrigger},
 };
 use systems::updates::skip_tuto::skip_tuto;
 
@@ -75,9 +76,8 @@ fn main() -> AppExit {
         .insert_resource(Maps::default())
         .insert_resource(DailyEvents::default())
         .insert_resource(DailyEventTargets::default())
-        // .insert_resource(Locale::new(fr::FR).with_default(en::US))
-        // .insert_resource(Locales(vec![fr::FR, en::US]))
         .insert_resource(DayTime::default())
+        .insert_resource(NotificationCount::default())
         .add_systems(
             Startup,
             (
@@ -179,3 +179,31 @@ i18n!("assets/locales", fallback = "en");
 fn setup_i18n() {
     rust_i18n::set_locale("fr");
 }
+
+// pub fn update_notification_indicators(
+//     notification_count: Res<NotificationCount>,
+//     query: Query<Entity, (With<RoomButtonTrigger>, With<Text>)>,
+//     mut writer: TextUiWriter,
+// ) {
+//     // Only run if notification_count changed
+//     if notification_count.is_changed() {
+//         // Determine the count based on the room type
+//         let room_trigger = query.single(); // Get the room trigger entity
+//         if let Ok(room_button) = room_trigger {
+//             let count = match room_button {
+//                 RoomEnum::CommandRoom => notification_count.command_room_count,
+//                 RoomEnum::Office => notification_count.office_count,
+//                 RoomEnum::Barrack => notification_count.barrack_count,
+//                 _ => 0,
+//             };
+
+//             // Update the text and visibility based on the count
+//             if count > 0 {
+//                 *writer.text(*query, 0) = count.to_string(); // Update the text
+//                                                              // *writer.background(*query) = Color::RED.into(); // Set background color to red
+//             } else {
+//                 // *writer.background(*query) = Color::NONE.into(); // Hide the indicator
+//             }
+//         }
+//     }
+// }

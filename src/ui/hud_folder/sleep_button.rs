@@ -2,17 +2,12 @@ use crate::{
     enums::{ColorPaletteEnum, TextureAtlasLayoutEnum},
     my_assets::FONT_FIRA,
     structs::{
-        // general_structs::DayTime,
         player_stats::PlayerStats,
         trigger_structs::{PlayerDayTrigger, RealTimeDayProgressBarTrigger, SleepButtonTrigger},
     },
     utils::get_layout,
 };
-use bevy::{
-    prelude::*,
-    //  ui::widget::NodeImageMode
-};
-use rust_i18n::t;
+use bevy::prelude::*;
 
 pub fn sleep_button(
     commands: &mut Commands,

@@ -7,7 +7,6 @@ use crate::{
     utils::get_layout,
 };
 use bevy::prelude::*;
-use rust_i18n::t;
 
 pub fn discussion_event_doc(
     commands: &mut Commands,

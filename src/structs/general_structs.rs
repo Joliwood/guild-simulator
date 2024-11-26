@@ -115,3 +115,20 @@ impl DayTime {
         self.second_count = 0;
     }
 }
+
+#[derive(Resource)]
+pub struct NotificationCount {
+    pub command_room_count: u8,
+    pub office_count: u8,
+    pub barrack_count: u8,
+}
+
+impl Default for NotificationCount {
+    fn default() -> Self {
+        NotificationCount {
+            command_room_count: 5,
+            office_count: 1,
+            barrack_count: 0,
+        }
+    }
+}

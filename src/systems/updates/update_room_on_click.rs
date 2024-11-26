@@ -3,6 +3,7 @@ use crate::{
     structs::{
         general_structs::{
             DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
+            NotificationCount,
         },
         player_stats::PlayerStats,
         recruits::SelectedRecruitForMission,
@@ -15,6 +16,7 @@ use bevy::{
     //  window::CursorOptions
 };
 
+#[allow(clippy::too_many_arguments)]
 // System to update room based on button clicks
 pub fn update_room_on_click(
     mut interaction_query: Query<
@@ -27,6 +29,7 @@ pub fn update_room_on_click(
     mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
     mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
+    mut notification_count: ResMut<NotificationCount>,
 ) {
     let _window = windows.single_mut();
 
@@ -44,9 +47,18 @@ pub fn update_room_on_click(
                     &mut selected_recruit_for_mission,
                 );
                 match room_button_trigger.0 {
-                    RoomEnum::CommandRoom => player_stats.room = RoomEnum::CommandRoom,
-                    RoomEnum::Office => player_stats.room = RoomEnum::Office,
-                    RoomEnum::Barrack => player_stats.room = RoomEnum::Barrack,
+                    RoomEnum::CommandRoom => {
+                        player_stats.room = RoomEnum::CommandRoom;
+                        notification_count.command_room_count = 0;
+                    }
+                    RoomEnum::Office => {
+                        player_stats.room = RoomEnum::Office;
+                        notification_count.office_count = 0;
+                    }
+                    RoomEnum::Barrack => {
+                        player_stats.room = RoomEnum::Barrack;
+                        notification_count.barrack_count = 0;
+                    }
                     _ => (),
                 }
             }

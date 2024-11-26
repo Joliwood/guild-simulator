@@ -14,12 +14,8 @@ use crate::{
     ui::ui_constants::WOOD_COLOR,
     utils::get_layout,
 };
-use bevy::{
-    prelude::*,
-    // ui::widget::NodeImageMode
-};
+use bevy::prelude::*;
 use pyri_tooltip::Tooltip;
-use rust_i18n::t;
 
 #[allow(clippy::too_many_arguments)]
 pub fn mission_order_modal(
