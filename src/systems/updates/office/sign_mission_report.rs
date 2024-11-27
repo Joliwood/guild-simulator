@@ -2,7 +2,7 @@ use crate::{
     audio::play_sound::play_sound,
     enums::{ColorPaletteEnum, RecruitStateEnum, SoundEnum},
     structs::{
-        general_structs::MissionReportsModalVisible,
+        general_structs::{MissionReportsModalVisible, NotificationCount},
         maps::Maps,
         missions::{MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
@@ -33,6 +33,7 @@ pub fn sign_mission_report(
     my_assets: Res<AssetServer>,
     mut commands: Commands,
     mut maps: ResMut<Maps>,
+    mut notification_count: ResMut<NotificationCount>,
 ) {
     let _window = windows.single_mut();
 
@@ -69,6 +70,8 @@ pub fn sign_mission_report(
                     }
                     player_stats.stats.golds_earned += mission_report.golds_gained.unwrap();
                     player_stats.stats.mission_completed += 1;
+
+                    notification_count.increment_barrack_count(mission_report.loots.len() as u8);
 
                     let map_id = maps.get_map_by_mission_id(mission_id).unwrap().id;
 

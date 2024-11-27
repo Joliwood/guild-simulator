@@ -70,7 +70,19 @@ pub struct ItemInInventoryTrigger(pub Option<ItemEnum>);
 pub struct SkipTutoTrigger;
 
 #[derive(Component)]
+pub struct CommandRoomNotificationContainerTrigger;
+
+#[derive(Component)]
 pub struct CommandRoomNotificationTrigger;
 
 #[derive(Component)]
-pub struct CommandRoomNotificationContainerTrigger;
+pub struct OfficeRoomNotificationContainerTrigger;
+
+#[derive(Component)]
+pub struct OfficeRoomNotificationTrigger;
+
+#[derive(Component)]
+pub struct BarrackRoomNotificationContainerTrigger;
+
+#[derive(Component)]
+pub struct BarrackRoomNotificationTrigger;

@@ -90,13 +90,12 @@ pub fn hud(
                         ))
                         .insert(RoomButtonTrigger(RoomEnum::CommandRoom))
                         .with_children(|parent| {
-                            // if notification_count.command_room_count > 0 {
                             notification_count_indicator(
                                 parent,
                                 notification_count.command_room_count,
                                 &my_assets,
+                                RoomEnum::CommandRoom,
                             );
-                            // }
                         });
 
                     middle_container
@@ -116,16 +115,15 @@ pub fn hud(
                             ),
                             Tooltip::cursor(t!("tooltip_office_room_indications").to_string()),
                         ))
-                        .insert(RoomButtonTrigger(RoomEnum::Office));
-                    // .with_children(|parent| {
-                    //     if notification_count.office_count > 0 {
-                    //         notification_count_indicator(
-                    //             parent,
-                    //             notification_count.office_count,
-                    //             &my_assets,
-                    //         );
-                    //     }
-                    // });
+                        .insert(RoomButtonTrigger(RoomEnum::Office))
+                        .with_children(|parent| {
+                            notification_count_indicator(
+                                parent,
+                                notification_count.office_count,
+                                &my_assets,
+                                RoomEnum::Office,
+                            );
+                        });
 
                     middle_container
                         .spawn((
@@ -144,16 +142,15 @@ pub fn hud(
                             ),
                             Tooltip::cursor(t!("tooltip_barrack_room_indications").to_string()),
                         ))
-                        .insert(RoomButtonTrigger(RoomEnum::Barrack));
-                    // .with_children(|parent| {
-                    //     if notification_count.barrack_count > 0 {
-                    //         notification_count_indicator(
-                    //             parent,
-                    //             notification_count.barrack_count,
-                    //             &my_assets,
-                    //         );
-                    //     }
-                    // });
+                        .insert(RoomButtonTrigger(RoomEnum::Barrack))
+                        .with_children(|parent| {
+                            notification_count_indicator(
+                                parent,
+                                notification_count.barrack_count,
+                                &my_assets,
+                                RoomEnum::Barrack,
+                            );
+                        });
                 });
 
             right_hud(

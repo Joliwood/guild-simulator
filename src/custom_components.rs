@@ -1,13 +1,12 @@
 #![allow(dead_code)]
 
 use crate::{
-    enums::ColorPaletteEnum,
+    enums::{ColorPaletteEnum, RoomEnum},
     my_assets::{get_mission_image, FONT_FIRA},
-    structs::{
-        general_structs::NotificationCount,
-        trigger_structs::{
-            CommandRoomNotificationContainerTrigger, CommandRoomNotificationTrigger,
-        },
+    structs::trigger_structs::{
+        BarrackRoomNotificationContainerTrigger, BarrackRoomNotificationTrigger,
+        CommandRoomNotificationContainerTrigger, CommandRoomNotificationTrigger,
+        OfficeRoomNotificationContainerTrigger, OfficeRoomNotificationTrigger,
     },
     ui::ui_constants::WOOD_COLOR,
 };
@@ -190,6 +189,7 @@ pub fn notification_count_indicator(
     parent: &mut ChildBuilder,
     notification_count: u8,
     my_assets: &Res<AssetServer>,
+    room_enum: RoomEnum,
 ) {
     parent
         .spawn((
@@ -203,20 +203,37 @@ pub fn notification_count_indicator(
                 align_items: AlignItems::Center,
                 ..default()
             },
-            CommandRoomNotificationContainerTrigger,
             BorderRadius::MAX,
             BackgroundColor(ColorPaletteEnum::Danger.as_color()),
         ))
+        .insert_if(CommandRoomNotificationContainerTrigger, || {
+            room_enum == RoomEnum::CommandRoom
+        })
+        .insert_if(OfficeRoomNotificationContainerTrigger, || {
+            room_enum == RoomEnum::Office
+        })
+        .insert_if(BarrackRoomNotificationContainerTrigger, || {
+            room_enum == RoomEnum::Barrack
+        })
         .with_children(|indicator| {
-            indicator.spawn((
-                Text::new(notification_count.to_string()),
-                TextFont {
-                    font: my_assets.load(FONT_FIRA),
-                    font_size: 10.0,
-                    ..default()
-                },
-                TextColor(Color::WHITE),
-                CommandRoomNotificationTrigger,
-            ));
+            indicator
+                .spawn((
+                    Text::new(notification_count.to_string()),
+                    TextFont {
+                        font: my_assets.load(FONT_FIRA),
+                        font_size: 10.0,
+                        ..default()
+                    },
+                    TextColor(Color::WHITE),
+                ))
+                .insert_if(CommandRoomNotificationTrigger, || {
+                    room_enum == RoomEnum::CommandRoom
+                })
+                .insert_if(OfficeRoomNotificationTrigger, || {
+                    room_enum == RoomEnum::Office
+                })
+                .insert_if(BarrackRoomNotificationTrigger, || {
+                    room_enum == RoomEnum::Barrack
+                });
         });
 }

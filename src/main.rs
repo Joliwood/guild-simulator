@@ -13,7 +13,6 @@ mod systems;
 mod ui;
 mod utils;
 
-use enums::RoomEnum;
 // ! Stand-by
 // use my_assets::Locales;
 // use bevy_asset_loader::asset_collection::AssetCollectionApp;
@@ -35,8 +34,10 @@ use structs::{
     player_stats::PlayerStats,
     recruits::{SelectedRecruitForEquipment, SelectedRecruitForMission},
     trigger_structs::{
-        CommandRoomNotificationContainerTrigger, CommandRoomNotificationTrigger, PlayerDayTrigger,
-        RealTimeDayProgressBarTrigger, RoomButtonTrigger,
+        BarrackRoomNotificationContainerTrigger, BarrackRoomNotificationTrigger,
+        CommandRoomNotificationContainerTrigger, CommandRoomNotificationTrigger,
+        OfficeRoomNotificationContainerTrigger, OfficeRoomNotificationTrigger, PlayerDayTrigger,
+        RealTimeDayProgressBarTrigger,
     },
 };
 use systems::updates::skip_tuto::skip_tuto;
@@ -130,7 +131,14 @@ fn main() -> AppExit {
                 update_progress_bar,
                 systems::updates::hud::update_sleep_button_texture::update_sleep_button_texture,
                 skip_tuto,
-                update_notification_indicators_text.run_if(resource_changed::<NotificationCount>),
+            ),
+        )
+        .add_systems(
+            Update,
+            (
+                update_notification_indicators_text_for_command_room.run_if(resource_changed::<NotificationCount>),
+                update_notification_indicators_text_for_office_room.run_if(resource_changed::<NotificationCount>),
+                update_notification_indicators_text_for_barrack_room.run_if(resource_changed::<NotificationCount>),
             ),
         )
         .run()
@@ -184,34 +192,7 @@ fn setup_i18n() {
     rust_i18n::set_locale("fr");
 }
 
-// pub fn update_notification_indicators(
-//     notification_count: Res<NotificationCount>,
-//     query: Query<Entity, (With<RoomButtonTrigger>, With<Text>)>,
-//     mut writer: TextUiWriter,
-// ) {
-//     // Only run if notification_count changed
-//     if notification_count.is_changed() {
-//         // Determine the count based on the room type
-//         if let Ok(room_button) = query.single() {
-//             let count = match room_button {
-//                 RoomEnum::CommandRoom => notification_count.command_room_count,
-//                 RoomEnum::Office => notification_count.office_count,
-//                 RoomEnum::Barrack => notification_count.barrack_count,
-//                 _ => 0,
-//             };
-
-//             // Update the text and visibility based on the count
-//             if count > 0 {
-//                 *writer.text(*query, 0) = count.to_string(); // Update the text
-//                                                              // *writer.background(*query) = Color::RED.into(); // Set background color to red
-//             } else {
-//                 // *writer.background(*query) = Color::NONE.into(); // Hide the indicator
-//             }
-//         }
-//     }
-// }
-
-pub fn update_notification_indicators_text(
+pub fn update_notification_indicators_text_for_command_room(
     notification_count: Res<NotificationCount>,
     query_text: Single<Entity, (With<CommandRoomNotificationTrigger>, With<Text>)>,
     mut query_container: Query<(&mut Node, &CommandRoomNotificationContainerTrigger)>,
@@ -221,6 +202,40 @@ pub fn update_notification_indicators_text(
 
     for (mut node, _) in query_container.iter_mut() {
         node.display = if notification_count.command_room_count > 0 {
+            Display::Flex
+        } else {
+            Display::None
+        };
+    }
+}
+
+pub fn update_notification_indicators_text_for_office_room(
+    notification_count: Res<NotificationCount>,
+    query_text: Single<Entity, (With<OfficeRoomNotificationTrigger>, With<Text>)>,
+    mut query_container: Query<(&mut Node, &OfficeRoomNotificationContainerTrigger)>,
+    mut writer: TextUiWriter,
+) {
+    *writer.text(*query_text, 0) = notification_count.office_count.to_string();
+
+    for (mut node, _) in query_container.iter_mut() {
+        node.display = if notification_count.office_count > 0 {
+            Display::Flex
+        } else {
+            Display::None
+        };
+    }
+}
+
+pub fn update_notification_indicators_text_for_barrack_room(
+    notification_count: Res<NotificationCount>,
+    query_text: Single<Entity, (With<BarrackRoomNotificationTrigger>, With<Text>)>,
+    mut query_container: Query<(&mut Node, &BarrackRoomNotificationContainerTrigger)>,
+    mut writer: TextUiWriter,
+) {
+    *writer.text(*query_text, 0) = notification_count.barrack_count.to_string();
+
+    for (mut node, _) in query_container.iter_mut() {
+        node.display = if notification_count.barrack_count > 0 {
             Display::Flex
         } else {
             Display::None

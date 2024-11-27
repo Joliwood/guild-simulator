@@ -116,19 +116,23 @@ impl DayTime {
     }
 }
 
-#[derive(Debug, Resource)]
+#[derive(Default, Debug, Resource)]
 pub struct NotificationCount {
     pub command_room_count: u8,
     pub office_count: u8,
     pub barrack_count: u8,
 }
 
-impl Default for NotificationCount {
-    fn default() -> Self {
-        NotificationCount {
-            command_room_count: 5,
-            office_count: 1,
-            barrack_count: 0,
-        }
+impl NotificationCount {
+    pub fn increment_command_room_count(&mut self, count: u8) {
+        self.command_room_count += count;
+    }
+
+    pub fn increment_office_count(&mut self, count: u8) {
+        self.office_count += count;
+    }
+
+    pub fn increment_barrack_count(&mut self, count: u8) {
+        self.barrack_count += count;
     }
 }

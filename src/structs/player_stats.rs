@@ -3,12 +3,10 @@
 use super::{
     daily_events_folder::daily_events::{Answer, ImpactAction},
     equipments::ItemEnum,
+    general_structs::NotificationCount,
     recruits::RecruitStats,
 };
-use crate::{
-    content::recruits::RecruitEnum,
-    enums::{RecruitStateEnum, RoomEnum},
-};
+use crate::enums::{RecruitStateEnum, RoomEnum};
 use bevy::prelude::*;
 use uuid::Uuid;
 
@@ -54,7 +52,7 @@ impl Default for PlayerStats {
             recruits: vec![
                 // RecruitEnum::Hubert.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
-                RecruitEnum::JeanLouisDavid.get_recruit(),
+                // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
             ],
@@ -206,7 +204,11 @@ impl PlayerStats {
         self.reputation = (self.reputation + reputation).clamp(0, 100);
     }
 
-    pub fn apply_equipment_impact(&mut self, answer: &Answer) {
+    pub fn apply_equipment_impact(
+        &mut self,
+        answer: &Answer,
+        notification_count: &mut ResMut<NotificationCount>,
+    ) {
         if let Some(experience_impact) = &answer.experience_impact {
             self.gain_xp(*experience_impact);
         }
@@ -217,6 +219,7 @@ impl PlayerStats {
 
         if let Some(recruit_impact) = &answer.recruit_impact {
             self.recruits.push(recruit_impact.clone());
+            notification_count.increment_barrack_count(1);
         }
 
         if let Some(reputation_impact) = &answer.reputation_impact {
@@ -233,6 +236,8 @@ impl PlayerStats {
                     ImpactAction::Remove(item) => self.remove_item(item),
                 }
             }
+
+            notification_count.increment_barrack_count(equipment_impact.len() as u8);
         }
     }
 

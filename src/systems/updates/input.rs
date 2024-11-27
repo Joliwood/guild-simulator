@@ -3,6 +3,7 @@ use crate::{
     structs::{
         general_structs::{
             DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
+            NotificationCount,
         },
         player_stats::PlayerStats,
         recruits::SelectedRecruitForMission,
@@ -18,6 +19,7 @@ pub fn move_room_from_keyboard(
     mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
     mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
+    mut notification_count: ResMut<NotificationCount>,
 ) {
     if keyboard_input.just_pressed(KeyCode::KeyS) {
         reset_modals_visibility(
@@ -27,6 +29,7 @@ pub fn move_room_from_keyboard(
             &mut selected_recruit_for_mission,
         );
         player_stats.room = RoomEnum::CommandRoom;
+        notification_count.command_room_count = 0;
     }
 
     if keyboard_input.just_pressed(KeyCode::KeyW) {
@@ -37,6 +40,7 @@ pub fn move_room_from_keyboard(
             &mut selected_recruit_for_mission,
         );
         player_stats.room = RoomEnum::Office;
+        notification_count.office_count = 0;
     }
 
     if keyboard_input.just_pressed(KeyCode::KeyD) {
@@ -47,5 +51,6 @@ pub fn move_room_from_keyboard(
             &mut selected_recruit_for_mission,
         );
         player_stats.room = RoomEnum::Barrack;
+        notification_count.barrack_count = 0;
     }
 }
