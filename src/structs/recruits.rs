@@ -212,6 +212,12 @@ impl RecruitInventory {
             if let Some(defense) = scroll.defense {
                 scrolls_stats.1 += defense;
             }
+            if let Some(raw_attack) = scroll.bonus.iter().find_map(|bonus| match bonus {
+                BonusEnum::RawAttack(value) => Some(*value),
+                _ => None,
+            }) {
+                scrolls_stats.0 += raw_attack;
+            }
         }
 
         return scrolls_stats;
