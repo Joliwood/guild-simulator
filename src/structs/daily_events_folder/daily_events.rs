@@ -158,8 +158,8 @@ pub struct DailyEvents(pub Vec<DailyEvent>);
 // Contents
 impl Default for DailyEvents {
     fn default() -> Self {
-        // The last must be 8 (it is the mayor's welcome message)
-        let discussion_ids = [10, 7, 9, 8];
+        // WIP - 8 mayor moved from here
+        let discussion_ids = [9, 7, 8];
         let spontaneous_application_ids = [2, 1];
 
         let daily_events = spontaneous_application_ids

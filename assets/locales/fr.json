@@ -54,10 +54,6 @@
   "discussion9_desc": "Nous sommes ravis de vous accueillir dans la région et espérons que vos affaires prospéreront. J'ai inscrit votre guilde dans l'annuaire des marchands de notre réseau. Ainsi, ils pourront venir vous proposer une grande variété de transactions. Nous espérons avoir de vos nouvelles bientôt.",
   "discussion9_answer1_msg": "Dites-lui que ce sera un plaisir de faire affaire avec les marchands de sa guilde.",
 
-  "discussion10_title": "Accueil d'un guerrier retraité",
-  "discussion10_desc": "Bonjour, je viens de voir que vous vous êtes installé dans notre belle ville, alors bienvenue ! J'ai déjà fait ma part de travail, vous savez, mais peut-être que mon vieil équipement pourrait vous être utile, tenez...",
-  "discussion10_answer1_msg": "Merci beaucoup, soyez sûr que nous en ferons bon usage. Bonne journée, et fermez la porte en sortant.",
-
   "spontaneous_app1_title": "Proposition d'une personne endettée",
   "spontaneous_app1_desc": "Bonjour, le maire m'a envoyé parce que j'ai quelques... soucis disons... Bref, j'ai des dettes à payer, principalement à cause de l'augmentation des prix de la bière à l'auberge, que je n'ai pas pu assurer... Je suis un homme nouveau, croyez-moi ! Avez-vous un travail pour un homme repenti ?",
   "spontaneous_app1_answer1_msg": "Bienvenue dans notre guilde ! Vous êtes engagé !",
@@ -162,5 +158,10 @@
   "inventory": "Inventaire",
   "recruit_already_sent": "Une recrue a déjà été envoyée",
   "must_select_recruit_to_start_mission": "Vous devez sélectionner une\nrecrue pour commencer la mission.",
-  "risky_mission_warning": "Attention, cette mission est risquée !\nSi votre recrue échoue, elle aura des\nchances de revenir blessée..."
+  "risky_mission_warning": "Attention, cette mission est risquée !\nSi votre recrue échoue, elle aura des\nchances de revenir blessée...",
+
+  "tuto_message_init_title": "Welcome from the major",
+  "tuto_message_init_desc_1": "Hello ! I'm delighted that you've accepted my offer to come and live in our beloved town, so welcome!",
+  "tuto_message_init_desc_2": "As you know, there's plenty of work in the area. I've managed to find two people for you to recruit, and you should have received their proposals by now. I've provided you with a map of the surrounding area, where we're having a bit of trouble with vagrants causing trouble in the area, so it would be a good start if you could get rid of them for us...",
+  "tuto_message_init_desc_3": "I've put a few pointers here and there to help you get started. Happy installation!"
 }

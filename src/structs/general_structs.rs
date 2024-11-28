@@ -18,6 +18,9 @@ pub struct MissionReportsModalVisible(pub bool);
 #[derive(Component, Resource)]
 pub struct DailyEventsModalVisible(pub bool);
 
+#[derive(Component, Resource)]
+pub struct TutoMessagesModalVisible(pub bool);
+
 #[derive(Component)]
 pub struct UniqueId(pub String);
 

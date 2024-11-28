@@ -27,11 +27,11 @@ use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
     general_structs::{
         DailyEventsModalVisible, DayTime, MissionModalVisible, MissionNotificationsNumber,
-        MissionReportsModalVisible, NotificationCount,
+        MissionReportsModalVisible, NotificationCount, TutoMessagesModalVisible,
     },
     maps::{Maps, SelectedMapId},
     missions::{MissionReports, Missions, SelectedMission},
-    player_stats::PlayerStats,
+    player_stats::{PlayerStats, TutoMessages},
     recruits::{SelectedRecruitForEquipment, SelectedRecruitForMission},
     trigger_structs::{
         BarrackRoomNotificationContainerTrigger, BarrackRoomNotificationTrigger,
@@ -41,6 +41,7 @@ use structs::{
     },
 };
 use systems::updates::skip_tuto::skip_tuto;
+use ui::modals::tuto_messages::tuto_message_modal::tuto_message_modal;
 
 fn main() -> AppExit {
     App::new()
@@ -76,12 +77,14 @@ fn main() -> AppExit {
         .insert_resource(MissionModalVisible(false))
         .insert_resource(MissionReportsModalVisible(false))
         .insert_resource(DailyEventsModalVisible(false))
+        .insert_resource(TutoMessagesModalVisible(false))
         .insert_resource(MissionNotificationsNumber(0))
         .insert_resource(Maps::default())
         .insert_resource(DailyEvents::default())
         .insert_resource(DailyEventTargets::default())
         .insert_resource(DayTime::default())
         .insert_resource(NotificationCount::default())
+        .insert_resource(TutoMessages::default())
         .add_systems(
             Startup,
             (
@@ -139,6 +142,7 @@ fn main() -> AppExit {
                 update_notification_indicators_text_for_command_room.run_if(resource_changed::<NotificationCount>),
                 update_notification_indicators_text_for_office_room.run_if(resource_changed::<NotificationCount>),
                 update_notification_indicators_text_for_barrack_room.run_if(resource_changed::<NotificationCount>),
+                tuto_message_modal,
             ),
         )
         .run()
@@ -189,7 +193,7 @@ extern crate rust_i18n;
 i18n!("assets/locales", fallback = "en");
 
 fn setup_i18n() {
-    rust_i18n::set_locale("fr");
+    rust_i18n::set_locale("en");
 }
 
 pub fn update_notification_indicators_text_for_command_room(

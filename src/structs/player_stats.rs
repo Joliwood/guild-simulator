@@ -6,17 +6,49 @@ use super::{
     general_structs::NotificationCount,
     recruits::RecruitStats,
 };
-use crate::{
-    content::equipments::scrolls::ScrollsEnum,
-    enums::{RecruitStateEnum, RoomEnum},
-};
+use crate::enums::{RecruitStateEnum, RoomEnum};
 use bevy::prelude::*;
 use uuid::Uuid;
 
-#[derive(Component, Resource, Clone)]
+#[derive(Default, Component, Resource, Clone)]
 pub struct Stats {
     pub golds_earned: i32,
     pub mission_completed: u16,
+}
+
+#[derive(Default, Component, Resource, Clone)]
+pub struct Tuto {
+    pub barrack_room_tuto: bool,
+    pub command_room_tuto: bool,
+    pub first_daily_events: bool,
+}
+
+#[derive(Debug, Component, Resource, Clone)]
+pub struct TutoMessage {
+    pub title: String,
+    pub messages: Vec<String>,
+}
+
+#[derive(Debug, Component, Resource, Clone)]
+pub struct TutoMessages(pub Vec<TutoMessage>);
+
+impl Default for TutoMessages {
+    fn default() -> Self {
+        Self(vec![TutoMessage {
+            title: t!("tuto_message_init_title").to_string(),
+            messages: vec![
+                t!("tuto_message_init_desc_1").to_string(),
+                t!("tuto_message_init_desc_2").to_string(),
+                t!("tuto_message_init_desc_3").to_string(),
+            ],
+        }])
+    }
+}
+
+impl TutoMessages {
+    pub fn get_last_tuto_message(&self) -> Option<&TutoMessage> {
+        self.0.last()
+    }
 }
 
 #[derive(Component, Resource, Clone)]
@@ -33,6 +65,7 @@ pub struct PlayerStats {
     pub toxicity: i8,
     pub stats: Stats,
     pub reputation: i8,
+    pub tuto: Tuto,
 }
 
 impl Default for PlayerStats {
@@ -62,10 +95,8 @@ impl Default for PlayerStats {
             room: RoomEnum::CommandRoom,
             toxicity: 0,
             reputation: 10,
-            stats: Stats {
-                golds_earned: 0,
-                mission_completed: 0,
-            },
+            stats: Stats::default(),
+            tuto: Tuto::default(),
         }
     }
 }

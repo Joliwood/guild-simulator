@@ -251,14 +251,31 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
                 max_day: Some(1),
             },
         },
+        // 8 => DailyDiscussion {
+        //     id: 8,
+        //     title: "discussion8_title".to_string(),
+        //     description: "discussion8_desc".to_string(),
+        //     image_atlas_index: 7,
+        //     apparition_chance: 100,
+        //     answers: vec![Answer {
+        //         gold_impact: Some(50),
+        //         id: 1,
+        //         message: "discussion8_answer1_msg".to_string(),
+        //         ..Default::default()
+        //     }],
+        //     day_system: DaySystem {
+        //         cooldown: 0,
+        //         min_day: 1,
+        //         max_day: Some(1),
+        //     },
+        // },
         8 => DailyDiscussion {
             id: 8,
             title: "discussion8_title".to_string(),
             description: "discussion8_desc".to_string(),
-            image_atlas_index: 7,
+            image_atlas_index: 8,
             apparition_chance: 100,
             answers: vec![Answer {
-                gold_impact: Some(50),
                 id: 1,
                 message: "discussion8_answer1_msg".to_string(),
                 ..Default::default()
@@ -273,28 +290,11 @@ pub fn get_daily_discussion(daily_discussion_index: &u16) -> DailyDiscussion {
             id: 9,
             title: "discussion9_title".to_string(),
             description: "discussion9_desc".to_string(),
-            image_atlas_index: 8,
-            apparition_chance: 100,
-            answers: vec![Answer {
-                id: 1,
-                message: "discussion9_answer1_msg".to_string(),
-                ..Default::default()
-            }],
-            day_system: DaySystem {
-                cooldown: 0,
-                min_day: 1,
-                max_day: Some(1),
-            },
-        },
-        10 => DailyDiscussion {
-            id: 10,
-            title: "discussion10_title".to_string(),
-            description: "discussion10_desc".to_string(),
             image_atlas_index: 9,
             apparition_chance: 100,
             answers: vec![Answer {
                 id: 1,
-                message: "discussion10_answer1_msg".to_string(),
+                message: "discussion9_answer1_msg".to_string(),
                 equipment_impact: Some(vec![
                     ImpactAction::Add(ItemEnum::Armor(ArmorsEnum::TravelToga.get_armor())),
                     ImpactAction::Add(ItemEnum::Weapon(WeaponsEnum::WoodenSword.get_weapon())),
