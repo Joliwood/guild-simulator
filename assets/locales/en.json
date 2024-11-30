@@ -164,5 +164,21 @@
   "tuto_message_init_desc_1": "Hello ! I'm delighted that you've accepted my offer to come and live in our beloved town, so welcome!",
   "tuto_message_init_desc_2": "As you know, there's plenty of work in the area. I've managed to find two people for you to recruit, and you should have received their proposals by now. I've provided you with a map of the surrounding area, where we're having a bit of trouble with vagrants causing trouble in the area, so it would be a good start if you could get rid of them for us...",
   "tuto_message_init_desc_3": "I've put a few pointers here and there to help you get started. Happy installation!",
+
+  "tuto_message_barrack_title": "Introducing the barrack",
+  "tuto_message_barrack_desc_1": "Here you can find all the recruits you've hired, and manage their equipment.",
+  "tuto_message_barrack_desc_2": "Bear in mind that scrolls are for one-time use only: once an enchantment has been applied to a recruit, it cannot be recovered.",
+
+  "tuto_message_command_room_title": "Introducing the command room",
+  "tuto_message_command_room_desc_1": "Here you'll find all the cards you own, with all the missions you've unlocked on each one.",
+  "tuto_message_command_room_desc_2": "Bear in mind that if the recruit you send on a mission fails, he's likely to come back injured.",
+  "tuto_message_command_room_desc_3": "If your recruit is not yet ready to be sent on a mission, you can always send him to our training center. It's a bit dusty, but Algar, our retired master-at-arms, will be delighted to volunteer.",
+
+  "tuto_message_daily_events_title": "A new day starts",
+  "tuto_message_daily_events_desc_1": "Every day, people will be able to come and offer you services, ask you for them or simply chat and potentially pass on certain information to you.",
+  "tuto_message_daily_events_desc_2": "Be careful, though, because every choice you make could have an impact on your finances, your reputation or your toxicity.",
+  "tuto_message_daily_events_desc_3": "You'll need to fulfill your obligations as guild master before you can poach and move on to a new day.",
+  "tuto_message_daily_events_desc_4": "I think I've told you everything, good luck with your installation and see you soon!",
+
   "tuto_message_accept": "Accept"
 }

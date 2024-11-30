@@ -5,10 +5,13 @@ use crate::{
         daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
         general_structs::{DayTime, NotificationCount},
         missions::{MissionReports, Missions},
-        player_stats::PlayerStats,
+        player_stats::{PlayerStats, TutoEnum, TutoMessages},
         trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
     },
-    ui::hud_folder::notifications::spawn_or_update_notification::spawn_or_update_notification,
+    ui::{
+        hud_folder::notifications::spawn_or_update_notification::spawn_or_update_notification,
+        modals::tuto_messages,
+    },
     utils::finish_mission,
 };
 use bevy::prelude::*;
@@ -31,6 +34,7 @@ pub fn sleep_button_system(
     mut daily_event_targets: ResMut<DailyEventTargets>,
     mut day_time: ResMut<DayTime>,
     mut notification_count: ResMut<NotificationCount>,
+    mut tuto_messages: ResMut<TutoMessages>,
 ) {
     let _window = windows.single_mut();
 
@@ -43,6 +47,12 @@ pub fn sleep_button_system(
             Interaction::Pressed => {
                 // Increment the day in player_stats
                 player_stats.day += 1;
+
+                if player_stats.day == 2 {
+                    player_stats.tuto.is_first_daily_events_done = Some(false);
+                    tuto_messages.add_tuto_message(TutoEnum::DailyEvents);
+                }
+
                 play_sound(&my_assets, &mut commands, SoundEnum::KeysRemovedFromDoor);
                 // play_sound(&my_assets, &mut commands, SoundEnum::CockrelMorning);
 

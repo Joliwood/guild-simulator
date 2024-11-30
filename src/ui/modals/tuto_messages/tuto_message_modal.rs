@@ -31,7 +31,7 @@ pub fn tuto_message_modal(
         && tuto_messages_modal_visibility.0
         && tuto_messages_len > 0
     {
-        let last_tuto_message: &TutoMessage = match tuto_messages.get_last_tuto_message() {
+        let first_tuto_message: &TutoMessage = match tuto_messages.get_first_tuto_message() {
             Some(tuto_messages) => tuto_messages,
             None => return,
         };
@@ -113,7 +113,7 @@ pub fn tuto_message_modal(
                                 ..default()
                             })
                             .with_children(|parent| {
-                                for tuto_message_desc in last_tuto_message.messages.iter() {
+                                for tuto_message_desc in first_tuto_message.messages.iter() {
                                     parent.spawn((
                                         Text::new(tuto_message_desc),
                                         TextFont {
@@ -142,7 +142,7 @@ pub fn tuto_message_modal(
                                 width: Val::Px(80.),
                                 ..default()
                             },
-                            // AcceptTutoMessageTrigger(last_tuto_message.title.to_string()),
+                            // AcceptTutoMessageTrigger(first_tuto_message.title.to_string()),
                             CloseTutoMessageTrigger,
                         ));
 

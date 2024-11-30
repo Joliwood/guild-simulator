@@ -5,7 +5,7 @@ use crate::{
             DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
             NotificationCount, TutoMessagesModalVisible,
         },
-        player_stats::{PlayerStats, TutoMessages},
+        player_stats::{PlayerStats, TutoEnum, TutoMessages},
         recruits::SelectedRecruitForMission,
         trigger_structs::RoomButtonTrigger,
     },
@@ -53,7 +53,10 @@ pub fn update_room_on_click(
                     RoomEnum::CommandRoom => {
                         player_stats.room = RoomEnum::CommandRoom;
                         notification_count.command_room_count = 0;
-                        if player_stats.tuto.is_command_room_tuto_done != false {}
+                        if player_stats.tuto.is_command_room_tuto_done.is_none() {
+                            player_stats.tuto.is_command_room_tuto_done = Some(false);
+                            tuto_messages.add_tuto_message(TutoEnum::CommandRoom);
+                        }
                     }
                     RoomEnum::Office => {
                         player_stats.room = RoomEnum::Office;
@@ -62,6 +65,10 @@ pub fn update_room_on_click(
                     RoomEnum::Barrack => {
                         player_stats.room = RoomEnum::Barrack;
                         notification_count.barrack_count = 0;
+                        if player_stats.tuto.is_barrack_room_tuto_done.is_none() {
+                            player_stats.tuto.is_barrack_room_tuto_done = Some(false);
+                            tuto_messages.add_tuto_message(TutoEnum::BarrackRoom);
+                        }
                     }
                     _ => (),
                 }

@@ -19,11 +19,16 @@ pub struct Stats {
     pub mission_completed: u16,
 }
 
+/// Tutorial struct
+///
+/// When it is None, the tutorial is not available
+/// When it is Some(false), the tutorial is available but not done
+/// When it is Some(true), the tutorial is done
 #[derive(Default, Component, Resource, Clone)]
 pub struct Tuto {
-    pub is_barrack_room_tuto_done: bool,
-    pub is_command_room_tuto_done: bool,
-    pub is_first_daily_events_done: bool,
+    pub is_barrack_room_tuto_done: Option<bool>,
+    pub is_command_room_tuto_done: Option<bool>,
+    pub is_first_daily_events_done: Option<bool>,
 }
 
 pub enum TutoEnum {
@@ -55,13 +60,11 @@ impl Default for TutoMessages {
 }
 
 impl TutoMessages {
-    pub fn get_last_tuto_message(&self) -> Option<&TutoMessage> {
-        self.0.last()
+    pub fn get_first_tuto_message(&self) -> Option<&TutoMessage> {
+        self.0.first()
     }
 
     pub fn add_tuto_message(&mut self, tuto_type: TutoEnum) {
-        // self.0.push(tuto_message);
-        // WIP - Mettre à jour ce code (copilot)
         match tuto_type {
             TutoEnum::BarrackRoom => {
                 self.0.push(TutoMessage {
@@ -69,7 +72,6 @@ impl TutoMessages {
                     messages: vec![
                         t!("tuto_message_barrack_desc_1").to_string(),
                         t!("tuto_message_barrack_desc_2").to_string(),
-                        t!("tuto_message_barrack_desc_3").to_string(),
                     ],
                 });
             }
@@ -90,6 +92,7 @@ impl TutoMessages {
                         t!("tuto_message_daily_events_desc_1").to_string(),
                         t!("tuto_message_daily_events_desc_2").to_string(),
                         t!("tuto_message_daily_events_desc_3").to_string(),
+                        t!("tuto_message_daily_events_desc_4").to_string(),
                     ],
                 });
             }
