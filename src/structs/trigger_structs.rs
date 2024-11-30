@@ -12,9 +12,6 @@ pub struct ResetRoomTrigger;
 #[derive(Component)]
 pub struct MissionModalContentTrigger;
 
-#[derive(Component)]
-pub struct MissionNotificationTrigger;
-
 #[derive(Debug, Component)]
 pub struct NotificationToastTrigger;
 
@@ -95,3 +92,6 @@ pub struct AcceptTutoMessageTrigger(pub String);
 
 #[derive(Component)]
 pub struct CloseTutoMessageTrigger;
+
+#[derive(Component)]
+pub struct TutoMessageNotificationTrigger;

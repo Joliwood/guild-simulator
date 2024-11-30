@@ -40,7 +40,10 @@ use structs::{
     },
 };
 use systems::updates::{close_tuto_message::close_tuto_message, skip_tuto::skip_tuto};
-use ui::modals::tuto_messages::tuto_message_modal::tuto_message_modal;
+use ui::{
+    hud_folder::mayor_notification_toast::mayor_notification_toast,
+    modals::tuto_messages::tuto_message_modal::tuto_message_modal,
+};
 
 fn main() -> AppExit {
     App::new()
@@ -117,7 +120,6 @@ fn main() -> AppExit {
                 systems::updates::barrack::select_item_in_inventory::select_item_in_inventory,
                 systems::updates::command_room::close_mission_modal::close_mission_modal,
                 systems::updates::command_room::start_mission_button::start_mission_button,
-                systems::updates::hud::delete_notifications_on_click::delete_notifications_on_click,
                 systems::updates::hud::sleep_button_system::sleep_button_system,
                 systems::updates::office::select_discussion_answer::select_discussion_answer,
                 systems::updates::office::sign_mission_report::sign_mission_report,
@@ -142,6 +144,7 @@ fn main() -> AppExit {
                 update_notification_indicators_text_for_barrack_room.run_if(resource_changed::<NotificationCount>),
                 tuto_message_modal,
                 close_tuto_message,
+                mayor_notification_toast.run_if(resource_changed::<TutoMessages>),
             ),
         )
         .run()

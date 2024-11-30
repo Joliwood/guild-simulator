@@ -236,24 +236,6 @@ pub fn calculate_price_range(price: u16) -> (u16, u16) {
     return (lower_range, upper_range);
 }
 
-pub fn get_mission_notification_tooltip_text(completed_mission_number: u8) -> String {
-    let mission_word = if completed_mission_number > 1 {
-        t!("missions")
-    } else {
-        t!("mission")
-    };
-
-    return format!(
-        "You have completed {} {}.
-
-You should check out your mission
-reports in your office.
-
-Click to dismiss.",
-        completed_mission_number, mission_word
-    );
-}
-
 pub fn equip_recruit_inventory(
     selected_recruit_for_equipment: &mut ResMut<SelectedRecruitForEquipment>,
     item: &ItemEnum,
@@ -443,15 +425,6 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
             return TextureAtlasLayout::from_grid(
                 UVec2::new(500, 500),
                 8,
-                1,
-                Some(UVec2::new(0, 0)),
-                Some(UVec2::new(0, 0)),
-            )
-        }
-        TextureAtlasLayoutEnum::Notification => {
-            return TextureAtlasLayout::from_grid(
-                UVec2::new(50, 50),
-                4,
                 1,
                 Some(UVec2::new(0, 0)),
                 Some(UVec2::new(0, 0)),

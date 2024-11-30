@@ -31,6 +31,29 @@ pub struct Tuto {
     pub is_first_daily_events_done: Option<bool>,
 }
 
+impl Tuto {
+    pub fn count_tuto_available(&self) -> u8 {
+        let mut count = 0;
+        if let Some(is_barrack_room_tuto_done) = self.is_barrack_room_tuto_done {
+            if !is_barrack_room_tuto_done {
+                count += 1;
+            }
+        }
+        if let Some(is_command_room_tuto_done) = self.is_command_room_tuto_done {
+            if !is_command_room_tuto_done {
+                count += 1;
+            }
+        }
+        if let Some(is_first_daily_events_done) = self.is_first_daily_events_done {
+            if !is_first_daily_events_done {
+                count += 1;
+            }
+        }
+
+        return count;
+    }
+}
+
 pub enum TutoEnum {
     BarrackRoom,
     CommandRoom,

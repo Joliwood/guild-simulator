@@ -8,10 +8,7 @@ use crate::{
         player_stats::{PlayerStats, TutoEnum, TutoMessages},
         trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
     },
-    ui::{
-        hud_folder::notifications::spawn_or_update_notification::spawn_or_update_notification,
-        modals::tuto_messages,
-    },
+    ui::hud_folder::mayor_notification_toast::mayor_notification_toast,
     utils::finish_mission,
 };
 use bevy::prelude::*;
@@ -83,12 +80,12 @@ pub fn sleep_button_system(
                                 commands.entity(entity).despawn_recursive();
                             }
 
-                            spawn_or_update_notification(
-                                &mut commands,
-                                &my_assets,
-                                &mut texture_atlas_layouts,
-                                &mut mission_reports,
-                            );
+                            // WIP - moving to main updates
+                            // mayor_notification_toast(
+                            //     &mut commands,
+                            //     &my_assets,
+                            //     &mut tuto_messages,
+                            // );
                         }
                     }
                 }

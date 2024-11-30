@@ -165,7 +165,6 @@ pub enum TextureAtlasLayoutEnum<'a> {
     Armor,
     Discussion,
     HudIcon,
-    Notification,
     Scroll,
     Weapon,
     SpontaneousApplication,

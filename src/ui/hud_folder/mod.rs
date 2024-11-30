@@ -1,7 +1,5 @@
-pub mod notifications {
-    pub mod spawn_or_update_notification;
-}
 pub mod hud;
 pub mod left_hud;
+pub mod mayor_notification_toast;
 pub mod right_hud;
 pub mod sleep_button;

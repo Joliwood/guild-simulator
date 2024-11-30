@@ -6,5 +6,5 @@ pub fn update_guild_level(
     query: Single<Entity, (With<GuildLvlTrigger>, With<Text>)>,
     mut writer: TextUiWriter,
 ) {
-    *writer.text(*query, 0) = format!("{} : {}", t!("day"), player_stats.guild_level);
+    *writer.text(*query, 0) = format!("{} : {}", t!("level"), player_stats.guild_level);
 }

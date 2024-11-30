@@ -1,4 +1,3 @@
-pub mod delete_notifications_on_click;
 pub mod sleep_button_system;
 pub mod update_day_counter;
 pub mod update_gold_counter;
