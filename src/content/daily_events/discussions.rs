@@ -10,7 +10,7 @@ use crate::{
 };
 
 // --- To update whenever the content is updated --- //
-const MAX_DAILY_DISCUSSION_NUMBER: u16 = 10;
+const MAX_DAILY_DISCUSSION_NUMBER: u16 = 9;
 
 pub fn get_all_daily_discussions() -> Vec<DailyDiscussion> {
     (1..=MAX_DAILY_DISCUSSION_NUMBER)

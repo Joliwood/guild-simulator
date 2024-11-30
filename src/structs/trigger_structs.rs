@@ -86,3 +86,12 @@ pub struct BarrackRoomNotificationContainerTrigger;
 
 #[derive(Component)]
 pub struct BarrackRoomNotificationTrigger;
+
+#[derive(Component)]
+pub struct TutoMessageModalTrigger;
+
+#[derive(Component)]
+pub struct AcceptTutoMessageTrigger(pub String);
+
+#[derive(Component)]
+pub struct CloseTutoMessageTrigger;

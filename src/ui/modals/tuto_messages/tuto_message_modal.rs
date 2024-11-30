@@ -1,12 +1,11 @@
 use crate::{
-    content::daily_events::{
-        discussions::get_daily_discussion, spontaneous_applications::get_spontaneous_application,
-    },
+    my_assets::FONT_FIRA,
     structs::{
-        daily_events_folder::daily_events::{DailyEvent, DailyEventTypeEnum, DailyEvents},
         general_structs::TutoMessagesModalVisible,
-        player_stats::{PlayerStats, TutoMessage, TutoMessages},
-        trigger_structs::SelectAnswerTrigger,
+        player_stats::{TutoMessage, TutoMessages},
+        trigger_structs::{
+            AcceptTutoMessageTrigger, CloseTutoMessageTrigger, TutoMessageModalTrigger,
+        },
     },
 };
 use bevy::prelude::*;
@@ -14,10 +13,9 @@ use bevy::prelude::*;
 pub fn tuto_message_modal(
     mut commands: Commands,
     my_assets: Res<AssetServer>,
-    query: Query<Entity, With<SelectAnswerTrigger>>,
+    query: Query<Entity, With<TutoMessageModalTrigger>>,
     tuto_messages_modal_visibility: Res<TutoMessagesModalVisible>,
     tuto_messages: Res<TutoMessages>,
-    texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
     // Despawn existing modals if visibility is set to false
     if tuto_messages_modal_visibility.is_changed() {
@@ -38,11 +36,138 @@ pub fn tuto_message_modal(
             None => return,
         };
 
-        // discussion_event_doc(
-        //     &mut commands,
-        //     &my_assets,
-        //     get_daily_discussion(discussion),
-        //     texture_atlas_layouts,
-        // );
+        commands
+            .spawn((
+                Node {
+                    display: Display::Flex,
+                    align_items: AlignItems::Center,
+                    justify_content: JustifyContent::Center,
+                    width: Val::Percent(100.),
+                    height: Val::Percent(100.),
+                    ..default()
+                },
+                BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.8)),
+                TutoMessageModalTrigger,
+            ))
+            .with_children(|parent| {
+                parent
+                    .spawn((
+                        UiImage {
+                            image: my_assets.load("images/tuto/tuto_message_document.png"),
+                            ..default()
+                        },
+                        Node {
+                            display: Display::Flex,
+                            width: Val::Px(600.),
+                            height: Val::Px(370.),
+                            margin: UiRect {
+                                right: Val::Px(70.),
+                                bottom: Val::Px(50.),
+                                ..default()
+                            },
+                            padding: UiRect {
+                                left: Val::Px(20.),
+                                right: Val::Px(20.),
+                                top: Val::Px(20.),
+                                bottom: Val::Px(20.),
+                            },
+                            ..default()
+                        },
+                        GlobalZIndex(2),
+                    ))
+                    .with_children(|parent| {
+                        // Title
+                        parent.spawn((
+                            Text::new(t!("tuto_message_init_title")),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextLayout {
+                                justify: JustifyText::Center,
+                                ..default()
+                            },
+                            TextColor(Color::BLACK),
+                            Node {
+                                position_type: PositionType::Absolute,
+                                top: Val::Px(65.),
+                                right: Val::Px(100.),
+                                width: Val::Px(220.),
+                                ..default()
+                            },
+                        ));
+
+                        // All the texts
+                        parent
+                            .spawn(Node {
+                                display: Display::Flex,
+                                flex_direction: FlexDirection::Column,
+                                row_gap: Val::Px(10.),
+                                align_items: AlignItems::Center,
+                                justify_content: JustifyContent::Center,
+                                position_type: PositionType::Absolute,
+                                top: Val::Px(130.),
+                                left: Val::Px(130.),
+                                width: Val::Px(400.),
+                                ..default()
+                            })
+                            .with_children(|parent| {
+                                for tuto_message_desc in last_tuto_message.messages.iter() {
+                                    parent.spawn((
+                                        Text::new(tuto_message_desc),
+                                        TextFont {
+                                            font: my_assets.load(FONT_FIRA),
+                                            font_size: 12.0,
+                                            ..default()
+                                        },
+                                        TextColor(Color::BLACK),
+                                    ));
+                                }
+                            });
+
+                        parent.spawn((
+                            Button,
+                            Text::new(t!("tuto_message_accept")),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(Color::WHITE),
+                            Node {
+                                position_type: PositionType::Absolute,
+                                bottom: Val::Px(36.),
+                                right: Val::Px(20.),
+                                width: Val::Px(80.),
+                                ..default()
+                            },
+                            // AcceptTutoMessageTrigger(last_tuto_message.title.to_string()),
+                            CloseTutoMessageTrigger,
+                        ));
+
+                        // Avatar of the mayor
+                        parent.spawn((
+                            UiImage {
+                                image: my_assets.load("images/tuto/mayor_avatar.png"),
+                                ..default()
+                            },
+                            Node {
+                                position_type: PositionType::Absolute,
+                                top: Val::Px(10.),
+                                left: Val::Px(10.),
+                                width: Val::Px(130.),
+                                height: Val::Px(130.),
+                                overflow: Overflow {
+                                    x: OverflowAxis::Clip,
+                                    y: OverflowAxis::Clip,
+                                },
+                                ..default()
+                            },
+                            BorderRadius::MAX,
+                            GlobalZIndex(1),
+                        ));
+                    });
+            });
     }
 }

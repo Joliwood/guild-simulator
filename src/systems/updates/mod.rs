@@ -1,4 +1,5 @@
 pub mod barrack;
+pub mod close_tuto_message;
 pub mod command_room;
 pub mod hud;
 pub mod input;

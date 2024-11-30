@@ -6,7 +6,10 @@ use super::{
     general_structs::NotificationCount,
     recruits::RecruitStats,
 };
-use crate::enums::{RecruitStateEnum, RoomEnum};
+use crate::{
+    content::recruits::RecruitEnum,
+    enums::{RecruitStateEnum, RoomEnum},
+};
 use bevy::prelude::*;
 use uuid::Uuid;
 
@@ -18,9 +21,15 @@ pub struct Stats {
 
 #[derive(Default, Component, Resource, Clone)]
 pub struct Tuto {
-    pub barrack_room_tuto: bool,
-    pub command_room_tuto: bool,
-    pub first_daily_events: bool,
+    pub is_barrack_room_tuto_done: bool,
+    pub is_command_room_tuto_done: bool,
+    pub is_first_daily_events_done: bool,
+}
+
+pub enum TutoEnum {
+    BarrackRoom,
+    CommandRoom,
+    DailyEvents,
 }
 
 #[derive(Debug, Component, Resource, Clone)]
@@ -48,6 +57,43 @@ impl Default for TutoMessages {
 impl TutoMessages {
     pub fn get_last_tuto_message(&self) -> Option<&TutoMessage> {
         self.0.last()
+    }
+
+    pub fn add_tuto_message(&mut self, tuto_type: TutoEnum) {
+        // self.0.push(tuto_message);
+        // WIP - Mettre à jour ce code (copilot)
+        match tuto_type {
+            TutoEnum::BarrackRoom => {
+                self.0.push(TutoMessage {
+                    title: t!("tuto_message_barrack_title").to_string(),
+                    messages: vec![
+                        t!("tuto_message_barrack_desc_1").to_string(),
+                        t!("tuto_message_barrack_desc_2").to_string(),
+                        t!("tuto_message_barrack_desc_3").to_string(),
+                    ],
+                });
+            }
+            TutoEnum::CommandRoom => {
+                self.0.push(TutoMessage {
+                    title: t!("tuto_message_command_room_title").to_string(),
+                    messages: vec![
+                        t!("tuto_message_command_room_desc_1").to_string(),
+                        t!("tuto_message_command_room_desc_2").to_string(),
+                        t!("tuto_message_command_room_desc_3").to_string(),
+                    ],
+                });
+            }
+            TutoEnum::DailyEvents => {
+                self.0.push(TutoMessage {
+                    title: t!("tuto_message_daily_events_title").to_string(),
+                    messages: vec![
+                        t!("tuto_message_daily_events_desc_1").to_string(),
+                        t!("tuto_message_daily_events_desc_2").to_string(),
+                        t!("tuto_message_daily_events_desc_3").to_string(),
+                    ],
+                });
+            }
+        }
     }
 }
 
@@ -86,13 +132,13 @@ impl Default for PlayerStats {
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![
-                // RecruitEnum::Hubert.get_recruit(),
-                // RecruitEnum::JeanLouisDavid.get_recruit(),
+                RecruitEnum::Hubert.get_recruit(),
+                RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
             ],
-            room: RoomEnum::CommandRoom,
+            room: RoomEnum::Office,
             toxicity: 0,
             reputation: 10,
             stats: Stats::default(),

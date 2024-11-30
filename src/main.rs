@@ -19,7 +19,6 @@ mod utils;
 // use my_assets::{MyAssets, MyAssetsLoader};
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
-// use crate::locales::{en, fr};
 
 use bevy::{asset::AssetMetaCheck, prelude::*, window::WindowTheme};
 use content::constants::MAX_GAME_SECONDS;
@@ -40,13 +39,12 @@ use structs::{
         RealTimeDayProgressBarTrigger,
     },
 };
-use systems::updates::skip_tuto::skip_tuto;
+use systems::updates::{close_tuto_message::close_tuto_message, skip_tuto::skip_tuto};
 use ui::modals::tuto_messages::tuto_message_modal::tuto_message_modal;
 
 fn main() -> AppExit {
     App::new()
         .add_plugins((
-            // DefaultPlugins
             DefaultPlugins
             .set(AssetPlugin {
                 meta_check: AssetMetaCheck::Never,
@@ -77,7 +75,7 @@ fn main() -> AppExit {
         .insert_resource(MissionModalVisible(false))
         .insert_resource(MissionReportsModalVisible(false))
         .insert_resource(DailyEventsModalVisible(false))
-        .insert_resource(TutoMessagesModalVisible(false))
+        .insert_resource(TutoMessagesModalVisible(true))
         .insert_resource(MissionNotificationsNumber(0))
         .insert_resource(Maps::default())
         .insert_resource(DailyEvents::default())
@@ -143,6 +141,7 @@ fn main() -> AppExit {
                 update_notification_indicators_text_for_office_room.run_if(resource_changed::<NotificationCount>),
                 update_notification_indicators_text_for_barrack_room.run_if(resource_changed::<NotificationCount>),
                 tuto_message_modal,
+                close_tuto_message,
             ),
         )
         .run()

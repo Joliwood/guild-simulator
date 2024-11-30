@@ -21,6 +21,11 @@ pub fn recruit_card(
     parent
         .spawn((
             Button,
+            UiImage {
+                image: my_assets.load("images/rooms/barrack/recruit_card_background.png"),
+                ..default()
+            }
+            .with_mode(NodeImageMode::Stretch),
             Node {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Row,
@@ -37,7 +42,7 @@ pub fn recruit_card(
                 border: UiRect::all(Val::Px(2.0)),
                 ..default()
             },
-            BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
+            BorderColor(Color::BLACK),
             BorderRadius::all(Val::Px(10.)),
         ))
         .insert(PickingBehavior {
@@ -98,6 +103,10 @@ pub fn recruit_card(
             // Recruit portrait image (left-most side)
             button
                 .spawn((
+                    UiImage {
+                        image: my_assets.load("images/rooms/barrack/recruit_avatar_card_frame.png"),
+                        ..default()
+                    },
                     Node {
                         width: Val::Px(80.0),
                         height: Val::Px(80.0),
@@ -111,37 +120,60 @@ pub fn recruit_card(
                             x: OverflowAxis::Hidden,
                             y: OverflowAxis::Hidden,
                         },
-                        align_items: AlignItems::FlexStart,
+                        align_items: AlignItems::Center,
                         justify_content: JustifyContent::Center,
                         ..default()
                     },
-                    BackgroundColor(Color::NONE),
+                    GlobalZIndex(5),
                 ))
                 .insert(PickingBehavior {
                     should_block_lower: false,
                     ..default()
                 })
-                .with_children(|frame| {
-                    // Image that is 200x400, clipped by the parent container
-                    frame
+                .with_children(|button| {
+                    button
                         .spawn((
-                            UiImage::from_atlas_image(
-                                my_assets.load("images/recruits/recruit_picture_atlas.png"),
-                                TextureAtlas {
-                                    index: recruit.image_atlas_index.into(),
-                                    layout: recruit_texture_atlas_layout.clone(),
-                                },
-                            ),
                             Node {
-                                width: Val::Px(80.),
-                                height: Val::Px(140.),
                                 position_type: PositionType::Absolute,
+                                width: Val::Percent(100.0),
+                                height: Val::Percent(100.0),
+                                align_items: AlignItems::FlexStart,
+                                justify_content: JustifyContent::Center,
+                                overflow: Overflow {
+                                    x: OverflowAxis::Clip,
+                                    y: OverflowAxis::Clip,
+                                },
                                 ..default()
                             },
+                            BackgroundColor(Color::NONE),
+                            GlobalZIndex(3),
                         ))
                         .insert(PickingBehavior {
                             should_block_lower: false,
                             ..default()
+                        })
+                        .with_children(|frame| {
+                            // Image that is 200x400, clipped by the parent container
+                            frame
+                                .spawn((
+                                    UiImage::from_atlas_image(
+                                        my_assets.load("images/recruits/recruit_picture_atlas.png"),
+                                        TextureAtlas {
+                                            index: recruit.image_atlas_index.into(),
+                                            layout: recruit_texture_atlas_layout.clone(),
+                                        },
+                                    ),
+                                    Node {
+                                        width: Val::Px(80.),
+                                        height: Val::Px(140.),
+                                        position_type: PositionType::Absolute,
+                                        ..default()
+                                    },
+                                ))
+                                .insert(PickingBehavior {
+                                    should_block_lower: false,
+                                    ..default()
+                                });
                         });
                 });
 

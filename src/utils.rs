@@ -4,6 +4,7 @@ use crate::{
         equipments::ItemEnum,
         general_structs::{
             DailyEventsModalVisible, Ennemy, MissionModalVisible, MissionReportsModalVisible,
+            TutoMessagesModalVisible,
         },
         missions::{ItemLootEnum, MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
@@ -72,11 +73,13 @@ pub fn reset_modals_visibility(
     mission_reports_modal_visibility: &mut ResMut<MissionReportsModalVisible>,
     daily_events_modal_visibility: &mut ResMut<DailyEventsModalVisible>,
     selected_recruit_for_mission: &mut ResMut<SelectedRecruitForMission>,
+    tuto_messages_modal_visibility: &mut ResMut<TutoMessagesModalVisible>,
 ) {
     mission_modal_visibility.0 = false;
     mission_reports_modal_visibility.0 = false;
     daily_events_modal_visibility.0 = false;
     selected_recruit_for_mission.0 = None;
+    tuto_messages_modal_visibility.0 = false;
 }
 
 /// ## Calculates the victory percentage of a mission based on the global points

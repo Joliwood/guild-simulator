@@ -3,9 +3,9 @@ use crate::{
     structs::{
         general_structs::{
             DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
-            NotificationCount,
+            NotificationCount, TutoMessagesModalVisible,
         },
-        player_stats::PlayerStats,
+        player_stats::{PlayerStats, TutoMessages},
         recruits::SelectedRecruitForMission,
         trigger_structs::RoomButtonTrigger,
     },
@@ -30,6 +30,8 @@ pub fn update_room_on_click(
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
     mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
     mut notification_count: ResMut<NotificationCount>,
+    mut tuto_messages_modal_visibility: ResMut<TutoMessagesModalVisible>,
+    mut tuto_messages: ResMut<TutoMessages>,
 ) {
     let _window = windows.single_mut();
 
@@ -45,11 +47,13 @@ pub fn update_room_on_click(
                     &mut mission_reports_modal_visibility,
                     &mut daily_events_modal_visibility,
                     &mut selected_recruit_for_mission,
+                    &mut tuto_messages_modal_visibility,
                 );
                 match room_button_trigger.0 {
                     RoomEnum::CommandRoom => {
                         player_stats.room = RoomEnum::CommandRoom;
                         notification_count.command_room_count = 0;
+                        if player_stats.tuto.is_command_room_tuto_done != false {}
                     }
                     RoomEnum::Office => {
                         player_stats.room = RoomEnum::Office;

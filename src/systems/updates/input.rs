@@ -3,7 +3,7 @@ use crate::{
     structs::{
         general_structs::{
             DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
-            NotificationCount,
+            NotificationCount, TutoMessagesModalVisible,
         },
         player_stats::PlayerStats,
         recruits::SelectedRecruitForMission,
@@ -12,6 +12,7 @@ use crate::{
 };
 use bevy::prelude::*;
 
+#[allow(clippy::too_many_arguments)]
 pub fn move_room_from_keyboard(
     mut player_stats: ResMut<PlayerStats>,
     keyboard_input: Res<ButtonInput<KeyCode>>,
@@ -20,6 +21,7 @@ pub fn move_room_from_keyboard(
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
     mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
     mut notification_count: ResMut<NotificationCount>,
+    mut tuto_messages_modal_visibility: ResMut<TutoMessagesModalVisible>,
 ) {
     if keyboard_input.just_pressed(KeyCode::KeyS) {
         reset_modals_visibility(
@@ -27,6 +29,7 @@ pub fn move_room_from_keyboard(
             &mut mission_reports_modal_visibility,
             &mut daily_events_modal_visibility,
             &mut selected_recruit_for_mission,
+            &mut tuto_messages_modal_visibility,
         );
         player_stats.room = RoomEnum::CommandRoom;
         notification_count.command_room_count = 0;
@@ -38,6 +41,7 @@ pub fn move_room_from_keyboard(
             &mut mission_reports_modal_visibility,
             &mut daily_events_modal_visibility,
             &mut selected_recruit_for_mission,
+            &mut tuto_messages_modal_visibility,
         );
         player_stats.room = RoomEnum::Office;
         notification_count.office_count = 0;
@@ -49,6 +53,7 @@ pub fn move_room_from_keyboard(
             &mut mission_reports_modal_visibility,
             &mut daily_events_modal_visibility,
             &mut selected_recruit_for_mission,
+            &mut tuto_messages_modal_visibility,
         );
         player_stats.room = RoomEnum::Barrack;
         notification_count.barrack_count = 0;
