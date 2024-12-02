@@ -39,7 +39,10 @@ use structs::{
         RealTimeDayProgressBarTrigger,
     },
 };
-use systems::updates::{close_tuto_message::close_tuto_message, skip_tuto::skip_tuto};
+use systems::updates::{
+    close_tuto_message::close_tuto_message, hud::open_tuto_message::open_tuto_message,
+    skip_tuto::skip_tuto,
+};
 use ui::{
     hud_folder::mayor_notification_toast::mayor_notification_toast,
     modals::tuto_messages::tuto_message_modal::tuto_message_modal,
@@ -145,6 +148,7 @@ fn main() -> AppExit {
                 tuto_message_modal,
                 close_tuto_message,
                 mayor_notification_toast.run_if(resource_changed::<TutoMessages>),
+                open_tuto_message,
             ),
         )
         .run()

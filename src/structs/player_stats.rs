@@ -62,6 +62,7 @@ pub enum TutoEnum {
 
 #[derive(Debug, Component, Resource, Clone)]
 pub struct TutoMessage {
+    pub id: u8,
     pub title: String,
     pub messages: Vec<String>,
 }
@@ -72,6 +73,7 @@ pub struct TutoMessages(pub Vec<TutoMessage>);
 impl Default for TutoMessages {
     fn default() -> Self {
         Self(vec![TutoMessage {
+            id: 0,
             title: t!("tuto_message_init_title").to_string(),
             messages: vec![
                 t!("tuto_message_init_desc_1").to_string(),
@@ -91,6 +93,7 @@ impl TutoMessages {
         match tuto_type {
             TutoEnum::BarrackRoom => {
                 self.0.push(TutoMessage {
+                    id: 1,
                     title: t!("tuto_message_barrack_title").to_string(),
                     messages: vec![
                         t!("tuto_message_barrack_desc_1").to_string(),
@@ -100,6 +103,7 @@ impl TutoMessages {
             }
             TutoEnum::CommandRoom => {
                 self.0.push(TutoMessage {
+                    id: 2,
                     title: t!("tuto_message_command_room_title").to_string(),
                     messages: vec![
                         t!("tuto_message_command_room_desc_1").to_string(),
@@ -110,6 +114,7 @@ impl TutoMessages {
             }
             TutoEnum::DailyEvents => {
                 self.0.push(TutoMessage {
+                    id: 3,
                     title: t!("tuto_message_daily_events_title").to_string(),
                     messages: vec![
                         t!("tuto_message_daily_events_desc_1").to_string(),
@@ -120,6 +125,24 @@ impl TutoMessages {
                 });
             }
         }
+    }
+
+    pub fn remove_first_tuto_message(&mut self, player_stats: &mut ResMut<PlayerStats>) {
+        if let Some(tuto_message) = self.0.first() {
+            match tuto_message.id {
+                1 => {
+                    player_stats.tuto.is_barrack_room_tuto_done = Some(true);
+                }
+                2 => {
+                    player_stats.tuto.is_command_room_tuto_done = Some(true);
+                }
+                3 => {
+                    player_stats.tuto.is_first_daily_events_done = Some(true);
+                }
+                _ => {}
+            }
+        }
+        self.0.remove(0);
     }
 }
 

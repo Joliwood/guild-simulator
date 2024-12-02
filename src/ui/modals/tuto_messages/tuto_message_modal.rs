@@ -48,6 +48,7 @@ pub fn tuto_message_modal(
                 },
                 BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.8)),
                 TutoMessageModalTrigger,
+                GlobalZIndex(7),
             ))
             .with_children(|parent| {
                 parent
@@ -73,12 +74,12 @@ pub fn tuto_message_modal(
                             },
                             ..default()
                         },
-                        GlobalZIndex(2),
+                        GlobalZIndex(9),
                     ))
                     .with_children(|parent| {
                         // Title
                         parent.spawn((
-                            Text::new(t!("tuto_message_init_title")),
+                            Text::new(&first_tuto_message.title),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 14.0,
@@ -126,25 +127,26 @@ pub fn tuto_message_modal(
                                 }
                             });
 
-                        parent.spawn((
-                            Button,
-                            Text::new(t!("tuto_message_accept")),
-                            TextFont {
-                                font: my_assets.load(FONT_FIRA),
-                                font_size: 14.0,
-                                ..default()
-                            },
-                            TextColor(Color::WHITE),
-                            Node {
-                                position_type: PositionType::Absolute,
-                                bottom: Val::Px(36.),
-                                right: Val::Px(20.),
-                                width: Val::Px(80.),
-                                ..default()
-                            },
-                            // AcceptTutoMessageTrigger(first_tuto_message.title.to_string()),
-                            CloseTutoMessageTrigger,
-                        ));
+                        parent
+                            .spawn((
+                                Button,
+                                Text::new(t!("tuto_message_accept")),
+                                TextFont {
+                                    font: my_assets.load(FONT_FIRA),
+                                    font_size: 14.0,
+                                    ..default()
+                                },
+                                TextColor(Color::WHITE),
+                                Node {
+                                    position_type: PositionType::Absolute,
+                                    bottom: Val::Px(36.),
+                                    right: Val::Px(20.),
+                                    width: Val::Px(80.),
+                                    ..default()
+                                },
+                                CloseTutoMessageTrigger,
+                            ))
+                            .insert(first_tuto_message.clone());
 
                         // Avatar of the mayor
                         parent.spawn((
@@ -165,7 +167,7 @@ pub fn tuto_message_modal(
                                 ..default()
                             },
                             BorderRadius::MAX,
-                            GlobalZIndex(1),
+                            GlobalZIndex(8),
                         ));
                     });
             });
