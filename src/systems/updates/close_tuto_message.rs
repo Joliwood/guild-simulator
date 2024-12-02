@@ -18,6 +18,9 @@ pub fn close_tuto_message(
             Interaction::Pressed => {
                 tuto_message_modal_visibility.0 = false;
                 tuto_messages.remove_first_tuto_message(&mut player_stats);
+                if tuto_messages.get_first_tuto_message().is_some() {
+                    tuto_message_modal_visibility.0 = true;
+                }
             }
             Interaction::Hovered => {
                 // window.cursor.icon = CursorIcon::Pointer;
