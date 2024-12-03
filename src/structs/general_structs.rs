@@ -1,8 +1,14 @@
 #![allow(dead_code)]
 
-use super::equipments::{Armor, Scroll, Weapon};
-use crate::content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum};
-use bevy::prelude::{Component, Resource};
+use super::{
+    equipments::{Armor, Scroll, Weapon},
+    player_stats::PlayerStats,
+};
+use crate::{
+    content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
+    enums::RoomEnum,
+};
+use bevy::prelude::{Component, Res, Resource};
 // ! For workflow with ron files
 // use ron::de::from_str;
 
@@ -127,15 +133,21 @@ pub struct NotificationCount {
 }
 
 impl NotificationCount {
-    pub fn increment_command_room_count(&mut self, count: u8) {
-        self.command_room_count += count;
+    pub fn increment_command_room_count(&mut self, count: u8, player_stats: &mut PlayerStats) {
+        if player_stats.room != RoomEnum::CommandRoom {
+            self.command_room_count += count;
+        }
     }
 
-    pub fn increment_office_count(&mut self, count: u8) {
-        self.office_count += count;
+    pub fn increment_office_count(&mut self, count: u8, player_stats: &mut PlayerStats) {
+        if player_stats.room != RoomEnum::Office {
+            self.office_count += count;
+        }
     }
 
-    pub fn increment_barrack_count(&mut self, count: u8) {
-        self.barrack_count += count;
+    pub fn increment_barrack_count(&mut self, count: u8, player_stats: &mut PlayerStats) {
+        if player_stats.room != RoomEnum::Barrack {
+            self.barrack_count += count;
+        }
     }
 }

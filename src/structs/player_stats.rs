@@ -360,7 +360,7 @@ impl PlayerStats {
 
         if let Some(recruit_impact) = &answer.recruit_impact {
             self.recruits.push(recruit_impact.clone());
-            notification_count.increment_barrack_count(1);
+            notification_count.increment_barrack_count(1, self);
         }
 
         if let Some(reputation_impact) = &answer.reputation_impact {
@@ -378,7 +378,7 @@ impl PlayerStats {
                 }
             }
 
-            notification_count.increment_barrack_count(equipment_impact.len() as u8);
+            notification_count.increment_barrack_count(equipment_impact.len() as u8, self);
         }
     }
 

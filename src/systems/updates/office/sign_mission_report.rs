@@ -71,7 +71,10 @@ pub fn sign_mission_report(
                     player_stats.stats.golds_earned += mission_report.golds_gained.unwrap();
                     player_stats.stats.mission_completed += 1;
 
-                    notification_count.increment_barrack_count(mission_report.loots.len() as u8);
+                    notification_count.increment_barrack_count(
+                        mission_report.loots.len() as u8,
+                        &mut player_stats,
+                    );
 
                     let map_id = maps.get_map_by_mission_id(mission_id).unwrap().id;
 

@@ -79,13 +79,6 @@ pub fn sleep_button_system(
                             for entity in query.iter() {
                                 commands.entity(entity).despawn_recursive();
                             }
-
-                            // WIP - moving to main updates
-                            // mayor_notification_toast(
-                            //     &mut commands,
-                            //     &my_assets,
-                            //     &mut tuto_messages,
-                            // );
                         }
                     }
                 }
@@ -100,8 +93,10 @@ pub fn sleep_button_system(
                 let recruit_length = player_stats.recruits.len();
                 player_stats.increment_golds(recruit_length as i32 * -2);
 
-                notification_count
-                    .increment_office_count((daily_events.0.len() + mission_reports.0.len()) as u8);
+                notification_count.increment_office_count(
+                    (daily_events.0.len() + mission_reports.0.len()) as u8,
+                    &mut player_stats,
+                );
                 day_time.reset();
                 border_color.0 = Color::NONE;
             }
