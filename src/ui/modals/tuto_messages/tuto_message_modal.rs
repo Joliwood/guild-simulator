@@ -3,7 +3,9 @@ use crate::{
     structs::{
         general_structs::TutoMessagesModalVisible,
         player_stats::{TutoMessage, TutoMessages},
-        trigger_structs::{CloseTutoMessageTrigger, TutoMessageModalTrigger},
+        trigger_structs::{
+            CloseTutoMessageTrigger, SkipTutoMessageTrigger, TutoMessageModalTrigger,
+        },
     },
 };
 use bevy::prelude::*;
@@ -166,6 +168,26 @@ pub fn tuto_message_modal(
                             },
                             BorderRadius::MAX,
                             GlobalZIndex(8),
+                        ));
+
+                        // Button with text inside "Skip the tutorial"
+                        parent.spawn((
+                            Button,
+                            Text::new(t!("tuto_message_skip")),
+                            TextFont {
+                                font: my_assets.load(FONT_FIRA),
+                                font_size: 14.0,
+                                ..default()
+                            },
+                            TextColor(Color::WHITE),
+                            Node {
+                                position_type: PositionType::Absolute,
+                                bottom: Val::Px(36.),
+                                left: Val::Px(120.),
+                                width: Val::Px(80.),
+                                ..default()
+                            },
+                            SkipTutoMessageTrigger,
                         ));
                     });
             });

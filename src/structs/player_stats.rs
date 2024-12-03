@@ -52,6 +52,12 @@ impl Tuto {
 
         return count;
     }
+
+    pub fn reset(&mut self) {
+        self.is_barrack_room_tuto_done = Some(true);
+        self.is_command_room_tuto_done = Some(true);
+        self.is_first_daily_events_done = Some(true);
+    }
 }
 
 pub enum TutoEnum {

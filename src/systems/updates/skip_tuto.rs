@@ -1,26 +1,28 @@
-use crate::structs::{general_structs::MissionModalVisible, trigger_structs::SkipTutoTrigger};
+use crate::structs::{
+    general_structs::TutoMessagesModalVisible,
+    player_stats::{PlayerStats, TutoMessages},
+    trigger_structs::SkipTutoMessageTrigger,
+};
 use bevy::prelude::*;
 
 pub fn skip_tuto(
-    mut interaction_query: Query<
-        (&Interaction, &mut BorderColor),
-        (Changed<Interaction>, With<SkipTutoTrigger>),
-    >,
-    mut modal_visible: ResMut<MissionModalVisible>,
+    mut query: Query<&Interaction, (Changed<Interaction>, With<SkipTutoMessageTrigger>)>,
+    mut tuto_message_modal_visibility: ResMut<TutoMessagesModalVisible>,
+    mut tuto_messages: ResMut<TutoMessages>,
+    mut player_stats: ResMut<PlayerStats>,
 ) {
-    for (interaction, mut border_color) in &mut interaction_query {
+    for interaction in query.iter_mut() {
         match *interaction {
             Interaction::Pressed => {
-                modal_visible.0 = false;
-                border_color.0 = Color::BLACK;
+                tuto_message_modal_visibility.0 = false;
+                tuto_messages.0.clear();
+                player_stats.tuto.reset();
             }
             Interaction::Hovered => {
-                // window.cursor.icon = CursorIcon::Pointer;@#<><>>>>
-                border_color.0 = Color::WHITE;
+                // window.cursor.icon = CursorIcon::Pointer;
             }
             Interaction::None => {
                 // window.cursor.icon = CursorIcon::Default;
-                border_color.0 = Color::BLACK;
             }
         }
     }

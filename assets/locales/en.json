@@ -180,5 +180,6 @@
   "tuto_message_daily_events_desc_3": "You'll need to fulfill your obligations as guild master before you can poach and move on to a new day.",
   "tuto_message_daily_events_desc_4": "I think I've told you everything, good luck with your installation and see you soon!",
 
-  "tuto_message_accept": "Accept"
+  "tuto_message_accept": "Accept",
+  "tuto_message_skip": "Skip the tutorial"
 }

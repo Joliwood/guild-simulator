@@ -95,3 +95,6 @@ pub struct CloseTutoMessageTrigger;
 
 #[derive(Component)]
 pub struct TutoMessageNotificationTrigger;
+
+#[derive(Component)]
+pub struct SkipTutoMessageTrigger;
