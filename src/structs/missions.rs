@@ -341,15 +341,19 @@ impl ItemLoot {
                 ..
             } => {
                 let scroll = scroll.get_scroll();
-                let mut description = format!("{}\n{:?}", scroll.name, scroll.bonus);
+                let mut description = scroll.name.to_string();
                 let price_range = calculate_price_range(scroll.price);
 
                 if let Some(attack) = scroll.attack {
-                    description.push_str(&format!("\n{}: {}", t!("attack"), attack));
+                    description.push_str(&format!("\n\n{}: {}", t!("attack"), attack));
                 }
 
                 if let Some(defense) = scroll.defense {
                     description.push_str(&format!("\n{}: {}", t!("defense"), defense));
+                }
+
+                for bonus in scroll.bonus.iter() {
+                    description.push_str(&format!("\n{:?}", bonus));
                 }
 
                 description.push_str(&format!(

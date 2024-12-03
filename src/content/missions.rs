@@ -94,7 +94,7 @@ pub fn generate_all_missions() -> Missions {
                 attack: 15,
                 defense: 15,
             },
-            unlocked: false,
+            unlocked: true,
             description: "mission3_desc".to_string(),
             golds: 30,
             loots: Loots(vec![
@@ -129,7 +129,7 @@ pub fn generate_all_missions() -> Missions {
                 attack: 17,
                 defense: 8,
             },
-            unlocked: false,
+            unlocked: true,
             description: "mission4_desc".to_string(),
             golds: 12,
             loots: Loots(vec![
@@ -164,7 +164,7 @@ pub fn generate_all_missions() -> Missions {
                 attack: 15,
                 defense: 22,
             },
-            unlocked: false,
+            unlocked: true,
             description: "mission5_desc".to_string(),
             golds: 15,
             loots: Loots(vec![
@@ -203,7 +203,7 @@ pub fn generate_all_missions() -> Missions {
                 attack: 42,
                 defense: 8,
             },
-            unlocked: false,
+            unlocked: true,
             description: "mission6_desc".to_string(),
             golds: 50,
             loots: Loots(vec![
