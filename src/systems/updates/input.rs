@@ -5,7 +5,7 @@ use crate::{
             DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
             NotificationCount, TutoMessagesModalVisible,
         },
-        player_stats::PlayerStats,
+        player_stats::{PlayerStats, TutoEnum, TutoMessages},
         recruits::SelectedRecruitForMission,
     },
     utils::reset_modals_visibility,
@@ -22,6 +22,7 @@ pub fn move_room_from_keyboard(
     mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
     mut notification_count: ResMut<NotificationCount>,
     mut tuto_messages_modal_visibility: ResMut<TutoMessagesModalVisible>,
+    mut tuto_messages: ResMut<TutoMessages>,
 ) {
     if keyboard_input.just_pressed(KeyCode::KeyS) {
         reset_modals_visibility(
@@ -32,6 +33,10 @@ pub fn move_room_from_keyboard(
             &mut tuto_messages_modal_visibility,
         );
         player_stats.room = RoomEnum::CommandRoom;
+        if player_stats.tuto.is_command_room_tuto_done.is_none() {
+            player_stats.tuto.is_command_room_tuto_done = Some(false);
+            tuto_messages.add_tuto_message(TutoEnum::CommandRoom);
+        }
         notification_count.command_room_count = 0;
     }
 
@@ -56,6 +61,10 @@ pub fn move_room_from_keyboard(
             &mut tuto_messages_modal_visibility,
         );
         player_stats.room = RoomEnum::Barrack;
+        if player_stats.tuto.is_barrack_room_tuto_done.is_none() {
+            player_stats.tuto.is_barrack_room_tuto_done = Some(false);
+            tuto_messages.add_tuto_message(TutoEnum::BarrackRoom);
+        }
         notification_count.barrack_count = 0;
     }
 }

@@ -89,7 +89,13 @@ impl TutoMessages {
         self.0.first()
     }
 
+    fn remove_initial_tuto_message(&mut self) {
+        self.0.retain(|tuto_message| tuto_message.id != 0);
+    }
+
     pub fn add_tuto_message(&mut self, tuto_type: TutoEnum) {
+        Self::remove_initial_tuto_message(self);
+
         match tuto_type {
             TutoEnum::BarrackRoom => {
                 self.0.push(TutoMessage {

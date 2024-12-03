@@ -3,9 +3,7 @@ use crate::{
     structs::{
         general_structs::TutoMessagesModalVisible,
         player_stats::{TutoMessage, TutoMessages},
-        trigger_structs::{
-            AcceptTutoMessageTrigger, CloseTutoMessageTrigger, TutoMessageModalTrigger,
-        },
+        trigger_structs::{CloseTutoMessageTrigger, TutoMessageModalTrigger},
     },
 };
 use bevy::prelude::*;
@@ -15,7 +13,7 @@ pub fn tuto_message_modal(
     my_assets: Res<AssetServer>,
     query: Query<Entity, With<TutoMessageModalTrigger>>,
     tuto_messages_modal_visibility: Res<TutoMessagesModalVisible>,
-    tuto_messages: Res<TutoMessages>,
+    tuto_messages: ResMut<TutoMessages>,
 ) {
     // Despawn existing modals if visibility is set to false
     if tuto_messages_modal_visibility.is_changed() {
