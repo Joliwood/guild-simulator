@@ -6,7 +6,7 @@ mod audio;
 mod content;
 mod custom_components;
 mod enums;
-mod locales;
+// mod locales;
 mod my_assets;
 mod structs;
 mod systems;
@@ -18,33 +18,44 @@ mod utils;
 // use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use my_assets::{MyAssets, MyAssetsLoader};
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
-// use pyri_tooltip::prelude::*;
-// use bevy_fluent::prelude::*;
-// use crate::locales::{en, fr};
+use pyri_tooltip::prelude::*;
 
-use bevy::{prelude::*, window::WindowTheme};
+use bevy::{asset::AssetMetaCheck, prelude::*, window::WindowTheme};
 use content::constants::MAX_GAME_SECONDS;
 use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
     general_structs::{
         DailyEventsModalVisible, DayTime, MissionModalVisible, MissionNotificationsNumber,
-        MissionReportsModalVisible,
+        MissionReportsModalVisible, NotificationCount, TutoMessagesModalVisible,
     },
     maps::{Maps, SelectedMapId},
     missions::{MissionReports, Missions, SelectedMission},
-    player_stats::PlayerStats,
+    player_stats::{PlayerStats, TutoMessages},
     recruits::{SelectedRecruitForEquipment, SelectedRecruitForMission},
-    trigger_structs::{PlayerDayTrigger, RealTimeDayProgressBarTrigger},
+    trigger_structs::{
+        BarrackRoomNotificationContainerTrigger, BarrackRoomNotificationTrigger,
+        CommandRoomNotificationContainerTrigger, CommandRoomNotificationTrigger,
+        OfficeRoomNotificationContainerTrigger, OfficeRoomNotificationTrigger, PlayerDayTrigger,
+        RealTimeDayProgressBarTrigger,
+    },
+};
+use systems::updates::{
+    close_tuto_message::close_tuto_message, hud::open_tuto_message::open_tuto_message,
+    skip_tuto::skip_tuto,
+};
+use ui::{
+    hud_folder::mayor_notification_toast::mayor_notification_toast,
+    modals::tuto_messages::tuto_message_modal::tuto_message_modal,
 };
 
 fn main() -> AppExit {
     App::new()
         .add_plugins((
             DefaultPlugins
-            // .set(AssetPlugin {
-            //     meta_check: AssetMetaCheck::Never,
-            //     ..default()
-            // })
+            .set(AssetPlugin {
+                meta_check: AssetMetaCheck::Never,
+                ..default()
+            })
             .set(WindowPlugin {
                 primary_window: Some(Window {
                     title: "Guild simulator".into(),
@@ -55,9 +66,8 @@ fn main() -> AppExit {
                 }),
                 ..default()
             }),
-            // Plugin::build(FluentPlugin),
             // WorldInspectorPlugin::new(),
-            // TooltipPlugin::default(),
+            TooltipPlugin::default(),
         ))
         // .init_asset::<MyAssets>()
         // .init_collection::<MyAssets>()
@@ -71,19 +81,21 @@ fn main() -> AppExit {
         .insert_resource(MissionModalVisible(false))
         .insert_resource(MissionReportsModalVisible(false))
         .insert_resource(DailyEventsModalVisible(false))
+        .insert_resource(TutoMessagesModalVisible(true))
         .insert_resource(MissionNotificationsNumber(0))
         .insert_resource(Maps::default())
         .insert_resource(DailyEvents::default())
         .insert_resource(DailyEventTargets::default())
-        // .insert_resource(Locale::new(fr::FR).with_default(en::US))
-        // .insert_resource(Locales(vec![fr::FR, en::US]))
         .insert_resource(DayTime::default())
+        .insert_resource(NotificationCount::default())
+        .insert_resource(TutoMessages::default())
         .add_systems(
             Startup,
             (
                 audio::audio_source::audio_source,
                 systems::camera::camera_setup::camera_setup,
                 ui::hud_folder::hud::hud,
+                setup_i18n,
             ),
         )
         .add_systems(
@@ -111,13 +123,12 @@ fn main() -> AppExit {
                 systems::updates::barrack::select_item_in_inventory::select_item_in_inventory,
                 systems::updates::command_room::close_mission_modal::close_mission_modal,
                 systems::updates::command_room::start_mission_button::start_mission_button,
-                systems::updates::hud::delete_notifications_on_click::delete_notifications_on_click,
                 systems::updates::hud::sleep_button_system::sleep_button_system,
                 systems::updates::office::select_discussion_answer::select_discussion_answer,
                 systems::updates::office::sign_mission_report::sign_mission_report,
                 systems::updates::office::toggle_daily_event_documents::toggle_daily_event_documents,
                 systems::updates::office::toggle_mission_reports::toggle_mission_reports,
-                // systems::updates::scroll::scroll,
+                systems::updates::scroll::scroll,
                 systems::updates::update_room_on_click::update_room_on_click,
                 ui::modals::daily_events::daily_events_modal::daily_events_modal,
                 ui::modals::mission_order_modal_folder::mission_order_modal::mission_order_modal,
@@ -125,6 +136,19 @@ fn main() -> AppExit {
                 update_daytime,
                 update_progress_bar,
                 systems::updates::hud::update_sleep_button_texture::update_sleep_button_texture,
+                skip_tuto,
+            ),
+        )
+        .add_systems(
+            Update,
+            (
+                update_notification_indicators_text_for_command_room.run_if(resource_changed::<NotificationCount>),
+                update_notification_indicators_text_for_office_room.run_if(resource_changed::<NotificationCount>),
+                update_notification_indicators_text_for_barrack_room.run_if(resource_changed::<NotificationCount>),
+                tuto_message_modal,
+                close_tuto_message,
+                mayor_notification_toast.run_if(resource_changed::<TutoMessages>),
+                open_tuto_message,
             ),
         )
         .run()
@@ -162,5 +186,69 @@ fn update_progress_bar(
     // Mise à jour de la largeur pour chaque entité avec le trigger `RealTimeDayProgressBarTrigger`
     for mut node in query.iter_mut() {
         node.width = Val::Px(progress_ratio * 70.);
+    }
+}
+
+// Load I18n macro, for allow you use `t!` macro in anywhere.
+#[macro_use]
+extern crate rust_i18n;
+
+// Config fallback missing translations to "en" locale.
+// Use `fallback` option to set fallback locale.
+//
+i18n!("assets/locales", fallback = "en");
+
+fn setup_i18n() {
+    rust_i18n::set_locale("fr");
+}
+
+pub fn update_notification_indicators_text_for_command_room(
+    notification_count: Res<NotificationCount>,
+    query_text: Single<Entity, (With<CommandRoomNotificationTrigger>, With<Text>)>,
+    mut query_container: Query<(&mut Node, &CommandRoomNotificationContainerTrigger)>,
+    mut writer: TextUiWriter,
+) {
+    *writer.text(*query_text, 0) = notification_count.command_room_count.to_string();
+
+    for (mut node, _) in query_container.iter_mut() {
+        node.display = if notification_count.command_room_count > 0 {
+            Display::Flex
+        } else {
+            Display::None
+        };
+    }
+}
+
+pub fn update_notification_indicators_text_for_office_room(
+    notification_count: Res<NotificationCount>,
+    query_text: Single<Entity, (With<OfficeRoomNotificationTrigger>, With<Text>)>,
+    mut query_container: Query<(&mut Node, &OfficeRoomNotificationContainerTrigger)>,
+    mut writer: TextUiWriter,
+) {
+    *writer.text(*query_text, 0) = notification_count.office_count.to_string();
+
+    for (mut node, _) in query_container.iter_mut() {
+        node.display = if notification_count.office_count > 0 {
+            Display::Flex
+        } else {
+            Display::None
+        };
+    }
+}
+
+pub fn update_notification_indicators_text_for_barrack_room(
+    notification_count: Res<NotificationCount>,
+    query_text: Single<Entity, (With<BarrackRoomNotificationTrigger>, With<Text>)>,
+    mut query_container: Query<(&mut Node, &BarrackRoomNotificationContainerTrigger)>,
+    mut writer: TextUiWriter,
+) {
+    *writer.text(*query_text, 0) = notification_count.barrack_count.to_string();
+
+    for (mut node, _) in query_container.iter_mut() {
+        node.display = if notification_count.barrack_count > 0 {
+            Display::Flex
+        } else {
+            Display::None
+        };
     }
 }

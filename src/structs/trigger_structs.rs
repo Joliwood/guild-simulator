@@ -12,9 +12,6 @@ pub struct ResetRoomTrigger;
 #[derive(Component)]
 pub struct MissionModalContentTrigger;
 
-#[derive(Component)]
-pub struct MissionNotificationTrigger;
-
 #[derive(Debug, Component)]
 pub struct NotificationToastTrigger;
 
@@ -65,3 +62,30 @@ pub struct CloseMissionModalTrigger;
 
 #[derive(Component)]
 pub struct ItemInInventoryTrigger(pub Option<ItemEnum>);
+
+#[derive(Component)]
+pub struct CommandRoomNotificationContainerTrigger;
+
+#[derive(Component)]
+pub struct CommandRoomNotificationTrigger;
+
+#[derive(Component)]
+pub struct OfficeRoomNotificationContainerTrigger;
+
+#[derive(Component)]
+pub struct OfficeRoomNotificationTrigger;
+
+#[derive(Component)]
+pub struct BarrackRoomNotificationContainerTrigger;
+
+#[derive(Component)]
+pub struct BarrackRoomNotificationTrigger;
+
+#[derive(Component)]
+pub struct TutoMessageModalTrigger;
+
+#[derive(Component)]
+pub struct CloseTutoMessageTrigger;
+
+#[derive(Component)]
+pub struct SkipTutoMessageTrigger;

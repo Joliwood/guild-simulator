@@ -2,7 +2,7 @@ use super::{
     loots_and_start::loots_and_start, mission_recap::mission_recap, recruit_recap::recruit_recap,
 };
 use crate::{
-    enums::TextureAtlasLayoutEnum,
+    enums::{ColorPaletteEnum, TextureAtlasLayoutEnum},
     my_assets::FONT_FIRA,
     structs::{
         general_structs::MissionModalVisible,
@@ -15,6 +15,7 @@ use crate::{
     utils::get_layout,
 };
 use bevy::prelude::*;
+use pyri_tooltip::Tooltip;
 
 #[allow(clippy::too_many_arguments)]
 pub fn mission_order_modal(
@@ -67,7 +68,7 @@ pub fn mission_order_modal(
                     BorderRadius::all(Val::Px(20.0)),
                     BorderColor(Color::BLACK),
                     BackgroundColor(WOOD_COLOR),
-                    GlobalZIndex(1),
+                    GlobalZIndex(3),
                 ))
                 .insert(Name::new("Mission details modal"))
                 .insert(MissionModalContentTrigger)
@@ -99,7 +100,7 @@ pub fn mission_order_modal(
                     // Title
                     parent
                         .spawn((
-                            Text::new(mission.name.to_string()),
+                            Text::new(t!(&mission.name)),
                             TextFont {
                                 font: my_assets.load(FONT_FIRA),
                                 font_size: 18.0,
@@ -140,20 +141,44 @@ pub fn mission_order_modal(
                                     if let Some(percent_of_victory) =
                                         selected_mission.percent_of_victory
                                     {
-                                        parent.spawn((
-                                            Text::new(format!("{}%", percent_of_victory)),
-                                            TextFont {
-                                                font: my_assets.load(FONT_FIRA),
-                                                font_size: 16.0,
+                                        parent
+                                            .spawn((Node {
+                                                flex_direction: FlexDirection::Row,
+                                                align_items: AlignItems::Center,
                                                 ..default()
-                                            },
-                                            TextColor(Color::BLACK),
-                                            Node {
-                                                align_self: AlignSelf::Center,
-                                                justify_self: JustifySelf::Center,
-                                                ..default()
-                                            },
-                                        ));
+                                            },))
+                                            .with_children(|parent| {
+                                                parent.spawn((
+                                                    Text::new(format!("{}%", percent_of_victory)),
+                                                    TextFont {
+                                                        font: my_assets.load(FONT_FIRA),
+                                                        font_size: 16.0,
+                                                        ..default()
+                                                    },
+                                                    TextColor(Color::BLACK),
+                                                ));
+
+                                                if percent_of_victory < 50 {
+                                                    parent.spawn((
+                                                        Text::new("!"),
+                                                        TextFont {
+                                                            font: my_assets.load(FONT_FIRA),
+                                                            font_size: 16.0,
+                                                            ..default()
+                                                        },
+                                                        TextColor(
+                                                            ColorPaletteEnum::Danger.as_color(),
+                                                        ),
+                                                        Node {
+                                                            margin: UiRect::left(Val::Px(5.0)),
+                                                            ..default()
+                                                        },
+                                                        Tooltip::cursor(
+                                                            t!("risky_mission_warning").to_string(),
+                                                        ),
+                                                    ));
+                                                }
+                                            });
                                     }
 
                                     recruit_recap(

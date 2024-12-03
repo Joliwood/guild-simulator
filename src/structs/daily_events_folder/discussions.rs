@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use super::daily_events::{
     get_random_index_from_percent_arr, Answer, DailyEventTargets, DaySystem, DiscussionTarget,
 };

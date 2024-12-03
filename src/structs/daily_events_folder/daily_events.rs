@@ -7,12 +7,12 @@ use crate::{
         discussions::{get_all_daily_discussions, get_daily_discussion},
         spontaneous_applications::{get_all_spontaneous_applications, get_spontaneous_application},
     },
-    structs::{equipments::ItemEnum, recruits::RecruitStats},
+    structs::{equipments::ItemEnum, player_stats::SKIP_TUTO, recruits::RecruitStats},
 };
 use bevy::prelude::*;
 use rand::Rng;
 
-fn calculate_total_apparition_chance(list: &[u16]) -> u16 {
+pub fn calculate_total_apparition_chance(list: &[u16]) -> u16 {
     let mut total = 0;
     let mut i = 0;
     while i < list.len() {
@@ -158,8 +158,8 @@ pub struct DailyEvents(pub Vec<DailyEvent>);
 // Contents
 impl Default for DailyEvents {
     fn default() -> Self {
-        // The last must be 8 (it is the mayor's welcome message)
-        let discussion_ids = [10, 7, 9, 8];
+        // WIP - 8 mayor moved from here
+        let discussion_ids = [9, 7, 8];
         let spontaneous_application_ids = [2, 1];
 
         let daily_events = spontaneous_application_ids
@@ -180,6 +180,10 @@ impl Default for DailyEvents {
             }))
             .collect();
 
+        if SKIP_TUTO {
+            return Self(vec![]);
+        }
+
         return Self(daily_events);
     }
 }
@@ -199,8 +203,8 @@ impl DailyEvents {
         let mut daily_discussion_number = 0;
         let mut daily_spontaneous_application_number = 0;
 
-        // Discussion has a 66% chance of being selected.
-        // Spontaneous application has a 33% chance of being selected.
+        // Discussion has a 80% chance of being selected.
+        // Spontaneous application has a 20% chance of being selected.
 
         for _ in 0..n {
             let random_number = rand::thread_rng().gen_range(0..100);

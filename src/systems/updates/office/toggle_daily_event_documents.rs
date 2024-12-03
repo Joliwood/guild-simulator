@@ -4,6 +4,7 @@ use crate::{
     structs::{
         general_structs::{
             DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
+            TutoMessagesModalVisible,
         },
         recruits::SelectedRecruitForMission,
         trigger_structs::DailyEventTrigger,
@@ -22,6 +23,7 @@ pub fn toggle_daily_event_documents(
     mut mission_modal_visibility: ResMut<MissionModalVisible>,
     mut mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
     mut selected_recruit_for_mission: ResMut<SelectedRecruitForMission>,
+    mut tuto_messages_modal_visibility: ResMut<TutoMessagesModalVisible>,
 ) {
     let _window = windows.single_mut();
 
@@ -33,6 +35,7 @@ pub fn toggle_daily_event_documents(
                     &mut mission_reports_modal_visibility,
                     &mut daily_events_modal_visibility,
                     &mut selected_recruit_for_mission,
+                    &mut tuto_messages_modal_visibility,
                 );
                 daily_events_modal_visibility.0 = true;
                 play_sound(&my_assets, &mut commands, SoundEnum::PickingGolds);

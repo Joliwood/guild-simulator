@@ -5,7 +5,7 @@ use crate::{
     utils::get_layout,
 };
 use bevy::prelude::*;
-// use pyri_tooltip::{Tooltip, TooltipActivation};
+use pyri_tooltip::{Tooltip, TooltipActivation};
 
 pub fn loots_earned(
     parent: &mut ChildBuilder,
@@ -26,7 +26,7 @@ pub fn loots_earned(
         .with_children(|parent| {
             // Loots Text
             parent.spawn((
-                Text::new("Loots"),
+                Text::new(t!("loots")),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 16.0,
@@ -46,8 +46,11 @@ pub fn loots_earned(
                     // Loots in text
                     parent.spawn((
                         Text::new(format!(
-                            "+ {} Golds | + {} XP for recruit",
-                            golds_gained, experience_gained
+                            "+ {} {} | + {} XP {}",
+                            golds_gained,
+                            t!("golds"),
+                            experience_gained,
+                            t!("for_recruit")
                         )),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
@@ -69,7 +72,7 @@ pub fn loots_earned(
                     for loot in mission_report.loots.iter() {
                         let item_image_atlas_index = loot.get_atlas_index();
                         let item_layout = get_layout(TextureAtlasLayoutEnum::Item(loot));
-                        // let tooltip_text = loot.get_item_loot_tooltip_description();
+                        let tooltip_text = loot.get_item_loot_tooltip_description();
                         let item_atlas_path = get_item_atlas_path(loot);
                         parent.spawn((
                             Button,
@@ -89,8 +92,8 @@ pub fn loots_earned(
                                     layout: texture_atlas_layouts.add(item_layout),
                                 },
                             ),
-                            // Tooltip::cursor(tooltip_text.to_string())
-                            //     .with_activation(TooltipActivation::IMMEDIATE),
+                            Tooltip::cursor(t!(tooltip_text).to_string())
+                                .with_activation(TooltipActivation::IMMEDIATE),
                         ));
                     }
                 });

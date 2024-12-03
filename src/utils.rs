@@ -3,7 +3,8 @@ use crate::{
     structs::{
         equipments::ItemEnum,
         general_structs::{
-            DailyEventsModalVisible, MissionModalVisible, MissionReportsModalVisible,
+            DailyEventsModalVisible, Ennemy, MissionModalVisible, MissionReportsModalVisible,
+            TutoMessagesModalVisible,
         },
         missions::{ItemLootEnum, MissionReport, MissionReports, Missions},
         player_stats::PlayerStats,
@@ -72,11 +73,13 @@ pub fn reset_modals_visibility(
     mission_reports_modal_visibility: &mut ResMut<MissionReportsModalVisible>,
     daily_events_modal_visibility: &mut ResMut<DailyEventsModalVisible>,
     selected_recruit_for_mission: &mut ResMut<SelectedRecruitForMission>,
+    tuto_messages_modal_visibility: &mut ResMut<TutoMessagesModalVisible>,
 ) {
     mission_modal_visibility.0 = false;
     mission_reports_modal_visibility.0 = false;
     daily_events_modal_visibility.0 = false;
     selected_recruit_for_mission.0 = None;
+    tuto_messages_modal_visibility.0 = false;
 }
 
 /// ## Calculates the victory percentage of a mission based on the global points
@@ -87,27 +90,22 @@ pub fn reset_modals_visibility(
 ///
 /// ## Returns
 /// The victory percentage of the mission.
-pub fn get_victory_percentage(recruit_global_points: u16, enemy_global_points: u16) -> f32 {
-    let loose_guaranteed: u16 = enemy_global_points / 2;
-    let victory_guaranteed: u16 = enemy_global_points * 2;
-    let percent_per_point_lower_range: f32 = 50.0 / loose_guaranteed as f32;
-    let percent_per_point_upper_range: f32 = 50.0 / enemy_global_points as f32;
+pub fn get_victory_percentage(recruit_real_power: f32, enemy_real_power: f32) -> f32 {
+    let loose_guaranteed = enemy_real_power / 2.;
+    let victory_guaranteed = enemy_real_power * 2.;
+    let percent_per_point_lower_range = 50.0 / loose_guaranteed;
+    let percent_per_point_upper_range = 50.0 / enemy_real_power;
 
-    if recruit_global_points <= loose_guaranteed {
+    if recruit_real_power <= loose_guaranteed {
         return 0.;
-    } else if recruit_global_points > loose_guaranteed
-        && recruit_global_points < enemy_global_points
-    {
-        return (recruit_global_points - loose_guaranteed) as f32 * percent_per_point_lower_range;
-    } else if recruit_global_points == enemy_global_points {
+    } else if recruit_real_power > loose_guaranteed && recruit_real_power < enemy_real_power {
+        return (recruit_real_power - loose_guaranteed) * percent_per_point_lower_range;
+    } else if recruit_real_power == enemy_real_power {
         return 50.;
-    } else if recruit_global_points > enemy_global_points
-        && recruit_global_points < victory_guaranteed
-    {
-        return 100.
-            - (victory_guaranteed - recruit_global_points) as f32 * percent_per_point_upper_range;
+    } else if recruit_real_power > enemy_real_power && recruit_real_power < victory_guaranteed {
+        return 100. - (victory_guaranteed - recruit_real_power) * percent_per_point_upper_range;
     } else {
-        // recruit_global_points >= enemy_global_points * 2
+        // recruit_global_power >= enemy_real_power * 2
         return 100.;
     }
 }
@@ -129,7 +127,7 @@ pub fn is_mission_success(percent_of_victory: f32) -> bool {
 /// - recruit level < 5 ennemy level -> / 10 xp
 /// - recruit level > 3 ennemy level -> x3 xp
 pub fn get_xp_earned(level: u8) -> u32 {
-    return (level * 10).into();
+    return level as u32 * 20;
 }
 
 #[allow(dead_code)]
@@ -169,18 +167,20 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
             let mut description = format!("{}\n", weapon.name);
             let price_range = calculate_price_range(weapon.price);
 
-            if let Some(endurance) = weapon.endurance {
-                description.push_str(&format!("\nEndurance: {}", endurance));
+            if let Some(attack) = weapon.attack {
+                description.push_str(&format!("\n{}: {}", t!("attack"), attack));
             }
-            if let Some(strength) = weapon.strength {
-                description.push_str(&format!("\nStrength: {}", strength));
+
+            if let Some(defense) = weapon.defense {
+                description.push_str(&format!("\n{}: {}", t!("defense"), defense));
             }
-            if let Some(intelligence) = weapon.intelligence {
-                description.push_str(&format!("\nIntelligence: {}", intelligence));
-            }
+
             description.push_str(&format!(
-                "\n\nPrice: {} to {} G",
-                price_range.0, price_range.1
+                "\n\n{}: {} {} {} G",
+                t!("price"),
+                price_range.0,
+                t!("to"),
+                price_range.1
             ));
 
             return description;
@@ -189,36 +189,37 @@ pub fn get_item_tooltip_description(item: &ItemEnum) -> String {
             let mut description = format!("{}\n", armor.name);
             let price_range = calculate_price_range(armor.price);
 
-            if let Some(endurance) = armor.endurance {
-                description.push_str(&format!("\nEndurance: {}", endurance));
+            if let Some(attack) = armor.attack {
+                description.push_str(&format!("\n{}: {}", t!("attack"), attack));
             }
-            if let Some(strength) = armor.strength {
-                description.push_str(&format!("\nStrength: {}", strength));
+
+            if let Some(defense) = armor.defense {
+                description.push_str(&format!("\n{}: {}", t!("defense"), defense));
             }
-            if let Some(intelligence) = armor.intelligence {
-                description.push_str(&format!("\nIntelligence: {}", intelligence));
-            }
+
             description.push_str(&format!(
-                "\n\nPrice: {} to {} G",
-                price_range.0, price_range.1
+                "\n\n{}: {} {} {} G",
+                t!("price"),
+                price_range.0,
+                t!("to"),
+                price_range.1
             ));
 
             return description;
         }
         ItemEnum::Scroll(scroll, quantity) => {
-            let mut description = format!("{}\n", scroll.name);
+            let mut description = format!("{}\n\n{:?}", scroll.name, scroll.bonus);
 
-            if let Some(endurance) = scroll.endurance {
-                description.push_str(&format!("\nEndurance: {}", endurance));
+            if let Some(attack) = scroll.attack {
+                description.push_str(&format!("\n{}: {}", t!("attack"), attack));
             }
-            if let Some(strength) = scroll.strength {
-                description.push_str(&format!("\nStrength: {}", strength));
+
+            if let Some(defense) = scroll.defense {
+                description.push_str(&format!("\n{}: {}", t!("defense"), defense));
             }
-            if let Some(intelligence) = scroll.intelligence {
-                description.push_str(&format!("\nIntelligence: {}", intelligence));
-            }
-            description.push_str(&format!("\nQuantity: {}", quantity));
-            description.push_str(&format!("\n\nPrice: {} G", scroll.price));
+
+            description.push_str(&format!("\n\n{}: {}", t!("quantity"), quantity));
+            description.push_str(&format!("\n\n{}: {} G", t!("price"), scroll.price));
 
             return description;
         }
@@ -233,25 +234,6 @@ pub fn calculate_price_range(price: u16) -> (u16, u16) {
     let upper_range = (price as f32 * 1.05) as u16;
 
     return (lower_range, upper_range);
-}
-
-#[allow(dead_code)]
-pub fn get_mission_notification_tooltip_text(completed_mission_number: u8) -> String {
-    let mission_word = if completed_mission_number > 1 {
-        "missions"
-    } else {
-        "mission"
-    };
-
-    return format!(
-        "You have completed {} {}.
-
-You should check out your mission
-reports in your office.
-
-Click to dismiss.",
-        completed_mission_number, mission_word
-    );
 }
 
 pub fn equip_recruit_inventory(
@@ -358,55 +340,55 @@ pub fn finish_mission(
     percent_of_victory: f32,
     mission_reports: &mut ResMut<MissionReports>,
 ) {
-    let recruit_id = missions.get_recruit_send_id_by_mission_id(mission_id);
-    if recruit_id.is_none() {
-        return;
-    }
+    if let Some(recruit_id) = missions.get_recruit_send_id_by_mission_id(mission_id) {
+        player_stats.update_state_of_recruit(recruit_id, RecruitStateEnum::WaitingReportSignature);
 
-    player_stats.update_state_of_recruit(
-        recruit_id.unwrap(),
-        RecruitStateEnum::WaitingReportSignature,
-    );
-
-    let is_mission_sucess = is_mission_success(percent_of_victory);
-    let mission_ennemy_level = missions.get_mission_enemmy_level_by_id(mission_id);
-    if mission_ennemy_level.is_none() {
-        return;
-    }
-
-    let mut new_mission_report = MissionReport {
-        percent_of_victory: percent_of_victory as u32,
-        recruit_id: recruit_id.unwrap(),
-        mission_id,
-        success: is_mission_sucess,
-        experience_gained: None,
-        golds_gained: None,
-        mission_ids_to_unlock: vec![],
-        loots: vec![],
-    };
-
-    if is_mission_sucess {
-        let xp_earned = get_xp_earned(mission_ennemy_level.unwrap());
-        new_mission_report.experience_gained = Some(xp_earned);
-
-        let golds_earned = missions.get_golds_earned_by_mission_id(mission_id).unwrap() as i32;
-        new_mission_report.golds_gained = Some(golds_earned);
-
-        let mission = missions.get_mission_by_id(&mission_id);
-
-        if mission.is_none() {
+        let is_mission_sucess = is_mission_success(percent_of_victory);
+        let mission_ennemy_level = missions.get_mission_enemmy_level_by_id(mission_id);
+        if mission_ennemy_level.is_none() {
             return;
         }
 
-        new_mission_report.calculate_loots(mission.unwrap().loots.clone());
-    }
+        let mut new_mission_report = MissionReport {
+            percent_of_victory: percent_of_victory as u32,
+            recruit_id,
+            mission_id,
+            success: is_mission_sucess,
+            experience_gained: None,
+            golds_gained: None,
+            mission_ids_to_unlock: vec![],
+            loots: vec![],
+        };
 
-    // Create a new mission_report
-    mission_reports.add_mission_report(new_mission_report);
+        if is_mission_sucess {
+            let xp_earned = get_xp_earned(mission_ennemy_level.unwrap());
+            new_mission_report.experience_gained = Some(xp_earned);
+
+            let golds_earned = missions.get_golds_earned_by_mission_id(mission_id).unwrap() as i32;
+
+            if let Some(recruit) = player_stats.get_recruit_by_id(recruit_id) {
+                let gold_recruit_multiplicator = recruit
+                    .recruit_inventory
+                    .get_gold_multiplicator_from_scroll_bonus();
+
+                new_mission_report.golds_gained =
+                    Some((golds_earned as f32 * gold_recruit_multiplicator).round() as i32);
+
+                if let Some(mission) = missions.get_mission_by_id(&mission_id) {
+                    new_mission_report.calculate_loots(mission.loots.clone(), &recruit);
+                }
+            }
+        }
+
+        // Create a new mission_report
+        mission_reports.add_mission_report(new_mission_report);
+    }
 }
 
-pub fn sort_recruits_by_total_merged_stats(mut recruits: Vec<RecruitStats>) -> Vec<RecruitStats> {
-    recruits.sort_by_key(|recruit| std::cmp::Reverse(recruit.get_total_merged_stats()));
+pub fn sort_recruits_by_total_power(mut recruits: Vec<RecruitStats>) -> Vec<RecruitStats> {
+    recruits.sort_by_key(|recruit| {
+        std::cmp::Reverse((recruit.get_total_stats().0 + recruit.get_total_stats().1) as i32)
+    });
     return recruits;
 }
 
@@ -424,7 +406,7 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
         TextureAtlasLayoutEnum::Armor => {
             return TextureAtlasLayout::from_grid(
                 UVec2::new(400, 400),
-                4,
+                6,
                 1,
                 Some(UVec2::new(0, 0)),
                 Some(UVec2::new(0, 0)),
@@ -432,8 +414,8 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
         }
         TextureAtlasLayoutEnum::Scroll => {
             return TextureAtlasLayout::from_grid(
-                UVec2::new(1080, 1080),
-                4,
+                UVec2::new(400, 400),
+                8,
                 1,
                 Some(UVec2::new(0, 0)),
                 Some(UVec2::new(0, 0)),
@@ -443,15 +425,6 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
             return TextureAtlasLayout::from_grid(
                 UVec2::new(500, 500),
                 8,
-                1,
-                Some(UVec2::new(0, 0)),
-                Some(UVec2::new(0, 0)),
-            )
-        }
-        TextureAtlasLayoutEnum::Notification => {
-            return TextureAtlasLayout::from_grid(
-                UVec2::new(50, 50),
-                4,
                 1,
                 Some(UVec2::new(0, 0)),
                 Some(UVec2::new(0, 0)),
@@ -488,7 +461,7 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
             ItemLootEnum::Armor(_) => {
                 return TextureAtlasLayout::from_grid(
                     UVec2::new(400, 400),
-                    4,
+                    6,
                     1,
                     Some(UVec2::new(0, 0)),
                     Some(UVec2::new(0, 0)),
@@ -496,8 +469,8 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
             }
             ItemLootEnum::Scroll(_) => {
                 return TextureAtlasLayout::from_grid(
-                    UVec2::new(1080, 1080),
-                    4,
+                    UVec2::new(400, 400),
+                    8,
                     1,
                     Some(UVec2::new(0, 0)),
                     Some(UVec2::new(0, 0)),
@@ -517,7 +490,7 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
             ItemEnum::Armor(_) => {
                 return TextureAtlasLayout::from_grid(
                     UVec2::new(400, 400),
-                    4,
+                    6,
                     1,
                     Some(UVec2::new(0, 0)),
                     Some(UVec2::new(0, 0)),
@@ -525,8 +498,8 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
             }
             ItemEnum::Scroll(_, _) => {
                 return TextureAtlasLayout::from_grid(
-                    UVec2::new(1080, 1080),
-                    4,
+                    UVec2::new(400, 400),
+                    8,
                     1,
                     Some(UVec2::new(0, 0)),
                     Some(UVec2::new(0, 0)),
@@ -590,24 +563,84 @@ pub fn get_layout(texture_atlas_layout_enum: TextureAtlasLayoutEnum) -> TextureA
     }
 }
 
+/// ## Explaination of the calcul :
+///
+/// - a = b * (1 - (c / (c + b)))
+/// - real_attack = attack * (1 - (defense_opponent / (defense_opponent + attack))).
+///
+/// If the recruit has no defense, so the attack will not be diluted.
+///
+/// If the recruit has way more in defense than the ennemy in attack, the result will follow a logarithmic curve
+///
+/// ## Example 1 :
+/// - attack = 75
+/// - defense_opponent = 24
+/// - result will be -> 56.81
+///
+/// ## Example 2
+/// - attack = 75
+/// - defense_opponent = 68
+/// - result will be -> 39.33
+///
+/// ## Example 3
+/// - attack = 75
+/// - defense_opponent = 4
+/// - result will be -> 71.20
+///
+/// ## Example 4
+/// - attack = 75
+/// - defense_opponent = 141
+/// - result will be -> 26.04
+///
+/// ## Example 5
+/// - attack = 180
+/// - defense_opponent = 180
+/// - result will be -> 90 (50% of the attack)
+///
+/// ## Example 6
+/// - attack = 180
+/// - defense_opponent = 0
+/// - result will be -> 180 (100% of the attack)
+fn calculate_real_attack(attack: f32, defense: f32) -> f32 {
+    return attack * (1. - (defense / (defense + attack)));
+}
+
+pub fn calculate_fight(recruit: &RecruitStats, ennemy: &Ennemy) -> f32 {
+    let recruit_total_stats = recruit.get_total_stats();
+
+    let recruit_real_attack =
+        calculate_real_attack(recruit_total_stats.0 as f32, ennemy.defense as f32);
+
+    let ennemy_real_attack =
+        calculate_real_attack(ennemy.attack as f32, recruit_total_stats.1 as f32);
+
+    let fight_percentage = get_victory_percentage(recruit_real_attack, ennemy_real_attack);
+
+    return fight_percentage;
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    // #[test]
-    // fn test_get_global_points() {
-    //     assert_eq!(get_global_points(1, 1, 1), 3);
-    //     assert_eq!(get_global_points(2, 2, 2), 6);
-    //     assert_eq!(get_global_points(3, 3, 3), 9);
-    // }
-
     #[test]
     fn test_get_victory_percentage() {
-        assert_eq!(get_victory_percentage(5, 20), 0.);
-        assert_eq!(get_victory_percentage(10, 20), 0.);
-        assert_eq!(get_victory_percentage(20, 20), 50.);
-        assert_eq!(get_victory_percentage(25, 20), 62.5);
-        assert_eq!(get_victory_percentage(40, 20), 100.);
-        assert_eq!(get_victory_percentage(50, 20), 100.);
+        assert_eq!(get_victory_percentage(5., 20.), 0.);
+        assert_eq!(get_victory_percentage(10., 20.), 0.);
+        assert_eq!(get_victory_percentage(20., 20.), 50.);
+        assert_eq!(get_victory_percentage(25., 20.), 62.5);
+        assert_eq!(get_victory_percentage(40., 20.), 100.);
+        assert_eq!(get_victory_percentage(50., 20.), 100.);
+    }
+
+    #[test]
+    fn test_calculate_real_attack() {
+        assert_eq!(calculate_real_attack(75., 24.), 56.81818);
+        assert_eq!(calculate_real_attack(75., 68.), 39.335663);
+        assert_eq!(calculate_real_attack(75., 4.), 71.20253);
+        assert_eq!(calculate_real_attack(75., 141.), 26.041666);
+        assert_eq!(calculate_real_attack(180., 180.), 90.);
+        assert_eq!(calculate_real_attack(180., 0.), 180.);
+        assert_eq!(calculate_real_attack(112., 551.), 18.92006);
     }
 }

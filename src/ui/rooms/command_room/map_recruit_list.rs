@@ -2,7 +2,7 @@ use super::map_recruit_card::map_recruit_card;
 use crate::{
     enums::TextureAtlasLayoutEnum,
     structs::player_stats::PlayerStats,
-    utils::{get_layout, sort_recruits_by_total_merged_stats},
+    utils::{get_layout, sort_recruits_by_total_power},
 };
 use bevy::prelude::*;
 
@@ -18,7 +18,6 @@ pub fn map_recruit_list(
 
     parent
         .spawn(Node {
-            // image: my_assets.inventory_container.clone().into(),
             display: Display::Flex,
             flex_direction: FlexDirection::Column,
             justify_content: JustifyContent::FlexStart,
@@ -27,16 +26,13 @@ pub fn map_recruit_list(
             width: Val::Percent(100.),
             height: Val::Percent(100.),
             padding: UiRect {
-                left: Val::Px(6.),
-                right: Val::Px(6.),
-                top: Val::Px(10.),
-                bottom: Val::Px(10.),
+                left: Val::Px(2.),
+                ..default()
             },
             ..default()
         })
         .with_children(|left_container| {
-            let sorted_recruits =
-                sort_recruits_by_total_merged_stats(player_stats.recruits.clone());
+            let sorted_recruits = sort_recruits_by_total_power(player_stats.recruits.clone());
 
             // Barrack room > left container > recruit buttons
             for recruit in sorted_recruits.iter() {

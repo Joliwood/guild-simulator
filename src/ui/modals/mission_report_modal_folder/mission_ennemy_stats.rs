@@ -20,9 +20,8 @@ pub fn mission_ennemy_stats(
             ..default()
         })
         .with_children(|stats_column| {
-            // Text: "Level"
             stats_column.spawn((
-                Text::new(format!("Level: {}", ennemy_stats.level)),
+                Text::new(format!("{}: {}", t!("level"), ennemy_stats.level)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,
@@ -31,9 +30,9 @@ pub fn mission_ennemy_stats(
                 TextColor(Color::BLACK),
             ));
 
-            // Text: "Strength"
+            // Attack
             stats_column.spawn((
-                Text::new(format!("Strength: {}", ennemy_stats.strength)),
+                Text::new(format!("ATT: {}", ennemy_stats.attack)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,
@@ -42,20 +41,9 @@ pub fn mission_ennemy_stats(
                 TextColor(Color::BLACK),
             ));
 
-            // Text: "Endurance"
+            // Defense
             stats_column.spawn((
-                Text::new(format!("Endurance: {}", ennemy_stats.endurance)),
-                TextFont {
-                    font: my_assets.load(FONT_FIRA),
-                    font_size: 14.0,
-                    ..default()
-                },
-                TextColor(Color::BLACK),
-            ));
-
-            // Text: "Intelligence"
-            stats_column.spawn((
-                Text::new(format!("Intelligence: {}", ennemy_stats.intelligence)),
+                Text::new(format!("DEF: {}", ennemy_stats.defense)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,

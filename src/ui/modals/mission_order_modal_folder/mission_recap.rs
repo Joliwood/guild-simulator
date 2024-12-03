@@ -73,7 +73,7 @@ pub fn mission_recap(
 
             // Mission description
             parent.spawn((
-                Text::new(mission.description.clone()),
+                Text::new(t!(&mission.description)),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 14.0,
@@ -94,7 +94,7 @@ pub fn mission_recap(
                 .with_children(|parent| {
                     // Row 1: Name (left) and Level (right)
                     parent.spawn((
-                        Text::new(format!("Target : {}", mission.ennemy.name)),
+                        Text::new(format!("{} : {}", t!("target"), t!(&mission.ennemy.name))),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 14.0,
@@ -105,7 +105,7 @@ pub fn mission_recap(
 
                     // Enemy Level
                     parent.spawn((
-                        Text::new(format!("Level : {}", mission.ennemy.level)),
+                        Text::new(format!("{} : {}", t!("level"), mission.ennemy.level)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 14.0,
@@ -114,9 +114,9 @@ pub fn mission_recap(
                         TextColor(Color::BLACK),
                     ));
 
-                    // Enemy Strength
+                    // Enemy attack
                     parent.spawn((
-                        Text::new(format!("Str : {}", mission.ennemy.strength)),
+                        Text::new(format!("ATT : {}", mission.ennemy.attack)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 14.0,
@@ -125,20 +125,9 @@ pub fn mission_recap(
                         TextColor(Color::BLACK),
                     ));
 
-                    // Enemy Defense
+                    // Enemy defense
                     parent.spawn((
-                        Text::new(format!("Def : {}", mission.ennemy.endurance)),
-                        TextFont {
-                            font: my_assets.load(FONT_FIRA),
-                            font_size: 14.0,
-                            ..default()
-                        },
-                        TextColor(Color::BLACK),
-                    ));
-
-                    // Enemy Intelligence
-                    parent.spawn((
-                        Text::new(format!("Int : {}", mission.ennemy.intelligence)),
+                        Text::new(format!("DEF : {}", mission.ennemy.defense)),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 14.0,

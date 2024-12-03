@@ -6,7 +6,7 @@ use crate::{
     },
 };
 use bevy::prelude::*;
-// use pyri_tooltip::Tooltip;
+use pyri_tooltip::Tooltip;
 
 pub fn left_hud(
     commands: &mut ChildBuilder,
@@ -38,7 +38,7 @@ pub fn left_hud(
                         column_gap: Val::Px(5.),
                         ..default()
                     },
-                    // Tooltip::cursor("Your golds"),
+                    Tooltip::cursor(t!("tooltip_hud_golds").to_string()),
                 ))
                 .with_children(|parent| {
                     parent.spawn((
@@ -71,7 +71,7 @@ pub fn left_hud(
 
             left_container
                 .spawn((
-                    Text::new(format!("Lvl : {}", player_stats.guild_level)),
+                    Text::new(format!("{} : {}", t!("day"), player_stats.guild_level)),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
                         font_size: 12.0,

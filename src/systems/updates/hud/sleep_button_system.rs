@@ -3,12 +3,11 @@ use crate::{
     enums::SoundEnum,
     structs::{
         daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
-        general_structs::DayTime,
+        general_structs::{DayTime, NotificationCount},
         missions::{MissionReports, Missions},
-        player_stats::PlayerStats,
+        player_stats::{PlayerStats, TutoEnum, TutoMessages},
         trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
     },
-    ui::hud_folder::notifications::spawn_or_update_notification::spawn_or_update_notification,
     utils::finish_mission,
 };
 use bevy::prelude::*;
@@ -24,12 +23,13 @@ pub fn sleep_button_system(
     my_assets: Res<AssetServer>,
     mut missions: ResMut<Missions>,
     mut mission_reports: ResMut<MissionReports>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     query: Query<Entity, With<NotificationToastTrigger>>,
     mut windows: Query<&mut Window>,
     mut daily_events: ResMut<DailyEvents>,
     mut daily_event_targets: ResMut<DailyEventTargets>,
     mut day_time: ResMut<DayTime>,
+    mut notification_count: ResMut<NotificationCount>,
+    mut tuto_messages: ResMut<TutoMessages>,
 ) {
     let _window = windows.single_mut();
 
@@ -42,6 +42,12 @@ pub fn sleep_button_system(
             Interaction::Pressed => {
                 // Increment the day in player_stats
                 player_stats.day += 1;
+
+                if player_stats.day == 2 {
+                    player_stats.tuto.is_first_daily_events_done = Some(false);
+                    tuto_messages.add_tuto_message(TutoEnum::DailyEvents);
+                }
+
                 play_sound(&my_assets, &mut commands, SoundEnum::KeysRemovedFromDoor);
                 // play_sound(&my_assets, &mut commands, SoundEnum::CockrelMorning);
 
@@ -71,13 +77,6 @@ pub fn sleep_button_system(
                             for entity in query.iter() {
                                 commands.entity(entity).despawn_recursive();
                             }
-
-                            spawn_or_update_notification(
-                                &mut commands,
-                                &my_assets,
-                                &mut texture_atlas_layouts,
-                                &mut mission_reports,
-                            );
                         }
                     }
                 }
@@ -92,6 +91,10 @@ pub fn sleep_button_system(
                 let recruit_length = player_stats.recruits.len();
                 player_stats.increment_golds(recruit_length as i32 * -2);
 
+                notification_count.increment_office_count(
+                    (daily_events.0.len() + mission_reports.0.len()) as u8,
+                    &mut player_stats,
+                );
                 day_time.reset();
                 border_color.0 = Color::NONE;
             }
