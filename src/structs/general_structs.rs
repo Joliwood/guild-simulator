@@ -8,7 +8,7 @@ use crate::{
     content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
     enums::RoomEnum,
 };
-use bevy::prelude::{Component, Res, Resource};
+use bevy::prelude::{Component, Resource};
 // ! For workflow with ron files
 // use ron::de::from_str;
 

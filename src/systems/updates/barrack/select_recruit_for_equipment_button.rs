@@ -1,5 +1,5 @@
 use crate::{
-    enums::{ColorPaletteEnum, RecruitStateEnum},
+    enums::RecruitStateEnum,
     structs::{
         general_structs::UniqueId,
         recruits::{RecruitStats, SelectedRecruitForEquipment},

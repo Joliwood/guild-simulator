@@ -6,10 +6,7 @@ use super::{
     general_structs::NotificationCount,
     recruits::RecruitStats,
 };
-use crate::{
-    content::recruits::RecruitEnum,
-    enums::{RecruitStateEnum, RoomEnum},
-};
+use crate::enums::{RecruitStateEnum, RoomEnum};
 use bevy::prelude::*;
 use uuid::Uuid;
 
@@ -193,8 +190,8 @@ impl Default for PlayerStats {
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![
-                RecruitEnum::Hubert.get_recruit(),
-                RecruitEnum::JeanLouisDavid.get_recruit(),
+                // RecruitEnum::Hubert.get_recruit(),
+                // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),

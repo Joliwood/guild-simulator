@@ -8,7 +8,6 @@ use crate::{
         player_stats::{PlayerStats, TutoEnum, TutoMessages},
         trigger_structs::{NotificationToastTrigger, SleepButtonTrigger},
     },
-    ui::hud_folder::mayor_notification_toast::mayor_notification_toast,
     utils::finish_mission,
 };
 use bevy::prelude::*;
@@ -24,7 +23,6 @@ pub fn sleep_button_system(
     my_assets: Res<AssetServer>,
     mut missions: ResMut<Missions>,
     mut mission_reports: ResMut<MissionReports>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
     query: Query<Entity, With<NotificationToastTrigger>>,
     mut windows: Query<&mut Window>,
     mut daily_events: ResMut<DailyEvents>,

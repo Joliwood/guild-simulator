@@ -64,9 +64,6 @@ pub struct CloseMissionModalTrigger;
 pub struct ItemInInventoryTrigger(pub Option<ItemEnum>);
 
 #[derive(Component)]
-pub struct SkipTutoTrigger;
-
-#[derive(Component)]
 pub struct CommandRoomNotificationContainerTrigger;
 
 #[derive(Component)]
@@ -88,13 +85,7 @@ pub struct BarrackRoomNotificationTrigger;
 pub struct TutoMessageModalTrigger;
 
 #[derive(Component)]
-pub struct AcceptTutoMessageTrigger(pub String);
-
-#[derive(Component)]
 pub struct CloseTutoMessageTrigger;
-
-#[derive(Component)]
-pub struct TutoMessageNotificationTrigger;
 
 #[derive(Component)]
 pub struct SkipTutoMessageTrigger;

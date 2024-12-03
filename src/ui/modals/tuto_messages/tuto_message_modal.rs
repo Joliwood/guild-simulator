@@ -179,12 +179,12 @@ pub fn tuto_message_modal(
                                 font_size: 14.0,
                                 ..default()
                             },
-                            TextColor(Color::WHITE),
+                            TextColor(Color::BLACK),
                             Node {
                                 position_type: PositionType::Absolute,
                                 bottom: Val::Px(36.),
-                                left: Val::Px(120.),
-                                width: Val::Px(80.),
+                                left: Val::Px(140.),
+                                width: Val::Px(100.),
                                 ..default()
                             },
                             SkipTutoMessageTrigger,
