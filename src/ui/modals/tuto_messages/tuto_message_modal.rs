@@ -137,11 +137,16 @@ pub fn tuto_message_modal(
                                     ..default()
                                 },
                                 TextColor(Color::WHITE),
+                                TextLayout {
+                                    justify: JustifyText::Center,
+                                    ..default()
+                                },
                                 Node {
                                     position_type: PositionType::Absolute,
+                                    align_self: AlignSelf::Center,
                                     bottom: Val::Px(36.),
-                                    right: Val::Px(20.),
-                                    width: Val::Px(80.),
+                                    right: Val::Px(32.),
+                                    width: Val::Px(110.),
                                     ..default()
                                 },
                                 CloseTutoMessageTrigger,

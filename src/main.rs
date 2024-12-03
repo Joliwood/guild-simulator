@@ -199,7 +199,7 @@ extern crate rust_i18n;
 i18n!("assets/locales", fallback = "en");
 
 fn setup_i18n() {
-    rust_i18n::set_locale("en");
+    rust_i18n::set_locale("fr");
 }
 
 pub fn update_notification_indicators_text_for_command_room(

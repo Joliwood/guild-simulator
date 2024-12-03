@@ -37,7 +37,7 @@ codegen-units = 1
 strip = true
 
 [profile.dev]
-opt-level = 3               # Moderate optimizations; 0-3, higher improves runtime at the cost of build time
+opt-level = 2               # Moderate optimizations; 0-3, higher improves runtime at the cost of build time
 debug = true                 # Retain debug information for debuggers
 debug-assertions = true      # Keep debug assertions like `assert!` enabled
 overflow-checks = true       # Enable runtime overflow checks

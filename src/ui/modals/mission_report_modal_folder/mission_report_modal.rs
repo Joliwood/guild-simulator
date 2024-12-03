@@ -103,7 +103,11 @@ pub fn mission_report_modal(
             .with_children(|parent| {
                 // Title: "Report of the mission : name_mission"
                 parent.spawn((
-                    Text::new(format!("{}: {}", t!("mission_report_desc"), mission.name)),
+                    Text::new(format!(
+                        "{}: {}",
+                        t!("mission_report_desc"),
+                        t!(mission.name)
+                    )),
                     TextFont {
                         font: my_assets.load(FONT_FIRA),
                         font_size: 18.0,

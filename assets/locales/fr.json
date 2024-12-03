@@ -1,8 +1,5 @@
 {
   "_version": 1,
-  "hello": "alors déjà bonjour",
-  "aa": "aozuaozau",
-  "azpo": "azpo français",
 
   "discussion1_title": "Mépris pour les petites gens",
   "discussion1_desc": "Depuis que votre guilde est arrivée, j'ai l'impression que nous, les petites gens, ne comptons plus. Dans votre quête de pouvoir, nous auriez-vous oubliés ?",
@@ -42,17 +39,17 @@
   "discussion6_answer3_msg": "Nous ferons une offrande aux dieux, mais nous veillerons à ce que ce soit un bon investissement.",
   "discussion6_answer4_msg": "Je ne crois qu'en la finance, cher monsieur. Comment espérez-vous que mes recrues subsistent si je commence à faire n'importe quoi ?",
 
-  "discussion7_title": "Accueil d'une grand-mère",
-  "discussion7_desc": "Une grand-mère nous dit que ce que nous faisons est une bonne chose, que cela peut apporter un peu de sécurité à la ville.",
+  "discussion7_title": "Bienvenue de la part d'une grand-mère",
+  "discussion7_desc": "Une grand-mère qui nous dit que ce que nous faisons est une bonne chose, que cela peut apporter un peu de sécurité à la ville.",
   "discussion7_answer1_msg": "Merci madame, c'est un plaisir.",
 
-  "discussion8_title": "Accueil du maire",
-  "discussion8_desc": "Bonjour ! Je suis ravi que vous ayez accepté mon offre de venir vivre dans notre belle ville, alors bienvenue ! Comme vous le savez, il y a beaucoup de travail dans la région. J'ai trouvé deux personnes que vous pouvez recruter, vous devriez avoir reçu leurs propositions. Je vous ai fourni une carte de la région, où nous avons quelques soucis avec des vagabonds qui causent des troubles. Ce serait un bon début si vous pouviez vous en débarrasser...",
-  "discussion8_answer1_msg": "Merci pour votre accueil dans votre ville. Je compte développer cette guilde avec une main de maître, et je suis sûr que nos affaires porteront leurs fruits.",
+  "discussion8_title": "Bienvenue de la part de la guilde des marchands",
+  "discussion8_desc": "Nous sommes ravis de vous accueillir dans la région et espérons que votre activité prospérera. J'ai inscrit votre guilde dans le répertoire des marchands de notre réseau. De cette façon, ils pourront venir vous proposer une grande variété de transactions. Nous espérons avoir de vos nouvelles bientôt.",
+  "discussion8_answer1_msg": "Dites-lui que ce sera un plaisir de faire affaire avec les marchands de sa guilde.",
 
-  "discussion9_title": "Accueil de la guilde marchande",
-  "discussion9_desc": "Nous sommes ravis de vous accueillir dans la région et espérons que vos affaires prospéreront. J'ai inscrit votre guilde dans l'annuaire des marchands de notre réseau. Ainsi, ils pourront venir vous proposer une grande variété de transactions. Nous espérons avoir de vos nouvelles bientôt.",
-  "discussion9_answer1_msg": "Dites-lui que ce sera un plaisir de faire affaire avec les marchands de sa guilde.",
+  "discussion9_title": "Bienvenue de la part d'un guerrier à la retraite",
+  "discussion9_desc": "Bonjour, je viens de voir que vous vous êtes installé dans notre belle ville, alors bienvenue ! J'ai déjà fait ma part de travail, vous savez, mais peut-être que mon vieil équipement pourrait vous être utile ici...",
+  "discussion9_answer1_msg": "Merci beaucoup, soyez sûr que nous en ferons bon usage. Passez une bonne journée et, s'il vous plaît, fermez la porte qui fait des courants d'air.",
 
   "spontaneous_app1_title": "Proposition d'une personne endettée",
   "spontaneous_app1_desc": "Bonjour, le maire m'a envoyé parce que j'ai quelques... soucis disons... Bref, j'ai des dettes à payer, principalement à cause de l'augmentation des prix de la bière à l'auberge, que je n'ai pas pu assurer... Je suis un homme nouveau, croyez-moi ! Avez-vous un travail pour un homme repenti ?",
@@ -150,18 +147,36 @@
   "tooltip_settings_menu": "Menu des paramètres (non encore implémenté)",
 
   "start_mission": "Commencer la mission",
-  "no_recruit_selected": "Aucune recrue sélectionnée",
-  "ennemy_sent": "ennemi envoyé",
+  "no_recruit_selected": "Aucun recrue sélectionné",
+  "ennemy_sent": "Ennemi envoyé",
   "mission_report_desc": "Rapport de la mission",
   "sign_report": "Signer le rapport",
   "recruit_sent": "Recrue envoyée",
   "inventory": "Inventaire",
   "recruit_already_sent": "Une recrue a déjà été envoyée",
-  "must_select_recruit_to_start_mission": "Vous devez sélectionner une\nrecrue pour commencer la mission.",
-  "risky_mission_warning": "Attention, cette mission est risquée !\nSi votre recrue échoue, elle aura des\nchances de revenir blessée...",
+  "must_select_recruit_to_start_mission": "Vous devez sélectionner une recrue\npour commencer une mission.",
+  "risky_mission_warning": "Attention, cette mission est risquée !\nSi la recrue échoue, elle pourrait revenir blessée...",
 
-  "tuto_message_init_title": "Welcome from the major",
-  "tuto_message_init_desc_1": "Hello ! I'm delighted that you've accepted my offer to come and live in our beloved town, so welcome!",
-  "tuto_message_init_desc_2": "As you know, there's plenty of work in the area. I've managed to find two people for you to recruit, and you should have received their proposals by now. I've provided you with a map of the surrounding area, where we're having a bit of trouble with vagrants causing trouble in the area, so it would be a good start if you could get rid of them for us...",
-  "tuto_message_init_desc_3": "I've put a few pointers here and there to help you get started. Happy installation!"
+  "tuto_message_init_title": "Bienvenue de la part du maire",
+  "tuto_message_init_desc_1": "Bonjour ! Je suis ravi que vous ayez accepté mon offre de venir vivre dans notre chère ville, alors bienvenue !",
+  "tuto_message_init_desc_2": "Comme vous le savez, il y a beaucoup de travail dans la région. J'ai réussi à trouver deux personnes à recruter pour vous, et vous devriez déjà avoir reçu leurs propositions. Je vous ai fourni une carte des environs où nous avons quelques problèmes avec des vagabonds qui causent des troubles. Ce serait un bon début si vous pouviez vous en débarrasser pour nous...",
+  "tuto_message_init_desc_3": "J'ai ajouté quelques conseils ici et là pour vous aider à commencer. Bonne installation !",
+
+  "tuto_message_barrack_title": "Présentation de la caserne",
+  "tuto_message_barrack_desc_1": "Ici, vous pouvez trouver toutes les recrues que vous avez embauchées et gérer leur équipement.",
+  "tuto_message_barrack_desc_2": "Gardez à l'esprit que les parchemins sont à usage unique : une fois qu'un enchantement a été appliqué à une recrue, il ne peut pas être récupéré.",
+
+  "tuto_message_command_room_title": "Présentation de la salle de commandement",
+  "tuto_message_command_room_desc_1": "Ici, vous trouverez toutes les cartes que vous possédez, avec toutes les missions que vous avez débloquées sur chacune d'elles.",
+  "tuto_message_command_room_desc_2": "Gardez à l'esprit que si la recrue que vous envoyez en mission échoue, elle risque de revenir blessée.",
+  "tuto_message_command_room_desc_3": "Si votre recrue n'est pas encore prête à être envoyée en mission, vous pouvez toujours l'envoyer dans notre centre d'entraînement. Il est un peu poussiéreux, mais Algar, notre maître d'armes à la retraite, sera ravi de se porter volontaire.",
+
+  "tuto_message_daily_events_title": "Un nouveau jour commence",
+  "tuto_message_daily_events_desc_1": "Chaque jour, des personnes pourront venir vous proposer des services, vous en demander ou simplement discuter et potentiellement vous transmettre certaines informations.",
+  "tuto_message_daily_events_desc_2": "Faites attention cependant, car chaque choix que vous ferez pourrait avoir un impact sur vos finances, votre réputation ou votre toxicité.",
+  "tuto_message_daily_events_desc_3": "Vous devrez remplir vos obligations en tant que maître de guilde avant de pouvoir recruter et passer à un nouveau jour.",
+  "tuto_message_daily_events_desc_4": "Je pense vous avoir tout dit, bonne chance pour votre installation et à bientôt !",
+
+  "tuto_message_accept": "Accepter",
+  "tuto_message_skip": "Passer le tutoriel"
 }
