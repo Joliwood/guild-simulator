@@ -36,7 +36,7 @@ pub fn armor_button(
                 },
                 BorderColor(Color::BLACK),
                 BorderRadius::all(Val::Px(10.)),
-                UiImage::from_atlas_image(
+                ImageNode::from_atlas_image(
                     my_assets.load(item_atlas_path),
                     TextureAtlas {
                         index: item_image_atlas_index.into(),
@@ -64,7 +64,7 @@ pub fn armor_button(
                 },
                 BorderColor(Color::BLACK),
                 BorderRadius::all(Val::Px(10.)),
-                UiImage {
+                ImageNode {
                     image: my_assets.load("images/equipments/empty_inventory_slot.png"),
                     ..default()
                 },

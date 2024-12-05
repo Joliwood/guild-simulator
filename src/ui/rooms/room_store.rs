@@ -2,7 +2,7 @@ use crate::structs::trigger_structs::ResetRoomTrigger;
 use bevy::prelude::*;
 
 pub fn room_store(my_assets: &Res<AssetServer>, commands: &mut Commands) {
-    // let imager_handler: Handle<Image> = my_assets.load("images/store.png");
+    // let imager_handler: Handle<ImageNode> = my_assets.load("images/store.png");
 
     commands
         .spawn(Node {
@@ -14,10 +14,10 @@ pub fn room_store(my_assets: &Res<AssetServer>, commands: &mut Commands) {
         })
         .insert(Name::new("Store room"))
         .insert(ResetRoomTrigger)
-        // Image background node
+        // ImageNode background node
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn((
-                UiImage {
+                ImageNode {
                     image: my_assets.load("images/rooms/store/store.png"),
                     ..default()
                 },

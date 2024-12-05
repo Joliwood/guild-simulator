@@ -6,6 +6,7 @@ use crate::{
 };
 use bevy::{
     prelude::*,
+    ui::widget::NodeImageMode,
     // ui::widget::NodeImageMode
 };
 
@@ -44,7 +45,7 @@ pub fn map_card(
             GlobalZIndex(2),
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
             BorderRadius::all(Val::Px(5.)),
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/maps/map_card.png"),
                 image_mode: NodeImageMode::Stretch,
                 ..default()
@@ -52,9 +53,9 @@ pub fn map_card(
             SelectMapTrigger,
         ))
         .with_children(|map_container| {
-            // Map Image
+            // Map ImageNode
             map_container.spawn((
-                UiImage::from_atlas_image(
+                ImageNode::from_atlas_image(
                     my_assets.load("images/maps/map_atlas.png"),
                     TextureAtlas {
                         index: map.image_atlas_index.into(),
@@ -115,7 +116,7 @@ pub fn map_card(
 
                     if map.limited_in_time {
                         icon_container.spawn((
-                            UiImage {
+                            ImageNode {
                                 image: my_assets.load("images/maps/limited_time.png"),
                                 ..default()
                             },
@@ -142,7 +143,7 @@ pub fn map_card(
 
             // Center text
             map_container.spawn((
-                UiImage::from_atlas_image(
+                ImageNode::from_atlas_image(
                     my_assets.load("images/maps/map_type_atlas.png"),
                     TextureAtlas {
                         index: icon_atlas_index.into(),

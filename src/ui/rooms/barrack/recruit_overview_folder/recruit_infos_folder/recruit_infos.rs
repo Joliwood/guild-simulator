@@ -17,7 +17,7 @@ pub fn recruit_infos(
 ) {
     parent
         .spawn((
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/rooms/barrack/inventory_container.png"),
                 ..default()
             },

@@ -33,10 +33,10 @@ pub fn room_command_room(
         })
         .insert(Name::new("Command room"))
         .insert(ResetRoomTrigger)
-        // Background Image for the Command Room
+        // Background ImageNode for the Command Room
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn((
-                UiImage {
+                ImageNode {
                     image: my_assets.load("images/rooms/command_room/command_room_background.png"),
                     ..default()
                 },
@@ -55,7 +55,7 @@ pub fn room_command_room(
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
                 .spawn((
-                    UiImage {
+                    ImageNode {
                         image: my_assets.load("images/rooms/command_room/command_table.png"),
                         ..default()
                     },

@@ -8,6 +8,7 @@ use crate::structs::{
     missions::MissionReports, trigger_structs::ResetRoomTrigger,
 };
 use bevy::prelude::*;
+use vleue_kinetoscope::*;
 
 pub fn room_office(
     my_assets: &Res<AssetServer>,
@@ -16,20 +17,31 @@ pub fn room_office(
     _mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
     daily_events: &Res<DailyEvents>,
 ) {
+    // let animated_image = my_assets.load("images/rooms/office/animated_background1.webp");
     commands
-        .spawn(Node {
-            width: Val::Vw(100.),
-            height: Val::Vh(100.),
-            ..default()
-        })
+        .spawn((
+            // AnimatedImageController::play(animated_image),
+            // ImageNode {
+            //     // image: my_assets.load("images/rooms/office/animated_background1.webp"),
+            //     image: my_assets.load("images/rooms/office/desk.png"),
+            //     ..default()
+            // },
+            Node {
+                width: Val::Vw(100.),
+                height: Val::Vh(100.),
+                ..default()
+            },
+            // GlobalZIndex(-1),
+        ))
         .insert(Name::new("Office room"))
         .insert(ResetRoomTrigger)
-        // Image background node
+        // ImageNode background node
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container
                 .spawn((
-                    UiImage {
+                    ImageNode {
                         image: my_assets.load("images/rooms/office/office_room_background.png"),
+                        // image: my_assets.load("images/rooms/office/office_v2.png"),
                         ..default()
                     },
                     Node {
@@ -46,7 +58,7 @@ pub fn room_office(
                 .with_children(|desk_container: &mut ChildBuilder| {
                     desk_container
                         .spawn((
-                            UiImage {
+                            ImageNode {
                                 image: my_assets.load("images/rooms/office/desk.png"),
                                 ..default()
                             },

@@ -41,7 +41,7 @@ pub fn mission_report_modal(
         && mission_reports_modal_visibility.0
         && mission_reports_len > 0
     {
-        // let container_image: Handle<Image> =
+        // let container_image: Handle<ImageNode> =
         //     asset_server.load("images/rooms/barrack/inventory_container.png");
 
         let last_mission_report = match mission_reports.get_last_mission_report() {
@@ -80,7 +80,7 @@ pub fn mission_report_modal(
         // Spawn the mission report modal container
         commands
             .spawn((
-                UiImage {
+                ImageNode {
                     image: my_assets.load("images/rooms/barrack/inventory_container.png"),
                     ..default()
                 },

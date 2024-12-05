@@ -6,7 +6,7 @@ use crate::{
         armor_button::armor_button, scroll_button::scroll_button, weapon_button::weapon_button,
     },
 };
-use bevy::prelude::*;
+use bevy::{prelude::*, ui::widget::NodeImageMode};
 
 use super::{recruit_attack::recruit_attack, recruit_defense::recruit_defense};
 
@@ -21,7 +21,7 @@ pub fn recruit_card(
     parent
         .spawn((
             Button,
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/rooms/barrack/recruit_card_background.png"),
                 ..default()
             }
@@ -103,7 +103,7 @@ pub fn recruit_card(
             // Recruit portrait image (left-most side)
             button
                 .spawn((
-                    UiImage {
+                    ImageNode {
                         image: my_assets.load("images/rooms/barrack/recruit_avatar_card_frame.png"),
                         ..default()
                     },
@@ -153,10 +153,10 @@ pub fn recruit_card(
                             ..default()
                         })
                         .with_children(|frame| {
-                            // Image that is 200x400, clipped by the parent container
+                            // ImageNode that is 200x400, clipped by the parent container
                             frame
                                 .spawn((
-                                    UiImage::from_atlas_image(
+                                    ImageNode::from_atlas_image(
                                         my_assets.load("images/recruits/recruit_picture_atlas.png"),
                                         TextureAtlas {
                                             index: recruit.image_atlas_index.into(),

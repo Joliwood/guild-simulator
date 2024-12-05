@@ -47,6 +47,7 @@ use ui::{
     hud_folder::mayor_notification_toast::mayor_notification_toast,
     modals::tuto_messages::tuto_message_modal::tuto_message_modal,
 };
+use vleue_kinetoscope::AnimatedImagePlugin;
 
 fn main() -> AppExit {
     App::new()
@@ -66,6 +67,7 @@ fn main() -> AppExit {
                 }),
                 ..default()
             }),
+            AnimatedImagePlugin,
             // WorldInspectorPlugin::new(),
             TooltipPlugin::default(),
         ))
@@ -92,10 +94,10 @@ fn main() -> AppExit {
         .add_systems(
             Startup,
             (
+                setup_i18n,
                 audio::audio_source::audio_source,
                 systems::camera::camera_setup::camera_setup,
                 ui::hud_folder::hud::hud,
-                setup_i18n,
             ),
         )
         .add_systems(

@@ -16,7 +16,7 @@ pub fn spawn_right_container(
     // Container for the inventory
     parent
         .spawn((
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/rooms/barrack/inventory_container.png"),
                 ..default()
             },

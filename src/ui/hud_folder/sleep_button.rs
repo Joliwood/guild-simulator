@@ -7,7 +7,7 @@ use crate::{
     },
     utils::get_layout,
 };
-use bevy::prelude::*;
+use bevy::{prelude::*, ui::widget::NodeImageMode};
 
 pub fn sleep_button(
     commands: &mut Commands,
@@ -22,7 +22,7 @@ pub fn sleep_button(
 
     commands
         .spawn((
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/hud/sleep_button_container2.png"),
                 ..default()
             },
@@ -40,7 +40,7 @@ pub fn sleep_button(
             parent
                 .spawn((
                     Button,
-                    UiImage::from_atlas_image(
+                    ImageNode::from_atlas_image(
                         my_assets.load("images/hud/sleep_button_atlas.png"),
                         TextureAtlas {
                             index: 1,
@@ -81,7 +81,7 @@ pub fn sleep_button(
 
             // Progress bar
             parent.spawn((
-                UiImage::solid_color(ColorPaletteEnum::Success.as_color()),
+                ImageNode::solid_color(ColorPaletteEnum::Success.as_color()),
                 Node {
                     position_type: PositionType::Absolute,
                     bottom: Val::Px(0.),

@@ -27,7 +27,7 @@ pub fn map_list(
             ..default()
         })
         .with_children(|column| {
-            // Loop through each map and create an Image with text overlay for each
+            // Loop through each map and create an ImageNode with text overlay for each
             for map in maps.0.iter().filter(|map| map.unlocked) {
                 map_card(column, my_assets, map, texture_atlas_layouts);
             }
