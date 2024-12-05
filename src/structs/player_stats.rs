@@ -6,7 +6,10 @@ use super::{
     general_structs::NotificationCount,
     recruits::RecruitStats,
 };
-use crate::enums::{RecruitStateEnum, RoomEnum};
+use crate::{
+    content::recruits::RecruitEnum,
+    enums::{RecruitStateEnum, RoomEnum},
+};
 use bevy::prelude::*;
 use uuid::Uuid;
 
@@ -26,6 +29,7 @@ pub struct Tuto {
     pub is_barrack_room_tuto_done: Option<bool>,
     pub is_command_room_tuto_done: Option<bool>,
     pub is_first_daily_events_done: Option<bool>,
+    pub is_tuto_completed: bool,
 }
 
 impl Tuto {
@@ -190,7 +194,7 @@ impl Default for PlayerStats {
             max_experience: 100,
             max_inventory_size: 50,
             recruits: vec![
-                // RecruitEnum::Hubert.get_recruit(),
+                RecruitEnum::Hubert.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),

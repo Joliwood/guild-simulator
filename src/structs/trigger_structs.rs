@@ -85,6 +85,9 @@ pub struct BarrackRoomNotificationTrigger;
 pub struct TutoMessageModalTrigger;
 
 #[derive(Component)]
+pub struct TutoDoneCloseModalTrigger;
+
+#[derive(Component)]
 pub struct CloseTutoMessageTrigger;
 
 #[derive(Component)]
