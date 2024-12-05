@@ -6,7 +6,6 @@ mod audio;
 mod content;
 mod custom_components;
 mod enums;
-// mod locales;
 mod my_assets;
 mod structs;
 mod systems;
@@ -14,7 +13,6 @@ mod ui;
 mod utils;
 
 // ! Stand-by
-// use my_assets::Locales;
 // use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use my_assets::{MyAssets, MyAssetsLoader};
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
