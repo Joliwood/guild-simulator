@@ -27,7 +27,7 @@ pub fn hud(
     commands
         // Main Container
         .spawn((
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/hud/hud4.png"),
                 ..default()
             },
@@ -79,7 +79,7 @@ pub fn hud(
                                 position_type: PositionType::Relative,
                                 ..default()
                             },
-                            UiImage::from_atlas_image(
+                            ImageNode::from_atlas_image(
                                 my_assets.load("images/hud/hud_icon_atlas.png"),
                                 TextureAtlas {
                                     index: 4,
@@ -106,7 +106,7 @@ pub fn hud(
                                 height: Val::Px(30.),
                                 ..default()
                             },
-                            UiImage::from_atlas_image(
+                            ImageNode::from_atlas_image(
                                 my_assets.load("images/hud/hud_icon_atlas.png"),
                                 TextureAtlas {
                                     index: 1,
@@ -133,7 +133,7 @@ pub fn hud(
                                 height: Val::Px(30.),
                                 ..default()
                             },
-                            UiImage::from_atlas_image(
+                            ImageNode::from_atlas_image(
                                 my_assets.load("images/hud/hud_icon_atlas.png"),
                                 TextureAtlas {
                                     index: 2,

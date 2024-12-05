@@ -38,7 +38,7 @@ pub fn daily_events_modal(
         && daily_events_modal_visibility.0
         && daily_events_len > 0
     {
-        // let container_image: Handle<Image> =
+        // let container_image: Handle<ImageNode> =
         //     asset_server.load("images/rooms/barrack/inventory_container.png");
 
         let last_daily_event: &DailyEvent = match daily_events.get_last_daily_event() {

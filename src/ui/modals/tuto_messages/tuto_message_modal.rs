@@ -53,7 +53,7 @@ pub fn tuto_message_modal(
             .with_children(|parent| {
                 parent
                     .spawn((
-                        UiImage {
+                        ImageNode {
                             image: my_assets.load("images/tuto/tuto_message_document.png"),
                             ..default()
                         },
@@ -155,7 +155,7 @@ pub fn tuto_message_modal(
 
                         // Avatar of the mayor
                         parent.spawn((
-                            UiImage {
+                            ImageNode {
                                 image: my_assets.load("images/tuto/mayor_avatar.png"),
                                 ..default()
                             },

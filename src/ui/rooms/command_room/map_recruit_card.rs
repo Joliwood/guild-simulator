@@ -3,7 +3,7 @@ use crate::{
     my_assets::FONT_FIRA,
     structs::{general_structs::UniqueId, recruits::RecruitStats},
 };
-use bevy::prelude::*;
+use bevy::{prelude::*, ui::widget::NodeImageMode};
 
 pub fn map_recruit_card(
     left_container: &mut ChildBuilder,
@@ -40,7 +40,7 @@ pub fn map_recruit_card(
             },
             BorderColor(ColorPaletteEnum::DarkBrown.as_color()),
             BorderRadius::all(Val::Px(7.)),
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/rooms/command_room/recruit_card_4.png"),
                 image_mode: NodeImageMode::Stretch,
                 ..default()
@@ -196,7 +196,7 @@ pub fn map_recruit_card(
                 })
                 .with_children(|parent| {
                     parent.spawn((
-                        UiImage::from_atlas_image(
+                        ImageNode::from_atlas_image(
                             my_assets.load("images/recruits/recruit_picture_atlas.png"),
                             TextureAtlas {
                                 index: recruit.image_atlas_index.into(),

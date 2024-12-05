@@ -48,7 +48,7 @@ pub fn mayor_notification_toast(
                     bottom_left: Val::Px(10.),
                     bottom_right: Val::ZERO,
                 },
-                UiImage {
+                ImageNode {
                     image: my_assets.load("images/tuto/mayor_notification_frame.png"),
                     ..default()
                 },
@@ -60,7 +60,7 @@ pub fn mayor_notification_toast(
             .with_children(|parent| {
                 // Avatar of the mayor
                 parent.spawn((
-                    UiImage {
+                    ImageNode {
                         image: my_assets.load("images/tuto/mayor_avatar.png"),
                         ..default()
                     },

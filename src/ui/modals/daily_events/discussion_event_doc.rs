@@ -20,7 +20,7 @@ pub fn discussion_event_doc(
 
     commands
         .spawn((
-            UiImage {
+            ImageNode {
                 image: my_assets.load("images/rooms/office/daily_event_document.png"),
                 ..default()
             },
@@ -70,9 +70,9 @@ pub fn discussion_event_doc(
                         },
                     ));
 
-                    // Image below the title
+                    // ImageNode below the title
                     column.spawn((
-                        UiImage::from_atlas_image(
+                        ImageNode::from_atlas_image(
                             my_assets.load("images/daily_events/daily_discussions_atlas.png"),
                             TextureAtlas {
                                 index: discussion.image_atlas_index.into(),
