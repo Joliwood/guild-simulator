@@ -8,7 +8,7 @@ exclude = ["dist", "build", "assets", "credits"]
 [dependencies]
 bevy = "0.15.0"
 # bevy = { git = "https://github.com/bevyengine/bevy", branch = "main" }
-# bevy-inspector-egui  = { git = "https://github.com/jakobhellermann/bevy-inspector-egui", tag = "v0.27.0" }
+bevy-inspector-egui = "0.28.0"
 # bevy_asset_loader = { version = "0.15.0-rc.3", features = ["2d"]}
 uuid = "1.10.0"
 rand = "0.8.4"
@@ -39,31 +39,31 @@ strip = true
 
 [profile.dev]
 opt-level = 0
+debug = true
+debug-assertions = true
+overflow-checks = true
+lto = "off"
+codegen-units = 16
+incremental = true
+panic = "unwind"
+strip = false
 
 [build-dependencies]
 embed-resource = "3.0.1"
 
 # (in the profile.dist section)
-# debug = true
-# debug-assertions = true
-# overflow-checks = true
-# lto = "off"
-# codegen-units = 16
-# incremental = true
-# panic = "unwind"
-# strip = false
 
-# [target.x86_64h-apple-darwin]
+[target.x86_64h-apple-darwin]
 
-# # Enable a large amount of optimization in the dev profile for dependencies.
-# [profile.dev.package."*"]
-# opt-level = 0
+# Enable a large amount of optimization in the dev profile for dependencies.
+[profile.dev.package."*"]
+opt-level = 0
 
-# # Override some settings for native builds.
-# [profile.release-native]
-# # Default to release profile values.
-# inherits = "release"
-# # Optimize with performance in mind.
-# opt-level = 0
-# # Keep debug information in the binary.
-# strip = "none"
+# Override some settings for native builds.
+[profile.release-native]
+# Default to release profile values.
+inherits = "release"
+# Optimize with performance in mind.
+opt-level = 0
+# Keep debug information in the binary.
+strip = "none"

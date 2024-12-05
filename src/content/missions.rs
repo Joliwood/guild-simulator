@@ -189,7 +189,7 @@ pub fn generate_all_missions() -> Missions {
         },
         Mission {
             days_left: Some(1),
-            days: 2,
+            days: 1,
             id: 6,
             level: 3,
             name: "mission6_name".to_string(),
