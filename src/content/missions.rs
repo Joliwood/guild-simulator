@@ -203,7 +203,7 @@ pub fn generate_all_missions() -> Missions {
                 attack: 42,
                 defense: 8,
             },
-            unlocked: false,
+            unlocked: true,
             description: "mission6_desc".to_string(),
             golds: 50,
             loots: Loots(vec![

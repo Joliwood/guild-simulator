@@ -26,7 +26,8 @@ use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
     general_structs::{
         DailyEventsModalVisible, DayTime, MissionModalVisible, MissionNotificationsNumber,
-        MissionReportsModalVisible, NotificationCount, TutoMessagesModalVisible,
+        MissionReportsModalVisible, NotificationCount, TutoDoneModalVisible,
+        TutoMessagesModalVisible,
     },
     maps::{Maps, SelectedMapId},
     missions::{MissionReports, Missions, SelectedMission},
@@ -45,9 +46,12 @@ use systems::updates::{
 };
 use ui::{
     hud_folder::mayor_notification_toast::mayor_notification_toast,
-    modals::tuto_messages::tuto_message_modal::tuto_message_modal,
+    modals::{
+        tuto_done_modal_folder::tuto_done_modal::tuto_done_modal,
+        tuto_messages::tuto_message_modal::tuto_message_modal,
+    },
 };
-use vleue_kinetoscope::AnimatedImagePlugin;
+// use vleue_kinetoscope::AnimatedImagePlugin;
 
 fn main() -> AppExit {
     App::new()
@@ -67,7 +71,7 @@ fn main() -> AppExit {
                 }),
                 ..default()
             }),
-            AnimatedImagePlugin,
+            // AnimatedImagePlugin,
             // WorldInspectorPlugin::new(),
             TooltipPlugin::default(),
         ))
@@ -84,6 +88,7 @@ fn main() -> AppExit {
         .insert_resource(MissionReportsModalVisible(false))
         .insert_resource(DailyEventsModalVisible(false))
         .insert_resource(TutoMessagesModalVisible(true))
+        .insert_resource(TutoDoneModalVisible(false))
         .insert_resource(MissionNotificationsNumber(0))
         .insert_resource(Maps::default())
         .insert_resource(DailyEvents::default())
@@ -151,6 +156,7 @@ fn main() -> AppExit {
                 close_tuto_message,
                 mayor_notification_toast.run_if(resource_changed::<TutoMessages>),
                 open_tuto_message,
+                tuto_done_modal,
             ),
         )
         .run()
