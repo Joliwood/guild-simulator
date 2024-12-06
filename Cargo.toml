@@ -6,7 +6,19 @@ authors = ["Guillaume Jolibois <jolibois.contact@gmail.com>"]
 exclude = ["dist", "build", "assets", "credits"]
 
 [dependencies]
-bevy = "0.15.0"
+bevy = "0.15"
+# bevy = { version = "0.15.0", default-features = false, features = [
+#     "bevy_asset",
+#     "bevy_audio",
+#     "bevy_color",
+#     "bevy_render",
+#     "bevy_text",
+#     "bevy_ui",
+#     "bevy_window",
+#     "bevy_winit",
+#     "custom_cursor",
+#     "bevy_state",
+# ] }
 # bevy = { git = "https://github.com/bevyengine/bevy", branch = "main" }
 bevy-inspector-egui = "0.28.0"
 # bevy_asset_loader = { version = "0.15.0-rc.3", features = ["2d"]}
