@@ -16,9 +16,10 @@ mod utils;
 // use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use my_assets::{MyAssets, MyAssetsLoader};
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
+// use vleue_kinetoscope::AnimatedImagePlugin;
 use pyri_tooltip::prelude::*;
 
-use bevy::{asset::AssetMetaCheck, prelude::*, window::WindowTheme};
+use bevy::{prelude::*, window::WindowTheme};
 use content::constants::MAX_GAME_SECONDS;
 use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
@@ -49,16 +50,15 @@ use ui::{
         tuto_messages::tuto_message_modal::tuto_message_modal,
     },
 };
-// use vleue_kinetoscope::AnimatedImagePlugin;
 
 fn main() -> AppExit {
     App::new()
         .add_plugins((
             DefaultPlugins
-            .set(AssetPlugin {
-                meta_check: AssetMetaCheck::Never,
-                ..default()
-            })
+            // .set(AssetPlugin {
+            //     meta_check: AssetMetaCheck::Never,
+            //     ..default()
+            // })
             .set(WindowPlugin {
                 primary_window: Some(Window {
                     title: "Guild simulator".into(),
@@ -85,7 +85,8 @@ fn main() -> AppExit {
         .insert_resource(MissionModalVisible(false))
         .insert_resource(MissionReportsModalVisible(false))
         .insert_resource(DailyEventsModalVisible(false))
-        .insert_resource(TutoMessagesModalVisible(true))
+        //WIP
+        .insert_resource(TutoMessagesModalVisible(false))
         .insert_resource(TutoDoneModalVisible(false))
         .insert_resource(MissionNotificationsNumber(0))
         .insert_resource(Maps::default())
