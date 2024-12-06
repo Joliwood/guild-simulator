@@ -22,7 +22,7 @@ pub fn room_office(
             // AnimatedImageController::play(animated_image),
             ImageNode {
                 // image: my_assets.load("images/rooms/office/office_room_background.png"),
-                image: my_assets.load("images/rooms/office/office_v2.png"),
+                image: my_assets.load("images/rooms/office/office_v3.png"),
                 ..default()
             },
             Node {

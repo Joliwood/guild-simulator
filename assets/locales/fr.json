@@ -178,5 +178,8 @@
   "tuto_message_daily_events_desc_4": "Je pense vous avoir tout dit, bonne chance pour votre installation et à bientôt !",
 
   "tuto_message_accept": "Accepter",
-  "tuto_message_skip": "Passer le tutoriel"
+  "tuto_message_skip": "Passer le tutoriel",
+  "tuto_done_title": "T'as tout finit !",
+  "tuto_done_desc_1": "Merci d'avoir joué, n'hésite pas à me faire des retours !",
+  "tuto_done_desc_2": "Tu as finis le jeu en de jours !"
 }

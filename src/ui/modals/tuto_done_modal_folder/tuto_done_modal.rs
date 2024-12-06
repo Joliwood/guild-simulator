@@ -76,7 +76,7 @@ pub fn tuto_done_modal(
                 .with_children(|parent| {
                     // Title
                     parent.spawn((
-                        Text::new("T'as tout finit !"),
+                        Text::new(t!("tuto_done_title")),
                         TextFont {
                             font: my_assets.load(FONT_FIRA),
                             font_size: 14.0,
@@ -112,7 +112,17 @@ pub fn tuto_done_modal(
                         })
                         .with_children(|parent| {
                             parent.spawn((
-                                Text::new("Merci d'avoir joué, aller salut !"),
+                                Text::new(t!("tuto_done_desc_1")),
+                                TextFont {
+                                    font: my_assets.load(FONT_FIRA),
+                                    font_size: 12.0,
+                                    ..default()
+                                },
+                                TextColor(Color::BLACK),
+                            ));
+
+                            parent.spawn((
+                                Text::new(t!("tuto_done_desc_2")),
                                 TextFont {
                                     font: my_assets.load(FONT_FIRA),
                                     font_size: 12.0,
