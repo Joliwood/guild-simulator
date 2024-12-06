@@ -7,8 +7,7 @@ use crate::structs::{
     daily_events_folder::daily_events::DailyEvents, general_structs::MissionReportsModalVisible,
     missions::MissionReports, trigger_structs::ResetRoomTrigger,
 };
-use bevy::prelude::*;
-// use vleue_kinetoscope::*;
+use bevy::{prelude::*, text::cosmic_text::Align};
 
 pub fn room_office(
     my_assets: &Res<AssetServer>,
@@ -21,62 +20,47 @@ pub fn room_office(
     commands
         .spawn((
             // AnimatedImageController::play(animated_image),
-            // ImageNode {
-            //     // image: my_assets.load("images/rooms/office/animated_background1.webp"),
-            //     image: my_assets.load("images/rooms/office/desk.png"),
-            //     ..default()
-            // },
+            ImageNode {
+                // image: my_assets.load("images/rooms/office/office_room_background.png"),
+                image: my_assets.load("images/rooms/office/office_v2.png"),
+                ..default()
+            },
             Node {
+                display: Display::Flex,
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
                 width: Val::Vw(100.),
                 height: Val::Vh(100.),
                 ..default()
             },
-            // GlobalZIndex(-1),
+            // BackgroundColor(Color::srgba(0.5, 0.0, 0.0, 0.0)),
+            GlobalZIndex(-1),
         ))
         .insert(Name::new("Office room"))
         .insert(ResetRoomTrigger)
-        // ImageNode background node
-        .with_children(|ui_container: &mut ChildBuilder| {
-            ui_container
+        // Nested image background node
+        .with_children(|desk_container: &mut ChildBuilder| {
+            desk_container
                 .spawn((
-                    ImageNode {
-                        image: my_assets.load("images/rooms/office/office_room_background.png"),
-                        // image: my_assets.load("images/rooms/office/office_v2.png"),
-                        ..default()
-                    },
+                    // ImageNode {
+                    //     image: my_assets.load("images/rooms/office/desk.png"),
+                    //     ..default()
+                    // },
+                    // AnimatedImageController::play(animated_image),
                     Node {
-                        width: Val::Percent(100.0),
-                        height: Val::Percent(100.0),
                         display: Display::Flex,
-                        align_content: AlignContent::Center,
-                        justify_content: JustifyContent::Center,
+                        align_self: AlignSelf::Center,
+                        width: Val::Percent(90.0),
+                        height: Val::Percent(80.0),
                         ..default()
                     },
-                    GlobalZIndex(-1),
                 ))
-                // Nested image background node
-                .with_children(|desk_container: &mut ChildBuilder| {
-                    desk_container
-                        .spawn((
-                            ImageNode {
-                                image: my_assets.load("images/rooms/office/desk.png"),
-                                ..default()
-                            },
-                            Node {
-                                display: Display::Flex,
-                                align_self: AlignSelf::Center,
-                                width: Val::Percent(90.0),
-                                height: Val::Percent(80.0),
-                                ..default()
-                            },
-                        ))
-                        // Adding child nodes with different positions
-                        .with_children(|elements_on_desk: &mut ChildBuilder| {
-                            mission_report_documents(my_assets, elements_on_desk, mission_reports);
-                            // recap_guild_scroll(&asset_server, elements_on_desk);
-                            // talents_on_desk(&asset_server, elements_on_desk);
-                            daily_event_documents(my_assets, elements_on_desk, daily_events);
-                        });
+                // Adding child nodes with different positions
+                .with_children(|elements_on_desk: &mut ChildBuilder| {
+                    mission_report_documents(my_assets, elements_on_desk, mission_reports);
+                    // recap_guild_scroll(&asset_server, elements_on_desk);
+                    // talents_on_desk(&asset_server, elements_on_desk);
+                    daily_event_documents(my_assets, elements_on_desk, daily_events);
                 });
         });
 }
