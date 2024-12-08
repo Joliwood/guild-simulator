@@ -12,12 +12,13 @@ mod systems;
 mod ui;
 mod utils;
 
+use bevy_light_2d::plugin::Light2dPlugin;
 // ! Stand-by
 // use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use my_assets::{MyAssets, MyAssetsLoader};
-// use bevy_inspector_egui::quick::WorldInspectorPlugin;
-// use vleue_kinetoscope::AnimatedImagePlugin;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use pyri_tooltip::prelude::*;
+use vleue_kinetoscope::AnimatedImagePlugin;
 
 use bevy::{prelude::*, window::WindowTheme};
 use content::constants::MAX_GAME_SECONDS;
@@ -69,8 +70,9 @@ fn main() -> AppExit {
                 }),
                 ..default()
             }),
-            // AnimatedImagePlugin,
-            // WorldInspectorPlugin::new(),
+            AnimatedImagePlugin,
+            WorldInspectorPlugin::new(),
+            Light2dPlugin,
             TooltipPlugin::default(),
         ))
         // .init_asset::<MyAssets>()

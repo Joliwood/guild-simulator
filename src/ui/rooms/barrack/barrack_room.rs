@@ -8,6 +8,7 @@ use crate::structs::{
     trigger_structs::ResetRoomTrigger,
 };
 use bevy::prelude::*;
+use bevy_light_2d::light::PointLight2d;
 
 pub fn spawn_room_barrack(
     my_assets: &Res<AssetServer>,
@@ -16,6 +17,16 @@ pub fn spawn_room_barrack(
     selected_recruit_for_equipment: &Res<SelectedRecruitForEquipment>,
     texture_atlas_layouts: &mut ResMut<Assets<TextureAtlasLayout>>,
 ) {
+    commands
+        .spawn((
+            PointLight2d {
+                intensity: 30.0,
+                radius: 100.0,
+                ..default()
+            },
+            GlobalZIndex(10),
+        ))
+        .insert(Name::new("PointLight2d"));
     commands
         .spawn((
             Node {
