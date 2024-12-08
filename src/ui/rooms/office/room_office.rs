@@ -8,6 +8,8 @@ use crate::structs::{
     missions::MissionReports, trigger_structs::ResetRoomTrigger,
 };
 use bevy::{prelude::*, text::cosmic_text::Align};
+use bevy_light_2d::prelude::*;
+use vleue_kinetoscope::AnimatedImageController;
 
 pub fn room_office(
     my_assets: &Res<AssetServer>,
@@ -16,13 +18,35 @@ pub fn room_office(
     _mission_reports_modal_visibility: ResMut<MissionReportsModalVisible>,
     daily_events: &Res<DailyEvents>,
 ) {
-    // let animated_image = my_assets.load("images/rooms/office/animated_background1.webp");
+    let animated_image = my_assets.load("images/rooms/office/giphy.webp");
+
+    commands
+        .spawn((
+            AnimatedImageController::play(animated_image),
+            // Node {
+            //     // display: Display::Flex,
+            //     // align_self: AlignSelf::Center,
+            //     // justify_self: JustifySelf::Center,
+            //     // justify_content: JustifyContent::Center,
+            //     // align_items: AlignItems::Center,
+            //     width: Val::Px(100.),
+            //     height: Val::Px(100.),
+            //     ..default()
+            // },
+            Transform {
+                translation: Vec3::new(0.0, 0.0, 0.0),
+                scale: Vec3::new(2., 2., 1.0),
+                ..Default::default()
+            },
+        ))
+        .insert(Name::new("AnimatedImageController"));
+
     commands
         .spawn((
             // AnimatedImageController::play(animated_image),
             ImageNode {
                 // image: my_assets.load("images/rooms/office/office_room_background.png"),
-                image: my_assets.load("images/rooms/office/office_v3.png"),
+                image: my_assets.load("images/rooms/office/office_v2.png"),
                 ..default()
             },
             Node {
@@ -62,5 +86,13 @@ pub fn room_office(
                     // talents_on_desk(&asset_server, elements_on_desk);
                     daily_event_documents(my_assets, elements_on_desk, daily_events);
                 });
+
+            desk_container
+                .spawn(PointLight2d {
+                    intensity: 3.0,
+                    radius: 100.0,
+                    ..default()
+                })
+                .insert(Name::new("PointLight2d"));
         });
 }

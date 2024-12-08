@@ -23,6 +23,7 @@ pub fn update_room(
     player_stats: Res<PlayerStats>,
     mut commands: Commands,
     query: Query<Entity, With<ResetRoomTrigger>>,
+    mut previous_room: Local<Option<RoomEnum>>, // Local state for previous room
     selected_recruit_for_equipment: Res<SelectedRecruitForEquipment>,
     missions: Res<Missions>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
@@ -32,41 +33,47 @@ pub fn update_room(
     selected_map_id: Res<SelectedMapId>,
     daily_events: Res<DailyEvents>,
 ) {
-    if player_stats.is_changed()
-        || selected_recruit_for_equipment.is_changed()
-        || daily_events.is_changed()
-    {
-        // Despawn existing room entities marked with ResetRoomTrigger only if player_stats.room has changed
-        for entity in query.iter() {
-            commands.entity(entity).despawn_recursive();
-        }
+    if player_stats.is_changed() {
+        // Compare the current room with the previously stored value
+        if previous_room
+            .as_ref()
+            .map_or(true, |prev| *prev != player_stats.room)
+        {
+            // Update local state
+            *previous_room = Some(player_stats.clone().room);
 
-        // Spawn new room based on player_stats
-        match player_stats.room {
-            RoomEnum::Office => room_office(
-                &my_assets,
-                &mut commands,
-                &mission_reports,
-                mission_reports_modal_visibility,
-                &daily_events,
-            ),
-            RoomEnum::Barrack => spawn_room_barrack(
-                &my_assets,
-                &mut commands,
-                &player_stats,
-                &selected_recruit_for_equipment,
-                &mut texture_atlas_layouts,
-            ),
-            RoomEnum::Store => room_store(&my_assets, &mut commands),
-            RoomEnum::CommandRoom => room_command_room(
-                &my_assets,
-                &mut commands,
-                missions,
-                selected_map_id,
-                maps,
-                &player_stats,
-                &mut texture_atlas_layouts,
-            ),
+            // Despawn existing entities marked with `ResetRoomTrigger`
+            for entity in query.iter() {
+                commands.entity(entity).despawn_recursive();
+            }
+
+            // Spawn new room based on `player_stats.room`
+            match player_stats.room {
+                RoomEnum::Office => room_office(
+                    &my_assets,
+                    &mut commands,
+                    &mission_reports,
+                    mission_reports_modal_visibility,
+                    &daily_events,
+                ),
+                RoomEnum::Barrack => spawn_room_barrack(
+                    &my_assets,
+                    &mut commands,
+                    &player_stats,
+                    &selected_recruit_for_equipment,
+                    &mut texture_atlas_layouts,
+                ),
+                RoomEnum::Store => room_store(&my_assets, &mut commands),
+                RoomEnum::CommandRoom => room_command_room(
+                    &my_assets,
+                    &mut commands,
+                    missions,
+                    selected_map_id,
+                    maps,
+                    &player_stats,
+                    &mut texture_atlas_layouts,
+                ),
+            }
         }
     }
 }
