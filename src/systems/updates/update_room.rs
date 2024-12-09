@@ -55,6 +55,7 @@ pub fn update_room(
                     &mission_reports,
                     mission_reports_modal_visibility,
                     &daily_events,
+                    &mut texture_atlas_layouts,
                 ),
                 RoomEnum::Barrack => spawn_room_barrack(
                     &my_assets,

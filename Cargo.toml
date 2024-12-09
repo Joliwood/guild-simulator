@@ -43,24 +43,24 @@ lto = true
 codegen-units = 1
 strip = true
 
-[profile.dev]
-opt-level = 0
-debug = true
-debug-assertions = true
-overflow-checks = true
-lto = "off"
-codegen-units = 16
-incremental = true
-panic = "unwind"
-strip = false
+# [profile.dev]
+# opt-level = 0
+# debug = true
+# debug-assertions = true
+# overflow-checks = true
+# lto = "off"
+# codegen-units = 16
+# incremental = true
+# panic = "unwind"
+# strip = false
 
 [build-dependencies]
 embed-resource = "3.0.1"
 
 [target.x86_64h-apple-darwin]
 
-[profile.dev.package."*"]
-opt-level = 0
+# [profile.dev.package."*"]
+# opt-level = 0
 
 [profile.release-native]
 inherits = "release"

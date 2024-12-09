@@ -50,6 +50,7 @@ use ui::{
         tuto_done_modal_folder::tuto_done_modal::tuto_done_modal,
         tuto_messages::tuto_message_modal::tuto_message_modal,
     },
+    rooms::office::room_office::animate_sprite,
 };
 
 fn main() -> AppExit {
@@ -106,6 +107,7 @@ fn main() -> AppExit {
                 ui::hud_folder::hud::hud,
             ),
         )
+        // .add_systems(Startup, (setup_candle_spritesheet, spawn_candles).chain())
         .add_systems(
             Update,
             (
@@ -158,6 +160,7 @@ fn main() -> AppExit {
                 mayor_notification_toast.run_if(resource_changed::<TutoMessages>),
                 open_tuto_message,
                 tuto_done_modal,
+                animate_sprite,
             ),
         )
         .run()
