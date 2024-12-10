@@ -3,11 +3,12 @@ use super::{
     daily_event_documents::daily_event_documents,
     mission_report_documents::mission_report_documents,
 };
-use crate::my_assets;
+use crate::enums::RoomEnum;
 use crate::structs::{
     daily_events_folder::daily_events::DailyEvents, general_structs::MissionReportsModalVisible,
     missions::MissionReports, trigger_structs::ResetRoomTrigger,
 };
+use crate::{my_assets, RoomTag};
 use bevy::{prelude::*, text::cosmic_text::Align};
 use bevy_light_2d::prelude::*;
 // use vleue_kinetoscope::AnimatedImageController;
@@ -63,35 +64,35 @@ pub fn room_office(
     let animation_indices = AnimationIndices { first: 1, last: 14 };
     let texture_atlas_layout = texture_atlas_layouts.add(layout);
 
-    commands
-        .spawn((
-            Sprite::from_atlas_image(
-                my_assets.load("images/rooms/office/palme-animation1.png"),
-                TextureAtlas {
-                    layout: texture_atlas_layout,
-                    index: animation_indices.first,
-                },
-            ),
-            animation_indices,
-            AnimationTimer(Timer::from_seconds(0.01, TimerMode::Repeating)),
-            // AnimatedImageController::play(animated_image),
-            // Node {
-            //     // display: Display::Flex,
-            //     // align_self: AlignSelf::Center,
-            //     // justify_self: JustifySelf::Center,
-            //     // justify_content: JustifyContent::Center,
-            //     // align_items: AlignItems::Center,
-            //     width: Val::Px(100.),
-            //     height: Val::Px(100.),
-            //     ..default()
-            // },
-            Transform {
-                translation: Vec3::new(0.0, 0.0, 0.0),
-                scale: Vec3::new(2., 2., 1.0),
-                ..Default::default()
-            },
-        ))
-        .insert(Name::new("AnimatedImageController"));
+    // commands
+    //     .spawn((
+    //         Sprite::from_atlas_image(
+    //             my_assets.load("images/rooms/office/palme-animation1.png"),
+    //             TextureAtlas {
+    //                 layout: texture_atlas_layout,
+    //                 index: animation_indices.first,
+    //             },
+    //         ),
+    //         animation_indices,
+    //         AnimationTimer(Timer::from_seconds(0.0167, TimerMode::Repeating)),
+    //         // AnimatedImageController::play(animated_image),
+    //         // Node {
+    //         //     // display: Display::Flex,
+    //         //     // align_self: AlignSelf::Center,
+    //         //     // justify_self: JustifySelf::Center,
+    //         //     // justify_content: JustifyContent::Center,
+    //         //     // align_items: AlignItems::Center,
+    //         //     width: Val::Px(100.),
+    //         //     height: Val::Px(100.),
+    //         //     ..default()
+    //         // },
+    //         Transform {
+    //             translation: Vec3::new(0.0, 0.0, 0.0),
+    //             scale: Vec3::new(2., 2., 1.0),
+    //             ..Default::default()
+    //         },
+    //     ))
+    //     .insert(Name::new("AnimatedImageController"));
 
     commands
         .spawn((
@@ -111,6 +112,7 @@ pub fn room_office(
             },
             // BackgroundColor(Color::srgba(0.5, 0.0, 0.0, 0.0)),
             GlobalZIndex(-1),
+            RoomTag(RoomEnum::Office),
         ))
         .insert(Name::new("Office room"))
         .insert(ResetRoomTrigger)
@@ -138,13 +140,5 @@ pub fn room_office(
                     // talents_on_desk(&asset_server, elements_on_desk);
                     daily_event_documents(my_assets, elements_on_desk, daily_events);
                 });
-
-            desk_container
-                .spawn(PointLight2d {
-                    intensity: 3.0,
-                    radius: 100.0,
-                    ..default()
-                })
-                .insert(Name::new("PointLight2d"));
         });
 }

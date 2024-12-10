@@ -2,11 +2,15 @@ use super::{
     map_description::map_description, map_list::map_list, map_on_table::map_on_table,
     map_recruit_list::map_recruit_list,
 };
-use crate::structs::{
-    maps::{Maps, SelectedMapId},
-    missions::Missions,
-    player_stats::PlayerStats,
-    trigger_structs::ResetRoomTrigger,
+use crate::{
+    enums::RoomEnum,
+    structs::{
+        maps::{Maps, SelectedMapId},
+        missions::Missions,
+        player_stats::PlayerStats,
+        trigger_structs::ResetRoomTrigger,
+    },
+    RoomTag,
 };
 use bevy::prelude::*;
 
@@ -23,14 +27,17 @@ pub fn room_command_room(
     let selected_map = maps.get_map_by_optional_id(selected_map_id.0);
 
     commands
-        .spawn(Node {
-            width: Val::Vw(100.),
-            height: Val::Vh(100.),
-            display: Display::Flex,
-            justify_content: JustifyContent::Center,
-            align_items: AlignItems::Center,
-            ..default()
-        })
+        .spawn((
+            Node {
+                width: Val::Vw(100.),
+                height: Val::Vh(100.),
+                display: Display::Flex,
+                justify_content: JustifyContent::Center,
+                align_items: AlignItems::Center,
+                ..default()
+            },
+            RoomTag(RoomEnum::CommandRoom),
+        ))
         .insert(Name::new("Command room"))
         .insert(ResetRoomTrigger)
         // Background ImageNode for the Command Room
