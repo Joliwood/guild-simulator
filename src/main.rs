@@ -12,11 +12,13 @@ mod systems;
 mod ui;
 mod utils;
 
+use bevy_dev_tools::fps_overlay::{FpsOverlayConfig, FpsOverlayPlugin};
 use bevy_light_2d::plugin::Light2dPlugin;
 // ! Stand-by
 // use bevy_asset_loader::asset_collection::AssetCollectionApp;
 // use my_assets::{MyAssets, MyAssetsLoader};
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
+// use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use enums::RoomEnum;
 use pyri_tooltip::prelude::*;
 use vleue_kinetoscope::AnimatedImagePlugin;
 
@@ -53,6 +55,15 @@ use ui::{
     rooms::office::room_office::animate_sprite,
 };
 
+use bevy::text::FontSmoothing;
+
+struct OverlayColor;
+
+impl OverlayColor {
+    const RED: Color = Color::srgb(1.0, 0.0, 0.0);
+    const GREEN: Color = Color::srgb(0.0, 1.0, 0.0);
+}
+
 fn main() -> AppExit {
     App::new()
         .add_plugins((
@@ -72,9 +83,24 @@ fn main() -> AppExit {
                 ..default()
             }),
             AnimatedImagePlugin,
-            WorldInspectorPlugin::new(),
+            // WorldInspectorPlugin::new(),
             Light2dPlugin,
             TooltipPlugin::default(),
+            FpsOverlayPlugin {
+                config: FpsOverlayConfig {
+                    text_config: TextFont {
+                        // Here we define size of our overlay
+                        font_size: 42.0,
+                        // If we want, we can use a custom font
+                        font: default(),
+                        // We could also disable font smoothing,
+                        font_smoothing: FontSmoothing::default(),
+                    },
+                    // We can also change color of the overlay
+                    text_color: OverlayColor::GREEN,
+                    enabled: true,
+                },
+            },
         ))
         // .init_asset::<MyAssets>()
         // .init_collection::<MyAssets>()
@@ -105,6 +131,7 @@ fn main() -> AppExit {
                 audio::audio_source::audio_source,
                 systems::camera::camera_setup::camera_setup,
                 ui::hud_folder::hud::hud,
+                systems::updates::update_room::update_room,
             ),
         )
         // .add_systems(Startup, (setup_candle_spritesheet, spawn_candles).chain())
@@ -124,7 +151,7 @@ fn main() -> AppExit {
                 systems::updates::hud::update_reputation_counter::update_reputation_counter.run_if(resource_changed::<PlayerStats>),
                 systems::updates::hud::update_toxicity_counter::update_toxicity_counter.run_if(resource_changed::<PlayerStats>),
                 systems::updates::input::move_room_from_keyboard,
-                systems::updates::update_room::update_room,
+                // systems::updates::update_room::update_room,
             ),
         )
         .add_systems(
@@ -161,6 +188,7 @@ fn main() -> AppExit {
                 open_tuto_message,
                 tuto_done_modal,
                 animate_sprite,
+                switch_rooms,
             ),
         )
         .run()
@@ -262,5 +290,28 @@ pub fn update_notification_indicators_text_for_barrack_room(
         } else {
             Display::None
         };
+    }
+}
+
+#[derive(Component)]
+pub struct RoomTag(RoomEnum);
+
+fn switch_rooms(
+    previous_room: Local<Option<RoomEnum>>,
+    player_stats: Res<PlayerStats>,
+    mut query: Query<(&RoomTag, &mut Visibility)>,
+) {
+    if player_stats.is_changed()
+        && previous_room
+            .as_ref()
+            .map_or(true, |prev| *prev != player_stats.room)
+    {
+        for (room_tag, mut visibility) in query.iter_mut() {
+            *visibility = if room_tag.0 == player_stats.room {
+                Visibility::Visible
+            } else {
+                Visibility::Hidden
+            };
+        }
     }
 }
