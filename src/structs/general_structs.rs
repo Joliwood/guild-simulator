@@ -8,7 +8,10 @@ use crate::{
     content::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
     enums::RoomEnum,
 };
-use bevy::prelude::{Component, Resource};
+use bevy::{
+    color::Color,
+    prelude::{Component, Resource},
+};
 
 #[derive(Resource)]
 pub struct MissionNotificationsNumber(pub u8);
@@ -100,4 +103,10 @@ impl NotificationCount {
             self.barrack_count += count;
         }
     }
+}
+
+pub struct OverlayColor;
+
+impl OverlayColor {
+    pub const GREEN: Color = Color::srgb(0.0, 1.0, 0.0);
 }

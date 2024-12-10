@@ -12,23 +12,18 @@ mod systems;
 mod ui;
 mod utils;
 
+use bevy::{prelude::*, window::WindowTheme};
 use bevy_dev_tools::fps_overlay::{FpsOverlayConfig, FpsOverlayPlugin};
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_light_2d::plugin::Light2dPlugin;
-// ! Stand-by
-// use bevy_asset_loader::asset_collection::AssetCollectionApp;
-// use my_assets::{MyAssets, MyAssetsLoader};
-// use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use content::constants::MAX_GAME_SECONDS;
 use enums::RoomEnum;
 use pyri_tooltip::prelude::*;
-use vleue_kinetoscope::AnimatedImagePlugin;
-
-use bevy::{prelude::*, window::WindowTheme};
-use content::constants::MAX_GAME_SECONDS;
 use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
     general_structs::{
         DailyEventsModalVisible, DayTime, MissionModalVisible, MissionNotificationsNumber,
-        MissionReportsModalVisible, NotificationCount, TutoDoneModalVisible,
+        MissionReportsModalVisible, NotificationCount, OverlayColor, TutoDoneModalVisible,
         TutoMessagesModalVisible,
     },
     maps::{Maps, SelectedMapId},
@@ -57,21 +52,10 @@ use ui::{
 
 use bevy::text::FontSmoothing;
 
-struct OverlayColor;
-
-impl OverlayColor {
-    const RED: Color = Color::srgb(1.0, 0.0, 0.0);
-    const GREEN: Color = Color::srgb(0.0, 1.0, 0.0);
-}
-
 fn main() -> AppExit {
     App::new()
         .add_plugins((
             DefaultPlugins
-            // .set(AssetPlugin {
-            //     meta_check: AssetMetaCheck::Never,
-            //     ..default()
-            // })
             .set(WindowPlugin {
                 primary_window: Some(Window {
                     title: "Guild simulator".into(),
@@ -82,8 +66,8 @@ fn main() -> AppExit {
                 }),
                 ..default()
             }),
-            AnimatedImagePlugin,
-            // WorldInspectorPlugin::new(),
+            // AudioPlugin::default(),
+            WorldInspectorPlugin::new(),
             Light2dPlugin,
             TooltipPlugin::default(),
             FpsOverlayPlugin {
@@ -96,14 +80,11 @@ fn main() -> AppExit {
                         // We could also disable font smoothing,
                         font_smoothing: FontSmoothing::default(),
                     },
-                    // We can also change color of the overlay
                     text_color: OverlayColor::GREEN,
-                    enabled: true,
+                    enabled: false,
                 },
             },
         ))
-        // .init_asset::<MyAssets>()
-        // .init_collection::<MyAssets>()
         .insert_resource(PlayerStats::default())
         .insert_resource(MissionReports::default())
         .insert_resource(Missions::default())
@@ -114,7 +95,6 @@ fn main() -> AppExit {
         .insert_resource(MissionModalVisible(false))
         .insert_resource(MissionReportsModalVisible(false))
         .insert_resource(DailyEventsModalVisible(false))
-        //WIP
         .insert_resource(TutoMessagesModalVisible(false))
         .insert_resource(TutoDoneModalVisible(false))
         .insert_resource(MissionNotificationsNumber(0))
@@ -131,10 +111,9 @@ fn main() -> AppExit {
                 audio::audio_source::audio_source,
                 systems::camera::camera_setup::camera_setup,
                 ui::hud_folder::hud::hud,
-                systems::updates::update_room::update_room,
+                systems::updates::init_rooms::init_rooms,
             ),
         )
-        // .add_systems(Startup, (setup_candle_spritesheet, spawn_candles).chain())
         .add_systems(
             Update,
             (
@@ -151,7 +130,6 @@ fn main() -> AppExit {
                 systems::updates::hud::update_reputation_counter::update_reputation_counter.run_if(resource_changed::<PlayerStats>),
                 systems::updates::hud::update_toxicity_counter::update_toxicity_counter.run_if(resource_changed::<PlayerStats>),
                 systems::updates::input::move_room_from_keyboard,
-                // systems::updates::update_room::update_room,
             ),
         )
         .add_systems(

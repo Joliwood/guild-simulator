@@ -18,7 +18,7 @@ use crate::{
 use bevy::prelude::*;
 
 #[allow(clippy::too_many_arguments)]
-pub fn update_room(
+pub fn init_rooms(
     my_assets: Res<AssetServer>,
     player_stats: Res<PlayerStats>,
     mut commands: Commands,
@@ -39,7 +39,6 @@ pub fn update_room(
         &mission_reports,
         mission_reports_modal_visibility,
         &daily_events,
-        &mut texture_atlas_layouts,
     );
 
     spawn_room_barrack(

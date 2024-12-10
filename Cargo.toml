@@ -19,7 +19,6 @@ bevy = "0.15"
 #     "custom_cursor",
 #     "bevy_state",
 # ] }
-# bevy = { git = "https://github.com/bevyengine/bevy", branch = "main" }
 bevy-inspector-egui = "0.28.0"
 # bevy_asset_loader = { version = "0.15.0-rc.3", features = ["2d"]}
 uuid = "1.10.0"
@@ -28,7 +27,6 @@ serde = { version = "1.0.215", features = ["derive"] }
 pyri_tooltip = "0.2.0"
 colored = "2.0"
 rust-i18n = "3.1.2"
-vleue_kinetoscope = "0.3.1"
 bevy_light_2d = "0.5.0"
 bevy_dev_tools = "0.15.0"
 

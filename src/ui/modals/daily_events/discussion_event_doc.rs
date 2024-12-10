@@ -63,6 +63,10 @@ pub fn discussion_event_doc(
                             font_size: 16.0,
                             ..default()
                         },
+                        TextLayout {
+                            linebreak: LineBreak::NoWrap,
+                            ..Default::default()
+                        },
                         TextColor(Color::BLACK),
                         Node {
                             margin: UiRect::bottom(Val::Px(8.)),
