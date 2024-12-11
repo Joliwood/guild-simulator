@@ -4,6 +4,12 @@ use crate::{
 };
 use bevy::prelude::*;
 
+#[derive(Component)]
+pub struct RecruitFrameTrigger;
+
+#[derive(Component)]
+pub struct RecruitFrameTextTrigger;
+
 pub fn recruit_frame(
     parent: &mut ChildBuilder,
     my_assets: &Res<AssetServer>,
@@ -49,7 +55,7 @@ pub fn recruit_frame(
         .with_children(|parent| {
             // if let Some(selected_recruit_for_equipment_data) = selected_recruit_for_equipment {
             parent.spawn((
-                Text::new(t!(selected_recruit_for_equipment_name)),
+                Text::new(selected_recruit_for_equipment_name),
                 TextFont {
                     font: my_assets.load(FONT_FIRA),
                     font_size: 18.0,
@@ -67,6 +73,7 @@ pub fn recruit_frame(
                     ..Default::default()
                 },
                 GlobalZIndex(3),
+                RecruitFrameTextTrigger,
             ));
 
             parent.spawn((
@@ -84,6 +91,7 @@ pub fn recruit_frame(
                     ..default()
                 },
                 GlobalZIndex(1),
+                RecruitFrameTrigger,
             ));
             // }
         });

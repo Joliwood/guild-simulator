@@ -1,6 +1,7 @@
 use crate::structs::trigger_structs::ResetRoomTrigger;
 use bevy::prelude::*;
 
+#[allow(dead_code)]
 pub fn room_store(my_assets: &Res<AssetServer>, commands: &mut Commands) {
     // let imager_handler: Handle<ImageNode> = my_assets.load("images/store.png");
 

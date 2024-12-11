@@ -2,6 +2,9 @@ use super::{recruit_frame::recruit_frame, recruit_infos_folder::recruit_infos::r
 use crate::structs::{player_stats::PlayerStats, recruits::SelectedRecruitForEquipment};
 use bevy::prelude::*;
 
+#[derive(Component)]
+pub struct RecruitOverviewTrigger;
+
 pub fn recruit_overview(
     player_stats: &Res<PlayerStats>,
     parent: &mut ChildBuilder,
@@ -11,20 +14,22 @@ pub fn recruit_overview(
 ) {
     // Right container: recruit info
     parent
-        .spawn(Node {
-            display: Display::Flex,
-            flex_direction: FlexDirection::Column,
-            align_items: AlignItems::Center,
-            row_gap: Val::Px(5.),
-            margin: UiRect {
-                left: Val::Px(30.),
-                right: Val::Px(30.),
-                top: Val::Px(60.),
-                bottom: Val::ZERO,
+        .spawn((
+            Node {
+                display: Display::Flex,
+                flex_direction: FlexDirection::Column,
+                align_items: AlignItems::Center,
+                row_gap: Val::Px(5.),
+                margin: UiRect {
+                    left: Val::Px(30.),
+                    right: Val::Px(30.),
+                    top: Val::Px(60.),
+                    bottom: Val::ZERO,
+                },
+                ..default()
             },
-            ..default()
-        })
-        .insert(Name::new("Barrack > recruit overview"))
+            Name::new("Barrack > recruit overview"),
+        ))
         .with_children(|parent| {
             recruit_frame(
                 parent,

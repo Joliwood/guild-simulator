@@ -18,7 +18,6 @@ use bevy_dev_tools::fps_overlay::{FpsOverlayConfig, FpsOverlayPlugin};
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_light_2d::plugin::Light2dPlugin;
 use content::constants::MAX_GAME_SECONDS;
-use enums::RoomEnum;
 use pyri_tooltip::prelude::*;
 use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
@@ -38,6 +37,7 @@ use structs::{
         RealTimeDayProgressBarTrigger,
     },
 };
+use systems::updates::barrack::update_selected_recruit::update_selected_recruit;
 use systems::updates::command_room::update_mission_icons::{
     update_mission_icons, update_unavailable_mission_icons,
 };
@@ -181,8 +181,13 @@ fn main() -> AppExit {
                     .run_if(resource_changed::<Missions>),
             ),
         )
-        .add_systems(Update, update_mission_report_documents
-            .run_if(resource_changed::<MissionReports>)
+        .add_systems(Update, 
+            (
+                update_mission_report_documents
+                    .run_if(resource_changed::<MissionReports>),
+                update_selected_recruit
+                    .run_if(resource_changed::<SelectedRecruitForEquipment>),
+            )
         )
         .run()
 }

@@ -6,13 +6,10 @@ use crate::structs::{
     },
     general_structs::{DailyEventsModalVisible, NotificationCount},
     player_stats::PlayerStats,
-    trigger_structs::DailyEventTrigger,
 };
 use bevy::prelude::*;
 
-#[allow(clippy::too_many_arguments)]
 pub fn select_discussion_answer(
-    mut commands: Commands,
     mut query: Query<
         (
             &Interaction,
@@ -28,7 +25,6 @@ pub fn select_discussion_answer(
     mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
     mut player_stats: ResMut<PlayerStats>,
     mut notification_count: ResMut<NotificationCount>,
-    mut delete_daily_documents_query: Query<Entity, With<DailyEventTrigger>>,
 ) {
     let _window = windows.single_mut();
     for (interaction, mut background_color, answer, discussion, spontaneous_application) in
@@ -44,13 +40,6 @@ pub fn select_discussion_answer(
 
         match *interaction {
             Interaction::Pressed => {
-                let daily_count = daily_events.0.len();
-                // if daily_count > 1 {
-                //     for entity in delete_daily_documents_query.iter() {
-                //         commands.entity(entity).despawn_recursive();
-                //     }
-                // }
-
                 if let Some(discussion) = discussion {
                     daily_events.remove_daily_discussion_by_id(discussion.id);
                 } else if let Some(application) = spontaneous_application {
