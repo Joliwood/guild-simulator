@@ -41,6 +41,7 @@ use structs::{
 use systems::updates::command_room::update_mission_icons::{
     update_mission_icons, update_unavailable_mission_icons,
 };
+use systems::updates::office::update_mission_report_documents::update_mission_report_documents;
 use systems::updates::switch_room::switch_room;
 use systems::updates::{
     close_tuto_message::close_tuto_message, hud::open_tuto_message::open_tuto_message,
@@ -179,6 +180,9 @@ fn main() -> AppExit {
                 update_unavailable_mission_icons
                     .run_if(resource_changed::<Missions>),
             ),
+        )
+        .add_systems(Update, update_mission_report_documents
+            .run_if(resource_changed::<MissionReports>)
         )
         .run()
 }
