@@ -15,7 +15,6 @@ pub fn daily_event_documents(
             Button,
             Node {
                 position_type: PositionType::Absolute,
-                // WIP - Move to right 350 after the tests
                 right: Val::Px(250.),
                 top: Val::Px(170.),
                 ..default()

@@ -1,8 +1,12 @@
 use crate::my_assets::FONT_FIRA;
 use crate::structs::missions::MissionReports;
-use crate::structs::trigger_structs::MissionReportTrigger;
-// use crate::structs::trigger_structs::MissionReportButtonTrigger;
 use bevy::prelude::*;
+
+#[derive(Debug, Component)]
+pub struct MissionReportTrigger;
+
+#[derive(Component)]
+pub struct MissionReportTextTrigger;
 
 pub fn mission_report_documents(
     my_assets: &Res<AssetServer>,
@@ -39,10 +43,8 @@ pub fn mission_report_documents(
                         ..default()
                     },
                 ))
-                // .insert(MissionReport)
                 .insert(Interaction::default())
                 .with_children(|parent| {
-                    // if mission_reports_number > 0 {
                     parent
                         .spawn((
                             ImageNode {
@@ -70,6 +72,7 @@ pub fn mission_report_documents(
                                     ..default()
                                 },
                                 TextColor(Color::BLACK),
+                                MissionReportTextTrigger,
                             ));
                         });
                 });

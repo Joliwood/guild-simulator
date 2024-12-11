@@ -158,7 +158,6 @@ pub struct DailyEvents(pub Vec<DailyEvent>);
 // Contents
 impl Default for DailyEvents {
     fn default() -> Self {
-        // WIP - 8 mayor moved from here
         let discussion_ids = [9, 7, 8];
         let spontaneous_application_ids = [2, 1];
 

@@ -4,8 +4,6 @@ use crate::{
 };
 use bevy::prelude::*;
 
-// WIP - Je dois faire les rapports avant pour continuer
-
 pub fn update_mission_icons(
     missions: Res<Missions>,
     mut query: Query<(&mut Node, &mut MissionIconTrigger, &Mission)>,
