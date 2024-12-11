@@ -1,5 +1,7 @@
 #![allow(dead_code)]
 
+use uuid::Uuid;
+
 use super::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum};
 use crate::structs::{
     general_structs::Ennemy,
@@ -194,7 +196,7 @@ pub fn generate_all_missions() -> Missions {
             level: 3,
             name: "mission6_name".to_string(),
             percent_of_victory: None,
-            recruit_send: None,
+            recruit_send: Some(Uuid::new_v4()),
             ennemy: Ennemy {
                 image_atlas_index: 3,
                 experience: 0,

@@ -38,6 +38,9 @@ use structs::{
         RealTimeDayProgressBarTrigger,
     },
 };
+use systems::updates::command_room::update_mission_icons::{
+    update_mission_icons, update_unavailable_mission_icons,
+};
 use systems::updates::switch_room::switch_room;
 use systems::updates::{
     close_tuto_message::close_tuto_message, hud::open_tuto_message::open_tuto_message,
@@ -170,7 +173,11 @@ fn main() -> AppExit {
                 tuto_done_modal,
                 switch_room,
                 update_daily_event_documents
-                    .run_if(resource_changed::<DailyEvents>)
+                    .run_if(resource_changed::<DailyEvents>),
+                update_mission_icons
+                    .run_if(resource_changed::<Missions>),
+                update_unavailable_mission_icons
+                    .run_if(resource_changed::<Missions>),
             ),
         )
         .run()

@@ -22,9 +22,8 @@ pub fn daily_event_documents(
                     ..default()
                 },
                 DailyEventTrigger,
-                // Visibility::Hidden,
+                Name::new("Daily event documents"),
             ))
-            // .insert(DailyEventTrigger)
             .with_children(|mission_report_button| {
                 mission_report_button
                     .spawn((

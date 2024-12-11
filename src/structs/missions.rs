@@ -284,6 +284,13 @@ impl Missions {
             }
         }
     }
+
+    pub fn is_mission_unlocked_by_id(&self, mission_id: u16) -> bool {
+        if let Some(mission) = self.0.iter().find(|mission| mission.id == mission_id) {
+            return mission.unlocked;
+        }
+        return false;
+    }
 }
 
 #[derive(Debug, Component, Clone, Eq, PartialEq, Hash)]

@@ -200,7 +200,7 @@ impl Default for PlayerStats {
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
                 // RecruitEnum::JeanLouisDavid.get_recruit(),
             ],
-            room: RoomEnum::Office,
+            room: RoomEnum::CommandRoom,
             toxicity: 0,
             reputation: 10,
             stats: Stats::default(),
