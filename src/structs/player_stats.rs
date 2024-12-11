@@ -13,7 +13,7 @@ use crate::{
 use bevy::prelude::*;
 use uuid::Uuid;
 
-#[derive(Default, Component, Resource, Clone)]
+#[derive(Default, Component, Resource, Clone, PartialEq)]
 pub struct Stats {
     pub golds_earned: i32,
     pub mission_completed: u16,
@@ -24,7 +24,7 @@ pub struct Stats {
 /// When it is None, the tutorial is not available
 /// When it is Some(false), the tutorial is available but not done
 /// When it is Some(true), the tutorial is done
-#[derive(Default, Component, Resource, Clone)]
+#[derive(Default, Component, Resource, Clone, PartialEq)]
 pub struct Tuto {
     pub is_barrack_room_tuto_done: Option<bool>,
     pub is_command_room_tuto_done: Option<bool>,
@@ -159,7 +159,7 @@ impl TutoMessages {
     }
 }
 
-#[derive(Component, Resource, Clone)]
+#[derive(Component, Resource, Clone, PartialEq)]
 pub struct PlayerStats {
     pub day: u16,
     pub experience: u32,

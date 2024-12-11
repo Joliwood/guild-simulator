@@ -12,9 +12,10 @@ mod systems;
 mod ui;
 mod utils;
 
+use bevy::text::FontSmoothing;
 use bevy::{prelude::*, window::WindowTheme};
 use bevy_dev_tools::fps_overlay::{FpsOverlayConfig, FpsOverlayPlugin};
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
+// use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_light_2d::plugin::Light2dPlugin;
 use content::constants::MAX_GAME_SECONDS;
 use enums::RoomEnum;
@@ -37,9 +38,10 @@ use structs::{
         RealTimeDayProgressBarTrigger,
     },
 };
+use systems::updates::switch_room::switch_room;
 use systems::updates::{
     close_tuto_message::close_tuto_message, hud::open_tuto_message::open_tuto_message,
-    skip_tuto::skip_tuto,
+    office::update_daily_event_documents::update_daily_event_documents, skip_tuto::skip_tuto,
 };
 use ui::{
     hud_folder::mayor_notification_toast::mayor_notification_toast,
@@ -47,10 +49,7 @@ use ui::{
         tuto_done_modal_folder::tuto_done_modal::tuto_done_modal,
         tuto_messages::tuto_message_modal::tuto_message_modal,
     },
-    rooms::office::room_office::animate_sprite,
 };
-
-use bevy::text::FontSmoothing;
 
 fn main() -> AppExit {
     App::new()
@@ -67,7 +66,7 @@ fn main() -> AppExit {
                 ..default()
             }),
             // AudioPlugin::default(),
-            WorldInspectorPlugin::new(),
+            // WorldInspectorPlugin::new(),
             Light2dPlugin,
             TooltipPlugin::default(),
             FpsOverlayPlugin {
@@ -157,16 +156,21 @@ fn main() -> AppExit {
         .add_systems(
             Update,
             (
-                update_notification_indicators_text_for_command_room.run_if(resource_changed::<NotificationCount>),
-                update_notification_indicators_text_for_office_room.run_if(resource_changed::<NotificationCount>),
-                update_notification_indicators_text_for_barrack_room.run_if(resource_changed::<NotificationCount>),
+                update_notification_indicators_text_for_command_room
+                    .run_if(resource_changed::<NotificationCount>),
+                update_notification_indicators_text_for_office_room
+                    .run_if(resource_changed::<NotificationCount>),
+                update_notification_indicators_text_for_barrack_room
+                    .run_if(resource_changed::<NotificationCount>),
                 tuto_message_modal,
                 close_tuto_message,
-                mayor_notification_toast.run_if(resource_changed::<TutoMessages>),
+                mayor_notification_toast
+                    .run_if(resource_changed::<TutoMessages>),
                 open_tuto_message,
                 tuto_done_modal,
-                animate_sprite,
-                switch_rooms,
+                switch_room,
+                update_daily_event_documents
+                    .run_if(resource_changed::<DailyEvents>)
             ),
         )
         .run()
@@ -268,28 +272,5 @@ pub fn update_notification_indicators_text_for_barrack_room(
         } else {
             Display::None
         };
-    }
-}
-
-#[derive(Component)]
-pub struct RoomTag(RoomEnum);
-
-fn switch_rooms(
-    previous_room: Local<Option<RoomEnum>>,
-    player_stats: Res<PlayerStats>,
-    mut query: Query<(&RoomTag, &mut Visibility)>,
-) {
-    if player_stats.is_changed()
-        && previous_room
-            .as_ref()
-            .map_or(true, |prev| *prev != player_stats.room)
-    {
-        for (room_tag, mut visibility) in query.iter_mut() {
-            *visibility = if room_tag.0 == player_stats.room {
-                Visibility::Visible
-            } else {
-                Visibility::Hidden
-            };
-        }
     }
 }

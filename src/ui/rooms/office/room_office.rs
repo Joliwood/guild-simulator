@@ -4,41 +4,14 @@ use super::{
     mission_report_documents::mission_report_documents,
 };
 use crate::enums::RoomEnum;
+use crate::my_assets;
+use crate::structs::general_structs::RoomTag;
 use crate::structs::{
     daily_events_folder::daily_events::DailyEvents, general_structs::MissionReportsModalVisible,
     missions::MissionReports, trigger_structs::ResetRoomTrigger,
 };
-use crate::{my_assets, RoomTag};
 use bevy::{prelude::*, text::cosmic_text::Align};
 use bevy_light_2d::prelude::*;
-
-#[derive(Component)]
-pub struct AnimationIndices {
-    first: usize,
-    last: usize,
-}
-
-#[derive(Component, Deref, DerefMut)]
-pub struct AnimationTimer(Timer);
-
-pub fn animate_sprite(
-    time: Res<Time>,
-    mut query: Query<(&AnimationIndices, &mut AnimationTimer, &mut Sprite)>,
-) {
-    for (indices, mut timer, mut sprite) in &mut query {
-        timer.tick(time.delta());
-
-        if timer.just_finished() {
-            if let Some(atlas) = &mut sprite.texture_atlas {
-                atlas.index = if atlas.index == indices.last {
-                    indices.first
-                } else {
-                    atlas.index + 1
-                };
-            }
-        }
-    }
-}
 
 pub fn room_office(
     my_assets: &Res<AssetServer>,
@@ -69,13 +42,13 @@ pub fn room_office(
         // Nested image background node
         .with_children(|desk_container: &mut ChildBuilder| {
             desk_container
-                .spawn((Node {
+                .spawn(Node {
                     display: Display::Flex,
                     align_self: AlignSelf::Center,
                     width: Val::Percent(90.0),
                     height: Val::Percent(80.0),
                     ..default()
-                },))
+                })
                 // Adding child nodes with different positions
                 .with_children(|elements_on_desk: &mut ChildBuilder| {
                     mission_report_documents(my_assets, elements_on_desk, mission_reports);

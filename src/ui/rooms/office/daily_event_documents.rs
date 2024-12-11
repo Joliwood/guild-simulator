@@ -1,6 +1,6 @@
 use crate::my_assets::FONT_FIRA;
 use crate::structs::daily_events_folder::daily_events::DailyEvents;
-use crate::structs::trigger_structs::DailyEventTrigger;
+use crate::structs::trigger_structs::{DailyEventTextTrigger, DailyEventTrigger};
 use bevy::prelude::*;
 
 pub fn daily_event_documents(
@@ -16,13 +16,15 @@ pub fn daily_event_documents(
                 Button,
                 Node {
                     position_type: PositionType::Absolute,
-                    right: Val::Px(50.),
-                    top: Val::Px(250.),
+                    // WIP - Move to right 350 after the tests
+                    right: Val::Px(250.),
+                    top: Val::Px(170.),
                     ..default()
                 },
+                DailyEventTrigger,
+                // Visibility::Hidden,
             ))
-            // .insert(MissionReportButtonTrigger)
-            .insert(DailyEventTrigger)
+            // .insert(DailyEventTrigger)
             .with_children(|mission_report_button| {
                 mission_report_button
                     .spawn((
@@ -40,10 +42,8 @@ pub fn daily_event_documents(
                             ..default()
                         },
                     ))
-                    // .insert(MissionReport)
                     .insert(Interaction::default())
                     .with_children(|parent| {
-                        // if mission_reports_number > 0 {
                         parent
                             .spawn((
                                 ImageNode {
@@ -71,6 +71,7 @@ pub fn daily_event_documents(
                                         ..default()
                                     },
                                     TextColor(Color::BLACK),
+                                    DailyEventTextTrigger,
                                 ));
                             });
                     });

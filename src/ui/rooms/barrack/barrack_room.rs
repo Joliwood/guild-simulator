@@ -6,10 +6,9 @@ use super::{
 use crate::{
     enums::RoomEnum,
     structs::{
-        player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
+        general_structs::RoomTag, player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
         trigger_structs::ResetRoomTrigger,
     },
-    RoomTag,
 };
 use bevy::prelude::*;
 

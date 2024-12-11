@@ -110,3 +110,6 @@ pub struct OverlayColor;
 impl OverlayColor {
     pub const GREEN: Color = Color::srgb(0.0, 1.0, 0.0);
 }
+
+#[derive(Component)]
+pub struct RoomTag(pub RoomEnum);

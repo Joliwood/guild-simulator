@@ -31,6 +31,9 @@ pub struct MissionReportModalSignButtonTrigger;
 pub struct DailyEventTrigger;
 
 #[derive(Component)]
+pub struct DailyEventTextTrigger;
+
+#[derive(Component)]
 pub struct SelectAnswerTrigger;
 
 #[derive(Component)]

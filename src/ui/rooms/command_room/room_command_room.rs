@@ -5,12 +5,12 @@ use super::{
 use crate::{
     enums::RoomEnum,
     structs::{
+        general_structs::RoomTag,
         maps::{Maps, SelectedMapId},
         missions::Missions,
         player_stats::PlayerStats,
         trigger_structs::ResetRoomTrigger,
     },
-    RoomTag,
 };
 use bevy::prelude::*;
 

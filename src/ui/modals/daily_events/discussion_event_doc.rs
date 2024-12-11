@@ -40,6 +40,7 @@ pub fn discussion_event_doc(
                 ..default()
             },
             GlobalZIndex(2),
+            Name::new("Daily event document"),
         ))
         .insert(SelectAnswerTrigger)
         .with_children(|parent| {

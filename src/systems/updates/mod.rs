@@ -7,4 +7,5 @@ pub mod input;
 pub mod office;
 pub mod scroll;
 pub mod skip_tuto;
+pub mod switch_room;
 pub mod update_room_on_click;
