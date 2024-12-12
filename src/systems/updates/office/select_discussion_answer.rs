@@ -5,7 +5,7 @@ use crate::structs::{
         spontaneous_applications::SpontaneousApplication,
     },
     general_structs::{DailyEventsModalVisible, NotificationCount},
-    player_stats::PlayerStats,
+    player_stats::{ItemChangeHistory, PlayerStats},
 };
 use bevy::prelude::*;
 
@@ -25,6 +25,7 @@ pub fn select_discussion_answer(
     mut daily_events_modal_visibility: ResMut<DailyEventsModalVisible>,
     mut player_stats: ResMut<PlayerStats>,
     mut notification_count: ResMut<NotificationCount>,
+    mut item_change_history: ResMut<ItemChangeHistory>,
 ) {
     let _window = windows.single_mut();
     for (interaction, mut background_color, answer, discussion, spontaneous_application) in
@@ -46,7 +47,11 @@ pub fn select_discussion_answer(
                     daily_events.remove_spontaneous_application_by_id(application.id);
                 }
 
-                player_stats.apply_equipment_impact(answer, &mut notification_count);
+                player_stats.apply_equipment_impact(
+                    answer,
+                    &mut notification_count,
+                    &mut item_change_history,
+                );
 
                 daily_events_modal_visibility.0 = false;
 

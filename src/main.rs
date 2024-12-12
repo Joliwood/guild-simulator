@@ -19,6 +19,7 @@ use bevy_dev_tools::fps_overlay::{FpsOverlayConfig, FpsOverlayPlugin};
 use bevy_light_2d::plugin::Light2dPlugin;
 use content::constants::MAX_GAME_SECONDS;
 use pyri_tooltip::prelude::*;
+use structs::player_stats::ItemChangeHistory;
 use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
     general_structs::{
@@ -47,6 +48,8 @@ use systems::updates::{
     close_tuto_message::close_tuto_message, hud::open_tuto_message::open_tuto_message,
     office::update_daily_event_documents::update_daily_event_documents, skip_tuto::skip_tuto,
 };
+use ui::rooms::barrack::inventory::build_inventory_grid::build_inventory_grid;
+use ui::rooms::barrack::inventory::spawn_inventory::{spawn_inventory, SpawnInventoryParentTrigger, SpawnInventoryTrigger};
 use ui::{
     hud_folder::mayor_notification_toast::mayor_notification_toast,
     modals::{
@@ -98,7 +101,7 @@ fn main() -> AppExit {
         .insert_resource(MissionModalVisible(false))
         .insert_resource(MissionReportsModalVisible(false))
         .insert_resource(DailyEventsModalVisible(false))
-        .insert_resource(TutoMessagesModalVisible(false))
+        .insert_resource(TutoMessagesModalVisible(true))
         .insert_resource(TutoDoneModalVisible(false))
         .insert_resource(MissionNotificationsNumber(0))
         .insert_resource(Maps::default())
@@ -107,6 +110,7 @@ fn main() -> AppExit {
         .insert_resource(DayTime::default())
         .insert_resource(NotificationCount::default())
         .insert_resource(TutoMessages::default())
+        .insert_resource(ItemChangeHistory::default())
         .add_systems(
             Startup,
             (
@@ -187,6 +191,8 @@ fn main() -> AppExit {
                     .run_if(resource_changed::<MissionReports>),
                 update_selected_recruit
                     .run_if(resource_changed::<SelectedRecruitForEquipment>),
+                update_barrack_inventory
+                    .run_if(resource_changed::<PlayerStats>),
             )
         )
         .run()
@@ -288,5 +294,28 @@ pub fn update_notification_indicators_text_for_barrack_room(
         } else {
             Display::None
         };
+    }
+}
+
+// Fonction pour mettre à jour l'inventaire
+pub fn update_barrack_inventory(
+    mut commands: Commands,
+    player_stats: Res<PlayerStats>,
+    my_assets: Res<AssetServer>,
+    parent_query: Query<Entity, With<SpawnInventoryParentTrigger>>,
+    childs_query: Query<Entity, With<SpawnInventoryTrigger>>,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+) {
+    // Step 1: Find the parent entity
+    if let Some(parent_entity) = parent_query.iter().next() {
+        // Step 2: Despawn all children of the parent
+        for child in childs_query.iter() {
+            commands.entity(child).despawn_recursive();
+        }
+
+        // Step 3: Recreate the inventory grid as children of the parent
+        commands.entity(parent_entity).with_children(|grid| {
+            build_inventory_grid(grid, &player_stats, &my_assets, &mut texture_atlas_layouts);
+        });
     }
 }

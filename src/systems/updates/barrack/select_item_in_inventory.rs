@@ -2,7 +2,9 @@ use crate::{
     audio::play_sound::play_sound,
     enums::SoundEnum,
     structs::{
-        equipments::ItemEnum, player_stats::PlayerStats, recruits::SelectedRecruitForEquipment,
+        equipments::ItemEnum,
+        player_stats::{ItemChangeHistory, PlayerStats},
+        recruits::SelectedRecruitForEquipment,
         trigger_structs::ItemInInventoryTrigger,
     },
     ui::ui_constants::WOOD_COLOR,
@@ -23,6 +25,7 @@ pub fn select_item_in_inventory(
     _window: Single<&mut Window>,
     mut selected_recruit_for_equipment: ResMut<SelectedRecruitForEquipment>,
     mut player_stats: ResMut<PlayerStats>,
+    mut item_change_history: ResMut<ItemChangeHistory>,
 ) {
     // let mut window = windows.single_mut();
 
@@ -36,6 +39,7 @@ pub fn select_item_in_inventory(
                         &mut selected_recruit_for_equipment,
                         item,
                         &mut player_stats,
+                        &mut item_change_history,
                     );
                     if is_recruit_equiped {
                         match item {

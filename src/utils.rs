@@ -7,7 +7,7 @@ use crate::{
             TutoMessagesModalVisible,
         },
         missions::{ItemLootEnum, MissionReport, MissionReports, Missions},
-        player_stats::PlayerStats,
+        player_stats::{ItemChangeHistory, PlayerStats},
         recruits::{
             RecruitInventory, RecruitStats, SelectedRecruitForEquipment, SelectedRecruitForMission,
         },
@@ -240,6 +240,7 @@ pub fn equip_recruit_inventory(
     selected_recruit_for_equipment: &mut ResMut<SelectedRecruitForEquipment>,
     item: &ItemEnum,
     player_stats: &mut ResMut<PlayerStats>,
+    item_change_history: &mut ResMut<ItemChangeHistory>,
 ) -> bool {
     match item {
         ItemEnum::Weapon(_weapon) => {
@@ -255,7 +256,10 @@ pub fn equip_recruit_inventory(
             if let Some(recruit_id) = selected_recruit_for_equipment_id {
                 // If the recruit already has a weapon, we put it back in the player inventory
                 if let Some(weapon_already_equipped) = selected_recruit_for_equipment_weapon {
-                    player_stats.add_item(ItemEnum::Weapon(weapon_already_equipped));
+                    player_stats.add_item(
+                        ItemEnum::Weapon(weapon_already_equipped),
+                        item_change_history,
+                    );
                 }
 
                 // In all cases we ->
@@ -266,7 +270,7 @@ pub fn equip_recruit_inventory(
                 selected_recruit_for_equipment.0 = player_stats.get_recruit_by_id(recruit_id);
 
                 // Remove the item from the player inventory
-                player_stats.remove_item(item);
+                player_stats.remove_item(item, item_change_history);
 
                 return true;
             }
@@ -285,19 +289,19 @@ pub fn equip_recruit_inventory(
                         .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
                     selected_recruit_for_equipment.0 =
                         player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
-                    player_stats.remove_item(item);
+                    player_stats.remove_item(item, item_change_history);
                     return true;
                 }
 
                 if selected_recruit_for_equipment_armor.is_some() {
                     let selected_recruit_for_equipment_item =
                         ItemEnum::Armor(selected_recruit_for_equipment_armor.clone().unwrap());
-                    player_stats.add_item(selected_recruit_for_equipment_item);
+                    player_stats.add_item(selected_recruit_for_equipment_item, item_change_history);
                     player_stats
                         .equip_item_to_recruit(selected_recruit_for_equipment_id.unwrap(), item);
                     selected_recruit_for_equipment.0 =
                         player_stats.get_recruit_by_id(selected_recruit_for_equipment_id.unwrap());
-                    player_stats.remove_item(item);
+                    player_stats.remove_item(item, item_change_history);
                     return true;
                 }
             }

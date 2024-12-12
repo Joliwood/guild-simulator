@@ -1,4 +1,6 @@
 #![allow(dead_code)]
+use uuid::Uuid;
+
 use crate::structs::equipments::{BonusEnum, Scroll};
 
 #[allow(clippy::enum_variant_names)]
@@ -45,6 +47,7 @@ impl ScrollsEnum {
         match self {
             ScrollsEnum::ScrollOfRawAttackI => Scroll {
                 id: 1,
+                uuid: Uuid::new_v4(),
                 image_atlas_index: 0,
                 name: t!("scroll1_name").to_string(),
                 price: 5,
@@ -53,6 +56,7 @@ impl ScrollsEnum {
             },
             ScrollsEnum::ScrollOfTheMiserI => Scroll {
                 id: 2,
+                uuid: Uuid::new_v4(),
                 image_atlas_index: 1,
                 name: t!("scroll2_name").to_string(),
                 price: 5,
@@ -61,6 +65,7 @@ impl ScrollsEnum {
             },
             ScrollsEnum::ScrollOfTheResearcherI => Scroll {
                 id: 3,
+                uuid: Uuid::new_v4(),
                 image_atlas_index: 2,
                 name: t!("scroll3_name").to_string(),
                 price: 5,
@@ -69,6 +74,7 @@ impl ScrollsEnum {
             },
             ScrollsEnum::ScrollOfExperienceI => Scroll {
                 id: 4,
+                uuid: Uuid::new_v4(),
                 image_atlas_index: 3,
                 name: t!("scroll4_name").to_string(),
                 price: 5,
@@ -77,6 +83,7 @@ impl ScrollsEnum {
             },
             ScrollsEnum::ScrollOfReinforcementI => Scroll {
                 id: 5,
+                uuid: Uuid::new_v4(),
                 image_atlas_index: 4,
                 name: t!("scroll5_name").to_string(),
                 price: 5,
@@ -85,6 +92,7 @@ impl ScrollsEnum {
             },
             ScrollsEnum::ScrollOfNaturalGrowthI => Scroll {
                 id: 6,
+                uuid: Uuid::new_v4(),
                 image_atlas_index: 5,
                 name: t!("scroll6_name").to_string(),
                 price: 5,
@@ -93,6 +101,7 @@ impl ScrollsEnum {
             },
             ScrollsEnum::ScrollOfGaladornFailedPower => Scroll {
                 id: 7,
+                uuid: Uuid::new_v4(),
                 image_atlas_index: 6,
                 name: t!("scroll7_name").to_string(),
                 price: 25,
@@ -101,6 +110,7 @@ impl ScrollsEnum {
             },
             ScrollsEnum::ScrollOfRawNaturalDefense => Scroll {
                 id: 8,
+                uuid: Uuid::new_v4(),
                 image_atlas_index: 7,
                 name: t!("scroll8_name").to_string(),
                 price: 7,

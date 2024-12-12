@@ -22,7 +22,6 @@ pub fn calculate_total_apparition_chance(list: &[u16]) -> u16 {
     return total;
 }
 
-#[allow(dead_code)]
 #[derive(Debug, Clone, PartialEq)]
 pub enum ImpactAction<T> {
     Add(T),

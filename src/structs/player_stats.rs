@@ -7,9 +7,13 @@ use super::{
     recruits::RecruitStats,
 };
 use crate::{
-    content::recruits::RecruitEnum,
+    content::{
+        equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum},
+        recruits::RecruitEnum,
+    },
     enums::{RecruitStateEnum, RoomEnum},
 };
+use bevy::ecs::event::EventWriter;
 use bevy::prelude::*;
 use uuid::Uuid;
 
@@ -184,11 +188,11 @@ impl Default for PlayerStats {
             golds: 0,
             guild_level: 1,
             inventory: vec![
+                ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
                 // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
-                // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
-                // ItemEnum::Armor(ArmorsEnum::LeatherTunic.get_armor()),
-                // ItemEnum::Armor(ArmorsEnum::LeatherTunic.get_armor()),
-                // ItemEnum::Scroll(ScrollsEnum::ScrollOfRawAttackI.get_scroll(), 2),
+                ItemEnum::Armor(ArmorsEnum::LeatherTunic.get_armor()),
+                ItemEnum::Armor(ArmorsEnum::LeatherTunic.get_armor()),
+                ItemEnum::Scroll(ScrollsEnum::ScrollOfRawAttackI.get_scroll(), 2),
                 // ItemEnum::Scroll(ScrollsEnum::ScrollOfGaladornFailedPower.get_scroll(), 2),
             ],
             max_experience: 100,
@@ -209,9 +213,41 @@ impl Default for PlayerStats {
     }
 }
 
+// WIP - Peut être je devrai mettre un vec au cas où ça ne prendrait pas en compte les loots multiples
+#[derive(Default, Resource)]
+pub struct ItemChangeHistory(pub Option<ItemChangeEnum>);
+
+#[derive(Debug, Clone, PartialEq)]
+pub enum ItemChangeEnum {
+    Add(Uuid),
+    Update(Uuid),
+    Remove(Uuid),
+}
+
 pub const SKIP_TUTO: bool = false;
 
 impl PlayerStats {
+    // WIP
+    // pub fn apply_item_change(&mut self, item_change: ItemChangeEnum) {
+    //     match item_change {
+    //         ItemChangeEnum::Add(uuid) => {
+    //             if let Some(item) = item {
+    //                 self.add_item(item);
+    //             }
+    //         }
+    //         ItemChangeEnum::Update(uuid) => {
+    //             if let Some(item) = item {
+    //                 self.equip_item_to_recruit(Uuid::new_v4(), &item);
+    //             }
+    //         }
+    //         ItemChangeEnum::Remove(uuid) => {
+    //             if let Some(item) = item {
+    //                 self.remove_item(&item);
+    //             }
+    //         }
+    //     }
+    // }
+
     pub fn increment_golds(&mut self, amount: i32) {
         self.golds += amount;
         if self.golds < 0 {
@@ -248,10 +284,15 @@ impl PlayerStats {
         return None;
     }
 
-    pub fn add_item(&mut self, item: ItemEnum) {
-        match item {
+    pub fn add_item(
+        &mut self,
+        item: ItemEnum,
+        item_change_history: &mut ResMut<ItemChangeHistory>,
+    ) {
+        match item.clone() {
             ItemEnum::Scroll(scroll, quantity) => {
                 let scroll_id = scroll.id;
+                let scroll_uuid = scroll.uuid;
                 if self.inventory.iter().any(|item| match item {
                     ItemEnum::Scroll(scroll, _) => scroll.id == scroll_id,
                     _ => false,
@@ -266,19 +307,30 @@ impl PlayerStats {
                 } else {
                     self.inventory.push(ItemEnum::Scroll(scroll, quantity));
                 }
+                item_change_history.0 = Some(ItemChangeEnum::Add(scroll_uuid));
             }
-            _ => {
+            item => {
                 if self.inventory.len() < self.max_inventory_size {
-                    self.inventory.push(item);
+                    self.inventory.push(item.clone());
                 }
+
+                item_change_history.0 = Some(ItemChangeEnum::Add(item.get_uuid()));
             }
         }
+
+        // WIP
+        // self.apply_item_change(ItemChangeEnum::Add(Uuid::new_v4()), Some(item));
     }
 
-    pub fn remove_item(&mut self, item: &ItemEnum) {
+    pub fn remove_item(
+        &mut self,
+        item: &ItemEnum,
+        item_change_history: &mut ResMut<ItemChangeHistory>,
+    ) {
         if let Some(item_index) = self.inventory.iter().position(|i| i == item) {
             self.inventory.remove(item_index);
         }
+        item_change_history.0 = Some(ItemChangeEnum::Remove(item.get_uuid()));
     }
 
     pub fn get_recruit_by_id(&self, id: Uuid) -> Option<RecruitStats> {
@@ -350,6 +402,7 @@ impl PlayerStats {
         &mut self,
         answer: &Answer,
         notification_count: &mut ResMut<NotificationCount>,
+        item_change_history: &mut ResMut<ItemChangeHistory>,
     ) {
         if let Some(experience_impact) = &answer.experience_impact {
             self.gain_xp(*experience_impact);
@@ -374,8 +427,8 @@ impl PlayerStats {
         if let Some(equipment_impact) = &answer.equipment_impact {
             for impact_action in equipment_impact {
                 match impact_action {
-                    ImpactAction::Add(item) => self.add_item(item.clone()),
-                    ImpactAction::Remove(item) => self.remove_item(item),
+                    ImpactAction::Add(item) => self.add_item(item.clone(), item_change_history),
+                    ImpactAction::Remove(item) => self.remove_item(item, item_change_history),
                 }
             }
 
@@ -387,5 +440,13 @@ impl PlayerStats {
         if let Some(recruit_index) = self.recruits.iter().position(|recruit| recruit.id == id) {
             self.recruits.remove(recruit_index);
         }
+    }
+
+    pub fn get_item_by_uuid(&self, uuid: &Uuid) -> Option<ItemEnum> {
+        if let Some(item) = self.inventory.iter().find(|item| item.get_uuid() == *uuid) {
+            return Some(item.clone());
+        }
+
+        return None;
     }
 }

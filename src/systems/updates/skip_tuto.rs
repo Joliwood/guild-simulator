@@ -1,7 +1,11 @@
-use crate::structs::{
-    general_structs::TutoMessagesModalVisible,
-    player_stats::{PlayerStats, TutoMessages},
-    trigger_structs::SkipTutoMessageTrigger,
+use crate::{
+    content::equipments::weapons::WeaponsEnum,
+    structs::{
+        equipments::ItemEnum,
+        general_structs::TutoMessagesModalVisible,
+        player_stats::{PlayerStats, TutoMessages},
+        trigger_structs::SkipTutoMessageTrigger,
+    },
 };
 use bevy::prelude::*;
 
