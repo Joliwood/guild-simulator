@@ -196,7 +196,7 @@ pub fn generate_all_missions() -> Missions {
             level: 3,
             name: "mission6_name".to_string(),
             percent_of_victory: None,
-            recruit_send: Some(Uuid::new_v4()),
+            recruit_send: None,
             ennemy: Ennemy {
                 image_atlas_index: 3,
                 experience: 0,
@@ -205,7 +205,7 @@ pub fn generate_all_missions() -> Missions {
                 attack: 42,
                 defense: 8,
             },
-            unlocked: true,
+            unlocked: false,
             description: "mission6_desc".to_string(),
             golds: 50,
             loots: Loots(vec![

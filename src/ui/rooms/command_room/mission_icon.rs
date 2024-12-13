@@ -1,5 +1,6 @@
 use crate::{
     custom_components::get_mission_position,
+    enums::ColorPaletteEnum,
     my_assets::{get_mission_image, FONT_FIRA},
     structs::{general_structs::UniqueId, missions::Mission},
 };
@@ -16,7 +17,6 @@ pub fn mission_icon(my_assets: &Res<AssetServer>, parent: &mut ChildBuilder, mis
     let mission_position = get_mission_position(mission.id);
     let mission_image_path = get_mission_image(mission.id);
 
-    // if mission.recruit_send.is_none() {
     parent
         .spawn((
             Button,
@@ -60,6 +60,85 @@ pub fn mission_icon(my_assets: &Res<AssetServer>, parent: &mut ChildBuilder, mis
                 GlobalZIndex(1),
             ));
 
+            // Mission name
+            parent.spawn((
+                Text::new(t!(&mission.name).to_string()),
+                TextFont {
+                    font: my_assets.load(FONT_FIRA),
+                    font_size: 11.0,
+                    ..default()
+                },
+                TextLayout {
+                    justify: JustifyText::Center,
+                    ..default()
+                },
+                Node {
+                    position_type: PositionType::Absolute,
+                    display: Display::Flex,
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
+                    width: Val::Px(130.),
+                    top: Val::Px(6.3),
+                    ..default()
+                },
+                TextColor(Color::BLACK),
+                GlobalZIndex(3),
+            ));
+
+            // Attack of the mission ennemy
+            parent.spawn((
+                Text::new(mission.ennemy.attack.to_string()),
+                TextFont {
+                    font: my_assets.load(FONT_FIRA),
+                    font_size: 11.0,
+                    ..default()
+                },
+                TextLayout {
+                    justify: JustifyText::Center,
+                    ..default()
+                },
+                Node {
+                    position_type: PositionType::Absolute,
+                    width: Val::Px(25.),
+                    display: Display::Flex,
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
+                    bottom: Val::Px(10.),
+                    right: Val::Px(67.5),
+
+                    ..default()
+                },
+                TextColor(ColorPaletteEnum::SunnyLight.as_color()),
+                GlobalZIndex(3),
+            ));
+
+            // Defense of the mission ennemy
+            parent.spawn((
+                Text::new(mission.ennemy.defense.to_string()),
+                TextFont {
+                    font: my_assets.load(FONT_FIRA),
+                    font_size: 11.0,
+                    ..default()
+                },
+                TextLayout {
+                    justify: JustifyText::Center,
+                    ..default()
+                },
+                Node {
+                    position_type: PositionType::Absolute,
+                    display: Display::Flex,
+                    width: Val::Px(25.),
+                    justify_content: JustifyContent::Center,
+                    align_items: AlignItems::Center,
+                    bottom: Val::Px(10.),
+                    left: Val::Px(65.),
+                    ..default()
+                },
+                TextColor(ColorPaletteEnum::SunnyLight.as_color()),
+                GlobalZIndex(3),
+            ));
+
+            // For mission if recruit is already sent (triggered by an updater)
             parent
                 .spawn((
                     ImageNode {

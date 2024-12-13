@@ -68,7 +68,7 @@ pub fn mission_order_modal(
                     BorderRadius::all(Val::Px(20.0)),
                     BorderColor(Color::BLACK),
                     BackgroundColor(WOOD_COLOR),
-                    GlobalZIndex(3),
+                    GlobalZIndex(4),
                 ))
                 .insert(Name::new("Mission details modal"))
                 .insert(MissionModalContentTrigger)
