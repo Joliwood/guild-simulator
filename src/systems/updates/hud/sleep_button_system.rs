@@ -96,6 +96,9 @@ pub fn sleep_button_system(
                     &mut player_stats,
                 );
                 day_time.reset();
+
+                player_stats.heal_all_injured_recruits();
+
                 border_color.0 = Color::NONE;
             }
             Interaction::Hovered => {

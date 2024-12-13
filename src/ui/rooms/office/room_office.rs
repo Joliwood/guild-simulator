@@ -22,6 +22,7 @@ pub fn room_office(
 ) {
     commands
         .spawn((
+            Name::new("Office room"),
             ImageNode {
                 image: my_assets.load("images/rooms/office/office_v4.png"),
                 ..default()
@@ -36,9 +37,8 @@ pub fn room_office(
             },
             GlobalZIndex(-1),
             RoomTag(RoomEnum::Office),
+            ResetRoomTrigger,
         ))
-        .insert(Name::new("Office room"))
-        .insert(ResetRoomTrigger)
         // Nested image background node
         .with_children(|desk_container: &mut ChildBuilder| {
             desk_container

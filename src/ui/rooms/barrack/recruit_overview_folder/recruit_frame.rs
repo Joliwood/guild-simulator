@@ -42,6 +42,7 @@ pub fn recruit_frame(
 
     parent
         .spawn((
+            Name::new("Barrack > recruit overview > recruit frame"),
             ImageNode {
                 image: my_assets.load("images/rooms/barrack/recruit_frame.png"),
                 ..default()
@@ -54,7 +55,6 @@ pub fn recruit_frame(
             GlobalZIndex(2),
             RecruitOverviewChildTrigger,
         ))
-        .insert(Name::new("Barrack > recruit overview > recruit frame"))
         .with_children(|parent| {
             // if let Some(selected_recruit_for_equipment_data) = selected_recruit_for_equipment {
             parent.spawn((

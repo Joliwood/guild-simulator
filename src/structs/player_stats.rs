@@ -185,7 +185,7 @@ impl Default for PlayerStats {
         Self {
             day: 1,
             experience: 0,
-            golds: 0,
+            golds: 30,
             guild_level: 1,
             inventory: vec![
                 // ItemEnum::Weapon(WeaponsEnum::MagicToothpick.get_weapon()),
@@ -195,7 +195,7 @@ impl Default for PlayerStats {
                 // ItemEnum::Scroll(ScrollsEnum::ScrollOfRawAttackI.get_scroll(), 2),
                 // ItemEnum::Scroll(ScrollsEnum::ScrollOfGaladornFailedPower.get_scroll(), 2),
             ],
-            max_experience: 100,
+            max_experience: 1000,
             max_inventory_size: 50,
             recruits: vec![
                 // RecruitEnum::Hubert.get_recruit(),
@@ -400,6 +400,14 @@ impl PlayerStats {
     pub fn remove_recruit_by_id(&mut self, id: Uuid) {
         if let Some(recruit_index) = self.recruits.iter().position(|recruit| recruit.id == id) {
             self.recruits.remove(recruit_index);
+        }
+    }
+
+    pub fn heal_all_injured_recruits(&mut self) {
+        for recruit in self.recruits.iter_mut() {
+            if recruit.state == RecruitStateEnum::Injured {
+                recruit.state = RecruitStateEnum::Available;
+            }
         }
     }
 }

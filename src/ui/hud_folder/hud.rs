@@ -27,6 +27,7 @@ pub fn hud(
     commands
         // Main Container
         .spawn((
+            Name::new("HUD"),
             ImageNode {
                 image: my_assets.load("images/hud/hud4.png"),
                 ..default()
@@ -42,7 +43,6 @@ pub fn hud(
             },
             GlobalZIndex(3),
         ))
-        .insert(Name::new("HUD"))
         // Left Container
         .with_children(|parent| {
             left_hud(
@@ -54,21 +54,23 @@ pub fn hud(
 
             // Middle Container
             parent
-                .spawn(Node {
-                    display: Display::Flex,
-                    flex_direction: FlexDirection::Row,
-                    justify_content: JustifyContent::SpaceAround,
-                    align_items: AlignItems::Center,
-                    height: Val::Px(35.0),
-                    width: Val::Px(165.0),
-                    margin: UiRect {
-                        right: Val::Px(2.),
+                .spawn((
+                    Name::new("HUD > Middle Container"),
+                    Node {
+                        display: Display::Flex,
+                        flex_direction: FlexDirection::Row,
+                        justify_content: JustifyContent::SpaceAround,
+                        align_items: AlignItems::Center,
+                        height: Val::Px(35.0),
+                        width: Val::Px(165.0),
+                        margin: UiRect {
+                            right: Val::Px(2.),
+                            ..default()
+                        },
+                        column_gap: Val::Px(7.),
                         ..default()
                     },
-                    column_gap: Val::Px(7.),
-                    ..default()
-                })
-                .insert(Name::new("Middle Container"))
+                ))
                 .with_children(|middle_container| {
                     middle_container
                         .spawn((

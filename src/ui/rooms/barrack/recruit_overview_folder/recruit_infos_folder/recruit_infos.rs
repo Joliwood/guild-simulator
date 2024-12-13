@@ -18,6 +18,7 @@ pub fn recruit_infos(
 ) {
     parent
         .spawn((
+            Name::new("Barrack > recruit overview > recruit infos"),
             ImageNode {
                 image: my_assets.load("images/rooms/barrack/inventory_container.png"),
                 ..default()
@@ -39,7 +40,6 @@ pub fn recruit_infos(
             GlobalZIndex(2),
             RecruitOverviewChildTrigger,
         ))
-        .insert(Name::new("Barrack > recruit overview > recruit infos"))
         .with_children(|parent| {
             // Top container (holds Weapons and Armor buttons)
             parent

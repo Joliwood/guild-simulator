@@ -16,6 +16,7 @@ pub fn map_recruit_card(
 
     left_container
         .spawn((
+            Name::new("map_recruit_button"),
             Button,
             ImageNode {
                 image: my_assets.load("images/rooms/command_room/recruit_card_4.png"),
@@ -48,13 +49,13 @@ pub fn map_recruit_card(
                 should_block_lower: false,
                 ..default()
             },
-            Name::new("map_recruit_button"),
         ))
         .insert((UniqueId("map_recruit_button".to_string()), recruit.clone()))
         .with_children(|parent| {
             // Add an overlay if the recruit is in a mission
             if recruit.state == RecruitStateEnum::InMission
                 || recruit.state == RecruitStateEnum::WaitingReportSignature
+                || recruit.state == RecruitStateEnum::Injured
             {
                 parent
                     .spawn((
@@ -72,13 +73,13 @@ pub fn map_recruit_card(
                             },
                             ..default()
                         },
-                        GlobalZIndex(1),
                         BorderRadius::all(Val::Px(10.)),
                         BackgroundColor(Color::srgba(0.0, 0.0, 0.0, 0.8)),
                         PickingBehavior {
                             should_block_lower: false,
                             ..default()
                         },
+                        GlobalZIndex(4),
                     ))
                     .with_children(|overlay| {
                         overlay.spawn((
@@ -217,6 +218,7 @@ pub fn map_recruit_card(
                     ));
                 });
 
+            // Recruit picture
             button
                 .spawn((
                     Node {
@@ -248,7 +250,7 @@ pub fn map_recruit_card(
                             position_type: PositionType::Absolute,
                             right: Val::Px(0.),
                             width: Val::Percent(100.),
-                            height: Val::Px(60. * 2.),
+                            height: Val::Px(65. * 2.),
                             ..default()
                         },
                         GlobalZIndex(2),

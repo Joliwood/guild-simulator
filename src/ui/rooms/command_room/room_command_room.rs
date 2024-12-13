@@ -28,6 +28,7 @@ pub fn room_command_room(
 
     commands
         .spawn((
+            Name::new("Command room"),
             Node {
                 width: Val::Vw(100.),
                 height: Val::Vh(100.),
@@ -37,9 +38,8 @@ pub fn room_command_room(
                 ..default()
             },
             RoomTag(RoomEnum::CommandRoom),
+            ResetRoomTrigger,
         ))
-        .insert(Name::new("Command room"))
-        .insert(ResetRoomTrigger)
         // Background ImageNode for the Command Room
         .with_children(|ui_container: &mut ChildBuilder| {
             ui_container.spawn((

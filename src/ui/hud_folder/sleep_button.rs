@@ -77,7 +77,6 @@ pub fn sleep_button(
                 TextColor(Color::WHITE),
                 PlayerDayTrigger,
             ));
-            // .insert(PlayerDayTrigger);
 
             // Progress bar
             parent.spawn((

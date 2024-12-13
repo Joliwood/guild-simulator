@@ -59,7 +59,7 @@ impl ArmorsEnum {
                 id: 3,
                 image_atlas_index: 2,
                 name: t!("armor3_name").to_string(),
-                optimized_for: (vec![ClassEnum::Mage], (5)),
+                optimized_for: (vec![ClassEnum::Mage], (15)),
                 defense: Some(4),
                 price: 10,
                 rarety: ItemRaretyEnum::Common,

@@ -58,6 +58,7 @@ pub fn recruit_card(
             // Add an overlay if the recruit is in a mission
             if recruit.state == RecruitStateEnum::InMission
                 || recruit.state == RecruitStateEnum::WaitingReportSignature
+                || recruit.state == RecruitStateEnum::Injured
             {
                 parent
                     .spawn((

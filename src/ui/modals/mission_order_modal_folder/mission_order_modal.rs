@@ -52,6 +52,7 @@ pub fn mission_order_modal(
         if let Some(mission) = missions.get_mission_by_id(&selected_mission.mission_id.unwrap()) {
             commands
                 .spawn((
+                    Name::new("Mission details modal"),
                     Node {
                         position_type: PositionType::Absolute,
                         align_items: AlignItems::Center,
@@ -69,9 +70,8 @@ pub fn mission_order_modal(
                     BorderColor(Color::BLACK),
                     BackgroundColor(WOOD_COLOR),
                     GlobalZIndex(4),
+                    MissionModalContentTrigger,
                 ))
-                .insert(Name::new("Mission details modal"))
-                .insert(MissionModalContentTrigger)
                 .with_children(|parent| {
                     parent.spawn((
                         Button,

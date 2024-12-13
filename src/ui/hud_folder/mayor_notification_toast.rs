@@ -24,6 +24,7 @@ pub fn mayor_notification_toast(
     if tuto_message_available > 0 && tuto_messages.get_first_tuto_message().is_some() {
         commands
             .spawn((
+                Name::new("---> Notification toast"),
                 Button,
                 Node {
                     position_type: PositionType::Absolute,
@@ -52,7 +53,6 @@ pub fn mayor_notification_toast(
                     image: my_assets.load("images/tuto/mayor_notification_frame.png"),
                     ..default()
                 },
-                Name::new("---> Notification toast"),
                 NotificationToastTrigger,
                 GlobalZIndex(5),
             ))

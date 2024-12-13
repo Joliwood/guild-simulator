@@ -12,6 +12,7 @@ pub fn daily_event_documents(
 
     elements_on_desk
         .spawn((
+            Name::new("Daily event documents"),
             Button,
             Node {
                 position_type: PositionType::Absolute,
@@ -20,7 +21,6 @@ pub fn daily_event_documents(
                 ..default()
             },
             DailyEventTrigger,
-            Name::new("Daily event documents"),
         ))
         .with_children(|mission_report_button| {
             mission_report_button

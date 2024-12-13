@@ -27,6 +27,7 @@ pub fn select_recruit_for_mission_button(
         if unique_id.0 == "map_recruit_button"
             && recruit_state != RecruitStateEnum::InMission
             && recruit_state != RecruitStateEnum::WaitingReportSignature
+            && recruit_state != RecruitStateEnum::Injured
         {
             match *interaction {
                 Interaction::Pressed => {

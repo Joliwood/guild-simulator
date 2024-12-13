@@ -1,7 +1,5 @@
 #![allow(dead_code)]
 
-use uuid::Uuid;
-
 use super::equipments::{armors::ArmorsEnum, scrolls::ScrollsEnum, weapons::WeaponsEnum};
 use crate::structs::{
     general_structs::Ennemy,
@@ -191,7 +189,7 @@ pub fn generate_all_missions() -> Missions {
         },
         Mission {
             days_left: Some(1),
-            days: 1,
+            days: 2,
             id: 6,
             level: 3,
             name: "mission6_name".to_string(),

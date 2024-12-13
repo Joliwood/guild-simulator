@@ -92,8 +92,11 @@ pub fn sign_mission_report(
                 } else {
                     let random_number_from_0_to_100 = rand::thread_rng().gen_range(1..=100);
                     if random_number_from_0_to_100 < 25 {
-                        // The recruit die
-                        player_stats.remove_recruit_by_id(recruit_id);
+                        // The recruit has 25% chance to be injured if he fails the mission
+                        player_stats.update_state_of_recruit(
+                            mission_report.recruit_id,
+                            RecruitStateEnum::Injured,
+                        );
                         play_sound(&my_assets, &mut commands, SoundEnum::DeadMale);
                     }
                 }
