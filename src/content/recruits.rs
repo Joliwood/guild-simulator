@@ -39,7 +39,7 @@ impl RecruitEnum {
                 name: "Hubert".to_string(),
                 recruit_inventory: RecruitInventory::default(),
                 state: RecruitStateEnum::Available,
-                attack: 700,
+                attack: 7,
                 defense: 2,
             },
             RecruitEnum::BigNoob => RecruitStats {

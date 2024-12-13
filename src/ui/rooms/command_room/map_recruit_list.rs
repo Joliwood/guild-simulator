@@ -6,7 +6,6 @@ use crate::{
 };
 use bevy::prelude::*;
 
-// WIP
 #[derive(Component)]
 pub struct UpdateMapRecruitListParentTrigger;
 
@@ -32,11 +31,12 @@ pub fn map_recruit_list(
                 row_gap: Val::Px(5.0),
                 align_items: AlignItems::Center,
                 width: Val::Percent(100.),
-                height: Val::Percent(100.),
+                height: Val::Auto,
                 padding: UiRect {
                     left: Val::Px(2.),
                     ..default()
                 },
+                overflow: Overflow::scroll_y(),
                 ..default()
             },
             UpdateMapRecruitListParentTrigger,

@@ -39,7 +39,6 @@ impl ArmorsEnum {
         match self {
             ArmorsEnum::UsedLeatherToga => Armor {
                 id: 1,
-                uuid: Uuid::new_v4(),
                 image_atlas_index: 0,
                 name: t!("armor1_name").to_string(),
                 defense: Some(4),
@@ -49,7 +48,6 @@ impl ArmorsEnum {
             },
             ArmorsEnum::ApprenticeCoat => Armor {
                 id: 2,
-                uuid: Uuid::new_v4(),
                 image_atlas_index: 1,
                 name: t!("armor2_name").to_string(),
                 defense: Some(6),
@@ -59,7 +57,6 @@ impl ArmorsEnum {
             },
             ArmorsEnum::RecycledMagicianRobe => Armor {
                 id: 3,
-                uuid: Uuid::new_v4(),
                 image_atlas_index: 2,
                 name: t!("armor3_name").to_string(),
                 optimized_for: (vec![ClassEnum::Mage], (5)),
@@ -70,7 +67,6 @@ impl ArmorsEnum {
             },
             ArmorsEnum::LeatherTunic => Armor {
                 id: 4,
-                uuid: Uuid::new_v4(),
                 image_atlas_index: 3,
                 name: t!("armor4_name").to_string(),
                 optimized_for: (vec![ClassEnum::Hunter, ClassEnum::Rogue], (3)),
@@ -81,7 +77,6 @@ impl ArmorsEnum {
             },
             ArmorsEnum::MakeshiftVest => Armor {
                 id: 5,
-                uuid: Uuid::new_v4(),
                 image_atlas_index: 4,
                 name: t!("armor5_name").to_string(),
                 defense: Some(5),
@@ -91,7 +86,6 @@ impl ArmorsEnum {
             },
             ArmorsEnum::TravelToga => Armor {
                 id: 6,
-                uuid: Uuid::new_v4(),
                 image_atlas_index: 5,
                 name: t!("armor6_name").to_string(),
                 defense: Some(7),

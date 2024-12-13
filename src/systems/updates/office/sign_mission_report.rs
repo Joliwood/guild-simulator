@@ -5,7 +5,7 @@ use crate::{
         general_structs::{MissionReportsModalVisible, NotificationCount, TutoDoneModalVisible},
         maps::Maps,
         missions::{MissionReport, MissionReports, Missions},
-        player_stats::{ItemChangeHistory, PlayerStats},
+        player_stats::PlayerStats,
         trigger_structs::MissionReportModalSignButtonTrigger,
     },
 };
@@ -34,7 +34,6 @@ pub fn sign_mission_report(
     mut maps: ResMut<Maps>,
     mut notification_count: ResMut<NotificationCount>,
     mut tuto_done_modal_visibility: ResMut<TutoDoneModalVisible>,
-    mut item_change_history: ResMut<ItemChangeHistory>,
 ) {
     let _window = windows.single_mut();
 
@@ -67,7 +66,7 @@ pub fn sign_mission_report(
                     missions.unlock_missions_by_mission_id(mission_id);
 
                     for loot in mission_report.loots.iter() {
-                        player_stats.add_item(loot.clone(), &mut item_change_history);
+                        player_stats.add_item(loot.clone());
                     }
                     player_stats.stats.golds_earned += mission_report.golds_gained.unwrap();
                     player_stats.stats.mission_completed += 1;

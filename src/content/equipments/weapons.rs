@@ -1,5 +1,4 @@
 #![allow(dead_code)]
-use uuid::Uuid;
 
 use crate::{
     enums::{ClassEnum, ItemRaretyEnum},
@@ -40,7 +39,6 @@ impl WeaponsEnum {
         match self {
             WeaponsEnum::WoodenSword => Weapon {
                 id: 1,
-                uuid: Uuid::new_v4(),
                 image_atlas_index: 0,
                 name: t!("weapon1_name").to_string(),
                 price: 10,
@@ -51,7 +49,6 @@ impl WeaponsEnum {
             },
             WeaponsEnum::BowWithoutString => Weapon {
                 id: 2,
-                uuid: Uuid::new_v4(),
                 image_atlas_index: 1,
                 name: t!("weapon2_name").to_string(),
                 price: 2,
@@ -62,17 +59,15 @@ impl WeaponsEnum {
             },
             WeaponsEnum::LumberjackAxe => Weapon {
                 id: 3,
-                uuid: Uuid::new_v4(),
                 image_atlas_index: 2,
                 name: t!("weapon3_name").to_string(),
                 price: 5,
                 rarety: ItemRaretyEnum::Common,
-                attack: Some(6),
+                attack: Some(7),
                 ..Default::default()
             },
             WeaponsEnum::MagicToothpick => Weapon {
                 id: 4,
-                uuid: Uuid::new_v4(),
                 image_atlas_index: 3,
                 name: t!("weapon4_name").to_string(),
                 price: 2,
@@ -83,7 +78,6 @@ impl WeaponsEnum {
             },
             WeaponsEnum::UnsharpDagger => Weapon {
                 id: 5,
-                uuid: Uuid::new_v4(),
                 image_atlas_index: 4,
                 name: t!("weapon5_name").to_string(),
                 price: 4,
@@ -93,7 +87,6 @@ impl WeaponsEnum {
             },
             WeaponsEnum::WalkingStick => Weapon {
                 id: 6,
-                uuid: Uuid::new_v4(),
                 image_atlas_index: 5,
                 name: t!("weapon6_name").to_string(),
                 price: 4,

@@ -1,5 +1,9 @@
 use super::recruit_card::recruit_card;
-use crate::{enums::TextureAtlasLayoutEnum, structs::player_stats::PlayerStats, utils::get_layout};
+use crate::{
+    enums::{ColorPaletteEnum, TextureAtlasLayoutEnum},
+    structs::player_stats::PlayerStats,
+    utils::get_layout,
+};
 use bevy::prelude::*;
 
 #[derive(Component)]

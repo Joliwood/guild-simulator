@@ -15,12 +15,11 @@ mod utils;
 use bevy::text::FontSmoothing;
 use bevy::{prelude::*, window::WindowTheme};
 use bevy_dev_tools::fps_overlay::{FpsOverlayConfig, FpsOverlayPlugin};
-// use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_light_2d::plugin::Light2dPlugin;
 use content::constants::MAX_GAME_SECONDS;
 use enums::TextureAtlasLayoutEnum;
 use pyri_tooltip::prelude::*;
-use structs::player_stats::ItemChangeHistory;
 use structs::{
     daily_events_folder::daily_events::{DailyEventTargets, DailyEvents},
     general_structs::{
@@ -80,7 +79,7 @@ fn main() -> AppExit {
                 ..default()
             }),
             // AudioPlugin::default(),
-            // WorldInspectorPlugin::new(),
+            WorldInspectorPlugin::new(),
             Light2dPlugin,
             TooltipPlugin::default(),
             FpsOverlayPlugin {
@@ -117,7 +116,6 @@ fn main() -> AppExit {
         .insert_resource(DayTime::default())
         .insert_resource(NotificationCount::default())
         .insert_resource(TutoMessages::default())
-        .insert_resource(ItemChangeHistory::default())
         .add_systems(
             Startup,
             (

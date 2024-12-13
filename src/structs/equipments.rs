@@ -4,7 +4,6 @@ use crate::{
 };
 use bevy::prelude::Component;
 use serde::Deserialize;
-use uuid::Uuid;
 
 #[derive(Debug, Clone, Deserialize, Component, PartialEq, Eq, Hash)]
 pub enum ItemEnum {
@@ -14,14 +13,6 @@ pub enum ItemEnum {
 }
 
 impl ItemEnum {
-    pub fn get_uuid(&self) -> Uuid {
-        match self {
-            ItemEnum::Weapon(weapon) => return weapon.uuid,
-            ItemEnum::Armor(armor) => return armor.uuid,
-            ItemEnum::Scroll(scroll, _) => return scroll.uuid,
-        }
-    }
-
     pub fn get_atlas_index(&self) -> u16 {
         match self {
             ItemEnum::Weapon(weapon) => return weapon.image_atlas_index,
@@ -109,7 +100,6 @@ impl ItemEnum {
 #[derive(Default, Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub struct Weapon {
     pub id: u16,
-    pub uuid: Uuid,
     pub image_atlas_index: u16,
     pub name: String,
     pub price: u16,
@@ -122,7 +112,6 @@ pub struct Weapon {
 #[derive(Default, Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub struct Armor {
     pub id: u16,
-    pub uuid: Uuid,
     pub image_atlas_index: u16,
     pub name: String,
     pub price: u16,
@@ -135,7 +124,6 @@ pub struct Armor {
 #[derive(Default, Debug, Clone, Deserialize, Eq, PartialEq, Hash)]
 pub struct Scroll {
     pub id: u16,
-    pub uuid: Uuid,
     pub image_atlas_index: u16,
     pub name: String,
     pub price: u16,

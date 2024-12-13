@@ -26,9 +26,9 @@ pub fn recruit_card(
             Button,
             ImageNode {
                 image: my_assets.load("images/rooms/barrack/recruit_card_background.png"),
+                image_mode: NodeImageMode::Stretch,
                 ..default()
-            }
-            .with_mode(NodeImageMode::Stretch),
+            },
             Node {
                 display: Display::Flex,
                 flex_direction: FlexDirection::Row,
