@@ -1,12 +1,14 @@
 use crate::{
     my_assets::FONT_FIRA,
     structs::{
-        general_structs::TutoDoneModalVisible,
-        player_stats::PlayerStats,
-        trigger_structs::{CloseTutoMessageTrigger, TutoDoneCloseModalTrigger},
+        general_structs::TutoDoneModalVisible, player_stats::PlayerStats,
+        trigger_structs::TutoDoneCloseModalTrigger,
     },
 };
 use bevy::prelude::*;
+
+#[derive(Component)]
+pub struct CloseTutoDoneMessageTrigger;
 
 pub fn tuto_done_modal(
     mut commands: Commands,
@@ -122,7 +124,7 @@ pub fn tuto_done_modal(
                             ));
 
                             parent.spawn((
-                                Text::new(t!("tuto_done_desc_2")),
+                                Text::new(t!("tuto_done_desc_2", days = player_stats.day)),
                                 TextFont {
                                     font: my_assets.load(FONT_FIRA),
                                     font_size: 12.0,
@@ -153,7 +155,7 @@ pub fn tuto_done_modal(
                             width: Val::Px(110.),
                             ..default()
                         },
-                        CloseTutoMessageTrigger,
+                        CloseTutoDoneMessageTrigger,
                     ));
 
                     // Avatar of the mayor

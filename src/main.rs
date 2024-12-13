@@ -40,6 +40,7 @@ use structs::{
     },
 };
 use systems::updates::barrack::update_selected_recruit::update_selected_recruit;
+use systems::updates::close_tuto_message::close_tuto_done_message;
 use systems::updates::command_room::update_mission_icons::{
     update_mission_icons, update_unavailable_mission_icons,
 };
@@ -203,6 +204,7 @@ fn main() -> AppExit {
                     .run_if(resource_changed::<PlayerStats>),
                 update_map_recruit_list
                     .run_if(resource_changed::<PlayerStats>),
+                    close_tuto_done_message,
             )
         )
         .run()

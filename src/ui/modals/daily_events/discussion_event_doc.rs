@@ -54,7 +54,7 @@ pub fn discussion_event_doc(
                         position_type: PositionType::Absolute,
                         ..default()
                     },
-                    // GlobalZIndex(2),
+                    GlobalZIndex(3),
                     Name::new("Daily event document"),
                 ))
                 .with_children(|parent| {
@@ -105,7 +105,7 @@ pub fn discussion_event_doc(
                                     margin: UiRect::bottom(Val::Px(8.)),
                                     ..default()
                                 },
-                                GlobalZIndex(1),
+                                GlobalZIndex(2),
                             ));
 
                             // Description below the image
