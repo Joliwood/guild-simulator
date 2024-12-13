@@ -5,6 +5,8 @@ use crate::{
 };
 use bevy::{prelude::*, ui::widget::NodeImageMode};
 
+use super::map_recruit_list::UpdateMapRecruitListChildrenTrigger;
+
 pub fn map_recruit_card(
     left_container: &mut ChildBuilder,
     my_assets: &Res<AssetServer>,
@@ -46,6 +48,7 @@ pub fn map_recruit_card(
                 ..default()
             },
             GlobalZIndex(3),
+            UpdateMapRecruitListChildrenTrigger,
         ))
         .insert((UniqueId("map_recruit_button".to_string()), recruit.clone()))
         // .insert((

@@ -50,9 +50,11 @@ use systems::updates::{
     office::update_daily_event_documents::update_daily_event_documents, skip_tuto::skip_tuto,
 };
 use ui::rooms::barrack::inventory::build_inventory_grid::build_inventory_grid;
-use ui::rooms::barrack::inventory::spawn_inventory::{spawn_inventory, SpawnInventoryParentTrigger, SpawnInventoryTrigger};
+use ui::rooms::barrack::inventory::spawn_inventory::{SpawnInventoryParentTrigger, SpawnInventoryTrigger};
 use ui::rooms::barrack::recruits_list_folder::recruit_card::recruit_card;
 use ui::rooms::barrack::recruits_list_folder::recruits_list::{UpdateBarrackRecruitListChildrenTrigger, UpdateBarrackRecruitListParentTrigger};
+use ui::rooms::command_room::map_recruit_card::map_recruit_card;
+use ui::rooms::command_room::map_recruit_list::{UpdateMapRecruitListChildrenTrigger, UpdateMapRecruitListParentTrigger};
 use ui::{
     hud_folder::mayor_notification_toast::mayor_notification_toast,
     modals::{
@@ -60,7 +62,7 @@ use ui::{
         tuto_messages::tuto_message_modal::tuto_message_modal,
     },
 };
-use utils::get_layout;
+use utils::{get_layout, sort_recruits_by_total_power};
 
 fn main() -> AppExit {
     App::new()
@@ -196,6 +198,10 @@ fn main() -> AppExit {
                 update_selected_recruit
                     .run_if(resource_changed::<SelectedRecruitForEquipment>),
                 update_barrack_inventory
+                    .run_if(resource_changed::<PlayerStats>),
+                update_barrack_recruit_list
+                    .run_if(resource_changed::<PlayerStats>),
+                update_map_recruit_list
                     .run_if(resource_changed::<PlayerStats>),
             )
         )
@@ -354,6 +360,43 @@ pub fn update_barrack_recruit_list(
                     recruit,
                     recruit_texture_atlas_layout.clone(),
                     &mut texture_atlas_layouts,
+                );
+            }
+        });
+    }
+}
+
+// Fonction pour mettre à jour l'inventaire
+pub fn update_map_recruit_list(
+    mut commands: Commands,
+    player_stats: Res<PlayerStats>,
+    my_assets: Res<AssetServer>,
+    parent_query: Query<Entity, With<UpdateMapRecruitListParentTrigger>>,
+    childs_query: Query<Entity, With<UpdateMapRecruitListChildrenTrigger>>,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+) {
+    // Step 1: Find the parent entity
+    if let Some(parent_entity) = parent_query.iter().next() {
+        // Step 2: Despawn all children of the parent
+        for child in childs_query.iter() {
+            commands.entity(child).despawn_recursive();
+        }
+
+        let recruit_layout = get_layout(TextureAtlasLayoutEnum::Recruit);
+        let recruit_texture_atlas_layout: Handle<TextureAtlasLayout> =
+        texture_atlas_layouts.add(recruit_layout);
+
+        // Step 3: Recreate the inventory grid as children of the parent
+        commands.entity(parent_entity).with_children(|parent| {
+            let sorted_recruits = sort_recruits_by_total_power(player_stats.recruits.clone());
+
+            // Barrack room > left container > recruit buttons
+            for recruit in sorted_recruits.iter() {
+                map_recruit_card(
+                    parent,
+                    &my_assets,
+                    recruit,
+                    recruit_texture_atlas_layout.clone(),
                 );
             }
         });

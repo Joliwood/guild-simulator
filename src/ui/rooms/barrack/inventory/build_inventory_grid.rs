@@ -1,3 +1,4 @@
+use super::spawn_inventory::SpawnInventoryTrigger;
 use crate::{
     enums::TextureAtlasLayoutEnum,
     my_assets::{get_item_atlas_path, FONT_FIRA},
@@ -8,8 +9,6 @@ use crate::{
 };
 use bevy::{prelude::*, ui::widget::NodeImageMode};
 use pyri_tooltip::{Tooltip, TooltipActivation};
-
-use super::spawn_inventory::SpawnInventoryTrigger;
 
 pub fn build_inventory_grid(
     grid: &mut ChildBuilder,
@@ -62,10 +61,11 @@ pub fn build_inventory_grid(
                 Some(item) => ItemInInventoryTrigger(Some(item.clone())),
                 None => ItemInInventoryTrigger(None),
             },
-            // if let Some(item) = item {
-            Tooltip::cursor(tooltip_description).with_activation(TooltipActivation::IMMEDIATE),
-            // },
         ))
+        .insert_if(
+            Tooltip::cursor(tooltip_description).with_activation(TooltipActivation::IMMEDIATE),
+            || item.is_some(),
+        )
         .with_children(|button| {
             if let Some(ItemEnum::Scroll(_, count)) = item {
                 button.spawn((
