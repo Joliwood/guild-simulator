@@ -1,34 +1,41 @@
 use crate::{
-    structs::recruits::SelectedRecruitForEquipment,
-    ui::rooms::barrack::recruit_overview_folder::recruit_frame::{
-        RecruitFrameTextTrigger, RecruitFrameTrigger,
+    structs::{player_stats::PlayerStats, recruits::SelectedRecruitForEquipment},
+    ui::rooms::barrack::recruit_overview_folder::{
+        recruit_frame::recruit_frame,
+        recruit_infos_folder::recruit_infos::recruit_infos,
+        recruit_overview::{RecruitOverviewChildTrigger, RecruitOverviewParentTrigger},
     },
 };
 use bevy::prelude::*;
 
 pub fn update_selected_recruit(
+    player_stats: Res<PlayerStats>,
+    mut commands: Commands,
     selected_recruit_for_equipment: Res<SelectedRecruitForEquipment>,
-    mut query: Query<(&mut ImageNode, &mut RecruitFrameTrigger)>,
-    text_query: Single<Entity, (With<RecruitFrameTextTrigger>, With<Text>)>,
-    mut writer: TextUiWriter,
+    my_assets: Res<AssetServer>,
+    parent_query: Query<Entity, With<RecruitOverviewParentTrigger>>,
+    childs_query: Query<Entity, With<RecruitOverviewChildTrigger>>,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    if let Some(recruit) = &selected_recruit_for_equipment.0 {
-        *writer.text(*text_query, 0) = recruit.name.to_string();
-
-        for (mut image_node, _) in query.iter_mut() {
-            if selected_recruit_for_equipment.0.is_some() {
-                if let Some(texture_atlas) = &mut image_node.texture_atlas {
-                    texture_atlas.index = recruit.image_atlas_index.into();
-                }
-            }
+    if let Some(parent_entity) = parent_query.iter().next() {
+        for child in childs_query.iter() {
+            commands.entity(child).despawn_recursive();
         }
-    } else {
-        *writer.text(*text_query, 0) = "".to_string();
 
-        for (mut image_node, _) in query.iter_mut() {
-            if let Some(texture_atlas) = &mut image_node.texture_atlas {
-                texture_atlas.index = 4;
-            }
-        }
+        commands.entity(parent_entity).with_children(|parent| {
+            recruit_frame(
+                parent,
+                &my_assets,
+                &selected_recruit_for_equipment,
+                &mut texture_atlas_layouts,
+            );
+            recruit_infos(
+                parent,
+                &my_assets,
+                &selected_recruit_for_equipment,
+                &mut texture_atlas_layouts,
+                &player_stats,
+            )
+        });
     }
 }

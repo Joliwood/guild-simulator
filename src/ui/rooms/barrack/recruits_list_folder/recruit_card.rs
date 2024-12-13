@@ -8,7 +8,10 @@ use crate::{
 };
 use bevy::{prelude::*, ui::widget::NodeImageMode};
 
-use super::{recruit_attack::recruit_attack, recruit_defense::recruit_defense};
+use super::{
+    recruit_attack::recruit_attack, recruit_defense::recruit_defense,
+    recruits_list::UpdateBarrackRecruitListChildrenTrigger,
+};
 
 pub fn recruit_card(
     parent: &mut ChildBuilder,
@@ -44,6 +47,7 @@ pub fn recruit_card(
             },
             BorderColor(Color::BLACK),
             BorderRadius::all(Val::Px(10.)),
+            UpdateBarrackRecruitListChildrenTrigger,
         ))
         .insert(PickingBehavior {
             should_block_lower: false,

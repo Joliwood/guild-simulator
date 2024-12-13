@@ -18,6 +18,7 @@ use bevy_dev_tools::fps_overlay::{FpsOverlayConfig, FpsOverlayPlugin};
 // use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_light_2d::plugin::Light2dPlugin;
 use content::constants::MAX_GAME_SECONDS;
+use enums::TextureAtlasLayoutEnum;
 use pyri_tooltip::prelude::*;
 use structs::player_stats::ItemChangeHistory;
 use structs::{
@@ -50,6 +51,8 @@ use systems::updates::{
 };
 use ui::rooms::barrack::inventory::build_inventory_grid::build_inventory_grid;
 use ui::rooms::barrack::inventory::spawn_inventory::{spawn_inventory, SpawnInventoryParentTrigger, SpawnInventoryTrigger};
+use ui::rooms::barrack::recruits_list_folder::recruit_card::recruit_card;
+use ui::rooms::barrack::recruits_list_folder::recruits_list::{UpdateBarrackRecruitListChildrenTrigger, UpdateBarrackRecruitListParentTrigger};
 use ui::{
     hud_folder::mayor_notification_toast::mayor_notification_toast,
     modals::{
@@ -57,6 +60,7 @@ use ui::{
         tuto_messages::tuto_message_modal::tuto_message_modal,
     },
 };
+use utils::get_layout;
 
 fn main() -> AppExit {
     App::new()
@@ -316,6 +320,42 @@ pub fn update_barrack_inventory(
         // Step 3: Recreate the inventory grid as children of the parent
         commands.entity(parent_entity).with_children(|grid| {
             build_inventory_grid(grid, &player_stats, &my_assets, &mut texture_atlas_layouts);
+        });
+    }
+}
+
+// Fonction pour mettre à jour l'inventaire
+pub fn update_barrack_recruit_list(
+    mut commands: Commands,
+    player_stats: Res<PlayerStats>,
+    my_assets: Res<AssetServer>,
+    parent_query: Query<Entity, With<UpdateBarrackRecruitListParentTrigger>>,
+    childs_query: Query<Entity, With<UpdateBarrackRecruitListChildrenTrigger>>,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+) {
+    // Step 1: Find the parent entity
+    if let Some(parent_entity) = parent_query.iter().next() {
+        // Step 2: Despawn all children of the parent
+        for child in childs_query.iter() {
+            commands.entity(child).despawn_recursive();
+        }
+
+        let recruit_layout = get_layout(TextureAtlasLayoutEnum::Recruit);
+        let recruit_texture_atlas_layout: Handle<TextureAtlasLayout> =
+        texture_atlas_layouts.add(recruit_layout);
+
+        // Step 3: Recreate the inventory grid as children of the parent
+        commands.entity(parent_entity).with_children(|parent| {
+            for recruit in player_stats.recruits.iter() {
+                recruit_card(
+                    parent,
+                    &my_assets,
+                    &player_stats,
+                    recruit,
+                    recruit_texture_atlas_layout.clone(),
+                    &mut texture_atlas_layouts,
+                );
+            }
         });
     }
 }

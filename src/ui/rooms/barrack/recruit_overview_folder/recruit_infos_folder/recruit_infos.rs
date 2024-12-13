@@ -5,6 +5,7 @@ use crate::{
     enums::ColorPaletteEnum,
     my_assets::FONT_FIRA,
     structs::{player_stats::PlayerStats, recruits::SelectedRecruitForEquipment},
+    ui::rooms::barrack::recruit_overview_folder::recruit_overview::RecruitOverviewChildTrigger,
 };
 use bevy::prelude::*;
 
@@ -36,6 +37,7 @@ pub fn recruit_infos(
                 ..default()
             },
             GlobalZIndex(2),
+            RecruitOverviewChildTrigger,
         ))
         .insert(Name::new("Barrack > recruit overview > recruit infos"))
         .with_children(|parent| {

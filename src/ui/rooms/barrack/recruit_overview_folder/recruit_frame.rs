@@ -4,6 +4,8 @@ use crate::{
 };
 use bevy::prelude::*;
 
+use super::recruit_overview::RecruitOverviewChildTrigger;
+
 #[derive(Component)]
 pub struct RecruitFrameTrigger;
 
@@ -50,6 +52,7 @@ pub fn recruit_frame(
                 ..default()
             },
             GlobalZIndex(2),
+            RecruitOverviewChildTrigger,
         ))
         .insert(Name::new("Barrack > recruit overview > recruit frame"))
         .with_children(|parent| {

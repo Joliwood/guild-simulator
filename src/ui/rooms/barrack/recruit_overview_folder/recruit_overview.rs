@@ -3,7 +3,10 @@ use crate::structs::{player_stats::PlayerStats, recruits::SelectedRecruitForEqui
 use bevy::prelude::*;
 
 #[derive(Component)]
-pub struct RecruitOverviewTrigger;
+pub struct RecruitOverviewParentTrigger;
+
+#[derive(Component)]
+pub struct RecruitOverviewChildTrigger;
 
 pub fn recruit_overview(
     player_stats: &Res<PlayerStats>,
@@ -29,6 +32,7 @@ pub fn recruit_overview(
                 ..default()
             },
             Name::new("Barrack > recruit overview"),
+            RecruitOverviewParentTrigger,
         ))
         .with_children(|parent| {
             recruit_frame(
