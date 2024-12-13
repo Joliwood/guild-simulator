@@ -116,7 +116,7 @@ pub fn tuto_message_modal(
                             .with_children(|parent| {
                                 for tuto_message_desc in first_tuto_message.messages.iter() {
                                     parent.spawn((
-                                        Text::new(tuto_message_desc),
+                                        Text::new(tuto_message_desc.to_string()),
                                         TextFont {
                                             font: my_assets.load(FONT_FIRA),
                                             font_size: 12.0,
@@ -189,7 +189,7 @@ pub fn tuto_message_modal(
                                 position_type: PositionType::Absolute,
                                 bottom: Val::Px(36.),
                                 left: Val::Px(140.),
-                                width: Val::Px(100.),
+                                width: Val::Px(150.),
                                 ..default()
                             },
                             SkipTutoMessageTrigger,

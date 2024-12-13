@@ -15,7 +15,7 @@ mod utils;
 use bevy::text::FontSmoothing;
 use bevy::{prelude::*, window::WindowTheme};
 use bevy_dev_tools::fps_overlay::{FpsOverlayConfig, FpsOverlayPlugin};
-use bevy_inspector_egui::quick::WorldInspectorPlugin;
+// use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use bevy_light_2d::plugin::Light2dPlugin;
 use content::constants::MAX_GAME_SECONDS;
 use enums::TextureAtlasLayoutEnum;
@@ -64,6 +64,19 @@ use ui::{
 };
 use utils::{get_layout, sort_recruits_by_total_power};
 
+// Load I18n macro, for allow you use `t!` macro in anywhere.
+#[macro_use]
+extern crate rust_i18n;
+
+// Config fallback missing translations to "en" locale.
+// Use `fallback` option to set fallback locale.
+//
+i18n!("assets/locales", fallback = "en");
+
+fn setup_i18n() {
+    rust_i18n::set_locale("fr");
+}
+
 fn main() -> AppExit {
     App::new()
         .add_plugins((
@@ -79,7 +92,7 @@ fn main() -> AppExit {
                 ..default()
             }),
             // AudioPlugin::default(),
-            WorldInspectorPlugin::new(),
+            // WorldInspectorPlugin::new(),
             Light2dPlugin,
             TooltipPlugin::default(),
             FpsOverlayPlugin {
@@ -119,7 +132,7 @@ fn main() -> AppExit {
         .add_systems(
             Startup,
             (
-                setup_i18n,
+                init_tuto_messages,
                 audio::audio_source::audio_source,
                 systems::camera::camera_setup::camera_setup,
                 ui::hud_folder::hud::hud,
@@ -208,6 +221,13 @@ fn main() -> AppExit {
         .run()
 }
 
+/// Startup system to force i18n to init before the tuto messages spawn
+fn init_tuto_messages(mut commands: Commands) {
+    setup_i18n();
+    let tuto_messages = TutoMessages::default();
+    commands.insert_resource(tuto_messages);
+}
+
 fn update_daytime(
     mut day_time: ResMut<DayTime>,
     time: Res<Time>,
@@ -241,19 +261,6 @@ fn update_progress_bar(
     for mut node in query.iter_mut() {
         node.width = Val::Px(progress_ratio * 70.);
     }
-}
-
-// Load I18n macro, for allow you use `t!` macro in anywhere.
-#[macro_use]
-extern crate rust_i18n;
-
-// Config fallback missing translations to "en" locale.
-// Use `fallback` option to set fallback locale.
-//
-i18n!("assets/locales", fallback = "en");
-
-fn setup_i18n() {
-    rust_i18n::set_locale("fr");
 }
 
 pub fn update_notification_indicators_text_for_command_room(
